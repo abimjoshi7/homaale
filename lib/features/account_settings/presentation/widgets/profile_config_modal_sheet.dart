@@ -23,8 +23,8 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
         if (state.theStates == TheStates.success) {
           return Padding(
             padding: const EdgeInsets.all(12.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: ListView(
+              // crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 addVerticalSpace(10),
                 Text(
@@ -52,13 +52,12 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                       ),
                     ),
                     addVerticalSpace(5),
-
                     CustomFormField(
                       label: 'Task Preferences',
                       child: CustomDropDownField(
                         list: kTaskPrefList,
-                        hintText:
-                            state.taskerProfile?.taskPreferences ?? 'Choose one',
+                        hintText: state.taskerProfile?.taskPreferences ??
+                            'Choose one',
                         onChanged: (value) => setState(
                           () {
                             taskPreferences = value;
@@ -73,10 +72,10 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
                   label: 'Save',
                   callback: () {
                     final map = {
-                      "profile_visibility":
-                          visibiltyType ?? state.taskerProfile?.profileVisibility,
-                      "task_preferences":
-                          taskPreferences ?? state.taskerProfile?.taskPreferences,
+                      "profile_visibility": visibiltyType ??
+                          state.taskerProfile?.profileVisibility,
+                      "task_preferences": taskPreferences ??
+                          state.taskerProfile?.taskPreferences,
                     };
                     context.read<UserBloc>().add(
                           UserEdited(

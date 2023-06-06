@@ -6,6 +6,7 @@ import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -20,12 +21,11 @@ class TasksRecommendationSection extends StatefulWidget {
   const TasksRecommendationSection({super.key});
 
   @override
-  State<TasksRecommendationSection> createState() =>
-      _TasksRecommendationSectionState();
+  State<TasksRecommendationSection> createState() => _TasksRecommendationSectionState();
 }
 
-class _TasksRecommendationSectionState
-    extends State<TasksRecommendationSection> {
+class _TasksRecommendationSectionState extends State<TasksRecommendationSection> {
+  /// On task pressed
   void onTaskPressed({
     required TaskState state,
     required int index,
@@ -41,12 +41,7 @@ class _TasksRecommendationSectionState
         notLoggedInPopUp(context);
       }
       if (CacheHelper.isLoggedIn) {
-        context
-                    .read<UserSuspendBloc>()
-                    .state
-                    .userAccountSuspension
-                    ?.isSuspended ==
-                true
+        context.read<UserSuspendBloc>().state.userAccountSuspension?.isSuspended == true
             ? showDialog(
                 context: context,
                 builder: (context) => AccountSuspendCustomToast(
@@ -56,8 +51,7 @@ class _TasksRecommendationSectionState
               )
             : Navigator.pushNamed(context, ApplyTaskPage.routeName);
       }
-    }
-    if (!isApply) {
+    } else {
       Navigator.pushNamed(context, SingleTaskPage.routeName);
     }
   }
@@ -83,7 +77,7 @@ class _TasksRecommendationSectionState
           BlocBuilder<TaskBloc, TaskState>(
             builder: (context, state) {
               if (state.theState == TheStates.success) {
-                if (state.taskEntityServiceModel != null) {
+                if (state.taskEntityServiceModel.count != null) {
                   return SizedBox(
                     height: MediaQuery.of(context).size.height * 0.3,
                     child: ListView.builder(
@@ -98,50 +92,52 @@ class _TasksRecommendationSectionState
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.7,
                           child: TaskCard(
-                            isRange: state.taskEntityServiceModel.result?[index]
-                                    .isRange ??
-                                false,
+                            isRange: state.taskEntityServiceModel.result?[index].isRange ?? false,
                             id: state.taskEntityServiceModel.result?[index].id,
-                            buttonLabel: state.taskEntityServiceModel
-                                        .result?[index].createdBy?.id ==
-                                    context
-                                        .read<UserBloc>()
-                                        .state
-                                        .taskerProfile
-                                        ?.user
-                                        ?.id
+                            isOwner: state.taskEntityServiceModel.result?[index].createdBy?.id ==
+                                context.read<UserBloc>().state.taskerProfile?.user?.id,
+                            buttonLabel: state.taskEntityServiceModel.result?[index].createdBy?.id ==
+                                    context.read<UserBloc>().state.taskerProfile?.user?.id
                                 ? 'View Details'
                                 : 'Apply Now',
-                            startRate:
-                                '${state.taskEntityServiceModel.result?[index].budgetFrom ?? 0}',
-                            endRate:
-                                '${state.taskEntityServiceModel.result?[index].budgetTo ?? 0}',
-                            budgetType:
-                                '${state.taskEntityServiceModel.result?[index].budgetType}',
-                            count: state
-                                .taskEntityServiceModel.result?[index].count
-                                .toString(),
-                            imageUrl: state.taskEntityServiceModel
-                                    .result?[index].createdBy?.profileImage ??
+                            startRate: '${state.taskEntityServiceModel.result?[index].budgetFrom ?? 0}',
+                            endRate: '${state.taskEntityServiceModel.result?[index].budgetTo ?? 0}',
+                            budgetType: '${state.taskEntityServiceModel.result?[index].budgetType}',
+                            count: state.taskEntityServiceModel.result?[index].count.toString(),
+                            imageUrl: state.taskEntityServiceModel.result?[index].createdBy?.profileImage ??
                                 kServiceImageNImg,
-                            location: state.taskEntityServiceModel
-                                        .result?[index].location ==
-                                    ''
+                            location: state.taskEntityServiceModel.result?[index].location == ''
                                 ? 'Remote'
-                                : state.taskEntityServiceModel.result?[index]
-                                    .location,
+                                : state.taskEntityServiceModel.result?[index].location,
                             endHour: Jiffy(
-                              state.taskEntityServiceModel.result?[index]
-                                  .createdAt
-                                  .toString(),
+                              state.taskEntityServiceModel.result?[index].createdAt.toString(),
                             ).jm,
                             endDate: Jiffy(
-                              state
-                                  .taskEntityServiceModel.result?[index].endDate
-                                  .toString(),
+                              state.taskEntityServiceModel.result?[index].endDate.toString(),
                             ).yMMMMd,
-                            taskName: state
-                                .taskEntityServiceModel.result?[index].title,
+                            taskName: state.taskEntityServiceModel.result?[index].title,
+                            editCallback: () {
+                              showModalBottomSheet(
+                                context: context,
+                                isScrollControlled: true,
+                                builder: (context) => Container(
+                                  height: MediaQuery.of(context).size.height * 0.75,
+                                  padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context).viewInsets.bottom, left: 8, right: 8, top: 8),
+                                  child: SingleChildScrollView(
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        EditTaskEntityServiceForm(
+                                          id: state.taskEntityServiceModel.result?[index].id ?? "",
+                                          isRequested: true,
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
                             callback: () {
                               if (CacheHelper.isLoggedIn == false) {
                                 notLoggedInPopUp(context);
@@ -154,14 +150,8 @@ class _TasksRecommendationSectionState
                               onTaskPressed(
                                 state: state,
                                 index: index,
-                                isApply: state.taskEntityServiceModel
-                                        .result?[index].createdBy?.id !=
-                                    context
-                                        .read<UserBloc>()
-                                        .state
-                                        .taskerProfile
-                                        ?.user
-                                        ?.id,
+                                isApply: state.taskEntityServiceModel.result?[index].createdBy?.id !=
+                                    context.read<UserBloc>().state.taskerProfile?.user?.id,
                               );
                             },
                             onTapCallback: () {
@@ -173,8 +163,7 @@ class _TasksRecommendationSectionState
                           ),
                         ),
                       ),
-                      itemCount:
-                          state.taskEntityServiceModel.result?.length ?? 0,
+                      itemCount: state.taskEntityServiceModel.result?.length ?? 0,
                     ),
                   );
                 }

@@ -63,209 +63,208 @@ class _ProfessionalInformationModalSheetState
         );
         return Padding(
           padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              addVerticalSpace(10),
-              const Text(
-                'Professional Information',
-                style: kPurpleText16,
-              ),
-              addVerticalSpace(5),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  CustomFormField(
-                    label: 'Specialities',
-                    child: CustomTagTextField(
-                      tagController: tagsController,
-                      hintText: 'Enter your skills',
-                      initialList: list,
-                    ),
-                  ),
-                  addVerticalSpace(5),
-
-                  CustomFormField(
-                    label: 'Experience Level',
-                    child: CustomDropDownField<String>(
-                      hintText: state.taskerProfile?.experienceLevel ??
-                          'Enter your skills',
-                      list: const [
-                        'Beginner (0 to 1 years experience)',
-                        'Intermediate (1 to 5 years experience)',
-                        'Expert (5 years experience or more)',
-                      ],
-                      onChanged: (value) => setState(
-                        () {
-                          if (value!.startsWith('Be')) {
-                            experienceLevel = 'Beginner';
-                          } else if (value.startsWith('In')) {
-                            experienceLevel = 'Intermediate';
-                          } else {
-                            experienceLevel = 'Expert';
-                          }
-                        },
+          child: ListView(children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                addVerticalSpace(10),
+                const Text(
+                  'Professional Information',
+                  style: kPurpleText16,
+                ),
+                addVerticalSpace(5),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    CustomFormField(
+                      label: 'Specialities',
+                      child: CustomTagTextField(
+                        tagController: tagsController,
+                        hintText: 'Enter your skills',
+                        initialList: list,
                       ),
                     ),
-                  ),
-                  addVerticalSpace(5),
+                    addVerticalSpace(5),
 
-                  const Text(
-                    'Active Hours',
-                    style: kPurpleText16,
-                  ),
-                  // kHeight10,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Sunday',
-                        style: kPurpleText16,
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          Icons.delete_outline_rounded,
-                          color: kColorPrimary,
+                    CustomFormField(
+                      label: 'Experience Level',
+                      child: CustomDropDownField<String>(
+                        hintText: state.taskerProfile?.experienceLevel ??
+                            'Enter your skills',
+                        list: const [
+                          'Beginner (0 to 1 years experience)',
+                          'Intermediate (1 to 5 years experience)',
+                          'Expert (5 years experience or more)',
+                        ],
+                        onChanged: (value) => setState(
+                          () {
+                            if (value!.startsWith('Be')) {
+                              experienceLevel = 'Beginner';
+                            } else if (value.startsWith('In')) {
+                              experienceLevel = 'Intermediate';
+                            } else {
+                              experienceLevel = 'Expert';
+                            }
+                          },
                         ),
                       ),
-                    ],
-                  ),
-                  kHeight10,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: const [
-                      Flexible(
-                        child: CustomFormContainer(
-                          hintText: '08: 00 AM',
-                          leadingWidget: Icon(
-                            Icons.access_time_rounded,
+                    ),
+                    addVerticalSpace(5),
+
+                    const Text(
+                      'Active Hours',
+                      style: kPurpleText16,
+                    ),
+                    // kHeight10,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Sunday',
+                          style: kPurpleText16,
+                        ),
+                        IconButton(
+                          onPressed: () {},
+                          icon: const Icon(
+                            Icons.delete_outline_rounded,
                             color: kColorPrimary,
                           ),
                         ),
-                      ),
-                      kWidth10,
-                      Text('To'),
-                      kWidth10,
-                      Flexible(
-                        child: CustomFormContainer(
-                          hintText: '09: 00 AM',
-                          leadingWidget: Icon(
-                            Icons.access_time_rounded,
-                            color: kColorPrimary,
+                      ],
+                    ),
+                    kHeight10,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: const [
+                        Flexible(
+                          child: CustomFormContainer(
+                            hintText: '08: 00 AM',
+                            leadingWidget: Icon(
+                              Icons.access_time_rounded,
+                              color: kColorPrimary,
+                            ),
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  kHeight20,
-                  CustomFormField(
-                    label: 'Select Day',
-                    child: CustomDropDownField(
-                      hintText: 'Specify the day',
-                      list: const [
-                        'Every day',
-                        'Weekend',
+                        kWidth10,
+                        Text('To'),
+                        kWidth10,
+                        Flexible(
+                          child: CustomFormContainer(
+                            hintText: '09: 00 AM',
+                            leadingWidget: Icon(
+                              Icons.access_time_rounded,
+                              color: kColorPrimary,
+                            ),
+                          ),
+                        ),
                       ],
-                      onChanged: (value) => setState(
-                        () {
-                          daySelect = value;
-                        },
+                    ),
+                    kHeight20,
+                    CustomFormField(
+                      label: 'Select Day',
+                      child: CustomDropDownField(
+                        hintText: 'Specify the day',
+                        list: const [
+                          'Every day',
+                          'Weekend',
+                        ],
+                        onChanged: (value) => setState(
+                          () {
+                            daySelect = value;
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                  Row(
-                    children: [
-                      Flexible(
-                        child: CustomFormField(
-                          label: 'From',
-                          child: InkWell(
-                            onTap: () async {
-                              await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.now(),
-                              ).then(
-                                (value) => setState(
-                                  () {
-                                    startTime = value;
-                                  },
-                                ),
-                              );
-                            },
-                            child: CustomFormContainer(
-                              hintText: startTime?.format(context) ??
-                                  state.taskerProfile!.activeHourStart!,
+                    Row(
+                      children: [
+                        Flexible(
+                          child: CustomFormField(
+                            label: 'From',
+                            child: InkWell(
+                              onTap: () async {
+                                await showTimePicker(
+                                  context: context,
+                                  initialTime: TimeOfDay.now(),
+                                ).then(
+                                  (value) => setState(
+                                    () {
+                                      startTime = value;
+                                    },
+                                  ),
+                                );
+                              },
+                              child: CustomFormContainer(
+                                hintText: startTime?.format(context) ??
+                                    state.taskerProfile!.activeHourStart!,
+                              ),
                             ),
                           ),
                         ),
-                      ),
-                      kWidth20,
-                      Flexible(
-                        child: CustomFormField(
-                          label: 'To',
-                          child: InkWell(
-                            onTap: () async {
-                              await showTimePicker(
-                                context: context,
-                                initialTime: TimeOfDay.now(),
-                              ).then(
-                                (value) => setState(
-                                  () {
-                                    endTime = value;
-                                  },
-                                ),
-                              );
-                            },
-                            child: CustomFormContainer(
-                              hintText: endTime?.format(context) ??
-                                  state.taskerProfile!.activeHourEnd!,
+                        kWidth20,
+                        Flexible(
+                          child: CustomFormField(
+                            label: 'To',
+                            child: InkWell(
+                              onTap: () async {
+                                await showTimePicker(
+                                  context: context,
+                                  initialTime: TimeOfDay.now(),
+                                ).then(
+                                  (value) => setState(
+                                    () {
+                                      endTime = value;
+                                    },
+                                  ),
+                                );
+                              },
+                              child: CustomFormContainer(
+                                hintText: endTime?.format(context) ??
+                                    state.taskerProfile!.activeHourEnd!,
+                              ),
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                  ],
+                ),
+                addVerticalSpace(8),
+              ],
+            ),
+            CustomElevatedButton(
+              callback: () async {
+                final map = {
+                  // "user_type": userType ?? state.taskerProfile?.userType,
+                  "skill": tagsController.getTags!
+                      .map((e) => '"$e"')
+                      .toList()
+                      .toString(),
+                  "active_hour_start": startTime?.format(context) ??
+                      state.taskerProfile?.activeHourStart,
+                  "active_hour_end": endTime?.format(context) ??
+                      state.taskerProfile?.activeHourEnd,
+                  "experience_level":
+                      experienceLevel ?? state.taskerProfile?.experienceLevel,
+                };
+                context.read<UserBloc>().add(
+                      UserEdited(
+                        req: map,
                       ),
-                    ],
-                  ),
-                ],
-              ),
-              addVerticalSpace(8),
-              CustomElevatedButton(
-                callback: () async {
-                  final map = {
-                    // "user_type": userType ?? state.taskerProfile?.userType,
-                    "skill": tagsController.getTags!
-                        .map((e) => '"$e"')
-                        .toList()
-                        .toString(),
-                    "active_hour_start": startTime?.format(context) ??
-                        state.taskerProfile?.activeHourStart,
-                    "active_hour_end": endTime?.format(context) ??
-                        state.taskerProfile?.activeHourEnd,
-                    "experience_level":
-                        experienceLevel ?? state.taskerProfile?.experienceLevel,
-                  };
-                  context.read<UserBloc>().add(
-                        UserEdited(
-                          req: map,
-                        ),
-                      );
-                },
-                label: 'Save',
-              ),
-              addVerticalSpace(8),
-
-              CustomElevatedButton(
-                callback: () async {
-                  Navigator.pop(context);
-                },
-                label: 'Cancel',
-                textColor: kColorPrimary,
-                mainColor: Colors.white,
-                borderColor: kColorPrimary,
-              ),
-
-
-            ],
-          ),
+                    );
+              },
+              label: 'Save',
+            ),
+            addVerticalSpace(8),
+            CustomElevatedButton(
+              callback: () async {
+                Navigator.pop(context);
+              },
+              label: 'Cancel',
+              textColor: kColorPrimary,
+              mainColor: Colors.white,
+              borderColor: kColorPrimary,
+            ),
+          ]),
         );
       },
     );

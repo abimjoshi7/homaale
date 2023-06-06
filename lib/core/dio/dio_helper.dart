@@ -6,7 +6,6 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/navigation_constants.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
-import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -29,13 +28,11 @@ class DioHelper {
     /// Dio interceptors
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        print(
-            'REQUEST[${options.method}] => PATH: ${options.path} => DATA: ${options.data}');
+        print('REQUEST[${options.method}] => PATH: ${options.path} => DATA: ${options.data}');
 
         if (options.headers.containsKey('requiresAuthorization')) {
           options.headers.remove("requiresAuthorization");
-          options.headers
-              .addAll({"Authorization": "Bearer ${CacheHelper.accessToken}"});
+          options.headers.addAll({"Authorization": "Bearer ${CacheHelper.accessToken}"});
         }
         return handler.next(options);
       },
@@ -53,37 +50,61 @@ class DioHelper {
         // Handle specific error status codes
         switch (statusCode) {
           case 400:
-            if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('non_field_errors')) {
+            if (responseData is Map<String, dynamic> && responseData.containsKey('non_field_errors')) {
               final nonFieldErrors = responseData['non_field_errors'];
-              if (nonFieldErrors is List<dynamic> &&
-                  nonFieldErrors.isNotEmpty) {
+              if (nonFieldErrors is List<dynamic> && nonFieldErrors.isNotEmpty) {
                 final errorMessage = nonFieldErrors.join('.');
-                // Remove existing cache and add new error msg in cache
-                await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-                  () async => CacheHelper.setCachedString(
-                    kErrorLog,
-                    errorMessage.toString(),
-                  ),
-                );
+                Fluttertoast.showToast(
+                    msg: "Password Error: ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
 
                 return handler.next(err);
               } else {
-                // Remove existing cache and add new error msg in cache
-                await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-                  () async => CacheHelper.setCachedString(
-                    kErrorLog,
-                    nonFieldErrors.toString(),
-                  ),
-                );
+                Fluttertoast.showToast(
+                    msg: "Password Error: ${nonFieldErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('password')) {
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('old_password')) {
+              final oldPasswordError = responseData['old_password'];
+              if (oldPasswordError is List<dynamic> && oldPasswordError.isNotEmpty) {
+                final errorMessage = oldPasswordError.join('.');
+                Fluttertoast.showToast(
+                    msg: "Password Error: ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Password Error: ${oldPasswordError}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('password')) {
               final passswordErrors = responseData['password'];
-              if (passswordErrors is List<dynamic> &&
-                  passswordErrors.isNotEmpty) {
+              if (passswordErrors is List<dynamic> && passswordErrors.isNotEmpty) {
                 final errorMessage = passswordErrors.join('.');
                 // Remove existing cache and add new error msg in cache
                 await CacheHelper.clearCachedData(kErrorLog).whenComplete(
@@ -105,12 +126,9 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            }
-            else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('budget_type')) {
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('budget_type')) {
               final budgetTypeErrors = responseData['budget_type'];
-              if (budgetTypeErrors is List<dynamic> &&
-                  budgetTypeErrors.isNotEmpty) {
+              if (budgetTypeErrors is List<dynamic> && budgetTypeErrors.isNotEmpty) {
                 final errorMessage = budgetTypeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Budget type: ${errorMessage}",
@@ -134,6 +152,7 @@ class DioHelper {
 
                 return handler.next(err);
               }
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('detail')) {
               final detailstTypeErrors = responseData['detail'];
@@ -166,8 +185,7 @@ class DioHelper {
             else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('username')) {
               final usernameErrors = responseData['username'];
-              if (usernameErrors is List<dynamic> &&
-                  usernameErrors.isNotEmpty) {
+              if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {
                 final errorMessage = usernameErrors.join('.');
                 // Remove existing cache and add new error msg in cache
                 await CacheHelper.clearCachedData(kErrorLog).whenComplete(

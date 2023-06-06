@@ -156,7 +156,7 @@ class TaskEntityServiceRepository {
   }) async {
     try {
       final res = await _dio.postDataWithCredential(
-        data: taskEntityServiceReq.toJson(),
+        data: taskEntityServiceReq.toMap(),
         url: kTaskEntityService,
         token: CacheHelper.accessToken,
       );
@@ -219,15 +219,11 @@ class TaskEntityServiceRepository {
   ) async {
     try {
       final res = await _dio.patchDataWithCredential(
-        data: req.toJson(),
+        data: req.toMap(),
         url: kTaskEntityService + "$id/",
         token: CacheHelper.accessToken,
       );
-      if (res != null) {
-        return true;
-      } else {
-        return false;
-      }
+      return res != null ? true : false;
     } catch (e) {
       log("Edit TES error: $e");
       rethrow;

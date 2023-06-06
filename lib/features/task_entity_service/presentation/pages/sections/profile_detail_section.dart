@@ -155,7 +155,10 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                           child: Column(
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
-                                              EditTaskEntityServiceForm(),
+                                              EditTaskEntityServiceForm(
+                                                id: state.taskEntityService?.id,
+                                                isRequested: false,
+                                              ),
                                             ],
                                           ),
                                         ),

@@ -22,7 +22,9 @@ class TaskCard extends StatelessWidget {
     this.buttonLabel,
     this.callback,
     this.onTapCallback,
+    this.editCallback,
     this.isRange = false,
+    this.isOwner,
   }) : super(key: key);
 
   final String? id;
@@ -38,7 +40,9 @@ class TaskCard extends StatelessWidget {
   final String? buttonLabel;
   final VoidCallback? callback;
   final VoidCallback? onTapCallback;
+  final VoidCallback? editCallback;
   final bool isRange;
+  final bool? isOwner;
 
   @override
   Widget build(BuildContext context) {
@@ -51,44 +55,51 @@ class TaskCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            SizedBox(
-              width: MediaQuery.of(context).size.width * 0.7,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Row(
-                    children: <Widget>[
-                      Container(
-                        height: 49,
-                        width: 50,
-                        decoration: BoxDecoration(
-                          image: DecorationImage(
-                            image: NetworkImage(
-                              imageUrl ?? kServiceImageNImg,
-                            ),
-                            fit: BoxFit.cover,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Row(
+                  children: <Widget>[
+                    Container(
+                      height: 49,
+                      width: 50,
+                      decoration: BoxDecoration(
+                        image: DecorationImage(
+                          image: NetworkImage(
+                            imageUrl ?? kServiceImageNImg,
                           ),
-                          shape: BoxShape.circle,
+                          fit: BoxFit.cover,
                         ),
+                        shape: BoxShape.circle,
                       ),
-                      addHorizontalSpace(10),
-                      SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.3,
-                        child: Text(
-                          StringUtils.capitalize(
-                            taskName ?? '',
-                          ),
-                          style: Theme.of(context).textTheme.titleMedium,
-                          maxLines: 2,
-                          overflow: TextOverflow.ellipsis,
+                    ),
+                    addHorizontalSpace(10),
+                    SizedBox(
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      child: Text(
+                        StringUtils.capitalize(
+                          taskName ?? '',
                         ),
+                        style: Theme.of(context).textTheme.titleMedium,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
-                    ],
-                  ),
-                  CustomFavoriteIcon(typeID: '$id', type: 'entityservice')
-                ],
-              ),
+                    ),
+                  ],
+                ),
+                isOwner ?? false
+                    ? IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: editCallback,
+                        icon: Icon(
+                          Icons.edit,
+                          color: kColorAmber,
+                        ),
+                      )
+                    : CustomFavoriteIcon(typeID: '$id', type: 'entityservice')
+              ],
             ),
             addVerticalSpace(5),
             Expanded(
@@ -98,7 +109,7 @@ class TaskCard extends StatelessWidget {
                 children: <Widget>[
                   IconText(
                     label: StringUtils.capitalize(
-                      location ?? '',
+                      location == '' ? 'remote' : location ?? 'remote',
                     ),
                     iconData: Icons.location_on_outlined,
                     size: 14,
