@@ -58,9 +58,7 @@ class _ProfessionalInformationModalSheetState
         }
       },
       builder: (context, state) {
-        final list = List<String>.from(
-          jsonDecode(state.taskerProfile?.skill ?? "") as Iterable,
-        );
+        final list = state.taskerProfile?.skills ?? [];
         return Padding(
           padding: const EdgeInsets.all(12.0),
           child: ListView(children: [

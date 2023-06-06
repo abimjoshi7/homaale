@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/utilities/data/models/models.dart';
@@ -86,11 +88,12 @@ class UtilitiesRepositories {
     final x = await _dio.getDatawithCredential(
       url: 'tasker/skill/options/',
       token: CacheHelper.accessToken,
-    );
+    ) as List;
+
     return List<SkillOptionModel>.from(
       x
           .map((e) => SkillOptionModel.fromJson(e as Map<String, dynamic>))
-          .toList() as Iterable,
+          .toList(),
     );
   }
 }

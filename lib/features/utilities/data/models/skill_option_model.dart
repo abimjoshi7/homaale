@@ -1,18 +1,16 @@
-import 'dart:convert';
-
 class SkillOptionModel {
-  int id;
-  String name;
-
   SkillOptionModel({
-    required this.id,
-    required this.name,
+    this.id,
+    this.name,
   });
+
+  final int? id;
+  final String? name;
 
   factory SkillOptionModel.fromJson(Map<String, dynamic> json) =>
       SkillOptionModel(
-        id: json["id"] as int,
-        name: json["name"] as String,
+        id: json["id"] as int?,
+        name: json["name"] as String?,
       );
 
   Map<String, dynamic> toJson() => {

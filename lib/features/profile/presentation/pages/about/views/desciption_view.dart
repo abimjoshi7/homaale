@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
+import 'package:cipher/features/utilities/data/models/skill_option_model.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -16,9 +17,8 @@ class DescriptionView extends StatelessWidget {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
-          final List<String> skills = List<String>.from(
-            jsonDecode(state.taskerProfile?.skill ?? "") as Iterable,
-          );
+          final List<SkillOptionModel> skills =
+              state.taskerProfile?.skills ?? [];
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -60,7 +60,7 @@ class DescriptionView extends StatelessWidget {
                       color: kColorOrange,
                       size: 16,
                     ),
-                    label: skills.join(', '),
+                    label: skills.map((e) => e.name).toList().join(', '),
                   ),
                   WidgetText(
                     widget: const Icon(

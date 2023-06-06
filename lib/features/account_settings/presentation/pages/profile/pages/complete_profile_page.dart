@@ -8,6 +8,7 @@ import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/skills/skills_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -67,6 +68,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   String? currencyCode;
   bool isClient = false;
   bool isTasker = false;
+  List<int?>? skillOptionsList = [];
   List<int?>? interestCodes = [];
   final _key = GlobalKey<FormState>();
 
@@ -319,7 +321,30 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                 CustomFormField(
                   label: 'Skills',
                   isRequired: true,
-                  child: CustomTagTextField(tagController: tagController),
+                  child: BlocBuilder<SkillsBloc, SkillsState>(
+                    builder: (context, state) {
+                      if (state.theStates == TheStates.success) {
+                        return MultiSelectDialogField(
+                          items: List.generate(
+                            state.skillListRes.length,
+                            (index) => MultiSelectItem(
+                              state.skillListRes[index].id.toString(),
+                              state.skillListRes[index].name.toString(),
+                            ),
+                          ),
+                          onConfirm: (p0) {
+                            setState(
+                              () {
+                                skillOptionsList =
+                                    p0.map((e) => int.parse(e)).toList();
+                              },
+                            );
+                          },
+                        );
+                      }
+                      return SizedBox.shrink();
+                    },
+                  ),
                 ),
                 CustomFormField(
                   label: 'Interests',
@@ -678,7 +703,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             (index) => state.language[index].name,
                           ),
                           onChanged: (p0) => setState(
-                            () async {
+                            () {
                               final x = state.language.firstWhere(
                                 (element) => p0 == element.name,
                               );
@@ -924,12 +949,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               "bio": bioController.text,
                               "designation": jobProfileController.text,
                               "gender": genderGroup,
-                              "skill": tagController.getTags != null
-                                  ? tagController.getTags!
-                                      .map((e) => '"$e"')
-                                      .toList()
-                                      .toString()
-                                  : '',
+                              "skills": skillOptionsList,
                               "date_of_birth":
                                   "${dateOfBirth?.year}-${dateOfBirth?.month}-${dateOfBirth?.day}",
                               "active_hour_start": startTime!.format(context),

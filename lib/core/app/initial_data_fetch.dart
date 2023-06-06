@@ -49,6 +49,6 @@ void fetchDataForForms(BuildContext context) {
   context.read<LanguageBloc>().add(LanguageLoadInitiated());
   context.read<CategoriesBloc>().add(CategoriesLoadInitiated());
   context.read<ServicesBloc>().add(ServicesLoadInitiated());
-  context.read<InterestsBloc>().add(InterestLoadInitiated());
   context.read<SkillsBloc>().add(SkillOptionsLoaded());
+  context.read<InterestsBloc>().add(InterestLoadInitiated());
 }

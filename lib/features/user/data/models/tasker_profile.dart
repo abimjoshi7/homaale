@@ -1,5 +1,6 @@
 // ignore_for_file: invalid_annotation_target
 
+import 'package:cipher/features/utilities/data/models/skill_option_model.dart';
 import 'package:dependencies/dependencies.dart';
 
 import '../../../search/data/models/search_res.dart';
@@ -32,7 +33,7 @@ class TaskerProfile with _$TaskerProfile {
     String? bio,
     String? gender,
     @JsonKey(name: "date_of_birth") DateTime? dateOfBirth,
-    String? skill,
+    List<SkillOptionModel>? skills,
     @JsonKey(name: "active_hour_start") String? activeHourStart,
     @JsonKey(name: "active_hour_end") String? activeHourEnd,
     @JsonKey(name: "experience_level") String? experienceLevel,

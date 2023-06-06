@@ -1,9 +1,12 @@
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
+import 'package:cipher/features/utilities/data/models/skill_option_model.dart';
+import 'package:cipher/features/utilities/presentation/bloc/skills/skills_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -18,22 +21,15 @@ class SkillsView extends StatefulWidget {
 }
 
 class _SkillsViewState extends State<SkillsView> {
-  final tagsController = TextfieldTagsController();
-
-  @override
-  void dispose() {
-    tagsController.dispose();
-    super.dispose();
-  }
+  List<int> skillOptionsList = [];
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
-          final List<String> skills = List<String>.from(
-            jsonDecode(state.taskerProfile?.skill ?? "") as Iterable,
-          );
+          final List<SkillOptionModel> skills =
+              state.taskerProfile?.skills ?? [];
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -59,10 +55,12 @@ class _SkillsViewState extends State<SkillsView> {
                                 child: Column(
                                   children: [
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             const Text(
                                               'Skills',
@@ -70,7 +68,7 @@ class _SkillsViewState extends State<SkillsView> {
                                             ),
                                             TextButton(
                                               onPressed: () {
-                                                tagsController.clearTags();
+                                                skillOptionsList?.clear();
                                               },
                                               child: const Text(
                                                 'Clear All',
@@ -80,10 +78,38 @@ class _SkillsViewState extends State<SkillsView> {
                                           ],
                                         ),
                                         kHeight5,
-                                        CustomTagTextField(
-                                          tagController: tagsController,
-                                          hintText: 'Enter your skills',
-                                          initialList: skills.isEmpty ? [] : skills,
+                                        BlocBuilder<SkillsBloc, SkillsState>(
+                                          builder: (context, state) {
+                                            if (state.theStates ==
+                                                TheStates.success) {
+                                              return MultiSelectDialogField(
+                                                initialValue: skills
+                                                    .map((e) => e.id.toString())
+                                                    .toList(),
+                                                items: List.generate(
+                                                  state.skillListRes.length,
+                                                  (index) => MultiSelectItem(
+                                                    state.skillListRes[index].id
+                                                        .toString(),
+                                                    state.skillListRes[index]
+                                                        .name
+                                                        .toString(),
+                                                  ),
+                                                ),
+                                                onConfirm: (p0) {
+                                                  setState(
+                                                    () {
+                                                      skillOptionsList = p0
+                                                          .map((e) =>
+                                                              int.parse(e))
+                                                          .toList();
+                                                    },
+                                                  );
+                                                },
+                                              );
+                                            }
+                                            return SizedBox.shrink();
+                                          },
                                         ),
                                       ],
                                     ),
@@ -92,23 +118,22 @@ class _SkillsViewState extends State<SkillsView> {
                               ),
                               BlocConsumer<UserBloc, UserState>(
                                 listener: (context, state) async {
-                                  if (state.theStates == TheStates.success) {
+                                  if (state.theStates == TheStates.success &&
+                                      state.isEdited == true) {
+                                    // context.read<UserBloc>().add(UserLoaded());
                                     showDialog(
                                       context: context,
                                       builder: (_) => CustomToast(
                                         heading: 'Success',
                                         content: 'Skills updated successfully',
                                         onTap: () {
-                                          Navigator.pushNamedAndRemoveUntil(
+                                          Navigator.pushNamed(
                                             context,
                                             Profile.routeName,
-                                            (route) => false,
                                           );
                                         },
                                         isSuccess: true,
                                       ),
-                                    ).then(
-                                      (value) => context.read<UserBloc>().add(UserLoaded()),
                                     );
                                   }
                                   if (state.theStates == TheStates.failure) {
@@ -121,7 +146,9 @@ class _SkillsViewState extends State<SkillsView> {
                                         isSuccess: false,
                                       ),
                                     ).then(
-                                      (value) => context.read<UserBloc>().add(UserLoaded()),
+                                      (value) => context
+                                          .read<UserBloc>()
+                                          .add(UserLoaded()),
                                     );
                                   }
                                 },
@@ -131,9 +158,10 @@ class _SkillsViewState extends State<SkillsView> {
                                       context.read<UserBloc>().add(
                                             UserEdited(
                                               req: {
-                                                'skill': jsonEncode(
-                                                  tagsController.getTags,
-                                                ),
+                                                'skills': skillOptionsList +
+                                                    skills
+                                                        .map((e) => e.id!)
+                                                        .toList(),
                                               },
                                             ),
                                           );
@@ -156,11 +184,12 @@ class _SkillsViewState extends State<SkillsView> {
                 ],
               ),
               SizedBox(
-                height: MediaQuery.of(context).size.height * 0.04,
+                height: MediaQuery.of(context).size.height * 0.043,
                 child: ListView.separated(
                   padding: EdgeInsets.zero,
                   scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => SkillBox(label: skills[index]),
+                  itemBuilder: (context, index) =>
+                      SkillBox(label: skills[index].name ?? ''),
                   separatorBuilder: (context, index) => kWidth10,
                   itemCount: skills.length,
                 ),
