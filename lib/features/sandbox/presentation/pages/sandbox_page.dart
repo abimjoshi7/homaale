@@ -89,9 +89,10 @@ class _SandboxPageState extends State<SandboxPage> {
             Center(
               child: CustomElevatedButton(
                 callback: () async {
-                  CompressHelper().compressFileSync(
+                  final image = await CompressHelper().compressFileAsync(
                     bloc.state.imageFileList.last,
                   );
+                  print(image.lengthSync());
                 },
                 label: 'Compress Image',
               ),

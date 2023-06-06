@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 import 'dart:io';
 
@@ -10,7 +11,7 @@ class CompressHelper {
   );
 
   // compress file synchronously
-  int compressFileSync(String path) {
+  void compressFileSync(String path) {
     final file = File(path);
 
     final input = ImageFile(
@@ -26,16 +27,23 @@ class CompressHelper {
 
     log('Input size = ${file.lengthSync()}');
     log('Output size = ${output.sizeInBytes}');
-    return output.sizeInBytes;
   }
 
   // compress file asynchronously
-  Future<int> compressFileAsync(String path) async {
-    final file = File(path);
+  Future<File> compressFileAsync(String path) async {
+    final inputFile = File(path);
+
+    // Get the application directory path
+    Directory appDir = await getApplicationDocumentsDirectory();
+    String appDirPath = appDir.path;
+
+    // Create a new file name and path
+    String fileName = path.hashCode.toString();
+    String filePath = '$appDirPath/$fileName';
 
     final input = ImageFile(
-      rawBytes: file.readAsBytesSync(),
-      filePath: file.path,
+      rawBytes: inputFile.readAsBytesSync(),
+      filePath: inputFile.path,
     );
     final output = await compressInQueue(
       ImageFileConfiguration(
@@ -44,9 +52,16 @@ class CompressHelper {
       ),
     );
 
-    log('Input size = ${file.lengthSync()}');
-    log('Output size = ${output.sizeInBytes}');
+    File file = await File(filePath);
+    await file.writeAsBytes(
+      output.rawBytes,
+    );
 
-    return output.sizeInBytes;
+    log('Input size = ${inputFile.lengthSync()}');
+    log('Output size = ${output.sizeInBytes}');
+    print('File = ${file.path}');
+    print('File size = ${file.lengthSync()}');
+
+    return file;
   }
 }

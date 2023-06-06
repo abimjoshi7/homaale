@@ -10,6 +10,7 @@ class UploadState extends Equatable {
   final List<int> uploadedImageList;
   final List<int> uploadedVideoList;
   final bool isCompressFail;
+  final bool isLoading;
   const UploadState({
     this.theStates = TheStates.initial,
     this.isImageUploaded = false,
@@ -20,6 +21,7 @@ class UploadState extends Equatable {
     this.uploadedImageList = const [],
     this.uploadedVideoList = const [],
     this.isCompressFail = false,
+    this.isLoading = false,
   });
 
   @override
@@ -34,6 +36,7 @@ class UploadState extends Equatable {
       uploadedImageList,
       uploadedVideoList,
       isCompressFail,
+      isLoading,
     ];
   }
 
@@ -47,6 +50,7 @@ class UploadState extends Equatable {
     List<int>? uploadedImageList,
     List<int>? uploadedVideoList,
     bool? isCompressFail,
+    bool? isLoading,
   }) {
     return UploadState(
       theStates: theStates ?? this.theStates,
@@ -58,6 +62,7 @@ class UploadState extends Equatable {
       uploadedImageList: uploadedImageList ?? this.uploadedImageList,
       uploadedVideoList: uploadedVideoList ?? this.uploadedVideoList,
       isCompressFail: isCompressFail ?? this.isCompressFail,
+      isLoading: isLoading ?? this.isLoading,
     );
   }
 }

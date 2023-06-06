@@ -5,8 +5,6 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/helpers/file_storage_helper.dart';
-import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/image_picker/video_picker_dialog.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
@@ -28,15 +26,7 @@ class CustomMultimedia extends StatelessWidget {
         return false;
       },
       listener: (context, state) {
-        showDialog(
-          context: context,
-          builder: (context) => CustomToast(
-            heading: "Error",
-            content: "File size cannot be higher than 5mb",
-            onTap: () {},
-            isSuccess: false,
-          ),
-        );
+        _buildDialog(context);
       },
       builder: (context, state) {
         return Column(
@@ -46,6 +36,19 @@ class CustomMultimedia extends StatelessWidget {
           ],
         );
       },
+    );
+  }
+
+  Future<dynamic> _buildDialog(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => CustomToast(
+        heading: "Error",
+        content:
+            "File size cannot be higher than specified(Image: 5MB, Video: 15MB).",
+        onTap: () {},
+        isSuccess: false,
+      ),
     );
   }
 
@@ -96,7 +99,7 @@ class CustomMultimedia extends StatelessWidget {
                                   File(
                                     state.imageFileList[index],
                                   ),
-                                  fit: BoxFit.fitWidth,
+                                  fit: BoxFit.cover,
                                 ),
                               ),
                             ),
@@ -126,21 +129,34 @@ class CustomMultimedia extends StatelessWidget {
                     ),
                   ),
                 )
-              : InkWell(
-                  onTap: () async {
-                    showDialog(
-                      context: context,
-                      builder: (context) => ImagePickerDialog(
-                        bloc: bloc,
+              : state.isLoading
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text("Compressing images.... Please wait"),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(
+                            vertical: 8.0,
+                          ),
+                          child: LinearProgressIndicator(),
+                        ),
+                      ],
+                    )
+                  : InkWell(
+                      onTap: () async {
+                        showDialog(
+                          context: context,
+                          builder: (context) => ImagePickerDialog(
+                            bloc: bloc,
+                          ),
+                        );
+                      },
+                      child: CustomDottedContainerStack(
+                        theWidget: Text(
+                          '+ Select Images',
+                        ),
                       ),
-                    );
-                  },
-                  child: CustomDottedContainerStack(
-                    theWidget: Text(
-                      '+ Select Images',
                     ),
-                  ),
-                ),
         ],
       ),
     );
