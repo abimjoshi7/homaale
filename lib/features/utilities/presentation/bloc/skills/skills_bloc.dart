@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/utilities/data/models/skill_option_model.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
@@ -26,5 +24,12 @@ class SkillsBloc extends Bloc<SkillsEvent, SkillsState> {
         ));
       }
     });
+    on<SelectedSkillsOptionsStore>(
+      (event, emit) => emit(
+        state.copyWith(
+          skillsIdList: event.selectedSkills,
+        ),
+      ),
+    );
   }
 }

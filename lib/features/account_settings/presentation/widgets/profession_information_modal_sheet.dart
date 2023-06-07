@@ -1,8 +1,6 @@
-import 'dart:convert';
-
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/profile/presentation/pages/about/views/skills_view.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
-import 'package:cipher/features/utilities/data/models/skill_option_model.dart';
 import 'package:cipher/features/utilities/presentation/bloc/skills/skills_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -28,7 +26,6 @@ class _ProfessionalInformationModalSheetState
   bool isTasker = false;
   TimeOfDay? startTime;
   TimeOfDay? endTime;
-  List<int> skillOptionsList = [];
 
   @override
   Widget build(BuildContext context) {
@@ -61,9 +58,6 @@ class _ProfessionalInformationModalSheetState
       },
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
-          final List<SkillOptionModel> skills =
-              state.taskerProfile?.skills ?? [];
-
           return Padding(
             padding: const EdgeInsets.all(12.0),
             child: ListView(children: [
@@ -79,34 +73,9 @@ class _ProfessionalInformationModalSheetState
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      CustomFormField(
-                        label: 'Specialities',
-                        child: BlocBuilder<SkillsBloc, SkillsState>(
-                          builder: (context, state) {
-                            if (state.theStates == TheStates.success) {
-                              return MultiSelectDialogField(
-                                initialValue:
-                                    skills.map((e) => e.id.toString()).toList(),
-                                items: List.generate(
-                                  state.skillListRes.length,
-                                  (index) => MultiSelectItem(
-                                    state.skillListRes[index].id.toString(),
-                                    state.skillListRes[index].name.toString(),
-                                  ),
-                                ),
-                                onConfirm: (p0) {
-                                  setState(
-                                    () {
-                                      skillOptionsList =
-                                          p0.map((e) => int.parse(e)).toList();
-                                    },
-                                  );
-                                },
-                              );
-                            }
-                            return SizedBox.shrink();
-                          },
-                        ),
+                      SkillsView(
+                        style: Theme.of(context).textTheme.headlineSmall,
+                        isForm: true,
                       ),
                       addVerticalSpace(5),
 
@@ -257,10 +226,11 @@ class _ProfessionalInformationModalSheetState
               ),
               CustomElevatedButton(
                 callback: () async {
+                  final skills = context.read<SkillsBloc>().state.skillsIdList;
+
                   final map = {
                     // "user_type": userType ?? state.taskerProfile?.userType,
-                    "skills":
-                        skillOptionsList + skills.map((e) => e.id!).toList(),
+                    "skills": skills,
                     "active_hour_start": startTime?.format(context) ??
                         state.taskerProfile?.activeHourStart,
                     "active_hour_end": endTime?.format(context) ??
