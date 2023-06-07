@@ -46,6 +46,7 @@ import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/activities/bloc/activities_timeline_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/skills/skills_bloc.dart';
 import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
@@ -83,7 +84,9 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => FeedbackPostBloc()),
           BlocProvider(create: (context) => UserSuspendBloc()),
           BlocProvider(create: (context) => BookingCancelBloc()),
-          BlocProvider(create: (context) => ResendVerificationBloc(SignUpRepositories())),
+          BlocProvider(
+              create: (context) =>
+                  ResendVerificationBloc(SignUpRepositories())),
           BlocProvider(create: (context) => NearbyTaskEntityServiceBloc()),
           BlocProvider(create: (context) => locator<UserBloc>()),
           BlocProvider(create: (context) => UserLocationCubit()),
@@ -94,15 +97,21 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => locator<KycBloc>()),
           BlocProvider(create: (context) => locator<ImageUploadCubit>()),
           BlocProvider(create: (context) => locator<UploadBloc>()),
-          BlocProvider(create: (context) => SupportHelpBloc(SupportHelpRepositories())),
-          BlocProvider(create: (context) => PasswordSecurityBloc(PasswordSecurityRepositories())),
-          BlocProvider(create: (context) => ForgotPasswordBloc(SignInRepository())),
-          BlocProvider(create: (context) => OtpResetVerifyBloc(SignUpRepositories())),
+          BlocProvider(
+              create: (context) => SupportHelpBloc(SupportHelpRepositories())),
+          BlocProvider(
+              create: (context) =>
+                  PasswordSecurityBloc(PasswordSecurityRepositories())),
+          BlocProvider(
+              create: (context) => ForgotPasswordBloc(SignInRepository())),
+          BlocProvider(
+              create: (context) => OtpResetVerifyBloc(SignUpRepositories())),
           BlocProvider(create: (context) => UserDeactiveBloc()),
           BlocProvider(create: (context) => InterestsBloc()),
           BlocProvider(create: (context) => CountryBloc()),
           BlocProvider(create: (context) => CityBloc()),
           BlocProvider(create: (context) => CurrencyBloc()),
+          BlocProvider(create: (context) => SkillsBloc()),
           BlocProvider(create: (context) => LanguageBloc()),
           BlocProvider(create: (context) => ThemeBloc()),
           BlocProvider(create: (context) => ActivitiesTimelineBloc()),

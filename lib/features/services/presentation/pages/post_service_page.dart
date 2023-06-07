@@ -417,6 +417,11 @@ class _PostServicePageState extends State<PostServicePage> {
                 flex: 2,
                 child: NumberIncDecField(
                   controller: startPriceController,
+                  validator: (p0) {
+                    if (isBudgetVariable) if (p0 == null || p0.isEmpty)
+                      return "Required";
+                    return null;
+                  },
                   onChanged: (value) => setState(
                     () {
                       if (startPriceController.text.isNotEmpty)
@@ -439,6 +444,7 @@ class _PostServicePageState extends State<PostServicePage> {
               flex: 2,
               child: NumberIncDecField(
                 controller: endPriceController,
+                validator: (p0) => p0 == null || p0.isEmpty ? "Required" : null,
                 onChanged: (value) => setState(
                   () {
                     if (endPriceController.text.isNotEmpty)
@@ -453,6 +459,7 @@ class _PostServicePageState extends State<PostServicePage> {
               ),
             ),
             Flexible(
+              flex: isBudgetVariable ? 1 : 2,
               child: Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 10,
@@ -690,6 +697,9 @@ class _PostServicePageState extends State<PostServicePage> {
           CustomTextFormField(
             hintText: 'Add Requirements',
             inputAction: TextInputAction.next,
+            validator: (value) => requirementList.length == 0
+                ? "Atleast 1 Highlight Required"
+                : null,
             suffixWidget: IconButton(
               onPressed: () {
                 if (requirementController.text.isNotEmpty)

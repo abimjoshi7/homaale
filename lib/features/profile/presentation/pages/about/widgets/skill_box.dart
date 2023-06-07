@@ -19,12 +19,11 @@ class SkillBox extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: FittedBox(
-            child: Text(
-              label,
-              style: const TextStyle(
-                color: Colors.white,
-              ),
-            ),
+            child: Text(label,
+                style: Theme.of(context).textTheme.displaySmall?.copyWith(
+                      color: Colors.white,
+                      letterSpacing: 1.1,
+                    )),
           ),
         ),
       ),

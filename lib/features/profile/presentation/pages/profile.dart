@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/account_view.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
 import 'package:cipher/features/following_followers/presentation/following_followers_page.dart';
 import 'package:cipher/features/profile/presentation/pages/about/about_profile.dart';
@@ -53,6 +54,17 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
     return Scaffold(
       appBar: CustomAppBar(
         appBarTitle: "Profile",
+        leadingWidget: IconButton(
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            size: 25.0,
+            color: Theme.of(context).appBarTheme.iconTheme?.color,
+          ),
+          onPressed: () =>   Navigator.popUntil(
+                  context,
+                  (route) => route.settings.name == AccountView.routeName,
+                )
+        ),
         trailingWidget: SizedBox.shrink(),
       ),
       body: Column(

@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/utilities/data/models/models.dart';
+import 'package:cipher/features/utilities/data/models/skill_option_model.dart';
 
 class UtilitiesRepositories {
   final _dio = DioHelper();
@@ -78,6 +81,19 @@ class UtilitiesRepositories {
     return List<LanguageModel>.from(
       x.map((e) => LanguageModel.fromJson(e as Map<String, dynamic>)).toList()
           as Iterable,
+    );
+  }
+
+  Future<List<SkillOptionModel>> getUserSkillOptionsList() async {
+    final x = await _dio.getDatawithCredential(
+      url: 'tasker/skill/options/',
+      token: CacheHelper.accessToken,
+    ) as List;
+
+    return List<SkillOptionModel>.from(
+      x
+          .map((e) => SkillOptionModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
     );
   }
 }

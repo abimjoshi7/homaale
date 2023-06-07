@@ -58,7 +58,9 @@ _$_TaskerProfile _$$_TaskerProfileFromJson(Map<String, dynamic> json) =>
       dateOfBirth: json['date_of_birth'] == null
           ? null
           : DateTime.parse(json['date_of_birth'] as String),
-      skill: json['skill'] as String?,
+      skills: (json['skills'] as List<dynamic>?)
+          ?.map((e) => SkillOptionModel.fromJson(e as Map<String, dynamic>))
+          .toList(),
       activeHourStart: json['active_hour_start'] as String?,
       activeHourEnd: json['active_hour_end'] as String?,
       experienceLevel: json['experience_level'] as String?,
@@ -101,7 +103,7 @@ Map<String, dynamic> _$$_TaskerProfileToJson(_$_TaskerProfile instance) =>
       'bio': instance.bio,
       'gender': instance.gender,
       'date_of_birth': instance.dateOfBirth?.toIso8601String(),
-      'skill': instance.skill,
+      'skills': instance.skills,
       'active_hour_start': instance.activeHourStart,
       'active_hour_end': instance.activeHourEnd,
       'experience_level': instance.experienceLevel,

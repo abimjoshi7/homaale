@@ -1,3 +1,4 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
@@ -63,6 +64,17 @@ class _AccountViewState extends State<AccountView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
+        leadingWidget: IconButton(
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            size: 25.0,
+            color: Theme.of(context).appBarTheme.iconTheme?.color,
+          ),
+          onPressed: () => Navigator.popUntil(
+            context,
+            (route) => route.settings.name == Root.routeName,
+          ),
+        ),
         appBarTitle: "Profile",
         trailingWidget: SizedBox.shrink(),
       ),
@@ -102,7 +114,8 @@ class _AccountViewState extends State<AccountView> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  state.taskerProfile?.profileImage ?? kServiceImageNImg,
+                                  state.taskerProfile?.profileImage ??
+                                      kServiceImageNImg,
                                 ),
                               ),
                             ),
@@ -111,10 +124,16 @@ class _AccountViewState extends State<AccountView> {
                           ),
                           kWidth20,
                           AccountUserInfoSection(
-                            name: '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
-                            isVerified: state.taskerProfile?.isProfileVerified ?? false,
-                            designation: state.taskerProfile?.designation?.toString() ?? 'Homaale User',
-                            credentialId: state.taskerProfile?.user?.phone ?? state.taskerProfile?.user?.email ?? '',
+                            name:
+                                '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
+                            isVerified:
+                                state.taskerProfile?.isProfileVerified ?? false,
+                            designation:
+                                state.taskerProfile?.designation?.toString() ??
+                                    'Homaale User',
+                            credentialId: state.taskerProfile?.user?.phone ??
+                                state.taskerProfile?.user?.email ??
+                                '',
                           ),
                         ],
                       ),
@@ -188,7 +207,6 @@ class _AccountViewState extends State<AccountView> {
                         child: ProfileKycVerifySection());
                   },
                 ),
-
                 AccountListTileSection(
                   onTap: () {
                     context
@@ -222,7 +240,8 @@ class _AccountViewState extends State<AccountView> {
                       return Visibility(
                         visible: state.userLoginRes?.hasProfile ?? false,
                         child: AccountListTileSection(
-                          onTap: () => conditionalCheckNavigation(context, context.read<KycBloc>().state),
+                          onTap: () => conditionalCheckNavigation(
+                              context, context.read<KycBloc>().state),
                           icon: const Icon(
                             Icons.card_membership_rounded,
                           ),
@@ -254,7 +273,6 @@ class _AccountViewState extends State<AccountView> {
                     size: 16,
                   ),
                 ),
-
                 AccountListTileSection(
                   onTap: () {
                     Navigator.pushNamed(
@@ -271,7 +289,6 @@ class _AccountViewState extends State<AccountView> {
                     size: 16,
                   ),
                 ),
-
                 AccountListTileSection(
                   onTap: () {
                     Navigator.pushNamed(

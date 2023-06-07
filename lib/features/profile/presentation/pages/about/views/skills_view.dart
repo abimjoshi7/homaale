@@ -1,46 +1,45 @@
-import 'dart:convert';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/features/utilities/data/models/skill_option_model.dart';
+import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/skills/skills_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
-import 'package:flutter/material.dart';
 
 class SkillsView extends StatefulWidget {
   const SkillsView({
-    super.key,
-  });
-
+    Key? key,
+    this.style,
+    this.isForm = false,
+  }) : super(key: key);
+  final TextStyle? style;
+  final bool isForm;
   @override
   State<SkillsView> createState() => _SkillsViewState();
 }
 
 class _SkillsViewState extends State<SkillsView> {
-  final tagsController = TextfieldTagsController();
-
-  @override
-  void dispose() {
-    tagsController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
-          final List<String> skills = List<String>.from(
-            jsonDecode(state.taskerProfile?.skill ?? "") as Iterable,
-          );
+          List<int> skills =
+              state.taskerProfile?.skills?.map((e) => e.id!).toList() ?? [];
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text('Skills'),
+                  Text(
+                    'Skills',
+                    style: widget.style ?? null,
+                  ),
                   IconButton(
                     onPressed: () {
                       showModalBottomSheet(
@@ -59,10 +58,12 @@ class _SkillsViewState extends State<SkillsView> {
                                 child: Column(
                                   children: [
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             const Text(
                                               'Skills',
@@ -70,7 +71,7 @@ class _SkillsViewState extends State<SkillsView> {
                                             ),
                                             TextButton(
                                               onPressed: () {
-                                                tagsController.clearTags();
+                                                skills.clear();
                                               },
                                               child: const Text(
                                                 'Clear All',
@@ -80,10 +81,38 @@ class _SkillsViewState extends State<SkillsView> {
                                           ],
                                         ),
                                         kHeight5,
-                                        CustomTagTextField(
-                                          tagController: tagsController,
-                                          hintText: 'Enter your skills',
-                                          initialList: skills.isEmpty ? [] : skills,
+                                        BlocBuilder<SkillsBloc, SkillsState>(
+                                          builder: (context, state) {
+                                            if (state.theStates ==
+                                                TheStates.success) {
+                                              return MultiSelectDialogField(
+                                                initialValue: widget.isForm
+                                                    ? state.skillsIdList ??
+                                                        skills
+                                                    : skills,
+                                                items: List.generate(
+                                                  state.skillListRes.length,
+                                                  (index) => MultiSelectItem(
+                                                    state
+                                                        .skillListRes[index].id,
+                                                    state.skillListRes[index]
+                                                        .name
+                                                        .toString(),
+                                                  ),
+                                                ),
+                                                onConfirm: (p0) {
+                                                  setState(
+                                                    () {
+                                                      skills = p0
+                                                          .map((e) => e!)
+                                                          .toList();
+                                                    },
+                                                  );
+                                                },
+                                              );
+                                            }
+                                            return SizedBox.shrink();
+                                          },
                                         ),
                                       ],
                                     ),
@@ -92,23 +121,22 @@ class _SkillsViewState extends State<SkillsView> {
                               ),
                               BlocConsumer<UserBloc, UserState>(
                                 listener: (context, state) async {
-                                  if (state.theStates == TheStates.success) {
+                                  if (state.theStates == TheStates.success &&
+                                      state.isEdited == true) {
+                                    // context.read<UserBloc>().add(UserLoaded());
                                     showDialog(
                                       context: context,
                                       builder: (_) => CustomToast(
                                         heading: 'Success',
                                         content: 'Skills updated successfully',
                                         onTap: () {
-                                          Navigator.pushNamedAndRemoveUntil(
+                                          Navigator.pushNamed(
                                             context,
                                             Profile.routeName,
-                                            (route) => false,
                                           );
                                         },
                                         isSuccess: true,
                                       ),
-                                    ).then(
-                                      (value) => context.read<UserBloc>().add(UserLoaded()),
                                     );
                                   }
                                   if (state.theStates == TheStates.failure) {
@@ -121,22 +149,32 @@ class _SkillsViewState extends State<SkillsView> {
                                         isSuccess: false,
                                       ),
                                     ).then(
-                                      (value) => context.read<UserBloc>().add(UserLoaded()),
+                                      (value) => context
+                                          .read<UserBloc>()
+                                          .add(UserLoaded()),
                                     );
                                   }
                                 },
                                 builder: (context, state) {
                                   return CustomElevatedButton(
                                     callback: () async {
-                                      context.read<UserBloc>().add(
-                                            UserEdited(
-                                              req: {
-                                                'skill': jsonEncode(
-                                                  tagsController.getTags,
-                                                ),
-                                              },
-                                            ),
-                                          );
+                                      if (widget.isForm) {
+                                        context.read<SkillsBloc>().add(
+                                              SelectedSkillsOptionsStore(
+                                                selectedSkills: skills,
+                                              ),
+                                            );
+                                        Navigator.pop(context);
+                                      }
+                                      if (!widget.isForm) {
+                                        context.read<UserBloc>().add(
+                                              UserEdited(
+                                                req: {
+                                                  'skills': skills,
+                                                },
+                                              ),
+                                            );
+                                      }
                                     },
                                     label: 'Add',
                                   );
@@ -155,15 +193,27 @@ class _SkillsViewState extends State<SkillsView> {
                   ),
                 ],
               ),
-              SizedBox(
-                height: MediaQuery.of(context).size.height * 0.04,
-                child: ListView.separated(
-                  padding: EdgeInsets.zero,
-                  scrollDirection: Axis.horizontal,
-                  itemBuilder: (context, index) => SkillBox(label: skills[index]),
-                  separatorBuilder: (context, index) => kWidth10,
-                  itemCount: skills.length,
-                ),
+              BlocBuilder<SkillsBloc, SkillsState>(
+                builder: (context, state) {
+                  final List<String> _skillNames = _getSkillNames(
+                    skillsIdList:
+                        widget.isForm ? state.skillsIdList ?? skills : skills,
+                    skillModelList: state.skillListRes,
+                  );
+                  ;
+
+                  return SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.043,
+                    child: ListView.separated(
+                      padding: EdgeInsets.zero,
+                      scrollDirection: Axis.horizontal,
+                      itemBuilder: (context, index) =>
+                          SkillBox(label: _skillNames[index]),
+                      separatorBuilder: (context, index) => kWidth10,
+                      itemCount: _skillNames.length,
+                    ),
+                  );
+                },
               ),
             ],
           );
@@ -173,4 +223,17 @@ class _SkillsViewState extends State<SkillsView> {
       },
     );
   }
+}
+
+List<String> _getSkillNames({
+  required List<int> skillsIdList,
+  required List<SkillOptionModel> skillModelList,
+}) {
+  final List<String> _list = [];
+  for (final skillOption in skillModelList) {
+    if (skillsIdList.contains(skillOption.id)) {
+      if (skillOption.name != null) _list.add(skillOption.name!);
+    }
+  }
+  return _list;
 }

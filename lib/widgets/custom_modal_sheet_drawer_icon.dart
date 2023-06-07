@@ -16,7 +16,7 @@ class CustomModalSheetDrawerIcon extends StatelessWidget {
       child: FractionallySizedBox(
         widthFactor: width,
         child: Container(
-          height: 3.5,
+          height: 4.5,
           decoration: BoxDecoration(
             color: color,
             borderRadius: BorderRadius.circular(5),
