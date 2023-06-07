@@ -30,6 +30,7 @@ class CustomFormField extends StatelessWidget {
                 AutoSizeText(
                   label ?? '',
                   style: Theme.of(context).textTheme.headlineSmall,
+                  maxLines: 2,
                 ),
                 if (isRequired == true)
                   const Text(

@@ -59,13 +59,13 @@ class _ScheduleViewState extends State<ScheduleView> {
         ),
         BlocBuilder<EventBloc, EventState>(
           builder: (context, state) {
-            if (state.theStates == TheStates.initial) {
-              return const Center(
-                child: CardLoading(
-                  height: 200,
-                ),
-              );
-            }
+            // if (state.theStates == TheStates.initial) {
+            //   return const Center(
+            //     child: CardLoading(
+            //       height: 200,
+            //     ),
+            //   );
+            // }
             if (state.isLoaded == true) {
               if (dateList.isEmpty) {
                 for (final element in state.event!.allShifts!) {
