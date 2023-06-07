@@ -1,4 +1,3 @@
-import 'package:cipher/core/constants/text.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:flutter/material.dart';
 

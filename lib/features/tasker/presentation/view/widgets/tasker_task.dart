@@ -7,6 +7,7 @@ import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/features/tasker/presentation/bloc/tasker_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -62,15 +63,26 @@ class _TaskerTaskState extends State<TaskerTask> {
                       isApply: false,
                     ),
                     child: TaskCard(
-                      taskName: state.task.result![index].title ?? 'taskName',
-                      startRate: state.task.result![index].budgetFrom?.toString() ?? '0',
-                      endRate: state.task.result![index].budgetTo?.toString() ?? '0',
-                      budgetType: '${state.task.result![index].budgetType} ',
-                      imageUrl: state.task.result![index].createdBy?.profileImage ?? kServiceImageNImg,
-                      location: state.task.result![index].location,
-                      endHour: Jiffy(state.task.result![index].createdAt.toString()).jm,
-                      endDate: Jiffy(state.task.result![index].endDate.toString()).yMMMMd,
+                      isRange: state.task.result![index].isRange ?? false,
+                      id: state.task.result![index].id,
+                      isBookmarked: state.task.result![index].isBookmarked,
+                      isOwner: state.task.result![index].createdBy?.id ==
+                          context.read<UserBloc>().state.taskerProfile?.user?.id,
+                      buttonLabel: 'Apply Now',
+                      startRate: '${state.task.result![index].budgetFrom ?? 0}',
+                      endRate: '${state.task.result![index].budgetTo ?? 0}',
+                      budgetType: '${state.task.result![index].budgetType}',
                       count: state.task.result![index].count.toString(),
+                      imageUrl: state.task.result![index].createdBy?.profileImage ?? kServiceImageNImg,
+                      location:
+                          state.task.result![index].location == '' ? 'Remote' : state.task.result![index].location,
+                      endHour: Jiffy(
+                        state.task.result![index].createdAt.toString(),
+                      ).jm,
+                      endDate: Jiffy(
+                        state.task.result![index].endDate.toString(),
+                      ).yMMMMd,
+                      taskName: state.task.result![index].title,
                       callback: () => onTaskPressed(
                         id: state.task.result![index].id!,
                         index: index,

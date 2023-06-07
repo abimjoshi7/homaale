@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
+import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -31,12 +32,12 @@ class _PostServicePageState extends State<PostServicePage> {
   final discountController = TextEditingController();
   String? dateType = 'Fixed';
   String? priceType = 'Fixed';
-  String? serviceType = 'Remote';
+  String? serviceType = 'On Premise';
   String? budgetType = 'Project';
   String? currencyCode;
   bool isDiscounted = false;
   bool isSpecified = true;
-  bool isAddressVisibile = false;
+  bool isAddressVisibile = true;
   bool isBudgetVariable = false;
   bool isCustomDate = false;
   bool isTermsAccepted = false;
@@ -46,8 +47,6 @@ class _PostServicePageState extends State<PostServicePage> {
   List<int> selectedWeekDay = [];
   List<Widget> widgetList = [];
   List<String> requirementList = [];
-  XFile? imagePath;
-  XFile? videoPath;
   List<XFile?>? imagePathList;
   List<int>? imageList;
   List<int>? fileList;
@@ -57,12 +56,16 @@ class _PostServicePageState extends State<PostServicePage> {
   int? budgetTo;
   int? budgetFrom;
   final _key = GlobalKey<FormState>();
-  late final UploadBloc uploadBloc;
+  final UploadBloc uploadBloc = locator<UploadBloc>();
 
   @override
   void initState() {
-    uploadBloc = context.read<UploadBloc>();
-
+    context.read<CategoriesBloc>().add(
+          CategoriesLoadInitiated(),
+        );
+    // context.read<ServicesBloc>().add(
+    //       const ServicesLoadInitiated(),
+    //     );
     super.initState();
   }
 
@@ -127,11 +130,14 @@ class _PostServicePageState extends State<PostServicePage> {
                           _buildCategory(),
                           _buildHighlights(),
                           _buildServiceType(),
+                          _buildAddress(),
                           _buildCity(),
                           _buildDescription(),
                           _buildCurrency(),
                           _buildDialog(),
-                          CustomMultimedia(),
+                          CustomMultimedia(
+                            bloc: uploadBloc,
+                          ),
                           _buildTerms(context),
                           _buildButton(),
                         ],
@@ -143,6 +149,20 @@ class _PostServicePageState extends State<PostServicePage> {
             ),
           )
         ],
+      ),
+    );
+  }
+
+  Visibility _buildAddress() {
+    return Visibility(
+      visible: isAddressVisibile,
+      child: CustomFormField(
+        label: "Address Information",
+        isRequired: true,
+        child: CustomTextFormField(
+          controller: addressController,
+          hintText: "Enter your address details",
+        ),
       ),
     );
   }
@@ -196,11 +216,11 @@ class _PostServicePageState extends State<PostServicePage> {
                     description: descriptionController.text,
                     highlights: requirementList,
                     budgetType: budgetType,
-                    budgetFrom: double.parse(
-                      startPriceController.text.isEmpty
-                          ? '0'
-                          : startPriceController.text,
-                    ),
+                    budgetFrom: startPriceController.text.isEmpty
+                        ? null
+                        : double.parse(
+                            startPriceController.text,
+                          ),
                     budgetTo: double.parse(
                       endPriceController.text,
                     ),
@@ -214,7 +234,7 @@ class _PostServicePageState extends State<PostServicePage> {
                     revisions: 0,
                     avatar: 2,
                     isProfessional: true,
-                    isOnline: true,
+                    isOnline: !isAddressVisibile,
                     isRequested: false,
                     discountType: "Percentage",
                     discountValue: discountController.text.isNotEmpty
@@ -228,8 +248,8 @@ class _PostServicePageState extends State<PostServicePage> {
                     event: "",
                     city: cityCode ?? int.parse(kCityCode),
                     currency: currencyCode ?? kCurrencyCode,
-                    images: context.read<UploadBloc>().state.uploadedImageList,
-                    videos: context.read<UploadBloc>().state.uploadedVideoList,
+                    images: uploadBloc.state.uploadedImageList,
+                    videos: uploadBloc.state.uploadedVideoList,
                   );
 
                   context.read<TaskEntityServiceBloc>().add(
@@ -393,7 +413,8 @@ class _PostServicePageState extends State<PostServicePage> {
           children: [
             Visibility(
               visible: isBudgetVariable,
-              child: Flexible(
+              child: Expanded(
+                flex: 2,
                 child: NumberIncDecField(
                   controller: startPriceController,
                   validator: (p0) {
@@ -419,7 +440,8 @@ class _PostServicePageState extends State<PostServicePage> {
               visible: isBudgetVariable,
               child: const Text(' To '),
             ),
-            Flexible(
+            Expanded(
+              flex: 2,
               child: NumberIncDecField(
                 controller: endPriceController,
                 validator: (p0) => p0 == null || p0.isEmpty ? "Required" : null,
@@ -618,12 +640,6 @@ class _PostServicePageState extends State<PostServicePage> {
             ],
           ),
           addVerticalSpace(5),
-          Visibility(
-            visible: isAddressVisibile,
-            child: const CustomTextFormField(
-              hintText: 'Default Address',
-            ),
-          ),
         ],
       ),
     );
@@ -631,7 +647,7 @@ class _PostServicePageState extends State<PostServicePage> {
 
   CustomFormField _buildHighlights() {
     return CustomFormField(
-      label: 'Highlights',
+      label: 'Requirements',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -679,7 +695,7 @@ class _PostServicePageState extends State<PostServicePage> {
             ),
           ),
           CustomTextFormField(
-            hintText: 'Add highlights',
+            hintText: 'Add Requirements',
             inputAction: TextInputAction.next,
             validator: (value) => requirementList.length == 0
                 ? "Atleast 1 Highlight Required"

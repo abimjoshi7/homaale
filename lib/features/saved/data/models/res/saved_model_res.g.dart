@@ -79,7 +79,7 @@ _$_Data _$$_DataFromJson(Map<String, dynamic> json) => _$_Data(
       stats: json['stats'] == null
           ? null
           : Stats.fromJson(json['stats'] as Map<String, dynamic>),
-      rating: json['rating'],
+      rating: (json['rating'] as num?)?.toDouble(),
       country: json['country'] == null
           ? null
           : CountryClass.fromJson(json['country'] as Map<String, dynamic>),
@@ -138,6 +138,7 @@ _$_Data _$$_DataFromJson(Map<String, dynamic> json) => _$_Data(
       images: json['images'] as List<dynamic>?,
       budgetType: json['budget_type'] as String?,
       isRequested: json['is_requested'] as bool?,
+      isRange: json['is_range'] as bool?,
       budgetFrom: json['budget_from'] as String?,
       budgetTo: json['budget_to'] as String?,
       location: json['location'] as String?,
@@ -204,6 +205,7 @@ Map<String, dynamic> _$$_DataToJson(_$_Data instance) => <String, dynamic>{
       'images': instance.images,
       'budget_type': instance.budgetType,
       'is_requested': instance.isRequested,
+      'is_range': instance.isRange,
       'budget_from': instance.budgetFrom,
       'budget_to': instance.budgetTo,
       'location': instance.location,

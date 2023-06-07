@@ -163,6 +163,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                               TaskEntityServicePage.routeName,
                             );
                           },
+                          id: state.taskEntityServices?[index].id,
                           title: state.taskEntityServices?[index].title,
                           imagePath: state.taskEntityServices?[index].images?.length == 0
                               ? kServiceImageNImg

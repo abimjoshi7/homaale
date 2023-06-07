@@ -47,7 +47,6 @@
 //     final supportTicketModel = supportTicketModelFromJson(jsonString);
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
 
 part 'support_ticket_model.freezed.dart';
 part 'support_ticket_model.g.dart';

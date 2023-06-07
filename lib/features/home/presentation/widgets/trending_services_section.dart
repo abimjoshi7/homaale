@@ -89,6 +89,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                           isBookmarked: state.taskEntityServiceModel.result?[index].isBookmarked,
                           isOwner: state.taskEntityServiceModel.result?[index].owner?.id ==
                               context.read<UserBloc>().state.taskerProfile?.user?.id,
+                          id: state.taskEntityServiceModel.result?[index].id,
                           editCallback: () {
                             showModalBottomSheet(
                               context: context,

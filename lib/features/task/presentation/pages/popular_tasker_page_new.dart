@@ -3,7 +3,6 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/features/tasker/data/repositories/tasker_repositories.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
-import 'package:cipher/widgets/bottom_loader.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';

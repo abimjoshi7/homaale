@@ -6,13 +6,16 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 
 class ImagePickerDialog extends StatelessWidget {
+  final UploadBloc bloc;
   const ImagePickerDialog({
     Key? key,
+    required this.bloc,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UploadBloc, UploadState>(
+      bloc: bloc,
       builder: (context, state) {
         return AlertDialog(
           title: Padding(
@@ -39,12 +42,12 @@ class ImagePickerDialog extends StatelessWidget {
                   onTap: () {
                     Future.delayed(
                       Duration.zero,
-                      () => context.read<UploadBloc>().add(
-                            ImageUploaded(
-                              context: context,
-                              isVideo: false,
-                            ),
-                          ),
+                      () => bloc.add(
+                        ImageUploaded(
+                          context: context,
+                          isVideo: false,
+                        ),
+                      ),
                     ).whenComplete(
                       () => Navigator.pop(
                         context,
@@ -63,11 +66,11 @@ class ImagePickerDialog extends StatelessWidget {
                   onTap: () {
                     Future.delayed(
                       Duration.zero,
-                      () => context.read<UploadBloc>().add(
-                            MultipleImageUploaded(
-                              context: context,
-                            ),
-                          ),
+                      () => bloc.add(
+                        MultipleImageUploaded(
+                          context: context,
+                        ),
+                      ),
                     ).whenComplete(
                       () => Navigator.pop(
                         context,

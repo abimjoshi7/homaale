@@ -71,6 +71,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   List<int?>? skillOptionsList = [];
   List<int?>? interestCodes = [];
   final _key = GlobalKey<FormState>();
+  final uploadBloc = locator<UploadBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +88,9 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   onTap: () async {
                     showDialog(
                       context: context,
-                      builder: (context) => ImagePickerDialog(),
+                      builder: (context) => ImagePickerDialog(
+                        bloc: uploadBloc,
+                      ),
                     );
                   },
                   child: Column(
@@ -100,11 +103,11 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             builder: (context, uploadState) {
                               return ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
-                                child: uploadState.imageFileList?.length != 0
+                                child: uploadState.imageFileList.length != 0
                                     ? Image.file(
                                         fit: BoxFit.cover,
                                         File(
-                                          uploadState.imageFileList?.last ?? '',
+                                          uploadState.imageFileList.last ?? '',
                                         ),
                                       )
                                     : const Placeholder(
@@ -971,24 +974,12 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               "following_count": 0,
                               "language": languageController.text,
                             };
-                            if ((context
-                                        .read<UploadBloc>()
-                                        .state
-                                        .imageFileList !=
-                                    null) &&
-                                (context
-                                        .read<UploadBloc>()
-                                        .state
-                                        .imageFileList
-                                        ?.isNotEmpty ??
+                            if ((uploadBloc.state.imageFileList != null) &&
+                                (uploadBloc.state.imageFileList.isNotEmpty ??
                                     false))
                               q.addAll({
                                 "profile_image": await MultipartFile.fromFile(
-                                  context
-                                      .read<UploadBloc>()
-                                      .state
-                                      .imageFileList!
-                                      .last,
+                                  uploadBloc.state.imageFileList.last,
                                 ),
                               });
                             if (!mounted) return;
