@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/error_pages/no_internet_page.dart';
 import 'package:cipher/features/saved/data/models/res/saved_model_res.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/saved/presentation/pages/saved_collection_page.dart';
@@ -21,8 +22,7 @@ class _SavedPageState extends State<SavedPage> {
   final savedBloc = locator<SavedBloc>();
   @override
   void initState() {
-    //TODO:refactor this
-    // savedBloc.add(SavedListLoaded(type: null));
+    savedBloc.add(SavedListLoaded());
     super.initState();
   }
 
@@ -35,9 +35,7 @@ class _SavedPageState extends State<SavedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        appBarTitle: "Saved",trailingWidget: SizedBox()
-      ),
+      appBar: CustomAppBar(appBarTitle: "Saved", trailingWidget: SizedBox()),
       body: Column(
         children: [
           Expanded(
@@ -50,50 +48,54 @@ class _SavedPageState extends State<SavedPage> {
                   builder: (context, state) {
                     if (state.theStates == TheStates.success) {
                       var allList = state.savedModelRes?.result ?? [];
-                      var userList = allList
-                          .where((element) => element.type == 'user')
-                          .toList();
-                      var entityServiceList = allList
-                          .where((element) => element.type == 'entityservice')
-                          .toList();
+                      var taskList = allList.where((element) => element.data?.isRequested == true).toList();
+                      var entityServiceList = allList.where((element) => element.data?.isRequested == false).toList();
 
                       var loopList = [
-                        if (allList.isNotEmpty)
-                          {'label': 'All', 'data': allList},
-                        if (userList.isNotEmpty)
-                          {'label': 'User', 'data': userList},
-                        if (entityServiceList.isNotEmpty)
-                          {'label': 'Service', 'data': entityServiceList},
+                        if (entityServiceList.isNotEmpty) {'label': 'Service', 'data': entityServiceList},
+                        if (taskList.isNotEmpty) {'label': 'Tasks', 'data': taskList},
                       ];
 
-                      return Expanded(
-                        child: GridView.count(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 10,
-                          childAspectRatio: 0.8,
-                          children: loopList
-                              .map((e) => InkWell(
-                                    onTap: () {
-                                      Navigator.pushNamed(
-                                        context,
-                                        SavedCollectionPage.routeName,
-                                        arguments: {
-                                          'heading': e['label'].toString(),
-                                          'data': e['data'] as List<Result>,
-                                        },
-                                      );
-                                    },
-                                    child: SavedCard(
-                                      label: e['label'].toString(),
-                                      child: e['data'] as List<Result>,
-                                    ),
-                                  ))
-                              .toList(),
-                        ),
-                      );
+                      return allList.isEmpty
+                          ? Center(
+                              child: CommonErrorContainer(
+                              assetsPath: 'assets/no_data_found.png',
+                              errorTile: 'Bookmarked item not found.',
+                              errorDes: 'We’re sorry, the data you search could not found. '
+                                  'Please go back.',
+                            ))
+                          : Expanded(
+                              child: RefreshIndicator(
+                                onRefresh: () async {
+                                  savedBloc.add(SavedListLoaded());
+                                },
+                                child: GridView.count(
+                                  crossAxisCount: 2,
+                                  crossAxisSpacing: 10,
+                                  childAspectRatio: 0.8,
+                                  children: loopList
+                                      .map((e) => InkWell(
+                                            onTap: () {
+                                              Navigator.pushNamed(
+                                                context,
+                                                SavedCollectionPage.routeName,
+                                                arguments: {
+                                                  'heading': e['label'].toString(),
+                                                  'data': e['data'] as List<Result>,
+                                                },
+                                              );
+                                            },
+                                            child: SavedCard(
+                                              label: e['label'].toString(),
+                                              child: e['data'] as List<Result>,
+                                            ),
+                                          ))
+                                      .toList(),
+                                ),
+                              ),
+                            );
                     }
-                    return Center(
-                        child: CircularProgressIndicator(color: kColorAmber));
+                    return Center(child: CircularProgressIndicator(color: kColorAmber));
                   },
                 ),
               ),

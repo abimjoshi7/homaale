@@ -9,6 +9,7 @@ import 'package:cipher/features/task_entity_service/data/models/task_entity_serv
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart' as tsk;
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
+import 'package:cipher/widgets/custom_favourite_icon.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -255,17 +256,10 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                         state.taskModel?.createdBy?.id ==
                                                 context.read<UserBloc>().state.taskerProfile?.user?.id
                                             ? SizedBox()
-                                            : GestureDetector(
-                                                onTap: () {
-                                                  if (!CacheHelper.isLoggedIn) {
-                                                    notLoggedInPopUp(context);
-                                                  }
-                                                  if (!CacheHelper.isLoggedIn) return;
-                                                },
-                                                child: const Icon(
-                                                  Icons.bookmark_border,
-                                                  color: Colors.red,
-                                                ),
+                                            : CustomFavoriteIcon(
+                                                typeID: state.taskModel?.id ?? '',
+                                                type: ServiceType.entityservice,
+                                                isBookmarked: state.taskModel?.isBookmarked ?? false,
                                               ),
                                         // kWidth10,
                                         GestureDetector(

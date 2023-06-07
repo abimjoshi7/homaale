@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/widgets/custom_favourite_icon.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -8,6 +9,7 @@ import 'package:cipher/widgets/widgets.dart';
 class ServiceCard extends StatelessWidget {
   const ServiceCard({
     Key? key,
+    this.id,
     this.title,
     this.imagePath,
     this.createdBy,
@@ -26,6 +28,7 @@ class ServiceCard extends StatelessWidget {
   }) : super(key: key);
 
   final String? title;
+  final String? id;
   final String? imagePath;
   final String? createdBy;
   final String? description;
@@ -121,24 +124,30 @@ class ServiceCard extends StatelessWidget {
                               child: Row(
                                 children: [
                                   Flexible(
-                                    child: isOwner
-                                        ? IconButton(
-                                            padding: EdgeInsets.zero,
-                                            onPressed: editCallback,
-                                            icon: Icon(
-                                              Icons.edit,
-                                              color: kColorAmber,
-                                            ),
-                                          )
-                                        : IconButton(
-                                            padding: EdgeInsets.zero,
-                                            onPressed: bookmarkCallback,
-                                            icon: Icon(
-                                              isBookmarked ?? false ? Icons.bookmark : Icons.bookmark_border_rounded,
-                                              color: kColorPink,
-                                            ),
-                                          ),
-                                  ),
+                                      child: isOwner
+                                          ? IconButton(
+                                              padding: EdgeInsets.zero,
+                                              onPressed: editCallback,
+                                              icon: Icon(
+                                                Icons.edit,
+                                                color: kColorAmber,
+                                              ),
+                                            )
+                                          : CustomFavoriteIcon(
+                                              typeID: '$id',
+                                              type: ServiceType.entityservice,
+                                              isBookmarked: isBookmarked ?? false,
+                                            )
+
+                                      // IconButton(
+                                      //     padding: EdgeInsets.zero,
+                                      //     onPressed: bookmarkCallback,
+                                      //     icon: Icon(
+                                      //       isBookmarked ?? false ? Icons.bookmark : Icons.bookmark_border_rounded,
+                                      //       color: kColorPink,
+                                      //     ),
+                                      //   ),
+                                      ),
                                   addHorizontalSpace(8),
                                   Flexible(
                                     child: IconButton(

@@ -619,7 +619,7 @@ mixin _$Data {
   List<Education>? get education => throw _privateConstructorUsedError;
   List<Certificate>? get certificates => throw _privateConstructorUsedError;
   Stats? get stats => throw _privateConstructorUsedError;
-  dynamic? get rating => throw _privateConstructorUsedError;
+  double? get rating => throw _privateConstructorUsedError;
   CountryClass? get country => throw _privateConstructorUsedError;
   CountryClass? get language => throw _privateConstructorUsedError;
   City? get city => throw _privateConstructorUsedError;
@@ -678,6 +678,8 @@ mixin _$Data {
   String? get budgetType => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_requested')
   bool? get isRequested => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_range')
+  bool? get isRange => throw _privateConstructorUsedError;
   @JsonKey(name: 'budget_from')
   String? get budgetFrom => throw _privateConstructorUsedError;
   @JsonKey(name: 'budget_to')
@@ -717,7 +719,7 @@ abstract class $DataCopyWith<$Res> {
       List<Education>? education,
       List<Certificate>? certificates,
       Stats? stats,
-      dynamic? rating,
+      double? rating,
       CountryClass? country,
       CountryClass? language,
       City? city,
@@ -756,6 +758,7 @@ abstract class $DataCopyWith<$Res> {
       List<dynamic>? images,
       @JsonKey(name: 'budget_type') String? budgetType,
       @JsonKey(name: 'is_requested') bool? isRequested,
+      @JsonKey(name: 'is_range') bool? isRange,
       @JsonKey(name: 'budget_from') String? budgetFrom,
       @JsonKey(name: 'budget_to') String? budgetTo,
       String? location,
@@ -841,6 +844,7 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
     Object? images = freezed,
     Object? budgetType = freezed,
     Object? isRequested = freezed,
+    Object? isRange = freezed,
     Object? budgetFrom = freezed,
     Object? budgetTo = freezed,
     Object? location = freezed,
@@ -896,7 +900,7 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
       rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as double?,
       country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
@@ -1048,6 +1052,10 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
       isRequested: freezed == isRequested
           ? _value.isRequested
           : isRequested // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isRange: freezed == isRange
+          ? _value.isRange
+          : isRange // ignore: cast_nullable_to_non_nullable
               as bool?,
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
@@ -1230,7 +1238,7 @@ abstract class _$$_DataCopyWith<$Res> implements $DataCopyWith<$Res> {
       List<Education>? education,
       List<Certificate>? certificates,
       Stats? stats,
-      dynamic? rating,
+      double? rating,
       CountryClass? country,
       CountryClass? language,
       City? city,
@@ -1269,6 +1277,7 @@ abstract class _$$_DataCopyWith<$Res> implements $DataCopyWith<$Res> {
       List<dynamic>? images,
       @JsonKey(name: 'budget_type') String? budgetType,
       @JsonKey(name: 'is_requested') bool? isRequested,
+      @JsonKey(name: 'is_range') bool? isRange,
       @JsonKey(name: 'budget_from') String? budgetFrom,
       @JsonKey(name: 'budget_to') String? budgetTo,
       String? location,
@@ -1360,6 +1369,7 @@ class __$$_DataCopyWithImpl<$Res> extends _$DataCopyWithImpl<$Res, _$_Data>
     Object? images = freezed,
     Object? budgetType = freezed,
     Object? isRequested = freezed,
+    Object? isRange = freezed,
     Object? budgetFrom = freezed,
     Object? budgetTo = freezed,
     Object? location = freezed,
@@ -1415,7 +1425,7 @@ class __$$_DataCopyWithImpl<$Res> extends _$DataCopyWithImpl<$Res, _$_Data>
       rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as double?,
       country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
@@ -1568,6 +1578,10 @@ class __$$_DataCopyWithImpl<$Res> extends _$DataCopyWithImpl<$Res, _$_Data>
           ? _value.isRequested
           : isRequested // ignore: cast_nullable_to_non_nullable
               as bool?,
+      isRange: freezed == isRange
+          ? _value.isRange
+          : isRange // ignore: cast_nullable_to_non_nullable
+              as bool?,
       budgetFrom: freezed == budgetFrom
           ? _value.budgetFrom
           : budgetFrom // ignore: cast_nullable_to_non_nullable
@@ -1665,6 +1679,7 @@ class _$_Data implements _Data {
       final List<dynamic>? images,
       @JsonKey(name: 'budget_type') this.budgetType,
       @JsonKey(name: 'is_requested') this.isRequested,
+      @JsonKey(name: 'is_range') this.isRange,
       @JsonKey(name: 'budget_from') this.budgetFrom,
       @JsonKey(name: 'budget_to') this.budgetTo,
       this.location,
@@ -1743,7 +1758,7 @@ class _$_Data implements _Data {
   @override
   final Stats? stats;
   @override
-  final dynamic? rating;
+  final double? rating;
   @override
   final CountryClass? country;
   @override
@@ -1874,6 +1889,9 @@ class _$_Data implements _Data {
   @JsonKey(name: 'is_requested')
   final bool? isRequested;
   @override
+  @JsonKey(name: 'is_range')
+  final bool? isRange;
+  @override
   @JsonKey(name: 'budget_from')
   final String? budgetFrom;
   @override
@@ -1910,7 +1928,7 @@ class _$_Data implements _Data {
 
   @override
   String toString() {
-    return 'Data(id: $id, profileImage: $profileImage, fullName: $fullName, chargeCurrency: $chargeCurrency, user: $user, portfolio: $portfolio, experience: $experience, education: $education, certificates: $certificates, stats: $stats, rating: $rating, country: $country, language: $language, city: $city, interests: $interests, isFollowed: $isFollowed, badge: $badge, isBookmarked: $isBookmarked, status: $status, bio: $bio, gender: $gender, dateOfBirth: $dateOfBirth, skill: $skill, activeHourStart: $activeHourStart, activeHourEnd: $activeHourEnd, experienceLevel: $experienceLevel, profileVisibility: $profileVisibility, taskPreferences: $taskPreferences, addressLine1: $addressLine1, addressLine2: $addressLine2, isProfileVerified: $isProfileVerified, designation: $designation, points: $points, remainingPoints: $remainingPoints, followersCount: $followersCount, followingCount: $followingCount, avatar: $avatar, subscription: $subscription, securityQuestions: $securityQuestions, slug: $slug, createdAt: $createdAt, createdBy: $createdBy, title: $title, currency: $currency, isOnline: $isOnline, service: $service, images: $images, budgetType: $budgetType, isRequested: $isRequested, budgetFrom: $budgetFrom, budgetTo: $budgetTo, location: $location, count: $count, isEndorsed: $isEndorsed, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, videos: $videos)';
+    return 'Data(id: $id, profileImage: $profileImage, fullName: $fullName, chargeCurrency: $chargeCurrency, user: $user, portfolio: $portfolio, experience: $experience, education: $education, certificates: $certificates, stats: $stats, rating: $rating, country: $country, language: $language, city: $city, interests: $interests, isFollowed: $isFollowed, badge: $badge, isBookmarked: $isBookmarked, status: $status, bio: $bio, gender: $gender, dateOfBirth: $dateOfBirth, skill: $skill, activeHourStart: $activeHourStart, activeHourEnd: $activeHourEnd, experienceLevel: $experienceLevel, profileVisibility: $profileVisibility, taskPreferences: $taskPreferences, addressLine1: $addressLine1, addressLine2: $addressLine2, isProfileVerified: $isProfileVerified, designation: $designation, points: $points, remainingPoints: $remainingPoints, followersCount: $followersCount, followingCount: $followingCount, avatar: $avatar, subscription: $subscription, securityQuestions: $securityQuestions, slug: $slug, createdAt: $createdAt, createdBy: $createdBy, title: $title, currency: $currency, isOnline: $isOnline, service: $service, images: $images, budgetType: $budgetType, isRequested: $isRequested, isRange: $isRange, budgetFrom: $budgetFrom, budgetTo: $budgetTo, location: $location, count: $count, isEndorsed: $isEndorsed, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, videos: $videos)';
   }
 
   @override
@@ -1935,7 +1953,7 @@ class _$_Data implements _Data {
             const DeepCollectionEquality()
                 .equals(other._certificates, _certificates) &&
             (identical(other.stats, stats) || other.stats == stats) &&
-            const DeepCollectionEquality().equals(other.rating, rating) &&
+            (identical(other.rating, rating) || other.rating == rating) &&
             (identical(other.country, country) || other.country == country) &&
             (identical(other.language, language) ||
                 other.language == language) &&
@@ -1999,6 +2017,7 @@ class _$_Data implements _Data {
                 other.budgetType == budgetType) &&
             (identical(other.isRequested, isRequested) ||
                 other.isRequested == isRequested) &&
+            (identical(other.isRange, isRange) || other.isRange == isRange) &&
             (identical(other.budgetFrom, budgetFrom) ||
                 other.budgetFrom == budgetFrom) &&
             (identical(other.budgetTo, budgetTo) ||
@@ -2031,7 +2050,7 @@ class _$_Data implements _Data {
         const DeepCollectionEquality().hash(_education),
         const DeepCollectionEquality().hash(_certificates),
         stats,
-        const DeepCollectionEquality().hash(rating),
+        rating,
         country,
         language,
         city,
@@ -2070,6 +2089,7 @@ class _$_Data implements _Data {
         const DeepCollectionEquality().hash(_images),
         budgetType,
         isRequested,
+        isRange,
         budgetFrom,
         budgetTo,
         location,
@@ -2108,7 +2128,7 @@ abstract class _Data implements Data {
       final List<Education>? education,
       final List<Certificate>? certificates,
       final Stats? stats,
-      final dynamic? rating,
+      final double? rating,
       final CountryClass? country,
       final CountryClass? language,
       final City? city,
@@ -2147,6 +2167,7 @@ abstract class _Data implements Data {
       final List<dynamic>? images,
       @JsonKey(name: 'budget_type') final String? budgetType,
       @JsonKey(name: 'is_requested') final bool? isRequested,
+      @JsonKey(name: 'is_range') final bool? isRange,
       @JsonKey(name: 'budget_from') final String? budgetFrom,
       @JsonKey(name: 'budget_to') final String? budgetTo,
       final String? location,
@@ -2184,7 +2205,7 @@ abstract class _Data implements Data {
   @override
   Stats? get stats;
   @override
-  dynamic? get rating;
+  double? get rating;
   @override
   CountryClass? get country;
   @override
@@ -2281,6 +2302,9 @@ abstract class _Data implements Data {
   @override
   @JsonKey(name: 'is_requested')
   bool? get isRequested;
+  @override
+  @JsonKey(name: 'is_range')
+  bool? get isRange;
   @override
   @JsonKey(name: 'budget_from')
   String? get budgetFrom;

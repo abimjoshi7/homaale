@@ -24,6 +24,7 @@ class TaskCard extends StatelessWidget {
     this.onTapCallback,
     this.editCallback,
     this.isRange = false,
+    this.isBookmarked = false,
     this.isOwner,
   }) : super(key: key);
 
@@ -43,6 +44,7 @@ class TaskCard extends StatelessWidget {
   final VoidCallback? editCallback;
   final bool isRange;
   final bool? isOwner;
+  final bool? isBookmarked;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +100,11 @@ class TaskCard extends StatelessWidget {
                           color: kColorAmber,
                         ),
                       )
-                    : CustomFavoriteIcon(typeID: '$id', type: 'entityservice')
+                    : CustomFavoriteIcon(
+                        typeID: '$id',
+                        type: ServiceType.entityservice,
+                        isBookmarked: isBookmarked ?? false,
+                      )
               ],
             ),
             addVerticalSpace(5),

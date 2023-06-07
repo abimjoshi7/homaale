@@ -28,13 +28,16 @@ class SavedCard extends StatelessWidget {
             decoration: BoxDecoration(color: Colors.grey.shade100),
             height: 200,
             child: GridView.builder(
+              physics: NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
               itemCount: child?.length ?? 0,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
               ),
               itemBuilder: (context, index) => Image.network(
-                child?[index].data?.profileImage ?? kServiceImageNImg,
+                child?[index].data?.images?.length == 0
+                    ? kServiceImageNImg
+                    : child?[index].data?.images?.first['media'].toString() ?? kServiceImageNImg,
                 errorBuilder: (context, error, stackTrace) => ColoredBox(color: Colors.grey),
                 fit: BoxFit.fill,
                 height: 10,
