@@ -35,7 +35,7 @@ class ScrollRepoImpl implements ScrollRepo {
   @override
   Future fetchItems(String url, int pageNum) async =>
       await _dio.getDatawithCredential(
-        url: "url",
+        url: url,
         token: CacheHelper.accessToken,
         query: {
           "page": pageNum,
