@@ -52,11 +52,11 @@ class _RedeemPageState extends State<RedeemPage> with TickerProviderStateMixin {
             ),
           ),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               ProfileStatsCard(
-                height: 80,
-                width: 130,
+                height: 100,
+                width: 100,
                 imagePath: 'assets/reward.png',
                 label: 'Current Points',
                 value: context
@@ -69,8 +69,8 @@ class _RedeemPageState extends State<RedeemPage> with TickerProviderStateMixin {
                 assetsColor: Colors.orange,
               ),
               ProfileStatsCard(
-                height: 80,
-                width: 130,
+                height: 100,
+                width: 100,
                 imagePath: 'assets/reward.png',
                 label: 'Total Earned',
                 value: context
@@ -83,8 +83,8 @@ class _RedeemPageState extends State<RedeemPage> with TickerProviderStateMixin {
                 assetsColor: Colors.green,
               ),
               ProfileStatsCard(
-                height: 80,
-                width: 130,
+                height: 100,
+                width: 100,
                 imagePath: 'assets/reward.png',
                 label: 'Total Spent',
                 value: spent.toString(),

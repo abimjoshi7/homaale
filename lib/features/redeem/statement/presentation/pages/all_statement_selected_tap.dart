@@ -28,12 +28,14 @@ class AllStatementSelectedTap extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Text(
-                            state.redeemStatement?.result?[index].objectRepr ??
-                                '',
-                            style: Theme.of(context).textTheme.headlineSmall,
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              state.redeemStatement?.result?[index].objectRepr ??
+                                  '',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
                           ),
                         ),
                         Container(

@@ -31,15 +31,25 @@ import '../../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
 import '../../../../user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 import '../../../../wallet/presentation/wallet_page.dart';
 
-class AccountView extends StatefulWidget {
+class AccountView extends StatelessWidget {
   static const routeName = '/account';
-  const AccountView({super.key});
+
+  const AccountView({Key? key}) : super(key: key);
 
   @override
-  State<AccountView> createState() => _AccountViewState();
+  Widget build(BuildContext context) {
+    return AccountViewMain();
+  }
 }
 
-class _AccountViewState extends State<AccountView> {
+class AccountViewMain extends StatefulWidget {
+  const AccountViewMain({super.key});
+
+  @override
+  State<AccountViewMain> createState() => _AccountViewMainState();
+}
+
+class _AccountViewMainState extends State<AccountViewMain> {
   bool isDark = false;
 
   void checkAppMode() async {
@@ -128,54 +138,50 @@ class _AccountViewState extends State<AccountView> {
                     )
                   ],
                 ),
-                BlocProvider(
-                  create: (context) => WalletBloc(),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          context
-                              .read<RedeemStatementBloc>()
-                              .add(StatementListInitiated());
-                          context
-                              .read<EarnedBloc>()
-                              .add(StatementStatusInitiated(status: 'earned'));
-                          context
-                              .read<RedeemedBloc>()
-                              .add(StatementStatusInitiated(status: 'spent'));
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        context
+                            .read<RedeemStatementBloc>()
+                            .add(StatementListInitiated());
+                        context
+                            .read<EarnedBloc>()
+                            .add(StatementStatusInitiated(status: 'earned'));
+                        context
+                            .read<RedeemedBloc>()
+                            .add(StatementStatusInitiated(status: 'spent'));
 
-                          Navigator.pushNamed(
-                            context,
-                            RedeemPage.routeName,
-                          );
-                          context
-                              .read<RedeemBloc>()
-                              .add(FetchRedeemList(offerType: 'promo_code'));
-                        },
-                        child: ProfileStatsCard(
-                          imagePath: 'assets/reward.png',
-                          label: 'Reward Points',
-                          value: state.taskerProfile?.points.toString() ?? '0',
-                        ),
+                        Navigator.pushNamed(
+                          context,
+                          RedeemPage.routeName,
+                        );
+                        context
+                            .read<RedeemBloc>()
+                            .add(FetchRedeemList(offerType: 'promo_code'));
+                      },
+                      child: ProfileStatsCard(
+                        imagePath: 'assets/reward.png',
+                        label: 'Reward Points',
+                        value: state.taskerProfile?.points.toString() ?? '0',
                       ),
-                      BlocBuilder<WalletBloc, WalletState>(
-                          builder: (context, walletState) {
-                        switch (state.theStates) {
-                          case TheStates.success:
-                            return ProfileStatsCard(
-                              imagePath: 'assets/wallet.png',
-                              label: 'Account Balance',
-                              value:
-                              // context.read<WalletBloc>().state.walletModel.first.availableBalance.toString()
-                                  '${walletState.walletModel.isNotEmpty ? Decimal.parse(walletState.walletModel.first.availableBalance.toString()) : '0'}',
-                            );
-                          default:
-                            return CardLoading(height: 200);
-                        }
-                      }),
-                    ],
-                  ),
+                    ),
+                    BlocBuilder<WalletBloc, WalletState>(
+                        builder: (context, walletState) {
+                      switch (state.theStates) {
+                        case TheStates.success:
+                          return ProfileStatsCard(
+                            imagePath: 'assets/wallet.png',
+                            label: 'Account Balance',
+                            value:
+                                '${walletState.walletModel.isNotEmpty ? Decimal.parse(context.read<WalletBloc>().state.walletModel.first.availableBalance.toString()) : '0'}',
+                          );
+                        default:
+                          return CardLoading(height: 200);
+                      }
+                    }),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
