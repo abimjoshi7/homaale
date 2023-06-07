@@ -5,10 +5,10 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/helpers.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
-import 'package:cipher/features/upload/data/repositories/upload_respositoy.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -71,6 +71,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   bool isTasker = false;
   List<int?>? interestCodes = [];
   final _key = GlobalKey<FormState>();
+  final uploadBloc = locator<UploadBloc>();
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +88,9 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                   onTap: () async {
                     showDialog(
                       context: context,
-                      builder: (context) => ImagePickerDialog(),
+                      builder: (context) => ImagePickerDialog(
+                        bloc: uploadBloc,
+                      ),
                     );
                   },
                   child: Column(
@@ -100,11 +103,11 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             builder: (context, uploadState) {
                               return ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
-                                child: uploadState.imageFileList?.length != 0
+                                child: uploadState.imageFileList.length != 0
                                     ? Image.file(
                                         fit: BoxFit.cover,
                                         File(
-                                          uploadState.imageFileList?.last ?? '',
+                                          uploadState.imageFileList.last ?? '',
                                         ),
                                       )
                                     : const Placeholder(
@@ -953,24 +956,12 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               "following_count": 0,
                               "language": languageController.text,
                             };
-                            if ((context
-                                        .read<UploadBloc>()
-                                        .state
-                                        .imageFileList !=
-                                    null) &&
-                                (context
-                                        .read<UploadBloc>()
-                                        .state
-                                        .imageFileList
-                                        ?.isNotEmpty ??
+                            if ((uploadBloc.state.imageFileList != null) &&
+                                (uploadBloc.state.imageFileList.isNotEmpty ??
                                     false))
                               q.addAll({
                                 "profile_image": await MultipartFile.fromFile(
-                                  context
-                                      .read<UploadBloc>()
-                                      .state
-                                      .imageFileList!
-                                      .last,
+                                  uploadBloc.state.imageFileList.last,
                                 ),
                               });
                             if (!mounted) return;

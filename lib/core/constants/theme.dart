@@ -48,54 +48,53 @@ final kDarkTheme = ThemeData(
 );
 
 final kLightTheme = ThemeData(
-  primaryColor: kColorPrimary,
-  fontFamily: "Poppins",
-  cardColor: Colors.white,
-  colorScheme: ColorScheme.light(),
-  bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-    backgroundColor: Colors.transparent,
-  ),
-  appBarTheme: AppBarTheme(
-      backgroundColor: Colors.white,
-      iconTheme: IconThemeData(
-        color: Colors.black,
-      )),
-  textTheme: GoogleFonts.poppinsTextTheme(
-    TextTheme(
-        titleMedium: kPurpleText16,
-        labelSmall: kLabelPrimary,
-        labelMedium: kLabelPrimary2,
-        displaySmall: kHelper13,
-        displayMedium: kBoldText,
-        displayLarge: kText17,
-        headlineSmall: kPurpleText16,
-        headlineMedium: kPurpleText17,
-        headlineLarge: kPurpleText19,
-        bodyMedium: kText14,
-        bodySmall: kText13,
-        bodyLarge: kText15),
-  ),
-  brightness: Brightness.light,
-  radioTheme: RadioThemeData(
-    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-    visualDensity: const VisualDensity(
-      horizontal: VisualDensity.minimumDensity,
-      vertical: VisualDensity.minimumDensity,
+    primaryColor: kColorPrimary,
+    fontFamily: "Poppins",
+    cardColor: Colors.white,
+    colorScheme: ColorScheme.light(),
+    bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+      backgroundColor: Colors.transparent,
     ),
-    fillColor: MaterialStateColor.resolveWith(
-      (states) => kColorSecondary,
+    appBarTheme: AppBarTheme(
+        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        )),
+    textTheme: GoogleFonts.poppinsTextTheme(
+      TextTheme(
+          titleMedium: kPurpleText16,
+          labelSmall: kLabelPrimary,
+          labelMedium: kLabelPrimary2,
+          displaySmall: kHelper13,
+          displayMedium: kBoldText,
+          displayLarge: kText17,
+          headlineSmall: kPurpleText16,
+          headlineMedium: kPurpleText17,
+          headlineLarge: kPurpleText19,
+          bodyMedium: kText14,
+          bodySmall: kText13,
+          bodyLarge: kText15),
     ),
-  ),
-  tabBarTheme: const TabBarTheme(
-    labelColor: kColorOrange,
-    unselectedLabelColor: kColorGrey,
-  ),
-  indicatorColor: kColorPrimary,
-  dividerTheme: const DividerThemeData(
-    space: 0,
-    thickness: 1.2,
-  ),
-  inputDecorationTheme: InputDecorationTheme(
-    hintStyle: kText13,
-  )
-);
+    brightness: Brightness.light,
+    radioTheme: RadioThemeData(
+      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+      visualDensity: const VisualDensity(
+        horizontal: VisualDensity.minimumDensity,
+        vertical: VisualDensity.minimumDensity,
+      ),
+      fillColor: MaterialStateColor.resolveWith(
+        (states) => kColorSecondary,
+      ),
+    ),
+    tabBarTheme: const TabBarTheme(
+      labelColor: kColorOrange,
+      unselectedLabelColor: kColorGrey,
+    ),
+    indicatorColor: kColorGrey,
+    dividerTheme: const DividerThemeData(
+      space: 0,
+      thickness: 1.2,
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      hintStyle: kText13,
+    ));

@@ -1,4 +1,3 @@
-import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/archive/presentation/bloc/archive_task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';

@@ -1,6 +1,5 @@
 
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
 
 part 'feedback_post_model.freezed.dart';
 part 'feedback_post_model.g.dart';

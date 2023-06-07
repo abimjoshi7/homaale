@@ -20,6 +20,7 @@ class UserRepositories {
       rethrow;
     }
   }
+
   Future<Map<String, dynamic>> addUser(
     Map<String, dynamic> taskerProfileCreateReq,
   ) async {
@@ -39,8 +40,8 @@ class UserRepositories {
     Map<String, dynamic> taskerProfileCreateReq,
   ) async {
     try {
-      final x = await _dio.patchDataWithCredential(
-        data: taskerProfileCreateReq,
+      final x = await _dio.patchFormData(
+        map: taskerProfileCreateReq,
         url: 'tasker/profile/',
         token: CacheHelper.accessToken,
       );

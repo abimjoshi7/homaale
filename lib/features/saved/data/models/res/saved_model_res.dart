@@ -39,7 +39,7 @@ class Result with _$Result {
 @freezed
 class Data with _$Data {
   const factory Data({
-    dynamic? id,
+    dynamic id,
     @JsonKey(name: 'profile_image') String? profileImage,
     @JsonKey(name: 'full_name') String? fullName,
     @JsonKey(name: 'charge_currency') Currency? chargeCurrency,
@@ -49,7 +49,7 @@ class Data with _$Data {
     List<Education>? education,
     List<Certificate>? certificates,
     Stats? stats,
-    dynamic? rating,
+    dynamic rating,
     CountryClass? country,
     CountryClass? language,
     City? city,
@@ -127,7 +127,7 @@ class Certificate with _$Certificate {
     @JsonKey(name: 'created_at') bool? doesExpire,
     @JsonKey(name: 'credential_id') String? credentialId,
     @JsonKey(name: 'certificate_url') String? certificateUrl,
-    dynamic? image,
+    dynamic image,
     @JsonKey(name: 'issued_date') DateTime? issuedDate,
     @JsonKey(name: 'expire_date') DateTime? expireDate,
   }) = _Certificate;
@@ -155,7 +155,7 @@ class City with _$City {
     @JsonKey(name: 'zip_code') String? zipCode,
     double? latitude,
     double? longitude,
-    dynamic? country,
+    dynamic country,
   }) = _City;
 
   factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
@@ -345,7 +345,7 @@ class User with _$User {
     String? id,
     String? username,
     String? email,
-    dynamic? phone,
+    dynamic phone,
     @JsonKey(name: 'full_name') String? fullName,
     @JsonKey(name: 'first_name') String? firstName,
     @JsonKey(name: 'middle_name') String? middleName,

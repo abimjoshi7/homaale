@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
+import 'package:cipher/core/helpers/compress_helper.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -16,6 +17,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
   UploadBloc(
     this.repo,
   ) : super(const UploadState()) {
+    final compressor = CompressHelper();
     on<ImageUploaded>(
       (event, emit) async {
         try {
@@ -29,14 +31,25 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             event.isVideo,
           ).then(
             (value) async {
-              emit(
-                state.copyWith(
-                  imageFileList: [
-                    ...state.imageFileList,
-                    value?.path ?? "",
-                  ],
-                ),
-              );
+              if (value != null) {
+                if (value.lengthSync() > 5093309) {
+                  emit(
+                    state.copyWith(
+                      isCompressFail: true,
+                    ),
+                  );
+                } else {
+                  emit(
+                    state.copyWith(
+                      isCompressFail: false,
+                      imageFileList: [
+                        ...state.imageFileList,
+                        value.path,
+                      ],
+                    ),
+                  );
+                }
+              }
             },
           );
         } catch (e) {
@@ -64,31 +77,76 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             RequestType.image,
           ).then(
             (value) async {
-              List<String> list = [];
-              if (state.imageFileList.length == 0) {
-                for (final AssetEntity element in value ?? []) {
-                  await element.file.then(
-                    (value) {
-                      if (value != null) list.add(value.path);
-                    },
-                  );
-                }
-              } else {
-                list.addAll(state.imageFileList as List<String>);
-                for (final AssetEntity element in value ?? []) {
-                  await element.file.then(
-                    (value) {
-                      if (value != null) list.add(value.path);
-                    },
-                  );
-                }
-              }
-
               emit(
                 state.copyWith(
-                  imageFileList: list,
+                  isLoading: true,
                 ),
               );
+              if (value != null) {
+                List<String> list = [];
+                if (state.imageFileList.length == 0) {
+                  for (final AssetEntity element in value) {
+                    await element.file.then(
+                      (value) async {
+                        if (value != null) {
+                          if (value.lengthSync() < 5093309)
+                            list.add(value.path);
+                          else {
+                            final imageFile =
+                                await compressor.compressFileAsync(value.path);
+                            if (imageFile.lengthSync() < 5093309) {
+                              list.add(
+                                imageFile.path,
+                              );
+                            } else {
+                              emit(
+                                state.copyWith(
+                                  isCompressFail: true,
+                                ),
+                              );
+                            }
+                          }
+                        }
+                      },
+                    );
+                  }
+                } else {
+                  list.addAll(state.imageFileList);
+                  for (final AssetEntity element in value) {
+                    await element.file.then(
+                      (value) async {
+                        if (value != null) {
+                          if (value.lengthSync() < 5093309) {
+                            list.add(value.path);
+                          } else {
+                            final imageFile =
+                                await compressor.compressFileAsync(value.path);
+                            if (imageFile.lengthSync() < 5093309) {
+                              list.add(
+                                imageFile.path,
+                              );
+                            } else {
+                              emit(
+                                state.copyWith(
+                                  isCompressFail: true,
+                                ),
+                              );
+                            }
+                          }
+                        }
+                      },
+                    );
+                  }
+                }
+
+                emit(
+                  state.copyWith(
+                    isLoading: false,
+                    imageFileList: list,
+                    isCompressFail: false,
+                  ),
+                );
+              }
             },
           );
         } catch (e) {
@@ -116,14 +174,22 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
               event.context,
               event.isVideo,
             ).then(
-              (value) => emit(
-                state.copyWith(
-                  videoFileList: [
-                    ...state.videoFileList,
-                    value?.path ?? "",
-                  ],
-                ),
-              ),
+              (value) {
+                if (value != null && value.lengthSync() < 15093309) {
+                  emit(
+                    state.copyWith(
+                      videoFileList: [
+                        ...state.videoFileList,
+                        value.path,
+                      ],
+                    ),
+                  );
+                } else {
+                  emit(
+                    state.copyWith(isCompressFail: true),
+                  );
+                }
+              },
             );
           } else {
             await MultimediaPickHelper.captureAssets(
@@ -131,31 +197,47 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
               RequestType.video,
             ).then(
               (value) async {
-                List<String> list = [];
-                if (state.videoFileList.length == 0) {
-                  for (final AssetEntity element in value ?? []) {
-                    await element.file.then(
-                      (value) {
-                        if (value != null) list.add(value.path);
-                      },
-                    );
+                if (value != null) {
+                  List<String> list = [];
+                  if (state.videoFileList.length == 0) {
+                    for (final AssetEntity element in value) {
+                      await element.file.then(
+                        (value) {
+                          if (value != null && value.lengthSync() < 15093309) {
+                            list.add(value.path);
+                          } else {
+                            emit(
+                              state.copyWith(isCompressFail: true),
+                            );
+                          }
+                        },
+                      );
+                    }
+                  } else {
+                    list.addAll(state.videoFileList);
+                    for (final AssetEntity element in value) {
+                      await element.file.then(
+                        (value) {
+                          if (value != null && value.lengthSync() < 15093309)
+                            list.add(value.path);
+                          else
+                            emit(
+                              state.copyWith(
+                                isCompressFail: true,
+                              ),
+                            );
+                        },
+                      );
+                    }
                   }
-                } else {
-                  list.addAll(state.videoFileList as List<String>);
-                  for (final AssetEntity element in value ?? []) {
-                    await element.file.then(
-                      (value) {
-                        if (value != null) list.add(value.path);
-                      },
-                    );
-                  }
-                }
 
-                emit(
-                  state.copyWith(
-                    videoFileList: list,
-                  ),
-                );
+                  emit(
+                    state.copyWith(
+                      videoFileList: list,
+                      isCompressFail: false,
+                    ),
+                  );
+                }
               },
             );
           }
@@ -172,11 +254,6 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
 
     on<ImageToFilestoreUploaded>(
       (event, emit) async {
-        // emit(
-        //   state.copyWith(
-        //     theStates: TheStates.loading,
-        //   ),
-        // );
         try {
           await repo
               .fetchFileStore(
