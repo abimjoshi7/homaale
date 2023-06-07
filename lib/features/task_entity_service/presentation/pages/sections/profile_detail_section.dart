@@ -73,7 +73,8 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                     ? SizedBox()
                     : CustomFavoriteIcon(
                         typeID: state.taskEntityService?.id ?? '',
-                        type: "entityservice",
+                        type: ServiceType.entityservice,
+                        isBookmarked: state.taskEntityService?.isBookmarked ?? false,
                       ),
                 addHorizontalSpace(8),
                 InkWell(
