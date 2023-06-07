@@ -1,7 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/content_client/presentation/cubit/privacy_policy/privacy_policy_cubit.dart';
 import 'package:cipher/features/content_client/presentation/widgets/widgets.dart';
-import 'package:cipher/widgets/custom_app_bar.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';

@@ -1,5 +1,4 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'dart:convert';
 
 part 'user_activities_timeline.freezed.dart';
 part 'user_activities_timeline.g.dart';

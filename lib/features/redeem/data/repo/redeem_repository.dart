@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
-import '../models/redeem_items_detail.dart';
 import '../models/redeem_submit_response.dart';
 import '../models/request_redeem_list.dart';
 

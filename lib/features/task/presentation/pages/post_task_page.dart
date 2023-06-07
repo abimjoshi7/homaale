@@ -1,5 +1,9 @@
+import 'package:cipher/core/helpers/upload_helper.dart';
+import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
+import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/app/root.dart';
@@ -20,7 +24,7 @@ class PostTaskPage extends StatefulWidget {
   State<PostTaskPage> createState() => _PostTaskPageState();
 }
 
-class _PostTaskPageState extends State<PostTaskPage> {
+class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
   final titleController = TextEditingController();
   final requirementController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -28,17 +32,17 @@ class _PostTaskPageState extends State<PostTaskPage> {
   final endPriceController = TextEditingController();
   final addressController = TextEditingController();
   String? priceType = 'Fixed';
-  String? taskType = 'Remote';
+  String? taskType = 'On premise';
   String? budgetType = 'Project';
   String? currencyCode;
+  DateTime? startTime;
+  DateTime? endTime;
   bool isDiscounted = false;
   bool isSpecified = true;
-  bool isAddressVisibile = false;
+  bool isAddressVisibile = true;
   bool isBudgetVariable = false;
   bool isCustomDate = false;
   bool isTermsAccepted = false;
-  TimeOfDay? startTime;
-  TimeOfDay? endTime;
   List<int> selectedWeekDay = [];
   List<Widget> widgetList = [];
   List<String> requirementList = [];
@@ -50,11 +54,17 @@ class _PostTaskPageState extends State<PostTaskPage> {
   int? budgetTo;
   int? budgetFrom;
   final _key = GlobalKey<FormState>();
-  late final UploadBloc uploadBloc;
+  final uploadBloc = locator<UploadBloc>();
 
   @override
   void initState() {
-    uploadBloc = context.read<UploadBloc>();
+    context.read<CategoriesBloc>().add(
+          CategoriesLoadInitiated(),
+        );
+    // context.read<ServicesBloc>().add(
+    //       const ServicesLoadInitiated(),
+    //     );
+
     super.initState();
   }
 
@@ -101,16 +111,10 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           _buildCategory(),
                           _buildRequirements(),
                           _buildTaskType(),
+                          _buildAddress(),
                           _buildDescription(),
                           _buildCity(),
                           _buildDate(context),
-                          // Visibility(
-                          //   visible: isAddressVisibile,
-                          //   child: CustomTextFormField(
-                          //     controller: addressController,
-                          //     hintText: 'Default Address (Home)',
-                          //   ),
-                          // ),
                           _buildCurrency(),
                           _buildBudget(),
                           _buildDialog(),
@@ -129,7 +133,9 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           //     const Text('Yes, it is negotiable.'),
                           //   ],
                           // ),
-                          CustomMultimedia(),
+                          CustomMultimedia(
+                            bloc: uploadBloc,
+                          ),
                           _buildTermsConditions(context),
                           _buildButton(),
                         ],
@@ -145,30 +151,16 @@ class _PostTaskPageState extends State<PostTaskPage> {
     );
   }
 
-  Future<void> _uploadFile() async {
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (context) => Center(
-        child: CircularProgressIndicator(),
-      ),
-    );
-
-    uploadBloc
-      ..add(
-        VideoToFilestoreUploaded(
-          list: uploadBloc.state.videoFileList,
+  Visibility _buildAddress() {
+    return Visibility(
+      visible: isAddressVisibile,
+      child: CustomFormField(
+        label: "Address Information",
+        isRequired: true,
+        child: CustomTextFormField(
+          hintText: "Enter address details",
+          controller: addressController,
         ),
-      )
-      ..add(
-        ImageToFilestoreUploaded(
-          list: uploadBloc.state.imageFileList,
-        ),
-      );
-
-    await Future.delayed(
-      Duration(
-        seconds: 15,
       ),
     );
   }
@@ -183,10 +175,10 @@ class _PostTaskPageState extends State<PostTaskPage> {
               heading: 'Success',
               content: 'You have successfully posted a task',
               onTap: () {
-                Navigator.popUntil(
+                Navigator.pushNamedAndRemoveUntil(
                   context,
-                  (route) =>
-                      route.settings.name == Root.routeName ? true : false,
+                  Root.routeName,
+                  (route) => false,
                 );
               },
               isSuccess: true,
@@ -206,6 +198,7 @@ class _PostTaskPageState extends State<PostTaskPage> {
         }
       },
       builder: (context, state) {
+        final upload = UploadHelper(bloc: uploadBloc, context: context);
         return CustomElevatedButton(
           callback: () async {
             if (context.read<CategoriesBloc>().state.serviceId != null) {
@@ -233,17 +226,17 @@ class _PostTaskPageState extends State<PostTaskPage> {
                   } else {
                     if (uploadBloc.state.imageFileList.length != 0 ||
                         uploadBloc.state.videoFileList.length != 0)
-                      await _uploadFile();
+                      await upload.upload();
                     final req = TaskEntityServiceReq(
                       title: titleController.text,
                       description: descriptionController.text,
                       highlights: requirementList,
                       budgetType: budgetType,
-                      budgetFrom: double.parse(
-                        startPriceController.text.isEmpty
-                            ? '0'
-                            : startPriceController.text,
-                      ),
+                      budgetFrom: startPriceController.text.isEmpty
+                          ? null
+                          : double.parse(
+                              startPriceController.text,
+                            ),
                       budgetTo: double.parse(
                         endPriceController.text,
                       ),
@@ -251,15 +244,19 @@ class _PostTaskPageState extends State<PostTaskPage> {
                           .format(startDate ?? DateTime.now()),
                       endDate: DateFormat("yyyy-MM-dd")
                           .format(endDate ?? DateTime.now()),
-                      startTime: startTime?.format(context),
-                      endTime: endTime?.format(context),
+                      startTime: startTime != null
+                          ? DateFormat.jms().format(startTime!)
+                          : null,
+                      endTime: endTime != null
+                          ? DateFormat.jms().format(endTime!)
+                          : null,
                       shareLocation: true,
                       isNegotiable: true,
                       location: addressController.text,
                       revisions: 0,
                       avatar: 2,
                       isProfessional: true,
-                      isOnline: true,
+                      isOnline: !isAddressVisibile,
                       isRequested: true,
                       discountType: "Percentage",
                       discountValue: '0.0',
@@ -271,10 +268,8 @@ class _PostTaskPageState extends State<PostTaskPage> {
                       event: "",
                       city: cityCode ?? int.parse(kCityCode),
                       currency: currencyCode ?? kCurrencyCode,
-                      images:
-                          context.read<UploadBloc>().state.uploadedImageList,
-                      videos:
-                          context.read<UploadBloc>().state.uploadedVideoList,
+                      images: uploadBloc.state.uploadedImageList,
+                      videos: uploadBloc.state.uploadedVideoList,
                     );
 
                     context.read<TaskEntityServiceBloc>().add(
@@ -405,48 +400,47 @@ class _PostTaskPageState extends State<PostTaskPage> {
             children: [
               Visibility(
                 visible: isBudgetVariable,
-                child: Flexible(
-                  child: Row(
-                    children: [
-                      NumberIncDecField(
-                        controller: startPriceController,
-                        validator: (p0) {
-                          if (isBudgetVariable) {
-                            return p0 == null || p0.isEmpty
-                                ? "Required Field"
-                                : null;
-                          }
-                          return null;
-                        },
-                        onChanged: (value) => setState(
-                          () {
-                            if (startPriceController.text.isNotEmpty)
-                              budgetFrom = getRecievableAmount(
-                                double.parse(startPriceController.text),
-                                double.parse(context
-                                        .read<CategoriesBloc>()
-                                        .state
-                                        .commission ??
-                                    "0.0"),
-                              );
-                          },
-                        ),
-                      ),
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                          ),
-                          child: const Text(
-                            "-",
-                          ),
-                        ),
-                      ),
-                    ],
+                child: Expanded(
+                  flex: 2,
+                  child: NumberIncDecField(
+                    controller: startPriceController,
+                    validator: (p0) {
+                      if (isBudgetVariable) {
+                        return p0 == null || p0.isEmpty
+                            ? "Required Field"
+                            : null;
+                      }
+                      return null;
+                    },
+                    onChanged: (value) => setState(
+                      () {
+                        if (startPriceController.text.isNotEmpty)
+                          budgetFrom = getRecievableAmount(
+                            double.parse(startPriceController.text),
+                            double.parse(context
+                                    .read<CategoriesBloc>()
+                                    .state
+                                    .commission ??
+                                "0.0"),
+                          );
+                      },
+                    ),
                   ),
                 ),
               ),
-              Flexible(
+              Visibility(
+                visible: isBudgetVariable,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                  child: const Text(
+                    "-",
+                  ),
+                ),
+              ),
+              Expanded(
+                flex: 2,
                 child: NumberIncDecField(
                   validator: (p0) =>
                       p0 == null || p0.isEmpty ? "Required" : null,
@@ -464,18 +458,27 @@ class _PostTaskPageState extends State<PostTaskPage> {
                   ),
                 ),
               ),
-              addHorizontalSpace(10),
               Flexible(
-                child: CustomDropDownField(
-                  list: const ['Project', 'Hourly', 'Daily', 'Monthly'],
-                  hintText: 'Per project',
-                  onChanged: (value) {
-                    setState(
-                      () {
-                        budgetType = value;
-                      },
-                    );
-                  },
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                  child: CustomDropDownField(
+                    list: const [
+                      'Project',
+                      'Hourly',
+                      'Daily',
+                      'Monthly',
+                    ],
+                    hintText: 'Per project',
+                    onChanged: (value) {
+                      setState(
+                        () {
+                          budgetType = value;
+                        },
+                      );
+                    },
+                  ),
                 ),
               ),
             ],
@@ -632,19 +635,35 @@ class _PostTaskPageState extends State<PostTaskPage> {
                 Flexible(
                   child: InkWell(
                     onTap: () async {
-                      await showTimePicker(
+                      await showCustomBottomSheet(
                         context: context,
-                        initialTime: TimeOfDay.now(),
-                      ).then(
-                        (value) => setState(
-                          () {
-                            startTime = value;
-                          },
+                        widget: SizedBox.fromSize(
+                          size: Size.fromHeight(250),
+                          child: CupertinoDatePicker(
+                            mode: CupertinoDatePickerMode.time,
+                            onDateTimeChanged: (value) => setState(
+                              () {
+                                startTime = value;
+                              },
+                            ),
+                          ),
                         ),
                       );
+                      // await showTimePicker(
+                      //   context: context,
+                      //   initialTime: TimeOfDay.now(),
+                      // ).then(
+                      //   (value) => setState(
+                      //     () {
+                      //       startTime = value;
+                      //     },
+                      //   ),
+                      // );
                     },
                     child: CustomFormContainer(
-                      hintText: startTime?.format(context) ?? 'hh:mm',
+                      hintText: startTime != null
+                          ? DateFormat.jm().format(startTime!)
+                          : 'hh:mm:ss',
                     ),
                   ),
                 ),
@@ -652,19 +671,36 @@ class _PostTaskPageState extends State<PostTaskPage> {
                 Flexible(
                   child: InkWell(
                     onTap: () async {
-                      await showTimePicker(
+                      await showCustomBottomSheet(
                         context: context,
-                        initialTime: TimeOfDay.now(),
-                      ).then(
-                        (value) => setState(
-                          () {
-                            endTime = value;
-                          },
+                        widget: SizedBox.fromSize(
+                          size: Size.fromHeight(250),
+                          child: CupertinoDatePicker(
+                            mode: CupertinoDatePickerMode.time,
+                            onDateTimeChanged: (value) => setState(
+                              () {
+                                endTime = value;
+                              },
+                            ),
+                          ),
                         ),
                       );
+
+                      // await showTimePicker(
+                      //   context: context,
+                      //   initialTime: TimeOfDay.now(),
+                      // ).then(
+                      //   (value) => setState(
+                      //     () {
+                      //       endTime = value;
+                      //     },
+                      //   ),
+                      // );
                     },
                     child: CustomFormContainer(
-                      hintText: endTime?.format(context) ?? 'hh:mm',
+                      hintText: endTime != null
+                          ? DateFormat.jm().format(endTime!)
+                          : 'hh:mm:ss',
                     ),
                   ),
                 ),

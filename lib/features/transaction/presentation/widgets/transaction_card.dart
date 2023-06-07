@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/theme/presentation/bloc/theme_bloc.dart';
-import 'package:cipher/widgets/widgets.dart';
 
 class TransactionCard extends StatefulWidget {
   final Widget? leadingWidget;

@@ -8,8 +8,6 @@ import 'package:flutter/material.dart';
 
 import '../../../../billing_payment_page/presentation/billing_payment_page.dart';
 import '../connected_account/connected_account_page.dart';
-import '../languages_page/languages_page.dart';
-import '../membership/membership.dart';
 
 class Settings extends StatelessWidget {
   const Settings({super.key});

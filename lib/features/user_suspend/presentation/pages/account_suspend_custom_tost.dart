@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import '../../../../core/constants/dimensions.dart';
 import '../../../../core/constants/paddings.dart';
 import '../../../../widgets/custom_elevated_button.dart';
-import '../../../support/presentation/support_ticket_page.dart';
 
 class AccountSuspendCustomToast extends StatelessWidget {
   const AccountSuspendCustomToast({
