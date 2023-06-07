@@ -1,19 +1,25 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/saved/data/models/req/saved_add_req.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+
+enum ServiceType { entityservice, task }
 
 class CustomFavoriteIcon extends StatefulWidget {
   const CustomFavoriteIcon({
     Key? key,
     required this.typeID,
     required this.type,
+    this.isBookmarked = false,
   }) : super(key: key);
 
   final String typeID;
-  final String type;
+  final ServiceType type;
+  final bool isBookmarked;
 
   @override
   State<CustomFavoriteIcon> createState() => _CustomFavoriteIconState();
@@ -23,41 +29,68 @@ class _CustomFavoriteIconState extends State<CustomFavoriteIcon> {
   String? objectId;
 
   @override
-  void initState() {
-    super.initState();
-    //TODO:refactor this
-    // context.read<SavedBloc>().add(SavedListLoaded(type: widget.type));
-  }
-
-  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<SavedBloc, SavedState>(
-      builder: (context, state) {
-        var favItem = state.savedModelRes?.result
-            ?.where((element) => element.objectId == widget.typeID)
-            .toList();
-        return GestureDetector(
-          onTap: () {
-            if (!CacheHelper.isLoggedIn) {
-              notLoggedInPopUp(context);
-            }
-            context.read<SavedBloc>().add(
-                  SavedAdded(
-                    savedAddReq: SavedAddReq(
-                      model: widget.type,
-                      objectId: widget.typeID,
-                    ),
-                  ),
-                );
-          },
-          child: Icon(
-            favItem?.isNotEmpty ?? false
-                ? Icons.bookmark
-                : Icons.bookmark_outline,
-            color: Colors.red,
-          ),
-        );
-      },
+    return BlocProvider(
+      create: (_) => locator<SavedBloc>(),
+      child: BlocBuilder<SavedBloc, SavedState>(
+        builder: (context, state) {
+          switch (state.theStates) {
+            case TheStates.initial:
+              return InkWell(
+                onTap: () {
+                  if (!CacheHelper.isLoggedIn) {
+                    notLoggedInPopUp(context);
+                  }
+                  context.read<SavedBloc>().add(
+                        SavedAdded(
+                          savedAddReq: SavedAddReq(
+                            model: widget.type.name,
+                            objectId: widget.typeID,
+                          ),
+                        ),
+                      );
+                },
+                child: Icon(
+                  widget.isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
+                  color: Colors.red,
+                ),
+              );
+            case TheStates.loading:
+              return context.watch<SavedBloc>().state.idToBeSaved == widget.typeID
+                  ? SizedBox(
+                      height: 15,
+                      width: 20,
+                      child: CircularProgressIndicator(strokeWidth: 1),
+                    )
+                  : Icon(
+                      widget.isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
+                      color: Colors.red,
+                    );
+            case TheStates.success:
+              return InkWell(
+                onTap: () {
+                  if (!CacheHelper.isLoggedIn) {
+                    notLoggedInPopUp(context);
+                  }
+                  context.read<SavedBloc>().add(
+                        SavedAdded(
+                          savedAddReq: SavedAddReq(
+                            model: widget.type.name,
+                            objectId: widget.typeID,
+                          ),
+                        ),
+                      );
+                },
+                child: Icon(
+                  state.savedAddRes?.status == 'add' ? Icons.bookmark : Icons.bookmark_border_outlined,
+                  color: Colors.red,
+                ),
+              );
+            default:
+              return SizedBox();
+          }
+        },
+      ),
     );
   }
 }

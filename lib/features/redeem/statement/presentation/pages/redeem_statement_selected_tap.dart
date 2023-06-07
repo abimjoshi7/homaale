@@ -1,4 +1,3 @@
-
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -15,9 +14,11 @@ class RedeemedStatementSelectedTap extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RedeemedBloc, RedeemStatementState>(
         builder: (BuildContext context, state) {
-          if (state.theState == TheStates.success) {
-            return Expanded(
-              child: ListView.separated(
+      if (state.theState == TheStates.success) {
+        return Expanded(
+          child: state.redeemStatement?.result?.length == 0
+              ? Text("No redeemed items founds.")
+              : ListView.separated(
                   itemBuilder: (BuildContext context, int index) {
                     return Container(
                       decoration: BoxDecoration(
@@ -35,9 +36,11 @@ class RedeemedStatementSelectedTap extends StatelessWidget {
                                   padding: const EdgeInsets.only(left: 8.0),
                                   child: Text(
                                     state.redeemStatement?.result?[index]
-                                        .objectRepr ??
+                                            .objectRepr ??
                                         '',
-                                    style: Theme.of(context).textTheme.headlineSmall,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
                                   ),
                                 ),
                               ),
@@ -51,15 +54,16 @@ class RedeemedStatementSelectedTap extends StatelessWidget {
                                 ),
                                 child: Center(
                                   child: Padding(
-                                    padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
                                     child: Text(
                                       state.redeemStatement?.result?[index]
-                                          .status ==
-                                          'spent'
+                                                  .status ==
+                                              'spent'
                                           ? "Redeemed"
-                                          : state.redeemStatement?.result?[index]
-                                          .status ?? "",
+                                          : state.redeemStatement
+                                                  ?.result?[index].status ??
+                                              "",
                                       style: TextStyle(
                                           color: Colors.red,
                                           fontSize: 12,
@@ -79,13 +83,12 @@ class RedeemedStatementSelectedTap extends StatelessWidget {
                                 Text(
                                     'Point : ${state.redeemStatement?.result?[index].points} Pts'),
                                 if (state.redeemStatement!.result![index]
-                                    .createdAt !=
+                                        .createdAt !=
                                     null)
                                   Text(getVerboseDateTimeRepresentation(state
                                       .redeemStatement!
                                       .result![index]
-                                      .createdAt!) ??
-                                      ""),
+                                      .createdAt!)),
                               ],
                             ),
                           ),
@@ -96,9 +99,9 @@ class RedeemedStatementSelectedTap extends StatelessWidget {
                   },
                   separatorBuilder: (context, index) => SizedBox(),
                   itemCount: state.redeemStatement?.result?.length ?? 0),
-            );
-          }
-          return CardLoading(height: 100);
-        });
+        );
+      }
+      return CardLoading(height: 100);
+    });
   }
 }

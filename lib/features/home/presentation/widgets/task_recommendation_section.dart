@@ -94,6 +94,7 @@ class _TasksRecommendationSectionState extends State<TasksRecommendationSection>
                           child: TaskCard(
                             isRange: state.taskEntityServiceModel.result?[index].isRange ?? false,
                             id: state.taskEntityServiceModel.result?[index].id,
+                            isBookmarked: state.taskEntityServiceModel.result?[index].isBookmarked,
                             isOwner: state.taskEntityServiceModel.result?[index].createdBy?.id ==
                                 context.read<UserBloc>().state.taskerProfile?.user?.id,
                             buttonLabel: state.taskEntityServiceModel.result?[index].createdBy?.id ==

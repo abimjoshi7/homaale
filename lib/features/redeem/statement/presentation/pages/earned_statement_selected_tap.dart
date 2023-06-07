@@ -17,7 +17,7 @@ class EarnedStatementSelectedTap extends StatelessWidget {
       if (state.theState == TheStates.initial) {
         CardLoading(height: 100);
       } else {
-        return state.redeemStatement?.result != null
+        return state.redeemStatement?.result?.length !=0
             ? Expanded(
                 child: ListView.separated(
                     itemBuilder: (BuildContext context, int index) {
@@ -92,8 +92,7 @@ class EarnedStatementSelectedTap extends StatelessWidget {
                                     Text(getVerboseDateTimeRepresentation(state
                                             .redeemStatement!
                                             .result![index]
-                                            .createdAt!) ??
-                                        ""),
+                                            .createdAt!)),
                                 ],
                               ),
                             ),

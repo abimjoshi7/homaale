@@ -1,4 +1,3 @@
-import 'package:cipher/features/redeem/data/models/request_redeem_list.dart';
 import 'package:dependencies/dependencies.dart';
 
 abstract class RedeemEvent extends Equatable {

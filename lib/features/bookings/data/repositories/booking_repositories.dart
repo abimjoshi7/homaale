@@ -74,14 +74,19 @@ class BookingRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> fetchBookingsList(
-      {bool? isTask, String? status, int? page}) async {
+  Future<Map<String, dynamic>> fetchBookingsList({
+    bool? isTask,
+    String? status,
+    int? page,
+    bool isSelf = false,
+  }) async {
     try {
       final x = await _dio.getDatawithCredential(
         query: {
           "page": page,
           "is_requested": isTask,
           "status": status,
+          "assigned_to_me": isSelf,
         },
         url: 'task/entity/service/task/list/',
         token: CacheHelper.accessToken,

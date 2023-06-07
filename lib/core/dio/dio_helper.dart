@@ -152,6 +152,8 @@ class DioHelper {
 
                 return handler.next(err);
               }
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('username')) {
             } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('detail')) {
@@ -223,32 +225,27 @@ class DioHelper {
                 );
 
                 // Update the access and refresh token
-                CacheHelper.accessToken =
-                    await response.data['access'] as String?;
-                CacheHelper.refreshToken =
-                    await response.data['refresh'] as String?;
+                CacheHelper.accessToken = await response.data['access'] as String?;
+                CacheHelper.refreshToken = await response.data['refresh'] as String?;
               } catch (_) {
                 rethrow;
               }
 
               // Update the access token in the request headers
-              err.requestOptions.headers['Authorization'] =
-                  'Bearer ${CacheHelper.accessToken}';
+              err.requestOptions.headers['Authorization'] = 'Bearer ${CacheHelper.accessToken}';
 
               // Retry the original request
-              Response retryResponse =
-                  await dio.request(err.requestOptions.path,
-                      options: Options(
-                        contentType: err.requestOptions.contentType,
-                        headers: err.requestOptions.headers,
-                        method: err.requestOptions.method,
-                      ));
+              Response retryResponse = await dio.request(err.requestOptions.path,
+                  options: Options(
+                    contentType: err.requestOptions.contentType,
+                    headers: err.requestOptions.headers,
+                    method: err.requestOptions.method,
+                  ));
 
               // Return the retry response
               return handler.resolve(retryResponse);
             } catch (e) {
-              print(
-                  'OUTSIDE ERROR[$statusCode] => PATH: $requestPath => MSG: $e');
+              print('OUTSIDE ERROR[$statusCode] => PATH: $requestPath => MSG: $e');
 
               Navigator.pushNamedAndRemoveUntil(
                 navigationKey.currentContext!,
@@ -260,6 +257,14 @@ class DioHelper {
           case 201:
             // Handle 201 Created
             // Your code here
+            Fluttertoast.showToast(
+                msg: "Success: Congratulations",
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: kColorLightGrey,
+                textColor: Colors.white,
+                fontSize: 16.0);
             break;
           case 403:
             // Handle 403 Forbidden
@@ -301,10 +306,7 @@ class DioHelper {
       await CacheHelper.clearCachedData(kErrorLog).whenComplete(
         () async => CacheHelper.setCachedString(
           kErrorLog,
-          e.response!.data
-              .toString()
-              .toTitleCase()
-              .replaceAll(RegExp(r'[^\w\s]+'), ''),
+          e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
         ),
       );
 
@@ -344,29 +346,8 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken().then(
-          (value) => getDatawithCredential(
-            url: url,
-            query: query,
-            token: token,
-          ),
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          e.response!.data
-              .toString()
-              .toTitleCase()
-              .replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-
-      log('DIO GET WITH CREDENTIAL ERROR: ${e.response?.data}');
+    } on DioError catch (_) {
+      rethrow;
     }
   }
 
@@ -411,27 +392,8 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken();
-        patchDataWithCredential(
-          url: url,
-          data: data,
-          token: token,
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          e.response!.data
-              .toString()
-              .toTitleCase()
-              .replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-      log('DIO PATCH WITH CREDENTIAL ERROR: ${e.response?.data}');
+    } on DioError catch (_) {
+      rethrow;
     }
   }
 
@@ -452,27 +414,8 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken();
-        deleteDataWithCredential(
-          url: url,
-          id: id,
-          token: token,
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          e.response!.data
-              .toString()
-              .toTitleCase()
-              .replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-      log('DIO PATCH WITH CREDENTIAL ERROR: ${e.response?.data}');
+    } on DioError catch (_) {
+      rethrow;
     }
   }
 
@@ -520,28 +463,7 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken();
-        postMultiFormData(
-          url: url,
-          path: path,
-          token: token,
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          e.response!.data
-              .toString()
-              .toTitleCase()
-              .replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-      log('DIO POST MULTI FORM DATA ERROR: ${e.response?.data}');
-    } catch (e) {
+    } on DioError catch (_) {
       rethrow;
     }
   }
@@ -564,44 +486,7 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken();
-        postFormData(
-          url: url,
-          map: map,
-          token: token,
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      List<String> errorMsgs = e.response!.data
-          .toString()
-          .replaceAll('{', '')
-          .replaceAll('}', '')
-          .split(',');
-      // Remove the keys from each string in the array
-      for (int i = 0; i < errorMsgs.length; i++) {
-        errorMsgs[i] = errorMsgs[i].substring(errorMsgs[i].indexOf(':') + 2);
-      }
-
-      final String cleanedMsg = errorMsgs
-          .join('\n')
-          .replaceAll('[', '')
-          .replaceAll(']', '')
-          .toTitleCase();
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          (e.response?.statusCode == 400)
-              ? cleanedMsg
-              : e.response!.data
-                  .toString()
-                  .toTitleCase()
-                  .replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-      log('DIO POST FORM DATA ERROR: ${e.response?.data}');
+    } on DioError catch (_) {
       rethrow;
     }
   }
@@ -626,27 +511,8 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken();
-        patchFormData(
-          url: url,
-          map: map,
-          token: token,
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          e.response!.data
-              .toString()
-              .toTitleCase()
-              .replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-      log('DIO PATCH FORM DATA ERROR: ${e.response?.data}');
+    } on DioError catch (_) {
+      rethrow;
     }
   }
 

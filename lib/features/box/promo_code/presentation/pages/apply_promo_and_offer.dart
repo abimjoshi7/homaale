@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import '../../../../../core/cache/cache_helper.dart';
 import '../../../../../core/constants/enums.dart';
 import '../../../../../core/constants/strings.dart';
-import '../../../../../core/constants/text.dart';
 import '../../../../../core/constants/validations.dart';
 import '../../../../../widgets/custom_elevated_button.dart';
 import '../../../../../widgets/custom_form_field.dart';

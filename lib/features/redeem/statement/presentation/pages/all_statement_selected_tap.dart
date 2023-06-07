@@ -15,7 +15,7 @@ class AllStatementSelectedTap extends StatelessWidget {
     return BlocBuilder<RedeemStatementBloc, RedeemStatementState>(
         builder: (BuildContext context, state) {
       return state.theState == TheStates.success ? Expanded(
-        child: ListView.separated(
+        child:  state.redeemStatement?.result?.length ==0 ? Text('Items not found.'):ListView.separated(
             itemBuilder: (BuildContext context, int index) {
               return Container(
                 decoration: BoxDecoration(

@@ -37,7 +37,7 @@ class MultimediaPickHelper {
       return await AssetPicker.pickAssets(
         context,
         pickerConfig: AssetPickerConfig(
-          maxAssets: 5,
+          maxAssets: type == RequestType.image ? 5 : 2,
           textDelegate: EnglishAssetPickerTextDelegate(),
           requestType: type,
         ),
@@ -46,7 +46,7 @@ class MultimediaPickHelper {
       );
     } catch (e) {
       log("ASSET PICK ERROR: $e");
-      rethrow;
+      throw Exception(e.toString());
     }
   }
 }

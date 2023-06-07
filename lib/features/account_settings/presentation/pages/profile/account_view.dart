@@ -31,25 +31,17 @@ import '../../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
 import '../../../../user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 import '../../../../wallet/presentation/wallet_page.dart';
 
-class AccountView extends StatelessWidget {
+
+class AccountView extends StatefulWidget {
   static const routeName = '/account';
 
-  const AccountView({Key? key}) : super(key: key);
+  const AccountView({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return AccountViewMain();
-  }
+  State<AccountView> createState() => _AccountViewState();
 }
 
-class AccountViewMain extends StatefulWidget {
-  const AccountViewMain({super.key});
-
-  @override
-  State<AccountViewMain> createState() => _AccountViewMainState();
-}
-
-class _AccountViewMainState extends State<AccountViewMain> {
+class _AccountViewState extends State<AccountView> {
   bool isDark = false;
 
   void checkAppMode() async {

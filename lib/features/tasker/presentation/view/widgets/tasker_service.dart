@@ -1,4 +1,3 @@
-import 'package:cipher/core/constants/api_constants.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -8,6 +7,9 @@ import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/widgets/service_card.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../../core/constants/api_constants.dart';
+import '../../../../user/presentation/bloc/user/user_bloc.dart';
 
 class TaskerService extends StatefulWidget {
   const TaskerService({super.key, this.service});
@@ -53,18 +55,29 @@ class _TaskerServiceState extends State<TaskerService> {
                       );
                     },
                     child: ServiceCard(
+                      location: state.service.result?[index].location == ""
+                          ? "Remote"
+                          : state.service.result?[index].location,
+                      createdBy:
+                          "${state.service.result?[index].createdBy?.firstName} ${state.service.result?[index].createdBy?.lastName}",
+                      title: state.service.result?[index].title,
                       imagePath: state.service.result?[index].images?.length == 0
                           ? kServiceImageNImg
                           : state.service.result?[index].images?.first.media,
-                      title: state.service.result?[index].title ?? 'Title',
-                      location: state.service.result?[index].city?.name ?? 'City',
-                      rating: state.service.result?[index].rating?.toString() ?? '0',
                       shareCallback: () {
                         Share.share(
                           "$kShareLinks/service/${state.service.result?[index].id}",
                           subject: state.service.result?[index].title,
                         );
                       },
+                      rating: state.service.result?[index].rating.toString(),
+                      isRange: state.service.result?[index].isRange,
+                      rateTo: double.parse(state.service.result?[index].payableTo ?? "").toInt().toString(),
+                      rateFrom: double.parse(state.service.result?[index].payableFrom ?? "").toInt().toString(),
+                      isBookmarked: state.service.result?[index].isBookmarked,
+                      isOwner: state.service.result?[index].owner?.id ==
+                          context.read<UserBloc>().state.taskerProfile?.user?.id,
+                      id: state.service.result?[index].id,
                     ),
                   ),
                 ),

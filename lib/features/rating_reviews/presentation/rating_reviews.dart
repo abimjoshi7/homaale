@@ -1,11 +1,9 @@
-import 'dart:developer';
 
 import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/date_time_representation.dart';
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
-import 'package:cipher/widgets/bottom_loader.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';

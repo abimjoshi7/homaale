@@ -1,4 +1,3 @@
-import 'package:cipher/core/constants/date_time_representation.dart';
 import 'package:cipher/features/redeem/data/models/redeem_items_detail.dart';
 import 'package:cipher/features/redeem/data/models/request_redeem_list.dart';
 import 'package:cipher/features/redeem/presentation/bloc/redeem.event.dart';
@@ -63,7 +62,7 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
                   ),
                   itemCount: state.hasReachedMax
                       ? state.redeem.length
-                      : state.redeem.length + 1 ?? 0,
+                      : state.redeem.length + 1 ,
                   itemBuilder: (BuildContext context, int index) {
                     return index >= state.redeem.length
                         ? BottomLoader()
@@ -103,8 +102,7 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
                                         addHorizontalSpace(10),
                                         AutoSizeText(
                                           state.redeem[index].redeemPoints
-                                                  .toString() ??
-                                              "",
+                                                  .toString() ,
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleMedium,
@@ -232,7 +230,7 @@ class _AlertDialogueOfRedeemItemsDetailsState
               addHorizontalSpace(30),
               Image.asset('assets/reward.png'),
               addHorizontalSpace(5),
-              Text(ItemDetails.redeemPoints.toString() ?? ""),
+              Text(ItemDetails.redeemPoints.toString()),
             ],
           ),
           addVerticalSpace(5),
@@ -345,18 +343,17 @@ class _AlertDialogueOfRedeemItemsDetailsState
                           context.read<RedeemBloc>().state.redeem.first.id ??
                               0));
                   Navigator.pop(context);
-                  showDialog(
-                    context: context,
-                    builder: (context) => CustomToast(
-                        heading: state.redeemSubmitResponse.status == 'success'
-                            ? 'Congratulations'
-                            : 'Make Sure You have enough Redeem Points.',
-                        content: state.redeemSubmitMessage ?? "",
-                        onTap: () {
-                          Navigator.pop(context);
-                        },
-                        isSuccess: true),
-                  );
+                  if (state.redeemSubmitResponse.status == 'success')
+                    showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                          heading: state.redeemSubmitResponse.status ?? "",
+                          content: state.redeemSubmitMessage ,
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          isSuccess: true),
+                    );
                 }
               },
               label: 'Redeem Now',

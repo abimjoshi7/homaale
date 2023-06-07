@@ -6,12 +6,15 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 
 class VideoPickerDialog extends StatelessWidget {
+  final UploadBloc bloc;
   const VideoPickerDialog({
     Key? key,
+    required this.bloc,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<UploadBloc, UploadState>(
+      bloc: bloc,
       builder: (context, state) {
         return AlertDialog(
           title: Padding(
@@ -38,12 +41,12 @@ class VideoPickerDialog extends StatelessWidget {
                   onTap: () {
                     Future.delayed(
                       Duration.zero,
-                      () => context.read<UploadBloc>().add(
-                            VideoUploaded(
-                              context: context,
-                              isCamera: true,
-                            ),
-                          ),
+                      () => bloc.add(
+                        VideoUploaded(
+                          context: context,
+                          isCamera: true,
+                        ),
+                      ),
                     ).whenComplete(
                       () => Navigator.pop(
                         context,
@@ -62,12 +65,12 @@ class VideoPickerDialog extends StatelessWidget {
                   onTap: () {
                     Future.delayed(
                       Duration.zero,
-                      () => context.read<UploadBloc>().add(
-                            VideoUploaded(
-                              context: context,
-                              isCamera: false,
-                            ),
-                          ),
+                      () => bloc.add(
+                        VideoUploaded(
+                          context: context,
+                          isCamera: false,
+                        ),
+                      ),
                     ).whenComplete(
                       () => Navigator.pop(
                         context,
