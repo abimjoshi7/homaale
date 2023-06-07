@@ -11,12 +11,7 @@ class UploadHelper {
     required this.context,
   });
 
-  Future<void> _upload() async {
-    await _uploadImage();
-    await _uploadVideo();
-  }
-
-  Future<void> _uploadImage() async {
+  Future<void> uploadImage() async {
     if (bloc.state.isImageUploaded || bloc.state.imageFileList.isEmpty) return;
     if (!bloc.state.isImageUploaded) {
       showDialog(
@@ -32,28 +27,10 @@ class UploadHelper {
           list: bloc.state.imageFileList,
         ),
       );
-      _uploadImage();
     }
-
-    // ..add(
-    //   VideoToFilestoreUploaded(
-    //     list: uploadBloc.state.videoFileList,
-    //   ),
-    // )
-    // ..add(
-    //   ImageToFilestoreUploaded(
-    //     list: uploadBloc.state.imageFileList,
-    //   ),
-    // );
-
-    // await Future.delayed(
-    //   Duration(
-    //     seconds: 15,
-    //   ),
-    // );
   }
 
-  Future _uploadVideo() async {
+  Future uploadVideo() async {
     if (bloc.state.isVideoUploaded || bloc.state.videoFileList.isEmpty) return;
     if (!bloc.state.isVideoUploaded) {
       showDialog(
@@ -69,11 +46,6 @@ class UploadHelper {
           list: bloc.state.videoFileList,
         ),
       );
-      _uploadVideo();
     }
   }
-
-  Future<void> upload() => _upload();
-  Future<void> uploadImage() => _uploadImage();
-  Future<void> uploadVideo() => _uploadVideo();
 }

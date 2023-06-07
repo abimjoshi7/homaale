@@ -77,12 +77,12 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             RequestType.image,
           ).then(
             (value) async {
-              emit(
-                state.copyWith(
-                  isLoading: true,
-                ),
-              );
               if (value != null) {
+                emit(
+                  state.copyWith(
+                    isLoading: true,
+                  ),
+                );
                 List<String> list = [];
                 if (state.imageFileList.length == 0) {
                   for (final AssetEntity element in value) {

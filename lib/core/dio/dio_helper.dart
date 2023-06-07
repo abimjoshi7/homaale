@@ -412,7 +412,6 @@ class DioHelper {
             'medias': [
               await MultipartFile.fromFile(
                 path,
-                contentType: MediaType('image', 'jpeg'),
               ),
             ],
           },
@@ -426,7 +425,6 @@ class DioHelper {
                 "medias",
                 await MultipartFile.fromFile(
                   pathList?[i] ?? "",
-                  contentType: MediaType('image', 'jpeg'),
                 ),
               ),
             ],
