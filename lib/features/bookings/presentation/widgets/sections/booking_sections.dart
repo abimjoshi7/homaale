@@ -12,6 +12,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../pages/booking_item_detail_page.dart';
+
 enum BookingSectionType { todo, myBooking }
 
 class BookingSection extends StatefulWidget {

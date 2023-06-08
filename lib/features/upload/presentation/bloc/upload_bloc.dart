@@ -255,33 +255,41 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
     on<ImageToFilestoreUploaded>(
       (event, emit) async {
         try {
-          await repo
-              .fetchFileStore(
-            event.list,
-          )
-              .then(
-            (value) {
-              if (value["status"] == "success" && value["data"] != null) {
-                emit(
-                  state.copyWith(
-                    uploadedImageList: List<int>.from(
-                      value["data"] as Iterable,
+          if (event.list.length == 0)
+            emit(
+              state.copyWith(
+                isImageUploaded: true,
+              ),
+            );
+          else {
+            await repo
+                .fetchFileStore(
+              event.list,
+            )
+                .then(
+              (value) {
+                if (value["status"] == "success" && value["data"] != null) {
+                  emit(
+                    state.copyWith(
+                      uploadedImageList: List<int>.from(
+                        value["data"] as Iterable,
+                      ),
+                      isImageUploaded: true,
                     ),
-                    isImageUploaded: true,
-                  ),
-                );
-              }
-            },
-          ).then(
-            (_) {
-              if (state.isImageUploaded == true)
-                emit(
-                  state.copyWith(
-                    theStates: TheStates.success,
-                  ),
-                );
-            },
-          );
+                  );
+                }
+              },
+            ).then(
+              (_) {
+                if (state.isImageUploaded == true)
+                  emit(
+                    state.copyWith(
+                      theStates: TheStates.success,
+                    ),
+                  );
+              },
+            );
+          }
         } catch (e) {
           log("UPLOAD TO FILESTORE ERROR: $e");
           emit(
@@ -297,35 +305,38 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
 
     on<VideoToFilestoreUploaded>(
       (event, emit) async {
-        // emit(
-        //   state.copyWith(
-        //     theStates: TheStates.loading,
-        //   ),
-        // );
         try {
-          await repo.fetchFileStore(event.list).then(
-            (value) {
-              if (value["status"] == "success" && value["data"] != null) {
-                emit(
-                  state.copyWith(
-                    uploadedVideoList: List<int>.from(
-                      value["data"] as Iterable,
+          if (event.list.length == 0)
+            emit(
+              state.copyWith(
+                isVideoUploaded: true,
+              ),
+            );
+          else {
+            await repo.fetchFileStore(event.list).then(
+              (value) {
+                if (value["status"] == "success" && value["data"] != null) {
+                  emit(
+                    state.copyWith(
+                      uploadedVideoList: List<int>.from(
+                        value["data"] as Iterable,
+                      ),
+                      isVideoUploaded: true,
                     ),
-                    isVideoUploaded: true,
-                  ),
-                );
-              }
-            },
-          ).then(
-            (_) {
-              if (state.isVideoUploaded == true)
-                emit(
-                  state.copyWith(
-                    theStates: TheStates.success,
-                  ),
-                );
-            },
-          );
+                  );
+                }
+              },
+            ).then(
+              (_) {
+                if (state.isVideoUploaded == true)
+                  emit(
+                    state.copyWith(
+                      theStates: TheStates.success,
+                    ),
+                  );
+              },
+            );
+          }
         } catch (e) {
           log("UPLOAD TO FILESTORE ERROR: $e");
           emit(

@@ -100,7 +100,7 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                               if (!CacheHelper.isLoggedIn) return;
                               final box = context.findRenderObject() as RenderBox?;
                               Share.share(
-                                "https://sandbox.homaale.com/services/${state.taskEntityService?.id}",
+                                "$kShareLinks/services/${state.taskEntityService?.id}",
                                 subject: state.taskEntityService?.title,
                                 sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                               );
@@ -122,14 +122,14 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                               onTap: () {
                                 context
                                     .read<SupportTicketTypeOptionsBloc>()
-                                    .add(SupportTicketTypeOptionsLoaded(target: 'entityservice'));
+                                    .add(SupportTicketTypeOptionsLoaded(target: 'task'));
                                 Navigator.pushNamed(
                                   context,
                                   CommonReportPage.routeName,
                                   arguments: {
                                     'isType': 'isTask',
                                     'model': 'entityservice',
-                                    'objectId': state.taskEntityService?.createdBy?.id
+                                    'objectId': state.taskEntityService?.id
                                   },
                                 );
                               },

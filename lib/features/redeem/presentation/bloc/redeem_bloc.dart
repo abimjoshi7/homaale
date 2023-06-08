@@ -23,8 +23,8 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
     this.repositories,
   ) : super(RedeemState()) {
     on<SetToInitial>((event, emit) {
-      emit(state.copyWith(status: RedeemStatus.initial));
-      add(FetchRedeemList(offerType: 'promo_code'));
+      emit(state.copyWith(status: RedeemStatus.initial, hasReachedMax: false));
+      add(FetchRedeemList(offerType: event.offerType));
     });
     on<FetchRedeemList>(
       (event, emit) async {
@@ -37,9 +37,10 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
               status: RedeemStatus.success,
               redeem: redeemList,
               redeemList: redeem,
+              hasReachedMax:
+                  state.redeemList.current == state.redeemList.totalPages,
             ));
           }
-
           if (state.redeemList.current != state.redeemList.totalPages) {
             final redeem = await repositories.fetchRedeemList(
                 event.offerType, state.redeemList.current! + 1);
@@ -66,14 +67,14 @@ class RedeemBloc extends Bloc<RedeemEvent, RedeemState> {
         emit(
           state.copyWith(theStates: TheStates.initial),
         );
-        await repositories.fetchRedeemItemDetails(event.redeemId).then(
-              (value) => emit(
-                state.copyWith(
-                  theStates: TheStates.success,
-                  redeemItemsDetail: RedeemItemsDetail.fromJson(value),
-                ),
-              ),
-            );
+        final service =
+            await repositories.fetchRedeemItemDetails(event.redeemId);
+        final entityService = service.entityServices;
+        return emit(state.copyWith(
+          status: RedeemStatus.success,
+          entityService: entityService,
+          redeemItemsDetail: service,
+        ));
       } catch (e) {
         emit(
           state.copyWith(theStates: TheStates.failure),

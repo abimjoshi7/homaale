@@ -18,6 +18,7 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/api_constants.dart';
 import '../../../support/presentation/bloc/support_ticket_type_options_bloc.dart';
 import '../../../support/presentation/bloc/support_ticket_type_options_event.dart';
 
@@ -134,7 +135,7 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                                           if (CacheHelper.isLoggedIn == true) {
                                             final box = context.findRenderObject() as RenderBox?;
                                             Share.share(
-                                              "https://sandbox.homaale.com/bookings/${state.singleTasker.id}",
+                                              "$kShareLinks/bookings/${state.singleTasker.id}",
                                               subject: state.singleTasker.fullName,
                                               sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                                             );

@@ -12,6 +12,11 @@ class UploadHelper {
   });
 
   Future<void> uploadImage() async {
+    bloc.add(
+      ImageToFilestoreUploaded(
+        list: bloc.state.imageFileList,
+      ),
+    );
     if (bloc.state.isImageUploaded || bloc.state.imageFileList.isEmpty) return;
     if (!bloc.state.isImageUploaded) {
       showDialog(
@@ -31,6 +36,11 @@ class UploadHelper {
   }
 
   Future uploadVideo() async {
+    bloc.add(
+      VideoToFilestoreUploaded(
+        list: bloc.state.videoFileList,
+      ),
+    );
     if (bloc.state.isVideoUploaded || bloc.state.videoFileList.isEmpty) return;
     if (!bloc.state.isVideoUploaded) {
       showDialog(

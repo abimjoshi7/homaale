@@ -16,7 +16,8 @@ import '../../../../../widgets/custom_toast.dart';
 class PromoCodeAddSection extends StatefulWidget {
   final String orderId;
 
-  const PromoCodeAddSection({Key? key,required this.orderId}) : super(key: key);
+  const PromoCodeAddSection({Key? key, required this.orderId})
+      : super(key: key);
 
   @override
   State<PromoCodeAddSection> createState() => _PromoCodeAddSectionState();
@@ -59,20 +60,19 @@ class _PromoCodeAddSectionState extends State<PromoCodeAddSection> {
           ),
         );
       }
-      if (state.theState == TheStates.failure) {
-        if (!mounted) return;
-        await showDialog(
-          context: context,
-          builder: (context) => CustomToast(
-            heading: 'Failure',
-            content: error ?? "Please try again.",
-            onTap: () {},
-            isSuccess: false,
-          ),
-        );
-      }
-    },
-        builder: (context, state) {
+      // if (state.theState == TheStates.failure) {
+      //   if (!mounted) return;
+      //   await showDialog(
+      //     context: context,
+      //     builder: (context) => CustomToast(
+      //       heading: 'Failure',
+      //       content: error ?? "Please try again.",
+      //       onTap: () {},
+      //       isSuccess: false,
+      //     ),
+      //   );
+      // }
+    }, builder: (context, state) {
       return Column(
         children: [
           GestureDetector(
@@ -95,8 +95,7 @@ class _PromoCodeAddSectionState extends State<PromoCodeAddSection> {
                   'Add voucher or promo code ',
                   style: _isShowVoucher
                       ? Theme.of(context).textTheme.headlineSmall
-                      : TextStyle(
-                          fontWeight: FontWeight.bold, color:Theme.of(context).textTheme.bodySmall?.color),
+                      : Theme.of(context).textTheme.displayLarge,
                 ),
               ),
             ),
@@ -113,7 +112,6 @@ class _PromoCodeAddSectionState extends State<PromoCodeAddSection> {
                           _formKey.currentState!.save();
                           context.read<PromoCodeApplyBloc>().add(PromoCodeApply(
                               uuid: widget.orderId,
-                              // '7b8eabe2-82ad-4dc3-ac43-82bbdca64783',
                               offer_type: 'promo_code',
                               code: textEditingVoucherController.text));
                           setState(() {
@@ -194,8 +192,8 @@ class AddVoucherAndOffersContainer extends StatelessWidget {
       padding: EdgeInsets.only(left: 20),
       decoration: BoxDecoration(
         color:
-        // Theme.of(context).cardColor
-        Colors.blue.shade50,
+            // Theme.of(context).cardColor
+            Colors.blue.shade50,
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -207,7 +205,7 @@ class AddVoucherAndOffersContainer extends StatelessWidget {
             children: [
               SizedBox(
                 width: 220,
-                height: 100 ,
+                height: 100,
                 child: CustomFormField(
                   child: CustomTextFormField(
                     controller: controller,
@@ -228,7 +226,9 @@ class AddVoucherAndOffersContainer extends StatelessWidget {
                   },
                 ),
               ),
-              SizedBox(width: 10,),
+              SizedBox(
+                width: 10,
+              ),
             ],
           ),
         ],

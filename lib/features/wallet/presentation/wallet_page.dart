@@ -127,7 +127,8 @@ class _WalletMainViewState extends State<WalletMainView> {
                       callback: () {
                         if (state.walletModel.length == 0) {
                           return;
-                        } else if (Decimal.parse(state.walletModel.first.availableBalance.toString()) != 0.0) {
+                        } else if
+                        (Decimal.parse(state.walletModel.first.availableBalance.toString()) != 0.0) {
                           Navigator.pushNamed(
                             context,
                             WithdrawPage.routeName,

@@ -13,3 +13,11 @@ class PaymentIntentInitiated extends PaymentIntentEvent {
   @override
   List<Object?> get props => [ provider,uuid];
 }
+
+class PaymentInitiatedZeroAmount extends PaymentIntentEvent {
+  final String uuid;
+
+  const PaymentInitiatedZeroAmount ({required this.uuid});
+  @override
+  List<Object?> get props => [uuid];
+}

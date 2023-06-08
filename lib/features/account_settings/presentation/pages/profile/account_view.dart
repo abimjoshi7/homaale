@@ -32,8 +32,10 @@ import '../../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
 import '../../../../user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 import '../../../../wallet/presentation/wallet_page.dart';
 
+
 class AccountView extends StatefulWidget {
   static const routeName = '/account';
+
   const AccountView({super.key});
 
   @override
@@ -140,50 +142,50 @@ class _AccountViewState extends State<AccountView> {
                     )
                   ],
                 ),
-                BlocProvider(
-                  create: (context) => WalletBloc(),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          context
-                              .read<RedeemBloc>()
-                              .add(FetchRedeemList(offerType: 'promo_code'));
-                          context
-                              .read<RedeemStatementBloc>()
-                              .add(StatementListInitiated());
-                          context
-                              .read<EarnedBloc>()
-                              .add(StatementStatusInitiated(status: 'earned'));
-                          context
-                              .read<RedeemedBloc>()
-                              .add(StatementStatusInitiated(status: 'spent'));
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        context
+                            .read<RedeemStatementBloc>()
+                            .add(StatementListInitiated());
+                        context
+                            .read<EarnedBloc>()
+                            .add(StatementStatusInitiated(status: 'earned'));
+                        context
+                            .read<RedeemedBloc>()
+                            .add(StatementStatusInitiated(status: 'spent'));
 
-                          Navigator.pushNamed(
-                            context,
-                            RedeemPage.routeName,
-                          );
-                        },
-                        child: ProfileStatsCard(
-                          imagePath: 'assets/reward.png',
-                          label: 'Reward Points',
-                          value: state.taskerProfile?.points.toString() ?? '0',
-                        ),
+                        Navigator.pushNamed(
+                          context,
+                          RedeemPage.routeName,
+                        );
+                        context
+                            .read<RedeemBloc>()
+                            .add(FetchRedeemList(offerType: 'promo_code'));
+                      },
+                      child: ProfileStatsCard(
+                        imagePath: 'assets/reward.png',
+                        label: 'Reward Points',
+                        value: state.taskerProfile?.points.toString() ?? '0',
                       ),
-                      BlocBuilder<WalletBloc, WalletState>(
+                    ),
+                    BlocBuilder<WalletBloc, WalletState>(
                         builder: (context, walletState) {
+                      switch (state.theStates) {
+                        case TheStates.success:
                           return ProfileStatsCard(
                             imagePath: 'assets/wallet.png',
                             label: 'Account Balance',
-                            value: walletState.walletModel.length == 0
-                                ? 'Rs. 0'
-                                : "Rs. ${walletState.walletModel.first.availableBalance.toString()}",
+                            value:
+                                '${walletState.walletModel.isNotEmpty ? Decimal.parse(context.read<WalletBloc>().state.walletModel.first.availableBalance.toString()) : '0'}',
                           );
-                        },
-                      ),
-                    ],
-                  ),
+                        default:
+                          return CardLoading(height: 200);
+                      }
+                    }),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(

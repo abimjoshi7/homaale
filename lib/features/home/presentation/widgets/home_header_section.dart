@@ -17,6 +17,8 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../wallet/presentation/bloc/wallet_bloc.dart';
+
 class HomeHeaderSection extends StatefulWidget {
   const HomeHeaderSection({super.key});
 
@@ -167,6 +169,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       onTap: () {
                         if (CacheHelper.isLoggedIn) {
                           log(CacheHelper.accessToken ?? "");
+                          context.read<WalletBloc>().add(WalletLoaded());
                           Navigator.pushNamed(
                             context,
                             AccountView.routeName,

@@ -124,7 +124,7 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                                   width: MediaQuery.of(context).size.width / 4,
                                   child: Text(
                                       '${retriveState.orderItemRetriveList?.orderItem![index].task?.currency}'
-                                      '   ${Decimal.parse(retriveState.orderItemRetriveList?.orderItem![index].amount ?? "0.0")}'),
+                                      '   ${Decimal.parse(retriveState.orderItemRetriveList?.orderItem![index].amount ?? "0.0").toStringAsFixed(2)}'),
                                 ),
                                 SizedBox(
                                   child: Text(
@@ -208,8 +208,7 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                                     uuid: orderID,
                                   ),
                                 );
-                            print(
-                                'stripe: ${paymentTypeState.paymentType?.result![paymentTypeState.currentIndex!].slug}');
+                            print(orderID);
                           },
                           label: 'Confirm Payment',
                         );
