@@ -1,7 +1,6 @@
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:cipher/features/bloc/infinite_repo.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -17,12 +16,13 @@ EventTransformer<E> throttleDroppable<E>(Duration duration) {
 }
 
 class ScrollBloc extends Bloc<ScrollEvent, ScrollState> {
-  ScrollBloc() : super(const ScrollState()) {
+  ScrollBloc() : super(ScrollState()) {
     on<FetchItemsEvent>(transformer: throttleDroppable(throttleDuration),
         (event, emit) async {
       if (!event.newFetch && state.hasReachedMax == true) return;
       if (state.theState == TheStates.initial) {
         final res = await InifiniteRepo().fetchItems(event.url, event.data);
+
         emit(
           state.copyWith(
             hasReachedMax: res["next"] == null,
@@ -38,6 +38,9 @@ class ScrollBloc extends Bloc<ScrollEvent, ScrollState> {
         if (res["next"] == null)
           emit(state.copyWith(
             hasReachedMax: true,
+            theState: TheStates.success,
+            result: List.of(state.result)..addAll(res["result"] as Iterable),
+            pageIndex: res["current"] as int,
           ));
         else {
           emit(
@@ -52,27 +55,5 @@ class ScrollBloc extends Bloc<ScrollEvent, ScrollState> {
         }
       }
     });
-  }
-}
-
-class InifiniteRepo {
-  final dio = DioHelper();
-
-  fetchItems(String url, Map<String, dynamic> data,
-      [int startIndex = 1]) async {
-    try {
-      final dats = data;
-
-      dats.addAll({'page': startIndex});
-
-      final res = await dio.getDatawithCredential(
-        url: url,
-        token: CacheHelper.accessToken,
-        query: dats,
-      );
-      return res as Map<String, dynamic>;
-    } catch (e) {
-      rethrow;
-    }
   }
 }

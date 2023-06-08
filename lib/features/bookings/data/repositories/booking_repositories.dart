@@ -88,7 +88,7 @@ class BookingRepositories {
           "status": status,
           "assigned_to_me": isSelf,
         },
-        url: 'task/entity/service/task/list/',
+        url: kBookingList,
         token: CacheHelper.accessToken,
       );
       return x as Map<String, dynamic>;
