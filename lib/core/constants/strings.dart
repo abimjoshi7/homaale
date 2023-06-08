@@ -31,3 +31,9 @@ const kCityCode = "26064";
 
 //Currency code
 const kCurrencyCode = "NPR";
+
+//Language code
+const kLanguageCode = "ne";
+
+//Country code
+const kCountryCode = "NP";

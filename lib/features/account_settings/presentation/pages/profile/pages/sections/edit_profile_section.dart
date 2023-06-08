@@ -124,21 +124,26 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                         addVerticalSpace(10),
                         Stack(
                           children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
-                              width: 100,
-                              height: 100,
-                              child: uploadBloc.state.imageFileList.isNotEmpty
-                                  ? Image.file(
-                                      File(
-                                        uploadBloc.state.imageFileList.last,
-                                      ),
-                                    )
-                                  : Image.network(
-                                      profilePicture ?? kServiceImageNImg,
-                                    ),
+                            BlocBuilder<UploadBloc, UploadState>(
+                              bloc: uploadBloc,
+                              builder: (context, state) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                    shape: BoxShape.circle,
+                                  ),
+                                  width: 100,
+                                  height: 100,
+                                  child: state.imageFileList.length != 0
+                                      ? Image.file(
+                                          File(
+                                            state.imageFileList.last,
+                                          ),
+                                        )
+                                      : Image.network(
+                                          profilePicture ?? kServiceImageNImg,
+                                        ),
+                                );
+                              },
                             ),
                             Positioned(
                               bottom: 0.1,
@@ -499,7 +504,15 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                           "bio": bio ?? state.taskerProfile?.bio ?? 'Bio',
                           "gender":
                               _gender ?? state.taskerProfile?.gender ?? "Male",
+                          // "profile_image": state.taskerProfile?.profileImage
+                          // uploadBloc.state.imageFileList.length == 0
+                          //     ? state.taskerProfile?.profileImage
+                          //     : await MultipartFile.fromString(
+                          //         uploadBloc.state.imageFileList.last,
+                          //       )
                         };
+
+                        print(user);
 
                         context.read<UserBloc>().add(
                               UserEdited(req: user),
