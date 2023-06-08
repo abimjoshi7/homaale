@@ -18,6 +18,20 @@ class PaymentRepositories {
       rethrow;
     }
   }
+  Future<Map<String, dynamic>> postPaymentZeroAmount(
+    String uuid,
+  ) async {
+    try {
+      final res = await _dio.postDataWithCredential(
+        data: {'order': uuid},
+        url: "payment/payment/claim/",
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      rethrow;
+    }
+  }
 
   Future<Map<String, dynamic>> postPaymentVerify(
     String provider,
