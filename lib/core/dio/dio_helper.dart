@@ -185,6 +185,64 @@ class DioHelper {
               }
             }
             else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('merchant')) {
+              final detailstTypeErrors = responseData['merchant']['amount'];
+              if (detailstTypeErrors is List<dynamic> &&
+                  detailstTypeErrors.isNotEmpty) {
+                final errorMessage = detailstTypeErrors.join('.');
+                Fluttertoast.showToast(
+                    msg: "amount : ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "amount: ${detailstTypeErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            }
+            else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('order')) {
+              final detailstTypeErrors = responseData['order'];
+              if (detailstTypeErrors is List<dynamic> &&
+                  detailstTypeErrors.isNotEmpty) {
+                final errorMessage = detailstTypeErrors.join('.');
+                Fluttertoast.showToast(
+                    msg: "order : ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "order: ${detailstTypeErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            }
+            else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('username')) {
               final usernameErrors = responseData['username'];
               if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {

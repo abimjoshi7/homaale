@@ -304,7 +304,7 @@ mixin _$Result {
   RatedBy? get ratedBy => throw _privateConstructorUsedError;
   int? get rating => throw _privateConstructorUsedError;
   String? get review => throw _privateConstructorUsedError;
-  dynamic? get reply => throw _privateConstructorUsedError;
+  dynamic get reply => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_verified')
   bool? get isVerified => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_at')
@@ -327,7 +327,7 @@ abstract class $ResultCopyWith<$Res> {
       @JsonKey(name: 'rated_by') RatedBy? ratedBy,
       int? rating,
       String? review,
-      dynamic? reply,
+      dynamic reply,
       @JsonKey(name: 'is_verified') bool? isVerified,
       @JsonKey(name: 'created_at') String? createdAt,
       @JsonKey(name: 'replied_date') String? repliedDate});
@@ -377,7 +377,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       reply: freezed == reply
           ? _value.reply
           : reply // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       isVerified: freezed == isVerified
           ? _value.isVerified
           : isVerified // ignore: cast_nullable_to_non_nullable
@@ -417,7 +417,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       @JsonKey(name: 'rated_by') RatedBy? ratedBy,
       int? rating,
       String? review,
-      dynamic? reply,
+      dynamic reply,
       @JsonKey(name: 'is_verified') bool? isVerified,
       @JsonKey(name: 'created_at') String? createdAt,
       @JsonKey(name: 'replied_date') String? repliedDate});
@@ -465,7 +465,7 @@ class __$$_ResultCopyWithImpl<$Res>
       reply: freezed == reply
           ? _value.reply
           : reply // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       isVerified: freezed == isVerified
           ? _value.isVerified
           : isVerified // ignore: cast_nullable_to_non_nullable
@@ -508,7 +508,7 @@ class _$_Result implements _Result {
   @override
   final String? review;
   @override
-  final dynamic? reply;
+  final dynamic reply;
   @override
   @JsonKey(name: 'is_verified')
   final bool? isVerified;
@@ -575,7 +575,7 @@ abstract class _Result implements Result {
       @JsonKey(name: 'rated_by') final RatedBy? ratedBy,
       final int? rating,
       final String? review,
-      final dynamic? reply,
+      final dynamic reply,
       @JsonKey(name: 'is_verified') final bool? isVerified,
       @JsonKey(name: 'created_at') final String? createdAt,
       @JsonKey(name: 'replied_date') final String? repliedDate}) = _$_Result;
@@ -592,7 +592,7 @@ abstract class _Result implements Result {
   @override
   String? get review;
   @override
-  dynamic? get reply;
+  dynamic get reply;
   @override
   @JsonKey(name: 'is_verified')
   bool? get isVerified;
