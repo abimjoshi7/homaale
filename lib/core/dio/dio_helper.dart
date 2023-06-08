@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 
 class DioHelper {
   static late Dio dio;
+  static late Dio dioGoogleMaps;
+
   static void init() {
     final options = BaseOptions(
       baseUrl: sandbox,
@@ -22,7 +24,9 @@ class DioHelper {
       ),
       receiveDataWhenStatusError: true,
     );
-
+    dioGoogleMaps = Dio(
+      options.copyWith(baseUrl: googleMapsUrl),
+    );
     dio = Dio(options);
 
     /// Dio interceptors
@@ -323,6 +327,21 @@ class DioHelper {
             'Content-Type': 'application/json',
           },
         ),
+      );
+      return response.data;
+    } on DioError catch (_) {
+      rethrow;
+    }
+  }
+
+  Future<dynamic> getMapDataWithCredential({
+    Map<String, dynamic>? query,
+    required String url,
+  }) async {
+    try {
+      final response = await dioGoogleMaps.get<dynamic>(
+        url,
+        queryParameters: query,
       );
       return response.data;
     } on DioError catch (_) {
