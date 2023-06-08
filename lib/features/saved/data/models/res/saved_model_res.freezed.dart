@@ -606,7 +606,7 @@ Data _$DataFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$Data {
-  dynamic? get id => throw _privateConstructorUsedError;
+  dynamic get id => throw _privateConstructorUsedError;
   @JsonKey(name: 'profile_image')
   String? get profileImage => throw _privateConstructorUsedError;
   @JsonKey(name: 'full_name')
@@ -709,7 +709,7 @@ abstract class $DataCopyWith<$Res> {
       _$DataCopyWithImpl<$Res, Data>;
   @useResult
   $Res call(
-      {dynamic? id,
+      {dynamic id,
       @JsonKey(name: 'profile_image') String? profileImage,
       @JsonKey(name: 'full_name') String? fullName,
       @JsonKey(name: 'charge_currency') Currency? chargeCurrency,
@@ -860,7 +860,7 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       profileImage: freezed == profileImage
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
@@ -1228,7 +1228,7 @@ abstract class _$$_DataCopyWith<$Res> implements $DataCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {dynamic? id,
+      {dynamic id,
       @JsonKey(name: 'profile_image') String? profileImage,
       @JsonKey(name: 'full_name') String? fullName,
       @JsonKey(name: 'charge_currency') Currency? chargeCurrency,
@@ -1385,7 +1385,7 @@ class __$$_DataCopyWithImpl<$Res> extends _$DataCopyWithImpl<$Res, _$_Data>
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       profileImage: freezed == profileImage
           ? _value.profileImage
           : profileImage // ignore: cast_nullable_to_non_nullable
@@ -1703,7 +1703,7 @@ class _$_Data implements _Data {
   factory _$_Data.fromJson(Map<String, dynamic> json) => _$$_DataFromJson(json);
 
   @override
-  final dynamic? id;
+  final dynamic id;
   @override
   @JsonKey(name: 'profile_image')
   final String? profileImage;
@@ -2118,7 +2118,7 @@ class _$_Data implements _Data {
 
 abstract class _Data implements Data {
   const factory _Data(
-      {final dynamic? id,
+      {final dynamic id,
       @JsonKey(name: 'profile_image') final String? profileImage,
       @JsonKey(name: 'full_name') final String? fullName,
       @JsonKey(name: 'charge_currency') final Currency? chargeCurrency,
@@ -2182,7 +2182,7 @@ abstract class _Data implements Data {
   factory _Data.fromJson(Map<String, dynamic> json) = _$_Data.fromJson;
 
   @override
-  dynamic? get id;
+  dynamic get id;
   @override
   @JsonKey(name: 'profile_image')
   String? get profileImage;
@@ -2619,7 +2619,7 @@ mixin _$Certificate {
   String? get credentialId => throw _privateConstructorUsedError;
   @JsonKey(name: 'certificate_url')
   String? get certificateUrl => throw _privateConstructorUsedError;
-  dynamic? get image => throw _privateConstructorUsedError;
+  dynamic get image => throw _privateConstructorUsedError;
   @JsonKey(name: 'issued_date')
   DateTime? get issuedDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'expire_date')
@@ -2645,7 +2645,7 @@ abstract class $CertificateCopyWith<$Res> {
       @JsonKey(name: 'created_at') bool? doesExpire,
       @JsonKey(name: 'credential_id') String? credentialId,
       @JsonKey(name: 'certificate_url') String? certificateUrl,
-      dynamic? image,
+      dynamic image,
       @JsonKey(name: 'issued_date') DateTime? issuedDate,
       @JsonKey(name: 'expire_date') DateTime? expireDate});
 }
@@ -2706,7 +2706,7 @@ class _$CertificateCopyWithImpl<$Res, $Val extends Certificate>
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       issuedDate: freezed == issuedDate
           ? _value.issuedDate
           : issuedDate // ignore: cast_nullable_to_non_nullable
@@ -2735,7 +2735,7 @@ abstract class _$$_CertificateCopyWith<$Res>
       @JsonKey(name: 'created_at') bool? doesExpire,
       @JsonKey(name: 'credential_id') String? credentialId,
       @JsonKey(name: 'certificate_url') String? certificateUrl,
-      dynamic? image,
+      dynamic image,
       @JsonKey(name: 'issued_date') DateTime? issuedDate,
       @JsonKey(name: 'expire_date') DateTime? expireDate});
 }
@@ -2794,7 +2794,7 @@ class __$$_CertificateCopyWithImpl<$Res>
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       issuedDate: freezed == issuedDate
           ? _value.issuedDate
           : issuedDate // ignore: cast_nullable_to_non_nullable
@@ -2844,7 +2844,7 @@ class _$_Certificate implements _Certificate {
   @JsonKey(name: 'certificate_url')
   final String? certificateUrl;
   @override
-  final dynamic? image;
+  final dynamic image;
   @override
   @JsonKey(name: 'issued_date')
   final DateTime? issuedDate;
@@ -2923,7 +2923,7 @@ abstract class _Certificate implements Certificate {
           final String? credentialId,
       @JsonKey(name: 'certificate_url')
           final String? certificateUrl,
-      final dynamic? image,
+      final dynamic image,
       @JsonKey(name: 'issued_date')
           final DateTime? issuedDate,
       @JsonKey(name: 'expire_date')
@@ -2951,7 +2951,7 @@ abstract class _Certificate implements Certificate {
   @JsonKey(name: 'certificate_url')
   String? get certificateUrl;
   @override
-  dynamic? get image;
+  dynamic get image;
   @override
   @JsonKey(name: 'issued_date')
   DateTime? get issuedDate;
@@ -3146,7 +3146,7 @@ mixin _$City {
   String? get zipCode => throw _privateConstructorUsedError;
   double? get latitude => throw _privateConstructorUsedError;
   double? get longitude => throw _privateConstructorUsedError;
-  dynamic? get country => throw _privateConstructorUsedError;
+  dynamic get country => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -3165,7 +3165,7 @@ abstract class $CityCopyWith<$Res> {
       @JsonKey(name: 'zip_code') String? zipCode,
       double? latitude,
       double? longitude,
-      dynamic? country});
+      dynamic country});
 }
 
 /// @nodoc
@@ -3217,7 +3217,7 @@ class _$CityCopyWithImpl<$Res, $Val extends City>
       country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
     ) as $Val);
   }
 }
@@ -3235,7 +3235,7 @@ abstract class _$$_CityCopyWith<$Res> implements $CityCopyWith<$Res> {
       @JsonKey(name: 'zip_code') String? zipCode,
       double? latitude,
       double? longitude,
-      dynamic? country});
+      dynamic country});
 }
 
 /// @nodoc
@@ -3283,7 +3283,7 @@ class __$$_CityCopyWithImpl<$Res> extends _$CityCopyWithImpl<$Res, _$_City>
       country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
     ));
   }
 }
@@ -3317,7 +3317,7 @@ class _$_City implements _City {
   @override
   final double? longitude;
   @override
-  final dynamic? country;
+  final dynamic country;
 
   @override
   String toString() {
@@ -3368,7 +3368,7 @@ abstract class _City implements City {
       @JsonKey(name: 'zip_code') final String? zipCode,
       final double? latitude,
       final double? longitude,
-      final dynamic? country}) = _$_City;
+      final dynamic country}) = _$_City;
 
   factory _City.fromJson(Map<String, dynamic> json) = _$_City.fromJson;
 
@@ -3387,7 +3387,7 @@ abstract class _City implements City {
   @override
   double? get longitude;
   @override
-  dynamic? get country;
+  dynamic get country;
   @override
   @JsonKey(ignore: true)
   _$$_CityCopyWith<_$_City> get copyWith => throw _privateConstructorUsedError;
@@ -6632,7 +6632,7 @@ mixin _$User {
   String? get id => throw _privateConstructorUsedError;
   String? get username => throw _privateConstructorUsedError;
   String? get email => throw _privateConstructorUsedError;
-  dynamic? get phone => throw _privateConstructorUsedError;
+  dynamic get phone => throw _privateConstructorUsedError;
   @JsonKey(name: 'full_name')
   String? get fullName => throw _privateConstructorUsedError;
   @JsonKey(name: 'first_name')
@@ -6658,7 +6658,7 @@ abstract class $UserCopyWith<$Res> {
       {String? id,
       String? username,
       String? email,
-      dynamic? phone,
+      dynamic phone,
       @JsonKey(name: 'full_name') String? fullName,
       @JsonKey(name: 'first_name') String? firstName,
       @JsonKey(name: 'middle_name') String? middleName,
@@ -6705,7 +6705,7 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
       phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       fullName: freezed == fullName
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
@@ -6740,7 +6740,7 @@ abstract class _$$_UserCopyWith<$Res> implements $UserCopyWith<$Res> {
       {String? id,
       String? username,
       String? email,
-      dynamic? phone,
+      dynamic phone,
       @JsonKey(name: 'full_name') String? fullName,
       @JsonKey(name: 'first_name') String? firstName,
       @JsonKey(name: 'middle_name') String? middleName,
@@ -6783,7 +6783,7 @@ class __$$_UserCopyWithImpl<$Res> extends _$UserCopyWithImpl<$Res, _$_User>
       phone: freezed == phone
           ? _value.phone
           : phone // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       fullName: freezed == fullName
           ? _value.fullName
           : fullName // ignore: cast_nullable_to_non_nullable
@@ -6831,7 +6831,7 @@ class _$_User implements _User {
   @override
   final String? email;
   @override
-  final dynamic? phone;
+  final dynamic phone;
   @override
   @JsonKey(name: 'full_name')
   final String? fullName;
@@ -6908,7 +6908,7 @@ abstract class _User implements User {
       {final String? id,
       final String? username,
       final String? email,
-      final dynamic? phone,
+      final dynamic phone,
       @JsonKey(name: 'full_name') final String? fullName,
       @JsonKey(name: 'first_name') final String? firstName,
       @JsonKey(name: 'middle_name') final String? middleName,
@@ -6924,7 +6924,7 @@ abstract class _User implements User {
   @override
   String? get email;
   @override
-  dynamic? get phone;
+  dynamic get phone;
   @override
   @JsonKey(name: 'full_name')
   String? get fullName;

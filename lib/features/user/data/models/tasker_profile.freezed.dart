@@ -48,7 +48,7 @@ mixin _$TaskerProfile {
   String? get gender => throw _privateConstructorUsedError;
   @JsonKey(name: "date_of_birth")
   DateTime? get dateOfBirth => throw _privateConstructorUsedError;
-  String? get skill => throw _privateConstructorUsedError;
+  List<SkillOptionModel>? get skills => throw _privateConstructorUsedError;
   @JsonKey(name: "active_hour_start")
   String? get activeHourStart => throw _privateConstructorUsedError;
   @JsonKey(name: "active_hour_end")
@@ -113,7 +113,7 @@ abstract class $TaskerProfileCopyWith<$Res> {
       String? bio,
       String? gender,
       @JsonKey(name: "date_of_birth") DateTime? dateOfBirth,
-      String? skill,
+      List<SkillOptionModel>? skills,
       @JsonKey(name: "active_hour_start") String? activeHourStart,
       @JsonKey(name: "active_hour_end") String? activeHourEnd,
       @JsonKey(name: "experience_level") String? experienceLevel,
@@ -176,7 +176,7 @@ class _$TaskerProfileCopyWithImpl<$Res, $Val extends TaskerProfile>
     Object? bio = freezed,
     Object? gender = freezed,
     Object? dateOfBirth = freezed,
-    Object? skill = freezed,
+    Object? skills = freezed,
     Object? activeHourStart = freezed,
     Object? activeHourEnd = freezed,
     Object? experienceLevel = freezed,
@@ -283,10 +283,10 @@ class _$TaskerProfileCopyWithImpl<$Res, $Val extends TaskerProfile>
           ? _value.dateOfBirth
           : dateOfBirth // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      skill: freezed == skill
-          ? _value.skill
-          : skill // ignore: cast_nullable_to_non_nullable
-              as String?,
+      skills: freezed == skills
+          ? _value.skills
+          : skills // ignore: cast_nullable_to_non_nullable
+              as List<SkillOptionModel>?,
       activeHourStart: freezed == activeHourStart
           ? _value.activeHourStart
           : activeHourStart // ignore: cast_nullable_to_non_nullable
@@ -482,7 +482,7 @@ abstract class _$$_TaskerProfileCopyWith<$Res>
       String? bio,
       String? gender,
       @JsonKey(name: "date_of_birth") DateTime? dateOfBirth,
-      String? skill,
+      List<SkillOptionModel>? skills,
       @JsonKey(name: "active_hour_start") String? activeHourStart,
       @JsonKey(name: "active_hour_end") String? activeHourEnd,
       @JsonKey(name: "experience_level") String? experienceLevel,
@@ -551,7 +551,7 @@ class __$$_TaskerProfileCopyWithImpl<$Res>
     Object? bio = freezed,
     Object? gender = freezed,
     Object? dateOfBirth = freezed,
-    Object? skill = freezed,
+    Object? skills = freezed,
     Object? activeHourStart = freezed,
     Object? activeHourEnd = freezed,
     Object? experienceLevel = freezed,
@@ -658,10 +658,10 @@ class __$$_TaskerProfileCopyWithImpl<$Res>
           ? _value.dateOfBirth
           : dateOfBirth // ignore: cast_nullable_to_non_nullable
               as DateTime?,
-      skill: freezed == skill
-          ? _value.skill
-          : skill // ignore: cast_nullable_to_non_nullable
-              as String?,
+      skills: freezed == skills
+          ? _value._skills
+          : skills // ignore: cast_nullable_to_non_nullable
+              as List<SkillOptionModel>?,
       activeHourStart: freezed == activeHourStart
           ? _value.activeHourStart
           : activeHourStart // ignore: cast_nullable_to_non_nullable
@@ -756,7 +756,7 @@ class _$_TaskerProfile implements _TaskerProfile {
       this.bio,
       this.gender,
       @JsonKey(name: "date_of_birth") this.dateOfBirth,
-      this.skill,
+      final List<SkillOptionModel>? skills,
       @JsonKey(name: "active_hour_start") this.activeHourStart,
       @JsonKey(name: "active_hour_end") this.activeHourEnd,
       @JsonKey(name: "experience_level") this.experienceLevel,
@@ -778,6 +778,7 @@ class _$_TaskerProfile implements _TaskerProfile {
         _education = education,
         _certificates = certificates,
         _interests = interests,
+        _skills = skills,
         _subscription = subscription,
         _securityQuestions = securityQuestions;
 
@@ -874,8 +875,16 @@ class _$_TaskerProfile implements _TaskerProfile {
   @override
   @JsonKey(name: "date_of_birth")
   final DateTime? dateOfBirth;
+  final List<SkillOptionModel>? _skills;
   @override
-  final String? skill;
+  List<SkillOptionModel>? get skills {
+    final value = _skills;
+    if (value == null) return null;
+    if (_skills is EqualUnmodifiableListView) return _skills;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   @JsonKey(name: "active_hour_start")
   final String? activeHourStart;
@@ -939,7 +948,7 @@ class _$_TaskerProfile implements _TaskerProfile {
 
   @override
   String toString() {
-    return 'TaskerProfile(id: $id, profileImage: $profileImage, fullName: $fullName, chargeCurrency: $chargeCurrency, user: $user, portfolio: $portfolio, experience: $experience, education: $education, certificates: $certificates, stats: $stats, rating: $rating, country: $country, language: $language, city: $city, interests: $interests, isFollowed: $isFollowed, badge: $badge, isBookmarked: $isBookmarked, status: $status, bio: $bio, gender: $gender, dateOfBirth: $dateOfBirth, skill: $skill, activeHourStart: $activeHourStart, activeHourEnd: $activeHourEnd, experienceLevel: $experienceLevel, profileVisibility: $profileVisibility, taskPreferences: $taskPreferences, addressLine1: $addressLine1, addressLine2: $addressLine2, isProfileVerified: $isProfileVerified, designation: $designation, points: $points, remainingPoints: $remainingPoints, followersCount: $followersCount, followingCount: $followingCount, avatar: $avatar, subscription: $subscription, securityQuestions: $securityQuestions)';
+    return 'TaskerProfile(id: $id, profileImage: $profileImage, fullName: $fullName, chargeCurrency: $chargeCurrency, user: $user, portfolio: $portfolio, experience: $experience, education: $education, certificates: $certificates, stats: $stats, rating: $rating, country: $country, language: $language, city: $city, interests: $interests, isFollowed: $isFollowed, badge: $badge, isBookmarked: $isBookmarked, status: $status, bio: $bio, gender: $gender, dateOfBirth: $dateOfBirth, skills: $skills, activeHourStart: $activeHourStart, activeHourEnd: $activeHourEnd, experienceLevel: $experienceLevel, profileVisibility: $profileVisibility, taskPreferences: $taskPreferences, addressLine1: $addressLine1, addressLine2: $addressLine2, isProfileVerified: $isProfileVerified, designation: $designation, points: $points, remainingPoints: $remainingPoints, followersCount: $followersCount, followingCount: $followingCount, avatar: $avatar, subscription: $subscription, securityQuestions: $securityQuestions)';
   }
 
   @override
@@ -981,7 +990,7 @@ class _$_TaskerProfile implements _TaskerProfile {
             (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.dateOfBirth, dateOfBirth) ||
                 other.dateOfBirth == dateOfBirth) &&
-            (identical(other.skill, skill) || other.skill == skill) &&
+            const DeepCollectionEquality().equals(other._skills, _skills) &&
             (identical(other.activeHourStart, activeHourStart) ||
                 other.activeHourStart == activeHourStart) &&
             (identical(other.activeHourEnd, activeHourEnd) ||
@@ -1040,7 +1049,7 @@ class _$_TaskerProfile implements _TaskerProfile {
         bio,
         gender,
         dateOfBirth,
-        skill,
+        const DeepCollectionEquality().hash(_skills),
         activeHourStart,
         activeHourEnd,
         experienceLevel,
@@ -1097,7 +1106,7 @@ abstract class _TaskerProfile implements TaskerProfile {
           final String? bio,
           final String? gender,
           @JsonKey(name: "date_of_birth") final DateTime? dateOfBirth,
-          final String? skill,
+          final List<SkillOptionModel>? skills,
           @JsonKey(name: "active_hour_start") final String? activeHourStart,
           @JsonKey(name: "active_hour_end") final String? activeHourEnd,
           @JsonKey(name: "experience_level") final String? experienceLevel,
@@ -1170,7 +1179,7 @@ abstract class _TaskerProfile implements TaskerProfile {
   @JsonKey(name: "date_of_birth")
   DateTime? get dateOfBirth;
   @override
-  String? get skill;
+  List<SkillOptionModel>? get skills;
   @override
   @JsonKey(name: "active_hour_start")
   String? get activeHourStart;

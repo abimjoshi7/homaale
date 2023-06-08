@@ -1,3 +1,4 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
@@ -31,8 +32,10 @@ import '../../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
 import '../../../../user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 import '../../../../wallet/presentation/wallet_page.dart';
 
+
 class AccountView extends StatefulWidget {
   static const routeName = '/account';
+
   const AccountView({super.key});
 
   @override
@@ -63,6 +66,17 @@ class _AccountViewState extends State<AccountView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
+        leadingWidget: IconButton(
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            size: 25.0,
+            color: Theme.of(context).appBarTheme.iconTheme?.color,
+          ),
+          onPressed: () => Navigator.popUntil(
+            context,
+            (route) => route.settings.name == Root.routeName,
+          ),
+        ),
         appBarTitle: "Profile",
         trailingWidget: SizedBox.shrink(),
       ),
@@ -102,7 +116,8 @@ class _AccountViewState extends State<AccountView> {
                               image: DecorationImage(
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
-                                  state.taskerProfile?.profileImage ?? kServiceImageNImg,
+                                  state.taskerProfile?.profileImage ??
+                                      kServiceImageNImg,
                                 ),
                               ),
                             ),
@@ -111,60 +126,66 @@ class _AccountViewState extends State<AccountView> {
                           ),
                           kWidth20,
                           AccountUserInfoSection(
-                            name: '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
-                            isVerified: state.taskerProfile?.isProfileVerified ?? false,
-                            designation: state.taskerProfile?.designation?.toString() ?? 'Homaale User',
-                            credentialId: state.taskerProfile?.user?.phone ?? state.taskerProfile?.user?.email ?? '',
+                            name:
+                                '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
+                            isVerified:
+                                state.taskerProfile?.isProfileVerified ?? false,
+                            designation:
+                                state.taskerProfile?.designation?.toString() ??
+                                    'Homaale User',
+                            credentialId: state.taskerProfile?.user?.phone ??
+                                state.taskerProfile?.user?.email ??
+                                '',
                           ),
                         ],
                       ),
                     )
                   ],
                 ),
-                BlocProvider(
-                  create: (context) => WalletBloc(),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          context
-                              .read<RedeemBloc>()
-                              .add(FetchRedeemList(offerType: 'promo_code'));
-                          context
-                              .read<RedeemStatementBloc>()
-                              .add(StatementListInitiated());
-                          context
-                              .read<EarnedBloc>()
-                              .add(StatementStatusInitiated(status: 'earned'));
-                          context
-                              .read<RedeemedBloc>()
-                              .add(StatementStatusInitiated(status: 'spent'));
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        context
+                            .read<RedeemStatementBloc>()
+                            .add(StatementListInitiated());
+                        context
+                            .read<EarnedBloc>()
+                            .add(StatementStatusInitiated(status: 'earned'));
+                        context
+                            .read<RedeemedBloc>()
+                            .add(StatementStatusInitiated(status: 'spent'));
 
-                          Navigator.pushNamed(
-                            context,
-                            RedeemPage.routeName,
-                          );
-                        },
-                        child: ProfileStatsCard(
-                          imagePath: 'assets/reward.png',
-                          label: 'Reward Points',
-                          value: state.taskerProfile?.points.toString() ?? '0',
-                        ),
+                        Navigator.pushNamed(
+                          context,
+                          RedeemPage.routeName,
+                        );
+                        context
+                            .read<RedeemBloc>()
+                            .add(FetchRedeemList(offerType: 'promo_code'));
+                      },
+                      child: ProfileStatsCard(
+                        imagePath: 'assets/reward.png',
+                        label: 'Reward Points',
+                        value: state.taskerProfile?.points.toString() ?? '0',
                       ),
-                      BlocBuilder<WalletBloc, WalletState>(
+                    ),
+                    BlocBuilder<WalletBloc, WalletState>(
                         builder: (context, walletState) {
+                      switch (state.theStates) {
+                        case TheStates.success:
                           return ProfileStatsCard(
                             imagePath: 'assets/wallet.png',
                             label: 'Account Balance',
-                            value: walletState.walletModel.length == 0
-                                ? 'Rs. 0'
-                                : "Rs. ${walletState.walletModel.first.availableBalance.toString()}",
+                            value:
+                                '${walletState.walletModel.isNotEmpty ? Decimal.parse(context.read<WalletBloc>().state.walletModel.first.availableBalance.toString()) : '0'}',
                           );
-                        },
-                      ),
-                    ],
-                  ),
+                        default:
+                          return CardLoading(height: 200);
+                      }
+                    }),
+                  ],
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(
@@ -188,7 +209,6 @@ class _AccountViewState extends State<AccountView> {
                         child: ProfileKycVerifySection());
                   },
                 ),
-
                 AccountListTileSection(
                   onTap: () {
                     context
@@ -222,7 +242,8 @@ class _AccountViewState extends State<AccountView> {
                       return Visibility(
                         visible: state.userLoginRes?.hasProfile ?? false,
                         child: AccountListTileSection(
-                          onTap: () => conditionalCheckNavigation(context, context.read<KycBloc>().state),
+                          onTap: () => conditionalCheckNavigation(
+                              context, context.read<KycBloc>().state),
                           icon: const Icon(
                             Icons.card_membership_rounded,
                           ),
@@ -254,7 +275,6 @@ class _AccountViewState extends State<AccountView> {
                     size: 16,
                   ),
                 ),
-
                 AccountListTileSection(
                   onTap: () {
                     Navigator.pushNamed(
@@ -271,7 +291,6 @@ class _AccountViewState extends State<AccountView> {
                     size: 16,
                   ),
                 ),
-
                 AccountListTileSection(
                   onTap: () {
                     Navigator.pushNamed(

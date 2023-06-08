@@ -1,8 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
+import 'package:cipher/core/constants/input_formatters.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:flutter/services.dart';
 
 class NumberIncDecField extends StatefulWidget {
   final TextEditingController controller;
@@ -11,14 +14,16 @@ class NumberIncDecField extends StatefulWidget {
   final ValueChanged? onSubmit;
   final AutovalidateMode autoValidateMode;
   final String? Function(String?)? validator;
+  final bool hasErrors;
   const NumberIncDecField({
     Key? key,
     required this.controller,
-    this.width = 107,
+    this.width = 106,
     this.onChanged,
     this.onSubmit,
     this.validator,
     this.autoValidateMode = AutovalidateMode.onUserInteraction,
+    this.hasErrors = false,
   }) : super(key: key);
 
   @override
@@ -30,6 +35,7 @@ class _NumberIncDecFieldState extends State<NumberIncDecField> {
   Widget build(BuildContext context) {
     return Container(
       width: widget.width,
+      alignment: Alignment.center,
       foregroundDecoration: BoxDecoration(
         borderRadius: BorderRadius.circular(5.0),
         border: Border.all(
@@ -44,16 +50,17 @@ class _NumberIncDecFieldState extends State<NumberIncDecField> {
               autovalidateMode: widget.autoValidateMode,
               textInputAction: TextInputAction.next,
               textAlignVertical: TextAlignVertical.center,
-              decoration: const InputDecoration(
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
+              keyboardType: TextInputType.numberWithOptions(decimal: true),
+              decoration: InputDecoration(
                 border: InputBorder.none,
                 contentPadding: EdgeInsets.all(
                   10,
                 ),
               ),
               controller: widget.controller,
-              keyboardType: const TextInputType.numberWithOptions(
-                signed: true,
-              ),
               onChanged: widget.onChanged,
               onFieldSubmitted: widget.onSubmit,
             ),

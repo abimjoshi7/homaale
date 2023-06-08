@@ -12,12 +12,17 @@ import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
 import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_event.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/skills/skills_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/wallet/presentation/bloc/wallet_bloc.dart';
+
 void initialFetch(BuildContext context) {
   context.read<CategoriesBloc>().add(CategoriesTopLoadInitiated());
-  context.read<TaskEntityServiceBloc>().add(TaskEntityServiceInitiated(isTask: false, newFetch: true));
+  context
+      .read<TaskEntityServiceBloc>()
+      .add(TaskEntityServiceInitiated(isTask: false, newFetch: true));
   context.read<TaskBloc>().add(AllTaskLoadInitiated(page: 1, newFetch: true));
   context.read<TaskerCubit>().loadTaskerList();
 }
@@ -33,9 +38,8 @@ void userDetailsFetch(BuildContext context) {
   context.read<TaskerEducationCubit>().getTaskerEducation();
   context.read<TaskerCertificationCubit>().getTaskerCertification();
   context.read<ActivitiesTimelineBloc>().add(ActivitiesLoaded());
-  context
-      .read<UserSuspendBloc>()
-      .add(UserSuspendLoaded(userId: '${context.read<UserBloc>().state.taskerProfile?.user?.id}'));
+  context.read<UserSuspendBloc>().add(UserSuspendLoaded(
+      userId: '${context.read<UserBloc>().state.taskerProfile?.user?.id}'));
   context.read<BillsPaymentBloc>().add(InitializeState());
   context.read<BillsPaymentBloc>().add(FetchLinkedBankAccount());
 }
@@ -47,4 +51,6 @@ void fetchDataForForms(BuildContext context) {
   context.read<LanguageBloc>().add(LanguageLoadInitiated());
   context.read<CategoriesBloc>().add(CategoriesLoadInitiated());
   context.read<ServicesBloc>().add(ServicesLoadInitiated());
+  context.read<SkillsBloc>().add(SkillOptionsLoaded());
+  context.read<InterestsBloc>().add(InterestLoadInitiated());
 }

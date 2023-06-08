@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/utilities/data/models/skill_option_model.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -11,14 +12,14 @@ class CustomTagTextField extends StatelessWidget {
   });
 
   final TextfieldTagsController tagController;
-  final List<String>? initialList;
+  final List<SkillOptionModel>? initialList;
   final String? hintText;
 
   @override
   Widget build(BuildContext context) {
     return TextFieldTags(
       textfieldTagsController: tagController,
-      initialTags: initialList,
+      initialTags: initialList?.map((e) => e.name.toString()).toList(),
       textSeparators: const [','],
       letterCase: LetterCase.normal,
       validator: (String? tag) {

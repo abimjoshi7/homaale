@@ -52,9 +52,9 @@ class FileUploaded extends UploadEvent {
 }
 
 class ImageToFilestoreUploaded extends UploadEvent {
-  final List<String>? list;
+  final List<String> list;
 
-  ImageToFilestoreUploaded({this.list});
+  ImageToFilestoreUploaded({this.list = const []});
   @override
   List<Object?> get props => [
         list,
@@ -62,9 +62,9 @@ class ImageToFilestoreUploaded extends UploadEvent {
 }
 
 class VideoToFilestoreUploaded extends UploadEvent {
-  final List<String>? list;
+  final List<String> list;
 
-  VideoToFilestoreUploaded({this.list});
+  VideoToFilestoreUploaded({this.list = const []});
   @override
   List<Object?> get props => [
         list,

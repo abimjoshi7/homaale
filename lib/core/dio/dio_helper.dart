@@ -152,7 +152,40 @@ class DioHelper {
 
                 return handler.next(err);
               }
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('username')) {
             } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('detail')) {
+              final detailstTypeErrors = responseData['detail'];
+              if (detailstTypeErrors is List<dynamic> &&
+                  detailstTypeErrors.isNotEmpty) {
+                final errorMessage = detailstTypeErrors.join('.');
+                Fluttertoast.showToast(
+                    msg: "Detail : ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Detail: ${detailstTypeErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            }
+            else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('username')) {
               final usernameErrors = responseData['username'];
               if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {
                 final errorMessage = usernameErrors.join('.');
@@ -224,6 +257,14 @@ class DioHelper {
           case 201:
             // Handle 201 Created
             // Your code here
+            Fluttertoast.showToast(
+                msg: "Success: Congratulations",
+                toastLength: Toast.LENGTH_LONG,
+                gravity: ToastGravity.BOTTOM,
+                timeInSecForIosWeb: 1,
+                backgroundColor: kColorLightGrey,
+                textColor: Colors.white,
+                fontSize: 16.0);
             break;
           case 403:
             // Handle 403 Forbidden
@@ -392,7 +433,6 @@ class DioHelper {
             'medias': [
               await MultipartFile.fromFile(
                 path,
-                contentType: MediaType('image', 'jpeg'),
               ),
             ],
           },
@@ -406,7 +446,6 @@ class DioHelper {
                 "medias",
                 await MultipartFile.fromFile(
                   pathList?[i] ?? "",
-                  contentType: MediaType('image', 'jpeg'),
                 ),
               ),
             ],

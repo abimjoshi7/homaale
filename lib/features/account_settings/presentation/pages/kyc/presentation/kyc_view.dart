@@ -15,8 +15,7 @@ class KycView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: "View KYC Details",trailingWidget: SizedBox()
-      ),
+          appBarTitle: "View KYC Details", trailingWidget: SizedBox()),
       body: Container(
         padding: const EdgeInsets.all(16.0),
         child: SingleChildScrollView(
@@ -156,6 +155,7 @@ class KycView extends StatelessWidget {
                       KycStatusBox(
                         attributeTitle: "Address",
                         status: state.kycModel!.address.toString(),
+                        boxWidth: 84.0,
                       ),
                       KycStatusBox(
                         attributeTitle: 'KYC Verified',

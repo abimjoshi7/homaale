@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 // ignore: must_be_immutable
@@ -59,7 +60,7 @@ class KycStatusBox extends StatelessWidget {
                     ),
                     child: status as Widget,
                   )
-                : Text(
+                : AutoSizeText(
                     status as String,
                     style: Theme.of(context).textTheme.bodySmall!.copyWith(
                           color: hasStatus
@@ -69,6 +70,7 @@ class KycStatusBox extends StatelessWidget {
                               : null,
                           fontSize: fontSize ?? null,
                         ),
+                    maxLines: 2,
                   ),
           ),
         )

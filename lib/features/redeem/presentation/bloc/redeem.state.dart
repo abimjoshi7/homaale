@@ -17,6 +17,7 @@ class RedeemState extends Equatable {
   final bool hasReachedMax;
   final RedeemSubmitResponse redeemSubmitResponse;
   final RedeemItemsDetail redeemItemsDetail;
+  final List<EntityService> entityService;
   final List<Result> redeem;
   final String redeemSubmitMessage;
 
@@ -28,6 +29,7 @@ class RedeemState extends Equatable {
       this.hasReachedMax = false,
       this.redeemList = const RequestRedeemList(),
       this.redeemItemsDetail = const RedeemItemsDetail(),
+      this.entityService = const [],
       this.redeemSubmitResponse = const RedeemSubmitResponse(),
       this.redeemSubmitMessage = ''});
 
@@ -38,6 +40,7 @@ class RedeemState extends Equatable {
         redeemItemsDetail,
         hasReachedMax,
         redeem,
+        entityService,
         redeemList,
         redeemSubmitMessage,
         redeemSubmitStatus,
@@ -54,6 +57,7 @@ class RedeemState extends Equatable {
     String? redeemSubmitMessage,
     bool? hasReachedMax,
     List<Result>? redeem,
+    List<EntityService>? entityService,
   }) {
     return RedeemState(
         theState: theState ?? this.theState,
@@ -62,6 +66,7 @@ class RedeemState extends Equatable {
         redeemSubmitStatus: redeemSubmitStatus ?? this.redeemSubmitStatus,
         hasReachedMax: hasReachedMax ?? this.hasReachedMax,
         redeem: redeem ?? this.redeem,
+        entityService: entityService ?? this.entityService,
         redeemList: redeemList ?? this.redeemList,
         redeemSubmitResponse: redeemSubmitResponse ?? this.redeemSubmitResponse,
         redeemSubmitMessage: redeemSubmitMessage ?? this.redeemSubmitMessage);
