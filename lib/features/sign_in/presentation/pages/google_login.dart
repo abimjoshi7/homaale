@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cipher/core/app/initial_data_fetch.dart';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
@@ -41,6 +39,7 @@ class _GoogleLoginState extends State<GoogleLogin> {
           CacheHelper.hasProfile = x.hasProfile;
           CacheHelper.accessToken = x.access;
           CacheHelper.refreshToken = x.refresh;
+          CacheHelper.isLoggedIn = true;
 
           if (!mounted) return;
 
@@ -85,6 +84,7 @@ class _GoogleLoginState extends State<GoogleLogin> {
 
   Future<void> signOut() async {
     try {
+      CacheHelper.isLoggedIn = true;
       await googleSignIn.signOut();
     } catch (e) {
       if (kDebugMode) {
