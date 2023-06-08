@@ -13,7 +13,7 @@ class DioHelper {
   static late Dio dio;
   static void init() {
     final options = BaseOptions(
-      baseUrl: sandbox,
+      baseUrl: baseIPFourth,
       connectTimeout: const Duration(
         seconds: 20,
       ),

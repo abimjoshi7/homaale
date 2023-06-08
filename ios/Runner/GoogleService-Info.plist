@@ -3,21 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>17609084275-90tc6mevtdvtq9d2hblnpfhr2s7jgv5a.apps.googleusercontent.com</string>
+	<string>245846975950-4m4o50p5l22fjgo7mio82h65sdu2j45b.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.17609084275-90tc6mevtdvtq9d2hblnpfhr2s7jgv5a</string>
+	<string>com.googleusercontent.apps.245846975950-4m4o50p5l22fjgo7mio82h65sdu2j45b</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>245846975950-er0mh3lvr9j21getocpsfo6lk44lm9oh.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
-	<string>AIzaSyDBmuazqeTsM8rbZ2pC5QgUmRO55s-IXls</string>
+	<string>AIzaSyBa18sGbuG_CN9DAq0soA-ucVrg2IBL3dc</string>
 	<key>GCM_SENDER_ID</key>
-	<string>17609084275</string>
+	<string>245846975950</string>
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
 	<string>com.cagtu.cipher</string>
 	<key>PROJECT_ID</key>
-	<string>homaale-c945b</string>
+	<string>grand-eye-356710</string>
 	<key>STORAGE_BUCKET</key>
-	<string>homaale-c945b.appspot.com</string>
+	<string>grand-eye-356710.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:17609084275:ios:ad8fa47a60f722d4bc8906</string>
+	<string>1:245846975950:ios:ea42deefde243d449db79f</string>
 </dict>
 </plist>
