@@ -4,7 +4,7 @@ const sudipPortNumber = '8014';
 const subport = '8000';
 const baseIP = 'http://172.16.16.100:$portNumber/api/$versionNumber/';
 const baseIPSecondary = 'http://172.16.16.50:$portNumber/api/$versionNumber/';
-const baseIPFourth = 'http://172.16.16.50:$subport/api/$versionNumber/';
+const baseIPFourth = 'http://172.16.16.50:$portNumber/api/$versionNumber/';
 const darshanIP = 'http://172.16.16.51:3005/api/$versionNumber/';
 const baseIPThird = 'http://172.16.16.34:$portNumber/api/$versionNumber/';
 //sandbox test server

@@ -102,7 +102,7 @@ class SignInRepository {
   Future<GoogleLoginRes> sendGoogleLoginReq(Map<String, dynamic> map) async {
     try {
       final x = await _dioHelper.postData(
-        data: jsonEncode(map),
+        data: map,
         url: 'user/register/social/google_oauth2/',
       );
 
