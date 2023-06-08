@@ -12,6 +12,7 @@ const kBookmarkPath = "task/bookmark/";
 
 // * bookings
 const kBooking = "/task/entity/service-booking/";
+const kBookingList = "task/entity/service/task/list/";
 const kCreateBookingsApproval = "/task/entity/service-booking/approval/";
 const kCreateBookingsDecline = "/task/entity/service-booking/reject/";
 const kCreateBookingsCancel = "/task/entity/service-booking/cancel/";

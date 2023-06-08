@@ -8,6 +8,7 @@ import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/bloc/password_security_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/repositories/password_security_repositories.dart';
 import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
+import 'package:cipher/features/bloc/scroll_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_item_list_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_retrive_bloc.dart';
@@ -77,6 +78,7 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => TermsOfUseCubit()),
           BlocProvider(create: (context) => SupportTicketBloc()),
           BlocProvider(create: (context) => locator<CategoriesBloc>()),
+          BlocProvider(create: (context) => locator<ScrollBloc>()),
           BlocProvider(create: (context) => SignInBloc()),
           BlocProvider(create: (context) => FeedbackBloc()),
           BlocProvider(create: (context) => PostSupportTicketBloc()),
