@@ -13,7 +13,7 @@ class DioHelper {
   static late Dio dio;
   static void init() {
     final options = BaseOptions(
-      baseUrl: baseIPFourth,
+      baseUrl: sandbox,
       connectTimeout: const Duration(
         seconds: 20,
       ),
@@ -152,14 +152,11 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('username')) {
             } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
-            } else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('detail')) {
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('detail')) {
               final detailstTypeErrors = responseData['detail'];
-              if (detailstTypeErrors is List<dynamic> &&
-                  detailstTypeErrors.isNotEmpty) {
+              if (detailstTypeErrors is List<dynamic> && detailstTypeErrors.isNotEmpty) {
                 final errorMessage = detailstTypeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Detail : ${errorMessage}",
@@ -183,12 +180,9 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            }
-            else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('merchant')) {
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('merchant')) {
               final detailstTypeErrors = responseData['merchant']['amount'];
-              if (detailstTypeErrors is List<dynamic> &&
-                  detailstTypeErrors.isNotEmpty) {
+              if (detailstTypeErrors is List<dynamic> && detailstTypeErrors.isNotEmpty) {
                 final errorMessage = detailstTypeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "amount : ${errorMessage}",
@@ -212,12 +206,9 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            }
-            else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('order')) {
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('order')) {
               final detailstTypeErrors = responseData['order'];
-              if (detailstTypeErrors is List<dynamic> &&
-                  detailstTypeErrors.isNotEmpty) {
+              if (detailstTypeErrors is List<dynamic> && detailstTypeErrors.isNotEmpty) {
                 final errorMessage = detailstTypeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "order : ${errorMessage}",
@@ -241,9 +232,7 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            }
-            else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('username')) {
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
               final usernameErrors = responseData['username'];
               if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {
                 final errorMessage = usernameErrors.join('.');
@@ -351,24 +340,8 @@ class DioHelper {
         queryParameters: query,
       );
       return response.data;
-    } on DioError catch (e) {
-      if (e.response?.statusCode == 401) {
-        await refreshToken();
-        getData(
-          url: url,
-          query: query,
-        );
-      } else {
-        log("API request failed: $e");
-      }
-      await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-        () async => CacheHelper.setCachedString(
-          kErrorLog,
-          e.response!.data.toString().toTitleCase().replaceAll(RegExp(r'[^\w\s]+'), ''),
-        ),
-      );
-
-      log('DIO GET ERROR: ${e.response?.data}');
+    } catch (e) {
+      rethrow;
     }
   }
 
@@ -382,7 +355,7 @@ class DioHelper {
         data: jsonEncode(data),
       );
       return response.data;
-    } on DioError catch (_) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -404,7 +377,7 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (_) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -428,7 +401,7 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (_) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -450,7 +423,7 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (_) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -472,7 +445,7 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (_) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -521,7 +494,7 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (_) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -544,7 +517,7 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (_) {
+    } catch (e) {
       rethrow;
     }
   }
@@ -569,7 +542,7 @@ class DioHelper {
         ),
       );
       return response.data;
-    } on DioError catch (_) {
+    } catch (e) {
       rethrow;
     }
   }
