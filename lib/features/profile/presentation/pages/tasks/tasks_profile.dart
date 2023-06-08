@@ -84,7 +84,9 @@ class _TasksProfileState extends State<TasksProfile> {
             ),
           );
         }
-        return const SizedBox.shrink();
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
       },
     );
   }

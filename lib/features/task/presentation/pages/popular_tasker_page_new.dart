@@ -1,5 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/tasker/data/repositories/tasker_repositories.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
@@ -17,7 +18,13 @@ class PopularTaskerNew extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: 'Tasker',trailingWidget: SizedBox()
+        appBarTitle: 'Tasker',
+        trailingWidget: IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, SearchPage.routeName);
+          },
+          icon: Icon(Icons.search),
+        ),
       ),
       body: BlocProvider(
         create: (_) => TaskerBloc(taskerRepositories: TaskerRepositories())..add(TaskerFetched()),

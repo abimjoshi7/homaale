@@ -113,6 +113,12 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
                         isRange: e.data?.isRange,
                         rateTo: double.parse(e.data?.budgetFrom ?? "").toInt().toString(),
                         rateFrom: double.parse(e.data?.budgetTo ?? "").toInt().toString(),
+                        shareCallback: () {
+                          Share.share(
+                            "$kShareLinks/tasks/${e.data?.id.toString()}",
+                            subject: e.data?.title,
+                          );
+                        },
                       ),
                     );
                   }).toList() ??

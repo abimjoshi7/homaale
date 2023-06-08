@@ -57,8 +57,7 @@ class _SearchPageMainViewState extends State<SearchPageMainView> {
     super.dispose();
   }
 
-  void _setSearchControllerValue(String value) =>
-      setState(() => _searchFieldController.setText(value));
+  void _setSearchControllerValue(String value) => setState(() => _searchFieldController.setText(value));
 
   @override
   Widget build(BuildContext context) {
@@ -96,72 +95,67 @@ class _SearchPageMainViewState extends State<SearchPageMainView> {
                         //       : 0,
                         //   right: MediaQuery.of(context).size.width * 0.0020,
                         // ),
-                        child: Flexible(
-                          child: AnimatedContainer(
-                            height: MediaQuery.of(context).size.height * 0.051,
-                            width: (_focusNode.hasFocus)
-                                ? MediaQuery.of(context).size.width * 0.88
-                                : MediaQuery.of(context).size.width * 0.88,
-                            duration: Duration(milliseconds: 60),
-                            child: CustomTextFormField(
-                              autofocus: true,
-                              controller: _searchFieldController,
-                              node: _focusNode,
-                              onFieldSubmitted: (p0) {
-                                log("321");
-                                context.read<SearchBloc>().add(
-                                      SearchQueryInitiated(
-                                        searchQuery:
-                                            _searchFieldController.text,
-                                      ),
-                                    );
-                              },
-                              onChanged: (query) {
-                                if (query != null) {
-                                  if (query.length < 3) {
-                                    return;
-                                  } else {
-                                    context.read<SearchBloc>().add(
-                                          SearchQueryInitiated(
-                                            searchQuery: query,
-                                          ),
-                                        );
-                                  }
+                        child: AnimatedContainer(
+                          height: MediaQuery.of(context).size.height * 0.051,
+                          width: (_focusNode.hasFocus)
+                              ? MediaQuery.of(context).size.width * 0.88
+                              : MediaQuery.of(context).size.width * 0.88,
+                          duration: Duration(milliseconds: 60),
+                          child: CustomTextFormField(
+                            autofocus: true,
+                            controller: _searchFieldController,
+                            node: _focusNode,
+                            onFieldSubmitted: (p0) {
+                              log("321");
+                              context.read<SearchBloc>().add(
+                                    SearchQueryInitiated(
+                                      searchQuery: _searchFieldController.text,
+                                    ),
+                                  );
+                            },
+                            onChanged: (query) {
+                              if (query != null) {
+                                if (query.length < 3) {
+                                  return;
+                                } else {
+                                  context.read<SearchBloc>().add(
+                                        SearchQueryInitiated(
+                                          searchQuery: query,
+                                        ),
+                                      );
                                 }
-                              },
-                              hintText: 'Search...',
-                              textInputType: TextInputType.text,
-                              inputAction: TextInputAction.search,
-                              prefixWidget: (_focusNode.hasFocus)
-                                  ? IconButton(
-                                      onPressed: () => _focusNode.unfocus(),
-                                      icon: Icon(
-                                        Icons.arrow_back_rounded,
-                                        size: 22,
-                                        // color: kColorDark,
-                                      ),
-                                    )
-                                  : Icon(
-                                      Icons.search_rounded,
-                                      size: 30,
+                              }
+                            },
+                            hintText: 'Search...',
+                            textInputType: TextInputType.text,
+                            inputAction: TextInputAction.search,
+                            prefixWidget: (_focusNode.hasFocus)
+                                ? IconButton(
+                                    onPressed: () => _focusNode.unfocus(),
+                                    icon: Icon(
+                                      Icons.arrow_back_rounded,
+                                      size: 22,
                                       // color: kColorDark,
                                     ),
-                              suffixWidget: IconButton(
-                                iconSize: 22.0,
-                                // color: Color(0xff868E96),
-                                icon: Icon(
-                                  CupertinoIcons.multiply,
-                                  weight: 400,
-                                ),
-                                onPressed: () {
-                                  setState(
-                                    () => _searchFieldController.clear(),
-                                  );
-                                  context
-                                      .read<SearchBloc>()
-                                      .add(SearchQueryCleared());
-                                },
+                                  )
+                                : Icon(
+                                    Icons.search_rounded,
+                                    size: 30,
+                                    // color: kColorDark,
+                                  ),
+                            suffixWidget: IconButton(
+                              iconSize: 22.0,
+                              // color: Color(0xff868E96),
+                              icon: Icon(
+                                CupertinoIcons.multiply,
+                                weight: 400,
                               ),
+                              onPressed: () {
+                                setState(
+                                  () => _searchFieldController.clear(),
+                                );
+                                context.read<SearchBloc>().add(SearchQueryCleared());
+                              },
                             ),
                           ),
                         ),
@@ -187,15 +181,12 @@ class _SearchPageMainViewState extends State<SearchPageMainView> {
                         return Column(
                           children: [
                             /// TODO: Please make condition workable when apply search history and others
-                            if (service?.length == 0 &&
-                                task?.length == 0 &&
-                                tasker?.length == 0)
+                            if (service?.length == 0 && task?.length == 0 && tasker?.length == 0)
                               Center(
                                   child: CommonErrorContainer(
                                 assetsPath: 'assets/no_data_found.png',
                                 errorTile: 'Search Item not found.',
-                                errorDes:
-                                    'We’re sorry, the data you search could not found. '
+                                errorDes: 'We’re sorry, the data you search could not found. '
                                     'Please go back.',
                               )),
                             if (tasker?.isNotEmpty ?? false)
@@ -217,8 +208,7 @@ class _SearchPageMainViewState extends State<SearchPageMainView> {
                       if (state.theStates == TheStates.failure) {
                         return Align(
                           alignment: Alignment.center,
-                          child:
-                              Text('An Error Occured. Please Try Again Later.'),
+                          child: Text('An Error Occured. Please Try Again Later.'),
                         );
                       }
                       return const Center(

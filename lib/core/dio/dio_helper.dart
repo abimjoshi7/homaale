@@ -13,7 +13,7 @@ class DioHelper {
   static late Dio dio;
   static void init() {
     final options = BaseOptions(
-      baseUrl: baseIPFourth,
+      baseUrl: sandbox,
       connectTimeout: const Duration(
         seconds: 20,
       ),
@@ -152,14 +152,35 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('username')) {
             } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
-            } else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('detail')) {
+              final usernameErrors = responseData['username'];
+              if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {
+                final errorMessage = usernameErrors.join('.');
+                Fluttertoast.showToast(
+                    msg: "Username: ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Username: ${usernameErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('detail')) {
               final detailstTypeErrors = responseData['detail'];
-              if (detailstTypeErrors is List<dynamic> &&
-                  detailstTypeErrors.isNotEmpty) {
+              if (detailstTypeErrors is List<dynamic> && detailstTypeErrors.isNotEmpty) {
                 final errorMessage = detailstTypeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Detail : ${errorMessage}",
@@ -183,9 +204,33 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            }
-            else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('username')) {
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('language')) {
+              final languageErrors = responseData['language'];
+              if (languageErrors is List<dynamic> && languageErrors.isNotEmpty) {
+                final errorMessage = languageErrors.join('.');
+                Fluttertoast.showToast(
+                    msg: "Language: ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Language: ${languageErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
               final usernameErrors = responseData['username'];
               if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {
                 final errorMessage = usernameErrors.join('.');
