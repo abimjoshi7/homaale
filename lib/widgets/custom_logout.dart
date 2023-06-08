@@ -74,6 +74,11 @@ class CustomLogout extends StatelessWidget {
                 width: 100,
                 child: CustomElevatedButton(
                   callback: () async {
+                    final googleSignIn = GoogleSignIn(
+                      scopes: ['openid', 'email', 'profile'],
+                      serverClientId: '245846975950-vucoc2e1cmeielq5f5neoca7880n0u2i.apps.googleusercontent.com',
+                    );
+                    await googleSignIn.signOut();
                     context.read<SignInBloc>().add(
                           SignOutInitiated(),
                         );
