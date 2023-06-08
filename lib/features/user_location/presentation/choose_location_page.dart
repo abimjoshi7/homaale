@@ -27,10 +27,6 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
 
   _init() async {
     _draggedLatLng = kUserLocation;
-    await _repo.getMapAutoCompleteQueries();
-    // await locationFromAddress("Gronausestraat 710, Enschede").then(
-    //   (value) => print("Locations from string: $value"),
-    // );
   }
 
   @override
