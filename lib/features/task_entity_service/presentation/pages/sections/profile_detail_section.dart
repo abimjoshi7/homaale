@@ -122,7 +122,7 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                               onTap: () {
                                 context
                                     .read<SupportTicketTypeOptionsBloc>()
-                                    .add(SupportTicketTypeOptionsLoaded(target: 'task'));
+                                    .add(SupportTicketTypeOptionsLoaded(target: 'entityservice'));
                                 Navigator.pushNamed(
                                   context,
                                   CommonReportPage.routeName,

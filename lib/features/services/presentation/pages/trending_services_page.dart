@@ -1,4 +1,5 @@
 import 'package:cipher/core/mixins/mixins.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
@@ -84,7 +85,12 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
     return Scaffold(
       appBar: CustomAppBar(
         appBarTitle: "Trending Services",
-        trailingWidget: SizedBox.shrink(),
+        trailingWidget: IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, SearchPage.routeName);
+          },
+          icon: Icon(Icons.search),
+        ),
       ),
       body: BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
         bloc: entityServiceBloc,

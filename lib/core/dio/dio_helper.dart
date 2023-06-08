@@ -153,7 +153,31 @@ class DioHelper {
                 return handler.next(err);
               }
             } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
-            } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
+              final usernameErrors = responseData['username'];
+              if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {
+                final errorMessage = usernameErrors.join('.');
+                Fluttertoast.showToast(
+                    msg: "Username: ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Username: ${usernameErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
             } else if (responseData is Map<String, dynamic> && responseData.containsKey('detail')) {
               final detailstTypeErrors = responseData['detail'];
               if (detailstTypeErrors is List<dynamic> && detailstTypeErrors.isNotEmpty) {

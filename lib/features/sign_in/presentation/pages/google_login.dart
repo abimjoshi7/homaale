@@ -44,7 +44,9 @@ class _GoogleLoginState extends State<GoogleLogin> {
           if (!mounted) return;
 
           // fetch user details
-          userDetailsFetch(context);
+          if (CacheHelper.hasProfile ?? false) {
+            userDetailsFetch(context);
+          }
 
           // fetch data for app
           fetchDataForForms(context);

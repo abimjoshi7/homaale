@@ -18,9 +18,7 @@ class _ServicesProfileState extends State<ServicesProfile> {
   @override
   void initState() {
     super.initState();
-    context
-        .read<TaskEntityServiceBloc>()
-        .add(MyTESLoadInitiated(isTask: false));
+    context.read<TaskEntityServiceBloc>().add(MyTESLoadInitiated(isTask: false));
   }
 
   @override
@@ -42,8 +40,7 @@ class _ServicesProfileState extends State<ServicesProfile> {
               ),
               itemBuilder: (context, index) => GestureDetector(
                 onTap: () {
-                  context.read<TaskEntityServiceBloc>().add(
-                      TaskEntityServiceSingleLoaded(id: data?[index].id ?? ''));
+                  context.read<TaskEntityServiceBloc>().add(TaskEntityServiceSingleLoaded(id: data?[index].id ?? ''));
                   Navigator.pushNamed(context, TaskEntityServicePage.routeName);
                 },
                 child: ServiceCard(
@@ -67,18 +64,11 @@ class _ServicesProfileState extends State<ServicesProfile> {
                   imagePath: data?[index].images?.length == 0
                       ? kServiceImageNImg
                       : data?[index].images?.first.media.toString(),
-                  createdBy:
-                      "${data?[index].createdBy?.firstName} ${data?[index].createdBy?.lastName}",
+                  createdBy: "${data?[index].createdBy?.firstName} ${data?[index].createdBy?.lastName}",
                   description: data?[index].description,
-                  location: data?[index].location == ''
-                      ? "Remote"
-                      : data?[index].location,
-                  rateTo: double.parse(data?[index].payableTo ?? "")
-                      .toInt()
-                      .toString(),
-                  rateFrom: double.parse(data?[index].payableFrom ?? "")
-                      .toInt()
-                      .toString(),
+                  location: data?[index].location == '' ? "Remote" : data?[index].location,
+                  rateTo: double.parse(data?[index].payableTo ?? "").toInt().toString(),
+                  rateFrom: double.parse(data?[index].payableFrom ?? "").toInt().toString(),
                   isRange: data?[index].isRange,
                   isBookmarked: false,
                   isOwner: true,
@@ -89,10 +79,7 @@ class _ServicesProfileState extends State<ServicesProfile> {
                       builder: (context) => Container(
                         height: MediaQuery.of(context).size.height * 0.75,
                         padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom,
-                            left: 8,
-                            right: 8,
-                            top: 8),
+                            bottom: MediaQuery.of(context).viewInsets.bottom, left: 8, right: 8, top: 8),
                         child: SingleChildScrollView(
                           child: Column(
                             mainAxisSize: MainAxisSize.min,
@@ -117,7 +104,9 @@ class _ServicesProfileState extends State<ServicesProfile> {
             ),
           );
         }
-        return const SizedBox.shrink();
+        return const Center(
+          child: CircularProgressIndicator(),
+        );
       },
     );
   }

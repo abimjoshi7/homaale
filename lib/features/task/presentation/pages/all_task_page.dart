@@ -2,6 +2,7 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/scroll_helper.dart';
+import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
@@ -105,6 +106,15 @@ class _AllTaskPageState extends State<AllTaskPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(
+        appBarTitle: " All Task Page",
+        trailingWidget: IconButton(
+          onPressed: () {
+            Navigator.pushNamed(context, SearchPage.routeName);
+          },
+          icon: Icon(Icons.search),
+        ),
+      ),
       body: BlocBuilder<TaskBloc, TaskState>(
         bloc: taskBloc,
         builder: (context, state) {
@@ -114,10 +124,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
             case TheStates.success:
               return Column(
                 children: <Widget>[
-                  addVerticalSpace(50),
-                  const CustomHeader(
-                    label: 'All Task Page',
-                  ),
+                  kHeight8,
                   SizedBox(
                     height: 50,
                     width: double.infinity,
@@ -164,6 +171,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                       ],
                     ),
                   ),
+                  kHeight8,
                   Expanded(
                     child: ListView.separated(
                       shrinkWrap: true,

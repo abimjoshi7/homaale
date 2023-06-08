@@ -38,6 +38,7 @@ class _TaskerServiceState extends State<TaskerService> {
                 padding: EdgeInsets.zero,
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
+                  childAspectRatio: 0.8,
                 ),
                 itemCount: state.service.result?.length ?? 0,
                 itemBuilder: (context, index) => Padding(
