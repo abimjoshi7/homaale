@@ -1,9 +1,6 @@
-import 'dart:developer';
-
 import 'package:bloc_concurrency/bloc_concurrency.dart';
-import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/dio/dio_helper.dart';
+import 'package:cipher/features/bloc/infinite_repo.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:stream_transform/stream_transform.dart';
 
@@ -58,27 +55,5 @@ class ScrollBloc extends Bloc<ScrollEvent, ScrollState> {
         }
       }
     });
-  }
-}
-
-class InifiniteRepo {
-  final dio = DioHelper();
-
-  fetchItems(String url, Map<String, dynamic> data,
-      [int startIndex = 1]) async {
-    try {
-      final dats = data;
-
-      dats.addAll({'page': startIndex});
-
-      final res = await dio.getDatawithCredential(
-        url: url,
-        token: CacheHelper.accessToken,
-        query: dats,
-      );
-      return res as Map<String, dynamic>;
-    } catch (e) {
-      throw Exception(e.toString());
-    }
   }
 }
