@@ -15,7 +15,7 @@ class AllStatementSelectedTap extends StatelessWidget {
     return BlocBuilder<RedeemStatementBloc, RedeemStatementState>(
         builder: (BuildContext context, state) {
       return state.theState == TheStates.success ? Expanded(
-        child: ListView.separated(
+        child:  state.redeemStatement?.result?.length ==0 ? Text('Items not found.'):ListView.separated(
             itemBuilder: (BuildContext context, int index) {
               return Container(
                 decoration: BoxDecoration(
@@ -28,12 +28,14 @@ class AllStatementSelectedTap extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 8.0),
-                          child: Text(
-                            state.redeemStatement?.result?[index].objectRepr ??
-                                '',
-                            style: Theme.of(context).textTheme.headlineSmall,
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 8.0),
+                            child: Text(
+                              state.redeemStatement?.result?[index].objectRepr ??
+                                  '',
+                              style: Theme.of(context).textTheme.headlineSmall,
+                            ),
                           ),
                         ),
                         Container(

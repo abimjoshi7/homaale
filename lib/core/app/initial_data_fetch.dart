@@ -16,6 +16,8 @@ import 'package:cipher/features/utilities/presentation/bloc/skills/skills_bloc.d
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../features/wallet/presentation/bloc/wallet_bloc.dart';
+
 void initialFetch(BuildContext context) {
   context.read<CategoriesBloc>().add(CategoriesTopLoadInitiated());
   context

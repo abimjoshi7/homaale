@@ -389,7 +389,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                               ),
                               Text(
                                 '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
-                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].platformChargeDiscount?.toString() ?? '0.0')}',
+                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].offerValue?.toString() ?? '0.0')}',
                                 style:
                                     Theme.of(context).textTheme.headlineSmall,
                               ),
