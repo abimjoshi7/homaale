@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 class TaxReq {
   TaxReq({
     this.maritalStatus,
@@ -10,6 +11,7 @@ class TaxReq {
     this.cit,
     this.lifeInsurance,
     this.medicalInsurance,
+    this.gender,
   });
 
   final String? maritalStatus;
@@ -22,6 +24,7 @@ class TaxReq {
   final double? cit;
   final double? lifeInsurance;
   final double? medicalInsurance;
+  final String? gender;
 
   factory TaxReq.fromJson(Map<String, dynamic> json) => TaxReq(
         maritalStatus: json["marital_status"] as String?,
@@ -34,6 +37,7 @@ class TaxReq {
         cit: json["cit"] as double?,
         lifeInsurance: json["life_insurance"] as double?,
         medicalInsurance: json["medical_insurance"] as double?,
+        gender: json["gender"] as String?,
       );
 
   Map<String, dynamic> toJson() => {
@@ -47,5 +51,6 @@ class TaxReq {
         "cit": cit ?? 0,
         "life_insurance": lifeInsurance ?? 0,
         "medical_insurance": medicalInsurance ?? 0,
+        "gender": gender,
       };
 }
