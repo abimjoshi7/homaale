@@ -164,8 +164,9 @@ class _AddExperienceState extends State<AddExperience> {
                         const Text('Save as location'),
                       ],
                     ),
-                    kHeight20,
+                    kHeight10,
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Flexible(
                           child: Column(
@@ -194,7 +195,7 @@ class _AddExperienceState extends State<AddExperience> {
                                     });
                                   },
                                   child: CustomFormContainer(
-                                    hintText: issuedDate?.toString().substring(0, 10) ?? '1998-01-01',
+                                    hintText: issuedDate?.toString().substring(0, 10) ?? 'Start Date',
                                     leadingWidget: const Icon(
                                       Icons.calendar_month_rounded,
                                       color: kColorPrimary,
@@ -233,7 +234,7 @@ class _AddExperienceState extends State<AddExperience> {
                                       );
                                     },
                                     child: CustomFormContainer(
-                                      hintText: expiryDate?.toString().substring(0, 10) ?? '1999-01-18',
+                                      hintText: expiryDate?.toString().substring(0, 10) ?? 'End Date',
                                       leadingWidget: const Icon(
                                         Icons.calendar_month_rounded,
                                         color: kColorPrimary,
@@ -291,40 +292,43 @@ class _AddExperienceState extends State<AddExperience> {
               }
             },
             builder: (context, state) {
-              return CustomElevatedButton(
-                callback: () async {
-                  if (_key.currentState!.validate() && issuedDate!.isBefore(expiryDate!)) {
-                    _key.currentState!.save();
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: CustomElevatedButton(
+                  callback: () async {
+                    if (_key.currentState!.validate() && issuedDate!.isBefore(expiryDate!)) {
+                      _key.currentState!.save();
 
-                    await context
-                        .read<TaskerExperienceCubit>()
-                        .addTaskerExperience(
-                          TaskerExperienceReq(
-                            title: titleController.text,
-                            description: descriptionController.text,
-                            companyName: companyNameController.text,
-                            currentlyWorking: true,
-                            employmentType: employmentController.text,
-                            location: locationController.text,
-                            startDate: issuedDate ?? DateTime.now(),
-                            endDate: expiryDate,
-                          ),
-                        )
-                        .then(
-                          (value) => context.read<UserBloc>().add(UserLoaded()),
-                        )
-                        .then(
-                          (value) => context.read<TaskerExperienceCubit>().getTaskerExperience(),
-                        );
-                  } else if (expiryDate!.isBefore(issuedDate!)) {
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('Please check your start and end dates'),
-                      ),
-                    );
-                  }
-                },
-                label: 'Add',
+                      await context
+                          .read<TaskerExperienceCubit>()
+                          .addTaskerExperience(
+                            TaskerExperienceReq(
+                              title: titleController.text,
+                              description: descriptionController.text,
+                              companyName: companyNameController.text,
+                              currentlyWorking: true,
+                              employmentType: employmentController.text,
+                              location: locationController.text,
+                              startDate: issuedDate ?? DateTime.now(),
+                              endDate: expiryDate,
+                            ),
+                          )
+                          .then(
+                            (value) => context.read<UserBloc>().add(UserLoaded()),
+                          )
+                          .then(
+                            (value) => context.read<TaskerExperienceCubit>().getTaskerExperience(),
+                          );
+                    } else if (expiryDate!.isBefore(issuedDate!)) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('Please check your start and end dates'),
+                        ),
+                      );
+                    }
+                  },
+                  label: 'Add',
+                ),
               );
             },
           ),
