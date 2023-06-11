@@ -333,6 +333,10 @@ mixin _$Result {
   String? get endTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_paid')
   bool? get isPaid => throw _privateConstructorUsedError;
+  @JsonKey(name: 'cancellation_reason')
+  String? get cancellationReason => throw _privateConstructorUsedError;
+  @JsonKey(name: 'cancellation_description')
+  String? get cancellationDescription => throw _privateConstructorUsedError;
   int? get booking => throw _privateConstructorUsedError;
   int? get city => throw _privateConstructorUsedError;
   List<Image>? get images => throw _privateConstructorUsedError;
@@ -352,26 +356,41 @@ abstract class $ResultCopyWith<$Res> {
       {String? id,
       Assignee? assigner,
       Assignee? assignee,
-      @JsonKey(name: 'entity_service') EntityService? entityService,
+      @JsonKey(name: 'entity_service')
+          EntityService? entityService,
       Currency? currency,
-      @JsonKey(name: 'is_rated') bool? isRated,
-      @JsonKey(name: 'created_at') String? createdAt,
-      @JsonKey(name: 'updated_at') String? updatedAt,
-      @JsonKey(name: 'is_active') bool? isActive,
+      @JsonKey(name: 'is_rated')
+          bool? isRated,
+      @JsonKey(name: 'created_at')
+          String? createdAt,
+      @JsonKey(name: 'updated_at')
+          String? updatedAt,
+      @JsonKey(name: 'is_active')
+          bool? isActive,
       String? status,
       String? title,
       String? description,
       List<String>? requirements,
       String? charge,
       String? location,
-      @JsonKey(name: 'estimated_time') int? estimatedTime,
+      @JsonKey(name: 'estimated_time')
+          int? estimatedTime,
       String? slug,
-      @JsonKey(name: 'start_date') DateTime? startDate,
-      @JsonKey(name: 'end_date') DateTime? endDate,
+      @JsonKey(name: 'start_date')
+          DateTime? startDate,
+      @JsonKey(name: 'end_date')
+          DateTime? endDate,
       dynamic completedOn,
-      @JsonKey(name: 'start_time') String? startTime,
-      @JsonKey(name: 'end_time') String? endTime,
-      @JsonKey(name: 'is_paid') bool? isPaid,
+      @JsonKey(name: 'start_time')
+          String? startTime,
+      @JsonKey(name: 'end_time')
+          String? endTime,
+      @JsonKey(name: 'is_paid')
+          bool? isPaid,
+      @JsonKey(name: 'cancellation_reason')
+          String? cancellationReason,
+      @JsonKey(name: 'cancellation_description')
+          String? cancellationDescription,
       int? booking,
       int? city,
       List<Image>? images,
@@ -419,6 +438,8 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
     Object? startTime = freezed,
     Object? endTime = freezed,
     Object? isPaid = freezed,
+    Object? cancellationReason = freezed,
+    Object? cancellationDescription = freezed,
     Object? booking = freezed,
     Object? city = freezed,
     Object? images = freezed,
@@ -517,6 +538,14 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
           ? _value.isPaid
           : isPaid // ignore: cast_nullable_to_non_nullable
               as bool?,
+      cancellationReason: freezed == cancellationReason
+          ? _value.cancellationReason
+          : cancellationReason // ignore: cast_nullable_to_non_nullable
+              as String?,
+      cancellationDescription: freezed == cancellationDescription
+          ? _value.cancellationDescription
+          : cancellationDescription // ignore: cast_nullable_to_non_nullable
+              as String?,
       booking: freezed == booking
           ? _value.booking
           : booking // ignore: cast_nullable_to_non_nullable
@@ -595,26 +624,41 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       {String? id,
       Assignee? assigner,
       Assignee? assignee,
-      @JsonKey(name: 'entity_service') EntityService? entityService,
+      @JsonKey(name: 'entity_service')
+          EntityService? entityService,
       Currency? currency,
-      @JsonKey(name: 'is_rated') bool? isRated,
-      @JsonKey(name: 'created_at') String? createdAt,
-      @JsonKey(name: 'updated_at') String? updatedAt,
-      @JsonKey(name: 'is_active') bool? isActive,
+      @JsonKey(name: 'is_rated')
+          bool? isRated,
+      @JsonKey(name: 'created_at')
+          String? createdAt,
+      @JsonKey(name: 'updated_at')
+          String? updatedAt,
+      @JsonKey(name: 'is_active')
+          bool? isActive,
       String? status,
       String? title,
       String? description,
       List<String>? requirements,
       String? charge,
       String? location,
-      @JsonKey(name: 'estimated_time') int? estimatedTime,
+      @JsonKey(name: 'estimated_time')
+          int? estimatedTime,
       String? slug,
-      @JsonKey(name: 'start_date') DateTime? startDate,
-      @JsonKey(name: 'end_date') DateTime? endDate,
+      @JsonKey(name: 'start_date')
+          DateTime? startDate,
+      @JsonKey(name: 'end_date')
+          DateTime? endDate,
       dynamic completedOn,
-      @JsonKey(name: 'start_time') String? startTime,
-      @JsonKey(name: 'end_time') String? endTime,
-      @JsonKey(name: 'is_paid') bool? isPaid,
+      @JsonKey(name: 'start_time')
+          String? startTime,
+      @JsonKey(name: 'end_time')
+          String? endTime,
+      @JsonKey(name: 'is_paid')
+          bool? isPaid,
+      @JsonKey(name: 'cancellation_reason')
+          String? cancellationReason,
+      @JsonKey(name: 'cancellation_description')
+          String? cancellationDescription,
       int? booking,
       int? city,
       List<Image>? images,
@@ -663,6 +707,8 @@ class __$$_ResultCopyWithImpl<$Res>
     Object? startTime = freezed,
     Object? endTime = freezed,
     Object? isPaid = freezed,
+    Object? cancellationReason = freezed,
+    Object? cancellationDescription = freezed,
     Object? booking = freezed,
     Object? city = freezed,
     Object? images = freezed,
@@ -761,6 +807,14 @@ class __$$_ResultCopyWithImpl<$Res>
           ? _value.isPaid
           : isPaid // ignore: cast_nullable_to_non_nullable
               as bool?,
+      cancellationReason: freezed == cancellationReason
+          ? _value.cancellationReason
+          : cancellationReason // ignore: cast_nullable_to_non_nullable
+              as String?,
+      cancellationDescription: freezed == cancellationDescription
+          ? _value.cancellationDescription
+          : cancellationDescription // ignore: cast_nullable_to_non_nullable
+              as String?,
       booking: freezed == booking
           ? _value.booking
           : booking // ignore: cast_nullable_to_non_nullable
@@ -808,6 +862,8 @@ class _$_Result implements _Result {
       @JsonKey(name: 'start_time') this.startTime,
       @JsonKey(name: 'end_time') this.endTime,
       @JsonKey(name: 'is_paid') this.isPaid,
+      @JsonKey(name: 'cancellation_reason') this.cancellationReason,
+      @JsonKey(name: 'cancellation_description') this.cancellationDescription,
       this.booking,
       this.city,
       final List<Image>? images,
@@ -885,6 +941,12 @@ class _$_Result implements _Result {
   @JsonKey(name: 'is_paid')
   final bool? isPaid;
   @override
+  @JsonKey(name: 'cancellation_reason')
+  final String? cancellationReason;
+  @override
+  @JsonKey(name: 'cancellation_description')
+  final String? cancellationDescription;
+  @override
   final int? booking;
   @override
   final int? city;
@@ -910,7 +972,7 @@ class _$_Result implements _Result {
 
   @override
   String toString() {
-    return 'Result(id: $id, assigner: $assigner, assignee: $assignee, entityService: $entityService, currency: $currency, isRated: $isRated, createdAt: $createdAt, updatedAt: $updatedAt, isActive: $isActive, status: $status, title: $title, description: $description, requirements: $requirements, charge: $charge, location: $location, estimatedTime: $estimatedTime, slug: $slug, startDate: $startDate, endDate: $endDate, completedOn: $completedOn, startTime: $startTime, endTime: $endTime, isPaid: $isPaid, booking: $booking, city: $city, images: $images, videos: $videos)';
+    return 'Result(id: $id, assigner: $assigner, assignee: $assignee, entityService: $entityService, currency: $currency, isRated: $isRated, createdAt: $createdAt, updatedAt: $updatedAt, isActive: $isActive, status: $status, title: $title, description: $description, requirements: $requirements, charge: $charge, location: $location, estimatedTime: $estimatedTime, slug: $slug, startDate: $startDate, endDate: $endDate, completedOn: $completedOn, startTime: $startTime, endTime: $endTime, isPaid: $isPaid, cancellationReason: $cancellationReason, cancellationDescription: $cancellationDescription, booking: $booking, city: $city, images: $images, videos: $videos)';
   }
 
   @override
@@ -955,6 +1017,11 @@ class _$_Result implements _Result {
                 other.startTime == startTime) &&
             (identical(other.endTime, endTime) || other.endTime == endTime) &&
             (identical(other.isPaid, isPaid) || other.isPaid == isPaid) &&
+            (identical(other.cancellationReason, cancellationReason) ||
+                other.cancellationReason == cancellationReason) &&
+            (identical(
+                    other.cancellationDescription, cancellationDescription) ||
+                other.cancellationDescription == cancellationDescription) &&
             (identical(other.booking, booking) || other.booking == booking) &&
             (identical(other.city, city) || other.city == city) &&
             const DeepCollectionEquality().equals(other._images, _images) &&
@@ -988,6 +1055,8 @@ class _$_Result implements _Result {
         startTime,
         endTime,
         isPaid,
+        cancellationReason,
+        cancellationDescription,
         booking,
         city,
         const DeepCollectionEquality().hash(_images),
@@ -1013,26 +1082,41 @@ abstract class _Result implements Result {
       {final String? id,
       final Assignee? assigner,
       final Assignee? assignee,
-      @JsonKey(name: 'entity_service') final EntityService? entityService,
+      @JsonKey(name: 'entity_service')
+          final EntityService? entityService,
       final Currency? currency,
-      @JsonKey(name: 'is_rated') final bool? isRated,
-      @JsonKey(name: 'created_at') final String? createdAt,
-      @JsonKey(name: 'updated_at') final String? updatedAt,
-      @JsonKey(name: 'is_active') final bool? isActive,
+      @JsonKey(name: 'is_rated')
+          final bool? isRated,
+      @JsonKey(name: 'created_at')
+          final String? createdAt,
+      @JsonKey(name: 'updated_at')
+          final String? updatedAt,
+      @JsonKey(name: 'is_active')
+          final bool? isActive,
       final String? status,
       final String? title,
       final String? description,
       final List<String>? requirements,
       final String? charge,
       final String? location,
-      @JsonKey(name: 'estimated_time') final int? estimatedTime,
+      @JsonKey(name: 'estimated_time')
+          final int? estimatedTime,
       final String? slug,
-      @JsonKey(name: 'start_date') final DateTime? startDate,
-      @JsonKey(name: 'end_date') final DateTime? endDate,
+      @JsonKey(name: 'start_date')
+          final DateTime? startDate,
+      @JsonKey(name: 'end_date')
+          final DateTime? endDate,
       final dynamic completedOn,
-      @JsonKey(name: 'start_time') final String? startTime,
-      @JsonKey(name: 'end_time') final String? endTime,
-      @JsonKey(name: 'is_paid') final bool? isPaid,
+      @JsonKey(name: 'start_time')
+          final String? startTime,
+      @JsonKey(name: 'end_time')
+          final String? endTime,
+      @JsonKey(name: 'is_paid')
+          final bool? isPaid,
+      @JsonKey(name: 'cancellation_reason')
+          final String? cancellationReason,
+      @JsonKey(name: 'cancellation_description')
+          final String? cancellationDescription,
       final int? booking,
       final int? city,
       final List<Image>? images,
@@ -1097,6 +1181,12 @@ abstract class _Result implements Result {
   @override
   @JsonKey(name: 'is_paid')
   bool? get isPaid;
+  @override
+  @JsonKey(name: 'cancellation_reason')
+  String? get cancellationReason;
+  @override
+  @JsonKey(name: 'cancellation_description')
+  String? get cancellationDescription;
   @override
   int? get booking;
   @override
