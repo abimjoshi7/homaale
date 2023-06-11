@@ -1,14 +1,14 @@
-part of 'scrolling_bloc.dart';
+part of 'scroll_bloc.dart';
 
 @immutable
-class ScrollingState extends Equatable {
+class ScrollState extends Equatable {
   final TheStates theState;
   final List<dynamic> result;
   final String? next;
   final bool hasReachedMax;
   final int pageIndex;
 
-  const ScrollingState({
+  const ScrollState({
     this.theState = TheStates.initial,
     this.result = const [],
     this.next = null,
@@ -16,14 +16,14 @@ class ScrollingState extends Equatable {
     this.pageIndex = 1,
   });
 
-  ScrollingState copyWith({
+  ScrollState copyWith({
     TheStates? theState,
     List<dynamic>? result,
     String? next,
     bool? hasReachedMax,
     int? pageIndex,
   }) {
-    return ScrollingState(
+    return ScrollState(
       theState: theState ?? this.theState,
       result: result ?? this.result,
       next: next ?? this.next,

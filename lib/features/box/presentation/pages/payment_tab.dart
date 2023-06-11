@@ -38,7 +38,7 @@ class _PaymentTabState extends State<PaymentTab> {
             double.parse(
                 state.orderItemList?.result?[items].price.toString() ?? "0.0");
       }
-      return ' $sum';
+      return double.parse(sum.toStringAsFixed(2)).toString();
     }
     return "Rs. 0.0";
   }
@@ -121,15 +121,20 @@ class _PaymentTabState extends State<PaymentTab> {
                                                         'User is suspended',
                                                   ),
                                                 )
-                                              : Navigator.pushNamed(
-                                                  context,
+                                              : Navigator.pushNamed(context,
                                                   CheckoutPage.routeName,
-                                                  arguments: orderIdCreateBloc
-                                                          .state
-                                                          .orderIdCreate
-                                                          ?.order ??
-                                                      "",
-                                                );
+                                                  arguments:
+                                                      // orderIdCreateBloc
+                                                      //     .state
+                                                      //     .orderIdCreate
+                                                      //     ?.order
+                                                      {
+                                                      'orderId':
+                                                          orderIdCreateBloc
+                                                              .state
+                                                              .orderIdCreate
+                                                              ?.order
+                                                    });
                                         } else {
                                           showDialog(
                                             context: context,
@@ -167,7 +172,7 @@ class _PaymentTabState extends State<PaymentTab> {
                                               ),
                                             ),
                                             Text(
-                                              '${state.orderItemList?.result?[currentIndex].currency?.symbol}' +
+                                              '${state.orderItemList?.result?[currentIndex].currency?.symbol} ' +
                                                   getTotalPrice(state),
                                               style: TextStyle(
                                                   fontWeight: FontWeight.bold,
@@ -205,13 +210,15 @@ class _PaymentTabState extends State<PaymentTab> {
                                   Icon(
                                     Icons.info_outline,
                                     color: Colors.orangeAccent,
-                                    size: 25,
+                                    size: 18,
                                   ),
                                   Expanded(
                                     child: Text(
                                       ' For bulk payment, please choose items with same currency.',
-                                      style:
-                                          Theme.of(context).textTheme.displaySmall,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displaySmall
+                                          ?.copyWith(fontSize: 12),
                                     ),
                                   ),
                                 ],
@@ -370,7 +377,7 @@ class _PaymentTabState extends State<PaymentTab> {
                                                       ),
                                                       Text(
                                                         '${state.orderItemList?.result?[index].currency?.symbol}'
-                                                        '${Decimal.parse(state.orderItemList?.result?[index].price?.toString() ?? "0")}',
+                                                        '${Decimal.parse(state.orderItemList?.result?[index].price.toString() ?? "0").toStringAsFixed(2)}',
                                                         style: Theme.of(context)
                                                             .textTheme
                                                             .bodySmall,

@@ -1,12 +1,17 @@
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/dimensions.dart';
+import 'package:cipher/core/helpers/scroll_helper.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
+import 'package:cipher/features/bloc/scroll_bloc.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/documents/presentation/pages/edit/edit_portfolio.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import 'package:cipher/features/user/data/models/tasker_profile.dart' as pro;
 
 class PortfolioView extends StatefulWidget with TheModalBottomSheet {
   const PortfolioView({
@@ -18,7 +23,40 @@ class PortfolioView extends StatefulWidget with TheModalBottomSheet {
 }
 
 class _PortfolioViewState extends State<PortfolioView> {
-  int pageNumber = 1;
+  final _controller = ScrollController();
+  final _scrollBloc = locator<ScrollBloc>();
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollBloc.add(
+      FetchItemsEvent(
+        kPortfolio,
+        {},
+        true,
+      ),
+    );
+    _controller.addListener(
+      () {
+        ScrollHelper.nextPageTrigger(
+          _controller,
+          _scrollBloc.add(
+            FetchItemsEvent(
+              kPortfolio,
+              {},
+              false,
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _controller.dispose();
+  }
   // final _pagingController = PagingController(
   //   firstPageKey: 'http://172.16.16.50:8014/api/v1/tasker/portfolio/?page=1',
   // );

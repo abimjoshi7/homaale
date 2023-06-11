@@ -2,7 +2,6 @@ import 'package:cipher/features/categories/presentation/pages/sections/categorie
 import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
-
 class Home extends StatefulWidget {
   const Home({
     super.key,
@@ -16,11 +15,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

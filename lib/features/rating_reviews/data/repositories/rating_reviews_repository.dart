@@ -9,7 +9,8 @@ import 'package:cipher/features/rating_reviews/data/models/rating_submit_respons
 class RatingReviewsRepositroy {
   final _dio = DioHelper();
 
-  Future<RatingResponseDto> fetchRatingReviews(String? serviceID, [int startIndex = 1]) async {
+  Future<RatingResponseDto> fetchRatingReviews(String? serviceID,
+      [int startIndex = 1]) async {
     try {
       final response = await _dio.getDatawithCredential(
         url: '/task/rating/service/$serviceID/?page=$startIndex',

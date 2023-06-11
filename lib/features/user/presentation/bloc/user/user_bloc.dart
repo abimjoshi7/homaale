@@ -27,23 +27,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           );
           await respositories.fetchUser().then(
             (value) {
-              emit(
-                state.copyWith(
-                  theStates: TheStates.success,
-                  taskerProfile: TaskerProfile.fromJson(
-                    value,
-                  ),
-                ),
-              );
+              emit(state.copyWith(theStates: TheStates.success, taskerProfile: value));
             },
           );
         } catch (e) {
           log("User Load Error: $e");
-          emit(
-            state.copyWith(
-              theStates: TheStates.failure,
-            ),
-          );
+          emit(state.copyWith(theStates: TheStates.failure));
         }
       },
     );

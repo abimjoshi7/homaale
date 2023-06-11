@@ -79,23 +79,25 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                                           mainAxisAlignment:
                                               MainAxisAlignment.spaceBetween,
                                           children: [
-                                            Text(
-                                              state
-                                                      .orderItemRetriveList
-                                                      ?.orderItem?[index]
-                                                      .task
-                                                      ?.title ??
-                                                  "",
-                                              style: TextStyle(
-                                                textBaseline:
-                                                    TextBaseline.alphabetic,
-                                                overflow: TextOverflow.ellipsis,
+                                            Expanded(
+                                              child: Text(
+                                                state
+                                                        .orderItemRetriveList
+                                                        ?.orderItem?[index]
+                                                        .task
+                                                        ?.title ??
+                                                    "",
+                                                style: TextStyle(
+                                                  textBaseline:
+                                                      TextBaseline.alphabetic,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                                maxLines: 1,
                                               ),
-                                              maxLines: 1,
                                             ),
                                             Text(
                                                 '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
-                                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].amount ?? '0.0')}'),
+                                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].amount ?? '0.0').toStringAsFixed(2)}'),
                                           ],
                                         );
                                       }),

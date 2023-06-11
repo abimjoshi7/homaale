@@ -28,11 +28,11 @@ class _SkillsViewState extends State<SkillsView> {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
-          List<int> skills =
-              state.taskerProfile?.skills?.map((e) => e.id!).toList() ?? [];
+          List<int> skills = state.taskerProfile?.skills?.map((e) => e.id!).toList() ?? [];
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              kHeight10,
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -40,155 +40,144 @@ class _SkillsViewState extends State<SkillsView> {
                     'Skills',
                     style: widget.style ?? null,
                   ),
-                  IconButton(
-                    onPressed: () {
-                      showModalBottomSheet(
-                        isScrollControlled: true,
-                        context: context,
-                        builder: (context) => Padding(
-                          padding: EdgeInsets.only(
-                            bottom: MediaQuery.of(context).viewInsets.bottom,
-                          ),
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              const CustomModalSheetDrawerIcon(),
-                              Padding(
-                                padding: kPadding10,
-                                child: Column(
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            const Text(
-                                              'Skills',
-                                              style: kPurpleText16,
-                                            ),
-                                            TextButton(
-                                              onPressed: () {
-                                                skills.clear();
-                                              },
-                                              child: const Text(
-                                                'Clear All',
-                                                style: kHelper13,
+                  Visibility(
+                    visible: widget.isForm,
+                    child: IconButton(
+                      onPressed: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) => Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                            ),
+                            child: Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const CustomModalSheetDrawerIcon(),
+                                Padding(
+                                  padding: kPadding10,
+                                  child: Column(
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              const Text(
+                                                'Skills',
+                                                style: kPurpleText16,
                                               ),
-                                            ),
-                                          ],
-                                        ),
-                                        kHeight5,
-                                        BlocBuilder<SkillsBloc, SkillsState>(
-                                          builder: (context, state) {
-                                            if (state.theStates ==
-                                                TheStates.success) {
-                                              return MultiSelectDialogField(
-                                                initialValue: widget.isForm
-                                                    ? state.skillsIdList ??
-                                                        skills
-                                                    : skills,
-                                                items: List.generate(
-                                                  state.skillListRes.length,
-                                                  (index) => MultiSelectItem(
-                                                    state
-                                                        .skillListRes[index].id,
-                                                    state.skillListRes[index]
-                                                        .name
-                                                        .toString(),
-                                                  ),
+                                              TextButton(
+                                                onPressed: () {
+                                                  skills.clear();
+                                                },
+                                                child: const Text(
+                                                  'Clear All',
+                                                  style: kHelper13,
                                                 ),
-                                                onConfirm: (p0) {
-                                                  setState(
-                                                    () {
-                                                      skills = p0
-                                                          .map((e) => e!)
-                                                          .toList();
-                                                    },
-                                                  );
-                                                },
-                                              );
-                                            }
-                                            return SizedBox.shrink();
-                                          },
-                                        ),
-                                      ],
-                                    ),
-                                  ],
+                                              ),
+                                            ],
+                                          ),
+                                          kHeight5,
+                                          BlocBuilder<SkillsBloc, SkillsState>(
+                                            builder: (context, state) {
+                                              if (state.theStates == TheStates.success) {
+                                                return MultiSelectDialogField(
+                                                  initialValue: widget.isForm ? state.skillsIdList ?? skills : skills,
+                                                  items: List.generate(
+                                                    state.skillListRes.length,
+                                                    (index) => MultiSelectItem(
+                                                      state.skillListRes[index].id,
+                                                      state.skillListRes[index].name.toString(),
+                                                    ),
+                                                  ),
+                                                  onConfirm: (p0) {
+                                                    setState(
+                                                      () {
+                                                        skills = p0.map((e) => e!).toList();
+                                                      },
+                                                    );
+                                                  },
+                                                );
+                                              }
+                                              return SizedBox.shrink();
+                                            },
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                              ),
-                              BlocConsumer<UserBloc, UserState>(
-                                listener: (context, state) async {
-                                  if (state.theStates == TheStates.success &&
-                                      state.isEdited == true) {
-                                    // context.read<UserBloc>().add(UserLoaded());
-                                    showDialog(
-                                      context: context,
-                                      builder: (_) => CustomToast(
-                                        heading: 'Success',
-                                        content: 'Skills updated successfully',
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                            context,
-                                            Profile.routeName,
-                                          );
-                                        },
-                                        isSuccess: true,
-                                      ),
+                                BlocConsumer<UserBloc, UserState>(
+                                  listener: (context, state) async {
+                                    // if (state.theStates == TheStates.success && state.isEdited == true) {
+                                    //   // context.read<UserBloc>().add(UserLoaded());
+                                    //   showDialog(
+                                    //     context: context,
+                                    //     builder: (_) => CustomToast(
+                                    //       heading: 'Success',
+                                    //       content: 'Skills updated successfully',
+                                    //       onTap: () {
+                                    //         Navigator.pushNamed(
+                                    //           context,
+                                    //           Profile.routeName,
+                                    //         );
+                                    //       },
+                                    //       isSuccess: true,
+                                    //     ),
+                                    //   );
+                                    // }
+                                    // if (state.theStates == TheStates.failure) {
+                                    //   showDialog(
+                                    //     context: context,
+                                    //     builder: (_) => CustomToast(
+                                    //       heading: 'Failure',
+                                    //       content: 'Skills update failed.',
+                                    //       onTap: () {},
+                                    //       isSuccess: false,
+                                    //     ),
+                                    //   ).then(
+                                    //     (value) => context.read<UserBloc>().add(UserLoaded()),
+                                    //   );
+                                    // }
+                                  },
+                                  builder: (context, state) {
+                                    return CustomElevatedButton(
+                                      callback: () async {
+                                        if (widget.isForm) {
+                                          context.read<SkillsBloc>().add(
+                                                SelectedSkillsOptionsStore(
+                                                  selectedSkills: skills,
+                                                ),
+                                              );
+                                          Navigator.pop(context);
+                                        }
+                                        if (!widget.isForm) {
+                                          context.read<UserBloc>().add(
+                                                UserEdited(
+                                                  req: {
+                                                    'skills': skills,
+                                                  },
+                                                ),
+                                              );
+                                        }
+                                      },
+                                      label: 'Add',
                                     );
-                                  }
-                                  if (state.theStates == TheStates.failure) {
-                                    showDialog(
-                                      context: context,
-                                      builder: (_) => CustomToast(
-                                        heading: 'Failure',
-                                        content: 'Skills update failed.',
-                                        onTap: () {},
-                                        isSuccess: false,
-                                      ),
-                                    ).then(
-                                      (value) => context
-                                          .read<UserBloc>()
-                                          .add(UserLoaded()),
-                                    );
-                                  }
-                                },
-                                builder: (context, state) {
-                                  return CustomElevatedButton(
-                                    callback: () async {
-                                      if (widget.isForm) {
-                                        context.read<SkillsBloc>().add(
-                                              SelectedSkillsOptionsStore(
-                                                selectedSkills: skills,
-                                              ),
-                                            );
-                                        Navigator.pop(context);
-                                      }
-                                      if (!widget.isForm) {
-                                        context.read<UserBloc>().add(
-                                              UserEdited(
-                                                req: {
-                                                  'skills': skills,
-                                                },
-                                              ),
-                                            );
-                                      }
-                                    },
-                                    label: 'Add',
-                                  );
-                                },
-                              ),
-                              kHeight50,
-                            ],
+                                  },
+                                ),
+                                kHeight50,
+                              ],
+                            ),
                           ),
-                        ),
-                      );
-                    },
-                    icon: const Icon(
-                      Icons.edit_outlined,
-                      size: 18,
+                        );
+                      },
+                      icon: const Icon(
+                        Icons.edit_outlined,
+                        size: 18,
+                      ),
                     ),
                   ),
                 ],
@@ -196,8 +185,7 @@ class _SkillsViewState extends State<SkillsView> {
               BlocBuilder<SkillsBloc, SkillsState>(
                 builder: (context, state) {
                   final List<String> _skillNames = _getSkillNames(
-                    skillsIdList:
-                        widget.isForm ? state.skillsIdList ?? skills : skills,
+                    skillsIdList: widget.isForm ? state.skillsIdList ?? skills : skills,
                     skillModelList: state.skillListRes,
                   );
                   ;
@@ -207,8 +195,7 @@ class _SkillsViewState extends State<SkillsView> {
                     child: ListView.separated(
                       padding: EdgeInsets.zero,
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) =>
-                          SkillBox(label: _skillNames[index]),
+                      itemBuilder: (context, index) => SkillBox(label: _skillNames[index]),
                       separatorBuilder: (context, index) => kWidth10,
                       itemCount: _skillNames.length,
                     ),

@@ -2,12 +2,14 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/box/presentation/bloc/order_retrive_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_retrive_event.dart';
 import 'package:cipher/features/box/presentation/bloc/order_retrive_state.dart';
+import 'package:cipher/features/payment/presentation/bloc/payment_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/payment/presentation/pages/payment_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/app/root.dart';
 import '../../../box/promo_code/presentation/pages/apply_promo_and_offer.dart';
 import '../../../payment/presentation/bloc/payment_type_event.dart';
 import '../../../payment/presentation/pages/payment_summary_page.dart';
@@ -24,14 +26,14 @@ class CheckoutPage extends StatefulWidget {
 class _CheckoutPageState extends State<CheckoutPage> {
   @override
   Widget build(BuildContext context) {
-    final orderID = ModalRoute.of(context)?.settings.arguments as String;
+    final routeData =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final orderID = routeData?['orderId'] as String?;
     context
         .read<OrderItemRetriveBloc>()
-        .add(OrderItemRetriveInitiated(uuid: orderID));
+        .add(OrderItemRetriveInitiated(uuid: orderID ?? ""));
     return Scaffold(
-      appBar: CustomAppBar(
-        appBarTitle: 'Checkout',trailingWidget: SizedBox()
-      ),
+      appBar: CustomAppBar(appBarTitle: 'Checkout', trailingWidget: SizedBox()),
       body: BlocBuilder<OrderItemRetriveBloc, OrderItemRetriveState>(
         builder: (context, state) {
           return SingleChildScrollView(
@@ -55,30 +57,40 @@ class _CheckoutPageState extends State<CheckoutPage> {
                   ),
                 ),
                 PromoCodeAddSection(
-                  orderId: orderID,
+                  orderId: orderID ?? "",
                 ),
                 PaymentDetailsContainer(state: state),
                 Center(
                   child: CustomElevatedButton(
                     callback: () {
-                      context
-                          .read<PaymentTypeBloc>()
-                          .add(PaymentTypeListInitiated());
-                      Navigator.pushNamed(
-                        context,
-                        PaymentPage.routeName,
-                        arguments: orderID,
-                      );
+                      if (state.orderItemRetriveList?.grandTotal.toString() ==
+                          "0.0") {
+                        context.read<PaymentBloc>().add(
+                            PaymentInitiatedZeroAmount(uuid: orderID ?? ""));
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: BlocBuilder<PaymentBloc, PaymentIntentState>(
+                              builder: (context, stateM) {
+                            return Text(stateM.paymentZero?.message ?? "");
+                          }),
+                          duration: const Duration(seconds: 1),
+                        ));
+                        Navigator.pushNamed(context, Root.routeName);
+                      } else {
+                        context
+                            .read<PaymentTypeBloc>()
+                            .add(PaymentTypeListInitiated());
+                        Navigator.pushNamed(context, PaymentPage.routeName,
+                            arguments: orderID
+                            // {'orderID': orderID ?? ""},
+                            );
+                      }
                     },
                     label: 'Confirm',
                   ),
                 ),
-                // addVerticalSpace(10),
                 Padding(
                   padding: const EdgeInsets.only(left: 16.0, top: 6),
                   child: Row(
-                    // mainAxisAlignment: MainAxisAlignment.center,
-                    // crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Icon(
                         Icons.info_outline,
@@ -183,6 +195,7 @@ class TaskDisplayList extends StatelessWidget {
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
+                                    mainAxisSize: MainAxisSize.min,
                                     mainAxisAlignment: MainAxisAlignment.end,
                                     children: [
                                       Padding(
@@ -197,7 +210,10 @@ class TaskDisplayList extends StatelessWidget {
                                               "",
                                           style: Theme.of(context)
                                               .textTheme
-                                              .headlineSmall,
+                                              .headlineSmall
+                                              ?.copyWith(
+                                                  overflow:
+                                                      TextOverflow.ellipsis),
                                         ),
                                       ),
                                       Padding(
@@ -228,7 +244,7 @@ class TaskDisplayList extends StatelessWidget {
                                                   left: 50.0),
                                               child: Text(
                                                 '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
-                                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].amount.toString() ?? "0.0")}',
+                                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].amount.toString() ?? "0.0").toStringAsFixed(2)}',
                                                 style: Theme.of(context)
                                                     .textTheme
                                                     .bodySmall,
@@ -340,15 +356,17 @@ class PaymentDetailsContainer extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
-                              Text(
-                                state.orderItemRetriveList?.orderItem?[index]
-                                        .task?.title ??
-                                    'Service Charge',
-                                style: Theme.of(context).textTheme.bodySmall,
+                              Expanded(
+                                child: Text(
+                                  state.orderItemRetriveList?.orderItem?[index]
+                                          .task?.title ??
+                                      '',
+                                  style: Theme.of(context).textTheme.bodySmall,
+                                ),
                               ),
                               Text(
                                 '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
-                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].amount.toString() ?? '0.0')}',
+                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].amount.toString() ?? '0.0').toStringAsFixed(2)}',
                                 style:
                                     Theme.of(context).textTheme.headlineSmall,
                               ),
@@ -389,7 +407,7 @@ class PaymentDetailsContainer extends StatelessWidget {
                               ),
                               Text(
                                 '${state.orderItemRetriveList?.orderItem?[index].task?.currency} '
-                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].platformChargeDiscount?.toString() ?? '0.0')}',
+                                '${Decimal.parse(state.orderItemRetriveList?.orderItem?[index].offerValue?.toString() ?? '0.0').toStringAsFixed(2)}',
                                 style:
                                     Theme.of(context).textTheme.headlineSmall,
                               ),

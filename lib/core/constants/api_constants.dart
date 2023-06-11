@@ -12,6 +12,7 @@ const kBookmarkPath = "task/bookmark/";
 
 // * bookings
 const kBooking = "/task/entity/service-booking/";
+const kBookingList = "task/entity/service/task/list/";
 const kCreateBookingsApproval = "/task/entity/service-booking/approval/";
 const kCreateBookingsDecline = "/task/entity/service-booking/reject/";
 const kCreateBookingsCancel = "/task/entity/service-booking/cancel/";
@@ -41,6 +42,10 @@ const kSearchPath = "/search/dashboard/";
 //categories
 const kParentCategoryList = "/task/cms/task-category/list/";
 const kSubCategoryList = "/task/service/list/options/";
+const kShareLinks = "https://sandbox.homaale.com/service";
+
+//portfolio
+const kPortfolio = "tasker/portfolio/";
 
 Map<String, Object> kUrls = {
   "user": {

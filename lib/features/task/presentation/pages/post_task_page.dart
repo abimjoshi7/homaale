@@ -199,92 +199,170 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
       },
       builder: (context, state) {
         final upload = UploadHelper(bloc: uploadBloc, context: context);
-        return CustomElevatedButton(
-          callback: () async {
-            if (context.read<CategoriesBloc>().state.serviceId != null) {
-              if (isTermsAccepted) {
-                if (_key.currentState!.validate() &&
-                    endPriceController.text.isNotEmpty &&
-                    endDate != null) {
-                  if (endDate!.isBefore(
-                    startDate ??
-                        endDate!.subtract(
-                          Duration(
-                            seconds: 5,
+        return BlocListener<UploadBloc, UploadState>(
+          bloc: uploadBloc,
+          listenWhen: (previous, current) {
+            if (previous.isImageUploaded != true &&
+                current.isImageUploaded == true) return true;
+            if (previous.isVideoUploaded != true &&
+                current.isVideoUploaded == true) return true;
+            return false;
+          },
+          listener: (context, state) {
+            if (state.isImageUploaded && state.isVideoUploaded) {
+              final req = TaskEntityServiceReq(
+                title: titleController.text,
+                description: descriptionController.text,
+                highlights: requirementList,
+                budgetType: budgetType,
+                budgetFrom: startPriceController.text.isEmpty
+                    ? null
+                    : double.parse(
+                        startPriceController.text,
+                      ),
+                budgetTo: double.parse(
+                  endPriceController.text,
+                ),
+                startDate: DateFormat("yyyy-MM-dd")
+                    .format(startDate ?? DateTime.now()),
+                endDate:
+                    DateFormat("yyyy-MM-dd").format(endDate ?? DateTime.now()),
+                startTime: startTime != null
+                    ? DateFormat.jms().format(startTime!)
+                    : null,
+                endTime:
+                    endTime != null ? DateFormat.jms().format(endTime!) : null,
+                shareLocation: true,
+                isNegotiable: true,
+                location: addressController.text,
+                revisions: 0,
+                avatar: 2,
+                isProfessional: true,
+                isOnline: !isAddressVisibile,
+                isRequested: true,
+                discountType: "Percentage",
+                discountValue: '0.0',
+                noOfReservation: 0,
+                isActive: true,
+                needsApproval: true,
+                isEndorsed: true,
+                service: context.read<CategoriesBloc>().state.serviceId,
+                event: "",
+                city: cityCode ?? int.parse(kCityCode),
+                currency: currencyCode ?? kCurrencyCode,
+                images: uploadBloc.state.uploadedImageList,
+                videos: uploadBloc.state.uploadedVideoList,
+              );
+
+              context.read<TaskEntityServiceBloc>().add(
+                    TaskEntityServiceCreated(
+                      req: req,
+                    ),
+                  );
+            }
+          },
+          child: CustomElevatedButton(
+            callback: () async {
+              if (context.read<CategoriesBloc>().state.serviceId != null) {
+                if (isTermsAccepted) {
+                  if (_key.currentState!.validate() &&
+                      endPriceController.text.isNotEmpty &&
+                      endDate != null) {
+                    if (endDate!.isBefore(
+                      startDate ??
+                          endDate!.subtract(
+                            Duration(
+                              seconds: 5,
+                            ),
                           ),
+                    )) {
+                      return showDialog(
+                        context: context,
+                        builder: (context) => CustomToast(
+                          heading: 'Error',
+                          content: 'Please verify dates',
+                          onTap: () {},
+                          isSuccess: false,
                         ),
-                  )) {
-                    return showDialog(
+                      );
+                    } else {
+                      if (uploadBloc.state.imageFileList.length != 0 ||
+                          uploadBloc.state.videoFileList.length != 0) {
+                        await upload
+                          ..uploadImage()
+                          ..uploadVideo();
+                      } else {
+                        final req = TaskEntityServiceReq(
+                          title: titleController.text,
+                          description: descriptionController.text,
+                          highlights: requirementList,
+                          budgetType: budgetType,
+                          budgetFrom: startPriceController.text.isEmpty
+                              ? null
+                              : double.parse(
+                                  startPriceController.text,
+                                ),
+                          budgetTo: double.parse(
+                            endPriceController.text,
+                          ),
+                          startDate: DateFormat("yyyy-MM-dd")
+                              .format(startDate ?? DateTime.now()),
+                          endDate: DateFormat("yyyy-MM-dd")
+                              .format(endDate ?? DateTime.now()),
+                          startTime: startTime != null
+                              ? DateFormat.jms().format(startTime!)
+                              : null,
+                          endTime: endTime != null
+                              ? DateFormat.jms().format(endTime!)
+                              : null,
+                          shareLocation: true,
+                          isNegotiable: true,
+                          location: addressController.text,
+                          revisions: 0,
+                          avatar: 2,
+                          isProfessional: true,
+                          isOnline: !isAddressVisibile,
+                          isRequested: true,
+                          discountType: "Percentage",
+                          discountValue: '0.0',
+                          noOfReservation: 0,
+                          isActive: true,
+                          needsApproval: true,
+                          isEndorsed: true,
+                          service:
+                              context.read<CategoriesBloc>().state.serviceId,
+                          event: "",
+                          city: cityCode ?? int.parse(kCityCode),
+                          currency: currencyCode ?? kCurrencyCode,
+                          images: [],
+                          videos: [],
+                        );
+
+                        context.read<TaskEntityServiceBloc>().add(
+                              TaskEntityServiceCreated(
+                                req: req,
+                              ),
+                            );
+                      }
+                    }
+                  } else {
+                    showDialog(
                       context: context,
                       builder: (context) => CustomToast(
                         heading: 'Error',
-                        content: 'Please verify dates',
+                        content:
+                            'Error validating form. Please verify the data and try again.',
                         onTap: () {},
                         isSuccess: false,
                       ),
                     );
-                  } else {
-                    if (uploadBloc.state.imageFileList.length != 0 ||
-                        uploadBloc.state.videoFileList.length != 0)
-                      await upload.upload();
-                    final req = TaskEntityServiceReq(
-                      title: titleController.text,
-                      description: descriptionController.text,
-                      highlights: requirementList,
-                      budgetType: budgetType,
-                      budgetFrom: startPriceController.text.isEmpty
-                          ? null
-                          : double.parse(
-                              startPriceController.text,
-                            ),
-                      budgetTo: double.parse(
-                        endPriceController.text,
-                      ),
-                      startDate: DateFormat("yyyy-MM-dd")
-                          .format(startDate ?? DateTime.now()),
-                      endDate: DateFormat("yyyy-MM-dd")
-                          .format(endDate ?? DateTime.now()),
-                      startTime: startTime != null
-                          ? DateFormat.jms().format(startTime!)
-                          : null,
-                      endTime: endTime != null
-                          ? DateFormat.jms().format(endTime!)
-                          : null,
-                      shareLocation: true,
-                      isNegotiable: true,
-                      location: addressController.text,
-                      revisions: 0,
-                      avatar: 2,
-                      isProfessional: true,
-                      isOnline: !isAddressVisibile,
-                      isRequested: true,
-                      discountType: "Percentage",
-                      discountValue: '0.0',
-                      noOfReservation: 0,
-                      isActive: true,
-                      needsApproval: true,
-                      isEndorsed: true,
-                      service: context.read<CategoriesBloc>().state.serviceId,
-                      event: "",
-                      city: cityCode ?? int.parse(kCityCode),
-                      currency: currencyCode ?? kCurrencyCode,
-                      images: uploadBloc.state.uploadedImageList,
-                      videos: uploadBloc.state.uploadedVideoList,
-                    );
-
-                    context.read<TaskEntityServiceBloc>().add(
-                          TaskEntityServiceCreated(
-                            req: req,
-                          ),
-                        );
                   }
                 } else {
                   showDialog(
                     context: context,
                     builder: (context) => CustomToast(
-                      heading: 'Error',
-                      content:
-                          'Error validating form. Please verify the data and try again.',
+                      heading: "Failure",
+                      content: "Please accept the terms and condititons",
                       onTap: () {},
                       isSuccess: false,
                     ),
@@ -295,25 +373,15 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                   context: context,
                   builder: (context) => CustomToast(
                     heading: "Failure",
-                    content: "Please accept the terms and condititons",
+                    content: "Please choose a service",
                     onTap: () {},
                     isSuccess: false,
                   ),
                 );
               }
-            } else {
-              showDialog(
-                context: context,
-                builder: (context) => CustomToast(
-                  heading: "Failure",
-                  content: "Please choose a service",
-                  onTap: () {},
-                  isSuccess: false,
-                ),
-              );
-            }
-          },
-          label: 'Next',
+            },
+            label: 'Next',
+          ),
         );
       },
     );

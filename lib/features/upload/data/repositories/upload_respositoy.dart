@@ -13,7 +13,7 @@ class UploadRepository {
       );
       return response as Map<String, dynamic>;
     } catch (e) {
-      rethrow;
+      throw Exception(e.toString());
     }
   }
 }

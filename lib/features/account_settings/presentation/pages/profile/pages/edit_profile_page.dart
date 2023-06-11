@@ -15,8 +15,7 @@ class EditProfilePage extends StatefulWidget {
   State<EditProfilePage> createState() => _EditProfilePageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage>
-    with TickerProviderStateMixin {
+class _EditProfilePageState extends State<EditProfilePage> with TickerProviderStateMixin {
   late TabController _tabController;
   @override
   void initState() {

@@ -16,7 +16,7 @@ class SupportTicketTypeOptionsBloc
           );
 
           await respositories
-              .fetchSupportTicketOptions(target: event.target ?? "")
+              .fetchSupportTicketOptions(target: event.target ?? "entityservice")
               .then(
             (value) {
               if (value.isNotEmpty) {

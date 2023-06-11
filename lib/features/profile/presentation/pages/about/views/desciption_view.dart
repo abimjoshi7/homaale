@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/data/models/skill_option_model.dart';
@@ -17,8 +15,7 @@ class DescriptionView extends StatelessWidget {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
-          final List<SkillOptionModel> skills =
-              state.taskerProfile?.skills ?? [];
+          final List<SkillOptionModel> skills = state.taskerProfile?.skills ?? [];
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -36,24 +33,22 @@ class DescriptionView extends StatelessWidget {
                       color: kColorBlue,
                       size: 16,
                     ),
-                    label: state.taskerProfile?.user?.phone ??
-                        state.taskerProfile?.user?.email ??
-                        '',
+                    label: state.taskerProfile?.user?.phone ?? state.taskerProfile?.user?.email ?? '',
                   ),
-                  WidgetText(
-                    widget: const Icon(
-                      Icons.watch_later_outlined,
-                      color: kColorGreen,
-                      size: 16,
-                    ),
-                    label: "Active Hours: ${DateFormat.jm().format(
-                      DateFormat('hh:mm:ss')
-                          .parse(state.taskerProfile?.activeHourStart ?? ''),
-                    )} - ${DateFormat.jm().format(
-                      DateFormat('hh:mm:ss')
-                          .parse(state.taskerProfile?.activeHourEnd ?? ''),
-                    )}",
-                  ),
+                  state.taskerProfile?.activeHourStart != null && state.taskerProfile?.activeHourEnd != null
+                      ? WidgetText(
+                          widget: const Icon(
+                            Icons.watch_later_outlined,
+                            color: kColorGreen,
+                            size: 16,
+                          ),
+                          label: "Active Hours: ${DateFormat.jm().format(
+                            DateFormat('hh:mm:ss').parse(state.taskerProfile?.activeHourStart ?? ''),
+                          )} - ${DateFormat.jm().format(
+                            DateFormat('hh:mm:ss').parse(state.taskerProfile?.activeHourEnd ?? ''),
+                          )}",
+                        )
+                      : SizedBox(),
                   WidgetText(
                     widget: const Icon(
                       Icons.outlined_flag_rounded,
@@ -68,8 +63,7 @@ class DescriptionView extends StatelessWidget {
                       color: Colors.red,
                       size: 16,
                     ),
-                    label:
-                        "${state.taskerProfile?.addressLine1}, ${state.taskerProfile?.country?.name ?? ''}",
+                    label: "${state.taskerProfile?.addressLine1}, ${state.taskerProfile?.country?.name ?? ''}",
                   ),
                 ],
               ),

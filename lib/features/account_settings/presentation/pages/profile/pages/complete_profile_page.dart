@@ -5,6 +5,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/helpers.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
+import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
@@ -12,6 +13,7 @@ import 'package:cipher/features/utilities/presentation/bloc/skills/skills_bloc.d
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class CompleteProfilePage extends StatelessWidget {
@@ -22,7 +24,9 @@ class CompleteProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-          appBarTitle: "Complete Profile", trailingWidget: SizedBox()),
+        appBarTitle: "Complete Profile",
+        trailingWidget: SizedBox(),
+      ),
       body: Column(
         children: [
           ProfileCompletionForm(),
@@ -41,7 +45,8 @@ class ProfileCompletionForm extends StatefulWidget {
   State<ProfileCompletionForm> createState() => _ProfileCompletionFormState();
 }
 
-class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
+class _ProfileCompletionFormState extends State<ProfileCompletionForm>
+    with TheModalBottomSheet {
   final firstNameController = TextEditingController();
   final middleNameController = TextEditingController();
   final lastNameController = TextEditingController();
@@ -60,8 +65,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
   final tagController = TextfieldTagsController();
   int? cityCode;
   DateTime? dateOfBirth;
-  TimeOfDay? startTime;
-  TimeOfDay? endTime;
+  DateTime? startTime;
+  DateTime? endTime;
   String genderGroup = 'Male';
   String userType = 'Client';
   String experienceLevel = 'Beginner';
@@ -101,6 +106,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                           height: MediaQuery.of(context).size.height * 0.1,
                           width: MediaQuery.of(context).size.width * 0.25,
                           child: BlocBuilder<UploadBloc, UploadState>(
+                            bloc: uploadBloc,
                             builder: (context, uploadState) {
                               return ClipRRect(
                                 borderRadius: BorderRadius.circular(16),
@@ -108,7 +114,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                     ? Image.file(
                                         fit: BoxFit.cover,
                                         File(
-                                          uploadState.imageFileList.last ?? '',
+                                          uploadState.imageFileList.last,
                                         ),
                                       )
                                     : const Placeholder(
@@ -444,20 +450,35 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             ),
                             InkWell(
                               onTap: () async {
-                                await showTimePicker(
+                                await showCustomBottomSheet(
                                   context: context,
-                                  initialTime: TimeOfDay.now(),
-                                ).then(
-                                  (value) => setState(
-                                    () {
-                                      startTime = value;
-                                    },
+                                  widget: SizedBox.fromSize(
+                                    size: Size.fromHeight(250),
+                                    child: CupertinoDatePicker(
+                                      mode: CupertinoDatePickerMode.time,
+                                      onDateTimeChanged: (value) => setState(
+                                        () {
+                                          startTime = value;
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 );
+                                // await showTimePicker(
+                                //   context: context,
+                                //   initialTime: TimeOfDay.now(),
+                                // ).then(
+                                //   (value) => setState(
+                                //     () {
+                                //       startTime = value;
+                                //     },
+                                //   ),
+                                // );
                               },
                               child: CustomFormContainer(
-                                hintText:
-                                    startTime?.format(context) ?? '--:-- A.M',
+                                hintText: startTime != null
+                                    ? DateFormat.jm().format(startTime!)
+                                    : 'hh:mm:ss',
                               ),
                             )
                           ],
@@ -476,20 +497,35 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             ),
                             InkWell(
                               onTap: () async {
-                                await showTimePicker(
+                                await showCustomBottomSheet(
                                   context: context,
-                                  initialTime: TimeOfDay.now(),
-                                ).then(
-                                  (value) => setState(
-                                    () {
-                                      endTime = value;
-                                    },
+                                  widget: SizedBox.fromSize(
+                                    size: Size.fromHeight(250),
+                                    child: CupertinoDatePicker(
+                                      mode: CupertinoDatePickerMode.time,
+                                      onDateTimeChanged: (value) => setState(
+                                        () {
+                                          endTime = value;
+                                        },
+                                      ),
+                                    ),
                                   ),
                                 );
+                                // await showTimePicker(
+                                //   context: context,
+                                //   initialTime: TimeOfDay.now(),
+                                // ).then(
+                                //   (value) => setState(
+                                //     () {
+                                //       endTime = value;
+                                //     },
+                                //   ),
+                                // );
                               },
                               child: CustomFormContainer(
-                                hintText:
-                                    endTime?.format(context) ?? '--:-- P.M',
+                                hintText: endTime != null
+                                    ? DateFormat.jm().format(endTime!)
+                                    : 'hh:mm:ss',
                               ),
                             )
                           ],
@@ -712,6 +748,9 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                 (element) => p0 == element.name,
                               );
                               languageController.text = x.code;
+                              print(p0);
+                              print(x.name);
+                              print(x.code);
                             },
                           ),
                           dropdownDecoratorProps: DropDownDecoratorProps(
@@ -908,8 +947,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                     builder: (context, state) {
                       return CustomElevatedButton(
                         callback: () async {
-                          final image = await getImageFileFromAssets(
-                              'avatar-ga3c7ddeec_640.png');
+                          // final image = await getImageFileFromAssets(
+                          //     'avatar-ga3c7ddeec_640.png');
                           if (startTime == null && endTime == null) {
                             if (!mounted) return;
                             showDialog(
@@ -945,7 +984,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                             if (!mounted) return;
                             final Map<String, dynamic> q = {
                               "city": cityCode ?? int.parse(kCityCode),
-                              "country": countryName ?? 'NP',
+                              "country": countryName ?? kCountryCode,
                               "interests": interestCodes,
                               "first_name": firstNameController.text,
                               "middle_name": middleNameController.text,
@@ -956,8 +995,12 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                               "skills": skillOptionsList,
                               "date_of_birth":
                                   "${dateOfBirth?.year}-${dateOfBirth?.month}-${dateOfBirth?.day}",
-                              "active_hour_start": startTime!.format(context),
-                              "active_hour_end": endTime!.format(context),
+                              "active_hour_start": startTime != null
+                                  ? DateFormat.jms().format(startTime!)
+                                  : null,
+                              "active_hour_end": endTime != null
+                                  ? DateFormat.jms().format(endTime!)
+                                  : null,
                               "experience_level": experienceLevel,
                               "profile_visibility":
                                   visibilityController.text.isNotEmpty
@@ -969,15 +1012,15 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm> {
                                       : 'Short-Term tasks',
                               "address_line1": address1Controller.text,
                               "address_line2": address2Controller.text,
-                              "charge_currency": currencyCode ?? 'NPR',
+                              "charge_currency": currencyCode ?? kCurrencyCode,
                               "remaining_points": 0,
                               "points": 0,
                               "following_count": 0,
-                              "language": languageController.text,
+                              "language": languageController.text.isEmpty
+                                  ? kLanguageCode
+                                  : languageController.text,
                             };
-                            if ((uploadBloc.state.imageFileList != null) &&
-                                (uploadBloc.state.imageFileList.isNotEmpty ??
-                                    false))
+                            if (uploadBloc.state.imageFileList.isNotEmpty)
                               q.addAll({
                                 "profile_image": await MultipartFile.fromFile(
                                   uploadBloc.state.imageFileList.last,

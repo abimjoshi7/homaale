@@ -17,6 +17,8 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
+import '../../../wallet/presentation/bloc/wallet_bloc.dart';
+
 class HomeHeaderSection extends StatefulWidget {
   const HomeHeaderSection({super.key});
 
@@ -34,100 +36,90 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
       listener: (context, state) async {},
       builder: (context, state) {
         Widget displayUserInfo() {
-          if (state.theStates == TheStates.success) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                BlocBuilder<UserBloc, UserState>(
-                  builder: (context, userState) {
-                    if (state.theStates == TheStates.success) {
-                      return Text(
-                        'Hi, ${(!CacheHelper.isLoggedIn) ? 'how are you doing today?' : userState.taskerProfile?.fullName ?? state.userLoginRes?.username ?? 'New User'}',
-                        style: const TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.white,
-                        ),
-                      );
-                    }
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              BlocBuilder<UserBloc, UserState>(
+                builder: (context, userState) {
+                  if (userState.theStates == TheStates.success) {
                     return Text(
-                      'Hi, ${(!CacheHelper.isLoggedIn) ? 'how are you doing today?' : state.userLoginRes?.username ?? 'New User'}',
+                      'Hi, ${(!CacheHelper.isLoggedIn) ? 'how are you doing today?' : userState.taskerProfile?.fullName ?? state.userLoginRes?.username ?? 'New User'}',
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Colors.white,
                       ),
                     );
-                  },
-                ),
-                InkWell(
-                  onTap: () async {
-                    await Geolocator.checkPermission().then(
-                      (value) async {
-                        if (value == LocationPermission.denied ||
-                            value == LocationPermission.deniedForever ||
-                            value == LocationPermission.unableToDetermine) {
-                          await Geolocator.requestPermission();
-                          if (!mounted) return;
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content: Text(
-                                'Please provide location access from app settings.',
-                              ),
-                            ),
-                          );
-                        }
-                        if (value == LocationPermission.always ||
-                            value == LocationPermission.whileInUse) {
-                          if (!mounted) return;
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => ChooseLocationPage(),
-                              ));
-                        }
-                      },
-                    );
-                    await Geolocator.getCurrentPosition().then((value) async {
-                      await cacheUserLocation(
-                          LatLng(value.latitude, value.longitude));
-                    });
-                  },
-                  child: Row(
-                    children: <Widget>[
-                      const Icon(
-                        Icons.location_on_outlined,
-                        color: Colors.white,
-                        size: 14,
-                      ),
-                      BlocBuilder<UserLocationCubit, UserLocationState>(
-                        builder: (_, state) {
-                          return Text(
-                            state.address ?? 'Click to access location',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 14,
-                            ),
-                          );
-                        },
-                      ),
-                      const Icon(
-                        Icons.arrow_drop_down,
-                        color: Colors.white,
-                        size: 14,
-                      )
-                    ],
-                  ),
-                )
-              ],
-            );
-          } else {
-            return const Center(
-              child: CardLoading(
-                height: 200,
+                  }
+                  return Text(
+                    'Hi, ${(!CacheHelper.isLoggedIn) ? 'how are you doing today?' : state.userLoginRes?.username ?? 'New User'}',
+                    style: const TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white,
+                    ),
+                  );
+                },
               ),
-            );
-          }
+              InkWell(
+                onTap: () async {
+                  await Geolocator.checkPermission().then(
+                    (value) async {
+                      if (value == LocationPermission.denied ||
+                          value == LocationPermission.deniedForever ||
+                          value == LocationPermission.unableToDetermine) {
+                        await Geolocator.requestPermission();
+                        if (!mounted) return;
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text(
+                              'Please provide location access from app settings.',
+                            ),
+                          ),
+                        );
+                      }
+                      if (value == LocationPermission.always || value == LocationPermission.whileInUse) {
+                        if (!mounted) return;
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ChooseLocationPage(),
+                            ));
+                      }
+                    },
+                  );
+                  await Geolocator.getCurrentPosition().then((value) async {
+                    await cacheUserLocation(LatLng(value.latitude, value.longitude));
+                  });
+                },
+                child: Row(
+                  children: <Widget>[
+                    const Icon(
+                      Icons.location_on_outlined,
+                      color: Colors.white,
+                      size: 14,
+                    ),
+                    BlocBuilder<UserLocationCubit, UserLocationState>(
+                      builder: (_, state) {
+                        return Text(
+                          state.address ?? 'Click to access location',
+                          style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 14,
+                          ),
+                        );
+                      },
+                    ),
+                    const Icon(
+                      Icons.arrow_drop_down,
+                      color: Colors.white,
+                      size: 14,
+                    )
+                  ],
+                ),
+              )
+            ],
+          );
         }
 
         return ColoredBox(
@@ -147,8 +139,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           fit: BoxFit.cover,
                           image: (CacheHelper.isLoggedIn)
                               ? NetworkImage(
-                                  state.taskerProfile?.profileImage ??
-                                      kDefaultAvatarNImg,
+                                  state.taskerProfile?.profileImage ?? kDefaultAvatarNImg,
                                 )
                               : NetworkImage(
                                   kDefaultAvatarNImg,
@@ -167,6 +158,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       onTap: () {
                         if (CacheHelper.isLoggedIn) {
                           log(CacheHelper.accessToken ?? "");
+                          context.read<WalletBloc>().add(WalletLoaded());
                           Navigator.pushNamed(
                             context,
                             AccountView.routeName,
@@ -180,8 +172,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     title: displayUserInfo(),
                     trailing: BlocBuilder<NotificationBloc, NotificationState>(
                       builder: (context, state) {
-                        if (state.notificationStatus ==
-                            NotificationStatus.success) {
+                        if (state.notificationStatus == NotificationStatus.success) {
                           return SizedBox(
                             width: 50,
                             height: 40,
@@ -202,8 +193,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                       position: TooltipPosition.bottom,
                                       showKey: Home.notificationKey,
                                       showCaseTitle: 'Notifications',
-                                      showCaseDec:
-                                          'See all notifications from here.',
+                                      showCaseDec: 'See all notifications from here.',
                                       child: Icon(
                                         (CacheHelper.isLoggedIn)
                                             ? Icons.notifications_none
@@ -215,24 +205,17 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                   ),
                                 ),
                                 if (CacheHelper.isLoggedIn)
-                                  state.allNotificationList.unreadCount !=
-                                              null &&
-                                          state.allNotificationList
-                                                  .unreadCount !=
-                                              0
+                                  state.allNotificationList.unreadCount != null &&
+                                          state.allNotificationList.unreadCount != 0
                                       ? Positioned(
                                           right: 13,
                                           child: Container(
                                             height: 20,
                                             width: 20,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.red),
+                                            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
                                             child: Center(
                                               child: Text(
-                                                state.allNotificationList
-                                                    .unreadCount
-                                                    .toString(),
+                                                state.allNotificationList.unreadCount.toString(),
                                                 style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 14,

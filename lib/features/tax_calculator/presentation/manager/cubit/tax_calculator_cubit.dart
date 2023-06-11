@@ -32,6 +32,7 @@ class TaxCalculatorCubit extends Cubit<TaxCalculatorState> {
             ),
           );
     } catch (e) {
+      print(e.toString());
       emit(
         TaxCalculatorFailure(),
       );

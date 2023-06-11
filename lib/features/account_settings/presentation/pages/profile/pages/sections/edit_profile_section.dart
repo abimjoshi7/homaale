@@ -110,397 +110,391 @@ class _EditProfileSectionState extends State<EditProfileSection> {
             child: Form(
               key: _key,
               child: ListView(
-                // crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        addVerticalSpace(20),
-                        Text(
-                          'General Information',
-                          style: Theme.of(context).textTheme.headlineSmall,
-                        ),
-                        addVerticalSpace(10),
-                        Stack(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                shape: BoxShape.circle,
-                              ),
-                              width: 100,
-                              height: 100,
-                              child: uploadBloc.state.imageFileList.isNotEmpty
-                                  ? Image.file(
-                                      File(
-                                        uploadBloc.state.imageFileList.last,
-                                      ),
-                                    )
-                                  : Image.network(
-                                      profilePicture ?? kServiceImageNImg,
-                                    ),
-                            ),
-                            Positioned(
-                              bottom: 0.1,
-                              right: 0.1,
-                              child: InkWell(
-                                onTap: () {
-                                  showDialog(
-                                    context: context,
-                                    builder: (context) => ImagePickerDialog(
-                                      bloc: uploadBloc,
-                                    ),
-                                  );
-                                },
-                                child: CircleAvatar(
-                                  backgroundColor:
-                                      Colors.transparent.withOpacity(
-                                    0.5,
-                                  ),
-                                  child: Center(
-                                    child: Icon(
-                                      Icons.camera_alt_outlined,
-                                      color: Colors.white,
-                                    ),
-                                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      addVerticalSpace(20),
+                      Text(
+                        'General Information',
+                        style: Theme.of(context).textTheme.headlineSmall,
+                      ),
+                      addVerticalSpace(10),
+                      Stack(
+                        children: [
+                          BlocBuilder<UploadBloc, UploadState>(
+                            bloc: uploadBloc,
+                            builder: (context, state) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
                                 ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        addVerticalSpace(
-                          10,
-                        ),
-                        Row(
-                          children: [
-                            Flexible(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'First name',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineSmall,
-                                      ),
-                                      kWidth5,
-                                      Text(
-                                        '*',
-                                        style: TextStyle(color: Colors.red),
+                                width: 100,
+                                height: 100,
+                                child: state.imageFileList.length != 0
+                                    ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(
+                                          50,
+                                        ),
+                                        child: Image.file(
+                                          File(
+                                            state.imageFileList.last,
+                                          ),
+                                          fit: BoxFit.cover,
+                                        ),
                                       )
-                                    ],
-                                  ),
-                                  kHeight5,
-                                  CustomTextFormField(
-                                    hintText:
-                                        state.taskerProfile?.user?.firstName ??
-                                            '',
-                                    onSaved: (p0) => setState(
-                                      () {
-                                        firstName = p0;
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            kWidth10,
-                            Flexible(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Middle name',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
-                                  ),
-                                  kHeight5,
-                                  CustomTextFormField(
-                                    hintText:
-                                        state.taskerProfile?.user?.middleName ??
-                                            '',
-                                    onSaved: (p0) => setState(
-                                      () {
-                                        middleName = p0;
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            kWidth10,
-                            Flexible(
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        'Last name',
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .headlineSmall,
+                                    : Image.network(
+                                        profilePicture ?? kServiceImageNImg,
                                       ),
-                                      kWidth5,
-                                      Text(
-                                        '*',
-                                        style: TextStyle(color: Colors.red),
-                                      )
-                                    ],
-                                  ),
-                                  kHeight5,
-                                  CustomTextFormField(
-                                    hintText:
-                                        state.taskerProfile?.user?.lastName ??
-                                            '',
-                                    onSaved: (p0) => setState(
-                                      () {
-                                        lastName = p0;
-                                      },
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                        CustomFormField(
-                          label: 'Email',
-                          child: CustomTextFormField(
-                            hintText: state.taskerProfile?.user?.email ?? '',
-                            onChanged: (p0) => setState(
-                              () {
-                                email = p0;
-                              },
-                            ),
-                          ),
-                        ),
-                        CustomFormField(
-                          label: 'Contact',
-                          child: CustomTextFormField(
-                            textInputType: TextInputType.number,
-                            hintText: state.taskerProfile?.user?.phone ?? '',
-                            prefixWidget: Padding(
-                              padding: const EdgeInsets.all(8),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Image.asset('assets/nepalflag.png'),
-                                  Text('+977',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall),
-                                  const Icon(Icons.arrow_drop_down)
-                                ],
-                              ),
-                            ),
-                            onChanged: (p0) => setState(
-                              () {
-                                contact = p0;
-                              },
-                            ),
-                          ),
-                        ),
-                        CustomFormField(
-                          label: 'Date of birth',
-                          child: InkWell(
-                            onTap: () async {
-                              await showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime(1800),
-                                lastDate: DateTime(2080),
-                              ).then(
-                                (value) => setState(
-                                  () {
-                                    dob = value;
-                                  },
-                                ),
                               );
                             },
-                            child: CustomFormContainer(
-                              leadingWidget: const Icon(Icons.calendar_month),
-                              hintText: DateFormat('yyyy-MM-dd').format(
-                                dob ??
-                                    state.taskerProfile?.dateOfBirth ??
-                                    DateTime.now(),
+                          ),
+                          Positioned(
+                            bottom: 0.1,
+                            right: 0.1,
+                            child: InkWell(
+                              onTap: () {
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => ImagePickerDialog(
+                                    bloc: uploadBloc,
+                                  ),
+                                );
+                              },
+                              child: CircleAvatar(
+                                backgroundColor: Colors.transparent.withOpacity(
+                                  0.5,
+                                ),
+                                child: Center(
+                                  child: Icon(
+                                    Icons.camera_alt_outlined,
+                                    color: Colors.white,
+                                  ),
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        addVerticalSpace(10),
-                        CustomFormField(
-                          label: 'Please specify your gender',
-                          child: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Row(
+                        ],
+                      ),
+                      addVerticalSpace(
+                        10,
+                      ),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Radio<String>(
-                                        value: "Male",
-                                        groupValue: _gender,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _gender = value!;
-                                          });
-                                        },
-                                      ),
-                                      addHorizontalSpace(
-                                        8,
-                                      ),
-                                      Text("Male")
-                                    ],
+                                Row(
+                                  children: [
+                                    Text(
+                                      'First name',
+                                      style: Theme.of(context).textTheme.headlineSmall,
+                                    ),
+                                    kWidth5,
+                                    Text(
+                                      '*',
+                                      style: TextStyle(color: Colors.red),
+                                    )
+                                  ],
+                                ),
+                                kHeight5,
+                                CustomTextFormField(
+                                  hintText: state.taskerProfile?.user?.firstName ?? '',
+                                  onSaved: (p0) => setState(
+                                    () {
+                                      firstName = p0;
+                                    },
                                   ),
                                 ),
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Radio<String>(
-                                        value: "Female",
-                                        groupValue: _gender,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _gender = value!;
-                                          });
-                                        },
-                                      ),
-                                      addHorizontalSpace(
-                                        8,
-                                      ),
-                                      Text("Female")
-                                    ],
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Row(
-                                    children: [
-                                      Radio<String>(
-                                        value: "Other",
-                                        groupValue: _gender,
-                                        onChanged: (value) {
-                                          setState(() {
-                                            _gender = value!;
-                                          });
-                                        },
-                                      ),
-                                      addHorizontalSpace(
-                                        8,
-                                      ),
-                                      Text("Other")
-                                    ],
-                                  ),
-                                ),
-
-                                // ChoiceChip(
-                                //   selected: isMale,
-                                //   backgroundColor: Colors.transparent,
-                                //   shape: const RoundedRectangleBorder(
-                                //     side: BorderSide(color: Color(0xffDEE2E6)),
-                                //   ),
-                                //   onSelected: (value) {
-                                //     setState(() {
-                                //       isMale = value;
-                                //       isFemale = !value;
-                                //       isOther = !value;
-                                //     });
-                                //   },
-                                //   label: Text(
-                                //     'Male',
-                                //     style: Theme.of(context).textTheme.bodySmall,
-                                //   ),
-                                //   selectedColor: kColorPrimary,
-                                // ),
-                                // ChoiceChip(
-                                //   selected: isFemale,
-                                //   backgroundColor: Colors.transparent,
-                                //   shape: const RoundedRectangleBorder(
-                                //     side: BorderSide(color: Color(0xffDEE2E6)),
-                                //   ),
-                                //   onSelected: (value) {
-                                //     setState(() {
-                                //       isFemale = value;
-                                //       isMale = !value;
-                                //       isOther = !value;
-                                //     });
-                                //   },
-                                //   label: Text(
-                                //     'Female',
-                                //     style: Theme.of(context).textTheme.bodySmall,
-                                //   ),
-                                //   selectedColor: kColorPrimary,
-                                // ),
-                                // ChoiceChip(
-                                //   selected: isOther,
-                                //   backgroundColor: Colors.transparent,
-                                //   shape: const RoundedRectangleBorder(
-                                //     side: BorderSide(color: Color(0xffDEE2E6)),
-                                //   ),
-                                //   onSelected: (value) {
-                                //     setState(() {
-                                //       isOther = value;
-                                //       isMale = !value;
-                                //       isFemale = !value;
-                                //     });
-                                //   },
-                                //   label: Text(
-                                //     'Other',
-                                //     style: Theme.of(context).textTheme.bodySmall,
-                                //   ),
-                                //   selectedColor: kColorPrimary,
-                                // ),
                               ],
                             ),
                           ),
+                          kWidth10,
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Middle name',
+                                  style: Theme.of(context).textTheme.headlineSmall,
+                                ),
+                                kHeight5,
+                                CustomTextFormField(
+                                  hintText: state.taskerProfile?.user?.middleName ?? '',
+                                  onSaved: (p0) => setState(
+                                    () {
+                                      middleName = p0;
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          kWidth10,
+                          Flexible(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      'Last name',
+                                      style: Theme.of(context).textTheme.headlineSmall,
+                                    ),
+                                    kWidth5,
+                                    Text(
+                                      '*',
+                                      style: TextStyle(color: Colors.red),
+                                    )
+                                  ],
+                                ),
+                                kHeight5,
+                                CustomTextFormField(
+                                  hintText: state.taskerProfile?.user?.lastName ?? '',
+                                  onSaved: (p0) => setState(
+                                    () {
+                                      lastName = p0;
+                                    },
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      CustomFormField(
+                        label: 'Email',
+                        child: CustomTextFormField(
+                          hintText: state.taskerProfile?.user?.email ?? '',
+                          onChanged: (p0) => setState(
+                            () {
+                              email = p0;
+                            },
+                          ),
                         ),
-                        CustomFormField(
-                          label: 'Bio',
-                          child: CustomTextFormField(
-                            maxLines: 3,
-                            hintText:
-                                bio ?? state.taskerProfile?.bio ?? 'Enter Bio',
-                            onChanged: (p0) => setState(
-                              () {
-                                bio = p0;
-                              },
+                      ),
+                      CustomFormField(
+                        label: 'Contact',
+                        child: CustomTextFormField(
+                          textInputType: TextInputType.number,
+                          hintText: state.taskerProfile?.user?.phone ?? '',
+                          prefixWidget: Padding(
+                            padding: const EdgeInsets.all(8),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                Image.asset('assets/nepalflag.png'),
+                                Text('+977', style: Theme.of(context).textTheme.headlineSmall),
+                                const Icon(Icons.arrow_drop_down)
+                              ],
+                            ),
+                          ),
+                          onChanged: (p0) => setState(
+                            () {
+                              contact = p0;
+                            },
+                          ),
+                        ),
+                      ),
+                      CustomFormField(
+                        label: 'Date of birth',
+                        child: InkWell(
+                          onTap: () async {
+                            await showDatePicker(
+                              context: context,
+                              initialDate: DateTime.now(),
+                              firstDate: DateTime(1800),
+                              lastDate: DateTime(2080),
+                            ).then(
+                              (value) => setState(
+                                () {
+                                  dob = value;
+                                },
+                              ),
+                            );
+                          },
+                          child: CustomFormContainer(
+                            leadingWidget: const Icon(Icons.calendar_month),
+                            hintText: DateFormat('yyyy-MM-dd').format(
+                              dob ?? state.taskerProfile?.dateOfBirth ?? DateTime.now(),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                      addVerticalSpace(10),
+                      CustomFormField(
+                        label: 'Please specify your gender',
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Radio<String>(
+                                      value: "Male",
+                                      groupValue: _gender,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _gender = value!;
+                                        });
+                                      },
+                                    ),
+                                    addHorizontalSpace(
+                                      8,
+                                    ),
+                                    Text("Male")
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Radio<String>(
+                                      value: "Female",
+                                      groupValue: _gender,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _gender = value!;
+                                        });
+                                      },
+                                    ),
+                                    addHorizontalSpace(
+                                      8,
+                                    ),
+                                    Text("Female")
+                                  ],
+                                ),
+                              ),
+                              Expanded(
+                                child: Row(
+                                  children: [
+                                    Radio<String>(
+                                      value: "Other",
+                                      groupValue: _gender,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          _gender = value!;
+                                        });
+                                      },
+                                    ),
+                                    addHorizontalSpace(
+                                      8,
+                                    ),
+                                    Text("Other")
+                                  ],
+                                ),
+                              ),
+
+                              // ChoiceChip(
+                              //   selected: isMale,
+                              //   backgroundColor: Colors.transparent,
+                              //   shape: const RoundedRectangleBorder(
+                              //     side: BorderSide(color: Color(0xffDEE2E6)),
+                              //   ),
+                              //   onSelected: (value) {
+                              //     setState(() {
+                              //       isMale = value;
+                              //       isFemale = !value;
+                              //       isOther = !value;
+                              //     });
+                              //   },
+                              //   label: Text(
+                              //     'Male',
+                              //     style: Theme.of(context).textTheme.bodySmall,
+                              //   ),
+                              //   selectedColor: kColorPrimary,
+                              // ),
+                              // ChoiceChip(
+                              //   selected: isFemale,
+                              //   backgroundColor: Colors.transparent,
+                              //   shape: const RoundedRectangleBorder(
+                              //     side: BorderSide(color: Color(0xffDEE2E6)),
+                              //   ),
+                              //   onSelected: (value) {
+                              //     setState(() {
+                              //       isFemale = value;
+                              //       isMale = !value;
+                              //       isOther = !value;
+                              //     });
+                              //   },
+                              //   label: Text(
+                              //     'Female',
+                              //     style: Theme.of(context).textTheme.bodySmall,
+                              //   ),
+                              //   selectedColor: kColorPrimary,
+                              // ),
+                              // ChoiceChip(
+                              //   selected: isOther,
+                              //   backgroundColor: Colors.transparent,
+                              //   shape: const RoundedRectangleBorder(
+                              //     side: BorderSide(color: Color(0xffDEE2E6)),
+                              //   ),
+                              //   onSelected: (value) {
+                              //     setState(() {
+                              //       isOther = value;
+                              //       isMale = !value;
+                              //       isFemale = !value;
+                              //     });
+                              //   },
+                              //   label: Text(
+                              //     'Other',
+                              //     style: Theme.of(context).textTheme.bodySmall,
+                              //   ),
+                              //   selectedColor: kColorPrimary,
+                              // ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      CustomFormField(
+                        label: 'Bio',
+                        child: CustomTextFormField(
+                          maxLines: 3,
+                          hintText: bio ?? state.taskerProfile?.bio ?? 'Enter Bio',
+                          onChanged: (p0) => setState(
+                            () {
+                              bio = p0;
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
                   addVerticalSpace(10),
                   Center(
                     child: CustomElevatedButton(
                       callback: () async {
                         _key.currentState?.save();
-                        final user = {
-                          "first_name": firstName!.isEmpty
-                              ? state.taskerProfile?.user!.firstName
-                              : firstName,
-                          "middle_name": middleName!.isEmpty
-                              ? state.taskerProfile?.user!.middleName
-                              : middleName,
-                          "last_name": lastName!.isEmpty
-                              ? state.taskerProfile?.user!.lastName
-                              : lastName,
+                        final Map<String, dynamic> user = {
+                          "first_name": firstName!.isEmpty ? state.taskerProfile?.user!.firstName : firstName,
+                          "middle_name": middleName!.isEmpty ? state.taskerProfile?.user!.middleName : middleName,
+                          "last_name": lastName!.isEmpty ? state.taskerProfile?.user!.lastName : lastName,
                           // "designation": designation!.isEmpty
                           //     ? state.taskerProfile?.designation
                           //     : designation,
                           "date_of_birth": DateFormat("yyyy-MM-dd").format(
-                            dob ??
-                                state.taskerProfile?.dateOfBirth ??
-                                DateTime.now(),
+                            dob ?? state.taskerProfile?.dateOfBirth ?? DateTime.now(),
                           ),
                           "bio": bio ?? state.taskerProfile?.bio ?? 'Bio',
-                          "gender":
-                              _gender ?? state.taskerProfile?.gender ?? "Male",
+                          "gender": _gender ?? state.taskerProfile?.gender ?? "Male",
+                          // "profile_image": state.taskerProfile?.profileImage
+                          // uploadBloc.state.imageFileList.length == 0
+                          //     ? state.taskerProfile?.profileImage
+                          //     : await MultipartFile.fromString(
+                          //         uploadBloc.state.imageFileList.last,
+                          //       )
                         };
 
+                        if (uploadBloc.state.imageFileList.length != 0) {
+                          final file = await MultipartFile.fromFile(uploadBloc.state.imageFileList.last);
+                          print(file.filename);
+                          user.addAll({
+                            "profile_image": file,
+                          });
+                        }
+                        if (!mounted) return;
                         context.read<UserBloc>().add(
                               UserEdited(req: user),
                             );
