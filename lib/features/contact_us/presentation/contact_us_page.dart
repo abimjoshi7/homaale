@@ -16,7 +16,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'Contact us',trailingWidget: SizedBox()),
+      appBar: CustomAppBar(appBarTitle: 'Contact Us',trailingWidget: SizedBox()),
       body: ListView(
         padding: EdgeInsets.symmetric(horizontal: 16),
         children: [
