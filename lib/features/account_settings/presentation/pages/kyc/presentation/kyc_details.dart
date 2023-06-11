@@ -101,7 +101,7 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
       },
       listener: (context, state) async {
         if (state.theStates == TheStates.success &&
-            state.isDocCreated == true) {
+            (state.isDocCreated == true)) {
           await showDialog(
             barrierDismissible: false,
             context: context,
@@ -121,7 +121,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
             ),
           );
         }
-        if (state.theStates == TheStates.success && state.isDocEdited == true) {
+        if (state.theStates == TheStates.success &&
+            (state.isDocEdited == true && state.list != null)) {
           await showDialog(
             barrierDismissible: false,
             context: context,
@@ -139,7 +140,19 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
           );
         }
         if (state.theStates == TheStates.failure &&
-            (state.isDocCreated == false || state.isDocEdited == false)) {
+            (state.isDocCreated == false && state.list?.length == 0)) {
+          await showDialog(
+            context: context,
+            builder: (_) => CustomToast(
+              heading: "Failure",
+              content: state.errMsg ?? "Kyc Process Cannot Be Completed.",
+              onTap: () {},
+              isSuccess: false,
+            ),
+          );
+        }
+        if (state.theStates == TheStates.failure &&
+            (state.isDocEdited == false && state.list?.length != 0)) {
           await showDialog(
             context: context,
             builder: (_) => CustomToast(
@@ -253,8 +266,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                   isRequired: hasDocExpiryDate,
                                   child: CustomTextFormField(
                                     readOnly: true,
-                                    validator: hasDocExpiryDate
-                                        ? (p0) => (expiryDate == null)
+                                    validator: (p0) => (expiryDate == null)
+                                        ? hasDocExpiryDate
                                             ? "Required Field"
                                             : null
                                         : null,
@@ -478,7 +491,7 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
   }
 
   void fieldValidations(KycState state) {
-    if (state.list?.length == 0 && file == null) {
+    if (file == null) {
       showDialog(
         context: context,
         builder: (_) => CustomToast(
