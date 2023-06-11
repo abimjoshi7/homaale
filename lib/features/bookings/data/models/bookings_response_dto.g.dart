@@ -71,6 +71,8 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       startTime: json['start_time'] as String?,
       endTime: json['end_time'] as String?,
       isPaid: json['is_paid'] as bool?,
+      cancellationReason: json['cancellation_reason'] as String?,
+      cancellationDescription: json['cancellation_description'] as String?,
       booking: json['booking'] as int?,
       city: json['city'] as int?,
       images: (json['images'] as List<dynamic>?)
@@ -105,6 +107,8 @@ Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
       'start_time': instance.startTime,
       'end_time': instance.endTime,
       'is_paid': instance.isPaid,
+      'cancellation_reason': instance.cancellationReason,
+      'cancellation_description': instance.cancellationDescription,
       'booking': instance.booking,
       'city': instance.city,
       'images': instance.images,

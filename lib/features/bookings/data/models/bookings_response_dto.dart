@@ -46,6 +46,8 @@ class Result with _$Result {
     @JsonKey(name: 'start_time') String? startTime,
     @JsonKey(name: 'end_time') String? endTime,
     @JsonKey(name: 'is_paid') bool? isPaid,
+    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
+    @JsonKey(name: 'cancellation_description') String? cancellationDescription,
     int? booking,
     int? city,
     List<Image>? images,

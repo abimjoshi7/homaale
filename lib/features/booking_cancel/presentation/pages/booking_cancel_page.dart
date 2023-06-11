@@ -28,7 +28,7 @@ class BookingCancelPage extends StatefulWidget {
 
 class _BookingCancelPageState extends State<BookingCancelPage> {
   final descriptionController = TextEditingController();
-  String reason = "";
+  String reason = BookingCancelReasonClientList.first;
   int currentIndex = 0;
   final _formKey = GlobalKey<FormState>();
   bool isChecked = false;
@@ -88,7 +88,6 @@ class _BookingCancelPageState extends State<BookingCancelPage> {
                                     );
                                     reason = options;
                                     currentIndex = index;
-                                    print(reason);
                                   },
                                 ),
                                 title: Text(
@@ -113,7 +112,6 @@ class _BookingCancelPageState extends State<BookingCancelPage> {
                                     );
                                     reason = options;
                                     currentIndex = index;
-                                    print(reason);
                                   },
                                 ),
                                 title: Text(
@@ -291,8 +289,7 @@ class _BookingCancelPageState extends State<BookingCancelPage> {
                           ),
                         );
                       } else {
-                        print(
-                            'booking Id : ${context.read<BookingsBloc>().state.bookingRes.booking}');
+
                         context.read<BookingCancelBloc>().add(CancelActionPost(
                             bookingId: context
                                     .read<BookingsBloc>()
