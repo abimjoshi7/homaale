@@ -27,7 +27,6 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // bottomSheet: bottomDetailsSheet(),
       appBar: CustomAppBar(
         appBarTitle: "Explore Tasks & Services",
         trailingWidget: SizedBox.shrink(),
@@ -87,7 +86,6 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                   BlocBuilder<NearbyTaskEntityServiceBloc,
                       NearbyTaskEntityServiceState>(
                     builder: (_, state) {
-                      print("log : ${state.activeList}");
                       if (state.theStates == TheStates.success) {}
                       return Positioned(
                         bottom: 100.0,
@@ -145,7 +143,14 @@ class _GoogleMapsPageState extends State<GoogleMapsPage> {
                                               ? Row(
                                                   children: [
                                                     Text(
-                                                      "Rs ${state.activeList?[index].budgetFrom?.split('.')[0]} - Rs ${state.activeList?[index].budgetTo?.split('.')[0]}",
+                                                      state.activeList?[index]
+                                                                  .budgetFrom ==
+                                                              state
+                                                                  .activeList?[
+                                                                      index]
+                                                                  .budgetTo
+                                                          ? "Rs ${state.activeList?[index].budgetTo?.split('.')[0]}"
+                                                          : "Rs ${state.activeList?[index].budgetFrom?.split('.')[0]} - Rs ${state.activeList?[index].budgetTo?.split('.')[0]}",
                                                       style: Theme.of(context)
                                                           .textTheme
                                                           .headlineSmall,

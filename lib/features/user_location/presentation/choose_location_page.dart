@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/google_maps_constants.dart';
+import 'package:cipher/features/google_maps/data/repositories/maps_repository.dart';
 import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
 import 'package:cipher/features/user_location/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -22,8 +23,9 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
   late LatLng _draggedLatLng;
   // Position? _draggedPos;
   bool _isDragged = false;
+  final _repo = MapsRepositories();
 
-  _init() {
+  _init() async {
     _draggedLatLng = kUserLocation;
   }
 

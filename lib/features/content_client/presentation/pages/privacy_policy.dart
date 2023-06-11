@@ -26,7 +26,8 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'Privacy Policy',trailingWidget: SizedBox()),
+      appBar: CustomAppBar(
+          appBarTitle: 'Privacy Policy', trailingWidget: SizedBox()),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

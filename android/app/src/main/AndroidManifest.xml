@@ -12,7 +12,7 @@
 
         <!-- TODO: Add your Google Maps API key here -->
         <meta-data android:name="com.google.android.geo.API_KEY"
-               android:value="AIzaSyB-RruUbsZ9JmEV0GxPwYKRT28E_jLbCrw"/>
+               android:value="AIzaSyAX32m5okqtBQZkrpL30ip6bqYj366m-b4"/>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
         <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
         # this is a deep linking meta data for the khalti payment gateway

@@ -100,7 +100,7 @@ class _BookingSectionState extends State<BookingSection> {
             ? Center(
                 child: CommonErrorContainer(
                 assetsPath: 'assets/no_data_found.png',
-                errorTile: 'Payment Item not available right Now.',
+                errorTile: 'Item not available.',
                 errorDes: 'We’re sorry, the data you search could not found.',
               ))
             : Column(

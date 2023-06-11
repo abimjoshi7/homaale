@@ -30,6 +30,7 @@ migrate_working_dir/
 .flutter-plugins
 .flutter-plugins-dependencies
 .packages
+ lib/core/constants/third_party_credentials.dart
 .pub-cache/
 .pub/
 /build/

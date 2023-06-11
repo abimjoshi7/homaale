@@ -37,15 +37,18 @@ class _FeedbackPageState extends State<FeedbackPage> {
                   'Feedback Form',
                   style: Theme.of(context).textTheme.headlineSmall,
                 ),
-                SizedBox(
-                  height: 30,
+                Flexible(
+                  fit: FlexFit.loose,
                   child: Text(
                       'Are you enjoying Homaale ? Send us Your Feedbacks.'),
                 ),
                 CustomFormField(
                   label: 'Subject',
                   isRequired: true,
-                  child: CustomDropDownField<String?>(
+                  child: CustomDropDownField(
+                    validator: (p0) => subjectController.text.isEmpty
+                        ? "Required Field"
+                        : null,
                     onChanged: (p0) => setState(
                       () {
                         final options = state.list.firstWhere(
@@ -56,13 +59,13 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     ),
                     list: List.generate(
                       state.list.length,
-                      (index) => state.list[index].name,
+                      (index) => state.list[index].name ?? "",
                     ),
                     hintText: "Subject",
                   ),
                 ),
                 CustomFormField(
-                  label: 'Your feedback',
+                  label: 'Your Feedback',
                   isRequired: true,
                   child: CustomTextFormField(
                     maxLines: 3,

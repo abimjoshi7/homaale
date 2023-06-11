@@ -44,6 +44,9 @@ const kParentCategoryList = "/task/cms/task-category/list/";
 const kSubCategoryList = "/task/service/list/options/";
 const kShareLinks = "https://sandbox.homaale.com/service";
 
+//portfolio
+const kPortfolio = "tasker/portfolio/";
+
 Map<String, Object> kUrls = {
   "user": {
     'login': "/user/login/",

@@ -62,6 +62,9 @@ class _CommonReportPageState extends State<CommonReportPage> {
                     isRequired: true,
                     child: (state is supportTicketTypeOptionsSuccess)
                         ? CustomDropDownField<String?>(
+                      validator: (p0) => typeOfProblemController.text.isEmpty
+                          ? "Required Field"
+                          : null,
                             onChanged: (p0) => setState(
                               () {
                                 final options = state.list.where(
