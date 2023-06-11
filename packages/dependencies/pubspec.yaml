@@ -63,7 +63,7 @@ dependencies:
   internet_connection_checker: ^0.0.1+4
   font_awesome_flutter: ^10.4.0
   fluttertoast: 8.2.1
-  image_compression: ^1.0.4 
+  image_compression: ^1.0.4
   http_parser: ^4.0.2
 
 dev_dependencies:
