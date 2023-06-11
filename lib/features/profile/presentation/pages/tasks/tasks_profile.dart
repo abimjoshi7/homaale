@@ -21,6 +21,7 @@ class TasksProfile extends StatefulWidget {
 class _TasksProfileState extends State<TasksProfile> {
   final _controller = ScrollController();
   final _scrollBloc = locator<ScrollBloc>();
+	
   @override
   void initState() {
     super.initState();
