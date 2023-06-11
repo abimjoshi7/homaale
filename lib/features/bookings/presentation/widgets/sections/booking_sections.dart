@@ -1,8 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/core/helpers/scroll_helper.dart';
 import 'package:cipher/features/bloc/scroll_bloc.dart';
-import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart' as bookings;
+import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart'
+    as bookings;
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_item_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
@@ -13,15 +13,14 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../../pages/booking_item_detail_page.dart';
-
 enum BookingSectionType { todo, myBooking }
 
 class BookingSection extends StatefulWidget {
   final BookingsBloc bloc;
   final BookingSectionType bookingSectionType;
 
-  const BookingSection({super.key, required this.bloc, required this.bookingSectionType});
+  const BookingSection(
+      {super.key, required this.bloc, required this.bookingSectionType});
 
   @override
   State<BookingSection> createState() => _BookingSectionState();
@@ -86,7 +85,6 @@ class _BookingSectionState extends State<BookingSection> {
 
   @override
   Widget build(BuildContext context) {
-    print(context.read<UserBloc>().state.taskerProfile?.user?.id);
     return BlocBuilder<ScrollBloc, ScrollState>(
       bloc: _scrollBloc,
       builder: (context, state) {
@@ -110,7 +108,9 @@ class _BookingSectionState extends State<BookingSection> {
                   Expanded(
                     child: ListView.builder(
                       controller: _controller,
-                      itemCount: state.hasReachedMax ? bookingList.length : bookingList.length + 1,
+                      itemCount: state.hasReachedMax
+                          ? bookingList.length
+                          : bookingList.length + 1,
                       itemBuilder: (context, index) {
                         switch (state.theState) {
                           case TheStates.success:
@@ -127,48 +127,83 @@ class _BookingSectionState extends State<BookingSection> {
                               );
                               return BottomLoader();
                             } else {
-                              return widget.bookingSectionType == BookingSectionType.todo
+                              return widget.bookingSectionType ==
+                                      BookingSectionType.todo
                                   ? bookingList[index].assignee?.id ==
-                                          context.read<UserBloc>().state.taskerProfile?.user?.id
+                                          context
+                                              .read<UserBloc>()
+                                              .state
+                                              .taskerProfile
+                                              ?.user
+                                              ?.id
                                       ? Container(
                                           margin: EdgeInsets.only(bottom: 16),
                                           child: BookingsServiceCard(
                                             callback: () {
-                                              BlocProvider.of<BookingsBloc>(context).add(
-                                                BookingSingleLoaded(bookingList[index].id),
+                                              BlocProvider.of<BookingsBloc>(
+                                                      context)
+                                                  .add(
+                                                BookingSingleLoaded(
+                                                    bookingList[index].id),
                                               );
-                                              Navigator.pushNamed(context, BookingItemDetailPage.routeName,
-                                                  arguments: {'client': 'merchant'});
+                                              Navigator.pushNamed(
+                                                  context,
+                                                  BookingItemDetailPage
+                                                      .routeName,
+                                                  arguments: {
+                                                    'client': 'merchant'
+                                                  });
                                             },
-                                            serviceName: bookingList[index].title,
+                                            serviceName:
+                                                bookingList[index].title,
                                             providerName:
                                                 "${bookingList[index].assigner?.firstName} ${bookingList[index].assigner?.lastName}",
-                                            mainContentWidget: showBookingDetails(bookingList[index]),
+                                            mainContentWidget:
+                                                showBookingDetails(
+                                                    bookingList[index]),
                                             status: bookingList[index].status,
                                             hidePopupButton: true,
-                                            bottomRightWidget: displayPrice(bookingList[index]),
+                                            bottomRightWidget: displayPrice(
+                                                bookingList[index]),
                                           ),
                                         )
                                       : SizedBox()
                                   : bookingList[index].assigner?.id ==
-                                          context.read<UserBloc>().state.taskerProfile?.user?.id
+                                          context
+                                              .read<UserBloc>()
+                                              .state
+                                              .taskerProfile
+                                              ?.user
+                                              ?.id
                                       ? Container(
                                           margin: EdgeInsets.only(bottom: 16),
                                           child: BookingsServiceCard(
                                             callback: () {
-                                              BlocProvider.of<BookingsBloc>(context).add(
-                                                BookingSingleLoaded(bookingList[index].id),
+                                              BlocProvider.of<BookingsBloc>(
+                                                      context)
+                                                  .add(
+                                                BookingSingleLoaded(
+                                                    bookingList[index].id),
                                               );
-                                              Navigator.pushNamed(context, BookingItemDetailPage.routeName,
-                                                  arguments: {'client': 'client'});
+                                              Navigator.pushNamed(
+                                                  context,
+                                                  BookingItemDetailPage
+                                                      .routeName,
+                                                  arguments: {
+                                                    'client': 'client'
+                                                  });
                                             },
-                                            serviceName: bookingList[index].title,
+                                            serviceName:
+                                                bookingList[index].title,
                                             providerName:
                                                 "${bookingList[index].assignee?.firstName} ${bookingList[index].assignee?.lastName}",
-                                            mainContentWidget: showBookingDetails(bookingList[index]),
+                                            mainContentWidget:
+                                                showBookingDetails(
+                                                    bookingList[index]),
                                             status: bookingList[index].status,
                                             hidePopupButton: true,
-                                            bottomRightWidget: displayPrice(bookingList[index]),
+                                            bottomRightWidget: displayPrice(
+                                                bookingList[index]),
                                           ),
                                         )
                                       : SizedBox();
@@ -200,7 +235,8 @@ class _BookingSectionState extends State<BookingSection> {
                 child: IconText(
                   iconData: Icons.calendar_today_rounded,
                   label: DateFormat.yMMMEd().format(
-                    DateTime.parse(result.createdAt ?? DateTime.now().toString()),
+                    DateTime.parse(
+                        result.createdAt ?? DateTime.now().toString()),
                   ),
                   color: kColorBlue,
                 ),
@@ -209,7 +245,8 @@ class _BookingSectionState extends State<BookingSection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label: "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
+                  label:
+                      "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
                   color: kColorGreen,
                 ),
               ),
