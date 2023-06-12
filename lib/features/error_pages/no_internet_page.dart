@@ -5,9 +5,7 @@ class CommonErrorContainer extends StatelessWidget {
   final String assetsPath;
   final String? errorTile;
   final String? errorDes;
-  const CommonErrorContainer(
-      {Key? key, required this.assetsPath, this.errorTile, this.errorDes})
-      : super(key: key);
+  const CommonErrorContainer({Key? key, required this.assetsPath, this.errorTile, this.errorDes}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -19,11 +17,14 @@ class CommonErrorContainer extends StatelessWidget {
           addVerticalSpace(10),
           Text("Oops!", style: Theme.of(context).textTheme.headlineSmall),
           Text(errorTile ?? "", style: Theme.of(context).textTheme.bodySmall),
-          Text(errorDes ?? "",
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(color: Colors.grey, fontSize: 12)),
+          Text(
+            errorDes ?? "",
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Colors.grey,
+                  fontSize: 12,
+                ),
+            textAlign: TextAlign.center,
+          ),
         ],
       ),
     );

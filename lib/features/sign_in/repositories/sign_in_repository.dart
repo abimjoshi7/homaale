@@ -20,9 +20,7 @@ class SignInRepository {
       );
       return UserLoginRes.fromJson(z as Map<String, dynamic>);
     } catch (e) {
-      log(
-        e.toString(),
-      );
+      log(e.toString());
       rethrow;
     }
   }

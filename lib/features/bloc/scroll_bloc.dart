@@ -27,15 +27,14 @@ class ScrollBloc extends Bloc<ScrollEvent, ScrollState> {
           emit(
             state.copyWith(
               hasReachedMax: res["next"] == null,
-              next: res["next"] as String,
+              next: res["next"] == null ? null : res['next'] as String,
               theState: TheStates.success,
-              result: res["result"] as List<dynamic>,
-              pageIndex: res["current"] as int,
+              result: res["result"] == null ? null : res["result"] as List<dynamic>,
+              pageIndex: res["current"] == null ? null : res["current"] as int,
             ),
           );
         } else {
-          final res = await InifiniteRepo()
-              .fetchItems(event.url, event.data, state.pageIndex + 1);
+          final res = await InifiniteRepo().fetchItems(event.url, event.data, state.pageIndex + 1);
           if (res["next"] == null)
             emit(state.copyWith(
               hasReachedMax: true,
@@ -47,10 +46,9 @@ class ScrollBloc extends Bloc<ScrollEvent, ScrollState> {
             emit(
               state.copyWith(
                 hasReachedMax: false,
-                next: res["next"] as String,
+                next: res["next"] == null ? null : res["next"] as String,
                 theState: TheStates.success,
-                result: List.of(state.result)
-                  ..addAll(res["result"] as Iterable),
+                result: List.of(state.result)..addAll(res["result"] as Iterable),
                 pageIndex: res["current"] as int,
               ),
             );

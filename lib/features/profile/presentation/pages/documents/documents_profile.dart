@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
+import 'package:cipher/features/error_pages/no_internet_page.dart';
 import 'package:cipher/features/profile/presentation/pages/documents/widgets/document_text_card.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +40,10 @@ class DocumentsProfile extends StatelessWidget {
           );
         } else {
           return const Center(
-            child: Text('No documents to show.'),
+            child: CommonErrorContainer(
+              assetsPath: 'assets/no_data_found.png',
+              errorTile: 'No documents found.',
+            ),
           );
         }
       },

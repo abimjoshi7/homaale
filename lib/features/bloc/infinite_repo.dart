@@ -4,8 +4,7 @@ import 'package:cipher/core/dio/dio_helper.dart';
 class InifiniteRepo {
   final dio = DioHelper();
 
-  fetchItems(String url, Map<String, dynamic> data,
-      [int startIndex = 1]) async {
+  fetchItems(String url, Map<String, dynamic> data, [int startIndex = 1]) async {
     try {
       final dats = data;
 

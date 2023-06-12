@@ -76,24 +76,31 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
           });
         }
         if (state.theStates == TheStates.failure) {
-          if (!mounted) return;
-          await showDialog(
-            context: context,
-            builder: (context) => CustomToast(
-              heading: 'Failure',
-              content: error ?? "Please try again.",
-              onTap: () {},
-              isSuccess: false,
-            ),
-          ).then(
-            (value) => (state.isPhoneNumber)
-                ? context.read<SignInBloc>().add(
-                      SignInWithPhoneSelected(),
-                    )
-                : context.read<SignInBloc>().add(
-                      SignInWithEmailSelected(),
-                    ),
-          );
+          (state.isPhoneNumber)
+              ? context.read<SignInBloc>().add(
+                    SignInWithPhoneSelected(),
+                  )
+              : context.read<SignInBloc>().add(
+                    SignInWithEmailSelected(),
+                  );
+          // if (!mounted) return;
+          // await showDialog(
+          //   context: context,
+          //   builder: (context) => CustomToast(
+          //     heading: 'Failure',
+          //     content: error ?? "Please try again.",
+          //     onTap: () {},
+          //     isSuccess: false,
+          //   ),
+          // ).then(
+          //   (value) => (state.isPhoneNumber)
+          //       ? context.read<SignInBloc>().add(
+          //             SignInWithPhoneSelected(),
+          //           )
+          //       : context.read<SignInBloc>().add(
+          //             SignInWithEmailSelected(),
+          //           ),
+          // );
         }
       },
       builder: (context, state) {
