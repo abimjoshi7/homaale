@@ -383,40 +383,45 @@ Map<String, dynamic> BookingTimelineStatus(String status) {
   switch (status) {
     case "Initiated":
       return {
-        "color":  kColorBlue,
+        "color":  kColorGreen50,
+        "textColor": kColorGreen,
         "status": "Initiated",
       };
     case "Open":
       return {
-        "color":  kColorAmber ,
+        "color":  kColorGreen50 ,
+        "textColor":  kColorGreen ,
         "status": "Open",
       };
     case "On Progress":
       return {
-        "color":  kColorAmber,
+        "color":  kColorPurple,
+        "textColor":  kColorDarkPurple,
         "status": "On Progress",
       };
     case "Completed":
       return {
-        "color":  kColorAmber,
+        "color":  kColorAmber50,
+        "textColor":  kColorAmber,
         "status": "Completed",
       };
     case "Closed":
       return {
-        "buttonLabel": "Close task",
-        "color":  kColorAmber,
+        "color":  kColorAmber50,
+        "textColor":  kColorAmber,
         "status": "Closed",
       };
       case "Cancelled":
       return {
-        "buttonLabel": "Cancelled task",
-        "color":  kColorPink,
+        "color":  kColorPink50,
+        "textColor":  kColorPink,
         "status": "Cancelled",
       };
 
     default:
       return {
-        "color": kColorAmber,
+        "color": kColorAmber50,
+        "textColor": kColorAmber,
         "status": status,
       };
   }

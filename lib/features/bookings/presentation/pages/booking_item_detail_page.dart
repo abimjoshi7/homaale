@@ -543,92 +543,51 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                         .textTheme
                                         .headlineSmall,
                                   ),
-                                  if(booking.status=='')
                                   addVerticalSpace(4),
-                                  ListView.separated(
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.zero,
-                                    itemBuilder: (context, index) {
-                                      var taskTimelineStatus =
-                                          BookingTimelineStatus(
-                                                  '${booking.status}')["status"]
-                                              as String;
-                                      var taskTimelineDes =
-                                          BookingTimelineStatus(
-                                                  '${booking.status}')["status"]
-                                              as String;
-                                      return Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          ListTile(
-                                            leading: Column(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  child: Icon(
-                                                    Icons.check_circle,
-                                                    size: 20,
-                                                    color: Colors.blueAccent,
-                                                  ),
-                                                ),
-                                                CustomPaint(
-                                                    size: Size(2, 36),
-                                                    painter:
-                                                        DashedLineVerticalPainter()),
-                                              ],
-                                            ),
-                                            title: Text(
-                                              taskTimelineStatus ?? "",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                            ),
-                                            subtitle: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(taskTimelineDes,
-                                                    style: Theme.of(context)
-                                                        .textTheme
-                                                        .displayMedium),
-                                              ],
-                                            ),
-                                            trailing: Container(
-                                              width:70,height:30,
-                                              decoration: BoxDecoration(
-                                                color: Colors.green.shade100,
-                                                borderRadius:
-                                                    BorderRadius.circular(5),
-                                                shape: BoxShape.rectangle,
-                                              ),
-                                              child: Center(
-                                                child: Padding(
-                                                  padding: const EdgeInsets
-                                                          .symmetric(
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Task Status :',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.all(3),
+                                        padding: EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                          color: BookingTimelineStatus(
+                                                  '${booking.status}')["color"]
+                                              as Color,
+                                          // color: (booking.status == 'Closed' ||
+                                          //         booking.status == 'Cancelled')
+                                          //     ? Colors.red.shade50
+                                          //     : Colors.green.shade50,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          shape: BoxShape.rectangle,
+                                        ),
+                                        child: Center(
+                                          child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
                                                       horizontal: 8.0),
-                                                  child: Text(
-                                                    taskTimelineStatus,
-                                                    style: TextStyle(
-                                                        // color: Colors.white,
-                                                        fontSize: 12,
-                                                        fontWeight:
-                                                            FontWeight.bold),
-                                                  ),
+                                              child: Text(
+                                                BookingTimelineStatus(
+                                                        '${booking.status}')[
+                                                    "status"] as String,
+                                                style: TextStyle(
+                                                  color: BookingTimelineStatus(
+                                                          '${booking.status}')[
+                                                      "textColor"] as Color,
+
                                                 ),
-                                              ),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) {
-                                      return const SizedBox(
-                                        height: 4,
-                                      );
-                                    },
-                                    itemCount: 5,
+                                              )),
+                                        ),
+                                      ),
+                                    ],
                                   )
                                 ],
                               ),
