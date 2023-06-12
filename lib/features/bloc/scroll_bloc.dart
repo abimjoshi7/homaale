@@ -21,6 +21,9 @@ class ScrollBloc extends Bloc<ScrollEvent, ScrollState> {
       transformer: throttleDroppable(throttleDuration),
       (event, emit) async {
         if (!event.newFetch && state.hasReachedMax == true) return;
+        if (event.newFetch) {
+          emit(state.copyWith(theState: TheStates.initial));
+        }
         if (state.theState == TheStates.initial) {
           final res = await InifiniteRepo().fetchItems(event.url, event.data);
 

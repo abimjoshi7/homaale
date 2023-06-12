@@ -4,11 +4,11 @@ import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
 import 'package:cipher/features/bookings/data/models/booking_history_req.dart';
+import 'package:cipher/features/bookings/data/models/booking_single_dto.dart';
 import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_res.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart'
-    as booking;
+import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as booking;
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:dependencies/dependencies.dart';
@@ -63,8 +63,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               emit(
                 state.copyWith(
                   states: TheStates.success,
-                  myBookingListModel:
-                      booking.MyBookingListModel.fromJson(value),
+                  myBookingListModel: booking.MyBookingListModel.fromJson(value),
                   isLoaded: true,
                   isUpdated: false,
                   isCancelled: false,
@@ -91,13 +90,17 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
           emit(state.copyWith(states: TheStates.initial));
           if (event.id is int) {
             await repositories.fetchSingleBooking(id: event.id as int).then(
-                  (value) => emit(
-                    state.copyWith(
-                      states: TheStates.success,
-                      result: booking.Result.fromJson(value),
-                    ),
+              (value) {
+                final val = BookingSingleDto.fromJson(value);
+                print("asd $val");
+                emit(
+                  state.copyWith(
+                    states: TheStates.success,
+                    result: val,
                   ),
                 );
+              },
+            );
           } else {
             // Might need to update fromJson model in future
             await repositories.fetchBooking(id: event.id as String).then(
@@ -112,6 +115,8 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
             );
           }
         } catch (e) {
+          print("error $e");
+
           emit(
             state.copyWith(
               states: TheStates.failure,
@@ -295,9 +300,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
     on<BookingStatusUpdate>(
       (event, emit) async {
         try {
-          await repositories
-              .updateStatus(status: event.status, id: event.id)
-              .then(
+          await repositories.updateStatus(status: event.status, id: event.id).then(
             (value) {
               print(value);
               emit(
