@@ -35,31 +35,31 @@ class _WaitingListTabState extends State<WaitingListTab> {
     super.initState();
     _scrollBloc.add(
       FetchItemsEvent(
-        kMyBookingList,
-        {
+        url: kMyBookingList,
+        data: {
           "is_accepted": false,
           "status": "pending",
         },
-        true,
+        newFetch: false,
       ),
     );
-    _controller.addListener(
-      () {
-        ScrollHelper.nextPageTrigger(
-          _controller,
-          _scrollBloc.add(
-            FetchItemsEvent(
-              kMyBookingList,
-              {
-                "is_accepted": false,
-                "status": "pending",
-              },
-              false,
-            ),
-          ),
-        );
-      },
-    );
+    // _controller.addListener(
+    //   () {
+    //     ScrollHelper.nextPageTrigger(
+    //       _controller,
+    //       _scrollBloc.add(
+    //         FetchItemsEvent(
+    //           url: kMyBookingList,
+    //           data: {
+    //             "is_accepted": false,
+    //             "status": "pending",
+    //           },
+    //           newFetch: false,
+    //         ),
+    //       ),
+    //     );
+    //   },
+    // );
   }
 
   @override
@@ -73,7 +73,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
     return BlocBuilder<ScrollBloc, ScrollState>(
       bloc: _scrollBloc,
       builder: (context, state) {
-        final data = state.result.map((e) => Result.fromJson(e as Map<String, dynamic>)).toList();
+        var data = state.result.map((e) => Result.fromJson(e as Map<String, dynamic>)).toList();
         if (state.theState == TheStates.success) {
           return Column(
             children: [
@@ -82,12 +82,12 @@ class _WaitingListTabState extends State<WaitingListTab> {
                   onRefresh: () async {
                     _scrollBloc.add(
                       FetchItemsEvent(
-                        kMyBookingList,
-                        {
+                        url: kMyBookingList,
+                        data: {
                           "is_accepted": false,
                           "status": "pending",
                         },
-                        false,
+                        newFetch: true,
                       ),
                     );
                   },
@@ -99,12 +99,12 @@ class _WaitingListTabState extends State<WaitingListTab> {
                       if (index >= data.length) {
                         _scrollBloc.add(
                           FetchItemsEvent(
-                            kMyBookingList,
-                            {
+                            url: kMyBookingList,
+                            data: {
                               "is_accepted": false,
                               "status": "pending",
                             },
-                            false,
+                            newFetch: false,
                           ),
                         );
                         return BottomLoader();
