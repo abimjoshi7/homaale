@@ -1,10 +1,12 @@
 import 'dart:developer';
+import 'dart:io';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/core/helpers/file_storage_helper.dart';
 import 'package:cipher/features/transaction/data/models/transactions_res.dart';
+import 'package:dependencies/dependencies.dart';
 
 class TransactionRepository {
   final _dio = DioHelper();
@@ -58,17 +60,17 @@ class TransactionRepository {
         ),
       );
 
-  Future downloadCSV() async {
+  Future<File> downloadCSV() async {
     try {
-      final String res = await _dio.getDatawithCredential(
-        url: "payment/transaction-csv/",
+      final res = await _dio.getDatawithCredential(
+        url: kTransactionDownloadPath,
         token: CacheHelper.accessToken,
-      ) as String;
-      log(res);
-
-      FileStorageHelper().writeData(
-        res,
       );
+
+      final x = await FileStorageHelper().writeData(
+        res as String,
+      );
+      return x;
     } catch (e) {
       throw Exception("CSV download error: $e");
     }
