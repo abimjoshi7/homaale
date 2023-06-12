@@ -32,11 +32,13 @@ class DioHelper {
     /// Dio interceptors
     dio.interceptors.add(InterceptorsWrapper(
       onRequest: (options, handler) {
-        print('REQUEST[${options.method}] => PATH: ${options.path} => DATA: ${options.data}');
+        print(
+            'REQUEST[${options.method}] => PATH: ${options.path} => DATA: ${options.data}');
 
         if (options.headers.containsKey('requiresAuthorization')) {
           options.headers.remove("requiresAuthorization");
-          options.headers.addAll({"Authorization": "Bearer ${CacheHelper.accessToken}"});
+          options.headers
+              .addAll({"Authorization": "Bearer ${CacheHelper.accessToken}"});
         }
         return handler.next(options);
       },
@@ -54,9 +56,11 @@ class DioHelper {
         // Handle specific error status codes
         switch (statusCode) {
           case 400:
-            if (responseData is Map<String, dynamic> && responseData.containsKey('non_field_errors')) {
+            if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('non_field_errors')) {
               final nonFieldErrors = responseData['non_field_errors'];
-              if (nonFieldErrors is List<dynamic> && nonFieldErrors.isNotEmpty) {
+              if (nonFieldErrors is List<dynamic> &&
+                  nonFieldErrors.isNotEmpty) {
                 final errorMessage = nonFieldErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Password Error: ${errorMessage}",
@@ -80,9 +84,39 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> && responseData.containsKey('old_password')) {
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('issued_date')) {
+              final issuedDateError = responseData['issued_date'];
+              if (issuedDateError is List<dynamic> &&
+                  issuedDateError.isNotEmpty) {
+                final errorMessage = issuedDateError.join('.');
+                Fluttertoast.showToast(
+                    msg: "Issued Date Error: ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Issued Date Error: ${issuedDateError}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('old_password')) {
               final oldPasswordError = responseData['old_password'];
-              if (oldPasswordError is List<dynamic> && oldPasswordError.isNotEmpty) {
+              if (oldPasswordError is List<dynamic> &&
+                  oldPasswordError.isNotEmpty) {
                 final errorMessage = oldPasswordError.join('.');
                 Fluttertoast.showToast(
                     msg: "Password Error: ${errorMessage}",
@@ -109,32 +143,36 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('password')) {
               final passswordErrors = responseData['password'];
-              if (passswordErrors is List<dynamic> && passswordErrors.isNotEmpty) {
+              if (passswordErrors is List<dynamic> &&
+                  passswordErrors.isNotEmpty) {
                 final errorMessage = passswordErrors.join('.');
-                // Remove existing cache and add new error msg in cache
-                await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-                  () async => CacheHelper.setCachedString(
-                    kErrorLog,
-                    errorMessage.toString(),
-                  ),
-                );
+                Fluttertoast.showToast(
+                    msg: "Password Error: ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
 
                 return handler.next(err);
               } else {
-                // Remove existing cache and add new error msg in cache
-                await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-                  () async => CacheHelper.setCachedString(
-                    kErrorLog,
-                    passswordErrors.toString(),
-                  ),
-                );
+                Fluttertoast.showToast(
+                    msg: "Password Error: ${passswordErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
 
                 return handler.next(err);
               }
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('budget_type')) {
               final budgetTypeErrors = responseData['budget_type'];
-              if (budgetTypeErrors is List<dynamic> && budgetTypeErrors.isNotEmpty) {
+              if (budgetTypeErrors is List<dynamic> &&
+                  budgetTypeErrors.isNotEmpty) {
                 final errorMessage = budgetTypeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Budget type: ${errorMessage}",
@@ -161,7 +199,8 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('username')) {
               final usernameErrors = responseData['username'];
-              if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {
+              if (usernameErrors is List<dynamic> &&
+                  usernameErrors.isNotEmpty) {
                 final errorMessage = usernameErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Username: ${errorMessage}",
@@ -185,10 +224,11 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            }
-            else if (responseData is Map<String, dynamic> && responseData.containsKey('detail')) {
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('detail')) {
               final detailstTypeErrors = responseData['detail'];
-              if (detailstTypeErrors is List<dynamic> && detailstTypeErrors.isNotEmpty) {
+              if (detailstTypeErrors is List<dynamic> &&
+                  detailstTypeErrors.isNotEmpty) {
                 final errorMessage = detailstTypeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Detail : ${errorMessage}",
@@ -212,9 +252,11 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> && responseData.containsKey('merchant')) {
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('merchant')) {
               final detailstTypeErrors = responseData['merchant']['amount'];
-              if (detailstTypeErrors is List<dynamic> && detailstTypeErrors.isNotEmpty) {
+              if (detailstTypeErrors is List<dynamic> &&
+                  detailstTypeErrors.isNotEmpty) {
                 final errorMessage = detailstTypeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "amount : ${errorMessage}",
@@ -238,9 +280,11 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> && responseData.containsKey('order')) {
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('order')) {
               final detailstTypeErrors = responseData['order'];
-              if (detailstTypeErrors is List<dynamic> && detailstTypeErrors.isNotEmpty) {
+              if (detailstTypeErrors is List<dynamic> &&
+                  detailstTypeErrors.isNotEmpty) {
                 final errorMessage = detailstTypeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "order : ${errorMessage}",
@@ -264,9 +308,11 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('username')) {
               final usernameErrors = responseData['username'];
-              if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {
+              if (usernameErrors is List<dynamic> &&
+                  usernameErrors.isNotEmpty) {
                 final errorMessage = usernameErrors.join('.');
                 // Remove existing cache and add new error msg in cache
                 await CacheHelper.clearCachedData(kErrorLog).whenComplete(
@@ -304,27 +350,32 @@ class DioHelper {
                 );
 
                 // Update the access and refresh token
-                CacheHelper.accessToken = await response.data['access'] as String?;
-                CacheHelper.refreshToken = await response.data['refresh'] as String?;
+                CacheHelper.accessToken =
+                    await response.data['access'] as String?;
+                CacheHelper.refreshToken =
+                    await response.data['refresh'] as String?;
               } catch (_) {
                 rethrow;
               }
 
               // Update the access token in the request headers
-              err.requestOptions.headers['Authorization'] = 'Bearer ${CacheHelper.accessToken}';
+              err.requestOptions.headers['Authorization'] =
+                  'Bearer ${CacheHelper.accessToken}';
 
               // Retry the original request
-              Response retryResponse = await dio.request(err.requestOptions.path,
-                  options: Options(
-                    contentType: err.requestOptions.contentType,
-                    headers: err.requestOptions.headers,
-                    method: err.requestOptions.method,
-                  ));
+              Response retryResponse =
+                  await dio.request(err.requestOptions.path,
+                      options: Options(
+                        contentType: err.requestOptions.contentType,
+                        headers: err.requestOptions.headers,
+                        method: err.requestOptions.method,
+                      ));
 
               // Return the retry response
               return handler.resolve(retryResponse);
             } catch (e) {
-              print('OUTSIDE ERROR[$statusCode] => PATH: $requestPath => MSG: $e');
+              print(
+                  'OUTSIDE ERROR[$statusCode] => PATH: $requestPath => MSG: $e');
 
               Navigator.pushNamedAndRemoveUntil(
                 navigationKey.currentContext!,
@@ -349,6 +400,10 @@ class DioHelper {
             // Handle 403 Forbidden
             // Your code here
             break;
+          case 404:
+            // Handle 403 Forbidden
+            // Your code here
+            return handler.next(err);
           case 500:
             // Handle 500 Internal Server Error
             // Your code here
@@ -410,6 +465,7 @@ class DioHelper {
       );
       return response.data;
     } catch (e) {
+      log("dio err:$e");
       rethrow;
     }
   }

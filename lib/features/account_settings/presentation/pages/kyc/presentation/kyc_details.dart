@@ -139,30 +139,30 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
             ),
           );
         }
-        if (state.theStates == TheStates.failure &&
-            (state.isDocCreated == false && state.list?.length == 0)) {
-          await showDialog(
-            context: context,
-            builder: (_) => CustomToast(
-              heading: "Failure",
-              content: state.errMsg ?? "Kyc Process Cannot Be Completed.",
-              onTap: () {},
-              isSuccess: false,
-            ),
-          );
-        }
-        if (state.theStates == TheStates.failure &&
-            (state.isDocEdited == false && state.list?.length != 0)) {
-          await showDialog(
-            context: context,
-            builder: (_) => CustomToast(
-              heading: "Failure",
-              content: state.errMsg ?? "Kyc Process Cannot Be Completed.",
-              onTap: () {},
-              isSuccess: false,
-            ),
-          );
-        }
+        // if (state.theStates == TheStates.failure &&
+        //     (state.isDocCreated == false && (state.list?.length == null))) {
+        //   await showDialog(
+        //     context: context,
+        //     builder: (_) => CustomToast(
+        //       heading: "Failure",
+        //       content: state.errMsg ?? "Kyc Process Cannot Be Completed.",
+        //       onTap: () {},
+        //       isSuccess: false,
+        //     ),
+        //   );
+        // }
+        // if (state.theStates == TheStates.failure &&
+        //     (state.isDocEdited == false && state.list?.length != 0)) {
+        //   await showDialog(
+        //     context: context,
+        //     builder: (_) => CustomToast(
+        //       heading: "Failure",
+        //       content: state.errMsg ?? "Kyc Cannot Be Edited.",
+        //       onTap: () {},
+        //       isSuccess: false,
+        //     ),
+        //   );
+        // }
       },
       builder: (context, state) {
         if (state.theStates == TheStates.loading)
@@ -502,6 +502,7 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
         ),
       );
     }
+    if (file == null) return;
   }
 
   Widget buildIdentityTypeDropdown(KycState state) {

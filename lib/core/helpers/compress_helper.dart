@@ -58,8 +58,8 @@ class CompressHelper {
       output.rawBytes,
     );
 
-    log('Input size = ${inputFile.lengthSync()}');
-    log('Output size = ${output.sizeInBytes}');
+    print('Input size = ${inputFile.lengthSync()}');
+    print('Output size = ${output.sizeInBytes}');
     print('File = ${file.path}');
     print('File size = ${file.lengthSync()}');
 
