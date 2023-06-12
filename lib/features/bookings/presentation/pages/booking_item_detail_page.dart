@@ -16,6 +16,7 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../widgets/dashed_line_vertical_painter.dart';
 import '../../../booking_cancel/presentation/pages/booking_cancel_page.dart';
 
 class BookingItemDetailPage extends StatefulWidget {
@@ -530,6 +531,67 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                               ),
                             ),
                             addVerticalSpace(10),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Task Status',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                  ),
+                                  addVerticalSpace(4),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        'Task Status :',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                      Container(
+                                        margin: EdgeInsets.all(3),
+                                        padding: EdgeInsets.all(5),
+                                        decoration: BoxDecoration(
+                                          color: BookingTimelineStatus(
+                                                  '${booking.status}')["color"]
+                                              as Color,
+                                          // color: (booking.status == 'Closed' ||
+                                          //         booking.status == 'Cancelled')
+                                          //     ? Colors.red.shade50
+                                          //     : Colors.green.shade50,
+                                          borderRadius:
+                                              BorderRadius.circular(5),
+                                          shape: BoxShape.rectangle,
+                                        ),
+                                        child: Center(
+                                          child: Padding(
+                                              padding:
+                                                  const EdgeInsets.symmetric(
+                                                      horizontal: 8.0),
+                                              child: Text(
+                                                BookingTimelineStatus(
+                                                        '${booking.status}')[
+                                                    "status"] as String,
+                                                style: TextStyle(
+                                                  color: BookingTimelineStatus(
+                                                          '${booking.status}')[
+                                                      "textColor"] as Color,
+
+                                                ),
+                                              )),
+                                        ),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              ),
+                            ),
                             const Visibility(
                               visible: false,
                               child: Padding(
