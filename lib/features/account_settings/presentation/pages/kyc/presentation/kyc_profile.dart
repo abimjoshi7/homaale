@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/helpers/compress_helper.dart';
+import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
@@ -175,12 +177,29 @@ class _KycProfileState extends State<KycProfile> {
                                   (value) async => await ImagePicker()
                                       .pickImage(source: ImageSource.gallery)
                                       .then(
-                                        (value) => setState(
-                                          () {
-                                            selectedImage = File(value!.path);
-                                          },
-                                        ),
-                                      ),
+                                    (value) async {
+                                      final file = await CompressHelper()
+                                          .compressFileAsync(value!.path);
+                                      if (file.lengthSync() > 5093309) {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (_) => CustomToast(
+                                            heading: "Failure",
+                                            content:
+                                                "File Size Must Be Less Than 5MB.",
+                                            onTap: () {},
+                                            isSuccess: false,
+                                          ),
+                                        );
+                                      }
+                                      if (file.lengthSync() > 5093309) return;
+                                      setState(
+                                        () {
+                                          selectedImage = file;
+                                        },
+                                      );
+                                    },
+                                  ),
                                 );
                               },
                               child: Column(

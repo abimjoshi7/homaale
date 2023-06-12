@@ -1,9 +1,10 @@
 import 'dart:async';
 
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/google_maps_constants.dart';
-import 'package:cipher/features/google_maps/data/repositories/maps_repository.dart';
 import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
+import 'package:cipher/features/user_location/presentation/widgets/search_delegate_widget.dart';
 import 'package:cipher/features/user_location/presentation/widgets/widgets.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -12,7 +13,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class ChooseLocationPage extends StatefulWidget {
   const ChooseLocationPage({super.key});
-
+  static const routeName = "/choose-location";
   @override
   State<ChooseLocationPage> createState() => _ChooseLocationPageState();
 }
@@ -23,11 +24,9 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
   late LatLng _draggedLatLng;
   // Position? _draggedPos;
   bool _isDragged = false;
-  final _repo = MapsRepositories();
+  final TextEditingController _searchController = TextEditingController();
 
-  _init() async {
-    _draggedLatLng = kUserLocation;
-  }
+  _init() => _draggedLatLng = kUserLocation;
 
   @override
   void initState() {
@@ -36,30 +35,56 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
   }
 
   @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        floatingActionButton: SetLocationButton(
-            isDragged: _isDragged,
-            draggedAddress: _draggedAddress,
-            draggedLatLng: _draggedLatLng),
-        floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-        appBar: CustomAppBar(
-          appBarTitle: "Choose Your Location",
-          trailingWidget: SizedBox.shrink(),
-        ),
-        body: _buildBody());
+    return WillPopScope(
+      onWillPop: () async {
+        Navigator.popUntil(
+          context,
+          (route) => route.settings.name == Root.routeName,
+        );
+        return false;
+      },
+      child: Scaffold(
+          floatingActionButton: SetLocationButton(
+              isDragged: _isDragged,
+              draggedAddress: _draggedAddress,
+              draggedLatLng: _draggedLatLng),
+          floatingActionButtonLocation:
+              FloatingActionButtonLocation.centerDocked,
+          appBar: CustomAppBar(
+            appBarTitle: "Choose Your Location",
+            trailingWidget: SizedBox.shrink(),
+            leadingWidget: IconButton(
+              onPressed: () => Navigator.popUntil(
+                context,
+                (route) => route.settings.name == Root.routeName,
+              ),
+              icon: Icon(
+                Icons.arrow_back_rounded,
+              ),
+            ),
+          ),
+          body: _buildBody()),
+    );
   }
 
   Widget _buildBody() {
     return Stack(
       children: <Widget>[
         _getMap(),
+        _buildSearch(),
         CustomPin(
           isDragged: _isDragged,
         ),
         Positioned(
           right: 10.0,
-          top: 20.0,
+          top: 75.0,
           child: InkWell(
             onTap: () => _goToUserCurrentPosition(),
             child: Container(
@@ -89,10 +114,36 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
     );
   }
 
+  Container _buildSearch() {
+    return Container(
+      height: 70.0,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        color: Colors.white.withOpacity(0.9),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: CustomTextFormField(
+          readOnly: true,
+          controller: _searchController,
+          hintText: "Search for Location",
+          onTap: () => showSearch(
+            context: context,
+            delegate: SearchDelegateWidget(),
+          ),
+          suffixWidget: Icon(
+            Icons.search,
+          ),
+        ),
+      ),
+    );
+  }
+
 //Get Address placemark on camera moved
   Future _getAddress(LatLng position) async {
     List<Placemark> placemarks =
         await placemarkFromCoordinates(position.latitude, position.longitude);
+
     Placemark address = placemarks[0];
     String addressStr =
         "${address.street}, ${address.locality}, ${address.administrativeArea}, ${address.country}";
@@ -124,7 +175,11 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
           onMapCreated: (GoogleMapController controller) {
             if (!_googleMapController.isCompleted) {
               _googleMapController.complete(controller);
+              if (state.tempLocation != null) {
+                _goToSpecificPosition(state.tempLocation!);
+              }
             }
+            setState(() => _draggedLatLng = state.location ?? kUserLocation);
           },
           zoomControlsEnabled: false,
         );

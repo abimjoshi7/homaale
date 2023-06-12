@@ -1,5 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/google_maps/presentation/bloc/nearby_task_entity_service_bloc.dart';
+import 'package:cipher/features/google_maps/presentation/bloc/nearby_task_entity_service_bloc/nearby_task_entity_service_bloc.dart';
 import 'package:cipher/features/search/presentation/widgets/search_card.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';

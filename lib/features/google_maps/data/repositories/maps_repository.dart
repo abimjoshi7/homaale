@@ -24,17 +24,33 @@ class MapsRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> getMapAutoCompleteQueries() async {
+  Future<Map<String, dynamic>> getMapAutoCompleteQueries(
+      {required String query}) async {
     try {
       final res = await _dioHelper.getMapDataWithCredential(
           url: "place/queryautocomplete/json",
           query: {
-            "input": 'new',
+            "input": query,
             "key": mapsAPIKey,
           });
       return res as Map<String, dynamic>;
     } catch (e) {
       log("maps auto correct test" + e.toString());
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> getLocationFromTextAddress(
+      {required String address}) async {
+    try {
+      final res = await _dioHelper
+          .getMapDataWithCredential(url: "geocode/json", query: {
+        "address": address,
+        "key": mapsAPIKey,
+      });
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log("Maps Geocode Test" + e.toString());
       rethrow;
     }
   }

@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
@@ -9,7 +10,7 @@ import '../models/kyc_model.dart';
 
 class KycRepositories {
   final _dio = DioHelper();
-
+	
   Future<Map<String, dynamic>?> createKyc(CreateKycReq createKycReq) async {
     try {
       final x = await _dio.postFormData(
@@ -104,6 +105,7 @@ class KycRepositories {
       }
       return null;
     } catch (e) {
+      print("kyc fetch Err: $e");
       rethrow;
     }
   }
