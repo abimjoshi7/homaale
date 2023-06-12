@@ -128,6 +128,7 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                                     children: <Widget>[
                                       GestureDetector(
                                         onTap: () async {
+                                          print(state.singleTasker.fullName);
                                           Navigator.pop(context);
                                           if (CacheHelper.isLoggedIn == false) {
                                             await notLoggedInPopUp(context);
@@ -135,7 +136,7 @@ class TaskerProfileViewState extends State<TaskerProfileView> with SingleTickerP
                                           if (CacheHelper.isLoggedIn == true) {
                                             final box = context.findRenderObject() as RenderBox?;
                                             Share.share(
-                                              "$kShareLinks/bookings/${state.singleTasker.id}",
+                                              "$kShareLinks/tasker/${state.singleTasker.user?.id}",
                                               subject: state.singleTasker.fullName,
                                               sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                                             );

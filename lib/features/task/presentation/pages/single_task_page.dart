@@ -282,7 +282,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                                         if (CacheHelper.isLoggedIn == true) {
                                                           final box = context.findRenderObject() as RenderBox?;
                                                           Share.share(
-                                                            "$kShareLinks/${state.taskModel?.id}",
+                                                            "$kShareLinks/tasks/${state.taskModel?.id}",
                                                             subject: state.taskModel?.title,
                                                             sharePositionOrigin:
                                                                 box!.localToGlobal(Offset.zero) & box.size,

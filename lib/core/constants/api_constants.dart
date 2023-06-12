@@ -42,7 +42,7 @@ const kSearchPath = "/search/dashboard/";
 //categories
 const kParentCategoryList = "/task/cms/task-category/list/";
 const kSubCategoryList = "/task/service/list/options/";
-const kShareLinks = "https://sandbox.homaale.com/service";
+const kShareLinks = "https://sandbox.homaale.com";
 
 //portfolio
 const kPortfolio = "tasker/portfolio/";

@@ -67,7 +67,7 @@ class _TaskerServiceState extends State<TaskerService> {
                           : state.service.result?[index].images?.first.media,
                       shareCallback: () {
                         Share.share(
-                          "$kShareLinks/service/${state.service.result?[index].id}",
+                          "$kShareLinks/services/${state.service.result?[index].id}",
                           subject: state.service.result?[index].title,
                         );
                       },

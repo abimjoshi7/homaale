@@ -106,7 +106,8 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> && responseData.containsKey('password')) {
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('password')) {
               final passswordErrors = responseData['password'];
               if (passswordErrors is List<dynamic> && passswordErrors.isNotEmpty) {
                 final errorMessage = passswordErrors.join('.');
@@ -130,7 +131,8 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> && responseData.containsKey('budget_type')) {
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('budget_type')) {
               final budgetTypeErrors = responseData['budget_type'];
               if (budgetTypeErrors is List<dynamic> && budgetTypeErrors.isNotEmpty) {
                 final errorMessage = budgetTypeErrors.join('.');
@@ -156,7 +158,8 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
+            } else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('username')) {
               final usernameErrors = responseData['username'];
               if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {
                 final errorMessage = usernameErrors.join('.');
@@ -182,7 +185,8 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> && responseData.containsKey('detail')) {
+            }
+            else if (responseData is Map<String, dynamic> && responseData.containsKey('detail')) {
               final detailstTypeErrors = responseData['detail'];
               if (detailstTypeErrors is List<dynamic> && detailstTypeErrors.isNotEmpty) {
                 final errorMessage = detailstTypeErrors.join('.');
