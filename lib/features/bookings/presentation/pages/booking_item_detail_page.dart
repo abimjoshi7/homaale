@@ -16,6 +16,7 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../widgets/dashed_line_vertical_painter.dart';
 import '../../../booking_cancel/presentation/pages/booking_cancel_page.dart';
 
 class BookingItemDetailPage extends StatefulWidget {
@@ -530,6 +531,108 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                               ),
                             ),
                             addVerticalSpace(10),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    'Task Status',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                  ),
+                                  if(booking.status=='')
+                                  addVerticalSpace(4),
+                                  ListView.separated(
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.zero,
+                                    itemBuilder: (context, index) {
+                                      var taskTimelineStatus =
+                                          BookingTimelineStatus(
+                                                  '${booking.status}')["status"]
+                                              as String;
+                                      var taskTimelineDes =
+                                          BookingTimelineStatus(
+                                                  '${booking.status}')["status"]
+                                              as String;
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.start,
+                                        children: [
+                                          ListTile(
+                                            leading: Column(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Container(
+                                                  child: Icon(
+                                                    Icons.check_circle,
+                                                    size: 20,
+                                                    color: Colors.blueAccent,
+                                                  ),
+                                                ),
+                                                CustomPaint(
+                                                    size: Size(2, 36),
+                                                    painter:
+                                                        DashedLineVerticalPainter()),
+                                              ],
+                                            ),
+                                            title: Text(
+                                              taskTimelineStatus ?? "",
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                            ),
+                                            subtitle: Column(
+                                              crossAxisAlignment:
+                                                  CrossAxisAlignment.start,
+                                              children: [
+                                                Text(taskTimelineDes,
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .displayMedium),
+                                              ],
+                                            ),
+                                            trailing: Container(
+                                              width:70,height:30,
+                                              decoration: BoxDecoration(
+                                                color: Colors.green.shade100,
+                                                borderRadius:
+                                                    BorderRadius.circular(5),
+                                                shape: BoxShape.rectangle,
+                                              ),
+                                              child: Center(
+                                                child: Padding(
+                                                  padding: const EdgeInsets
+                                                          .symmetric(
+                                                      horizontal: 8.0),
+                                                  child: Text(
+                                                    taskTimelineStatus,
+                                                    style: TextStyle(
+                                                        // color: Colors.white,
+                                                        fontSize: 12,
+                                                        fontWeight:
+                                                            FontWeight.bold),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                    separatorBuilder: (context, index) {
+                                      return const SizedBox(
+                                        height: 4,
+                                      );
+                                    },
+                                    itemCount: 5,
+                                  )
+                                ],
+                              ),
+                            ),
                             const Visibility(
                               visible: false,
                               child: Padding(

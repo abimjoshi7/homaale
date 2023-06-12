@@ -29,7 +29,6 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
       context.read<RedeemBloc>().add(RedeemItemsDetails(
           redeemId:
               context.read<RedeemBloc>().state.redeem[currentIndex].id ?? 0));
-      // final error = await CacheHelper.getCachedString(kErrorLog);
       if (state.theState == TheStates.success) {
         await showDialog(
           context: context,

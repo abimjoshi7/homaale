@@ -383,25 +383,21 @@ Map<String, dynamic> BookingTimelineStatus(String status) {
   switch (status) {
     case "Initiated":
       return {
-        "buttonLabel":  "",
         "color":  kColorBlue,
         "status": "Initiated",
       };
     case "Open":
       return {
-        "buttonLabel": "Start Task",
         "color":  kColorAmber ,
         "status": "Open",
       };
     case "On Progress":
       return {
-        "buttonLabel": "Mark as Completed" ,
         "color":  kColorAmber,
         "status": "On Progress",
       };
     case "Completed":
       return {
-        "buttonLabel":  "Close task",
         "color":  kColorAmber,
         "status": "Completed",
       };
@@ -420,7 +416,6 @@ Map<String, dynamic> BookingTimelineStatus(String status) {
 
     default:
       return {
-        "buttonLabel": status,
         "color": kColorAmber,
         "status": status,
       };
