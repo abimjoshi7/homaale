@@ -1,8 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/scroll_helper.dart';
 import 'package:cipher/features/bloc/scroll_bloc.dart';
-import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart'
-    as bookings;
+import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart' as bookings;
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_item_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
@@ -16,18 +15,15 @@ import 'package:flutter/material.dart';
 enum BookingSectionType { todo, myBooking }
 
 class BookingSection extends StatefulWidget {
-  final BookingsBloc bloc;
   final BookingSectionType bookingSectionType;
 
-  const BookingSection(
-      {super.key, required this.bloc, required this.bookingSectionType});
+  const BookingSection({super.key, required this.bookingSectionType});
 
   @override
   State<BookingSection> createState() => _BookingSectionState();
 }
 
 class _BookingSectionState extends State<BookingSection> {
-  late final bookingsBloc = widget.bloc;
   List<bookings.Result> resultList = [];
   final _controller = ScrollController();
   final _scrollBloc = locator<ScrollBloc>();
@@ -38,10 +34,7 @@ class _BookingSectionState extends State<BookingSection> {
     _scrollBloc.add(
       FetchItemsEvent(
         kBookingList,
-        {
-          "is_requested": true,
-          "assigned_to_me": true,
-        },
+        {},
         true,
       ),
     );
@@ -52,10 +45,7 @@ class _BookingSectionState extends State<BookingSection> {
           _scrollBloc.add(
             FetchItemsEvent(
               kBookingList,
-              {
-                "is_requested": true,
-                "assigned_to_me": true,
-              },
+              {},
               false,
             ),
           ),
@@ -63,19 +53,6 @@ class _BookingSectionState extends State<BookingSection> {
       },
     );
   }
-
-  //initialize page controller
-  // final PagingController<int, Result> _pagingController =
-  //     PagingController(firstPageKey: 1);
-
-  // @override
-  // void initState() {
-  //   //so at event add list of records
-  //   _pagingController.addPageRequestListener(
-  //     (pageKey) => bookingsBloc.add(BookingLoaded(page: pageKey)),
-  //   );
-  //   super.initState();
-  // }
 
   @override
   void dispose() {
@@ -88,136 +65,93 @@ class _BookingSectionState extends State<BookingSection> {
     return BlocBuilder<ScrollBloc, ScrollState>(
       bloc: _scrollBloc,
       builder: (context, state) {
-        var bookingList = state.result
-            .map(
-              (e) => bookings.Result.fromJson(
-                e as Map<String, dynamic>,
-              ),
-            )
-            .toList();
+        var bookingList = state.result.map((e) => bookings.Result.fromJson(e as Map<String, dynamic>)).toList();
+        
+        return state.theState == TheStates.initial
+            ? SizedBox(child: Center(child: CircularProgressIndicator()))
+            : bookingList.isEmpty
+                ? Center(
+                    child: CommonErrorContainer(
+                    assetsPath: 'assets/no_data_found.png',
+                    errorTile: 'Item not available.',
+                    errorDes: 'We’re sorry, the data you search could not found.',
+                  ))
+                : Column(
+                    children: [
+                      Expanded(
+                        child: ListView.builder(
+                          controller: _controller,
+                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                          itemCount: state.hasReachedMax ? bookingList.length : bookingList.length + 1,
+                          itemBuilder: (context, index) {
+                            switch (state.theState) {
+                              case TheStates.success:
+                                if (index >= state.result.length) {
+                                  _scrollBloc.add(
+                                    FetchItemsEvent(
+                                      kBookingList,
+                                      {},
+                                      false,
+                                    ),
+                                  );
+                                  return BottomLoader();
+                                } else {
+                                  return widget.bookingSectionType == BookingSectionType.todo
+                                      ? bookingList[index].assignee?.id ==
+                                              context.read<UserBloc>().state.taskerProfile?.user?.id
+                                          ? Container(
+                                              margin: EdgeInsets.only(bottom: 16),
+                                              child: BookingsServiceCard(
+                                                callback: () {
+                                                  BlocProvider.of<BookingsBloc>(context).add(
+                                                    BookingSingleLoaded(bookingList[index].id),
+                                                  );
+                                                  Navigator.pushNamed(context, BookingItemDetailPage.routeName,
+                                                      arguments: {'client': 'merchant'});
+                                                },
+                                                serviceName: bookingList[index].title,
+                                                providerName:
+                                                    "${bookingList[index].assigner?.firstName} ${bookingList[index].assigner?.lastName}",
+                                                mainContentWidget: showBookingDetails(bookingList[index]),
+                                                status: bookingList[index].status,
+                                                hidePopupButton: true,
+                                                bottomRightWidget: displayPrice(bookingList[index]),
+                                              ),
+                                            )
+                                          : SizedBox()
+                                      : bookingList[index].assigner?.id ==
+                                              context.read<UserBloc>().state.taskerProfile?.user?.id
+                                          ? Container(
+                                              margin: EdgeInsets.only(bottom: 16),
+                                              child: BookingsServiceCard(
+                                                callback: () {
+                                                  BlocProvider.of<BookingsBloc>(context).add(
+                                                    BookingSingleLoaded(bookingList[index].id),
+                                                  );
+                                                  Navigator.pushNamed(context, BookingItemDetailPage.routeName,
+                                                      arguments: {'client': 'client'});
+                                                },
+                                                serviceName: bookingList[index].title,
+                                                providerName:
+                                                    "${bookingList[index].assignee?.firstName} ${bookingList[index].assignee?.lastName}",
+                                                mainContentWidget: showBookingDetails(bookingList[index]),
+                                                status: bookingList[index].status,
+                                                hidePopupButton: true,
+                                                bottomRightWidget: displayPrice(bookingList[index]),
+                                              ),
+                                            )
+                                          : SizedBox();
+                                }
 
-        return bookingList.isEmpty
-            ? Center(
-                child: CommonErrorContainer(
-                assetsPath: 'assets/no_data_found.png',
-                errorTile: 'Item not available.',
-                errorDes: 'We’re sorry, the data you search could not found.',
-              ))
-            : Column(
-                children: [
-                  Expanded(
-                    child: ListView.builder(
-                      controller: _controller,
-                      itemCount: state.hasReachedMax
-                          ? bookingList.length
-                          : bookingList.length + 1,
-                      itemBuilder: (context, index) {
-                        switch (state.theState) {
-                          case TheStates.success:
-                            if (index >= state.result.length) {
-                              _scrollBloc.add(
-                                FetchItemsEvent(
-                                  kBookingList,
-                                  {
-                                    "is_requested": true,
-                                    "assigned_to_me": true,
-                                  },
-                                  false,
-                                ),
-                              );
-                              return BottomLoader();
-                            } else {
-                              return widget.bookingSectionType ==
-                                      BookingSectionType.todo
-                                  ? bookingList[index].assignee?.id ==
-                                          context
-                                              .read<UserBloc>()
-                                              .state
-                                              .taskerProfile
-                                              ?.user
-                                              ?.id
-                                      ? Container(
-                                          margin: EdgeInsets.only(bottom: 16),
-                                          child: BookingsServiceCard(
-                                            callback: () {
-                                              BlocProvider.of<BookingsBloc>(
-                                                      context)
-                                                  .add(
-                                                BookingSingleLoaded(
-                                                    bookingList[index].id),
-                                              );
-                                              Navigator.pushNamed(
-                                                  context,
-                                                  BookingItemDetailPage
-                                                      .routeName,
-                                                  arguments: {
-                                                    'client': 'merchant'
-                                                  });
-                                            },
-                                            serviceName:
-                                                bookingList[index].title,
-                                            providerName:
-                                                "${bookingList[index].assigner?.firstName} ${bookingList[index].assigner?.lastName}",
-                                            mainContentWidget:
-                                                showBookingDetails(
-                                                    bookingList[index]),
-                                            status: bookingList[index].status,
-                                            hidePopupButton: true,
-                                            bottomRightWidget: displayPrice(
-                                                bookingList[index]),
-                                          ),
-                                        )
-                                      : SizedBox()
-                                  : bookingList[index].assigner?.id ==
-                                          context
-                                              .read<UserBloc>()
-                                              .state
-                                              .taskerProfile
-                                              ?.user
-                                              ?.id
-                                      ? Container(
-                                          margin: EdgeInsets.only(bottom: 16),
-                                          child: BookingsServiceCard(
-                                            callback: () {
-                                              BlocProvider.of<BookingsBloc>(
-                                                      context)
-                                                  .add(
-                                                BookingSingleLoaded(
-                                                    bookingList[index].id),
-                                              );
-                                              Navigator.pushNamed(
-                                                  context,
-                                                  BookingItemDetailPage
-                                                      .routeName,
-                                                  arguments: {
-                                                    'client': 'client'
-                                                  });
-                                            },
-                                            serviceName:
-                                                bookingList[index].title,
-                                            providerName:
-                                                "${bookingList[index].assignee?.firstName} ${bookingList[index].assignee?.lastName}",
-                                            mainContentWidget:
-                                                showBookingDetails(
-                                                    bookingList[index]),
-                                            status: bookingList[index].status,
-                                            hidePopupButton: true,
-                                            bottomRightWidget: displayPrice(
-                                                bookingList[index]),
-                                          ),
-                                        )
-                                      : SizedBox();
+                              default:
+                                return CardLoading(height: 200);
                             }
-
-                          default:
-                            return CardLoading(height: 200);
-                        }
-                      },
-                    ),
-                  ),
-                  SizedBox(height: 100),
-                ],
-              );
+                          },
+                        ),
+                      ),
+                      SizedBox(height: 100),
+                    ],
+                  );
       },
     );
   }
@@ -235,8 +169,7 @@ class _BookingSectionState extends State<BookingSection> {
                 child: IconText(
                   iconData: Icons.calendar_today_rounded,
                   label: DateFormat.yMMMEd().format(
-                    DateTime.parse(
-                        result.createdAt ?? DateTime.now().toString()),
+                    DateTime.parse(result.createdAt.toString()),
                   ),
                   color: kColorBlue,
                 ),
@@ -245,8 +178,7 @@ class _BookingSectionState extends State<BookingSection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label:
-                      "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
+                  label: "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
                   color: kColorGreen,
                 ),
               ),
@@ -256,7 +188,9 @@ class _BookingSectionState extends State<BookingSection> {
             padding: const EdgeInsets.all(3),
             child: IconText(
               iconData: Icons.location_on_outlined,
-              label: result.location ?? 'No address found',
+              label: result.entityService?.location == ''
+                  ? 'Remote'
+                  : result.entityService?.location ?? 'No address found',
               color: Colors.red,
             ),
           ),
@@ -269,12 +203,13 @@ class _BookingSectionState extends State<BookingSection> {
     return Column(
       children: [
         Text(
-          "Rs. ${Decimal.parse(result.entityService?.budgetFrom ?? '0.0')} - Rs. ${Decimal.parse(result.entityService?.budgetTo ?? '0.0')}",
-          // style: kText17,
+          widget.bookingSectionType == BookingSectionType.todo
+              ? "Rs. ${Decimal.parse(result.earning ?? '0.0')}"
+              : "Rs. ${Decimal.parse(result.price ?? '0.0')}",
+          // "Rs. ${Decimal.parse(result.entityService?.budgetFrom ?? '0.0')} - Rs. ${Decimal.parse(result.entityService?.budgetTo ?? '0.0')}",
         ),
         const Text(
           '/ project',
-          // style: kHelper13,
         ),
       ],
     );

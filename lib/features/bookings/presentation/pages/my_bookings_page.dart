@@ -16,14 +16,6 @@ class MyBookingsPage extends StatefulWidget {
 class _MyBookingsPageState extends State<MyBookingsPage> {
   final bookingsBloc = locator<BookingsBloc>();
 
-  // @override
-  // void initState() {
-  //   bookingsBloc.add(BookingLoaded(isTask: true, page: 1));
-  //   bookingsBloc.add(BookingLoaded(isTask: false, page: 1));
-  //   bookingsBloc.add(BookingHistory(bookingHistoryReq: BookingHistoryReq(page: 1)));
-  //   super.initState();
-  // }
-
   @override
   void dispose() {
     bookingsBloc.close();
@@ -48,7 +40,7 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
               children: [
                 BookingsCalenderSection(bloc: bookingsBloc),
                 Expanded(
-                  child: MyBookingsTabSection(bloc: bookingsBloc),
+                  child: MyBookingsTabSection(),
                 ),
               ],
             ),

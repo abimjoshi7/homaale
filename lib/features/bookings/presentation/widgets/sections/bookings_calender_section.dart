@@ -58,7 +58,7 @@ class _BookingsCalenderSectionState extends State<BookingsCalenderSection> {
                     ...?state.bookingList.result,
                   ];
                   for (var item in res) {
-                    if (date.day == DateTime.parse(item.createdAt!).day) {
+                    if (date.day == DateTime.parse(item.createdAt.toString()).day) {
                       list.add(date);
                     }
                   }
