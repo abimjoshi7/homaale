@@ -46,7 +46,7 @@ class Result with _$Result {
     @JsonKey(name: 'completed_on') DateTime? completedOn,
     @JsonKey(name: 'start_time') String? startTime,
     @JsonKey(name: 'end_time') String? endTime,
-    @JsonKey(name: 'extra_data') dynamic? extraData,
+    @JsonKey(name: 'extra_data') dynamic extraData,
     @JsonKey(name: 'is_paid') bool? isPaid,
     @JsonKey(name: 'approved_by') String? approvedBy,
     int? booking,

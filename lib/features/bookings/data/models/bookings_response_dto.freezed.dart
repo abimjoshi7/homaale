@@ -337,7 +337,7 @@ mixin _$Result {
   @JsonKey(name: 'end_time')
   String? get endTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'extra_data')
-  dynamic? get extraData => throw _privateConstructorUsedError;
+  dynamic get extraData => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_paid')
   bool? get isPaid => throw _privateConstructorUsedError;
   @JsonKey(name: 'approved_by')
@@ -378,7 +378,7 @@ abstract class $ResultCopyWith<$Res> {
       @JsonKey(name: 'completed_on') DateTime? completedOn,
       @JsonKey(name: 'start_time') String? startTime,
       @JsonKey(name: 'end_time') String? endTime,
-      @JsonKey(name: 'extra_data') dynamic? extraData,
+      @JsonKey(name: 'extra_data') dynamic extraData,
       @JsonKey(name: 'is_paid') bool? isPaid,
       @JsonKey(name: 'approved_by') String? approvedBy,
       int? booking});
@@ -527,7 +527,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       extraData: freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       isPaid: freezed == isPaid
           ? _value.isPaid
           : isPaid // ignore: cast_nullable_to_non_nullable
@@ -634,7 +634,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       @JsonKey(name: 'completed_on') DateTime? completedOn,
       @JsonKey(name: 'start_time') String? startTime,
       @JsonKey(name: 'end_time') String? endTime,
-      @JsonKey(name: 'extra_data') dynamic? extraData,
+      @JsonKey(name: 'extra_data') dynamic extraData,
       @JsonKey(name: 'is_paid') bool? isPaid,
       @JsonKey(name: 'approved_by') String? approvedBy,
       int? booking});
@@ -785,7 +785,7 @@ class __$$_ResultCopyWithImpl<$Res>
       extraData: freezed == extraData
           ? _value.extraData
           : extraData // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as dynamic,
       isPaid: freezed == isPaid
           ? _value.isPaid
           : isPaid // ignore: cast_nullable_to_non_nullable
@@ -899,7 +899,7 @@ class _$_Result implements _Result {
   final String? endTime;
   @override
   @JsonKey(name: 'extra_data')
-  final dynamic? extraData;
+  final dynamic extraData;
   @override
   @JsonKey(name: 'is_paid')
   final bool? isPaid;
@@ -1052,7 +1052,7 @@ abstract class _Result implements Result {
       @JsonKey(name: 'end_time')
           final String? endTime,
       @JsonKey(name: 'extra_data')
-          final dynamic? extraData,
+          final dynamic extraData,
       @JsonKey(name: 'is_paid')
           final bool? isPaid,
       @JsonKey(name: 'approved_by')
@@ -1123,7 +1123,7 @@ abstract class _Result implements Result {
   String? get endTime;
   @override
   @JsonKey(name: 'extra_data')
-  dynamic? get extraData;
+  dynamic get extraData;
   @override
   @JsonKey(name: 'is_paid')
   bool? get isPaid;

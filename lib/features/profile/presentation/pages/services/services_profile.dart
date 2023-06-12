@@ -163,7 +163,7 @@ class _ServicesProfileState extends State<ServicesProfile> {
                           },
                           shareCallback: () {
                             Share.share(
-                              "$kShareLinks/service/${data[index].id}",
+                              "$kShareLinks/services/${data[index].id}",
                               subject: data[index].title,
                             );
                           },
