@@ -11,12 +11,11 @@ class FileStorageHelper {
 
   Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/transaction_data.csv');
+    return File('$path/${path.hashCode}.csv');
   }
 
   Future<File> writeData(String data) async {
     final file = await _localFile;
-
     return file.writeAsString(data, mode: FileMode.append);
   }
 

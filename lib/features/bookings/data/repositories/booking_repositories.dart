@@ -32,11 +32,12 @@ class BookingRepositories {
   }) async {
     try {
       final res = await _dio.getDatawithCredential(
-        url: "$kBooking/$id",
+        url: "$kBooking$id/",
         token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;
     } catch (e) {
+      print("error $e");
       rethrow;
     }
   }
@@ -166,8 +167,7 @@ class BookingRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> bookingHistory(
-      BookingHistoryReq bookingHistoryReq) async {
+  Future<Map<String, dynamic>> bookingHistory(BookingHistoryReq bookingHistoryReq) async {
     try {
       final query = bookingHistoryReq.toJson();
       log('booking api $query');
@@ -183,8 +183,7 @@ class BookingRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> updateStatus(
-      {required String status, required String id}) async {
+  Future<Map<String, dynamic>> updateStatus({required String status, required String id}) async {
     try {
       final res = await _dio.postDataWithCredential(
         data: {

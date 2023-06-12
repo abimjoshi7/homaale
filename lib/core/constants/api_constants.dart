@@ -34,7 +34,7 @@ const kOffersPath = "offer/serviceoffer/all/";
 
 //transactions
 const kTransactionPath = "/payment/transaction/";
-const kTransactionDownloadPath = "/payment/transaction-csv/";
+const kTransactionDownloadPath = "payment/transaction-export/";
 
 //search
 const kSearchPath = "/search/dashboard/";

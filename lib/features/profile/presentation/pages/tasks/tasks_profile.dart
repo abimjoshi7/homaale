@@ -27,11 +27,11 @@ class _TasksProfileState extends State<TasksProfile> {
     super.initState();
     _scrollBloc.add(
       FetchItemsEvent(
-        kMyTaskEntityServices,
-        {
+       url: kMyTaskEntityServices,
+       data: {
           "is_requested": true,
         },
-        true,
+      newFetch:  true,
       ),
     );
     _controller.addListener(
@@ -40,11 +40,11 @@ class _TasksProfileState extends State<TasksProfile> {
           _controller,
           _scrollBloc.add(
             FetchItemsEvent(
-              kMyTaskEntityServices,
-              {
+             url: kMyTaskEntityServices,
+             data: {
                 "is_requested": true,
               },
-              false,
+             newFetch :false,
             ),
           ),
         );
@@ -87,11 +87,11 @@ class _TasksProfileState extends State<TasksProfile> {
                       if (index >= data.length) {
                         _scrollBloc.add(
                           FetchItemsEvent(
-                            kMyTaskEntityServices,
-                            {
+                           url: kMyTaskEntityServices,
+                           data: {
                               "is_requested": true,
                             },
-                            false,
+                            newFetch:false,
                           ),
                         );
                         return BottomLoader();

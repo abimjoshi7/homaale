@@ -23,6 +23,10 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         throttleDuration,
       ),
     );
+
+    on<TransactionDownloaded>((event, emit) async {
+      await repo.downloadCSV();
+    });
   }
 
   Future<void> _onTransactionLoaded(

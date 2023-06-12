@@ -3,7 +3,6 @@ import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/sections/packages_offers_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as bm;
 import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -33,7 +32,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
             );
           } else if (state.states == TheStates.success) {
             final booking = state.result;
-            final mediaList = <bm.Image>[...?booking.entityService?.images, ...?booking.entityService?.videos];
+            final mediaList = [...?booking.entityService?.images, ...?booking.entityService?.videos];
 
             return Column(
               children: [
@@ -143,7 +142,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
                             ),
                             addVerticalSpace(16),
                             ShowMoreTextWidget(
-                                text: Bidi.stripHtmlIfNeeded(booking.entityService?.description ??
+                                text: Bidi.stripHtmlIfNeeded(booking.description ??
                                     'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.')),
                             if (booking.entityService?.highlights?.isNotEmpty ?? false) ...[
                               addVerticalSpace(10),

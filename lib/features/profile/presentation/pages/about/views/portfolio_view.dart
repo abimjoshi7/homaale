@@ -31,9 +31,9 @@ class _PortfolioViewState extends State<PortfolioView> {
     super.initState();
     _scrollBloc.add(
       FetchItemsEvent(
-        kPortfolio,
-        {},
-        true,
+     url:   kPortfolio,
+       data: {},
+    newFetch:    true,
       ),
     );
     _controller.addListener(
@@ -42,9 +42,9 @@ class _PortfolioViewState extends State<PortfolioView> {
           _controller,
           _scrollBloc.add(
             FetchItemsEvent(
-              kPortfolio,
-              {},
-              false,
+            url:  kPortfolio,
+            data:  {},
+              newFetch:false,
             ),
           ),
         );

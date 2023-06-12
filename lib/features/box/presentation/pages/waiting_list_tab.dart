@@ -30,54 +30,36 @@ class _WaitingListTabState extends State<WaitingListTab> {
   final _controller = ScrollController();
   final _scrollBloc = locator<ScrollBloc>();
 
-  //initialize page controller
-  // final PagingController<int, Result> _pagingController = PagingController(firstPageKey: 1);
-
-  // @override
-  // void initState() {
-  //   //so at event add list of records
-  //   _pagingController.addPageRequestListener(
-  //     (pageKey) => bookingsBloc.add(MyBookingLoaded(page: pageKey)),
-  //   );
-  //   super.initState();
-  // }
-
-  // @override
-  // void dispose() {
-  //   _pagingController.dispose();
-  //   super.dispose();
-  // }
-
   @override
   void initState() {
     super.initState();
     _scrollBloc.add(
       FetchItemsEvent(
-        kMyBookingList,
-        {
+        url: kMyBookingList,
+        data: {
           "is_accepted": false,
           "status": "pending",
         },
-        true,
+        newFetch: false,
       ),
     );
-    _controller.addListener(
-      () {
-        ScrollHelper.nextPageTrigger(
-          _controller,
-          _scrollBloc.add(
-            FetchItemsEvent(
-              kMyBookingList,
-              {
-                "is_accepted": false,
-                "status": "pending",
-              },
-              false,
-            ),
-          ),
-        );
-      },
-    );
+    // _controller.addListener(
+    //   () {
+    //     ScrollHelper.nextPageTrigger(
+    //       _controller,
+    //       _scrollBloc.add(
+    //         FetchItemsEvent(
+    //           url: kMyBookingList,
+    //           data: {
+    //             "is_accepted": false,
+    //             "status": "pending",
+    //           },
+    //           newFetch: false,
+    //         ),
+    //       ),
+    //     );
+    //   },
+    // );
   }
 
   @override
@@ -91,122 +73,127 @@ class _WaitingListTabState extends State<WaitingListTab> {
     return BlocBuilder<ScrollBloc, ScrollState>(
       bloc: _scrollBloc,
       builder: (context, state) {
-        final data = state.result
-            .map(
-              (e) => Result.fromJson(e as Map<String, dynamic>),
-            )
-            .toList();
+        var data = state.result.map((e) => Result.fromJson(e as Map<String, dynamic>)).toList();
         if (state.theState == TheStates.success) {
           return Column(
             children: [
               Expanded(
-                child: ListView.builder(
-                  controller: _controller,
-                  padding: EdgeInsets.symmetric(horizontal: 16),
-                  itemCount:
-                      state.hasReachedMax ? data.length : data.length + 1,
-                  itemBuilder: (context, index) {
-                    if (index >= data.length) {
-                      _scrollBloc.add(
-                        FetchItemsEvent(
-                          kMyBookingList,
-                          {
-                            "is_accepted": false,
-                            "status": "pending",
-                          },
-                          false,
-                        ),
-                      );
-                      return BottomLoader();
-                    }
-                    return Container(
-                      margin: EdgeInsets.symmetric(vertical: 8),
-                      child: BookingsServiceCard(
-                        callback: () {
-                          context.read<BookingsBloc>().add(
-                                BookingSingleLoaded(
-                                  data[index].id ?? 0,
-                                ),
-                              );
-                          Navigator.pushNamed(
-                            context,
-                            BookedServicePage.routeName,
-                          );
+                child: RefreshIndicator(
+                  onRefresh: () async {
+                    _scrollBloc.add(
+                      FetchItemsEvent(
+                        url: kMyBookingList,
+                        data: {
+                          "is_accepted": false,
+                          "status": "pending",
                         },
-                        editTap: () async {
-                          if (data[index].status?.toLowerCase() == 'pending') {
-                            Navigator.pop(context);
-                            showEditForm(context, data[index]);
-                          } else {
-                            Navigator.pop(context);
-                            showDialog(
-                              context: context,
-                              builder: (context) => CustomToast(
-                                  heading: 'Warning',
-                                  content:
-                                      'The task is already ${data[index].status?.toLowerCase()}. Cannot be edited!',
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  isSuccess: true),
-                            );
-                          }
-                        },
-                        deleteTap: () {
-                          if (data[index].status?.toLowerCase() == 'pending') {
-                            bookingsBloc.add(
-                              BookingRejected(
-                                  rejectReq:
-                                      RejectReq(booking: data[index].id ?? 0),
-                                  isTask: true),
-                            );
-                            Navigator.pop(context);
-                          } else {
-                            Navigator.pop(context);
-                            showDialog(
-                              context: context,
-                              builder: (context) => CustomToast(
-                                  heading: 'Warning',
-                                  content:
-                                      'The task is already ${data[index].status?.toLowerCase()}. Cannot be removed!',
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  isSuccess: true),
-                            );
-                          }
-                        },
-                        cancelTap: () {
-                          if (data[index].status?.toLowerCase() == 'pending') {
-                            bookingsBloc.add(
-                              BookingCancelled(
-                                  id: data[index].id ?? 0, isTask: true),
-                            );
-                            Navigator.pop(context);
-                          } else {
-                            Navigator.pop(context);
-                            showDialog(
-                              context: context,
-                              builder: (context) => CustomToast(
-                                  heading: 'Warning',
-                                  content:
-                                      'The task is already ${data[index].status?.toLowerCase()}. Cannot be cancelled!',
-                                  onTap: () {
-                                    Navigator.pop(context);
-                                  },
-                                  isSuccess: true),
-                            );
-                          }
-                        },
-                        serviceName: data[index].entityService?.title,
-                        providerName:
-                            "${data[index].entityService?.createdBy?.firstName} ${data[index].entityService?.createdBy?.lastName}",
-                        mainContentWidget: showBookingDetail(data[index]),
-                        status: data[index].status,
-                        bottomRightWidget: displayPrice(data[index]),
+                        newFetch: true,
                       ),
                     );
                   },
+                  child: ListView.builder(
+                    controller: _controller,
+                    padding: EdgeInsets.symmetric(horizontal: 16),
+                    itemCount: state.hasReachedMax ? data.length : data.length + 1,
+                    itemBuilder: (context, index) {
+                      if (index >= data.length) {
+                        _scrollBloc.add(
+                          FetchItemsEvent(
+                            url: kMyBookingList,
+                            data: {
+                              "is_accepted": false,
+                              "status": "pending",
+                            },
+                            newFetch: false,
+                          ),
+                        );
+                        return BottomLoader();
+                      }
+                      return Container(
+                        margin: EdgeInsets.symmetric(vertical: 8),
+                        child: BookingsServiceCard(
+                          callback: () {
+                            context.read<BookingsBloc>().add(
+                                  BookingSingleLoaded(
+                                    data[index].id ?? 0,
+                                  ),
+                                );
+                            Navigator.pushNamed(
+                              context,
+                              BookedServicePage.routeName,
+                            );
+                          },
+                          editTap: () async {
+                            if (data[index].status?.toLowerCase() == 'pending') {
+                              Navigator.pop(context);
+                              showEditForm(context, data[index]);
+                            } else {
+                              Navigator.pop(context);
+                              showDialog(
+                                context: context,
+                                builder: (context) => CustomToast(
+                                    heading: 'Warning',
+                                    content:
+                                        'The task is already ${data[index].status?.toLowerCase()}. Cannot be edited!',
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    isSuccess: true),
+                              );
+                            }
+                          },
+                          deleteTap: () {
+                            if (data[index].status?.toLowerCase() == 'pending') {
+                              bookingsBloc.add(
+                                BookingRejected(rejectReq: RejectReq(booking: data[index].id ?? 0), isTask: true),
+                              );
+                              Navigator.pop(context);
+                            } else {
+                              Navigator.pop(context);
+                              showDialog(
+                                context: context,
+                                builder: (context) => CustomToast(
+                                    heading: 'Warning',
+                                    content:
+                                        'The task is already ${data[index].status?.toLowerCase()}. Cannot be removed!',
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    isSuccess: true),
+                              );
+                            }
+                          },
+                          cancelTap: () {
+                            if (data[index].status?.toLowerCase() == 'pending') {
+                              bookingsBloc.add(
+                                BookingCancelled(id: data[index].id ?? 0, isTask: true),
+                              );
+                              Navigator.pop(context);
+                            } else {
+                              Navigator.pop(context);
+                              showDialog(
+                                context: context,
+                                builder: (context) => CustomToast(
+                                    heading: 'Warning',
+                                    content:
+                                        'The task is already ${data[index].status?.toLowerCase()}. Cannot be cancelled!',
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                    },
+                                    isSuccess: true),
+                              );
+                            }
+                          },
+                          serviceName: data[index].entityService?.title,
+                          providerName:
+                              "${data[index].entityService?.createdBy?.firstName} ${data[index].entityService?.createdBy?.lastName}",
+                          mainContentWidget: showBookingDetail(data[index]),
+                          status: data[index].status,
+                          bottomRightWidget: displayPrice(data[index]),
+                        ),
+                      );
+                    },
+                  ),
                 ),
               ),
               SizedBox(height: 100)
@@ -260,8 +247,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label:
-                      "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
+                  label: "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
                   color: kColorGreen,
                 ),
               ),
