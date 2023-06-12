@@ -28,9 +28,9 @@ class _HistorySectionState extends State<HistorySection> {
     super.initState();
     _scrollBloc.add(
       FetchItemsEvent(
-        kBookingList,
-        {},
-        true,
+      url:  kBookingList,
+       data: {},
+       newFetch: true,
       ),
     );
     _controller.addListener(
@@ -39,9 +39,10 @@ class _HistorySectionState extends State<HistorySection> {
           _controller,
           _scrollBloc.add(
             FetchItemsEvent(
-              kBookingList,
+              url:kBookingList,
+              data:
               {},
-              false,
+              newFetch: false,
             ),
           ),
         );
@@ -83,9 +84,9 @@ class _HistorySectionState extends State<HistorySection> {
                                 if (index >= state.result.length) {
                                   _scrollBloc.add(
                                     FetchItemsEvent(
-                                      kBookingList,
-                                      {},
-                                      false,
+                                   url:   kBookingList,
+                                    data:  {},
+                                    newFetch:  false,
                                     ),
                                   );
                                   return BottomLoader();

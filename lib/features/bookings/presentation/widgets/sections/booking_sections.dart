@@ -33,9 +33,9 @@ class _BookingSectionState extends State<BookingSection> {
     super.initState();
     _scrollBloc.add(
       FetchItemsEvent(
-        kBookingList,
-        {},
-        true,
+       url: kBookingList,
+        data:{},
+        newFetch:true,
       ),
     );
     _controller.addListener(
@@ -44,9 +44,9 @@ class _BookingSectionState extends State<BookingSection> {
           _controller,
           _scrollBloc.add(
             FetchItemsEvent(
-              kBookingList,
-              {},
-              false,
+           url:   kBookingList,
+              data:{},
+             newFetch: false,
             ),
           ),
         );
@@ -89,9 +89,9 @@ class _BookingSectionState extends State<BookingSection> {
                                 if (index >= state.result.length) {
                                   _scrollBloc.add(
                                     FetchItemsEvent(
-                                      kBookingList,
-                                      {},
-                                      false,
+                                    url:  kBookingList,
+                                    data:  {},
+                                  newFetch:    false,
                                     ),
                                   );
                                   return BottomLoader();
