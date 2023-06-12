@@ -139,351 +139,361 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
             ),
           );
         }
-        // if (state.theStates == TheStates.failure &&
-        //     (state.isDocCreated == false && (state.list?.length == null))) {
-        //   await showDialog(
-        //     context: context,
-        //     builder: (_) => CustomToast(
-        //       heading: "Failure",
-        //       content: state.errMsg ?? "Kyc Process Cannot Be Completed.",
-        //       onTap: () {},
-        //       isSuccess: false,
-        //     ),
-        //   );
-        // }
-        // if (state.theStates == TheStates.failure &&
-        //     (state.isDocEdited == false && state.list?.length != 0)) {
-        //   await showDialog(
-        //     context: context,
-        //     builder: (_) => CustomToast(
-        //       heading: "Failure",
-        //       content: state.errMsg ?? "Kyc Cannot Be Edited.",
-        //       onTap: () {},
-        //       isSuccess: false,
-        //     ),
-        //   );
-        // }
       },
       builder: (context, state) {
         if (state.theStates == TheStates.loading)
-          return Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
+          return WillPopScope(
+            onWillPop: () async {
+              Navigator.popUntil(
+                context,
+                (route) => route.settings.name == AccountView.routeName,
+              );
+              return false;
+            },
+            child: Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
+              ),
             ),
           );
 
-        return Scaffold(
-          resizeToAvoidBottomInset: false,
-          appBar: CustomAppBar(
-            trailingWidget: SizedBox.shrink(),
-            appBarTitle: (state.list?.length != 0 && state.list != null) &&
-                    state.isNewDoc == false
-                ? "Edit KYC Details"
-                : "Add KYC Details",
-          ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 15),
-                child: Text(
-                  'Identity Information',
-                  style: Theme.of(context).textTheme.headlineSmall,
+        return WillPopScope(
+          onWillPop: () async {
+            Navigator.popUntil(
+              context,
+              (route) => route.settings.name == AccountView.routeName,
+            );
+            return false;
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: false,
+            appBar: CustomAppBar(
+              trailingWidget: SizedBox.shrink(),
+              appBarTitle: (state.list?.length != 0 && state.list != null) &&
+                      state.isNewDoc == false
+                  ? "Edit KYC Details"
+                  : "Add KYC Details",
+              leadingWidget: IconButton(
+                onPressed: () => Navigator.popUntil(
+                  context,
+                  (route) => route.settings.name == AccountView.routeName,
+                ),
+                icon: Icon(
+                  Icons.arrow_back_rounded,
                 ),
               ),
-              Expanded(
-                child: Form(
-                  key: _key,
-                  child: Padding(
-                    padding: EdgeInsets.all(
-                      16,
-                    ),
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          buildIdentityTypeDropdown(state),
-                          CustomFormField(
-                            label: 'Identity number',
-                            isRequired: true,
-                            child: CustomTextFormField(
-                              validator: validateNotEmpty,
-                              controller: identityNumberController,
+            ),
+            body: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 15),
+                  child: Text(
+                    'Identity Information',
+                    style: Theme.of(context).textTheme.headlineSmall,
+                  ),
+                ),
+                Expanded(
+                  child: Form(
+                    key: _key,
+                    child: Padding(
+                      padding: EdgeInsets.all(
+                        16,
+                      ),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                            buildIdentityTypeDropdown(state),
+                            CustomFormField(
+                              label: 'Identity number',
+                              isRequired: true,
+                              child: CustomTextFormField(
+                                validator: validateNotEmpty,
+                                controller: identityNumberController,
+                              ),
                             ),
-                          ),
-                          CustomFormField(
-                            label: 'Issuer Organization',
-                            isRequired: true,
-                            child: CustomTextFormField(
-                              validator: validateNotEmpty,
-                              controller: issuedFromController,
+                            CustomFormField(
+                              label: 'Issuer Organization',
+                              isRequired: true,
+                              child: CustomTextFormField(
+                                validator: validateNotEmpty,
+                                controller: issuedFromController,
+                              ),
                             ),
-                          ),
-                          Row(
-                            children: <Widget>[
-                              Flexible(
-                                child: CustomFormField(
-                                  label: 'Issued Date',
-                                  isRequired: true,
-                                  child: CustomTextFormField(
-                                    readOnly: true,
-                                    validator: (p0) => (issuedDate == null)
-                                        ? "Required Field"
-                                        : null,
-                                    hintText: issuedDate != null
-                                        ? DateFormat("yyyy-MM-dd").format(
-                                            issuedDate!,
-                                          )
-                                        : "yyyy-mm-dd",
-                                    prefixWidget: Icon(
-                                      Icons.calendar_month_rounded,
-                                      color: Theme.of(context).indicatorColor,
+                            Row(
+                              children: <Widget>[
+                                Flexible(
+                                  child: CustomFormField(
+                                    label: 'Issued Date',
+                                    isRequired: true,
+                                    child: CustomTextFormField(
+                                      readOnly: true,
+                                      validator: (p0) => (issuedDate == null)
+                                          ? "Required Field"
+                                          : null,
+                                      hintText: issuedDate != null
+                                          ? DateFormat("yyyy-MM-dd").format(
+                                              issuedDate!,
+                                            )
+                                          : "yyyy-mm-dd",
+                                      prefixWidget: Icon(
+                                        Icons.calendar_month_rounded,
+                                        color: Theme.of(context).indicatorColor,
+                                      ),
+                                      onTap: () async {
+                                        await showDatePicker(
+                                          context: context,
+                                          initialDate: DateTime.now(),
+                                          firstDate: DateTime(1950),
+                                          lastDate: DateTime(
+                                            2080,
+                                          ),
+                                        ).then(
+                                          (value) => setState(
+                                            () {
+                                              issuedDate = value;
+                                            },
+                                          ),
+                                        );
+                                      },
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
                                     ),
+                                  ),
+                                ),
+                                kWidth20,
+                                Flexible(
+                                  child: CustomFormField(
+                                    label: 'Valid Till',
+                                    isRequired: hasDocExpiryDate,
+                                    child: CustomTextFormField(
+                                      readOnly: true,
+                                      validator: (p0) => (expiryDate == null)
+                                          ? hasDocExpiryDate
+                                              ? "Required Field"
+                                              : null
+                                          : null,
+                                      hintText: expiryDate != null
+                                          ? DateFormat("yyyy-MM-dd").format(
+                                              expiryDate!,
+                                            )
+                                          : "yyyy-mm-dd",
+                                      prefixWidget: Icon(
+                                        Icons.calendar_month_rounded,
+                                        color: Theme.of(context).indicatorColor,
+                                      ),
+                                      onTap: hasDocExpiryDate == false
+                                          ? null
+                                          : () async {
+                                              await showDatePicker(
+                                                context: context,
+                                                initialDate: DateTime.now(),
+                                                firstDate: DateTime(1950),
+                                                lastDate: DateTime(
+                                                  2080,
+                                                ),
+                                              ).then(
+                                                (value) => setState(
+                                                  () {
+                                                    expiryDate = value;
+                                                  },
+                                                ),
+                                              );
+                                            },
+                                      hintStyle: Theme.of(context)
+                                          .textTheme
+                                          .bodyMedium,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 10.0),
+                              child: Row(
+                                children: <Widget>[
+                                  CustomCheckBox(
+                                    isChecked: !hasDocExpiryDate,
+                                    onTap: () {
+                                      setState(
+                                        () {
+                                          hasDocExpiryDate = !hasDocExpiryDate;
+                                        },
+                                      );
+                                    },
+                                  ),
+                                  addHorizontalSpace(10),
+                                  Flexible(
+                                    child: Text(
+                                        'This document does not expire.',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displaySmall),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            CustomFormField(
+                              label: 'Documents',
+                              isRequired: true,
+                              child: Column(
+                                children: <Widget>[
+                                  Row(
+                                    children: const [
+                                      Text(
+                                        'Maximum file size 5 MB',
+                                        // style: kHelper13,
+                                      ),
+                                      kWidth10,
+                                      Icon(
+                                        Icons.info_outline,
+                                        size: 14,
+                                        color: Color(0xffFF9700),
+                                      )
+                                    ],
+                                  ),
+                                  InkWell(
                                     onTap: () async {
-                                      await showDatePicker(
-                                        context: context,
-                                        initialDate: DateTime.now(),
-                                        firstDate: DateTime(1950),
-                                        lastDate: DateTime(
-                                          2080,
-                                        ),
-                                      ).then(
+                                      await FilePickHelper.filePicker().then(
                                         (value) => setState(
                                           () {
-                                            issuedDate = value;
+                                            file = value;
                                           },
                                         ),
                                       );
                                     },
-                                    hintStyle:
-                                        Theme.of(context).textTheme.bodyMedium,
+                                    child: file == null
+                                        ? state.list?.length != 0 &&
+                                                state.isNewDoc == false
+                                            ? ConstrainedBox(
+                                                constraints:
+                                                    BoxConstraints.expand(
+                                                  height: 200,
+                                                  width: double.maxFinite,
+                                                ),
+                                                child: Image.network(
+                                                  state.list
+                                                          ?.where((e) =>
+                                                              e.id ==
+                                                              state.kycId)
+                                                          .first
+                                                          .file ??
+                                                      kNoImageNImg,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                              )
+                                            : CustomDottedContainerStack()
+                                        : ConstrainedBox(
+                                            constraints: BoxConstraints.expand(
+                                              height: 200,
+                                              width: double.maxFinite,
+                                            ),
+                                            child: Image.file(
+                                              file!,
+                                              fit: BoxFit.cover,
+                                            ),
+                                          ),
                                   ),
-                                ),
+                                ],
                               ),
-                              kWidth20,
-                              Flexible(
-                                child: CustomFormField(
-                                  label: 'Valid Till',
-                                  isRequired: hasDocExpiryDate,
-                                  child: CustomTextFormField(
-                                    readOnly: true,
-                                    validator: (p0) => (expiryDate == null)
-                                        ? hasDocExpiryDate
-                                            ? "Required Field"
-                                            : null
-                                        : null,
-                                    hintText: expiryDate != null
-                                        ? DateFormat("yyyy-MM-dd").format(
-                                            expiryDate!,
-                                          )
-                                        : "yyyy-mm-dd",
-                                    prefixWidget: Icon(
-                                      Icons.calendar_month_rounded,
-                                      color: Theme.of(context).indicatorColor,
-                                    ),
-                                    onTap: hasDocExpiryDate == false
-                                        ? null
-                                        : () async {
-                                            await showDatePicker(
-                                              context: context,
-                                              initialDate: DateTime.now(),
-                                              firstDate: DateTime(1950),
-                                              lastDate: DateTime(
-                                                2080,
-                                              ),
-                                            ).then(
-                                              (value) => setState(
-                                                () {
-                                                  expiryDate = value;
-                                                },
-                                              ),
-                                            );
-                                          },
-                                    hintStyle:
-                                        Theme.of(context).textTheme.bodyMedium,
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10.0),
-                            child: Row(
-                              children: <Widget>[
-                                CustomCheckBox(
-                                  isChecked: !hasDocExpiryDate,
-                                  onTap: () {
-                                    setState(
-                                      () {
-                                        hasDocExpiryDate = !hasDocExpiryDate;
-                                      },
-                                    );
-                                  },
-                                ),
-                                addHorizontalSpace(10),
-                                Flexible(
-                                  child: Text('This document does not expire.',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displaySmall),
-                                ),
-                              ],
                             ),
-                          ),
-                          CustomFormField(
-                            label: 'Documents',
-                            isRequired: true,
-                            child: Column(
-                              children: <Widget>[
-                                Row(
-                                  children: const [
-                                    Text(
-                                      'Maximum file size 5 MB',
-                                      // style: kHelper13,
-                                    ),
-                                    kWidth10,
-                                    Icon(
-                                      Icons.info_outline,
-                                      size: 14,
-                                      color: Color(0xffFF9700),
-                                    )
-                                  ],
-                                ),
-                                InkWell(
-                                  onTap: () async {
-                                    await FilePickHelper.filePicker().then(
-                                      (value) => setState(
-                                        () {
-                                          file = value;
-                                        },
-                                      ),
-                                    );
-                                  },
-                                  child: file == null
-                                      ? state.list?.length != 0 &&
-                                              state.isNewDoc == false
-                                          ? ConstrainedBox(
-                                              constraints:
-                                                  BoxConstraints.expand(
-                                                height: 200,
-                                                width: double.maxFinite,
-                                              ),
-                                              child: Image.network(
-                                                state.list
+                            Visibility(
+                              visible: true,
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CustomElevatedButton(
+                                    callback: () async {
+                                      fieldValidations(state);
+                                      if ((state.list?.length != 0 &&
+                                              state.list != null) &&
+                                          state.isNewDoc == false) {
+                                        Map<String, dynamic> editReq = {
+                                          "document_id":
+                                              identityNumberController.text,
+                                          "issuer_organization":
+                                              issuedFromController.text,
+                                          "issued_date":
+                                              DateFormat("yyyy-MM-dd").format(
+                                            issuedDate!,
+                                          ),
+                                          "valid_through": hasDocExpiryDate
+                                              ? DateFormat("yyyy-MM-dd").format(
+                                                  expiryDate!,
+                                                )
+                                              : null,
+                                          "document_type": int.parse(
+                                              identityTypeController.text)
+                                        };
+                                        if (file != null) {
+                                          editReq.addAll({
+                                            "file":
+                                                await MultipartFile.fromFile(
+                                                    file!.path),
+                                          });
+                                        }
+                                        if (_key.currentState!.validate()) {
+                                          context.read<KycBloc>().add(
+                                                KycDocEditLoaded(
+                                                  id: int.parse(
+                                                    state.list
                                                         ?.where((e) =>
                                                             e.id == state.kycId)
                                                         .first
-                                                        .file ??
-                                                    kNoImageNImg,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            )
-                                          : CustomDottedContainerStack()
-                                      : ConstrainedBox(
-                                          constraints: BoxConstraints.expand(
-                                            height: 200,
-                                            width: double.maxFinite,
-                                          ),
-                                          child: Image.file(
-                                            file!,
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
-                                ),
-                              ],
-                            ),
-                          ),
-                          Visibility(
-                            visible: true,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: CustomElevatedButton(
-                                  callback: () async {
-                                    fieldValidations(state);
-                                    if ((state.list?.length != 0 &&
-                                            state.list != null) &&
-                                        state.isNewDoc == false) {
-                                      Map<String, dynamic> editReq = {
-                                        "document_id":
-                                            identityNumberController.text,
-                                        "issuer_organization":
-                                            issuedFromController.text,
-                                        "issued_date":
-                                            DateFormat("yyyy-MM-dd").format(
-                                          issuedDate!,
-                                        ),
-                                        "valid_through": hasDocExpiryDate
-                                            ? DateFormat("yyyy-MM-dd").format(
-                                                expiryDate!,
-                                              )
-                                            : null,
-                                        "document_type": int.parse(
-                                            identityTypeController.text)
-                                      };
-                                      if (file != null) {
-                                        editReq.addAll({
-                                          "file": await MultipartFile.fromFile(
-                                              file!.path),
-                                        });
-                                      }
-                                      if (_key.currentState!.validate()) {
-                                        context.read<KycBloc>().add(
-                                              KycDocEditLoaded(
-                                                id: int.parse(
-                                                  state.list
-                                                      ?.where((e) =>
-                                                          e.id == state.kycId)
-                                                      .first
-                                                      .documentId as String,
+                                                        .documentId as String,
+                                                  ),
+                                                  editDocReq: editReq,
                                                 ),
-                                                editDocReq: editReq,
-                                              ),
-                                            );
+                                              );
+                                        }
                                       }
-                                    }
 
-                                    if ((state.list?.length == 0 ||
-                                            state.list == null) ||
-                                        state.isNewDoc == true) {
-                                      if (_key.currentState!.validate()) {
-                                        // _key.currentState!.save();
-                                        final AddKycReq x = AddKycReq(
-                                          kyc: int.parse(
-                                              state.kycModel!.id.toString()),
-                                          documentType: int.parse(
-                                              identityTypeController.text),
-                                          documentId:
-                                              identityNumberController.text,
-                                          isCompany: state.kycModel!.isCompany,
-                                          issuedDate: issuedDate,
-                                          validThrough: hasDocExpiryDate
-                                              ? expiryDate
-                                              : null,
-                                          issuerOrganization:
-                                              issuedFromController.text,
-                                          file: await MultipartFile.fromFile(
-                                            file!.path,
-                                          ),
-                                        );
+                                      if ((state.list?.length == 0 ||
+                                              state.list == null) ||
+                                          state.isNewDoc == true) {
+                                        if (_key.currentState!.validate()) {
+                                          // _key.currentState!.save();
+                                          final AddKycReq x = AddKycReq(
+                                            kyc: int.parse(
+                                                state.kycModel!.id.toString()),
+                                            documentType: int.parse(
+                                                identityTypeController.text),
+                                            documentId:
+                                                identityNumberController.text,
+                                            isCompany:
+                                                state.kycModel!.isCompany,
+                                            issuedDate: issuedDate,
+                                            validThrough: hasDocExpiryDate
+                                                ? expiryDate
+                                                : null,
+                                            issuerOrganization:
+                                                issuedFromController.text,
+                                            file: await MultipartFile.fromFile(
+                                              file!.path,
+                                            ),
+                                          );
 
-                                        context.read<KycBloc>().add(
-                                              KycAdded(addKycReq: x),
-                                            );
+                                          context.read<KycBloc>().add(
+                                                KycAdded(addKycReq: x),
+                                              );
+                                        }
                                       }
-                                    }
-                                  },
-                                  label: 'Submit',
+                                    },
+                                    label: 'Submit',
+                                  ),
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         );
       },
