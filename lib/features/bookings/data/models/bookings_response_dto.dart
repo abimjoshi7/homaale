@@ -29,29 +29,27 @@ class Result with _$Result {
     @JsonKey(name: 'entity_service') EntityService? entityService,
     Currency? currency,
     @JsonKey(name: 'is_rated') bool? isRated,
-    @JsonKey(name: 'created_at') String? createdAt,
-    @JsonKey(name: 'updated_at') String? updatedAt,
+    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
+    @JsonKey(name: 'cancellation_decription') String? cancellationDescription,
+    @JsonKey(name: 'cancelled_by') Assignee? cancelledBy,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
+    @JsonKey(name: 'updated_at') DateTime? updatedAt,
     @JsonKey(name: 'is_active') bool? isActive,
     String? status,
     String? title,
     String? description,
-    List<String>? requirements,
-    String? charge,
-    String? location,
+    String? price,
+    String? earning,
     @JsonKey(name: 'estimated_time') int? estimatedTime,
-    String? slug,
     @JsonKey(name: 'start_date') DateTime? startDate,
     @JsonKey(name: 'end_date') DateTime? endDate,
-    dynamic completedOn,
+    @JsonKey(name: 'completed_on') DateTime? completedOn,
     @JsonKey(name: 'start_time') String? startTime,
     @JsonKey(name: 'end_time') String? endTime,
+    @JsonKey(name: 'extra_data') dynamic extraData,
     @JsonKey(name: 'is_paid') bool? isPaid,
-    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-    @JsonKey(name: 'cancellation_description') String? cancellationDescription,
+    @JsonKey(name: 'approved_by') String? approvedBy,
     int? booking,
-    int? city,
-    List<Image>? images,
-    List<Image>? videos,
   }) = _Result;
 
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
@@ -64,15 +62,14 @@ class Assignee with _$Assignee {
     String? username,
     String? email,
     String? phone,
-    @JsonKey(name: 'fill_name') String? fullName,
+    @JsonKey(name: 'full_name') String? fullName,
     @JsonKey(name: 'first_name') String? firstName,
     @JsonKey(name: 'middle_name') String? middleName,
     @JsonKey(name: 'last_name') String? lastName,
     @JsonKey(name: 'profile_image') String? profileImage,
     String? bio,
-    @JsonKey(name: 'created_at') String? createdAt,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
     String? designation,
-    @JsonKey(name: 'user_type') String? userType,
     @JsonKey(name: 'is_profile_verified') bool? isProfileVerified,
     @JsonKey(name: 'is_followed') bool? isFollowed,
     @JsonKey(name: 'is_following') bool? isFollowing,
@@ -114,6 +111,8 @@ class EntityService with _$EntityService {
     List<Image>? images,
     List<Image>? videos,
     @JsonKey(name: 'created_by') Assignee? createdBy,
+    List<String>? highlights,
+    String? location,
   }) = _EntityService;
 
   factory EntityService.fromJson(Map<String, dynamic> json) => _$EntityServiceFromJson(json);
@@ -130,4 +129,11 @@ class Image with _$Image {
   }) = _Image;
 
   factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
+}
+
+@freezed
+class ExtraDataClass with _$ExtraDataClass {
+  const factory ExtraDataClass() = _ExtraDataClass;
+
+  factory ExtraDataClass.fromJson(Map<String, dynamic> json) => _$ExtraDataClassFromJson(json);
 }

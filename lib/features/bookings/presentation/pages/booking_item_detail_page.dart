@@ -16,9 +16,6 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../widgets/dashed_line_vertical_painter.dart';
-import '../../../booking_cancel/presentation/bloc/booking_cancel_bloc.dart';
-import '../../../booking_cancel/presentation/bloc/booking_cancel_state.dart';
 import '../../../booking_cancel/presentation/pages/booking_cancel_page.dart';
 
 class BookingItemDetailPage extends StatefulWidget {
@@ -154,8 +151,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                   final isAssignee = booking.assignee?.id ==
                       context.read<UserBloc>().state.taskerProfile?.user?.id;
                   print('object');
-                  print(booking
-                      .cancellationReason);
+                  print(booking.cancellationReason);
                   return Column(
                     children: [
                       addVerticalSpace(
@@ -292,7 +288,8 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                         Icons.location_on_outlined,
                                         color: Colors.red,
                                       ),
-                                      Text('${booking.location ?? 'Nepal'}')
+                                      Text(
+                                          '${booking.entityService?.location ?? 'Nepal'}')
                                     ],
                                   ),
                                   addVerticalSpace(16),
@@ -300,11 +297,13 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                       text: Bidi.stripHtmlIfNeeded(booking
                                               .description ??
                                           'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.')),
-                                  if (booking.requirements?.isNotEmpty ??
+                                  if (booking.entityService?.highlights
+                                          ?.isNotEmpty ??
                                       false) ...[
                                     addVerticalSpace(10),
                                     RequirementSection(
-                                      requirementList: booking.requirements,
+                                      requirementList:
+                                          booking.entityService?.highlights,
                                     ),
                                   ],
                                   if (mediaList.isNotEmpty) ...[
@@ -452,8 +451,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                                   .bodySmall,
                                             ),
                                             Text(
-                                              booking.cancellationReason ??
-                                                  "",
+                                              booking.cancellationReason ?? "",
                                               style: Theme.of(context)
                                                   .textTheme
                                                   .bodySmall,
@@ -532,74 +530,6 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                               ),
                             ),
                             addVerticalSpace(10),
-
-                            Padding(
-                              padding:
-                              const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Timeline',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
-                                  ),
-                                  addVerticalSpace(4),
-                                  ListView.separated(
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.zero,
-                                    itemBuilder: (context, index) {
-                                      return Column(
-                                        mainAxisAlignment: MainAxisAlignment.start,
-                                        children: [
-                                          ListTile(
-                                            leading: Column(
-                                              mainAxisAlignment: MainAxisAlignment.start,
-                                              children: [
-                                                Container(
-                                                  child: Icon(
-                                                    Icons.check_circle,
-                                                    size: 20,
-                                                    color: Colors.blueAccent,
-                                                  ),
-                                                ),
-                                                CustomPaint(
-                                                    size: Size(2, 36),
-                                                    painter: DashedLineVerticalPainter()),
-                                              ],
-                                            ),
-                                            title: Text(
-                                              'state.activitiesTimeline?.result?[index].action' ?? "",
-                                              style: Theme.of(context).textTheme.bodySmall,
-                                            ),
-                                            subtitle: Column(
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                    'state.activitiesTimeline?.result?[index].objectRepr' ??
-                                                        "",
-                                                    style: Theme.of(context).textTheme.displayMedium),
-                                              ],
-                                            ),
-                                          ),
-                                        ],
-                                      );
-                                    },
-                                    separatorBuilder: (context, index) {
-                                      return const SizedBox(
-                                        height: 4,
-                                      );
-                                    },
-                                    itemCount: 5,
-                                  )
-
-                                ],
-                              ),
-                            ),
-
-
-
                             const Visibility(
                               visible: false,
                               child: Padding(

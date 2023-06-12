@@ -48,39 +48,39 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
           ? null
           : Currency.fromJson(json['currency'] as Map<String, dynamic>),
       isRated: json['is_rated'] as bool?,
-      createdAt: json['created_at'] as String?,
-      updatedAt: json['updated_at'] as String?,
+      cancellationReason: json['cancellation_reason'] as String?,
+      cancellationDescription: json['cancellation_decription'] as String?,
+      cancelledBy: json['cancelled_by'] == null
+          ? null
+          : Assignee.fromJson(json['cancelled_by'] as Map<String, dynamic>),
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      updatedAt: json['updated_at'] == null
+          ? null
+          : DateTime.parse(json['updated_at'] as String),
       isActive: json['is_active'] as bool?,
       status: json['status'] as String?,
       title: json['title'] as String?,
       description: json['description'] as String?,
-      requirements: (json['requirements'] as List<dynamic>?)
-          ?.map((e) => e as String)
-          .toList(),
-      charge: json['charge'] as String?,
-      location: json['location'] as String?,
+      price: json['price'] as String?,
+      earning: json['earning'] as String?,
       estimatedTime: json['estimated_time'] as int?,
-      slug: json['slug'] as String?,
       startDate: json['start_date'] == null
           ? null
           : DateTime.parse(json['start_date'] as String),
       endDate: json['end_date'] == null
           ? null
           : DateTime.parse(json['end_date'] as String),
-      completedOn: json['completedOn'],
+      completedOn: json['completed_on'] == null
+          ? null
+          : DateTime.parse(json['completed_on'] as String),
       startTime: json['start_time'] as String?,
       endTime: json['end_time'] as String?,
+      extraData: json['extra_data'],
       isPaid: json['is_paid'] as bool?,
-      cancellationReason: json['cancellation_reason'] as String?,
-      cancellationDescription: json['cancellation_description'] as String?,
+      approvedBy: json['approved_by'] as String?,
       booking: json['booking'] as int?,
-      city: json['city'] as int?,
-      images: (json['images'] as List<dynamic>?)
-          ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
-          .toList(),
-      videos: (json['videos'] as List<dynamic>?)
-          ?.map((e) => Image.fromJson(e as Map<String, dynamic>))
-          .toList(),
     );
 
 Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
@@ -90,29 +90,27 @@ Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
       'entity_service': instance.entityService,
       'currency': instance.currency,
       'is_rated': instance.isRated,
-      'created_at': instance.createdAt,
-      'updated_at': instance.updatedAt,
+      'cancellation_reason': instance.cancellationReason,
+      'cancellation_decription': instance.cancellationDescription,
+      'cancelled_by': instance.cancelledBy,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'updated_at': instance.updatedAt?.toIso8601String(),
       'is_active': instance.isActive,
       'status': instance.status,
       'title': instance.title,
       'description': instance.description,
-      'requirements': instance.requirements,
-      'charge': instance.charge,
-      'location': instance.location,
+      'price': instance.price,
+      'earning': instance.earning,
       'estimated_time': instance.estimatedTime,
-      'slug': instance.slug,
       'start_date': instance.startDate?.toIso8601String(),
       'end_date': instance.endDate?.toIso8601String(),
-      'completedOn': instance.completedOn,
+      'completed_on': instance.completedOn?.toIso8601String(),
       'start_time': instance.startTime,
       'end_time': instance.endTime,
+      'extra_data': instance.extraData,
       'is_paid': instance.isPaid,
-      'cancellation_reason': instance.cancellationReason,
-      'cancellation_description': instance.cancellationDescription,
+      'approved_by': instance.approvedBy,
       'booking': instance.booking,
-      'city': instance.city,
-      'images': instance.images,
-      'videos': instance.videos,
     };
 
 _$_Assignee _$$_AssigneeFromJson(Map<String, dynamic> json) => _$_Assignee(
@@ -120,15 +118,16 @@ _$_Assignee _$$_AssigneeFromJson(Map<String, dynamic> json) => _$_Assignee(
       username: json['username'] as String?,
       email: json['email'] as String?,
       phone: json['phone'] as String?,
-      fullName: json['fill_name'] as String?,
+      fullName: json['full_name'] as String?,
       firstName: json['first_name'] as String?,
       middleName: json['middle_name'] as String?,
       lastName: json['last_name'] as String?,
       profileImage: json['profile_image'] as String?,
       bio: json['bio'] as String?,
-      createdAt: json['created_at'] as String?,
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
       designation: json['designation'] as String?,
-      userType: json['user_type'] as String?,
       isProfileVerified: json['is_profile_verified'] as bool?,
       isFollowed: json['is_followed'] as bool?,
       isFollowing: json['is_following'] as bool?,
@@ -143,15 +142,14 @@ Map<String, dynamic> _$$_AssigneeToJson(_$_Assignee instance) =>
       'username': instance.username,
       'email': instance.email,
       'phone': instance.phone,
-      'fill_name': instance.fullName,
+      'full_name': instance.fullName,
       'first_name': instance.firstName,
       'middle_name': instance.middleName,
       'last_name': instance.lastName,
       'profile_image': instance.profileImage,
       'bio': instance.bio,
-      'created_at': instance.createdAt,
+      'created_at': instance.createdAt?.toIso8601String(),
       'designation': instance.designation,
-      'user_type': instance.userType,
       'is_profile_verified': instance.isProfileVerified,
       'is_followed': instance.isFollowed,
       'is_following': instance.isFollowing,
@@ -198,6 +196,10 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
       createdBy: json['created_by'] == null
           ? null
           : Assignee.fromJson(json['created_by'] as Map<String, dynamic>),
+      highlights: (json['highlights'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
+      location: json['location'] as String?,
     );
 
 Map<String, dynamic> _$$_EntityServiceToJson(_$_EntityService instance) =>
@@ -209,6 +211,8 @@ Map<String, dynamic> _$$_EntityServiceToJson(_$_EntityService instance) =>
       'images': instance.images,
       'videos': instance.videos,
       'created_by': instance.createdBy,
+      'highlights': instance.highlights,
+      'location': instance.location,
     };
 
 _$_Image _$$_ImageFromJson(Map<String, dynamic> json) => _$_Image(
@@ -226,3 +230,9 @@ Map<String, dynamic> _$$_ImageToJson(_$_Image instance) => <String, dynamic>{
       'media_type': instance.mediaType,
       'media': instance.media,
     };
+
+_$_ExtraDataClass _$$_ExtraDataClassFromJson(Map<String, dynamic> json) =>
+    _$_ExtraDataClass();
+
+Map<String, dynamic> _$$_ExtraDataClassToJson(_$_ExtraDataClass instance) =>
+    <String, dynamic>{};
