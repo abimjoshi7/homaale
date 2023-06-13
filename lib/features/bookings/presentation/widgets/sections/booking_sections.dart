@@ -66,7 +66,6 @@ class _BookingSectionState extends State<BookingSection> {
       bloc: _scrollBloc,
       builder: (context, state) {
         var bookingList = state.result.map((e) => bookings.Result.fromJson(e as Map<String, dynamic>)).toList();
-        
         return state.theState == TheStates.initial
             ? SizedBox(child: Center(child: CircularProgressIndicator()))
             : bookingList.isEmpty

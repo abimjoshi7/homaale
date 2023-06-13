@@ -249,6 +249,12 @@ Map<String, dynamic> statusToUpdate(String status, bool isAssignee) {
         "color": isAssignee ? kColorGrey : kColorAmber,
         "status": "Closed",
       };
+      case "Cancelled":
+      return {
+        "buttonLabel": isAssignee ? "Cancelled" : "Cancelled",
+        "color": kColorPink50,
+        "status": "Cancelled",
+      };
     case "Closed":
       return {
         "buttonLabel": "Close task",

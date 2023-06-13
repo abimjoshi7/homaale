@@ -57,11 +57,10 @@ class DetailHeaderSection extends StatelessWidget {
                     ),
                     Text(
                       state.taskEntityService?.service?.category?.name ??
-                          'Gardening',
+                          '',
                     )
                   ],
                 ),
-
                 Wrap(
                   children: [
                     SizedBox(
