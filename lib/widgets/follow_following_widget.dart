@@ -30,7 +30,7 @@ class FollowFollowingWidget extends StatelessWidget {
         decoration: BoxDecoration(
           image: DecorationImage(
             image: NetworkImage(
-              profileImg ?? kServiceImageNImg,
+              profileImg ?? kHomaaleImg,
             ),
             fit: BoxFit.fill,
           ),
@@ -41,7 +41,8 @@ class FollowFollowingWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           ConstrainedBox(
-            constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.5),
+            constraints: BoxConstraints(
+                maxWidth: MediaQuery.of(context).size.width * 0.5),
             child: Text(
               name ?? 'Name',
               maxLines: 1,
@@ -57,7 +58,8 @@ class FollowFollowingWidget extends StatelessWidget {
       ),
       trailing: showCallbackButton ?? false
           ? ConstrainedBox(
-              constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.2),
+              constraints: BoxConstraints(
+                  maxWidth: MediaQuery.of(context).size.width * 0.2),
               child: CustomElevatedButton(
                 theHeight: 30,
                 mainColor: kColorGrey,

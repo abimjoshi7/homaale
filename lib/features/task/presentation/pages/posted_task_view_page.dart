@@ -44,7 +44,7 @@ class PostedTaskViewPage extends StatelessWidget {
                   height: MediaQuery.of(context).size.height * 0.2,
                   width: double.infinity,
                   child: Image.network(
-                    kServiceImageNImg,
+                    kHomaaleImg,
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -67,7 +67,7 @@ class PostedTaskViewPage extends StatelessWidget {
                                       fit: BoxFit.cover,
                                       image: NetworkImage(
                                         taskModel?.createdBy?.profileImage ??
-                                            kServiceImageNImg,
+                                            kHomaaleImg,
                                       ),
                                     ),
                                   ),

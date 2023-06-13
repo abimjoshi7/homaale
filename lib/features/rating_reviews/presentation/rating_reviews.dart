@@ -1,4 +1,3 @@
-
 import 'package:cipher/core/constants/colors.dart';
 import 'package:cipher/core/constants/date_time_representation.dart';
 import 'package:cipher/core/constants/dimensions.dart';
@@ -22,7 +21,8 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
   @override
   void initState() {
     super.initState();
-    context.read<RatingReviewsBloc>().add(FetchRatingsReviews(id: context.read<RatingReviewsBloc>().state.taskId));
+    context.read<RatingReviewsBloc>().add(FetchRatingsReviews(
+        id: context.read<RatingReviewsBloc>().state.taskId));
     _scrollController.addListener(_onScroll);
   }
 
@@ -30,7 +30,8 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'Rating & Reviews',trailingWidget: SizedBox()),
+      appBar: CustomAppBar(
+          appBarTitle: 'Rating & Reviews', trailingWidget: SizedBox()),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: BlocBuilder<RatingReviewsBloc, RatingReviewState>(
@@ -65,9 +66,12 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
                     addVerticalSpace(16),
                     Expanded(
                       child: ListView.separated(
-                        itemCount: state.hasReachedMax ? state.review.length : state.review.length + 1,
+                        itemCount: state.hasReachedMax
+                            ? state.review.length
+                            : state.review.length + 1,
                         controller: _scrollController,
-                        separatorBuilder: (context, index) => addVerticalSpace(16),
+                        separatorBuilder: (context, index) =>
+                            addVerticalSpace(16),
                         physics: AlwaysScrollableScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
                           return index >= state.review.length
@@ -82,28 +86,38 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
                                       shape: BoxShape.circle,
                                       image: DecorationImage(
                                           image: NetworkImage(
-                                            state.review[index].ratedBy?.profileImage ?? kServiceImageNImg,
+                                            state.review[index].ratedBy
+                                                    ?.profileImage ??
+                                                kHomaaleImg,
                                           ),
                                           fit: BoxFit.fill),
                                     ),
                                   ),
                                   title: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       Row(
                                         children: [
                                           SizedBox(
-                                            width: MediaQuery.of(context).size.width * 0.3,
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.3,
                                             child: Text(
                                               '${state.review[index].ratedBy?.firstName ?? 'Firstname'} ${state.review[index].ratedBy?.lastName ?? 'Lastname'} ',
-                                              style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+                                              style: textTheme.bodyMedium
+                                                  ?.copyWith(
+                                                      fontWeight:
+                                                          FontWeight.bold),
                                               maxLines: 1,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
                                           addHorizontalSpace(8),
                                           WidgetText(
-                                            label: '${state.review[index].rating}',
+                                            label:
+                                                '${state.review[index].rating}',
                                             widget: Icon(
                                               Icons.star_rounded,
                                               color: kColorAmber,
@@ -120,8 +134,11 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
                                   ),
                                   trailing: Text(
                                     getVerboseDateTimeRepresentation(
-                                        DateTime.parse(state.review[index].createdAt ?? DateTime.now().toString())),
-                                    style: textTheme.bodySmall?.copyWith(fontSize: 12),
+                                        DateTime.parse(
+                                            state.review[index].createdAt ??
+                                                DateTime.now().toString())),
+                                    style: textTheme.bodySmall
+                                        ?.copyWith(fontSize: 12),
                                   ),
                                 );
                         },
@@ -148,7 +165,8 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
 
   void _onScroll() {
     if (_isBottom)
-      context.read<RatingReviewsBloc>().add(FetchRatingsReviews(id: context.read<RatingReviewsBloc>().state.taskId));
+      context.read<RatingReviewsBloc>().add(FetchRatingsReviews(
+          id: context.read<RatingReviewsBloc>().state.taskId));
   }
 
   bool get _isBottom {

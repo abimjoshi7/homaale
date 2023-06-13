@@ -21,10 +21,10 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                 imagePath: state.taskEntityServiceModel.result?[index].images
                             ?.length ==
                         0
-                    ? kServiceImageNImg
+                    ? kHomaaleImg
                     : state.taskEntityServiceModel.result?[index].images!.first
                             .media ??
-                        kServiceImageNImg,
+                        kHomaaleImg,
                 title: state.taskEntityServiceModel.result?[index].title ?? '',
                 description:
                     '${state.taskEntityServiceModel.result?[index].createdBy?.firstName ?? ''} ${state.taskEntityServiceModel.result?[index].createdBy?.lastName ?? ''}',
@@ -40,10 +40,10 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
 
           return Scaffold(
             appBar: CustomAppBar(
-              appBarTitle:
-                  state.taskEntityServiceModel.result?.first.service?.title ??
-                      "Sub-Service",trailingWidget: SizedBox()
-            ),
+                appBarTitle:
+                    state.taskEntityServiceModel.result?.first.service?.title ??
+                        "Sub-Service",
+                trailingWidget: SizedBox()),
             body: Column(
               children: [
                 Expanded(

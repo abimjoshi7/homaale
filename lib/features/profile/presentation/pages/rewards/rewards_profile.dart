@@ -58,9 +58,12 @@ class _RewardsListState extends State<RewardsList> {
                     )
                   : GridView.builder(
                       controller: _scrollController,
-                      itemCount: state.hasReachedMax ? state.rewardsList.length : state.rewardsList.length + 1,
+                      itemCount: state.hasReachedMax
+                          ? state.rewardsList.length
+                          : state.rewardsList.length + 1,
                       padding: EdgeInsets.zero,
-                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate:
+                          const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
                         childAspectRatio: 0.8,
                         crossAxisSpacing: 8,
@@ -78,7 +81,8 @@ class _RewardsListState extends State<RewardsList> {
                                   Expanded(
                                     child: Container(
                                       child: Image.network(
-                                        state.rewardsList[index].image ?? kServiceImageNImg,
+                                        state.rewardsList[index].image ??
+                                            kHomaaleImg,
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -101,10 +105,14 @@ class _RewardsListState extends State<RewardsList> {
                                     children: [
                                       Container(
                                         height: 31,
-                                        width: MediaQuery.of(context).size.width * 0.27,
-                                        padding: EdgeInsets.symmetric(horizontal: 8),
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.27,
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: 8),
                                         decoration: BoxDecoration(
-                                          border: Border.all(color: const Color(0xffADB5BD)),
+                                          border: Border.all(
+                                              color: const Color(0xffADB5BD)),
                                           borderRadius: const BorderRadius.only(
                                             bottomLeft: Radius.circular(4),
                                             topLeft: Radius.circular(4),
@@ -114,9 +122,18 @@ class _RewardsListState extends State<RewardsList> {
                                           child: Text(
                                             '${state.rewardsList[index].code ?? 'No code!'}',
                                             style: TextStyle(
-                                              color: state.rewardsList[index].code != null
-                                                  ? (DateTime.now().isAfter(state.rewardsList[index].startDate!) &&
-                                                          DateTime.now().isBefore(state.rewardsList[index].endDate!))
+                                              color: state.rewardsList[index]
+                                                          .code !=
+                                                      null
+                                                  ? (DateTime.now().isAfter(state
+                                                              .rewardsList[
+                                                                  index]
+                                                              .startDate!) &&
+                                                          DateTime.now()
+                                                              .isBefore(state
+                                                                  .rewardsList[
+                                                                      index]
+                                                                  .endDate!))
                                                       ? Colors.black
                                                       : kColorGrey
                                                   : kColorGrey,
@@ -126,12 +143,19 @@ class _RewardsListState extends State<RewardsList> {
                                       ),
                                       InkWell(
                                         onTap: () {
-                                          if (state.rewardsList[index].code != null) {
-                                            if (DateTime.now().isAfter(state.rewardsList[index].startDate!) &&
-                                                DateTime.now().isBefore(state.rewardsList[index].endDate!)) {
+                                          if (state.rewardsList[index].code !=
+                                              null) {
+                                            if (DateTime.now().isAfter(state
+                                                    .rewardsList[index]
+                                                    .startDate!) &&
+                                                DateTime.now().isBefore(state
+                                                    .rewardsList[index]
+                                                    .endDate!)) {
                                               Clipboard.setData(
                                                 ClipboardData(
-                                                  text: state.rewardsList[index].code ?? "",
+                                                  text: state.rewardsList[index]
+                                                          .code ??
+                                                      "",
                                                 ),
                                               );
                                             }
@@ -139,15 +163,24 @@ class _RewardsListState extends State<RewardsList> {
                                         },
                                         child: Container(
                                           height: 31,
-                                          padding: EdgeInsets.symmetric(horizontal: 8),
+                                          padding: EdgeInsets.symmetric(
+                                              horizontal: 8),
                                           decoration: BoxDecoration(
                                             borderRadius: BorderRadius.only(
                                               topRight: Radius.circular(4),
                                               bottomRight: Radius.circular(4),
                                             ),
-                                            color: state.rewardsList[index].code != null
-                                                ? DateTime.now().isAfter(state.rewardsList[index].startDate!) &&
-                                                        DateTime.now().isBefore(state.rewardsList[index].endDate!)
+                                            color: state.rewardsList[index]
+                                                        .code !=
+                                                    null
+                                                ? DateTime.now().isAfter(state
+                                                            .rewardsList[index]
+                                                            .startDate!) &&
+                                                        DateTime.now().isBefore(
+                                                            state
+                                                                .rewardsList[
+                                                                    index]
+                                                                .endDate!)
                                                     ? Color(0xff211D4F)
                                                     : kColorGrey
                                                 : kColorGrey,
@@ -155,7 +188,8 @@ class _RewardsListState extends State<RewardsList> {
                                           child: const Center(
                                             child: Text(
                                               'Copy',
-                                              style: TextStyle(color: Colors.white),
+                                              style: TextStyle(
+                                                  color: Colors.white),
                                             ),
                                           ),
                                         ),
