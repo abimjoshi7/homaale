@@ -203,7 +203,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                               endRate: '${state.taskEntityServices![index].budgetTo ?? 0}',
                               budgetType: '${state.taskEntityServices![index].budgetType ?? 'budgetType'}',
                               count: state.taskEntityServices![index].count?.toString() ?? '0',
-                              imageUrl: state.taskEntityServices![index].createdBy?.profileImage ?? kServiceImageNImg,
+                              imageUrl: state.taskEntityServices![index].createdBy?.profileImage ?? kHomaaleImg,
                               location: state.taskEntityServices![index].location ?? 'remote',
                               endHour: Jiffy(
                                 state.taskEntityServices![index].createdAt?.toString() ?? DateTime.now().toString(),

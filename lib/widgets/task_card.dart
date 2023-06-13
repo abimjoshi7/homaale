@@ -72,7 +72,7 @@ class TaskCard extends StatelessWidget {
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(
-                            imageUrl ?? kServiceImageNImg,
+                            imageUrl ?? kHomaaleImg,
                           ),
                           fit: BoxFit.cover,
                         ),

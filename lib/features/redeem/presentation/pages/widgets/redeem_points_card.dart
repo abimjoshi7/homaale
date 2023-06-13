@@ -61,7 +61,7 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
                   ),
                   itemCount: state.hasReachedMax
                       ? state.redeem.length
-                      : state.redeem.length + 1 ,
+                      : state.redeem.length + 1,
                   itemBuilder: (BuildContext context, int index) {
                     return index >= state.redeem.length
                         ? BottomLoader()
@@ -79,8 +79,7 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
                                   borderRadius: BorderRadius.circular(10),
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      state.redeem[index].image ??
-                                          kServiceImageNImg,
+                                      state.redeem[index].image ?? kHomaaleImg,
                                     ),
                                     fit: BoxFit.contain,
                                   ),
@@ -101,7 +100,7 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
                                         addHorizontalSpace(10),
                                         AutoSizeText(
                                           state.redeem[index].redeemPoints
-                                                  .toString() ,
+                                              .toString(),
                                           style: Theme.of(context)
                                               .textTheme
                                               .titleMedium,
@@ -214,7 +213,7 @@ class _AlertDialogueOfRedeemItemsDetailsState
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5),
               image: DecorationImage(
-                image: NetworkImage(ItemDetails.image ?? kServiceImageNImg),
+                image: NetworkImage(ItemDetails.image ?? kHomaaleImg),
                 fit: BoxFit.cover,
               ),
             ),
@@ -238,8 +237,7 @@ class _AlertDialogueOfRedeemItemsDetailsState
             children: [
               if (entitySer.createdBy?.profileImage != null)
                 Image.network(
-                  entitySer.createdBy?.profileImage.toString() ??
-                      kServiceImageNImg,
+                  entitySer.createdBy?.profileImage.toString() ?? kHomaaleImg,
                   fit: BoxFit.contain,
                   height: 30,
                   width: 30,
@@ -347,7 +345,7 @@ class _AlertDialogueOfRedeemItemsDetailsState
                       context: context,
                       builder: (context) => CustomToast(
                           heading: state.redeemSubmitResponse.status ?? "",
-                          content: state.redeemSubmitMessage ,
+                          content: state.redeemSubmitMessage,
                           onTap: () {
                             Navigator.pop(context);
                           },

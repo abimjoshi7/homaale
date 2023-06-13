@@ -32,10 +32,10 @@ class ImageSection extends StatelessWidget {
                 fit: BoxFit.cover,
                 image: NetworkImage(
                   state.taskEntityService!.images!.isEmpty
-                      ? kServiceImageNImg
+                      ? kHomaaleImg
                       : state.taskEntityService?.images?[index].media
                               .toString() ??
-                          kServiceImageNImg,
+                          kHomaaleImg,
                 ),
               ),
             ),

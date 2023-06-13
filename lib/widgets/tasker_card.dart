@@ -58,7 +58,7 @@ class TaskerCard extends StatelessWidget {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
-                    networkImageUrl ?? kServiceImageNImg,
+                    networkImageUrl ?? kHomaaleImg,
                   ),
                 ),
               ),
@@ -141,22 +141,44 @@ class TaskerCard extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: SizedBox(
-                      height: 30,
-                      width: buttonWidth ?? 80,
-                      child: CustomElevatedButton(
-                        borderColor: kColorPrimary,
-                        mainColor: isFollowed ?? false ? Colors.white : kColorPrimary,
-                        textColor: isFollowed ?? false ? kColorPrimary : Colors.white,
-                        callback: () {
-                          if (!CacheHelper.isLoggedIn) {
-                            notLoggedInPopUp(context);
-                          }
-                          if (!CacheHelper.isLoggedIn) return;
-                          callback();
-                        },
-                        label: callbackLabel ?? 'Hire Me',
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: IconText(
+                        label: ratings ?? '',
+                        iconData: Icons.star_rate_rounded,
+                        size: 15,
+                        color: kColorAmber,
                       ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        SizedBox(),
+                        SizedBox(
+                          height: 30,
+                          width: buttonWidth ?? 80,
+                          child: CustomElevatedButton(
+                            borderColor: kColorPrimary,
+                            mainColor: isFollowed ?? false
+                                ? Colors.white
+                                : kColorPrimary,
+                            textColor: isFollowed ?? false
+                                ? kColorPrimary
+                                : Colors.white,
+                            callback: () {
+                              if (!CacheHelper.isLoggedIn) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (!CacheHelper.isLoggedIn) return;
+                              callback();
+                            },
+                            label: callbackLabel ?? 'Hire Me',
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(

@@ -62,9 +62,10 @@ class _CommonReportPageState extends State<CommonReportPage> {
                     isRequired: true,
                     child: (state is supportTicketTypeOptionsSuccess)
                         ? CustomDropDownField<String?>(
-                      validator: (p0) => typeOfProblemController.text.isEmpty
-                          ? "Required Field"
-                          : null,
+                            validator: (p0) =>
+                                typeOfProblemController.text.isEmpty
+                                    ? "Required Field"
+                                    : null,
                             onChanged: (p0) => setState(
                               () {
                                 final options = state.list.where(
@@ -213,7 +214,7 @@ class SingleServiceReportDisplay extends StatelessWidget {
           image: DecorationImage(
             image: NetworkImage(
                 // service.state.taskModel?.images?.first.media ??
-                kServiceImageNImg),
+                kHomaaleImg),
             fit: BoxFit.cover,
           ),
         ),
@@ -246,7 +247,7 @@ class SingleTaskReportDisplay extends StatelessWidget {
                 //             .state.taskEntityService?.images?.first.media ??
                 //         kServiceImageNImg)
                 //     :
-                NetworkImage(kServiceImageNImg),
+                NetworkImage(kHomaaleImg),
             fit: BoxFit.cover,
           ),
         ),
@@ -275,7 +276,7 @@ class UserReportDisplay extends StatelessWidget {
           image: DecorationImage(
             image: NetworkImage(
                 // taskerBloc.state.taskEntityService?.images?.first.media ??
-                kServiceImageNImg),
+                kHomaaleImg),
             fit: BoxFit.cover,
           ),
         ),

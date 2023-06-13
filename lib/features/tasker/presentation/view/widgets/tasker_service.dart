@@ -24,7 +24,8 @@ class _TaskerServiceState extends State<TaskerService> {
   @override
   void initState() {
     super.initState();
-    context.read<TaskerCubit>().loadSingleTaskerServices(context.read<TaskerCubit>().state.singleTasker.user?.id ?? '');
+    context.read<TaskerCubit>().loadSingleTaskerServices(
+        context.read<TaskerCubit>().state.singleTasker.user?.id ?? '');
   }
 
   @override
@@ -62,8 +63,9 @@ class _TaskerServiceState extends State<TaskerService> {
                       createdBy:
                           "${state.service.result?[index].createdBy?.firstName} ${state.service.result?[index].createdBy?.lastName}",
                       title: state.service.result?[index].title,
-                      imagePath: state.service.result?[index].images?.length == 0
-                          ? kServiceImageNImg
+                      imagePath: state.service.result?[index].images?.length ==
+                              0
+                          ? kHomaaleImg
                           : state.service.result?[index].images?.first.media,
                       shareCallback: () {
                         Share.share(
@@ -73,11 +75,22 @@ class _TaskerServiceState extends State<TaskerService> {
                       },
                       rating: state.service.result?[index].rating.toString(),
                       isRange: state.service.result?[index].isRange,
-                      rateTo: double.parse(state.service.result?[index].payableTo ?? "").toInt().toString(),
-                      rateFrom: double.parse(state.service.result?[index].payableFrom ?? "").toInt().toString(),
+                      rateTo: double.parse(
+                              state.service.result?[index].payableTo ?? "")
+                          .toInt()
+                          .toString(),
+                      rateFrom: double.parse(
+                              state.service.result?[index].payableFrom ?? "")
+                          .toInt()
+                          .toString(),
                       isBookmarked: state.service.result?[index].isBookmarked,
                       isOwner: state.service.result?[index].owner?.id ==
-                          context.read<UserBloc>().state.taskerProfile?.user?.id,
+                          context
+                              .read<UserBloc>()
+                              .state
+                              .taskerProfile
+                              ?.user
+                              ?.id,
                       id: state.service.result?[index].id,
                     ),
                   ),

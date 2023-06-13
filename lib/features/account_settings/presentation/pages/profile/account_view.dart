@@ -32,7 +32,6 @@ import '../../../../user_suspend/presentation/bloc/user_suspend_bloc.dart';
 import '../../../../user_suspend/presentation/pages/account_suspend_custom_tost.dart';
 import '../../../../wallet/presentation/wallet_page.dart';
 
-
 class AccountView extends StatefulWidget {
   static const routeName = '/account';
 
@@ -117,7 +116,7 @@ class _AccountViewState extends State<AccountView> {
                                 fit: BoxFit.cover,
                                 image: NetworkImage(
                                   state.taskerProfile?.profileImage ??
-                                      kServiceImageNImg,
+                                      kHomaaleImg,
                                 ),
                               ),
                             ),

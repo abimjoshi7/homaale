@@ -45,9 +45,11 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
     final textTheme = Theme.of(context).textTheme;
     return BlocListener<WalletBloc, WalletState>(
       listenWhen: (previous, current) {
-        if (previous.withdrawState != WithdrawState.success && current.withdrawState == WithdrawState.success) {
+        if (previous.withdrawState != WithdrawState.success &&
+            current.withdrawState == WithdrawState.success) {
           return true;
-        } else if (previous.withdrawState != WithdrawState.failure && current.withdrawState == WithdrawState.failure) {
+        } else if (previous.withdrawState != WithdrawState.failure &&
+            current.withdrawState == WithdrawState.failure) {
           return true;
         } else {
           return false;
@@ -104,7 +106,8 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
                               children: [
                                 Text(
                                   'Your Current Balance',
-                                  style: textTheme.displaySmall?.copyWith(fontSize: 12, color: kColorPrimary),
+                                  style: textTheme.displaySmall?.copyWith(
+                                      fontSize: 12, color: kColorPrimary),
                                 ),
                                 RichText(
                                   text: TextSpan(
@@ -116,8 +119,10 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
                                       TextSpan(
                                         text:
                                             '${state.walletModel.isNotEmpty ? Decimal.parse(state.walletModel.first.availableBalance.toString()) : '0'}',
-                                        style: textTheme.displayLarge
-                                            ?.copyWith(color: kColorPrimary, fontSize: 25, fontWeight: FontWeight.bold),
+                                        style: textTheme.displayLarge?.copyWith(
+                                            color: kColorPrimary,
+                                            fontSize: 25,
+                                            fontWeight: FontWeight.bold),
                                       ),
                                     ],
                                   ),
@@ -131,13 +136,19 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
                               children: [
                                 Text(
                                   'Transfer to saved account',
-                                  style: textTheme.titleMedium?.copyWith(color: kColorPrimary),
+                                  style: textTheme.titleMedium
+                                      ?.copyWith(color: kColorPrimary),
                                 ),
-                                context.read<BillsPaymentBloc>().state.linkedBankList.isEmpty
+                                context
+                                        .read<BillsPaymentBloc>()
+                                        .state
+                                        .linkedBankList
+                                        .isEmpty
                                     ? Container(
                                         width: double.infinity,
                                         color: kColorGrey,
-                                        padding: EdgeInsets.symmetric(vertical: 16),
+                                        padding:
+                                            EdgeInsets.symmetric(vertical: 16),
                                         child: Center(
                                           child: Text('No saved account'),
                                         ),
@@ -146,7 +157,11 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
                                         shrinkWrap: true,
                                         padding: EdgeInsets.zero,
                                         physics: NeverScrollableScrollPhysics(),
-                                        itemCount: context.read<BillsPaymentBloc>().state.linkedBankList.length,
+                                        itemCount: context
+                                            .read<BillsPaymentBloc>()
+                                            .state
+                                            .linkedBankList
+                                            .length,
                                         itemBuilder: (context, index) {
                                           return Card(
                                             child: SizedBox(
@@ -155,68 +170,93 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
                                                 child: ListTile(
                                                   onTap: () {
                                                     if (context
-                                                            .read<BillsPaymentBloc>()
+                                                            .read<
+                                                                BillsPaymentBloc>()
                                                             .state
-                                                            .linkedBankList[index]
+                                                            .linkedBankList[
+                                                                index]
                                                             .isVerified ??
                                                         false) {
                                                       setState(() {
                                                         selectedBankAccount = context
-                                                            .read<BillsPaymentBloc>()
+                                                            .read<
+                                                                BillsPaymentBloc>()
                                                             .state
                                                             .linkedBankList[index];
                                                       });
                                                     } else {
-                                                      ScaffoldMessenger.of(context).showSnackBar(
+                                                      ScaffoldMessenger.of(
+                                                              context)
+                                                          .showSnackBar(
                                                         SnackBar(
                                                           content: Text(
                                                             'Selected account is not verified',
                                                           ),
-                                                          backgroundColor: Colors.red,
+                                                          backgroundColor:
+                                                              Colors.red,
                                                         ),
                                                       );
                                                     }
                                                   },
                                                   leading: SizedBox(
-                                                    width: MediaQuery.of(context).size.width * 0.1,
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .width *
+                                                            0.1,
                                                     child: Image.network(
                                                       context
-                                                              .read<BillsPaymentBloc>()
+                                                              .read<
+                                                                  BillsPaymentBloc>()
                                                               .state
-                                                              .linkedBankList[index]
+                                                              .linkedBankList[
+                                                                  index]
                                                               .logo ??
-                                                          kServiceImageNImg,
+                                                          kHomaaleImg,
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
                                                   title: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    crossAxisAlignment:
+                                                        CrossAxisAlignment
+                                                            .start,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: [
                                                       Text(
                                                         '${context.read<BillsPaymentBloc>().state.linkedBankList[index].bankName}',
-                                                        style: textTheme.bodyLarge,
+                                                        style:
+                                                            textTheme.bodyLarge,
                                                       ),
                                                       Text(
                                                         '${context.read<BillsPaymentBloc>().state.linkedBankList[index].bankAccountNumber}',
-                                                        style: textTheme.bodyMedium,
+                                                        style: textTheme
+                                                            .bodyMedium,
                                                       ),
                                                     ],
                                                   ),
                                                   trailing: Icon(
                                                     selectedBankAccount.id ==
                                                             context
-                                                                .read<BillsPaymentBloc>()
+                                                                .read<
+                                                                    BillsPaymentBloc>()
                                                                 .state
-                                                                .linkedBankList[index]
+                                                                .linkedBankList[
+                                                                    index]
                                                                 .id
-                                                        ? Icons.radio_button_checked
-                                                        : Icons.radio_button_off,
-                                                    color: selectedBankAccount.id ==
+                                                        ? Icons
+                                                            .radio_button_checked
+                                                        : Icons
+                                                            .radio_button_off,
+                                                    color: selectedBankAccount
+                                                                .id ==
                                                             context
-                                                                .read<BillsPaymentBloc>()
+                                                                .read<
+                                                                    BillsPaymentBloc>()
                                                                 .state
-                                                                .linkedBankList[index]
+                                                                .linkedBankList[
+                                                                    index]
                                                                 .id
                                                         ? kColorAmber
                                                         : kColorLightGrey,
@@ -229,19 +269,24 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
                                       ),
                                 addVerticalSpace(8),
                                 Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
                                   children: [
                                     InkWell(
-                                      onTap: () => Navigator.pushNamed(context, AddPaymentMethodForm.routeName),
+                                      onTap: () => Navigator.pushNamed(context,
+                                          AddPaymentMethodForm.routeName),
                                       child: Text(
                                         '+ Add payment method',
-                                        style: textTheme.titleMedium?.copyWith(color: kColorPrimary, fontSize: 14),
+                                        style: textTheme.titleMedium?.copyWith(
+                                            color: kColorPrimary, fontSize: 14),
                                       ),
                                     ),
                                     Text(
                                       'View all',
                                       style: textTheme.titleSmall?.copyWith(
-                                          color: kColorAmber, fontSize: 14, decoration: TextDecoration.underline),
+                                          color: kColorAmber,
+                                          fontSize: 14,
+                                          decoration: TextDecoration.underline),
                                     ),
                                   ],
                                 ),
@@ -323,7 +368,8 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
                                 // addVerticalSpace(16),
                                 Text(
                                   'Add note',
-                                  style: textTheme.titleMedium?.copyWith(color: kColorPrimary),
+                                  style: textTheme.titleMedium
+                                      ?.copyWith(color: kColorPrimary),
                                 ),
                                 CustomTextFormField(
                                   controller: noteController,
@@ -339,15 +385,20 @@ class _WithdrawMainViewState extends State<WithdrawMainView> {
                                   callback: () {
                                     if (_formKey.currentState!.validate()) {
                                       if (selectedBankAccount.id != null) {
-                                        WithdrawReqResDto withdrawReqResDto = WithdrawReqResDto(
+                                        WithdrawReqResDto withdrawReqResDto =
+                                            WithdrawReqResDto(
                                           // amount: amountController.text.trim(),
                                           bankAccount: selectedBankAccount.id,
-                                          description: noteController.text.trim(),
+                                          description:
+                                              noteController.text.trim(),
                                         );
 
-                                        context.read<WalletBloc>().add(WithdrawFundEvent(withdrawReqResDto));
+                                        context.read<WalletBloc>().add(
+                                            WithdrawFundEvent(
+                                                withdrawReqResDto));
                                       } else {
-                                        ScaffoldMessenger.of(context).showSnackBar(
+                                        ScaffoldMessenger.of(context)
+                                            .showSnackBar(
                                           SnackBar(
                                             content: Text(
                                               'Transfer account required!',

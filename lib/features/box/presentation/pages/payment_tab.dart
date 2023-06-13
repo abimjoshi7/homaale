@@ -292,7 +292,7 @@ class _PaymentTabState extends State<PaymentTab> {
                                                                   ?.images
                                                                   ?.length ==
                                                               0)
-                                                          ? kServiceImageNImg
+                                                          ? kHomaaleImg
                                                           : state
                                                                   .orderItemList
                                                                   ?.result![
@@ -301,7 +301,7 @@ class _PaymentTabState extends State<PaymentTab> {
                                                                   ?.images
                                                                   ?.last
                                                                   .media ??
-                                                              kServiceImageNImg),
+                                                              kHomaaleImg),
                                                       fit: BoxFit.cover,
                                                     ),
                                                   ),
