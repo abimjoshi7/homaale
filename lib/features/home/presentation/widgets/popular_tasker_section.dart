@@ -67,6 +67,7 @@ class PopularTaskerSection extends StatelessWidget {
                             "${data?[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
                         callbackLabel: data?[index].isFollowed ?? false ? 'Following' : 'Follow',
                         isFollowed: data?[index].isFollowed ?? false,
+                        buttonWidth: MediaQuery.of(context).size.width,
                         callback: () {
                           if (CacheHelper.isLoggedIn == false) {
                             notLoggedInPopUp(context);
