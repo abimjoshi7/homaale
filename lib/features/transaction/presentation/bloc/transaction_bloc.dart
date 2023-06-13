@@ -1,6 +1,8 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:async';
+import 'dart:io';
 
+import 'package:cipher/core/helpers/file_storage_helper.dart';
 import 'package:cipher/features/tasker/presentation/bloc/tasker_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -24,9 +26,9 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
       ),
     );
 
-    on<TransactionDownloaded>((event, emit) async {
-      await repo.downloadCSV();
-    });
+    on<TransactionDownloaded>(
+      _onTransactionDownloaded,
+    );
   }
 
   Future<void> _onTransactionLoaded(
@@ -107,5 +109,19 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
         ),
       );
     }
+  }
+
+  Future<void> _onTransactionDownloaded(
+      TransactionDownloaded event, Emitter<TransactionState> emit) async {
+    final contents = await repo.downloadCSV();
+
+    final file = await FileStorageHelper().writeData(
+      contents,
+    );
+    emit(
+      state.copyWith(
+        csvFile: file,
+      ),
+    );
   }
 }
