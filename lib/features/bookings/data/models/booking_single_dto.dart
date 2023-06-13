@@ -89,7 +89,7 @@ class CreatedBy with _$CreatedBy {
     Stats? stats,
     List<String>? skills,
     @JsonKey(name: 'charge_currency') ChargeCurrency? chargeCurrency,
-    City? city,
+    CreatedByCity? city,
     @JsonKey(name: 'address_line1') String? addressLine1,
     @JsonKey(name: 'address_line2') String? addressLine2,
   }) = _CreatedBy;
@@ -151,6 +151,20 @@ class City with _$City {
   }) = _City;
 
   factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
+}
+
+@freezed
+class CreatedByCity with _$CreatedByCity {
+  const factory CreatedByCity({
+    int? id,
+    String? name,
+    @JsonKey() String? zipCode,
+    double? latitude,
+    double? longitude,
+    String? country,
+  }) = _CreatedByCity;
+
+  factory CreatedByCity.fromJson(Map<String, dynamic> json) => _$CreatedByCityFromJson(json);
 }
 
 @freezed

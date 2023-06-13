@@ -92,7 +92,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
             await repositories.fetchSingleBooking(id: event.id as int).then(
               (value) {
                 final val = BookingSingleDto.fromJson(value);
-                print("asd $val");
+
                 emit(
                   state.copyWith(
                     states: TheStates.success,

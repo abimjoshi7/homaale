@@ -175,7 +175,7 @@ _$_CreatedBy _$$_CreatedByFromJson(Map<String, dynamic> json) => _$_CreatedBy(
               json['charge_currency'] as Map<String, dynamic>),
       city: json['city'] == null
           ? null
-          : City.fromJson(json['city'] as Map<String, dynamic>),
+          : CreatedByCity.fromJson(json['city'] as Map<String, dynamic>),
       addressLine1: json['address_line1'] as String?,
       addressLine2: json['address_line2'] as String?,
     );
@@ -267,6 +267,26 @@ _$_City _$$_CityFromJson(Map<String, dynamic> json) => _$_City(
 Map<String, dynamic> _$$_CityToJson(_$_City instance) => <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
+      'latitude': instance.latitude,
+      'longitude': instance.longitude,
+      'country': instance.country,
+    };
+
+_$_CreatedByCity _$$_CreatedByCityFromJson(Map<String, dynamic> json) =>
+    _$_CreatedByCity(
+      id: json['id'] as int?,
+      name: json['name'] as String?,
+      zipCode: json['zipCode'] as String?,
+      latitude: (json['latitude'] as num?)?.toDouble(),
+      longitude: (json['longitude'] as num?)?.toDouble(),
+      country: json['country'] as String?,
+    );
+
+Map<String, dynamic> _$$_CreatedByCityToJson(_$_CreatedByCity instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'name': instance.name,
+      'zipCode': instance.zipCode,
       'latitude': instance.latitude,
       'longitude': instance.longitude,
       'country': instance.country,

@@ -1728,7 +1728,7 @@ mixin _$CreatedBy {
   List<String>? get skills => throw _privateConstructorUsedError;
   @JsonKey(name: 'charge_currency')
   ChargeCurrency? get chargeCurrency => throw _privateConstructorUsedError;
-  City? get city => throw _privateConstructorUsedError;
+  CreatedByCity? get city => throw _privateConstructorUsedError;
   @JsonKey(name: 'address_line1')
   String? get addressLine1 => throw _privateConstructorUsedError;
   @JsonKey(name: 'address_line2')
@@ -1753,14 +1753,14 @@ abstract class $CreatedByCopyWith<$Res> {
       Stats? stats,
       List<String>? skills,
       @JsonKey(name: 'charge_currency') ChargeCurrency? chargeCurrency,
-      City? city,
+      CreatedByCity? city,
       @JsonKey(name: 'address_line1') String? addressLine1,
       @JsonKey(name: 'address_line2') String? addressLine2});
 
   $UserCopyWith<$Res>? get user;
   $StatsCopyWith<$Res>? get stats;
   $ChargeCurrencyCopyWith<$Res>? get chargeCurrency;
-  $CityCopyWith<$Res>? get city;
+  $CreatedByCityCopyWith<$Res>? get city;
 }
 
 /// @nodoc
@@ -1819,7 +1819,7 @@ class _$CreatedByCopyWithImpl<$Res, $Val extends CreatedBy>
       city: freezed == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
-              as City?,
+              as CreatedByCity?,
       addressLine1: freezed == addressLine1
           ? _value.addressLine1
           : addressLine1 // ignore: cast_nullable_to_non_nullable
@@ -1869,12 +1869,12 @@ class _$CreatedByCopyWithImpl<$Res, $Val extends CreatedBy>
 
   @override
   @pragma('vm:prefer-inline')
-  $CityCopyWith<$Res>? get city {
+  $CreatedByCityCopyWith<$Res>? get city {
     if (_value.city == null) {
       return null;
     }
 
-    return $CityCopyWith<$Res>(_value.city!, (value) {
+    return $CreatedByCityCopyWith<$Res>(_value.city!, (value) {
       return _then(_value.copyWith(city: value) as $Val);
     });
   }
@@ -1895,7 +1895,7 @@ abstract class _$$_CreatedByCopyWith<$Res> implements $CreatedByCopyWith<$Res> {
       Stats? stats,
       List<String>? skills,
       @JsonKey(name: 'charge_currency') ChargeCurrency? chargeCurrency,
-      City? city,
+      CreatedByCity? city,
       @JsonKey(name: 'address_line1') String? addressLine1,
       @JsonKey(name: 'address_line2') String? addressLine2});
 
@@ -1906,7 +1906,7 @@ abstract class _$$_CreatedByCopyWith<$Res> implements $CreatedByCopyWith<$Res> {
   @override
   $ChargeCurrencyCopyWith<$Res>? get chargeCurrency;
   @override
-  $CityCopyWith<$Res>? get city;
+  $CreatedByCityCopyWith<$Res>? get city;
 }
 
 /// @nodoc
@@ -1963,7 +1963,7 @@ class __$$_CreatedByCopyWithImpl<$Res>
       city: freezed == city
           ? _value.city
           : city // ignore: cast_nullable_to_non_nullable
-              as City?,
+              as CreatedByCity?,
       addressLine1: freezed == addressLine1
           ? _value.addressLine1
           : addressLine1 // ignore: cast_nullable_to_non_nullable
@@ -2020,7 +2020,7 @@ class _$_CreatedBy implements _CreatedBy {
   @JsonKey(name: 'charge_currency')
   final ChargeCurrency? chargeCurrency;
   @override
-  final City? city;
+  final CreatedByCity? city;
   @override
   @JsonKey(name: 'address_line1')
   final String? addressLine1;
@@ -2094,7 +2094,7 @@ abstract class _CreatedBy implements CreatedBy {
       final List<String>? skills,
       @JsonKey(name: 'charge_currency')
           final ChargeCurrency? chargeCurrency,
-      final City? city,
+      final CreatedByCity? city,
       @JsonKey(name: 'address_line1')
           final String? addressLine1,
       @JsonKey(name: 'address_line2')
@@ -2120,7 +2120,7 @@ abstract class _CreatedBy implements CreatedBy {
   @JsonKey(name: 'charge_currency')
   ChargeCurrency? get chargeCurrency;
   @override
-  City? get city;
+  CreatedByCity? get city;
   @override
   @JsonKey(name: 'address_line1')
   String? get addressLine1;
@@ -3124,6 +3124,252 @@ abstract class _City implements City {
   @override
   @JsonKey(ignore: true)
   _$$_CityCopyWith<_$_City> get copyWith => throw _privateConstructorUsedError;
+}
+
+CreatedByCity _$CreatedByCityFromJson(Map<String, dynamic> json) {
+  return _CreatedByCity.fromJson(json);
+}
+
+/// @nodoc
+mixin _$CreatedByCity {
+  int? get id => throw _privateConstructorUsedError;
+  String? get name => throw _privateConstructorUsedError;
+  @JsonKey()
+  String? get zipCode => throw _privateConstructorUsedError;
+  double? get latitude => throw _privateConstructorUsedError;
+  double? get longitude => throw _privateConstructorUsedError;
+  String? get country => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $CreatedByCityCopyWith<CreatedByCity> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $CreatedByCityCopyWith<$Res> {
+  factory $CreatedByCityCopyWith(
+          CreatedByCity value, $Res Function(CreatedByCity) then) =
+      _$CreatedByCityCopyWithImpl<$Res, CreatedByCity>;
+  @useResult
+  $Res call(
+      {int? id,
+      String? name,
+      @JsonKey() String? zipCode,
+      double? latitude,
+      double? longitude,
+      String? country});
+}
+
+/// @nodoc
+class _$CreatedByCityCopyWithImpl<$Res, $Val extends CreatedByCity>
+    implements $CreatedByCityCopyWith<$Res> {
+  _$CreatedByCityCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? zipCode = freezed,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
+    Object? country = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      zipCode: freezed == zipCode
+          ? _value.zipCode
+          : zipCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      country: freezed == country
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ) as $Val);
+  }
+}
+
+/// @nodoc
+abstract class _$$_CreatedByCityCopyWith<$Res>
+    implements $CreatedByCityCopyWith<$Res> {
+  factory _$$_CreatedByCityCopyWith(
+          _$_CreatedByCity value, $Res Function(_$_CreatedByCity) then) =
+      __$$_CreatedByCityCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {int? id,
+      String? name,
+      @JsonKey() String? zipCode,
+      double? latitude,
+      double? longitude,
+      String? country});
+}
+
+/// @nodoc
+class __$$_CreatedByCityCopyWithImpl<$Res>
+    extends _$CreatedByCityCopyWithImpl<$Res, _$_CreatedByCity>
+    implements _$$_CreatedByCityCopyWith<$Res> {
+  __$$_CreatedByCityCopyWithImpl(
+      _$_CreatedByCity _value, $Res Function(_$_CreatedByCity) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? name = freezed,
+    Object? zipCode = freezed,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
+    Object? country = freezed,
+  }) {
+    return _then(_$_CreatedByCity(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as int?,
+      name: freezed == name
+          ? _value.name
+          : name // ignore: cast_nullable_to_non_nullable
+              as String?,
+      zipCode: freezed == zipCode
+          ? _value.zipCode
+          : zipCode // ignore: cast_nullable_to_non_nullable
+              as String?,
+      latitude: freezed == latitude
+          ? _value.latitude
+          : latitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      longitude: freezed == longitude
+          ? _value.longitude
+          : longitude // ignore: cast_nullable_to_non_nullable
+              as double?,
+      country: freezed == country
+          ? _value.country
+          : country // ignore: cast_nullable_to_non_nullable
+              as String?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_CreatedByCity implements _CreatedByCity {
+  const _$_CreatedByCity(
+      {this.id,
+      this.name,
+      @JsonKey() this.zipCode,
+      this.latitude,
+      this.longitude,
+      this.country});
+
+  factory _$_CreatedByCity.fromJson(Map<String, dynamic> json) =>
+      _$$_CreatedByCityFromJson(json);
+
+  @override
+  final int? id;
+  @override
+  final String? name;
+  @override
+  @JsonKey()
+  final String? zipCode;
+  @override
+  final double? latitude;
+  @override
+  final double? longitude;
+  @override
+  final String? country;
+
+  @override
+  String toString() {
+    return 'CreatedByCity(id: $id, name: $name, zipCode: $zipCode, latitude: $latitude, longitude: $longitude, country: $country)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_CreatedByCity &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.name, name) || other.name == name) &&
+            (identical(other.zipCode, zipCode) || other.zipCode == zipCode) &&
+            (identical(other.latitude, latitude) ||
+                other.latitude == latitude) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude) &&
+            (identical(other.country, country) || other.country == country));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, id, name, zipCode, latitude, longitude, country);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_CreatedByCityCopyWith<_$_CreatedByCity> get copyWith =>
+      __$$_CreatedByCityCopyWithImpl<_$_CreatedByCity>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_CreatedByCityToJson(
+      this,
+    );
+  }
+}
+
+abstract class _CreatedByCity implements CreatedByCity {
+  const factory _CreatedByCity(
+      {final int? id,
+      final String? name,
+      @JsonKey() final String? zipCode,
+      final double? latitude,
+      final double? longitude,
+      final String? country}) = _$_CreatedByCity;
+
+  factory _CreatedByCity.fromJson(Map<String, dynamic> json) =
+      _$_CreatedByCity.fromJson;
+
+  @override
+  int? get id;
+  @override
+  String? get name;
+  @override
+  @JsonKey()
+  String? get zipCode;
+  @override
+  double? get latitude;
+  @override
+  double? get longitude;
+  @override
+  String? get country;
+  @override
+  @JsonKey(ignore: true)
+  _$$_CreatedByCityCopyWith<_$_CreatedByCity> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 Country _$CountryFromJson(Map<String, dynamic> json) {
