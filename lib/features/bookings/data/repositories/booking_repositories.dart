@@ -37,7 +37,7 @@ class BookingRepositories {
       );
       return res as Map<String, dynamic>;
     } catch (e) {
-      print("error $e");
+      print("error 1 $e");
       rethrow;
     }
   }
