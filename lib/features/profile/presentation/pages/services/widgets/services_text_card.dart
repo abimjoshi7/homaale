@@ -35,7 +35,7 @@ class ServicesTextCard extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: NetworkImage(
-                  imagePath ?? kServiceImageNImg,
+                  imagePath ?? kHomaaleImg,
                 ),
                 fit: BoxFit.cover,
               ),

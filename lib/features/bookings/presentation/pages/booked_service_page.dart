@@ -3,7 +3,6 @@ import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/sections/packages_offers_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as bm;
 import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -33,7 +32,10 @@ class _BookedServicePageState extends State<BookedServicePage> {
             );
           } else if (state.states == TheStates.success) {
             final booking = state.result;
-            final mediaList = <bm.Image>[...?booking.entityService?.images, ...?booking.entityService?.videos];
+            final mediaList = [
+              ...?booking.entityService?.images,
+              ...?booking.entityService?.videos
+            ];
 
             return Column(
               children: [
@@ -65,20 +67,28 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                         shape: BoxShape.circle,
                                         image: DecorationImage(
                                           image: NetworkImage(
-                                            booking.entityService?.createdBy?.profileImage ?? kDefaultAvatarNImg,
+                                            booking.entityService?.createdBy
+                                                    ?.profileImage ??
+                                                kDefaultAvatarNImg,
                                           ),
                                         ),
                                       ),
                                     ),
                                     addHorizontalSpace(10),
                                     Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         SizedBox(
-                                          width: MediaQuery.of(context).size.width * 0.6,
+                                          width: MediaQuery.of(context)
+                                                  .size
+                                                  .width *
+                                              0.6,
                                           child: Text(
                                             '${booking.entityService?.title ?? ''}',
-                                            style: Theme.of(context).textTheme.headlineSmall,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall,
                                             overflow: TextOverflow.ellipsis,
                                           ),
                                         ),
@@ -100,11 +110,14 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                     kWidth10,
                                     GestureDetector(
                                       onTap: () {
-                                        final box = context.findRenderObject() as RenderBox?;
+                                        final box = context.findRenderObject()
+                                            as RenderBox?;
                                         Share.share(
                                           "https://sandbox.homaale.com/bookings/${booking.entityService?.id}",
                                           subject: booking.entityService?.title,
-                                          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+                                          sharePositionOrigin:
+                                              box!.localToGlobal(Offset.zero) &
+                                                  box.size,
                                         );
                                       },
                                       child: const Icon(
@@ -125,7 +138,9 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                       Icons.star,
                                       color: Colors.amber,
                                     ),
-                                    Text(booking.entityService?.viewsCount?.toString() ?? '0.0 (0)')
+                                    Text(booking.entityService?.viewsCount
+                                            ?.toString() ??
+                                        '0.0 (0)')
                                   ],
                                 ),
                                 addHorizontalSpace(16),
@@ -143,45 +158,70 @@ class _BookedServicePageState extends State<BookedServicePage> {
                             ),
                             addVerticalSpace(16),
                             ShowMoreTextWidget(
-                                text: Bidi.stripHtmlIfNeeded(booking.entityService?.description ??
+                                text: Bidi.stripHtmlIfNeeded(booking
+                                        .description ??
                                     'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.')),
-                            if (booking.entityService?.highlights?.isNotEmpty ?? false) ...[
+                            if (booking.entityService?.highlights?.isNotEmpty ??
+                                false) ...[
                               addVerticalSpace(10),
                               RequirementSection(
-                                requirementList: booking.entityService?.highlights,
+                                requirementList:
+                                    booking.entityService?.highlights,
                               ),
                             ],
                             if (mediaList.isNotEmpty) ...[
                               addVerticalSpace(10),
                               Text(
                                 'Images',
-                                style: Theme.of(context).textTheme.headlineSmall,
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall,
                               ),
                               Container(
                                 width: MediaQuery.of(context).size.width,
-                                height: MediaQuery.of(context).size.height * 0.21,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.21,
                                 child: CarouselSlider.builder(
                                   itemCount: mediaList.length,
                                   itemBuilder: (context, index, realIndex) {
                                     return Container(
-                                      height: MediaQuery.of(context).size.height * 0.2,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.2,
                                       margin: EdgeInsets.only(right: 32),
-                                      child: mediaList[index].mediaType?.toLowerCase() == 'mp4'
+                                      child: mediaList[index]
+                                                  .mediaType
+                                                  ?.toLowerCase() ==
+                                              'mp4'
                                           ? VideoPlayerWidget(
-                                              videoURL: mediaList[index].media ??
+                                              videoURL: mediaList[index]
+                                                      .media ??
                                                   'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
                                             )
                                           : Column(
                                               mainAxisSize: MainAxisSize.min,
                                               children: [
                                                 ClipRRect(
-                                                  borderRadius: BorderRadius.circular(16.0),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                          16.0),
                                                   child: Image.network(
-                                                    mediaList[index].media.toString(),
-                                                    errorBuilder: (context, error, stackTrace) =>
-                                                        Image.network(kServiceImageNImg),
-                                                    width: MediaQuery.of(context).size.width,
-                                                    height: MediaQuery.of(context).size.height * 0.2,
+                                                    mediaList[index]
+                                                        .media
+                                                        .toString(),
+                                                    errorBuilder: (context,
+                                                            error,
+                                                            stackTrace) =>
+                                                        Image.network(
+                                                            kHomaaleImg),
+                                                    width:
+                                                        MediaQuery.of(context)
+                                                            .size
+                                                            .width,
+                                                    height:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.2,
                                                     fit: BoxFit.cover,
                                                   ),
                                                 ),
@@ -215,7 +255,9 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                       margin: const EdgeInsets.all(2),
                                       width: 10,
                                       decoration: BoxDecoration(
-                                        color: _imageIndex == ind ? Colors.amber : Colors.grey,
+                                        color: _imageIndex == ind
+                                            ? Colors.amber
+                                            : Colors.grey,
                                         borderRadius: BorderRadius.circular(10),
                                       ),
                                     ),
@@ -246,11 +288,19 @@ class _BookedServicePageState extends State<BookedServicePage> {
                         child: Column(
                           children: [
                             AdditionalInfoSection(
-                              date: '${Jiffy(booking.startDate).yMMMd} . ${booking.startTime}',
+                              date:
+                                  '${Jiffy(booking.startDate).yMMMd} . ${booking.startTime}',
                               location: booking.entityService?.location,
-                              views: booking.entityService?.viewsCount?.toString() ?? '0',
-                              happyClients: booking.createdBy?.stats?.happyClients?.toString() ?? '0',
-                              successRate: booking.createdBy?.stats?.successRate?.toString() ?? '0',
+                              views: booking.entityService?.viewsCount
+                                      ?.toString() ??
+                                  '0',
+                              happyClients: booking
+                                      .createdBy?.stats?.happyClients
+                                      ?.toString() ??
+                                  '0',
+                              successRate: booking.createdBy?.stats?.successRate
+                                      ?.toString() ??
+                                  '0',
                             ),
                           ],
                         ),

@@ -4,7 +4,7 @@ enum BookingType { all, task, service }
 
 class BookingsState extends Equatable {
   final TheStates states;
-  final booking.Result result;
+  final BookingSingleDto result;
   final Result bookingRes;
   final BookingsResponseDto bookingList;
   final booking.MyBookingListModel myBookingListModel;
@@ -21,7 +21,7 @@ class BookingsState extends Equatable {
 
   const BookingsState({
     this.states = TheStates.initial,
-    this.result = const booking.Result(),
+    this.result = const BookingSingleDto(),
     this.bookingRes = const Result(),
     this.bookingList = const BookingsResponseDto(),
     this.bookingType = BookingType.all,
@@ -39,7 +39,7 @@ class BookingsState extends Equatable {
 
   BookingsState copyWith({
     TheStates? states,
-    booking.Result? result,
+    BookingSingleDto? result,
     Result? bookingRes,
     BookingsResponseDto? bookingList,
     BookingType? bookingType,

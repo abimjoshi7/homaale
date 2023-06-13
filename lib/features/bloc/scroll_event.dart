@@ -8,8 +8,9 @@ class FetchItemsEvent extends ScrollEvent {
   final Map<String, dynamic> data;
   final bool newFetch;
 
-  FetchItemsEvent(this.url, this.data, this.newFetch);
+  FetchItemsEvent({required this.url, required this.data, required this.newFetch});
 
   @override
-  List<Object?> get props => [];
+  // TODO: implement props
+  List<Object?> get props => [url, data, newFetch];
 }

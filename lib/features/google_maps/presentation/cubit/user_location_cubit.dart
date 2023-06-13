@@ -1,3 +1,5 @@
+import 'package:cipher/core/constants/enums.dart';
+import 'package:cipher/core/constants/google_maps_constants.dart';
 import 'package:cipher/core/constants/user_location_constants.dart';
 import 'package:cipher/features/google_maps/domain/maps_repository.dart';
 import 'package:dependencies/dependencies.dart';
@@ -14,7 +16,7 @@ class UserLocationCubit extends Cubit<UserLocationState> {
     if (_location != null) {
       await getAddress(_location);
     } else {
-      emit(state.copyWith(location: _location));
+      emit(state.copyWith(location: _location ?? kUserLocation));
     }
   }
 
@@ -34,6 +36,30 @@ class UserLocationCubit extends Cubit<UserLocationState> {
             address:
                 '${value.first.locality}, ${value.first.administrativeArea}',
           ),
+        ),
+      );
+    }
+  }
+
+  Future<void> setTempLocation({required String address}) async {
+    try {
+      await _repository
+          .fetchLocationFromTextAddress(
+        address: address,
+      )
+          .then((value) {
+        if (value.isNotEmpty) {
+          emit(state.copyWith(
+              tempLocation: LatLng(
+            value.first.geometry!.location!.lat!,
+            value.first.geometry!.location!.lng!,
+          )));
+        }
+      });
+    } catch (e) {
+      emit(
+        state.copyWith(
+          theStates: TheStates.failure,
         ),
       );
     }

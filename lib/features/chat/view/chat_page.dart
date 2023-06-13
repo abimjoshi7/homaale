@@ -34,7 +34,8 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     /// Get chat and person details from route arguments
 
-    ChatPersonDetails? chatPersonDetails = ModalRoute.of(context)?.settings.arguments as ChatPersonDetails?;
+    ChatPersonDetails? chatPersonDetails =
+        ModalRoute.of(context)?.settings.arguments as ChatPersonDetails?;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -57,8 +58,10 @@ class _ChatPageState extends State<ChatPage> {
         centerTitle: true,
       ),
       body: StreamBuilder(
-        stream:
-            locator<FirebaseFirestore>().collection("chats").doc("${chatPersonDetails?.groupName ?? ''}").snapshots(),
+        stream: locator<FirebaseFirestore>()
+            .collection("chats")
+            .doc("${chatPersonDetails?.groupName ?? ''}")
+            .snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {
@@ -88,15 +91,18 @@ class _ChatPageState extends State<ChatPage> {
                 separatorBuilder: (context, index) => addVerticalSpace(16),
                 itemCount: mList.length,
                 itemBuilder: (context, index) {
-                  String message = decryptAESCryptoJS(mList[index].text.toString(), kAESEncryptionKey);
-                  String date = DateTimeHelper.timeAgoSinceDate(mList[index].date.toString());
+                  String message = decryptAESCryptoJS(
+                      mList[index].text.toString(), kAESEncryptionKey);
+                  String date = DateTimeHelper.timeAgoSinceDate(
+                      mList[index].date.toString());
                   return Container(
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: chatPersonDetails?.id == mList[index].senderId
-                          ? MainAxisAlignment.start
-                          : MainAxisAlignment.end,
+                      mainAxisAlignment:
+                          chatPersonDetails?.id == mList[index].senderId
+                              ? MainAxisAlignment.start
+                              : MainAxisAlignment.end,
                       children: [
                         chatPersonDetails?.id == mList[index].senderId
                             ? Container(
@@ -106,7 +112,8 @@ class _ChatPageState extends State<ChatPage> {
                                   shape: BoxShape.circle,
                                   image: DecorationImage(
                                     image: NetworkImage(
-                                      chatPersonDetails?.profileImage ?? kServiceImageNImg,
+                                      chatPersonDetails?.profileImage ??
+                                          kHomaaleImg,
                                     ),
                                     fit: BoxFit.cover,
                                   ),
@@ -121,14 +128,19 @@ class _ChatPageState extends State<ChatPage> {
                               width: MediaQuery.of(context).size.width * 0.7,
                               padding: EdgeInsets.all(16.0),
                               decoration: BoxDecoration(
-                                color: chatPersonDetails?.id == mList[index].senderId ? kColorGrey : kColorBlue,
+                                color: chatPersonDetails?.id ==
+                                        mList[index].senderId
+                                    ? kColorGrey
+                                    : kColorBlue,
                                 borderRadius: BorderRadius.only(
-                                  topLeft: chatPersonDetails?.id == mList[index].senderId
+                                  topLeft: chatPersonDetails?.id ==
+                                          mList[index].senderId
                                       ? Radius.zero
                                       : Radius.circular(16),
                                   topRight: Radius.circular(16),
                                   bottomLeft: Radius.circular(16),
-                                  bottomRight: chatPersonDetails?.id == mList[index].senderId
+                                  bottomRight: chatPersonDetails?.id ==
+                                          mList[index].senderId
                                       ? Radius.circular(16)
                                       : Radius.zero,
                                 ),
@@ -138,7 +150,10 @@ class _ChatPageState extends State<ChatPage> {
                                 maxLines: message.length,
                                 textAlign: TextAlign.justify,
                                 style: TextStyle(
-                                  color: chatPersonDetails?.id == mList[index].senderId ? Colors.black : Colors.white,
+                                  color: chatPersonDetails?.id ==
+                                          mList[index].senderId
+                                      ? Colors.black
+                                      : Colors.white,
                                 ),
                               ),
                             ),
@@ -185,8 +200,16 @@ class _ChatPageState extends State<ChatPage> {
               suffixIcon: IconButton(
                 onPressed: () {
                   if (chatBoxController.text.trim().isNotEmpty) {
-                    String message = encryptAESCryptoJS(chatBoxController.text.trim(), kAESEncryptionKey);
-                    String userID = context.read<UserBloc>().state.taskerProfile?.user?.id.toString() ?? '';
+                    String message = encryptAESCryptoJS(
+                        chatBoxController.text.trim(), kAESEncryptionKey);
+                    String userID = context
+                            .read<UserBloc>()
+                            .state
+                            .taskerProfile
+                            ?.user
+                            ?.id
+                            .toString() ??
+                        '';
 
                     locator<FirebaseFirestore>()
                         .collection("chats")
@@ -201,13 +224,23 @@ class _ChatPageState extends State<ChatPage> {
                       ])
                     });
 
-                    locator<FirebaseFirestore>().collection("userChats").doc("$userID").update({
-                      "${chatPersonDetails?.groupName}.lastMessage": {'text': message},
+                    locator<FirebaseFirestore>()
+                        .collection("userChats")
+                        .doc("$userID")
+                        .update({
+                      "${chatPersonDetails?.groupName}.lastMessage": {
+                        'text': message
+                      },
                       "${chatPersonDetails?.groupName}.date": Timestamp.now(),
                     });
 
-                    locator<FirebaseFirestore>().collection("userChats").doc("${chatPersonDetails?.id}").update({
-                      "${chatPersonDetails?.groupName}.lastMessage": {'text': message},
+                    locator<FirebaseFirestore>()
+                        .collection("userChats")
+                        .doc("${chatPersonDetails?.id}")
+                        .update({
+                      "${chatPersonDetails?.groupName}.lastMessage": {
+                        'text': message
+                      },
                       "${chatPersonDetails?.groupName}.date": Timestamp.now(),
                       "${chatPersonDetails?.groupName}.read": false,
                     });

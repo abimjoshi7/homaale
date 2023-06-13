@@ -38,7 +38,9 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
               final todayList = state.notificationList
                   .where((element) =>
                       DateTime.now()
-                          .difference(DateTime(element.createdDate?.year ?? 0, element.createdDate?.month ?? 0,
+                          .difference(DateTime(
+                              element.createdDate?.year ?? 0,
+                              element.createdDate?.month ?? 0,
                               element.createdDate?.day ?? 0))
                           .inDays ==
                       0)
@@ -47,7 +49,9 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
               final earlierList = state.notificationList
                   .where((element) =>
                       DateTime.now()
-                          .difference(DateTime(element.createdDate?.year ?? 0, element.createdDate?.month ?? 0,
+                          .difference(DateTime(
+                              element.createdDate?.year ?? 0,
+                              element.createdDate?.month ?? 0,
                               element.createdDate?.day ?? 0))
                           .inDays >
                       0)
@@ -58,7 +62,8 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                   controller: _scrollController,
                   children: [
                     Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 12),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -68,7 +73,9 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                           GestureDetector(
                             onTap: () {
                               setState(() {
-                                context.read<NotificationBloc>().add(NotificationAllRead());
+                                context
+                                    .read<NotificationBloc>()
+                                    .add(NotificationAllRead());
                               });
                             },
                             child: Text(
@@ -88,30 +95,58 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        String? statusTitle = todayList[index].contentObject?.status ?? todayList[index].title;
+                        String? statusTitle =
+                            todayList[index].contentObject?.status ??
+                                todayList[index].title;
                         return ListTileComponent(
                           readDate: state.notificationList[index].readDate,
                           bgColor: getNotificationStatus(
-                                  status: statusTitle?.toLowerCase() ?? '',
-                                  isRequested: todayList[index].contentObject?.entityService?.isRequested ?? false,
-                                  userName: todayList[index].createdFor?.fullName ?? "",
-                                  serviceName: todayList[index].contentObject?.entityService?.title ?? "")["color"]
-                              as Color,
+                              status: statusTitle?.toLowerCase() ?? '',
+                              isRequested: todayList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.isRequested ??
+                                  false,
+                              userName:
+                                  todayList[index].createdFor?.fullName ?? "",
+                              serviceName: todayList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.title ??
+                                  "")["color"] as Color,
                           userName: todayList[index].user ?? "",
                           statusDetails: getNotificationStatus(
-                                  status: statusTitle?.toLowerCase() ?? '',
-                                  isRequested: todayList[index].contentObject?.entityService?.isRequested ?? false,
-                                  userName: todayList[index].createdFor?.fullName ?? "",
-                                  serviceName: todayList[index].contentObject?.entityService?.title ?? "")["message"]
-                              as String,
+                              status: statusTitle?.toLowerCase() ?? '',
+                              isRequested: todayList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.isRequested ??
+                                  false,
+                              userName:
+                                  todayList[index].createdFor?.fullName ?? "",
+                              serviceName: todayList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.title ??
+                                  "")["message"] as String,
                           statusTitle: getNotificationStatus(
-                                  status: statusTitle?.toLowerCase() ?? '',
-                                  isRequested: todayList[index].contentObject?.entityService?.isRequested ?? false,
-                                  userName: todayList[index].createdFor?.fullName ?? "",
-                                  serviceName: todayList[index].contentObject?.entityService?.title ?? "")["status"]
-                              as String,
+                              status: statusTitle?.toLowerCase() ?? '',
+                              isRequested: todayList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.isRequested ??
+                                  false,
+                              userName:
+                                  todayList[index].createdFor?.fullName ?? "",
+                              serviceName: todayList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.title ??
+                                  "")["status"] as String,
                           time: todayList[index].createdDate,
-                          userImage: todayList[index].createdFor?.profileImage ?? kServiceImageNImg,
+                          userImage:
+                              todayList[index].createdFor?.profileImage ??
+                                  kHomaaleImg,
                         );
                       },
                     ),
@@ -125,7 +160,8 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                       ),
                     kHeight10,
                     const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+                      padding:
+                          EdgeInsets.symmetric(horizontal: 20, vertical: 12),
                       child: Text("Earlier"),
                     ),
                     kHeight10,
@@ -134,30 +170,58 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
-                        String? statusTitle = earlierList[index].contentObject?.status ?? earlierList[index].title;
+                        String? statusTitle =
+                            earlierList[index].contentObject?.status ??
+                                earlierList[index].title;
                         return ListTileComponent(
                           readDate: earlierList[index].readDate,
                           bgColor: getNotificationStatus(
-                                  status: statusTitle?.toLowerCase() ?? '',
-                                  isRequested: earlierList[index].contentObject?.entityService?.isRequested ?? false,
-                                  userName: earlierList[index].createdFor?.fullName ?? "",
-                                  serviceName: earlierList[index].contentObject?.entityService?.title ?? "")["color"]
-                              as Color,
+                              status: statusTitle?.toLowerCase() ?? '',
+                              isRequested: earlierList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.isRequested ??
+                                  false,
+                              userName:
+                                  earlierList[index].createdFor?.fullName ?? "",
+                              serviceName: earlierList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.title ??
+                                  "")["color"] as Color,
                           userName: earlierList[index].user ?? "",
                           statusDetails: getNotificationStatus(
-                                  status: statusTitle?.toLowerCase() ?? '',
-                                  isRequested: earlierList[index].contentObject?.entityService?.isRequested ?? false,
-                                  userName: earlierList[index].createdFor?.fullName ?? "",
-                                  serviceName: earlierList[index].contentObject?.entityService?.title ?? "")["message"]
-                              as String,
+                              status: statusTitle?.toLowerCase() ?? '',
+                              isRequested: earlierList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.isRequested ??
+                                  false,
+                              userName:
+                                  earlierList[index].createdFor?.fullName ?? "",
+                              serviceName: earlierList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.title ??
+                                  "")["message"] as String,
                           statusTitle: getNotificationStatus(
-                                  status: statusTitle?.toLowerCase() ?? '',
-                                  isRequested: earlierList[index].contentObject?.entityService?.isRequested ?? false,
-                                  userName: earlierList[index].createdFor?.fullName ?? "",
-                                  serviceName: earlierList[index].contentObject?.entityService?.title ?? "")["status"]
-                              as String,
+                              status: statusTitle?.toLowerCase() ?? '',
+                              isRequested: earlierList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.isRequested ??
+                                  false,
+                              userName:
+                                  earlierList[index].createdFor?.fullName ?? "",
+                              serviceName: earlierList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.title ??
+                                  "")["status"] as String,
                           time: earlierList[index].createdDate,
-                          userImage: earlierList[index].createdFor?.profileImage ?? kServiceImageNImg,
+                          userImage:
+                              earlierList[index].createdFor?.profileImage ??
+                                  kHomaaleImg,
                         );
                       },
                     ),
@@ -189,7 +253,8 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
   }
 
   void _onScroll() {
-    if (_isBottom) context.read<NotificationBloc>().add(MyNotificationListInitiated());
+    if (_isBottom)
+      context.read<NotificationBloc>().add(MyNotificationListInitiated());
   }
 
   bool get _isBottom {

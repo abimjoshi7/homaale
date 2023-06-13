@@ -1,7 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/widgets/custom_favourite_icon.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -59,7 +58,7 @@ class TaskerCard extends StatelessWidget {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
-                    networkImageUrl ?? kServiceImageNImg,
+                    networkImageUrl ?? kHomaaleImg,
                   ),
                 ),
               ),
@@ -97,7 +96,7 @@ class TaskerCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         WidgetText(
                           label: happyClients ?? '0',
@@ -115,6 +114,20 @@ class TaskerCard extends StatelessWidget {
                             // size: 16,
                           ),
                         ),
+                      ],
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: <Widget>[
+                        IconText(
+                          label: ratings ?? '',
+                          iconData: Icons.star_rate_rounded,
+                          size: 15,
+                          color: kColorAmber,
+                        ),
                         WidgetText(
                           label: distance ?? '0',
                           widget: const Icon(
@@ -126,44 +139,7 @@ class TaskerCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: IconText(
-                        label: ratings ?? '',
-                        iconData: Icons.star_rate_rounded,
-                        size: 15,
-                        color: kColorAmber,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        SizedBox(),
-                        SizedBox(
-                          height: 30,
-                          width: buttonWidth ?? 80,
-                          child: CustomElevatedButton(
-                            borderColor: kColorPrimary,
-                            mainColor: isFollowed ?? false ? Colors.white : kColorPrimary,
-                            textColor: isFollowed ?? false ? kColorPrimary : Colors.white,
-                            callback: () {
-                              if (!CacheHelper.isLoggedIn) {
-                                notLoggedInPopUp(context);
-                              }
-                              if (!CacheHelper.isLoggedIn) return;
-                              callback();
-                            },
-                            label: callbackLabel ?? 'Hire Me',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  _buildButton(context),
                   SizedBox(
                     height: 5,
                   ),
@@ -172,6 +148,26 @@ class TaskerCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  SizedBox _buildButton(BuildContext context) {
+    return SizedBox(
+      height: 30,
+      width: buttonWidth ?? 80,
+      child: CustomElevatedButton(
+        borderColor: kColorPrimary,
+        mainColor: isFollowed ?? false ? Colors.white : kColorPrimary,
+        textColor: isFollowed ?? false ? kColorPrimary : Colors.white,
+        callback: () {
+          if (!CacheHelper.isLoggedIn) {
+            notLoggedInPopUp(context);
+          }
+          if (!CacheHelper.isLoggedIn) return;
+          callback();
+        },
+        label: callbackLabel ?? 'Hire Me',
       ),
     );
   }

@@ -89,9 +89,11 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                     await element.file.then(
                       (value) async {
                         if (value != null) {
-                          if (value.lengthSync() < 5093309)
-                            list.add(value.path);
-                          else {
+                          if (value.lengthSync() < 5093309) {
+                            final imageFile =
+                                await compressor.compressFileAsync(value.path);
+                            list.add(imageFile.path);
+                          } else {
                             final imageFile =
                                 await compressor.compressFileAsync(value.path);
                             if (imageFile.lengthSync() < 5093309) {

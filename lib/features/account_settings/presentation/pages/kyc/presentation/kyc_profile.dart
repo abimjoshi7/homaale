@@ -2,6 +2,8 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/helpers/compress_helper.dart';
+import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
@@ -97,287 +99,327 @@ class _KycProfileState extends State<KycProfile> {
             ),
           );
         }
-        if (state.theStates == TheStates.failure &&
-            (state.isProfileCreated == false)) {
-          await showDialog(
-            context: context,
-            builder: (_) => CustomToast(
-              heading: "Failure",
-              content: state.errMsg?.toString().toTitleCase() ??
-                  "Something Went Wrong. Please Try Again.",
-              onTap: () {},
-              isSuccess: false,
-            ),
-          );
-        }
-        if (state.theStates == TheStates.failure &&
-            (state.isProfileEdited == false)) {
-          await showDialog(
-            context: context,
-            builder: (_) => CustomToast(
-              heading: "Failure",
-              content: state.errMsg?.toString().toTitleCase() ??
-                  "Something Went Wrong. Please Try Again.",
-              onTap: () {},
-              isSuccess: false,
-            ),
-          );
-        }
+        // if (state.theStates == TheStates.failure &&
+        //     (state.isProfileCreated == false)) {
+        //   await showDialog(
+        //     context: context,
+        //     builder: (_) => CustomToast(
+        //       heading: "Failure",
+        //       content: state.errMsg?.toString().toTitleCase() ??
+        //           "Something Went Wrong. Please Try Again.",
+        //       onTap: () {},
+        //       isSuccess: false,
+        //     ),
+        //   );
+        // }
+        // if (state.theStates == TheStates.failure &&
+        //     (state.isProfileEdited == false)) {
+        //   await showDialog(
+        //     context: context,
+        //     builder: (_) => CustomToast(
+        //       heading: "Failure",
+        //       content: state.errMsg?.toString().toTitleCase() ??
+        //           "Something Went Wrong. Please Try Again.",
+        //       onTap: () {},
+        //       isSuccess: false,
+        //     ),
+        //   );
+        // }
       },
       builder: (_, state) {
         if (state.theStates == TheStates.loading) {
           return CardLoading(height: 500.0);
         }
-        return Scaffold(
-          resizeToAvoidBottomInset: true,
-          appBar: CustomAppBar(
-            trailingWidget: SizedBox.shrink(),
-            appBarTitle:
-                state.kycModel != null ? 'Edit KYC Details' : 'KYC Details',
-          ),
-          body: Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 0),
-                  child: Text(
-                    'General Information',
-                    style: Theme.of(context).textTheme.headlineLarge,
-                  ),
+        return WillPopScope(
+          onWillPop: () async {
+            Navigator.popUntil(
+              context,
+              (route) => route.settings.name == AccountView.routeName,
+            );
+            return false;
+          },
+          child: Scaffold(
+            resizeToAvoidBottomInset: true,
+            appBar: CustomAppBar(
+              trailingWidget: SizedBox.shrink(),
+              appBarTitle:
+                  state.kycModel != null ? 'Edit KYC Details' : 'KYC Details',
+              leadingWidget: IconButton(
+                onPressed: () => Navigator.popUntil(
+                  context,
+                  (route) => route.settings.name == AccountView.routeName,
                 ),
-                Expanded(
-                  child: Form(
-                    key: _key,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: <Widget>[
-                          CustomFormField(
-                            label: "Passport Size Photo",
-                            isRequired: true,
-                            child: InkWell(
-                              onTap: () async {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    content: WidgetText(
-                                        callback: () {
-                                          setState(
-                                            () => isCamera = false,
-                                          );
-                                          Navigator.pop(context);
-                                        },
-                                        widget: Icon(Icons.image_search),
-                                        label: "Gallery"),
-                                  ),
-                                ).then(
-                                  (value) async => await ImagePicker()
-                                      .pickImage(source: ImageSource.gallery)
-                                      .then(
-                                        (value) => setState(
-                                          () {
-                                            selectedImage = File(value!.path);
+                icon: Icon(
+                  Icons.arrow_back_rounded,
+                ),
+              ),
+            ),
+            body: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 0),
+                    child: Text(
+                      'General Information',
+                      style: Theme.of(context).textTheme.headlineLarge,
+                    ),
+                  ),
+                  Expanded(
+                    child: Form(
+                      key: _key,
+                      child: SingleChildScrollView(
+                        child: Column(
+                          children: <Widget>[
+                            CustomFormField(
+                              label: "Passport Size Photo",
+                              isRequired: true,
+                              child: InkWell(
+                                onTap: () async {
+                                  showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                      content: WidgetText(
+                                          callback: () {
+                                            setState(
+                                              () => isCamera = false,
+                                            );
+                                            Navigator.pop(context);
                                           },
-                                        ),
-                                      ),
-                                );
-                              },
-                              child: Column(
-                                children: <Widget>[
-                                  Center(
-                                    child: SizedBox(
-                                      height:
-                                          MediaQuery.of(context).size.height *
-                                              0.1,
-                                      width: MediaQuery.of(context).size.width *
-                                          0.25,
-                                      child: ClipRRect(
-                                        borderRadius: BorderRadius.circular(16),
-                                        child: (selectedImage == null)
-                                            ? (state.kycModel != null)
-                                                ? Image.network(
-                                                    state.kycModel!.logo!)
-                                                : const Placeholder(
-                                                    color: kColorSecondary,
-                                                  )
-                                            : Image.file(
-                                                fit: BoxFit.cover,
-                                                File(
-                                                  selectedImage?.path ?? '',
+                                          widget: Icon(Icons.image_search),
+                                          label: "Gallery"),
+                                    ),
+                                  ).then(
+                                    (value) async => await ImagePicker()
+                                        .pickImage(source: ImageSource.gallery)
+                                        .then(
+                                      (value) async {
+                                        final file = await CompressHelper()
+                                            .compressFileAsync(value!.path);
+                                        if (file.lengthSync() > 5093309) {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (_) => CustomToast(
+                                              heading: "Failure",
+                                              content:
+                                                  "File Size Must Be Less Than 5MB.",
+                                              onTap: () {},
+                                              isSuccess: false,
+                                            ),
+                                          );
+                                        }
+                                        if (file.lengthSync() > 5093309) return;
+                                        setState(
+                                          () {
+                                            selectedImage = file;
+                                          },
+                                        );
+                                      },
+                                    ),
+                                  );
+                                },
+                                child: Column(
+                                  children: <Widget>[
+                                    Center(
+                                      child: SizedBox(
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.1,
+                                        width:
+                                            MediaQuery.of(context).size.width *
+                                                0.25,
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(16),
+                                          child: (selectedImage == null)
+                                              ? (state.kycModel != null)
+                                                  ? Image.network(
+                                                      state.kycModel!.logo!)
+                                                  : const Placeholder(
+                                                      color: kColorSecondary,
+                                                    )
+                                              : Image.file(
+                                                  fit: BoxFit.cover,
+                                                  File(
+                                                    selectedImage?.path ?? '',
+                                                  ),
                                                 ),
-                                              ),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          CustomFormField(
-                            label: 'User Type',
-                            isRequired: true,
-                            child: CustomDropDownField(
-                              validator: validateNotEmpty,
-                              initialValue: (state.kycModel != null)
-                                  ? state.kycModel!.isCompany ?? true
-                                      ? _userType[1]
-                                      : _userType[0]
-                                  : _isCompany
-                                      ? _userType[1]
-                                      : _userType[0],
-                              list: _userType,
-                              hintText: 'Select User Type',
-                              onChanged: (value) {
-                                if (value == _userType.last) {
-                                  setState(
-                                    () => _isCompany = true,
-                                  );
-                                }
-                                if (value == _userType.first) {
-                                  setState(
-                                    () => _isCompany = false,
-                                  );
-                                }
-                                log("Is Company? : $_isCompany");
-                              },
-                            ),
-                          ),
-                          CustomFormField(
-                            label: _isCompany
-                                ? "Representative Name"
-                                : "Full Name",
-                            isRequired: true,
-                            child: CustomTextFormField(
-                              controller: _fullNameController,
-                              validator: validateNotEmpty,
-                              hintText: state.kycModel?.fullName?.length == 0
-                                  ? ""
-                                  : state.kycModel?.fullName ?? "",
-                              hintStyle: (state.kycModel != null)
-                                  ? TextStyle(color: Colors.grey.shade500)
-                                  : null,
-                            ),
-                          ),
-                          _isCompany
-                              ? CustomFormField(
-                                  label: "Organization Name",
-                                  isRequired: true,
-                                  child: CustomTextFormField(
-                                    controller: _companyNameController,
-                                    validator:
-                                        _isCompany ? validateNotEmpty : null,
-                                    hintText: state.kycModel?.organizationName
-                                                ?.length ==
-                                            0
-                                        ? ""
-                                        : state.kycModel?.organizationName ??
-                                            "",
-                                    hintStyle: (state.kycModel != null)
-                                        ? TextStyle(color: Colors.grey.shade500)
-                                        : null,
-                                  ),
-                                )
-                              : SizedBox.shrink(),
-                          CustomFormField(
-                            label: "Address",
-                            isRequired: true,
-                            child: CustomTextFormField(
-                              controller: _addressController,
-                              validator: validateNotEmpty,
-                              hintText: state.kycModel?.address?.length == 0
-                                  ? ""
-                                  : state.kycModel?.address ?? "",
-                              hintStyle: (state.kycModel != null)
-                                  ? TextStyle(color: Colors.grey.shade500)
-                                  : null,
-                            ),
-                          ),
-                          buildCountryDropDownField(state),
-                          Visibility(
-                            visible: true,
-                            child: Center(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: CustomElevatedButton(
-                                  callback: () async {
-                                    log("state test: ${state.theStates}");
-
-                                    if (state.kycModel != null) {
-                                      Map<String, dynamic> editReq = {
-                                        "full_name": _fullNameController.text,
-                                        "is_company": _isCompany,
-                                        "organization_name": _isCompany
-                                            ? _companyNameController.text
-                                            : null,
-                                        "address": _addressController.text,
-                                        "country": _countryController.text
-                                      };
-                                      if (selectedImage != null) {
-                                        editReq.addAll({
-                                          "logo": await MultipartFile.fromFile(
-                                              selectedImage!.path),
-                                        });
-                                      }
-                                      if (_key.currentState!.validate() &&
-                                          _countryController.text.isNotEmpty) {
-                                        context
-                                            .read<KycBloc>()
-                                            .add(KycProfileEditLoaded(
-                                              editKycReq: editReq,
-                                            ));
-                                      }
-                                    }
-                                    if (state.kycModel != null) return;
-                                    if (selectedImage == null) {
-                                      await showDialog(
-                                        context: context,
-                                        builder: (context) => CustomToast(
-                                          heading: "Error",
-                                          content:
-                                              "Please Upload a Passport Size Photo",
-                                          onTap: () {},
-                                          isSuccess: false,
-                                        ),
-                                      );
-                                    }
-                                    if (_key.currentState!.validate() &&
-                                        _countryController.text.isNotEmpty &&
-                                        selectedImage != null) {
-                                      // _key.currentState!.save();
-
-                                      if (!mounted) return;
-                                      final req = CreateKycReq(
-                                        logo: await MultipartFile.fromFile(
-                                            selectedImage!.path),
-                                        isCompany: _isCompany,
-                                        fullName: _fullNameController.text,
-                                        organizationName: _isCompany
-                                            ? _companyNameController.text
-                                            : null,
-                                        address: _addressController.text,
-                                        country: _countryController.text,
-                                      );
-                                      if (state.kycModel == null) {
-                                        context.read<KycBloc>().add(
-                                              KycInitiated(
-                                                createKycReq: req,
-                                              ),
-                                            );
-                                      }
-                                    }
-                                  },
-                                  label: 'Continue',
+                                  ],
                                 ),
                               ),
                             ),
-                          ),
-                        ],
+                            CustomFormField(
+                              label: 'User Type',
+                              isRequired: true,
+                              child: CustomDropDownField(
+                                validator: validateNotEmpty,
+                                initialValue: (state.kycModel != null)
+                                    ? state.kycModel!.isCompany ?? true
+                                        ? _userType[1]
+                                        : _userType[0]
+                                    : _isCompany
+                                        ? _userType[1]
+                                        : _userType[0],
+                                list: _userType,
+                                hintText: 'Select User Type',
+                                onChanged: (value) {
+                                  if (value == _userType.last) {
+                                    setState(
+                                      () => _isCompany = true,
+                                    );
+                                  }
+                                  if (value == _userType.first) {
+                                    setState(
+                                      () => _isCompany = false,
+                                    );
+                                  }
+                                  log("Is Company? : $_isCompany");
+                                },
+                              ),
+                            ),
+                            CustomFormField(
+                              label: _isCompany
+                                  ? "Representative Name"
+                                  : "Full Name",
+                              isRequired: true,
+                              child: CustomTextFormField(
+                                controller: _fullNameController,
+                                validator: validateNotEmpty,
+                                hintText: state.kycModel?.fullName?.length == 0
+                                    ? ""
+                                    : state.kycModel?.fullName ?? "",
+                                hintStyle: (state.kycModel != null)
+                                    ? TextStyle(color: Colors.grey.shade500)
+                                    : null,
+                              ),
+                            ),
+                            _isCompany
+                                ? CustomFormField(
+                                    label: "Organization Name",
+                                    isRequired: true,
+                                    child: CustomTextFormField(
+                                      controller: _companyNameController,
+                                      validator:
+                                          _isCompany ? validateNotEmpty : null,
+                                      hintText: state.kycModel?.organizationName
+                                                  ?.length ==
+                                              0
+                                          ? ""
+                                          : state.kycModel?.organizationName ??
+                                              "",
+                                      hintStyle: (state.kycModel != null)
+                                          ? TextStyle(
+                                              color: Colors.grey.shade500)
+                                          : null,
+                                    ),
+                                  )
+                                : SizedBox.shrink(),
+                            CustomFormField(
+                              label: "Address",
+                              isRequired: true,
+                              child: CustomTextFormField(
+                                controller: _addressController,
+                                validator: validateNotEmpty,
+                                hintText: state.kycModel?.address?.length == 0
+                                    ? ""
+                                    : state.kycModel?.address ?? "",
+                                hintStyle: (state.kycModel != null)
+                                    ? TextStyle(color: Colors.grey.shade500)
+                                    : null,
+                              ),
+                            ),
+                            buildCountryDropDownField(state),
+                            Visibility(
+                              visible: true,
+                              child: Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: CustomElevatedButton(
+                                    callback: () async {
+                                      log("state test: ${state.theStates}");
+
+                                      if (state.kycModel != null) {
+                                        Map<String, dynamic> editReq = {
+                                          "full_name": _fullNameController.text,
+                                          "is_company": _isCompany,
+                                          "organization_name": _isCompany
+                                              ? _companyNameController.text
+                                              : null,
+                                          "address": _addressController.text,
+                                          "country": _countryController.text
+                                        };
+                                        if (selectedImage != null) {
+                                          editReq.addAll({
+                                            "logo":
+                                                await MultipartFile.fromFile(
+                                                    selectedImage!.path),
+                                          });
+                                        }
+                                        if (_key.currentState!.validate() &&
+                                            _countryController
+                                                .text.isNotEmpty) {
+                                          context
+                                              .read<KycBloc>()
+                                              .add(KycProfileEditLoaded(
+                                                editKycReq: editReq,
+                                              ));
+                                        }
+                                      }
+                                      if (state.kycModel != null) return;
+                                      if (selectedImage == null) {
+                                        await showDialog(
+                                          context: context,
+                                          builder: (context) => CustomToast(
+                                            heading: "Error",
+                                            content:
+                                                "Please Upload a Passport Size Photo",
+                                            onTap: () {},
+                                            isSuccess: false,
+                                          ),
+                                        );
+                                      }
+                                      if (_key.currentState!.validate() &&
+                                          _countryController.text.isNotEmpty &&
+                                          selectedImage != null) {
+                                        // _key.currentState!.save();
+
+                                        if (!mounted) return;
+                                        final req = CreateKycReq(
+                                          logo: await MultipartFile.fromFile(
+                                              selectedImage!.path),
+                                          isCompany: _isCompany,
+                                          fullName: _fullNameController.text,
+                                          organizationName: _isCompany
+                                              ? _companyNameController.text
+                                              : null,
+                                          address: _addressController.text,
+                                          country: _countryController.text,
+                                        );
+                                        if (state.kycModel == null) {
+                                          context.read<KycBloc>().add(
+                                                KycInitiated(
+                                                  createKycReq: req,
+                                                ),
+                                              );
+                                        }
+                                      }
+                                    },
+                                    label: 'Continue',
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

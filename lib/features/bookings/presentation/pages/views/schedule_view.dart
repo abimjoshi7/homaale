@@ -1,8 +1,10 @@
+import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
@@ -18,15 +20,15 @@ class ScheduleView extends StatefulWidget {
   State<ScheduleView> createState() => _ScheduleViewState();
 }
 
-class _ScheduleViewState extends State<ScheduleView> {
+class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
   int? selectedIndex;
   bool isVisible = false;
   bool hasSlots = false;
   CalendarFormat? calendarFormat;
   DateTime focusedDate = DateTime.now();
   List<DateTime> dateList = [];
-  TimeOfDay? startTime;
-  TimeOfDay? endTime;
+  DateTime? startTime;
+  DateTime? endTime;
 
   @override
   void initState() {
@@ -52,41 +54,67 @@ class _ScheduleViewState extends State<ScheduleView> {
       children: [
         const CustomFormField(
           label: 'When do you need this done?',
-          child: Text(
-            'Select task date from the calender to complete booking.',
-            // style: kHelper13,
+          child: Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: 8.0,
+            ),
+            child: Text(
+              'Select task date from the calender to complete booking.',
+              // style: kHelper13,
+            ),
           ),
         ),
-        BlocBuilder<EventBloc, EventState>(
-          builder: (context, state) {
-            // if (state.theStates == TheStates.initial) {
-            //   return const Center(
-            //     child: CardLoading(
-            //       height: 200,
-            //     ),
-            //   );
-            // }
-            if (state.isLoaded == true) {
-              if (dateList.isEmpty) {
-                for (final element in state.event!.allShifts!) {
-                  dateList.add(element.date!);
+        Expanded(
+          child: BlocBuilder<EventBloc, EventState>(
+            builder: (context, state) {
+              if (state.isLoaded == true) {
+                if (dateList.isEmpty) {
+                  for (final element in state.event!.allShifts!) {
+                    dateList.add(element.date!);
+                  }
                 }
               }
-            }
-            for (final element in state.event?.allShifts ?? []) {
-              if (element.slots?.length == 0) {
-                hasSlots = false;
-              } else {
-                hasSlots = true;
+              for (final element in state.event?.allShifts ?? []) {
+                if (element.slots?.length == 0) {
+                  hasSlots = false;
+                } else {
+                  hasSlots = true;
+                }
               }
-            }
-            return Column(
-              children: [
-                _buildCalender(context),
-                _buildTimeSlots(state, context),
-              ],
-            );
-          },
+              return Column(
+                children: [
+                  Expanded(child: _buildCalender(context)),
+                  _buildTimeSlots(state, context),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 8,
+                    ),
+                    child: CustomDottedContainerStack(
+                      theColor: kColorGrey.withOpacity(.3),
+                      theWidget: Text.rich(
+                        TextSpan(
+                          text: "Total Price :  ",
+                          children: [
+                            TextSpan(
+                              text: "Rs " +
+                                  double.parse(
+                                    context
+                                        .read<TaskEntityServiceBloc>()
+                                        .state
+                                        .taskEntityService!
+                                        .payableTo!,
+                                  ).toInt().toString(),
+                              style: Theme.of(context).textTheme.displayLarge,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
         ),
       ],
     );
@@ -95,7 +123,7 @@ class _ScheduleViewState extends State<ScheduleView> {
   Widget _buildTimeSlots(EventState state, BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        top: 8,
+        bottom: 8,
       ),
       child: CustomFormField(
         label: "Select Shifts:",
@@ -113,26 +141,30 @@ class _ScheduleViewState extends State<ScheduleView> {
                                 Icons.calendar_today,
                               ),
                               TextButton(
-                                onPressed: () {
-                                  showTimePicker(
-                                          context: context,
-                                          initialTime: TimeOfDay.now())
-                                      .then(
-                                    (value) {
-                                      setState(
-                                        () {
-                                          startTime = value;
-                                        },
-                                      );
-                                    },
+                                onPressed: () async {
+                                  await showCustomBottomSheet(
+                                    context: context,
+                                    widget: SizedBox.fromSize(
+                                      size: Size.fromHeight(250),
+                                      child: CupertinoDatePicker(
+                                        mode: CupertinoDatePickerMode.time,
+                                        onDateTimeChanged: (value) => setState(
+                                          () {
+                                            startTime = value;
+                                          },
+                                        ),
+                                      ),
+                                    ),
                                   ).whenComplete(
                                     () => context
                                         .read<BookEventHandlerBloc>()
                                         .add(
                                           BookEventPicked(
                                             req: BookEntityServiceReq(
-                                              startTime:
-                                                  startTime?.format(context),
+                                              startTime: startTime != null
+                                                  ? DateFormat.jms()
+                                                      .format(startTime!)
+                                                  : null,
                                               endDate: DateTime.parse(
                                                 context
                                                     .read<
@@ -146,30 +178,37 @@ class _ScheduleViewState extends State<ScheduleView> {
                                   );
                                 },
                                 child: Text(
-                                  startTime?.format(context) ?? '--',
+                                  startTime != null
+                                      ? DateFormat.jm().format(startTime!)
+                                      : '--',
                                 ),
                               ),
                               Text('-'),
                               TextButton(
-                                onPressed: () {
-                                  showTimePicker(
-                                          context: context,
-                                          initialTime: TimeOfDay.now())
-                                      .then(
-                                    (value) {
-                                      setState(
-                                        () {
-                                          endTime = value;
-                                        },
-                                      );
-                                    },
+                                onPressed: () async {
+                                  await showCustomBottomSheet(
+                                    context: context,
+                                    widget: SizedBox.fromSize(
+                                      size: Size.fromHeight(250),
+                                      child: CupertinoDatePicker(
+                                        mode: CupertinoDatePickerMode.time,
+                                        onDateTimeChanged: (value) => setState(
+                                          () {
+                                            endTime = value;
+                                          },
+                                        ),
+                                      ),
+                                    ),
                                   ).whenComplete(
                                     () => context
                                         .read<BookEventHandlerBloc>()
                                         .add(
                                           BookEventPicked(
                                             req: BookEntityServiceReq(
-                                              endTime: endTime?.format(context),
+                                              endTime: endTime != null
+                                                  ? DateFormat.jms()
+                                                      .format(endTime!)
+                                                  : null,
                                               endDate: DateTime.parse(
                                                 context
                                                     .read<
@@ -183,7 +222,9 @@ class _ScheduleViewState extends State<ScheduleView> {
                                   );
                                 },
                                 child: Text(
-                                  endTime?.format(context) ?? '--',
+                                  endTime != null
+                                      ? DateFormat.jm().format(endTime!)
+                                      : '--',
                                 ),
                               ),
                             ],
@@ -278,6 +319,10 @@ class _ScheduleViewState extends State<ScheduleView> {
 
   Widget _buildCalender(BuildContext context) {
     return Container(
+      margin: EdgeInsets.symmetric(
+        vertical: 10,
+        horizontal: 4,
+      ),
       decoration: BoxDecoration(
         border: Border.all(
           width: 0.5,
@@ -287,14 +332,11 @@ class _ScheduleViewState extends State<ScheduleView> {
           5,
         ),
       ),
-      child: Padding(
-        padding: const EdgeInsets.all(
-          8.0,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: [
-            TheCalender(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: [
+          Expanded(
+            child: TheCalender(
               calendarFormat: calendarFormat,
               onFormatChange: (p0) => setState(
                 () {
@@ -330,30 +372,39 @@ class _ScheduleViewState extends State<ScheduleView> {
                 return [];
               },
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 20,
-              ),
-              child: Wrap(
-                spacing: 20,
-                children: [
-                  IconText(
-                    label: 'Selected',
-                    iconData: Icons.circle,
-                    size: 13,
-                    color: kColorAmber,
-                  ),
-                  IconText(
-                    label: 'Available',
-                    iconData: Icons.circle,
-                    size: 13,
-                    color: Colors.black,
-                  ),
-                ],
-              ),
-            )
-          ],
-        ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+            ),
+            child: Wrap(
+              spacing: 20,
+              children: [
+                IconText(
+                  label: 'Selected',
+                  iconData: Icons.circle,
+                  size: 13,
+                  color: kColorAmber,
+                ),
+                IconText(
+                  label: 'Available',
+                  iconData: Icons.circle,
+                  size: 13,
+                  color: Colors.black,
+                ),
+                IconText(
+                  label: 'Unavailable',
+                  iconData: Icons.circle,
+                  size: 13,
+                  color: Colors.grey,
+                ),
+              ],
+            ),
+          ),
+          addVerticalSpace(
+            8,
+          ),
+        ],
       ),
     );
   }

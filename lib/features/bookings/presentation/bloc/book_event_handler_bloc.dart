@@ -6,8 +6,7 @@ import 'package:dependencies/dependencies.dart';
 part 'book_event_handler_event.dart';
 part 'book_event_handler_state.dart';
 
-class BookEventHandlerBloc
-    extends Bloc<BookEventHandlerEvent, BookEventHandlerState> {
+class BookEventHandlerBloc extends Bloc<BookEventHandlerEvent, BookEventHandlerState> {
   BookEventHandlerBloc() : super(const BookEventHandlerState()) {
     on<BookEventPicked>(
       (event, emit) async {
@@ -17,7 +16,7 @@ class BookEventHandlerBloc
               event.req?.startDate ?? DateTime.now(),
             ),
             endDate: DateFormat("yyyy-MM-dd").format(
-              event.req!.endDate!,
+              event.req?.endDate ?? DateTime.now(),
             ),
             startTime: event.req?.startTime,
             endTime: event.req?.endTime,
@@ -26,6 +25,7 @@ class BookEventHandlerBloc
             requirements: event.req?.requirements,
             images: event.req?.images,
             videos: event.req?.videos,
+            city: event.req?.city,
           ),
         );
       },

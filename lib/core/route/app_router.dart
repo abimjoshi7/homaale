@@ -65,6 +65,7 @@ import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:cipher/features/task/presentation/pages/popular_tasker_page_new.dart';
 import 'package:cipher/features/tax_calculator/presentation/screens/tax_calculator.dart';
 import 'package:cipher/features/transaction/presentation/pages/my_transactions_page.dart';
+import 'package:cipher/features/user_location/presentation/choose_location_page.dart';
 import 'package:cipher/features/wallet/presentation/wallet_page.dart';
 import 'package:cipher/features/wallet/presentation/withdraw_page.dart';
 import 'package:flutter/material.dart';
@@ -113,6 +114,11 @@ class AppRouter {
       case GoogleMapsPage.routeName:
         return MaterialPageRoute(
           builder: (context) => const GoogleMapsPage(),
+          settings: settings,
+        );
+      case ChooseLocationPage.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const ChooseLocationPage(),
           settings: settings,
         );
       case ConfirmOtpPage.routeName:

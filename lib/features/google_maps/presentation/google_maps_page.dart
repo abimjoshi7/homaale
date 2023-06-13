@@ -1,7 +1,7 @@
 import 'package:cipher/core/carousel_slider/carousel_slider_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/google_maps_constants.dart';
-import 'package:cipher/features/google_maps/presentation/bloc/nearby_task_entity_service_bloc.dart';
+import 'package:cipher/features/google_maps/presentation/bloc/nearby_task_entity_service_bloc/nearby_task_entity_service_bloc.dart';
 import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
 import 'package:cipher/features/google_maps/presentation/widgets/widgets.dart';
 import 'package:cipher/features/search/presentation/widgets/search_card.dart';

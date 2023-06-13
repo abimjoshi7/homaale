@@ -187,7 +187,7 @@ class TaskDisplayList extends StatelessWidget {
                                             //     ?.images
                                             //     ?.last
                                             //     .media.toString() ??
-                                            kServiceImageNImg),
+                                            kHomaaleImg),
                                         fit: BoxFit.cover,
                                       ),
                                     ),

@@ -80,6 +80,32 @@ class DioHelper {
 
                 return handler.next(err);
               }
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('issued_date')) {
+              final issuedDateError = responseData['issued_date'];
+              if (issuedDateError is List<dynamic> && issuedDateError.isNotEmpty) {
+                final errorMessage = issuedDateError.join('.');
+                Fluttertoast.showToast(
+                    msg: "Issued Date Error: ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Issued Date Error: ${issuedDateError}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
             } else if (responseData is Map<String, dynamic> && responseData.containsKey('old_password')) {
               final oldPasswordError = responseData['old_password'];
               if (oldPasswordError is List<dynamic> && oldPasswordError.isNotEmpty) {
@@ -106,33 +132,33 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('password')) {
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('password')) {
               final passswordErrors = responseData['password'];
               if (passswordErrors is List<dynamic> && passswordErrors.isNotEmpty) {
                 final errorMessage = passswordErrors.join('.');
-                // Remove existing cache and add new error msg in cache
-                await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-                  () async => CacheHelper.setCachedString(
-                    kErrorLog,
-                    errorMessage.toString(),
-                  ),
-                );
+                Fluttertoast.showToast(
+                    msg: "Password Error: ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
 
                 return handler.next(err);
               } else {
-                // Remove existing cache and add new error msg in cache
-                await CacheHelper.clearCachedData(kErrorLog).whenComplete(
-                  () async => CacheHelper.setCachedString(
-                    kErrorLog,
-                    passswordErrors.toString(),
-                  ),
-                );
+                Fluttertoast.showToast(
+                    msg: "Password Error: ${passswordErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('budget_type')) {
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('budget_type')) {
               final budgetTypeErrors = responseData['budget_type'];
               if (budgetTypeErrors is List<dynamic> && budgetTypeErrors.isNotEmpty) {
                 final errorMessage = budgetTypeErrors.join('.');
@@ -158,8 +184,7 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('username')) {
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('username')) {
               final usernameErrors = responseData['username'];
               if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {
                 final errorMessage = usernameErrors.join('.');
@@ -185,8 +210,7 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            }
-            else if (responseData is Map<String, dynamic> && responseData.containsKey('detail')) {
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('detail')) {
               final detailstTypeErrors = responseData['detail'];
               if (detailstTypeErrors is List<dynamic> && detailstTypeErrors.isNotEmpty) {
                 final errorMessage = detailstTypeErrors.join('.');
@@ -255,6 +279,58 @@ class DioHelper {
               } else {
                 Fluttertoast.showToast(
                     msg: "order: ${detailstTypeErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('end_time')) {
+              final endTimeErrors = responseData['end_time'];
+              if (endTimeErrors is List<dynamic> && endTimeErrors.isNotEmpty) {
+                final errorMessage = endTimeErrors.join('.');
+                Fluttertoast.showToast(
+                    msg: "End Time : ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "End Time: ${endTimeErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('city')) {
+              final cityTypeErrors = responseData['city'];
+              if (cityTypeErrors is List<dynamic> && cityTypeErrors.isNotEmpty) {
+                final errorMessage = cityTypeErrors.join('.');
+                Fluttertoast.showToast(
+                    msg: "city : ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "city: ${cityTypeErrors}",
                     toastLength: Toast.LENGTH_LONG,
                     gravity: ToastGravity.BOTTOM,
                     timeInSecForIosWeb: 1,
@@ -349,6 +425,10 @@ class DioHelper {
             // Handle 403 Forbidden
             // Your code here
             break;
+          case 404:
+            // Handle 403 Forbidden
+            // Your code here
+            return handler.next(err);
           case 500:
             // Handle 500 Internal Server Error
             // Your code here
@@ -410,6 +490,7 @@ class DioHelper {
       );
       return response.data;
     } catch (e) {
+      log("dio err:$e");
       rethrow;
     }
   }

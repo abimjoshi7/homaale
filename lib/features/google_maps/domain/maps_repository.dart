@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/features/google_maps/data/maps_geocode_location_res.dart';
+import 'package:cipher/features/google_maps/data/maps_query_auto_complete_res.dart';
 import 'package:cipher/features/google_maps/data/nearby_task_entity_services_req.dart';
 import 'package:cipher/features/google_maps/data/nearby_task_entity_services_response.dart';
 import 'package:cipher/features/google_maps/data/repositories/maps_repository.dart';
@@ -48,5 +50,32 @@ class MapsRepository {
       return null;
     });
     return _location;
+  }
+
+  Future<List<MapsQueryAutoCompleteRes>> fetchMapAutoCompleteQueries(
+      {required String query}) async {
+    final x = await _repository.getMapAutoCompleteQueries(query: query);
+    if (x["status"] == "OK") {
+      return (x["predictions"] as List)
+          .map((e) =>
+              MapsQueryAutoCompleteRes.fromJson(e as Map<String, dynamic>))
+          .toList();
+    }
+    return [];
+  }
+
+  Future<List<MapsGeocodeLocationRes>> fetchLocationFromTextAddress(
+      {required String address}) async {
+    final x = await _repository.getLocationFromTextAddress(address: address);
+    if (x["status"] == "OK") {
+      return (x["results"] as List)
+          .map(
+            (e) => MapsGeocodeLocationRes.fromJson(
+              e as Map<String, dynamic>,
+            ),
+          )
+          .toList();
+    }
+    return [];
   }
 }

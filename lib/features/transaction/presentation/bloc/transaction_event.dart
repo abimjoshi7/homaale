@@ -33,3 +33,8 @@ class TransactionLoaded extends TransactionEvent {
         isCleared,
       ];
 }
+
+class TransactionDownloaded extends TransactionEvent {
+  @override
+  List<Object?> get props => [];
+}

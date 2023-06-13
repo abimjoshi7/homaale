@@ -92,7 +92,10 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
         appBarTitle: "Trending Services",
         trailingWidget: IconButton(
           onPressed: () {
-            Navigator.pushNamed(context, SearchPage.routeName);
+            Navigator.pushNamed(
+              context,
+              SearchPage.routeName,
+            );
           },
           icon: Icon(Icons.search),
         ),
@@ -105,50 +108,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
               return Column(
                 children: [
                   addVerticalSpace(8),
-                  SizedBox(
-                    height: 50,
-                    width: double.infinity,
-                    child: ListView(
-                      scrollDirection: Axis.horizontal,
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      children: [
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.filter_alt,
-                              color: kColorGrey,
-                            ),
-                            addHorizontalSpace(5),
-                            _buildCategory(),
-                            addHorizontalSpace(
-                              8,
-                            ),
-                            _buildLocation(),
-                            addHorizontalSpace(
-                              8,
-                            ),
-                            _buildFromDate(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
-                            _buildToDate(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
-                            _buildPayableFrom(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
-                            _buildPayableTo(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
-                            _buildClearFilters(context),
-                          ],
-                        )
-                      ],
-                    ),
-                  ),
+                  _buildFilters(context),
                   Expanded(
                     child: GridView.builder(
                       controller: _controller,
@@ -180,7 +140,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                           imagePath:
                               state.taskEntityServices?[index].images?.length ==
                                       0
-                                  ? kServiceImageNImg
+                                  ? kHomaaleImg
                                   : state.taskEntityServices?[index].images
                                       ?.first.media,
                           rating: state.taskEntityServices?[index].rating
@@ -262,6 +222,53 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
               );
           }
         },
+      ),
+    );
+  }
+
+  SizedBox _buildFilters(BuildContext context) {
+    return SizedBox(
+      height: 50,
+      width: double.infinity,
+      child: ListView(
+        scrollDirection: Axis.horizontal,
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        children: [
+          Row(
+            children: [
+              Icon(
+                Icons.filter_alt,
+                color: kColorGrey,
+              ),
+              addHorizontalSpace(5),
+              _buildCategory(),
+              addHorizontalSpace(
+                8,
+              ),
+              _buildLocation(),
+              addHorizontalSpace(
+                8,
+              ),
+              _buildFromDate(context),
+              addHorizontalSpace(
+                8,
+              ),
+              _buildToDate(context),
+              addHorizontalSpace(
+                8,
+              ),
+              _buildPayableFrom(context),
+              addHorizontalSpace(
+                8,
+              ),
+              _buildPayableTo(context),
+              addHorizontalSpace(
+                8,
+              ),
+              _buildClearFilters(context),
+            ],
+          )
+        ],
       ),
     );
   }
