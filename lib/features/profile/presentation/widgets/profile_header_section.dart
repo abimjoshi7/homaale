@@ -68,7 +68,7 @@ class ProfileHeaderSection extends StatelessWidget {
                 image: DecorationImage(
                   fit: BoxFit.cover,
                   image: NetworkImage(
-                    state2.taskerProfile?.profileImage ?? kServiceImageNImg,
+                    state2.taskerProfile?.profileImage ?? kHomaaleImg,
                   ),
                 ),
               ),

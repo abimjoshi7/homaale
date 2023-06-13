@@ -1,4 +1,5 @@
-import 'package:cipher/features/saved/data/models/res/saved_model_res.dart' as sv;
+import 'package:cipher/features/saved/data/models/res/saved_model_res.dart'
+    as sv;
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
@@ -36,9 +37,11 @@ class SavedCard extends StatelessWidget {
               ),
               itemBuilder: (context, index) => Image.network(
                 child?[index].data?.images?.length == 0
-                    ? kServiceImageNImg
-                    : child?[index].data?.images?.first['media'].toString() ?? kServiceImageNImg,
-                errorBuilder: (context, error, stackTrace) => ColoredBox(color: Colors.grey),
+                    ? kHomaaleImg
+                    : child?[index].data?.images?.first['media'].toString() ??
+                        kHomaaleImg,
+                errorBuilder: (context, error, stackTrace) =>
+                    ColoredBox(color: Colors.grey),
                 fit: BoxFit.fill,
                 height: 10,
               ),

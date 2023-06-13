@@ -355,7 +355,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                                                   error,
                                                                   stackTrace) =>
                                                               Image.network(
-                                                                  kServiceImageNImg),
+                                                                  kHomaaleImg),
                                                           width: MediaQuery.of(
                                                                   context)
                                                               .size
@@ -582,7 +582,6 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                                   color: BookingTimelineStatus(
                                                           '${booking.status}')[
                                                       "textColor"] as Color,
-
                                                 ),
                                               )),
                                         ),

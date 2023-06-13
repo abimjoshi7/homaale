@@ -62,7 +62,7 @@ class ServiceCard extends StatelessWidget {
                   decoration: BoxDecoration(
                     image: DecorationImage(
                       image: NetworkImage(
-                        imagePath ?? kServiceImageNImg,
+                        imagePath ?? kHomaaleImg,
                       ),
                       fit: BoxFit.cover,
                     ),
@@ -136,7 +136,8 @@ class ServiceCard extends StatelessWidget {
                                           : CustomFavoriteIcon(
                                               typeID: '$id',
                                               type: ServiceType.entityservice,
-                                              isBookmarked: isBookmarked ?? false,
+                                              isBookmarked:
+                                                  isBookmarked ?? false,
                                             )
 
                                       // IconButton(
@@ -174,12 +175,15 @@ class ServiceCard extends StatelessWidget {
                                     visible: isRange ?? false,
                                     child: Flexible(
                                       child: Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceAround,
                                         children: [
                                           Flexible(
                                             child: Text(
                                               "Rs $rateFrom",
-                                              style: Theme.of(context).textTheme.bodyLarge,
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodyLarge,
                                               overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
@@ -191,7 +195,8 @@ class ServiceCard extends StatelessWidget {
                                   Flexible(
                                     child: Text(
                                       "Rs $rateTo",
-                                      style: Theme.of(context).textTheme.bodyLarge,
+                                      style:
+                                          Theme.of(context).textTheme.bodyLarge,
                                       overflow: TextOverflow.ellipsis,
                                     ),
                                   ),

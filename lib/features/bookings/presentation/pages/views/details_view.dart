@@ -4,6 +4,7 @@ import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bl
 import 'package:cipher/features/services/presentation/pages/sections/detail_header_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -24,6 +25,7 @@ class _DetailsViewState extends State<DetailsView> {
   List<String> requirementList = [];
   List<int>? imageList;
   List<int>? fileList;
+  int? cityCode;
 
   final uploadBloc = locator<UploadBloc>();
 
@@ -32,13 +34,7 @@ class _DetailsViewState extends State<DetailsView> {
     super.initState();
 
     budgetController.setText(
-      double.parse(context
-              .read<TaskEntityServiceBloc>()
-              .state
-              .taskEntityService!
-              .payableTo!)
-          .toInt()
-          .toString(),
+      double.parse(context.read<TaskEntityServiceBloc>().state.taskEntityService!.payableTo!).toInt().toString(),
     );
   }
 
@@ -62,20 +58,15 @@ class _DetailsViewState extends State<DetailsView> {
             label: "Your Budget",
             child: BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
               builder: (context, state) {
-                if (state.taskEntityService?.isRange == true &&
-                    state.taskEntityService?.isNegotiable == false)
+                if (state.taskEntityService?.isRange == true && state.taskEntityService?.isNegotiable == false)
                   return SizedBox(
                     width: 100,
                     child: CustomTextFormField(
                       textInputType: TextInputType.number,
                       controller: budgetController,
                       onChanged: (p0) {
-                        if (double.parse(budgetController.text) >
-                                double.parse(
-                                    state.taskEntityService!.payableTo!) ||
-                            double.parse(budgetController.text) <
-                                double.parse(
-                                    state.taskEntityService!.payableFrom!)) {
+                        if (double.parse(budgetController.text) > double.parse(state.taskEntityService!.payableTo!) ||
+                            double.parse(budgetController.text) < double.parse(state.taskEntityService!.payableFrom!)) {
                           ScaffoldMessenger.of(context)
                             ..clearSnackBars()
                             ..showSnackBar(
@@ -93,10 +84,7 @@ class _DetailsViewState extends State<DetailsView> {
                                     budgetTo: double.parse(
                                       p0!,
                                     ),
-                                    endDate: DateTime.parse(context
-                                        .read<BookEventHandlerBloc>()
-                                        .state
-                                        .endDate!),
+                                    endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
                                   ),
                                 ),
                               );
@@ -106,20 +94,16 @@ class _DetailsViewState extends State<DetailsView> {
                 if (state.taskEntityService?.isNegotiable == true)
                   return NumberIncDecField(
                     controller: budgetController,
-                    onSubmit: (value) =>
-                        context.read<BookEventHandlerBloc>().add(
-                              BookEventPicked(
-                                req: BookEntityServiceReq(
-                                  budgetTo: double.parse(
-                                    budgetController.text,
-                                  ),
-                                  endDate: DateTime.parse(context
-                                      .read<BookEventHandlerBloc>()
-                                      .state
-                                      .endDate!),
-                                ),
+                    onSubmit: (value) => context.read<BookEventHandlerBloc>().add(
+                          BookEventPicked(
+                            req: BookEntityServiceReq(
+                              budgetTo: double.parse(
+                                budgetController.text,
                               ),
+                              endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
                             ),
+                          ),
+                        ),
                   );
                 return SizedBox(
                   width: 100,
@@ -193,10 +177,7 @@ class _DetailsViewState extends State<DetailsView> {
                           BookEventPicked(
                             req: BookEntityServiceReq(
                               requirements: requirementList,
-                              endDate: DateTime.parse(context
-                                  .read<BookEventHandlerBloc>()
-                                  .state
-                                  .endDate!),
+                              endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
                             ),
                           ),
                         );
@@ -220,13 +201,44 @@ class _DetailsViewState extends State<DetailsView> {
                     BookEventPicked(
                       req: BookEntityServiceReq(
                         description: problemDescController.text,
-                        endDate: DateTime.parse(context
-                            .read<BookEventHandlerBloc>()
-                            .state
-                            .endDate!),
+                        endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
                       ),
                     ),
                   ),
+            ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: CustomFormField(
+            isRequired: true,
+            label: 'City',
+            child: BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
+              builder: (context, state) {
+                return BlocBuilder<CityBloc, CityState>(
+                  builder: (context, CityState) {
+                    if (CityState is CityLoadSuccess) {
+                      return CustomDropdownSearch(
+                          hintText: 'Select city',
+                          list: List.generate(
+                            CityState.list.length,
+                            (index) => CityState.list[index].name,
+                          ),
+                          onChanged: (p0) {
+                            final x = CityState.list.firstWhere(
+                              (element) => p0 == element.name,
+                            );
+
+                            context.read<BookEventHandlerBloc>().add(BookEventPicked(
+                                    req: BookEntityServiceReq(
+                                  city: x.id,
+                                  endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
+                                )));
+                          });
+                    }
+                    return SizedBox.shrink();
+                  },
+                );
+              },
             ),
           ),
         ),

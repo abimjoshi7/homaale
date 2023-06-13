@@ -175,9 +175,9 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                       else
                                         Image.network(
                                           taskMedia[index].media.toString(),
-                                          errorBuilder: (context, error,
-                                                  stackTrace) =>
-                                              Image.network(kServiceImageNImg),
+                                          errorBuilder:
+                                              (context, error, stackTrace) =>
+                                                  Image.network(kHomaaleImg),
                                           width:
                                               MediaQuery.of(context).size.width,
                                           fit: BoxFit.cover,
@@ -225,7 +225,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                             SizedBox(
                               height: MediaQuery.of(context).size.height * 0.2,
                               child: Image.network(
-                                kServiceImageNImg,
+                                kHomaaleImg,
                                 width: MediaQuery.of(context).size.width,
                                 fit: BoxFit.cover,
                               ),
@@ -528,8 +528,12 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                           size: 18,
                                         ),
                                         kWidth5,
-                                        Text(
-                                          "${state.taskModel?.city?.name ?? ''}, ${state.taskModel?.city?.country?.name ?? ''}",
+                                        SizedBox(
+                                          width: 180,
+                                          child: AutoSizeText(
+                                            "${state.taskModel?.city?.name ?? ''}, ${state.taskModel?.city?.country?.name ?? ''}",
+                                            overflow: TextOverflow.ellipsis,
+                                          ),
                                         ),
                                       ],
                                     )
@@ -549,7 +553,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                         ),
                                         kWidth5,
                                         Text(
-                                          '${state.taskModel?.startTime}',
+                                          '${state.taskModel?.startTime ?? "N/A"}',
                                         ),
                                       ],
                                     ),
@@ -663,7 +667,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                             ?.result?[index]
                                             .createdBy
                                             ?.profileImage ??
-                                        kServiceImageNImg,
+                                        kHomaaleImg,
                                     label:
                                         '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? 'Harry'} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? 'Smith'}',
                                     happyClients:
@@ -719,7 +723,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                           ?.result?[index]
                                           .createdBy
                                           ?.profileImage ??
-                                      kServiceImageNImg,
+                                      kHomaaleImg,
                                   happyClients:
                                       '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
                                   rewardPercentage:

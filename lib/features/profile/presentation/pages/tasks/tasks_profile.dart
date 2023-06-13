@@ -106,12 +106,13 @@ class _TasksProfileState extends State<TasksProfile> {
                           isRange: data[index].isRange ?? false,
                           id: data[index].id,
                           buttonLabel: 'View Details',
+                          createdByName: '${data[index].createdBy?.fullName}',
                           startRate: '${data[index].budgetFrom ?? 0}',
                           endRate: '${data[index].budgetTo ?? 0}',
                           budgetType: '${data[index].budgetType}',
                           count: data[index].viewsCount.toString(),
                           imageUrl: data[index].createdBy?.profileImage ??
-                              kServiceImageNImg,
+                              kHomaaleImg,
                           location: data[index].location == ''
                               ? 'Remote'
                               : data[index].location,

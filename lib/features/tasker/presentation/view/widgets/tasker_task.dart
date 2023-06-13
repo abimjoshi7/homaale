@@ -84,7 +84,7 @@ class _TaskerTaskState extends State<TaskerTask> {
                       count: state.task.result![index].count.toString(),
                       imageUrl:
                           state.task.result![index].createdBy?.profileImage ??
-                              kServiceImageNImg,
+                              kHomaaleImg,
                       location: state.task.result![index].location == ''
                           ? 'Remote'
                           : state.task.result![index].location,

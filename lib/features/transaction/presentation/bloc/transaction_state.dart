@@ -7,20 +7,23 @@ class TransactionState extends Equatable {
   final TransactionsRes res;
   final List<Transactions> transactions;
   final bool hasReachedMax;
+  final File? csvFile;
 
   const TransactionState({
     this.theStates = TheStates.initial,
     this.res = const TransactionsRes(),
     this.transactions = const [],
     this.hasReachedMax = false,
+    this.csvFile,
   });
 
   @override
-  List<Object> get props => [
+  List<Object?> get props => [
         theStates,
         res,
         transactions,
         hasReachedMax,
+        csvFile,
       ];
 
   TransactionState copyWith({
@@ -28,12 +31,14 @@ class TransactionState extends Equatable {
     TransactionsRes? res,
     List<Transactions>? transactions,
     bool? hasReachedMax,
+    File? csvFile,
   }) {
     return TransactionState(
       theStates: theStates ?? this.theStates,
       res: res ?? this.res,
       transactions: transactions ?? this.transactions,
       hasReachedMax: hasReachedMax ?? this.hasReachedMax,
+      csvFile: csvFile ?? this.csvFile,
     );
   }
 }

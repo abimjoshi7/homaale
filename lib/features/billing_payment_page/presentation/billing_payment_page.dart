@@ -83,10 +83,15 @@ class _BillsPaymentListState extends State<BillsPaymentList> {
                         'Linked Payment Methods',
                         style: kPurpleText16,
                       ),
-                      context.watch<BillsPaymentBloc>().state.linkedBankList.isNotEmpty
+                      context
+                              .watch<BillsPaymentBloc>()
+                              .state
+                              .linkedBankList
+                              .isNotEmpty
                           ? TextButton(
                               onPressed: () {
-                                Navigator.pushNamed(context, AddPaymentMethodForm.routeName);
+                                Navigator.pushNamed(
+                                    context, AddPaymentMethodForm.routeName);
                               },
                               child: Text(
                                 '+ Add',
@@ -103,7 +108,9 @@ class _BillsPaymentListState extends State<BillsPaymentList> {
                       controller: _scrollController,
                       padding: EdgeInsets.zero,
                       physics: AlwaysScrollableScrollPhysics(),
-                      itemCount: state.hasReachedMax ? state.linkedBankList.length : state.linkedBankList.length + 1,
+                      itemCount: state.hasReachedMax
+                          ? state.linkedBankList.length
+                          : state.linkedBankList.length + 1,
                       itemBuilder: (context, index) {
                         if (index >= state.linkedBankList.length) {
                           return const BottomLoader();
@@ -114,14 +121,17 @@ class _BillsPaymentListState extends State<BillsPaymentList> {
                               child: Center(
                                 child: ListTile(
                                   leading: SizedBox(
-                                    width: MediaQuery.of(context).size.width * 0.1,
+                                    width:
+                                        MediaQuery.of(context).size.width * 0.1,
                                     child: Image.network(
-                                      state.linkedBankList[index].logo ?? kServiceImageNImg,
+                                      state.linkedBankList[index].logo ??
+                                          kHomaaleImg,
                                       fit: BoxFit.cover,
                                     ),
                                   ),
                                   title: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
                                       Text(
@@ -154,7 +164,11 @@ class _BillsPaymentListState extends State<BillsPaymentList> {
                                                   Navigator.pop(context);
                                                   context
                                                       .read<BillsPaymentBloc>()
-                                                      .add(DeleteLinkedMethod(bankId: state.linkedBankList[index].id!));
+                                                      .add(DeleteLinkedMethod(
+                                                          bankId: state
+                                                              .linkedBankList[
+                                                                  index]
+                                                              .id!));
                                                 },
                                               ),
                                               kHeight10,
@@ -199,7 +213,10 @@ class _BillsPaymentListState extends State<BillsPaymentList> {
                       kHeight20,
                       Text(
                         'No Linked Account Found',
-                        style: Theme.of(context).textTheme.displayLarge?.copyWith(color: kColorPrimary),
+                        style: Theme.of(context)
+                            .textTheme
+                            .displayLarge
+                            ?.copyWith(color: kColorPrimary),
                       ),
                       kHeight10,
                       Text(
@@ -211,7 +228,8 @@ class _BillsPaymentListState extends State<BillsPaymentList> {
                       CustomElevatedButton(
                         label: 'Add account',
                         callback: () {
-                          Navigator.pushNamed(context, AddPaymentMethodForm.routeName);
+                          Navigator.pushNamed(
+                              context, AddPaymentMethodForm.routeName);
                         },
                       )
                     ],
@@ -235,7 +253,8 @@ class _BillsPaymentListState extends State<BillsPaymentList> {
   }
 
   void _onScroll() {
-    if (_isBottom) context.read<BillsPaymentBloc>().add(FetchLinkedBankAccount());
+    if (_isBottom)
+      context.read<BillsPaymentBloc>().add(FetchLinkedBankAccount());
   }
 
   bool get _isBottom {

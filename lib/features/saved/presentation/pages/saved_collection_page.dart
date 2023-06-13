@@ -68,8 +68,8 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
                             endRate: '${e.data?.budgetTo ?? 0}',
                             budgetType: '${e.data?.budgetType}',
                             count: e.data?.count.toString(),
-                            imageUrl: e.data?.createdBy?.profileImage ??
-                                kServiceImageNImg,
+                            imageUrl:
+                                e.data?.createdBy?.profileImage ?? kHomaaleImg,
                             location: e.data?.location == ''
                                 ? 'Remote'
                                 : e.data?.location,
@@ -134,9 +134,9 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
                         createdBy: "${e.data?.createdBy?.fullName}",
                         title: '${e.data?.title}',
                         imagePath: e.data?.images?.length == 0
-                            ? kServiceImageNImg
+                            ? kHomaaleImg
                             : e.data?.images?.first['media'].toString() ??
-                                kServiceImageNImg,
+                                kHomaaleImg,
                         rating: e.data?.rating.toString(),
                         isBookmarked: e.data?.isBookmarked,
                         isRange: e.data?.isRange,

@@ -196,29 +196,18 @@ class _AllTaskPageState extends State<AllTaskPage> {
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.3,
                             child: TaskCard(
-                              isRange:
-                                  state.taskEntityServices![index].isRange ??
-                                      false,
-                              buttonLabel: state.taskEntityServices![index]
-                                          .createdBy?.id ==
-                                      user.state.taskerProfile?.user?.id
-                                  ? 'View Details'
-                                  : 'Apply Now',
-                              startRate:
-                                  '${state.taskEntityServices![index].budgetFrom ?? 0}',
-                              endRate:
-                                  '${state.taskEntityServices![index].budgetTo ?? 0}',
-                              budgetType:
-                                  '${state.taskEntityServices![index].budgetType ?? 'budgetType'}',
-                              count: state.taskEntityServices![index].count
-                                      ?.toString() ??
-                                  '0',
-                              imageUrl: state.taskEntityServices![index]
-                                      .createdBy?.profileImage ??
-                                  kServiceImageNImg,
-                              location:
-                                  state.taskEntityServices![index].location ??
-                                      'remote',
+                              isRange: state.taskEntityServices![index].isRange ?? false,
+                              buttonLabel:
+                                  state.taskEntityServices![index].createdBy?.id == user.state.taskerProfile?.user?.id
+                                      ? 'View Details'
+                                      : 'Apply Now',
+                              startRate: '${state.taskEntityServices![index].budgetFrom ?? 0}',
+                              createdByName: '${state.taskEntityServices![index].createdBy?.fullName}',
+                              endRate: '${state.taskEntityServices![index].budgetTo ?? 0}',
+                              budgetType: '${state.taskEntityServices![index].budgetType ?? 'budgetType'}',
+                              count: state.taskEntityServices![index].count?.toString() ?? '0',
+                              imageUrl: state.taskEntityServices![index].createdBy?.profileImage ?? kHomaaleImg,
+                              location: state.taskEntityServices![index].location ?? 'remote',
                               endHour: Jiffy(
                                 state.taskEntityServices![index].createdAt
                                         ?.toString() ??

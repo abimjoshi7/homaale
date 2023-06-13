@@ -19,8 +19,8 @@ const kDefaultAvatarNImg =
     'https://cdn.pixabay.com/photo/2016/08/08/09/17/avatar-1577909_960_720.png';
 const kNoImageNImg =
     'https://images.assetsdelivery.com/compings_v2/koblizeek/koblizeek2208/koblizeek220800027.jpg';
-const kServiceImageNImg =
-    'https://cdn.pixabay.com/photo/2015/05/28/14/53/ux-788002_960_720.jpg';
+const kHomaaleImg =
+    'https://homalee.com/_next/image?url=https%3A%2F%2Fhomaale.s3.amazonaws.com%2Fmedia%2Fcagtunepal%2Fblog%2FFrame_48100385.jpg&w=828&q=75';
 
 //
 const kImageLimit = "Limited to 5 Images upto 5MB each";

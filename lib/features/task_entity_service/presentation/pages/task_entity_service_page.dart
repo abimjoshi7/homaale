@@ -213,7 +213,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                                 errorBuilder: (context, error,
                                                         stackTrace) =>
                                                     Image.network(
-                                                  kServiceImageNImg,
+                                                  kHomaaleImg,
                                                   width: MediaQuery.of(context)
                                                       .size
                                                       .width,
@@ -315,7 +315,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                           lastMessage: '',
                                           profileImage: state.taskEntityService
                                                   ?.createdBy?.profileImage ??
-                                              kServiceImageNImg,
+                                              kHomaaleImg,
                                         ),
                                       );
                                     }
@@ -355,7 +355,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                             ?.result?[index]
                                             .createdBy
                                             ?.profileImage ??
-                                        kServiceImageNImg,
+                                        kHomaaleImg,
                                     label:
                                         '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? 'Harry'} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? 'Smith'}',
                                     happyClients:
@@ -426,7 +426,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                           ?.result?[index]
                                           .createdBy
                                           ?.profileImage ??
-                                      kServiceImageNImg,
+                                      kHomaaleImg,
                                   happyClients:
                                       '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
                                   rewardPercentage:

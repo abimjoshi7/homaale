@@ -12,6 +12,7 @@ class BookEventHandlerState extends Equatable {
   final String? description;
   final List<int>? images;
   final List<int>? videos;
+  final int? city;
   const BookEventHandlerState({
     this.startDate,
     this.endDate,
@@ -24,6 +25,7 @@ class BookEventHandlerState extends Equatable {
     this.description,
     this.images,
     this.videos,
+    this.city,
   });
   @override
   List<Object?> get props {
@@ -39,6 +41,7 @@ class BookEventHandlerState extends Equatable {
       description,
       images,
       videos,
+      city,
     ];
   }
 
@@ -54,6 +57,7 @@ class BookEventHandlerState extends Equatable {
     String? description,
     List<int>? images,
     List<int>? videos,
+    int? city,
   }) {
     return BookEventHandlerState(
       startDate: startDate ?? this.startDate,
@@ -67,6 +71,7 @@ class BookEventHandlerState extends Equatable {
       description: description ?? this.description,
       images: images ?? this.images,
       videos: videos ?? this.videos,
+      city: city ?? this.city,
     );
   }
 }
