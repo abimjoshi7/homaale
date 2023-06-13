@@ -26,11 +26,13 @@ class TaskCard extends StatelessWidget {
     this.isRange = false,
     this.isBookmarked = false,
     this.isOwner,
+    this.createdByName,
   }) : super(key: key);
 
   final String? id;
   final String? imageUrl;
   final String? taskName;
+  final String? createdByName;
   final String? endDate;
   final String? endHour;
   final String? budgetType;
@@ -80,13 +82,26 @@ class TaskCard extends StatelessWidget {
                     addHorizontalSpace(10),
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.3,
-                      child: Text(
-                        StringUtils.capitalize(
-                          taskName ?? '',
-                        ),
-                        style: Theme.of(context).textTheme.titleMedium,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            StringUtils.capitalize(
+                              taskName ?? '',
+                            ),
+                            style: Theme.of(context).textTheme.titleMedium,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          Text(
+                            StringUtils.capitalize(
+                              createdByName ?? '',
+                            ),
+                            style: Theme.of(context).textTheme.titleSmall?.copyWith(color: kColorLightGrey),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ],
                       ),
                     ),
                   ],

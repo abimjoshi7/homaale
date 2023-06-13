@@ -27,11 +27,11 @@ class _TasksProfileState extends State<TasksProfile> {
     super.initState();
     _scrollBloc.add(
       FetchItemsEvent(
-       url: kMyTaskEntityServices,
-       data: {
+        url: kMyTaskEntityServices,
+        data: {
           "is_requested": true,
         },
-      newFetch:  true,
+        newFetch: true,
       ),
     );
     _controller.addListener(
@@ -40,11 +40,11 @@ class _TasksProfileState extends State<TasksProfile> {
           _controller,
           _scrollBloc.add(
             FetchItemsEvent(
-             url: kMyTaskEntityServices,
-             data: {
+              url: kMyTaskEntityServices,
+              data: {
                 "is_requested": true,
               },
-             newFetch :false,
+              newFetch: false,
             ),
           ),
         );
@@ -87,11 +87,11 @@ class _TasksProfileState extends State<TasksProfile> {
                       if (index >= data.length) {
                         _scrollBloc.add(
                           FetchItemsEvent(
-                           url: kMyTaskEntityServices,
-                           data: {
+                            url: kMyTaskEntityServices,
+                            data: {
                               "is_requested": true,
                             },
-                            newFetch:false,
+                            newFetch: false,
                           ),
                         );
                         return BottomLoader();
@@ -102,6 +102,7 @@ class _TasksProfileState extends State<TasksProfile> {
                           isRange: data[index].isRange ?? false,
                           id: data[index].id,
                           buttonLabel: 'View Details',
+                          createdByName: '${data[index].createdBy?.fullName}',
                           startRate: '${data[index].budgetFrom ?? 0}',
                           endRate: '${data[index].budgetTo ?? 0}',
                           budgetType: '${data[index].budgetType}',

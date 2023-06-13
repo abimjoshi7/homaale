@@ -199,6 +199,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                                       ? 'View Details'
                                       : 'Apply Now',
                               startRate: '${state.taskEntityServices![index].budgetFrom ?? 0}',
+                              createdByName: '${state.taskEntityServices![index].createdBy?.fullName}',
                               endRate: '${state.taskEntityServices![index].budgetTo ?? 0}',
                               budgetType: '${state.taskEntityServices![index].budgetType ?? 'budgetType'}',
                               count: state.taskEntityServices![index].count?.toString() ?? '0',

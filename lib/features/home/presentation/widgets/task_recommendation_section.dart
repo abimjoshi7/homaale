@@ -107,6 +107,7 @@ class _TasksRecommendationSectionState extends State<TasksRecommendationSection>
                             count: state.taskEntityServiceModel.result?[index].count.toString(),
                             imageUrl: state.taskEntityServiceModel.result?[index].createdBy?.profileImage ??
                                 kServiceImageNImg,
+                            createdByName: '${state.taskEntityServiceModel.result?[index].createdBy?.fullName}',
                             location: state.taskEntityServiceModel.result?[index].location == ''
                                 ? 'Remote'
                                 : state.taskEntityServiceModel.result?[index].location,
