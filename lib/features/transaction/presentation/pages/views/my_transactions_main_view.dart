@@ -1,12 +1,10 @@
-import 'dart:io';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/features/transaction/data/models/transactions_res.dart';
-import 'package:cipher/features/transaction/data/repositories/transaction_repository.dart';
 import 'package:cipher/features/transaction/presentation/bloc/transaction_bloc.dart';
 import 'package:cipher/features/transaction/presentation/widgets/transaction_card.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -22,10 +20,11 @@ class MyTransactionsMainView extends StatefulWidget {
 
 class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
   final _controller = ScrollController();
-  late String _localPath;
-  late bool _permissionReady;
-  late TargetPlatform? platform;
-  late File file;
+  final _transactionBloc = locator<TransactionBloc>();
+  // late String _localPath;
+  // late bool _permissionReady;
+  // late TargetPlatform? platform;
+  // late File file;
 
   Color _buildColor(Transactions transactions, UserState user) {
     if (transactions.receiver!.fullName!
@@ -53,11 +52,14 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
   void initState() {
     super.initState();
     _controller.addListener(_onScroll);
-    if (Platform.isAndroid) {
-      platform = TargetPlatform.android;
-    } else {
-      platform = TargetPlatform.iOS;
-    }
+    _transactionBloc.add(
+      TransactionLoaded(),
+    );
+    // if (Platform.isAndroid) {
+    //   platform = TargetPlatform.android;
+    // } else {
+    //   platform = TargetPlatform.iOS;
+    // }
   }
 
   @override
@@ -68,49 +70,30 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
       ..dispose();
   }
 
-  Future<bool> _checkPermission() async {
-    if (platform == TargetPlatform.android) {
-      final status = await Permission.storage.status;
-      if (status == PermissionStatus.denied ||
-          status == PermissionStatus.permanentlyDenied) await openAppSettings();
-      if (status != PermissionStatus.granted) {
-        final result = await Permission.storage.request();
-        if (result == PermissionStatus.granted) {
-          return true;
-        }
-      } else {
-        return true;
-      }
-    } else {
-      return true;
-    }
-    return false;
-  }
+  // Future<void> _prepareSaveDir() async {
+  //   _localPath = (await _findLocalPath())!;
 
-  Future<void> _prepareSaveDir() async {
-    _localPath = (await _findLocalPath())!;
+  //   print(_localPath);
+  //   final savedDir = Directory(_localPath);
+  //   bool hasExisted = await savedDir.exists();
+  //   if (!hasExisted) {
+  //     await savedDir.create();
+  //   }
+  // }
 
-    print(_localPath);
-    final savedDir = Directory(_localPath);
-    bool hasExisted = await savedDir.exists();
-    if (!hasExisted) {
-      await savedDir.create();
-    }
-  }
+  // Future<String?> _findLocalPath() async {
+  //   if (platform == TargetPlatform.android) {
+  //     return "/sdcard/download/";
+  //   } else {
+  //     var directory = await getApplicationDocumentsDirectory();
+  //     return directory.path + Platform.pathSeparator + 'Download';
+  //   }
+  // }
 
-  Future<String?> _findLocalPath() async {
-    if (platform == TargetPlatform.android) {
-      return "/sdcard/download/";
-    } else {
-      var directory = await getApplicationDocumentsDirectory();
-      return directory.path + Platform.pathSeparator + 'Download';
-    }
-  }
-
-  Future<void> openFile(File file) async {
-    final filePath = _localPath + "/" + "${DateTime.now()}.csv";
-    await OpenFilex.open(filePath);
-  }
+  // Future<void> openFile(File file) async {
+  //   final filePath = _localPath + "/" + "${DateTime.now()}.csv";
+  //   await OpenFilex.open(filePath);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -121,41 +104,8 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
             // *** To be implemented ***
             IconButton(
           onPressed: () async {
-            showDialog(
-              context: context,
-              builder: (BuildContext context) => AlertDialog(
-                title: Text('File Downloaded'),
-                content: Text('Do you want to view the file?'),
-                actions: [
-                  TextButton(
-                    onPressed: () async {
-                      file = await TransactionRepository().downloadCSV();
-                      print(file.path);
-                      print(await file.readAsString());
-                      _permissionReady = await _checkPermission();
-                      if (_permissionReady) {
-                        await _prepareSaveDir();
-                        print("Downloading");
-                        try {
-                          print("Download Completed.");
-                          openFile(file);
-                        } catch (e) {
-                          print("Download Failed.\n\n" + e.toString());
-                        }
-                      } else {
-                        print(123);
-                      }
-                    },
-                    child: Text('Open'),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      Navigator.of(context).pop();
-                    },
-                    child: Text('Cancel'),
-                  ),
-                ],
-              ),
+            _transactionBloc.add(
+              TransactionDownloaded(),
             );
           },
           icon: Icon(
@@ -167,7 +117,39 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
         children: [
           FiltersHeaderView(),
           Expanded(
-            child: BlocBuilder<TransactionBloc, TransactionState>(
+            child: BlocConsumer<TransactionBloc, TransactionState>(
+              bloc: _transactionBloc,
+              listenWhen: (previous, current) {
+                if (previous.csvFile == null && current.csvFile != null)
+                  return true;
+                return false;
+              },
+              listener: (context, state) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text('File Downloaded'),
+                    content: Text('Do you want to view the file?'),
+                    actions: [
+                      TextButton(
+                        onPressed: () async {
+                          Navigator.pop(context);
+                          await OpenFilex.open(
+                            _transactionBloc.state.csvFile?.path,
+                          );
+                        },
+                        child: Text('Open'),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Text('Cancel'),
+                      ),
+                    ],
+                  ),
+                );
+              },
               builder: (context, state) {
                 if (state.theStates == TheStates.success)
                   return Column(
@@ -198,9 +180,9 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
                                       : state.transactions.length + 1,
                                   itemBuilder: (context, index) {
                                     if (index >= state.transactions.length) {
-                                      context
-                                          .read<TransactionBloc>()
-                                          .add(TransactionLoaded());
+                                      _transactionBloc.add(
+                                        TransactionLoaded(),
+                                      );
                                       return const BottomLoader();
                                     } else {
                                       return TransactionCard(
@@ -261,7 +243,7 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
   }
 
   void _onScroll() {
-    if (_isBottom) context.read<TransactionBloc>().add(TransactionLoaded());
+    if (_isBottom) _transactionBloc.add(TransactionLoaded());
   }
 
   bool get _isBottom {

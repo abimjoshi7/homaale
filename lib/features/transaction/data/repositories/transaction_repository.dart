@@ -60,17 +60,14 @@ class TransactionRepository {
         ),
       );
 
-  Future<File> downloadCSV() async {
+  Future<String> downloadCSV() async {
     try {
       final res = await _dio.getDatawithCredential(
         url: kTransactionDownloadPath,
         token: CacheHelper.accessToken,
       );
 
-      final x = await FileStorageHelper().writeData(
-        res as String,
-      );
-      return x;
+      return res as String;
     } catch (e) {
       throw Exception("CSV download error: $e");
     }
