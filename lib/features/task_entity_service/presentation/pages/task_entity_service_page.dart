@@ -397,6 +397,9 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                                       0)));
                                       Navigator.pop(context);
                                     },
+                                    onNegotiatePressed: () {
+                                      //TODO:
+                                    },
                                   ),
                                   // callback: () {
                                   //   showDialog(

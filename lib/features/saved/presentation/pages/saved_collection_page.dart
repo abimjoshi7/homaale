@@ -22,12 +22,14 @@ class SavedCollectionPage extends StatefulWidget {
 class SavedCollectionPageState extends State<SavedCollectionPage> {
   @override
   Widget build(BuildContext context) {
-    final routeData = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final routeData =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     final heading = routeData?['heading'] as String?;
     final data = routeData?['data'] as List<Result>?;
 
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: heading ?? '', trailingWidget: SizedBox()),
+      appBar:
+          CustomAppBar(appBarTitle: heading ?? '', trailingWidget: SizedBox()),
       body: heading == 'Tasks'
           ? Padding(
               padding: const EdgeInsets.all(8.0),
@@ -38,22 +40,39 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
                             context.read<TaskBloc>().add(
                                   SingleEntityTaskLoadInitiated(
                                     id: e.data?.id.toString() ?? '',
+                                    userId: context
+                                            .read<UserBloc>()
+                                            .state
+                                            .taskerProfile
+                                            ?.user
+                                            ?.id ??
+                                        '',
                                   ),
                                 );
-                            Navigator.pushNamed(context, SingleTaskPage.routeName);
+                            Navigator.pushNamed(
+                                context, SingleTaskPage.routeName);
                           },
                           child: TaskCard(
                             id: e.data?.id.toString(),
                             isRange: e.data?.isRange ?? false,
                             isBookmarked: e.data?.isBookmarked,
-                            isOwner: e.data?.createdBy?.id == context.read<UserBloc>().state.taskerProfile?.user?.id,
+                            isOwner: e.data?.createdBy?.id ==
+                                context
+                                    .read<UserBloc>()
+                                    .state
+                                    .taskerProfile
+                                    ?.user
+                                    ?.id,
                             buttonLabel: 'Apply now',
                             startRate: '${e.data?.budgetFrom ?? 0}',
                             endRate: '${e.data?.budgetTo ?? 0}',
                             budgetType: '${e.data?.budgetType}',
                             count: e.data?.count.toString(),
-                            imageUrl: e.data?.createdBy?.profileImage ?? kServiceImageNImg,
-                            location: e.data?.location == '' ? 'Remote' : e.data?.location,
+                            imageUrl: e.data?.createdBy?.profileImage ??
+                                kServiceImageNImg,
+                            location: e.data?.location == ''
+                                ? 'Remote'
+                                : e.data?.location,
                             endHour: Jiffy(
                               e.data?.createdAt.toString(),
                             ).jm,
@@ -65,9 +84,17 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
                               context.read<TaskBloc>().add(
                                     SingleEntityTaskLoadInitiated(
                                       id: e.data?.id.toString() ?? '',
+                                      userId: context
+                                              .read<UserBloc>()
+                                              .state
+                                              .taskerProfile
+                                              ?.user
+                                              ?.id ??
+                                          '',
                                     ),
                                   );
-                              Navigator.pushNamed(context, ApplyTaskPage.routeName);
+                              Navigator.pushNamed(
+                                  context, ApplyTaskPage.routeName);
                             },
                             onTapCallback: () {},
                           ),
@@ -102,17 +129,23 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
                       },
                       child: ServiceCard(
                         id: e.data?.id.toString(),
-                        location: '${e.data?.location == '' ? 'Remote' : e.data?.location ?? 'Remote'}',
+                        location:
+                            '${e.data?.location == '' ? 'Remote' : e.data?.location ?? 'Remote'}',
                         createdBy: "${e.data?.createdBy?.fullName}",
                         title: '${e.data?.title}',
                         imagePath: e.data?.images?.length == 0
                             ? kServiceImageNImg
-                            : e.data?.images?.first['media'].toString() ?? kServiceImageNImg,
+                            : e.data?.images?.first['media'].toString() ??
+                                kServiceImageNImg,
                         rating: e.data?.rating.toString(),
                         isBookmarked: e.data?.isBookmarked,
                         isRange: e.data?.isRange,
-                        rateTo: double.parse(e.data?.budgetFrom ?? "").toInt().toString(),
-                        rateFrom: double.parse(e.data?.budgetTo ?? "").toInt().toString(),
+                        rateTo: double.parse(e.data?.budgetFrom ?? "")
+                            .toInt()
+                            .toString(),
+                        rateFrom: double.parse(e.data?.budgetTo ?? "")
+                            .toInt()
+                            .toString(),
                         shareCallback: () {
                           Share.share(
                             "$kShareLinks/tasks/${e.data?.id.toString()}",

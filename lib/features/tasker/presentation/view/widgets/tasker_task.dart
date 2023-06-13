@@ -23,7 +23,8 @@ class _TaskerTaskState extends State<TaskerTask> {
   @override
   void initState() {
     super.initState();
-    context.read<TaskerCubit>().loadSingleTaskerTask(context.read<TaskerCubit>().state.singleTasker.user?.id ?? '');
+    context.read<TaskerCubit>().loadSingleTaskerTask(
+        context.read<TaskerCubit>().state.singleTasker.user?.id ?? '');
   }
 
   void onTaskPressed({
@@ -35,7 +36,10 @@ class _TaskerTaskState extends State<TaskerTask> {
       notLoggedInPopUp(context);
     }
     if (!CacheHelper.isLoggedIn) return;
-    context.read<TaskBloc>().add(SingleEntityTaskLoadInitiated(id: id));
+    context.read<TaskBloc>().add(SingleEntityTaskLoadInitiated(
+          id: id,
+          userId: context.read<UserBloc>().state.taskerProfile?.user?.id ?? '',
+        ));
     isApply
         ? Navigator.pushNamed(context, ApplyTaskPage.routeName)
         : Navigator.pushNamed(context, SingleTaskPage.routeName);
@@ -67,15 +71,23 @@ class _TaskerTaskState extends State<TaskerTask> {
                       id: state.task.result![index].id,
                       isBookmarked: state.task.result![index].isBookmarked,
                       isOwner: state.task.result![index].createdBy?.id ==
-                          context.read<UserBloc>().state.taskerProfile?.user?.id,
+                          context
+                              .read<UserBloc>()
+                              .state
+                              .taskerProfile
+                              ?.user
+                              ?.id,
                       buttonLabel: 'Apply Now',
                       startRate: '${state.task.result![index].budgetFrom ?? 0}',
                       endRate: '${state.task.result![index].budgetTo ?? 0}',
                       budgetType: '${state.task.result![index].budgetType}',
                       count: state.task.result![index].count.toString(),
-                      imageUrl: state.task.result![index].createdBy?.profileImage ?? kServiceImageNImg,
-                      location:
-                          state.task.result![index].location == '' ? 'Remote' : state.task.result![index].location,
+                      imageUrl:
+                          state.task.result![index].createdBy?.profileImage ??
+                              kServiceImageNImg,
+                      location: state.task.result![index].location == ''
+                          ? 'Remote'
+                          : state.task.result![index].location,
                       endHour: Jiffy(
                         state.task.result![index].createdAt.toString(),
                       ).jm,

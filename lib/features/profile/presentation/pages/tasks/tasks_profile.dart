@@ -4,8 +4,10 @@ import 'package:cipher/features/bloc/scroll_bloc.dart';
 import 'package:cipher/features/error_pages/no_internet_page.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
-import 'package:cipher/features/services/data/models/self_created_task_service.dart' as self;
+import 'package:cipher/features/services/data/models/self_created_task_service.dart'
+    as self;
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -27,11 +29,11 @@ class _TasksProfileState extends State<TasksProfile> {
     super.initState();
     _scrollBloc.add(
       FetchItemsEvent(
-       url: kMyTaskEntityServices,
-       data: {
+        url: kMyTaskEntityServices,
+        data: {
           "is_requested": true,
         },
-      newFetch:  true,
+        newFetch: true,
       ),
     );
     _controller.addListener(
@@ -40,11 +42,11 @@ class _TasksProfileState extends State<TasksProfile> {
           _controller,
           _scrollBloc.add(
             FetchItemsEvent(
-             url: kMyTaskEntityServices,
-             data: {
+              url: kMyTaskEntityServices,
+              data: {
                 "is_requested": true,
               },
-             newFetch :false,
+              newFetch: false,
             ),
           ),
         );
@@ -77,21 +79,23 @@ class _TasksProfileState extends State<TasksProfile> {
                 ? CommonErrorContainer(
                     assetsPath: 'assets/no_data_found.png',
                     errorTile: 'No tasks found.',
-                    errorDes: 'We’re sorry, the data you search could not found. '
+                    errorDes:
+                        'We’re sorry, the data you search could not found. '
                         'Please post a task.',
                   )
                 : ListView.builder(
                     padding: EdgeInsets.zero,
-                    itemCount: state.hasReachedMax ? data.length : data.length + 1,
+                    itemCount:
+                        state.hasReachedMax ? data.length : data.length + 1,
                     itemBuilder: (context, index) {
                       if (index >= data.length) {
                         _scrollBloc.add(
                           FetchItemsEvent(
-                           url: kMyTaskEntityServices,
-                           data: {
+                            url: kMyTaskEntityServices,
+                            data: {
                               "is_requested": true,
                             },
-                            newFetch:false,
+                            newFetch: false,
                           ),
                         );
                         return BottomLoader();
@@ -106,8 +110,11 @@ class _TasksProfileState extends State<TasksProfile> {
                           endRate: '${data[index].budgetTo ?? 0}',
                           budgetType: '${data[index].budgetType}',
                           count: data[index].viewsCount.toString(),
-                          imageUrl: data[index].createdBy?.profileImage ?? kServiceImageNImg,
-                          location: data[index].location == '' ? 'Remote' : data[index].location,
+                          imageUrl: data[index].createdBy?.profileImage ??
+                              kServiceImageNImg,
+                          location: data[index].location == ''
+                              ? 'Remote'
+                              : data[index].location,
                           endHour: Jiffy(
                             data[index].createdAt.toString(),
                           ).jm,
@@ -121,9 +128,15 @@ class _TasksProfileState extends State<TasksProfile> {
                               context: context,
                               isScrollControlled: true,
                               builder: (context) => Container(
-                                height: MediaQuery.of(context).size.height * 0.75,
+                                height:
+                                    MediaQuery.of(context).size.height * 0.75,
                                 padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context).viewInsets.bottom, left: 8, right: 8, top: 8),
+                                    bottom: MediaQuery.of(context)
+                                        .viewInsets
+                                        .bottom,
+                                    left: 8,
+                                    right: 8,
+                                    top: 8),
                                 child: SingleChildScrollView(
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -139,8 +152,20 @@ class _TasksProfileState extends State<TasksProfile> {
                             );
                           },
                           callback: () {
-                            context.read<TaskBloc>().add(SingleEntityTaskLoadInitiated(id: data[index].id ?? ''));
-                            Navigator.pushNamed(context, SingleTaskPage.routeName);
+                            context.read<TaskBloc>().add(
+                                  SingleEntityTaskLoadInitiated(
+                                    id: data[index].id ?? '',
+                                    userId: context
+                                            .read<UserBloc>()
+                                            .state
+                                            .taskerProfile
+                                            ?.user
+                                            ?.id ??
+                                        '',
+                                  ),
+                                );
+                            Navigator.pushNamed(
+                                context, SingleTaskPage.routeName);
                           },
                           onTapCallback: () {},
                         ),
