@@ -712,7 +712,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                       Navigator.pop(context);
                                     },
                                     onNegotiatePressed: () {
-                                      //TODO:
+                                      //TODO: chat navigation
                                     },
                                   ),
                                   buttonWidth:

@@ -398,7 +398,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                       Navigator.pop(context);
                                     },
                                     onNegotiatePressed: () {
-                                      //TODO:
+                                      //TODO: chat navigations
                                     },
                                   ),
                                   // callback: () {
