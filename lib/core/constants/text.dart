@@ -237,7 +237,7 @@ const kHelper15 = TextStyle(
 );
 
 const kSkipHelper = TextStyle(
-  fontSize: 20,
+  fontSize: 18,
   fontWeight: FontWeight.w400,
   color: Color(0xff868E96),
 );

@@ -1,6 +1,8 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/content_client/presentation/pages/privacy_policy.dart';
 import 'package:cipher/features/content_client/presentation/pages/terms_of_use.dart';
+import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
 import 'package:cipher/features/sign_up/presentation/pages/otp_sign_up.dart';
@@ -219,6 +221,56 @@ class _SignUpPageState extends State<SignUpPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(
+        appBarTitle: "",
+        leadingWidget: IconButton(
+          onPressed: () {
+            if (!mounted) return;
+            Navigator.pushNamedAndRemoveUntil(
+              context,
+              SignInPage.routeName,
+              (route) => false,
+            );
+          },
+          icon: const Icon(Icons.arrow_back),
+        ),
+        trailingWidget: Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            GestureDetector(
+              onTap: () {
+                context.read<SignInBloc>().add(SignInWithoutCredentials());
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Root.routeName,
+                  (route) => false,
+                );
+              },
+              child: Visibility(
+                visible: true,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    right: 8.0,
+                  ),
+                  child: Row(
+                    children: [
+                      Text(
+                        'Skip',
+                        style: kSkipHelper.copyWith(color: kColorSilver),
+                      ),
+                      Icon(
+                        Icons.arrow_forward_ios_rounded,
+                        size: 12,
+                        color: kColorSilver,
+                      )
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
       resizeToAvoidBottomInset: false,
       body: BlocListener<SignupBloc, SignUpState>(
         listener: (_, state) {
@@ -234,7 +286,7 @@ class _SignUpPageState extends State<SignUpPage> {
           builder: (_, state) {
             return Column(
               children: <Widget>[
-                SignUpHeaderSection(mounted: mounted),
+                SignUpHeaderSection(),
                 Flexible(
                   flex: 3,
                   child: Form(

@@ -8,16 +8,19 @@ class CustomDottedContainerStack extends StatelessWidget {
     Key? key,
     this.theHeight = 48,
     this.theWidget,
+    this.theColor = Colors.transparent,
   }) : super(key: key);
 
   final double? theHeight;
   final Widget? theWidget;
+  final Color? theColor;
 
   @override
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        SizedBox(
+        Container(
+          color: theColor,
           height: theHeight,
           width: double.infinity,
           child: DashedRect(

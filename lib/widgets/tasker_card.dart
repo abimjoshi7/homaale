@@ -96,7 +96,7 @@ class TaskerCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         WidgetText(
                           label: happyClients ?? '0',
@@ -120,7 +120,7 @@ class TaskerCard extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         IconText(
                           label: ratings ?? '',
@@ -139,48 +139,7 @@ class TaskerCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: IconText(
-                        label: ratings ?? '',
-                        iconData: Icons.star_rate_rounded,
-                        size: 15,
-                        color: kColorAmber,
-                      ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: <Widget>[
-                        SizedBox(),
-                        SizedBox(
-                          height: 30,
-                          width: buttonWidth ?? 80,
-                          child: CustomElevatedButton(
-                            borderColor: kColorPrimary,
-                            mainColor: isFollowed ?? false
-                                ? Colors.white
-                                : kColorPrimary,
-                            textColor: isFollowed ?? false
-                                ? kColorPrimary
-                                : Colors.white,
-                            callback: () {
-                              if (!CacheHelper.isLoggedIn) {
-                                notLoggedInPopUp(context);
-                              }
-                              if (!CacheHelper.isLoggedIn) return;
-                              callback();
-                            },
-                            label: callbackLabel ?? 'Hire Me',
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  _buildButton(context),
                   SizedBox(
                     height: 5,
                   ),
@@ -189,6 +148,26 @@ class TaskerCard extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  SizedBox _buildButton(BuildContext context) {
+    return SizedBox(
+      height: 30,
+      width: buttonWidth ?? 80,
+      child: CustomElevatedButton(
+        borderColor: kColorPrimary,
+        mainColor: isFollowed ?? false ? Colors.white : kColorPrimary,
+        textColor: isFollowed ?? false ? kColorPrimary : Colors.white,
+        callback: () {
+          if (!CacheHelper.isLoggedIn) {
+            notLoggedInPopUp(context);
+          }
+          if (!CacheHelper.isLoggedIn) return;
+          callback();
+        },
+        label: callbackLabel ?? 'Hire Me',
       ),
     );
   }

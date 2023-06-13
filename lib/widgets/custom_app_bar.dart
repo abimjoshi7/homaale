@@ -22,8 +22,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       title: AutoSizeText(
         appBarTitle,
         minFontSize: 14,
-        style: Theme.of(context).textTheme.bodySmall,
-      
+        style: Theme.of(context).textTheme.displayLarge,
       ),
       centerTitle: true,
       automaticallyImplyLeading: false,

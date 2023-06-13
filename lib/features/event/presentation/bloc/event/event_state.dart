@@ -1,14 +1,14 @@
 part of 'event_bloc.dart';
 
 class EventState extends Equatable {
-  final TheStates? theStates;
+  final TheStates theStates;
   final Event? event;
   final CreateEventRes? createdEventRes;
-  final bool? isLoaded;
-  final bool? isCreated;
-  final bool? isAvailable;
-  final bool? isDeleted;
-  final bool? isEdited;
+  final bool isLoaded;
+  final bool isCreated;
+  final bool isAvailable;
+  final bool isDeleted;
+  final bool isEdited;
   final String? errMsg;
   final String? entityServiceId;
   // final CreateScheduleRes? createScheduleRes;
