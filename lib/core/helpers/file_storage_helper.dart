@@ -11,7 +11,7 @@ class FileStorageHelper {
 
   Future<File> get _localFile async {
     final path = await _localPath;
-    return File('$path/${path.hashCode}.csv');
+    return File('$path/${DateTime.now()}.csv');
   }
 
   Future<File> writeData(String data) async {

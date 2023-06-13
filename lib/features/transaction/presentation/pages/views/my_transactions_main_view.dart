@@ -25,7 +25,6 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
   late String _localPath;
   late bool _permissionReady;
   late TargetPlatform? platform;
-  var _openResult = 'Unknown';
   late File file;
 
   Color _buildColor(Transactions transactions, UserState user) {
@@ -73,9 +72,7 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
     if (platform == TargetPlatform.android) {
       final status = await Permission.storage.status;
       if (status == PermissionStatus.denied ||
-          status == PermissionStatus.permanentlyDenied)
-        await Permission.storage.request();
-      // await openAppSettings();
+          status == PermissionStatus.permanentlyDenied) await openAppSettings();
       if (status != PermissionStatus.granted) {
         final result = await Permission.storage.request();
         if (result == PermissionStatus.granted) {
@@ -111,13 +108,8 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
   }
 
   Future<void> openFile(File file) async {
-    // final filePath = _localPath + "/" + "codeplayon.csv";
-    final filePath = file.path;
-    final result = await OpenFilex.open(filePath);
-
-    setState(() {
-      _openResult = "type=${result.type}  message=${result.message}";
-    });
+    final filePath = _localPath + "/" + "${DateTime.now()}.csv";
+    await OpenFilex.open(filePath);
   }
 
   @override
@@ -137,17 +129,17 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
                 actions: [
                   TextButton(
                     onPressed: () async {
+                      file = await TransactionRepository().downloadCSV();
+                      print(file.path);
+                      print(await file.readAsString());
                       _permissionReady = await _checkPermission();
                       if (_permissionReady) {
                         await _prepareSaveDir();
                         print("Downloading");
                         try {
                           print("Download Completed.");
-                          // openFile(q);
+                          openFile(file);
                         } catch (e) {
-                          print(
-                            e.toString(),
-                          );
                           print("Download Failed.\n\n" + e.toString());
                         }
                       } else {
