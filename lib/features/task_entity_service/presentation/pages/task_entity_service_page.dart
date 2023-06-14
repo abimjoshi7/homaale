@@ -184,13 +184,13 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.21,
+                            height: MediaQuery.of(context).size.height * 0.22,
                             child: CarouselSlider.builder(
                               itemCount: mediaList.length,
                               itemBuilder: (context, index, realIndex) {
                                 return Container(
                                   height:
-                                      MediaQuery.of(context).size.height * 0.2,
+                                      MediaQuery.of(context).size.height * 0.21,
                                   margin: EdgeInsets.only(right: 32),
                                   child: mediaList[index]
                                               .mediaType
@@ -339,7 +339,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                           ),
                           addVerticalSpace(10),
                           SizedBox(
-                            height: 500,
+                            height: 505,
                             child: GridView.count(
                               shrinkWrap: true,
                               padding: EdgeInsets.zero,
@@ -350,6 +350,9 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                   onFavouriteTapped: () => {},
                                   callback: () => showApplicantDetailsDialog(
                                     context: context,
+                                    isNegotiable:
+                                        state.taskEntityService?.isNegotiable ??
+                                            false,
                                     profileImage: state
                                             .applicantModel
                                             ?.result?[index]

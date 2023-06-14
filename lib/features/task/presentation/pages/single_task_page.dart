@@ -662,6 +662,8 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                   onFavouriteTapped: () {},
                                   callback: () => showApplicantDetailsDialog(
                                     context: context,
+                                    isNegotiable:
+                                        state.taskModel?.isNegotiable ?? false,
                                     profileImage: state
                                             .applicantModel
                                             ?.result?[index]

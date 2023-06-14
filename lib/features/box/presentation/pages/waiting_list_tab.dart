@@ -72,7 +72,9 @@ class _WaitingListTabState extends State<WaitingListTab> {
     return BlocBuilder<ScrollBloc, ScrollState>(
       bloc: _scrollBloc,
       builder: (context, state) {
-        var data = state.result.map((e) => Result.fromJson(e as Map<String, dynamic>)).toList();
+        var data = state.result
+            .map((e) => Result.fromJson(e as Map<String, dynamic>))
+            .toList();
         if (state.theState == TheStates.success) {
           return Column(
             children: [
@@ -93,7 +95,8 @@ class _WaitingListTabState extends State<WaitingListTab> {
                   child: ListView.builder(
                     controller: _controller,
                     padding: EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: state.hasReachedMax ? data.length : data.length + 1,
+                    itemCount:
+                        state.hasReachedMax ? data.length : data.length + 1,
                     itemBuilder: (context, index) {
                       if (index >= data.length) {
                         _scrollBloc.add(
@@ -111,6 +114,9 @@ class _WaitingListTabState extends State<WaitingListTab> {
                       return Container(
                         margin: EdgeInsets.symmetric(vertical: 8),
                         child: BookingsServiceCard(
+                          // "isTask" is only passed in waiting list box feature
+                          isTask:
+                              data[index].entityService?.isRequested == true,
                           callback: () {
                             context.read<BookingsBloc>().add(
                                   BookingSingleLoaded(
@@ -123,7 +129,8 @@ class _WaitingListTabState extends State<WaitingListTab> {
                             );
                           },
                           editTap: () async {
-                            if (data[index].status?.toLowerCase() == 'pending') {
+                            if (data[index].status?.toLowerCase() ==
+                                'pending') {
                               Navigator.pop(context);
                               showEditForm(context, data[index]);
                             } else {
@@ -142,9 +149,13 @@ class _WaitingListTabState extends State<WaitingListTab> {
                             }
                           },
                           deleteTap: () {
-                            if (data[index].status?.toLowerCase() == 'pending') {
+                            if (data[index].status?.toLowerCase() ==
+                                'pending') {
                               bookingsBloc.add(
-                                BookingRejected(rejectReq: RejectReq(booking: data[index].id ?? 0), isTask: true),
+                                BookingRejected(
+                                    rejectReq:
+                                        RejectReq(booking: data[index].id ?? 0),
+                                    isTask: true),
                               );
                               Navigator.pop(context);
                             } else {
@@ -163,9 +174,11 @@ class _WaitingListTabState extends State<WaitingListTab> {
                             }
                           },
                           cancelTap: () {
-                            if (data[index].status?.toLowerCase() == 'pending') {
+                            if (data[index].status?.toLowerCase() ==
+                                'pending') {
                               bookingsBloc.add(
-                                BookingCancelled(id: data[index].id ?? 0, isTask: true),
+                                BookingCancelled(
+                                    id: data[index].id ?? 0, isTask: true),
                               );
                               Navigator.pop(context);
                             } else {
@@ -246,7 +259,8 @@ class _WaitingListTabState extends State<WaitingListTab> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label: "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
+                  label:
+                      "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
                   color: kColorGreen,
                 ),
               ),

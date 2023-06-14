@@ -1,9 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 
 class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
   final String? serviceName;
@@ -22,6 +22,8 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
   final VoidCallback? deleteTap;
   final double? theHeight;
   final bool? hidePopupButton;
+  // "isTask" is only passed in waiting list box feature
+  final bool? isTask;
 
   const BookingsServiceCard({
     Key? key,
@@ -39,8 +41,9 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
     this.editTap,
     this.cancelTap,
     this.deleteTap,
-    this.hidePopupButton = false,
     this.theHeight,
+    this.hidePopupButton = false,
+    this.isTask,
   }) : super(key: key);
 
   @override
@@ -217,6 +220,23 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                         bottomLeftWidget ??
                             Row(
                               children: [
+                                isTask != null
+                                    ? SizedBox(
+                                        height: 30.0,
+                                        // width: 55.0,
+                                        child: Chip(
+                                          backgroundColor: Colors.grey,
+                                          label: Text(
+                                            isTask == true ? 'Task' : 'Service',
+                                            style: TextStyle(
+                                              color: Colors.white,
+                                              fontSize: 12.0,
+                                            ),
+                                          ),
+                                        ),
+                                      )
+                                    : SizedBox.shrink(),
+                                addHorizontalSpace(4.0),
                                 const Text("Status :"),
                                 kWidth5,
                                 Chip(

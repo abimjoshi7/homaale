@@ -7,6 +7,7 @@ showApplicantDetailsDialog({
   required String profileImage,
   bool? isProfileVerified = false,
   String? label,
+  bool isNegotiable = false,
   String? designation,
   String? distance,
   String? successRate,
@@ -16,7 +17,7 @@ showApplicantDetailsDialog({
   String? budget,
   String? description,
   String? status,
-	required VoidCallback onNegotiatePressed,
+  required VoidCallback onNegotiatePressed,
   required VoidCallback onApprovePressed,
   required VoidCallback onRejectPressed,
 }) {
@@ -24,7 +25,7 @@ showApplicantDetailsDialog({
     context: context,
     builder: (context) => Dialog(
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.75,
+        height: MediaQuery.of(context).size.height * 0.88,
         width: MediaQuery.of(context).size.width * 0.8,
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -86,11 +87,11 @@ showApplicantDetailsDialog({
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconText(
-                  iconData: Icons.navigation_outlined,
-                  color: kColorSilver,
-                  label: distance ?? '0',
-                ),
+                // IconText(
+                //   iconData: Icons.navigation_outlined,
+                //   color: kColorSilver,
+                //   label: distance ?? '0',
+                // ),
                 IconText(
                   iconData: Icons.military_tech_rounded,
                   color: kColorSilver,
@@ -161,10 +162,10 @@ showApplicantDetailsDialog({
                     CustomElevatedButton(
                       theWidth: MediaQuery.of(context).size.width,
                       borderColor: kColorPrimary,
-                      mainColor: kColorPrimary,
+                      mainColor: isNegotiable ? kColorPrimary : Colors.grey,
                       label: 'Negotiate',
                       textColor: Colors.white,
-                      callback: onNegotiatePressed,
+                      callback: isNegotiable ? onNegotiatePressed : () {},
                     ),
                     addVerticalSpace(13.0),
                     CustomElevatedButton(
