@@ -5,6 +5,7 @@ import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_item_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
 import 'package:cipher/features/error_pages/no_internet_page.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -28,9 +29,9 @@ class _HistorySectionState extends State<HistorySection> {
     super.initState();
     _scrollBloc.add(
       FetchItemsEvent(
-      url:  kBookingList,
-       data: {},
-       newFetch: true,
+        url: kBookingList,
+        data: {},
+        newFetch: true,
       ),
     );
     _controller.addListener(
@@ -39,9 +40,8 @@ class _HistorySectionState extends State<HistorySection> {
           _controller,
           _scrollBloc.add(
             FetchItemsEvent(
-              url:kBookingList,
-              data:
-              {},
+              url: kBookingList,
+              data: {},
               newFetch: false,
             ),
           ),
@@ -84,9 +84,9 @@ class _HistorySectionState extends State<HistorySection> {
                                 if (index >= state.result.length) {
                                   _scrollBloc.add(
                                     FetchItemsEvent(
-                                   url:   kBookingList,
-                                    data:  {},
-                                    newFetch:  false,
+                                      url: kBookingList,
+                                      data: {},
+                                      newFetch: false,
                                     ),
                                   );
                                   return BottomLoader();
@@ -168,7 +168,10 @@ class _HistorySectionState extends State<HistorySection> {
     return Column(
       children: [
         Text(
-          "Rs. ${Decimal.parse(result.entityService?.budgetFrom ?? '0.0')} - Rs. ${Decimal.parse(result.entityService?.budgetTo ?? '0.0')}",
+          result.assignee?.id == context.read<UserBloc>().state.taskerProfile?.user?.id
+              ? "Rs. ${Decimal.parse(result.earning ?? '0.0')}"
+              : "Rs. ${Decimal.parse(result.price ?? '0.0')}",
+          // "Rs. ${Decimal.parse(result.entityService?.budgetFrom ?? '0.0')} - Rs. ${Decimal.parse(result.entityService?.budgetTo ?? '0.0')}",
           // style: kText17,
         ),
         const Text(
