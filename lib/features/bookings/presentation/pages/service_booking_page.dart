@@ -45,12 +45,11 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
     const ScheduleView(),
     const DetailsView(),
   ];
-  late final UploadBloc uploadBloc;
+  final _uploadBloc = locator<UploadBloc>();
 
   @override
   void initState() {
     super.initState();
-    uploadBloc = context.read<UploadBloc>();
     _pageController = PageController(
       initialPage: selectedIndex,
     );
@@ -58,6 +57,7 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
 
   @override
   void dispose() {
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -78,15 +78,21 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: [
-                      ServiceBookingHeaderSection(
-                        selectedIndex: selectedIndex,
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 6,
+                        ),
+                        child: ServiceBookingHeaderSection(
+                          selectedIndex: selectedIndex,
+                        ),
                       ),
                       Expanded(
                         child: PageView.builder(
                           physics: const NeverScrollableScrollPhysics(),
                           controller: _pageController,
                           itemCount: widgetList.length,
-                          itemBuilder: (context, index) => widgetList[index % widgetList.length],
+                          itemBuilder: (context, index) =>
+                              widgetList[index % widgetList.length],
                         ),
                       ),
                     ],
@@ -107,7 +113,8 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
                             }
                           },
                           listener: (context, bookingState) async {
-                            if (bookingState.states == TheStates.success && bookingState.isBooked == true) {
+                            if (bookingState.states == TheStates.success &&
+                                bookingState.isBooked == true) {
                               showDialog(
                                 context: context,
                                 builder: (context) => CustomToast(
@@ -117,11 +124,19 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
                                     final chatBloc = locator<ChatBloc>();
 
                                     chatBloc.add(HandleUserCreationChat(
-                                      userID: context.read<UserBloc>().state.taskerProfile?.user?.id,
-                                      taskerID: state.taskEntityService?.createdBy?.id,
+                                      userID: context
+                                          .read<UserBloc>()
+                                          .state
+                                          .taskerProfile
+                                          ?.user
+                                          ?.id,
+                                      taskerID: state
+                                          .taskEntityService?.createdBy?.id,
                                     ));
 
-                                    await CacheHelper.clearCachedData(kBookedMap).whenComplete(
+                                    await CacheHelper.clearCachedData(
+                                            kBookedMap)
+                                        .whenComplete(
                                       () {
                                         Navigator.pushNamedAndRemoveUntil(
                                           context,
@@ -160,6 +175,7 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
       child: Visibility(
         visible: selectedIndex == 1,
         child: BlocBuilder<UploadBloc, UploadState>(
+          bloc: _uploadBloc,
           builder: (context, state) {
             return CustomElevatedButton(
               mainColor: Colors.white,
@@ -185,32 +201,44 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
 
   Widget showBookButton(TaskEntityServiceState state, BuildContext context) {
     return BlocListener<EventBloc, EventState>(
+      listenWhen: (previous, current) {
+        if (previous.isLoaded == false && current.isLoaded == false)
+          return false;
+        return true;
+      },
       listener: (context, eventState) async {
-        if (eventState.theStates == TheStates.success && eventState.isLoaded == true) {
-          if (uploadBloc.state.imageFileList.length != 0 || uploadBloc.state.videoFileList.length != 0)
-            await _uploadFile();
+        if (eventState.theStates == TheStates.success &&
+            eventState.isLoaded == true) {
+          if (_uploadBloc.state.imageFileList.length != 0 ||
+              _uploadBloc.state.videoFileList.length != 0) await _uploadFile();
           final req = BookEntityServiceReq(
-            location: state.taskEntityService!.location!.isEmpty ? "Remote" : state.taskEntityService?.location,
+            location: state.taskEntityService!.location!.isEmpty
+                ? "Remote"
+                : state.taskEntityService?.location,
             entityService: state.taskEntityService?.id,
             price: context.read<BookEventHandlerBloc>().state.budget,
             budgetTo: context.read<BookEventHandlerBloc>().state.budget,
-            requirements: context.read<BookEventHandlerBloc>().state.requirements == null
-                ? []
-                : List<String>.from(
-                    state.taskEntityService?.highlights as Iterable,
-                  ),
-            startDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
-            endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
+            requirements:
+                context.read<BookEventHandlerBloc>().state.requirements == null
+                    ? []
+                    : List<String>.from(
+                        state.taskEntityService?.highlights as Iterable,
+                      ),
+            startDate: DateTime.parse(
+                context.read<BookEventHandlerBloc>().state.endDate!),
+            endDate: DateTime.parse(
+                context.read<BookEventHandlerBloc>().state.endDate!),
             startTime: context.read<BookEventHandlerBloc>().state.startTime,
             endTime: context.read<BookEventHandlerBloc>().state.endTime,
             description: context.read<BookEventHandlerBloc>().state.description,
             city: context.read<BookEventHandlerBloc>().state.city,
-            images: context.read<UploadBloc>().state.uploadedImageList,
-            videos: context.read<UploadBloc>().state.uploadedVideoList,
+            images: _uploadBloc.state.uploadedImageList,
+            videos: _uploadBloc.state.uploadedVideoList,
           );
           context.read<BookingsBloc>().add(BookingCreated(req));
         }
-        if (eventState.theStates == TheStates.failure && eventState.isLoaded == false) {
+        if (eventState.theStates == TheStates.failure &&
+            eventState.isLoaded == false) {
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -233,34 +261,46 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
             _pageController.jumpToPage(1);
           } else {
             if (state.taskEntityService?.event == null) {
-              if (uploadBloc.state.imageFileList.length != 0 || uploadBloc.state.videoFileList.length != 0)
+              if (_uploadBloc.state.imageFileList.length != 0 ||
+                  _uploadBloc.state.videoFileList.length != 0)
                 await _uploadFile();
               final req = BookEntityServiceReq(
-                location: state.taskEntityService!.location!.isEmpty ? "Remote" : state.taskEntityService?.location,
+                location: state.taskEntityService!.location!.isEmpty
+                    ? "Remote"
+                    : state.taskEntityService?.location,
                 entityService: state.taskEntityService?.id,
                 price: context.read<BookEventHandlerBloc>().state.budget,
                 budgetTo: context.read<BookEventHandlerBloc>().state.budget,
-                requirements: context.read<BookEventHandlerBloc>().state.requirements == null
-                    ? []
-                    : List<String>.from(
-                        state.taskEntityService?.highlights as Iterable,
-                      ),
-                startDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
-                endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
+                requirements:
+                    context.read<BookEventHandlerBloc>().state.requirements ==
+                            null
+                        ? []
+                        : List<String>.from(
+                            state.taskEntityService?.highlights as Iterable,
+                          ),
+                startDate: DateTime.parse(
+                    context.read<BookEventHandlerBloc>().state.endDate!),
+                endDate: DateTime.parse(
+                    context.read<BookEventHandlerBloc>().state.endDate!),
                 startTime: context.read<BookEventHandlerBloc>().state.startTime,
                 endTime: context.read<BookEventHandlerBloc>().state.endTime,
-                description: context.read<BookEventHandlerBloc>().state.description,
+                description:
+                    context.read<BookEventHandlerBloc>().state.description,
                 city: context.read<BookEventHandlerBloc>().state.city,
-                images: context.read<BookEventHandlerBloc>().state.images == null
-                    ? []
-                    : List<int>.from(
-                        context.read<BookEventHandlerBloc>().state.images as Iterable,
-                      ),
-                videos: context.read<BookEventHandlerBloc>().state.videos == null
-                    ? []
-                    : List<int>.from(
-                        context.read<BookEventHandlerBloc>().state.videos as Iterable,
-                      ),
+                images:
+                    context.read<BookEventHandlerBloc>().state.images == null
+                        ? []
+                        : List<int>.from(
+                            context.read<BookEventHandlerBloc>().state.images
+                                as Iterable,
+                          ),
+                videos:
+                    context.read<BookEventHandlerBloc>().state.videos == null
+                        ? []
+                        : List<int>.from(
+                            context.read<BookEventHandlerBloc>().state.videos
+                                as Iterable,
+                          ),
               );
               context.read<BookingsBloc>().add(
                     BookingCreated(req),
@@ -295,15 +335,15 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
       ),
     );
 
-    uploadBloc
+    _uploadBloc
       ..add(
         VideoToFilestoreUploaded(
-          list: uploadBloc.state.videoFileList,
+          list: _uploadBloc.state.videoFileList,
         ),
       )
       ..add(
         ImageToFilestoreUploaded(
-          list: uploadBloc.state.imageFileList,
+          list: _uploadBloc.state.imageFileList,
         ),
       );
 

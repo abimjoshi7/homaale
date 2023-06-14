@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/models.dart';
 import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
+import 'package:cipher/features/content_client/presentation/pages/pages.dart';
 import 'package:cipher/features/services/presentation/pages/sections/detail_header_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
@@ -21,11 +22,15 @@ class _DetailsViewState extends State<DetailsView> {
   final requirementController = TextEditingController();
   final problemDescController = TextEditingController();
   final budgetController = TextEditingController();
+  final addressController = TextEditingController();
 
   List<String> requirementList = [];
   List<int>? imageList;
   List<int>? fileList;
   int? cityCode;
+  String? addressType = 'On premise';
+  bool isAddressVisible = true;
+  bool isTermsAccepted = false;
 
   final uploadBloc = locator<UploadBloc>();
 
@@ -34,7 +39,13 @@ class _DetailsViewState extends State<DetailsView> {
     super.initState();
 
     budgetController.setText(
-      double.parse(context.read<TaskEntityServiceBloc>().state.taskEntityService!.payableTo!).toInt().toString(),
+      double.parse(context
+              .read<TaskEntityServiceBloc>()
+              .state
+              .taskEntityService!
+              .payableTo!)
+          .toInt()
+          .toString(),
     );
   }
 
@@ -43,6 +54,7 @@ class _DetailsViewState extends State<DetailsView> {
     requirementController.dispose();
     problemDescController.dispose();
     budgetController.dispose();
+    addressController.dispose();
     super.dispose();
   }
 
@@ -58,15 +70,20 @@ class _DetailsViewState extends State<DetailsView> {
             label: "Your Budget",
             child: BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
               builder: (context, state) {
-                if (state.taskEntityService?.isRange == true && state.taskEntityService?.isNegotiable == false)
+                if (state.taskEntityService?.isRange == true &&
+                    state.taskEntityService?.isNegotiable == false)
                   return SizedBox(
                     width: 100,
                     child: CustomTextFormField(
                       textInputType: TextInputType.number,
                       controller: budgetController,
                       onChanged: (p0) {
-                        if (double.parse(budgetController.text) > double.parse(state.taskEntityService!.payableTo!) ||
-                            double.parse(budgetController.text) < double.parse(state.taskEntityService!.payableFrom!)) {
+                        if (double.parse(budgetController.text) >
+                                double.parse(
+                                    state.taskEntityService!.payableTo!) ||
+                            double.parse(budgetController.text) <
+                                double.parse(
+                                    state.taskEntityService!.payableFrom!)) {
                           ScaffoldMessenger.of(context)
                             ..clearSnackBars()
                             ..showSnackBar(
@@ -84,7 +101,10 @@ class _DetailsViewState extends State<DetailsView> {
                                     budgetTo: double.parse(
                                       p0!,
                                     ),
-                                    endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
+                                    endDate: DateTime.parse(context
+                                        .read<BookEventHandlerBloc>()
+                                        .state
+                                        .endDate!),
                                   ),
                                 ),
                               );
@@ -94,16 +114,20 @@ class _DetailsViewState extends State<DetailsView> {
                 if (state.taskEntityService?.isNegotiable == true)
                   return NumberIncDecField(
                     controller: budgetController,
-                    onSubmit: (value) => context.read<BookEventHandlerBloc>().add(
-                          BookEventPicked(
-                            req: BookEntityServiceReq(
-                              budgetTo: double.parse(
-                                budgetController.text,
+                    onSubmit: (value) =>
+                        context.read<BookEventHandlerBloc>().add(
+                              BookEventPicked(
+                                req: BookEntityServiceReq(
+                                  budgetTo: double.parse(
+                                    budgetController.text,
+                                  ),
+                                  endDate: DateTime.parse(context
+                                      .read<BookEventHandlerBloc>()
+                                      .state
+                                      .endDate!),
+                                ),
                               ),
-                              endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
                             ),
-                          ),
-                        ),
                   );
                 return SizedBox(
                   width: 100,
@@ -120,7 +144,6 @@ class _DetailsViewState extends State<DetailsView> {
           child: CustomFormField(
             label: 'Requirements',
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -156,7 +179,8 @@ class _DetailsViewState extends State<DetailsView> {
                             },
                             child: const Icon(
                               Icons.clear,
-                              size: 14,
+                              size: 15,
+                              color: kColorGrey,
                             ),
                           ),
                         ],
@@ -168,21 +192,35 @@ class _DetailsViewState extends State<DetailsView> {
                 CustomTextFormField(
                   controller: requirementController,
                   hintText: 'Add requirements',
-                  onEditingComplete: () {
-                    setState(() {});
-                  },
-                  onFieldSubmitted: (p0) async {
-                    requirementList.add(p0!);
-                    context.read<BookEventHandlerBloc>().add(
-                          BookEventPicked(
-                            req: BookEntityServiceReq(
-                              requirements: requirementList,
-                              endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
-                            ),
-                          ),
+                  validator: (value) => requirementList.length == 0
+                      ? "Atleast 1 Requirement Required"
+                      : null,
+                  suffixWidget: IconButton(
+                    icon: Icon(
+                      Icons.add_box_outlined,
+                      color: kColorSecondary,
+                    ),
+                    onPressed: () {
+                      if (requirementController.text.isNotEmpty)
+                        setState(
+                          () {
+                            requirementList.add(requirementController.text);
+                            context.read<BookEventHandlerBloc>().add(
+                                  BookEventPicked(
+                                    req: BookEntityServiceReq(
+                                      requirements: requirementList,
+                                      endDate: DateTime.parse(context
+                                          .read<BookEventHandlerBloc>()
+                                          .state
+                                          .endDate!),
+                                    ),
+                                  ),
+                                );
+                            requirementController.clear();
+                          },
                         );
-                    requirementController.clear();
-                  },
+                    },
+                  ),
                 ),
               ],
             ),
@@ -201,7 +239,10 @@ class _DetailsViewState extends State<DetailsView> {
                     BookEventPicked(
                       req: BookEntityServiceReq(
                         description: problemDescController.text,
-                        endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
+                        endDate: DateTime.parse(context
+                            .read<BookEventHandlerBloc>()
+                            .state
+                            .endDate!),
                       ),
                     ),
                   ),
@@ -210,35 +251,45 @@ class _DetailsViewState extends State<DetailsView> {
         ),
         SliverToBoxAdapter(
           child: CustomFormField(
+            label: "Address",
             isRequired: true,
-            label: 'City',
-            child: BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
-              builder: (context, state) {
-                return BlocBuilder<CityBloc, CityState>(
-                  builder: (context, CityState) {
-                    if (CityState is CityLoadSuccess) {
-                      return CustomDropdownSearch(
-                          hintText: 'Select city',
-                          list: List.generate(
-                            CityState.list.length,
-                            (index) => CityState.list[index].name,
-                          ),
-                          onChanged: (p0) {
-                            final x = CityState.list.firstWhere(
-                              (element) => p0 == element.name,
-                            );
-
-                            context.read<BookEventHandlerBloc>().add(BookEventPicked(
-                                    req: BookEntityServiceReq(
-                                  city: x.id,
-                                  endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
-                                )));
-                          });
-                    }
-                    return SizedBox.shrink();
-                  },
-                );
-              },
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Radio<String>(
+                      value: 'Remote',
+                      groupValue: addressType,
+                      onChanged: (value) => setState(
+                        () {
+                          addressType = value;
+                          isAddressVisible = false;
+                        },
+                      ),
+                    ),
+                    const Text('Remote'),
+                    addHorizontalSpace(10),
+                    Radio<String>(
+                      value: 'On premise',
+                      groupValue: addressType,
+                      onChanged: (value) => setState(
+                        () {
+                          addressType = value;
+                          isAddressVisible = true;
+                        },
+                      ),
+                    ),
+                    const Text('On premise'),
+                  ],
+                ),
+                Visibility(
+                  visible: isAddressVisible,
+                  child: CustomTextFormField(
+                    hintText: "Enter address details",
+                    controller: addressController,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -248,6 +299,47 @@ class _DetailsViewState extends State<DetailsView> {
             child: CustomMultimedia(
               bloc: uploadBloc,
             ),
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: Row(
+            children: [
+              CustomCheckBox(
+                isChecked: isTermsAccepted,
+                onTap: () async {
+                  setState(
+                    () {
+                      isTermsAccepted = !isTermsAccepted;
+                    },
+                  );
+                },
+              ),
+              addHorizontalSpace(10),
+              const Flexible(
+                child: Text(
+                  'Accept all',
+                  style: TextStyle(
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+              Flexible(
+                child: TextButton(
+                  onPressed: () {
+                    Navigator.pushNamed(
+                      context,
+                      TermsOfUsePage.routeName,
+                    );
+                  },
+                  child: const Text(
+                    'Terms and Conditions.',
+                    style: TextStyle(
+                      fontSize: 12,
+                    ),
+                  ),
+                ),
+              ),
+            ],
           ),
         )
       ],
