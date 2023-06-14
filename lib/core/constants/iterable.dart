@@ -225,31 +225,37 @@ Map<String, dynamic> getBookingStatus(String status) {
 
 Map<String, dynamic> statusToUpdate(String status, bool isAssignee) {
   switch (status) {
-    case "Initiated":
+    case "initiated":
       return {
         "buttonLabel": isAssignee ? "Payment pending" : "Proceed to orders",
         "color": isAssignee ? kColorGrey : kColorBlue,
         "status": "Open",
       };
-    case "Open":
+    case "open":
       return {
         "buttonLabel": isAssignee ? "Start Task" : "Waiting for tasker to start",
         "color": isAssignee ? kColorAmber : kColorGrey,
         "status": "On Progress",
       };
-    case "On Progress":
+    case "on progress":
       return {
         "buttonLabel": isAssignee ? "Mark as Completed" : "Your task is in progress",
         "color": isAssignee ? kColorAmber : kColorGrey,
         "status": "Completed",
       };
-    case "Completed":
+    case "completed":
       return {
         "buttonLabel": isAssignee ? "Waiting for the client to approve" : "Close task",
         "color": isAssignee ? kColorGrey : kColorAmber,
         "status": "Closed",
       };
-    case "Closed":
+      case "cancelled":
+      return {
+        "buttonLabel": isAssignee ? "Cancelled" : "Cancelled",
+        "color": kColorPink50,
+        "status": "cancelled",
+      };
+    case "closed":
       return {
         "buttonLabel": "Close task",
         "color": isAssignee ? kColorGrey : kColorAmber,
@@ -381,37 +387,37 @@ Map<String, dynamic> getNotificationStatus(
 
 Map<String, dynamic> BookingTimelineStatus(String status) {
   switch (status) {
-    case "Initiated":
+    case "initiated":
       return {
         "color":  kColorGreen50,
         "textColor": kColorGreen,
         "status": "Initiated",
       };
-    case "Open":
+    case "open":
       return {
         "color":  kColorGreen50 ,
         "textColor":  kColorGreen ,
         "status": "Open",
       };
-    case "On Progress":
+    case "on progress":
       return {
         "color":  kColorPurple,
         "textColor":  kColorDarkPurple,
         "status": "On Progress",
       };
-    case "Completed":
+    case "completed":
       return {
         "color":  kColorAmber50,
         "textColor":  kColorAmber,
         "status": "Completed",
       };
-    case "Closed":
+    case "closed":
       return {
         "color":  kColorAmber50,
         "textColor":  kColorAmber,
         "status": "Closed",
       };
-      case "Cancelled":
+      case "cancelled":
       return {
         "color":  kColorPink50,
         "textColor":  kColorPink,

@@ -94,6 +94,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
                   },
                   child: ListView.builder(
                     controller: _controller,
+                    physics: AlwaysScrollableScrollPhysics(),
                     padding: EdgeInsets.symmetric(horizontal: 16),
                     itemCount:
                         state.hasReachedMax ? data.length : data.length + 1,
