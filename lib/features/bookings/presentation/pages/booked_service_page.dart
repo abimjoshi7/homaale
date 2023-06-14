@@ -96,6 +96,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                           ),
                                         ),
                                         Text(
+                                          // "${booking.entityService?.createdBy?.designation ?? ''} ",
                                           "${booking.entityService?.createdBy?.firstName ?? ''} "
                                           "${booking.entityService?.createdBy?.lastName ?? ''}",
                                           style: kLightBlueText14,
@@ -104,35 +105,37 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                     ),
                                   ],
                                 ),
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.bookmark_border,
-                                      color: Colors.red,
-                                    ),
-                                    kWidth10,
-                                    GestureDetector(
-                                      onTap: () {
-                                        final box = context.findRenderObject()
-                                            as RenderBox?;
-                                        Share.share(
-                                          "$kShareLinks/box/${booking.id}",
-                                          subject: booking.entityService?.title,
-                                          sharePositionOrigin:
-                                              box!.localToGlobal(Offset.zero) &
-                                                  box.size,
-                                        );
-                                      },
-                                      child: const Icon(
-                                        Icons.redo_sharp,
-                                        color: Colors.blue,
-                                      ),
-                                    ),
-                                    InkWell(
-                                      onTap: () {
-                                        showModalBottomSheet(
-                                          context: context,
-                                          builder: (context) => ListTile(
+                                InkWell(
+                                  onTap: () {
+                                    showModalBottomSheet(
+                                      context: context,
+                                      builder: (context) => Column(
+                                        mainAxisSize: MainAxisSize.min,
+                                        children: [
+                                          ListTile(
+                                            onTap: () {
+                                              final box =
+                                                  context.findRenderObject()
+                                                      as RenderBox?;
+                                              Share.share(
+                                                "$kShareLinks/box/${booking.id}",
+                                                subject: booking
+                                                    .entityService?.title,
+                                                sharePositionOrigin: box!
+                                                        .localToGlobal(
+                                                            Offset.zero) &
+                                                    box.size,
+                                              );
+                                            },
+                                            title: Text("Share",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall),
+                                            leading: const Icon(
+                                              Icons.redo_sharp,
+                                            ),
+                                          ),
+                                          ListTile(
                                             onTap: () {
                                               Navigator.pop(context);
                                               Navigator.pushNamed(context,
@@ -155,32 +158,35 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                                         : 'merchant',
                                                   });
                                             },
-                                            leading: Icon(Icons.cancel_rounded),
-                                            title: Text('Cancel'),
+                                            leading: Icon(Icons.block_flipped),
+                                            title: Text('Cancel',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall),
                                           ),
-                                        );
-                                      },
-                                      child: Icon(Icons.more_vert),
-                                    ),
-                                  ],
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  child: Icon(Icons.more_vert),
                                 ),
                               ],
                             ),
                             addVerticalSpace(16),
                             Row(
                               children: [
-                                Row(
-                                  children: [
-                                    const Icon(
-                                      Icons.star,
-                                      color: Colors.amber,
-                                    ),
-                                    Text(booking.entityService?.viewsCount
-                                            ?.toString() ??
-                                        '0.0 (0)')
-                                  ],
-                                ),
-                                addHorizontalSpace(16),
+                                // Row(
+                                //   children: [
+                                //     const Icon(
+                                //       Icons.star,
+                                //       color: Colors.amber,
+                                //     ),
+                                //     Text(booking.entityService?.viewsCount
+                                //             ?.toString() ??
+                                //         '0.0 (0)')
+                                //   ],
+                                // ),
+                                // addHorizontalSpace(16),
                                 Row(
                                   children: [
                                     const Icon(
@@ -194,6 +200,73 @@ class _BookedServicePageState extends State<BookedServicePage> {
                               ],
                             ),
                             addVerticalSpace(16),
+                            Text('Booking Details',
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall),
+                            addVerticalSpace(8),
+                            Row(
+                              children: [
+                                Text(
+                                  'Start Date : ',
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                                Text('${Jiffy(booking.startDate).yMMMd} ',
+                                    style: TextStyle(color: Colors.grey)),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('End Date : ',
+                                    style: TextStyle(color: Colors.grey)),
+                                Text('${Jiffy(booking.endDate).yMMMd}',
+                                    style: TextStyle(color: Colors.grey)),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('Proposed Price : ',
+                                    style: TextStyle(color: Colors.grey)),
+                                Text(
+                                    double.parse(booking.earning.toString())
+                                        .toStringAsFixed(2),
+                                    style: TextStyle(color: Colors.grey)),
+                              ],
+                            ),
+                            Row(
+                              children: [
+                                Text('Task Days : ',
+                                    style: TextStyle(color: Colors.grey)),
+                                // Text(booking.""),
+                              ],
+                            ),
+                            // Padding(
+                            //   padding:
+                            //       const EdgeInsets.symmetric(horizontal: 8.0),
+                            //   child: Column(
+                            //     children: [
+                            //       AdditionalInfoSection(
+                            //         date:
+                            //             '${Jiffy(booking.startDate).yMMMd} . ${booking.startTime}',
+                            //         location: booking.entityService?.location,
+                            //         views: booking.entityService?.viewsCount
+                            //                 ?.toString() ??
+                            //             '0',
+                            //         happyClients: booking
+                            //                 .createdBy?.stats?.happyClients
+                            //                 ?.toString() ??
+                            //             '0',
+                            //         successRate: booking
+                            //                 .createdBy?.stats?.successRate
+                            //                 ?.toString() ??
+                            //             '0',
+                            //       ),
+                            //     ],
+                            //   ),
+                            // ),
+                            addVerticalSpace(16),
+                            Text('Description',
+                                style:
+                                    Theme.of(context).textTheme.headlineSmall),
                             ShowMoreTextWidget(
                                 text: Bidi.stripHtmlIfNeeded(booking
                                         .description ??
@@ -230,9 +303,8 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                                   ?.toLowerCase() ==
                                               'mp4'
                                           ? VideoPlayerWidget(
-                                              videoURL: mediaList[index]
-                                                      .media ??
-                                                  'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                                              videoURL:
+                                                  mediaList[index].media ?? '',
                                             )
                                           : Column(
                                               mainAxisSize: MainAxisSize.min,
@@ -320,30 +392,16 @@ class _BookedServicePageState extends State<BookedServicePage> {
                         ),
                       ),
                       addVerticalSpace(10),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: Column(
-                          children: [
-                            AdditionalInfoSection(
-                              date:
-                                  '${Jiffy(booking.startDate).yMMMd} . ${booking.startTime}',
-                              location: booking.entityService?.location,
-                              views: booking.entityService?.viewsCount
-                                      ?.toString() ??
-                                  '0',
-                              happyClients: booking
-                                      .createdBy?.stats?.happyClients
-                                      ?.toString() ??
-                                  '0',
-                              successRate: booking.createdBy?.stats?.successRate
-                                      ?.toString() ??
-                                  '0',
-                            ),
-                          ],
-                        ),
-                      ),
                     ],
                   ),
+                ),
+                PriceBookFooterSection(
+                  onPressed: () {},
+                  price:
+                      'RS. ${double.parse(booking.earning.toString()).toStringAsFixed(2)}',
+                  bgColor: Colors.blue.shade50,
+                  buttonLabel: 'Set Budget',
+                  buttonColor: kColorPrimary,
                 ),
               ],
             );
