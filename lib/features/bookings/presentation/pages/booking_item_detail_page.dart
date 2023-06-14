@@ -15,8 +15,6 @@ import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-
-import '../../../../widgets/dashed_line_vertical_painter.dart';
 import '../../../booking_cancel/presentation/pages/booking_cancel_page.dart';
 
 class BookingItemDetailPage extends StatefulWidget {
@@ -178,7 +176,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                       Row(
                                         children: [
                                           Container(
-                                            height: 50,
+                                            height: 70,
                                             width: 50,
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
@@ -282,31 +280,167 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                       ),
                                     ],
                                   ),
-                                  addVerticalSpace(16),
-                                  Row(
+                                  // addVerticalSpace(16),
+                                  // Row(
+                                  //   children: [
+                                  //     const Icon(
+                                  //       Icons.location_on_outlined,
+                                  //       color: Colors.red,
+                                  //     ),
+                                  //     if (booking.entityService?.location
+                                  //             ?.length ==
+                                  //         0)
+                                  //       Text('Remote'),
+                                  //     if (booking.entityService?.location
+                                  //             ?.length !=
+                                  //         0)
+                                  //       Text(
+                                  //           '${booking.entityService?.location ?? 'Remote'}'),
+                                  //   ],
+                                  // ),
+                                  Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
-                                      const Icon(
-                                        Icons.location_on_outlined,
-                                        color: Colors.red,
-                                      ),
                                       Text(
-                                          '${booking.entityService?.location ?? 'Nepal'}')
+                                        'Date & Time',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .headlineSmall,
+                                      ),
+                                      addVerticalSpace(4),
+                                      Column(
+                                        children: [
+                                          Row(
+                                            children: [
+                                              Text('Start Date : '),
+                                              Text(
+                                                  '${Jiffy(booking.startDate).yMMMd} ')
+                                            ],
+                                          ),
+                                          Row(
+                                            children: [
+                                              Text('End Date : '),
+                                              Text(
+                                                  '${Jiffy(booking.endDate).yMMMd}')
+                                            ],
+                                          ),
+                                          // addVerticalSpace(8),
+                                          // if (booking.startTime != null &&
+                                          //     booking.endTime != null) ...[
+                                          //   addHorizontalSpace(8),
+                                          //   Row(
+                                          //     children: [
+                                          //       const Icon(
+                                          //         Icons.alarm_on,
+                                          //         color: kColorBlue,
+                                          //       ),
+                                          //       Text(
+                                          //           '${booking.startTime} - ${booking.endTime}')
+                                          //     ],
+                                          //   )
+                                          // ],
+                                        ],
+                                      ),
                                     ],
                                   ),
+                                  // addVerticalSpace(16),
+                                  if (booking.assignee?.id !=
+                                      context
+                                          .read<UserBloc>()
+                                          .state
+                                          .taskerProfile
+                                          ?.user
+                                          ?.id)
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Tasker Working',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall),
+                                        ListTile(
+                                          leading: Container(
+                                            height: 70,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                  booking.assignee
+                                                          ?.profileImage ??
+                                                      kDefaultAvatarNImg,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          title: Text(
+                                              booking.assignee?.fullName ?? ""),
+                                          subtitle: Text(
+                                              booking.assignee?.designation ??
+                                                  ""),
+                                        ),
+                                      ],
+                                    ),
                                   addVerticalSpace(16),
+                                  Text('Problem Description',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall),
                                   ShowMoreTextWidget(
-                                      text: Bidi.stripHtmlIfNeeded(booking
-                                              .description ??
-                                          'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.')),
+                                    text: Bidi.stripHtmlIfNeeded(
+                                        booking.description ?? ""),
+                                  ),
                                   if (booking.entityService?.highlights
                                           ?.isNotEmpty ??
                                       false) ...[
                                     addVerticalSpace(10),
                                     RequirementSection(
+                                      labelText: (booking.assignee?.id ==
+                                              context
+                                                  .read<UserBloc>()
+                                                  .state
+                                                  .taskerProfile
+                                                  ?.user
+                                                  ?.id)
+                                          ? 'Requirements'
+                                          : 'Highlights',
                                       requirementList:
                                           booking.entityService?.highlights,
                                     ),
                                   ],
+                                  addVerticalSpace(10),
+                                  if (booking.assignee?.id !=
+                                      context
+                                          .read<UserBloc>()
+                                          .state
+                                          .taskerProfile
+                                          ?.user
+                                          ?.id)
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Apply Details",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.camera_enhance_rounded,
+                                              size: 20,
+                                              color: kColorSecondary,
+                                            ),
+                                            addHorizontalSpace(10),
+                                            Text(double.parse(
+                                                    booking.price.toString())
+                                                .toStringAsFixed(2)),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   if (mediaList.isNotEmpty) ...[
                                     addVerticalSpace(10),
                                     Text(
@@ -355,7 +489,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                                                   error,
                                                                   stackTrace) =>
                                                               Image.network(
-                                                                  kServiceImageNImg),
+                                                                  kHomaaleImg),
                                                           width: MediaQuery.of(
                                                                   context)
                                                               .size
@@ -485,51 +619,6 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                     // }),
                                     ),
                               ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 16.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Date & Time',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
-                                  ),
-                                  addVerticalSpace(4),
-                                  Column(
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.calendar_month,
-                                            color: Colors.amber,
-                                          ),
-                                          Text(
-                                              '${Jiffy(booking.startDate).MMMd} - ${Jiffy(booking.endDate).MMMd}')
-                                        ],
-                                      ),
-                                      addVerticalSpace(8),
-                                      if (booking.startTime != null &&
-                                          booking.endTime != null) ...[
-                                        addHorizontalSpace(8),
-                                        Row(
-                                          children: [
-                                            const Icon(
-                                              Icons.alarm_on,
-                                              color: kColorBlue,
-                                            ),
-                                            Text(
-                                                '${booking.startTime} - ${booking.endTime}')
-                                          ],
-                                        )
-                                      ],
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            ),
                             addVerticalSpace(10),
                             Padding(
                               padding:
@@ -579,11 +668,11 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                                         '${booking.status}')[
                                                     "status"] as String,
                                                 style: TextStyle(
-                                                  color: BookingTimelineStatus(
-                                                          '${booking.status}')[
-                                                      "textColor"] as Color,
-
-                                                ),
+                                                    color: BookingTimelineStatus(
+                                                            '${booking.status}')[
+                                                        "textColor"] as Color,
+                                                    fontWeight:
+                                                        FontWeight.bold),
                                               )),
                                         ),
                                       ),
@@ -671,6 +760,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                   ),
                                 )
                           : PriceBookFooterSection(
+                              bgColor: Colors.blue.shade50,
                               buttonLabel: statusToUpdate('${booking.status}',
                                   isAssignee)["buttonLabel"] as String,
                               buttonColor: statusToUpdate(

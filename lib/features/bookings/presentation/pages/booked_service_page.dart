@@ -8,6 +8,9 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../booking_cancel/presentation/pages/booking_cancel_page.dart';
+import '../../../user/presentation/bloc/user/user_bloc.dart';
+
 class BookedServicePage extends StatefulWidget {
   static const routeName = '/booked-service-page';
   const BookedServicePage({super.key});
@@ -113,7 +116,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                         final box = context.findRenderObject()
                                             as RenderBox?;
                                         Share.share(
-                                          "https://sandbox.homaale.com/bookings/${booking.entityService?.id}",
+                                          "$kShareLinks/box/${booking.id}",
                                           subject: booking.entityService?.title,
                                           sharePositionOrigin:
                                               box!.localToGlobal(Offset.zero) &
@@ -121,9 +124,43 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                         );
                                       },
                                       child: const Icon(
-                                        Icons.share,
+                                        Icons.redo_sharp,
                                         color: Colors.blue,
                                       ),
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        showModalBottomSheet(
+                                          context: context,
+                                          builder: (context) => ListTile(
+                                            onTap: () {
+                                              Navigator.pop(context);
+                                              Navigator.pushNamed(context,
+                                                  BookingCancelPage.routeName,
+                                                  //Todo: Need to send client and merchant on the basics of task and service
+                                                  // if TASK send ->Client or Service ->Send merchant
+                                                  arguments: {
+                                                    'client': booking
+                                                                .entityService
+                                                                ?.createdBy
+                                                                ?.id ==
+                                                            context
+                                                                .read<
+                                                                    UserBloc>()
+                                                                .state
+                                                                .taskerProfile
+                                                                ?.user
+                                                                ?.id
+                                                        ? 'client'
+                                                        : 'merchant',
+                                                  });
+                                            },
+                                            leading: Icon(Icons.cancel_rounded),
+                                            title: Text('Cancel'),
+                                          ),
+                                        );
+                                      },
+                                      child: Icon(Icons.more_vert),
                                     ),
                                   ],
                                 ),
