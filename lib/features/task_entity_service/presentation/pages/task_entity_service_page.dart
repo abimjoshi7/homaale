@@ -9,6 +9,7 @@ import 'package:cipher/features/chat/models/chat_person_details.dart';
 import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
+import 'package:cipher/features/task/presentation/bloc/task_bloc.dart' as tb;
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart'
     as tes;
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -377,7 +378,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                         false,
                                     title: state.taskEntityService?.title ?? '',
                                     budget:
-                                        'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
+                                        '${state.applicantModel?.result?[index].currency}. ${state.applicantModel?.result?[index].price}',
                                     status: state
                                         .applicantModel?.result?[index].status,
                                     onRejectPressed: () {
@@ -401,6 +402,13 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                       Navigator.pop(context);
                                     },
                                     onNegotiatePressed: () {
+                                      context.read<tb.TaskBloc>().add(
+                                            tb.ChangeTaskNegotiationStatus(
+                                              id: state.applicantModel
+                                                      ?.result?[index].id ??
+                                                  0,
+                                            ),
+                                          );
                                       //TODO: chat navigations
                                     },
                                   ),
@@ -439,7 +447,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                   designation: state.applicantModel
                                       ?.result?[index].createdBy?.designation,
                                   rate:
-                                      'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
+                                      '${state.applicantModel?.result?[index].currency}. ${state.applicantModel?.result?[index].price}',
                                   ratings:
                                       '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
                                   buttonWidth: 100,

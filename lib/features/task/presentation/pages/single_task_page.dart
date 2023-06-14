@@ -661,6 +661,8 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                 (index) => TaskerCard(
                                   onFavouriteTapped: () {},
                                   callback: () => showApplicantDetailsDialog(
+                                    description:
+                                        '${state.applicantModel?.result?[index].description}',
                                     context: context,
                                     isNegotiable:
                                         state.taskModel?.isNegotiable ?? false,
@@ -688,7 +690,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                         false,
                                     title: state.taskModel?.title ?? '',
                                     budget:
-                                        'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
+                                        '${state.applicantModel?.result?[index].currency ?? ''}. ${state.applicantModel?.result?[index].price ?? ''}',
                                     status: state
                                         .applicantModel?.result?[index].status,
                                     onRejectPressed: () {
@@ -742,7 +744,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                   designation: state.applicantModel
                                       ?.result?[index].createdBy?.designation,
                                   rate:
-                                      'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
+                                      'Rs. ${state.applicantModel?.result?[index].currency ?? ""} - ${state.applicantModel?.result?[index].price ?? ""}',
                                   ratings:
                                       '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
                                 ),

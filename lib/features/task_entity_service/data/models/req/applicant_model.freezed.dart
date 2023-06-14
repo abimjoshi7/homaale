@@ -303,12 +303,11 @@ mixin _$Result {
   String? get createdAt => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
   String? get currency => throw _privateConstructorUsedError;
-  @JsonKey(name: 'budget_from')
-  String? get budgetFrom => throw _privateConstructorUsedError;
-  @JsonKey(name: 'budget_to')
-  String? get budgetTo => throw _privateConstructorUsedError;
+  String? get price => throw _privateConstructorUsedError;
+  String? get earning => throw _privateConstructorUsedError;
   @JsonKey(name: 'budget_type')
   String? get budgetType => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
   @JsonKey(name: 'created_by')
   CreatedBy? get createdBy => throw _privateConstructorUsedError;
 
@@ -327,9 +326,10 @@ abstract class $ResultCopyWith<$Res> {
       @JsonKey(name: 'created_at') String? createdAt,
       String? status,
       String? currency,
-      @JsonKey(name: 'budget_from') String? budgetFrom,
-      @JsonKey(name: 'budget_to') String? budgetTo,
+      String? price,
+      String? earning,
       @JsonKey(name: 'budget_type') String? budgetType,
+      String? description,
       @JsonKey(name: 'created_by') CreatedBy? createdBy});
 
   $CreatedByCopyWith<$Res>? get createdBy;
@@ -352,9 +352,10 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
     Object? createdAt = freezed,
     Object? status = freezed,
     Object? currency = freezed,
-    Object? budgetFrom = freezed,
-    Object? budgetTo = freezed,
+    Object? price = freezed,
+    Object? earning = freezed,
     Object? budgetType = freezed,
+    Object? description = freezed,
     Object? createdBy = freezed,
   }) {
     return _then(_value.copyWith(
@@ -374,17 +375,21 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
           ? _value.currency
           : currency // ignore: cast_nullable_to_non_nullable
               as String?,
-      budgetFrom: freezed == budgetFrom
-          ? _value.budgetFrom
-          : budgetFrom // ignore: cast_nullable_to_non_nullable
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
               as String?,
-      budgetTo: freezed == budgetTo
-          ? _value.budgetTo
-          : budgetTo // ignore: cast_nullable_to_non_nullable
+      earning: freezed == earning
+          ? _value.earning
+          : earning // ignore: cast_nullable_to_non_nullable
               as String?,
       budgetType: freezed == budgetType
           ? _value.budgetType
           : budgetType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String?,
       createdBy: freezed == createdBy
           ? _value.createdBy
@@ -417,9 +422,10 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       @JsonKey(name: 'created_at') String? createdAt,
       String? status,
       String? currency,
-      @JsonKey(name: 'budget_from') String? budgetFrom,
-      @JsonKey(name: 'budget_to') String? budgetTo,
+      String? price,
+      String? earning,
       @JsonKey(name: 'budget_type') String? budgetType,
+      String? description,
       @JsonKey(name: 'created_by') CreatedBy? createdBy});
 
   @override
@@ -440,9 +446,10 @@ class __$$_ResultCopyWithImpl<$Res>
     Object? createdAt = freezed,
     Object? status = freezed,
     Object? currency = freezed,
-    Object? budgetFrom = freezed,
-    Object? budgetTo = freezed,
+    Object? price = freezed,
+    Object? earning = freezed,
     Object? budgetType = freezed,
+    Object? description = freezed,
     Object? createdBy = freezed,
   }) {
     return _then(_$_Result(
@@ -462,17 +469,21 @@ class __$$_ResultCopyWithImpl<$Res>
           ? _value.currency
           : currency // ignore: cast_nullable_to_non_nullable
               as String?,
-      budgetFrom: freezed == budgetFrom
-          ? _value.budgetFrom
-          : budgetFrom // ignore: cast_nullable_to_non_nullable
+      price: freezed == price
+          ? _value.price
+          : price // ignore: cast_nullable_to_non_nullable
               as String?,
-      budgetTo: freezed == budgetTo
-          ? _value.budgetTo
-          : budgetTo // ignore: cast_nullable_to_non_nullable
+      earning: freezed == earning
+          ? _value.earning
+          : earning // ignore: cast_nullable_to_non_nullable
               as String?,
       budgetType: freezed == budgetType
           ? _value.budgetType
           : budgetType // ignore: cast_nullable_to_non_nullable
+              as String?,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
               as String?,
       createdBy: freezed == createdBy
           ? _value.createdBy
@@ -490,9 +501,10 @@ class _$_Result implements _Result {
       @JsonKey(name: 'created_at') this.createdAt,
       this.status,
       this.currency,
-      @JsonKey(name: 'budget_from') this.budgetFrom,
-      @JsonKey(name: 'budget_to') this.budgetTo,
+      this.price,
+      this.earning,
       @JsonKey(name: 'budget_type') this.budgetType,
+      this.description,
       @JsonKey(name: 'created_by') this.createdBy});
 
   factory _$_Result.fromJson(Map<String, dynamic> json) =>
@@ -508,21 +520,21 @@ class _$_Result implements _Result {
   @override
   final String? currency;
   @override
-  @JsonKey(name: 'budget_from')
-  final String? budgetFrom;
+  final String? price;
   @override
-  @JsonKey(name: 'budget_to')
-  final String? budgetTo;
+  final String? earning;
   @override
   @JsonKey(name: 'budget_type')
   final String? budgetType;
+  @override
+  final String? description;
   @override
   @JsonKey(name: 'created_by')
   final CreatedBy? createdBy;
 
   @override
   String toString() {
-    return 'Result(id: $id, createdAt: $createdAt, status: $status, currency: $currency, budgetFrom: $budgetFrom, budgetTo: $budgetTo, budgetType: $budgetType, createdBy: $createdBy)';
+    return 'Result(id: $id, createdAt: $createdAt, status: $status, currency: $currency, price: $price, earning: $earning, budgetType: $budgetType, description: $description, createdBy: $createdBy)';
   }
 
   @override
@@ -536,12 +548,12 @@ class _$_Result implements _Result {
             (identical(other.status, status) || other.status == status) &&
             (identical(other.currency, currency) ||
                 other.currency == currency) &&
-            (identical(other.budgetFrom, budgetFrom) ||
-                other.budgetFrom == budgetFrom) &&
-            (identical(other.budgetTo, budgetTo) ||
-                other.budgetTo == budgetTo) &&
+            (identical(other.price, price) || other.price == price) &&
+            (identical(other.earning, earning) || other.earning == earning) &&
             (identical(other.budgetType, budgetType) ||
                 other.budgetType == budgetType) &&
+            (identical(other.description, description) ||
+                other.description == description) &&
             (identical(other.createdBy, createdBy) ||
                 other.createdBy == createdBy));
   }
@@ -549,7 +561,7 @@ class _$_Result implements _Result {
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, createdAt, status, currency,
-      budgetFrom, budgetTo, budgetType, createdBy);
+      price, earning, budgetType, description, createdBy);
 
   @JsonKey(ignore: true)
   @override
@@ -571,9 +583,10 @@ abstract class _Result implements Result {
       @JsonKey(name: 'created_at') final String? createdAt,
       final String? status,
       final String? currency,
-      @JsonKey(name: 'budget_from') final String? budgetFrom,
-      @JsonKey(name: 'budget_to') final String? budgetTo,
+      final String? price,
+      final String? earning,
       @JsonKey(name: 'budget_type') final String? budgetType,
+      final String? description,
       @JsonKey(name: 'created_by') final CreatedBy? createdBy}) = _$_Result;
 
   factory _Result.fromJson(Map<String, dynamic> json) = _$_Result.fromJson;
@@ -588,14 +601,14 @@ abstract class _Result implements Result {
   @override
   String? get currency;
   @override
-  @JsonKey(name: 'budget_from')
-  String? get budgetFrom;
+  String? get price;
   @override
-  @JsonKey(name: 'budget_to')
-  String? get budgetTo;
+  String? get earning;
   @override
   @JsonKey(name: 'budget_type')
   String? get budgetType;
+  @override
+  String? get description;
   @override
   @JsonKey(name: 'created_by')
   CreatedBy? get createdBy;
