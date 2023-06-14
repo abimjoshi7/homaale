@@ -361,7 +361,7 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
       isOnline: json['is_online'] as bool?,
       isRequested: json['is_requested'] as bool?,
       discountType: json['discount_type'] as String?,
-      discountValue: (json['discount_value'] as num?)?.toDouble(),
+      discountValue: json['discount_value'] as String?,
       slug: json['slug'] as String?,
       isActive: json['is_active'] as bool?,
       needsApproval: json['needs_approval'] as bool?,

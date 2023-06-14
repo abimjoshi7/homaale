@@ -15,6 +15,8 @@ import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+
+import '../../../../widgets/dashed_line_vertical_painter.dart';
 import '../../../booking_cancel/presentation/pages/booking_cancel_page.dart';
 
 class BookingItemDetailPage extends StatefulWidget {
@@ -176,7 +178,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                       Row(
                                         children: [
                                           Container(
-                                            height: 70,
+                                            height: 50,
                                             width: 50,
                                             decoration: BoxDecoration(
                                               shape: BoxShape.circle,
@@ -344,50 +346,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                       ),
                                     ],
                                   ),
-                                  // addVerticalSpace(16),
-                                  if (booking.assignee?.id !=
-                                      context
-                                          .read<UserBloc>()
-                                          .state
-                                          .taskerProfile
-                                          ?.user
-                                          ?.id)
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text('Tasker Working',
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headlineSmall),
-                                        ListTile(
-                                          leading: Container(
-                                            height: 70,
-                                            width: 50,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                image: NetworkImage(
-                                                  booking.assignee
-                                                          ?.profileImage ??
-                                                      kDefaultAvatarNImg,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                          title: Text(
-                                              booking.assignee?.fullName ?? ""),
-                                          subtitle: Text(
-                                              booking.assignee?.designation ??
-                                                  ""),
-                                        ),
-                                      ],
-                                    ),
                                   addVerticalSpace(16),
-                                  Text('Problem Description',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall),
                                   ShowMoreTextWidget(
                                     text: Bidi.stripHtmlIfNeeded(
                                         booking.description ?? ""),
@@ -410,37 +369,6 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                           booking.entityService?.highlights,
                                     ),
                                   ],
-                                  addVerticalSpace(10),
-                                  if (booking.assignee?.id !=
-                                      context
-                                          .read<UserBloc>()
-                                          .state
-                                          .taskerProfile
-                                          ?.user
-                                          ?.id)
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text("Apply Details",
-                                            style: Theme.of(context)
-                                                .textTheme
-                                                .headlineSmall),
-                                        Row(
-                                          children: [
-                                            Icon(
-                                              Icons.camera_enhance_rounded,
-                                              size: 20,
-                                              color: kColorSecondary,
-                                            ),
-                                            addHorizontalSpace(10),
-                                            Text(double.parse(
-                                                    booking.price.toString())
-                                                .toStringAsFixed(2)),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
                                   if (mediaList.isNotEmpty) ...[
                                     addVerticalSpace(10),
                                     Text(
