@@ -212,7 +212,7 @@ class EntityService with _$EntityService {
     @JsonKey(name: 'is_online') bool? isOnline,
     @JsonKey(name: 'is_requested') bool? isRequested,
     @JsonKey(name: 'discount_type') String? discountType,
-    @JsonKey(name: 'discount_value') double? discountValue,
+    @JsonKey(name: 'discount_value') String? discountValue,
     String? slug,
     @JsonKey(name: 'is_active') bool? isActive,
     @JsonKey(name: 'needs_approval') bool? needsApproval,

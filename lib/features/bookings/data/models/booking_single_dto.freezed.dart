@@ -3578,7 +3578,7 @@ mixin _$EntityService {
   @JsonKey(name: 'discount_type')
   String? get discountType => throw _privateConstructorUsedError;
   @JsonKey(name: 'discount_value')
-  double? get discountValue => throw _privateConstructorUsedError;
+  String? get discountValue => throw _privateConstructorUsedError;
   String? get slug => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_active')
   bool? get isActive => throw _privateConstructorUsedError;
@@ -3635,7 +3635,7 @@ abstract class $EntityServiceCopyWith<$Res> {
       @JsonKey(name: 'is_online') bool? isOnline,
       @JsonKey(name: 'is_requested') bool? isRequested,
       @JsonKey(name: 'discount_type') String? discountType,
-      @JsonKey(name: 'discount_value') double? discountValue,
+      @JsonKey(name: 'discount_value') String? discountValue,
       String? slug,
       @JsonKey(name: 'is_active') bool? isActive,
       @JsonKey(name: 'needs_approval') bool? needsApproval,
@@ -3835,7 +3835,7 @@ class _$EntityServiceCopyWithImpl<$Res, $Val extends EntityService>
       discountValue: freezed == discountValue
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       slug: freezed == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
@@ -3965,7 +3965,7 @@ abstract class _$$_EntityServiceCopyWith<$Res>
       @JsonKey(name: 'is_online') bool? isOnline,
       @JsonKey(name: 'is_requested') bool? isRequested,
       @JsonKey(name: 'discount_type') String? discountType,
-      @JsonKey(name: 'discount_value') double? discountValue,
+      @JsonKey(name: 'discount_value') String? discountValue,
       String? slug,
       @JsonKey(name: 'is_active') bool? isActive,
       @JsonKey(name: 'needs_approval') bool? needsApproval,
@@ -4168,7 +4168,7 @@ class __$$_EntityServiceCopyWithImpl<$Res>
       discountValue: freezed == discountValue
           ? _value.discountValue
           : discountValue // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as String?,
       slug: freezed == slug
           ? _value.slug
           : slug // ignore: cast_nullable_to_non_nullable
@@ -4357,7 +4357,7 @@ class _$_EntityService implements _EntityService {
   final String? discountType;
   @override
   @JsonKey(name: 'discount_value')
-  final double? discountValue;
+  final String? discountValue;
   @override
   final String? slug;
   @override
@@ -4546,7 +4546,7 @@ abstract class _EntityService implements EntityService {
       @JsonKey(name: 'is_online') final bool? isOnline,
       @JsonKey(name: 'is_requested') final bool? isRequested,
       @JsonKey(name: 'discount_type') final String? discountType,
-      @JsonKey(name: 'discount_value') final double? discountValue,
+      @JsonKey(name: 'discount_value') final String? discountValue,
       final String? slug,
       @JsonKey(name: 'is_active') final bool? isActive,
       @JsonKey(name: 'needs_approval') final bool? needsApproval,
@@ -4643,7 +4643,7 @@ abstract class _EntityService implements EntityService {
   String? get discountType;
   @override
   @JsonKey(name: 'discount_value')
-  double? get discountValue;
+  String? get discountValue;
   @override
   String? get slug;
   @override
