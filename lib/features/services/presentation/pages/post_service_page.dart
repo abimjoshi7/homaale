@@ -141,6 +141,7 @@ class _PostServicePageState extends State<PostServicePage> {
                           _buildCity(),
                           _buildDescription(),
                           _buildCurrency(),
+                          _buildIsNegotiable(),
                           _buildDialog(),
                           CustomMultimedia(
                             bloc: uploadBloc,
@@ -240,7 +241,7 @@ class _PostServicePageState extends State<PostServicePage> {
                 startTime: null,
                 endTime: null,
                 shareLocation: true,
-                isNegotiable: isDiscounted,
+                isNegotiable: isNegotiable,
                 location: addressController.text,
                 revisions: 0,
                 avatar: 2,
@@ -302,7 +303,7 @@ class _PostServicePageState extends State<PostServicePage> {
                         startTime: null,
                         endTime: null,
                         shareLocation: true,
-                        isNegotiable: isDiscounted,
+                        isNegotiable: isNegotiable,
                         location: addressController.text,
                         revisions: 0,
                         avatar: 2,
@@ -862,6 +863,31 @@ class _PostServicePageState extends State<PostServicePage> {
         controller: titleController,
         hintText: 'Enter your service name',
         validator: validateNotEmpty,
+      ),
+    );
+  }
+
+  Padding _buildIsNegotiable() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Row(
+        children: <Widget>[
+          CustomCheckBox(
+            isChecked: isNegotiable,
+            onTap: () async {
+              setState(
+                () {
+                  isNegotiable = !isNegotiable;
+                },
+              );
+            },
+          ),
+          addHorizontalSpace(10),
+          Text(
+            "Do you want to negotiate the price?",
+            style: TextStyle(fontSize: 12.0),
+          )
+        ],
       ),
     );
   }

@@ -312,5 +312,25 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         );
       },
     );
+
+    on<ChangeTaskNegotiationStatus>((event, emit) async {
+      try {
+        await _repo
+            .changeNegotiationStatus(
+              id: event.id,
+            )
+            .then(
+              (value) => emit(
+                state.copyWith(
+                  isNegotiationStatusChanged: true,
+                ),
+              ),
+            );
+      } catch (e) {
+        emit(state.copyWith(
+          isNegotiationStatusChanged: false,
+        ));
+      }
+    });
   }
 }

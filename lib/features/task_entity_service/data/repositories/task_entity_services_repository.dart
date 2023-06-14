@@ -269,7 +269,21 @@ class TaskEntityServiceRepository {
     }
   }
 
-  Future<ApplicantModel> getApplicants(String id) async => await fetchApplicants(id: id).then(
+  Future<void> changeNegotiationStatus({required int id}) async {
+    try {
+      await _dio.postDataWithCredential(
+        url: "/task/entity/service-booking/accept/$id/",
+        token: CacheHelper.accessToken,
+        data: {},
+      );
+    } catch (e) {
+      log("Service Booking Negotiate Status: $e");
+      rethrow;
+    }
+  }
+
+  Future<ApplicantModel> getApplicants(String id) async =>
+      await fetchApplicants(id: id).then(
         (value) => ApplicantModel.fromJson(
           value,
         ),

@@ -1,5 +1,4 @@
-
-
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'task_bloc.dart';
 
 abstract class TaskEvent extends Equatable {
@@ -32,9 +31,7 @@ class SingleEntityTaskLoadInitiated extends TaskEvent {
   bool operator ==(covariant SingleEntityTaskLoadInitiated other) {
     if (identical(this, other)) return true;
 
-    return
-      other.id == id &&
-      other.userId == userId;
+    return other.id == id && other.userId == userId;
   }
 
   @override
@@ -185,5 +182,14 @@ class TaskBookInitiated extends TaskEvent {
 class FetchServicesList extends TaskEvent {
   @override
   // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class ChangeTaskNegotiationStatus extends TaskEvent {
+  final int id;
+  ChangeTaskNegotiationStatus({
+    required this.id,
+  });
+  @override
   List<Object?> get props => [];
 }

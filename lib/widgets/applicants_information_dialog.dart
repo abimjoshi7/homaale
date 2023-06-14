@@ -161,7 +161,8 @@ showApplicantDetailsDialog({
                   children: <Widget>[
                     CustomElevatedButton(
                       theWidth: MediaQuery.of(context).size.width,
-                      borderColor: kColorPrimary,
+                      borderColor:
+                          isNegotiable ? kColorPrimary : Colors.grey.shade500,
                       mainColor: isNegotiable ? kColorPrimary : Colors.grey,
                       label: 'Negotiate',
                       textColor: Colors.white,
