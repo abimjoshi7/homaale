@@ -211,7 +211,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
       children: [
         result.budgetFrom == 0 || result.budgetFrom == null
             ? Text(
-                "Rs. ${Decimal.parse(result.budgetTo ?? '10.0')}",
+                "Rs. ${Decimal.parse(result.budgetTo ?? '0.0')}",
                 // style: kText17,
               )
             : Text(
