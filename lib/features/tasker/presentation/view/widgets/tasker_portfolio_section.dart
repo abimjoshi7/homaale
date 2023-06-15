@@ -1,3 +1,4 @@
+
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/core/constants/text.dart';
@@ -43,7 +44,7 @@ class TaskerPortfolioSection extends StatelessWidget {
                             height: MediaQuery.of(context).size.height * 0.11,
                             width: MediaQuery.of(context).size.width * 0.54,
                             child: Image.network(
-                              portfolio[index].images?.first.media.toString() ??
+                                portfolio[index].images!.isEmpty ? kHomaaleImg :    portfolio[index].images?.first.media.toString() ??
                                   kHomaaleImg,
                               fit: BoxFit.cover,
                             ),

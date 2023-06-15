@@ -20,12 +20,14 @@ class TaskerAboutSection extends StatefulWidget {
     this.portfolio,
     this.experience,
     this.education,
+    this.joinedDate,
   });
 
   final String? bio;
   // final String? contact;
   final String? activeHourStart;
   final String? activeHourEnd;
+  final DateTime? joinedDate;
   final String? skills;
   final String? location;
   final List<tsklst.Portfolio>? portfolio;
@@ -46,6 +48,7 @@ class _TaskerAboutSectionState extends State<TaskerAboutSection> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TaskerDescriptionSection(
+              joinedDate: widget.joinedDate,
               bio: widget.bio,
               // contact: widget.contact,
               activeHourStart: widget.activeHourStart,

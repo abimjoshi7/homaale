@@ -382,6 +382,7 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                         controller: tabController,
                         children: [
                           TaskerAboutSection(
+                            joinedDate: state.singleTasker.user?.createdAt,
                             bio: state.singleTasker.bio,
                             // contact:
                             //     state.singleTasker.user!.phone?.toString() ??
