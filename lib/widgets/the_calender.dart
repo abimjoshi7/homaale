@@ -51,12 +51,12 @@ class TheCalender extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  // IconText(
-                  //   label: 'Selected',
-                  //   iconData: Icons.circle,
-                  //   size: 13,
-                  //   color: kColorAmber,
-                  // ),
+                  IconText(
+                    label: 'Selected',
+                    iconData: Icons.circle,
+                    size: 13,
+                    color: kColorAmber,
+                  ),
                   IconText(
                     label: 'Available',
                     iconData: Icons.circle,
