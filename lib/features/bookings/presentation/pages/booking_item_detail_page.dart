@@ -248,11 +248,11 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                               color: Colors.blue,
                                             ),
                                           ),
-                                          if (booking.status == 'Open' ||
-                                              booking.status == 'Waiting' ||
-                                              booking.status == 'Approved' ||
-                                              booking.status == 'Initiated' ||
-                                              booking.status == 'On Progress')
+                                          if (booking.status == 'open' ||
+                                              booking.status == 'waiting' ||
+                                              booking.status == 'approved' ||
+                                              booking.status == 'initiated' ||
+                                              booking.status == 'on progress')
                                             InkWell(
                                               onTap: () {
                                                 showModalBottomSheet(
@@ -300,6 +300,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                   //           '${booking.entityService?.location ?? 'Remote'}'),
                                   //   ],
                                   // ),
+                                  addVerticalSpace(4),
                                   Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -344,9 +345,57 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                           // ],
                                         ],
                                       ),
+                                      // const Icon(
+                                      //   Icons.location_on_outlined,
+                                      //   color: Colors.red,
+                                      // ),
+                                      // Text('${booking.entityService?.location ?? 'Nepal'}')
                                     ],
                                   ),
                                   addVerticalSpace(16),
+                                  if (booking.assignee?.id !=
+                                      context
+                                          .read<UserBloc>()
+                                          .state
+                                          .taskerProfile
+                                          ?.user
+                                          ?.id)
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Tasker Working',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall),
+                                        ListTile(
+                                          leading: Container(
+                                            height: 70,
+                                            width: 50,
+                                            decoration: BoxDecoration(
+                                              shape: BoxShape.circle,
+                                              image: DecorationImage(
+                                                image: NetworkImage(
+                                                  booking.assignee
+                                                          ?.profileImage ??
+                                                      kDefaultAvatarNImg,
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                          title: Text(
+                                              booking.assignee?.fullName ?? ""),
+                                          subtitle: Text(
+                                              booking.assignee?.designation ??
+                                                  ""),
+                                        ),
+                                      ],
+                                    ),
+                                  addVerticalSpace(16),
+                                  Text('Problem Description',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall),
                                   ShowMoreTextWidget(
                                     text: Bidi.stripHtmlIfNeeded(
                                         booking.description ?? ""),
@@ -369,6 +418,37 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                           booking.entityService?.highlights,
                                     ),
                                   ],
+                                  addVerticalSpace(10),
+                                  if (booking.assignee?.id !=
+                                      context
+                                          .read<UserBloc>()
+                                          .state
+                                          .taskerProfile
+                                          ?.user
+                                          ?.id)
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text("Apply Details",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .headlineSmall),
+                                        Row(
+                                          children: [
+                                            Icon(
+                                              Icons.camera_enhance_rounded,
+                                              size: 20,
+                                              color: kColorSecondary,
+                                            ),
+                                            addHorizontalSpace(10),
+                                            Text(double.parse(
+                                                    booking.earning.toString())
+                                                .toStringAsFixed(2)),
+                                          ],
+                                        ),
+                                      ],
+                                    ),
                                   if (mediaList.isNotEmpty) ...[
                                     addVerticalSpace(10),
                                     Text(
@@ -483,7 +563,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                               fit: BoxFit.fill,
                             ),
                             addVerticalSpace(10),
-                            if (booking.status == 'Cancelled')
+                            if (booking.status == 'cancelled')
                               Container(
                                 margin: EdgeInsets.all(15),
                                 decoration: BoxDecoration(
