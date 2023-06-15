@@ -86,9 +86,19 @@ class TaskerCubit extends Cubit<TaskerState> {
     }
   }
 
-  Future loadSingleTaskerReviews(String id) async {
+  Future loadSingleTaskerReviews(
+    String id, {
+    String? rating,
+    String? order,
+  }) async {
     try {
-      await repo.getSingleTaskerReviews(userId: id).then(
+      await repo
+          .getSingleTaskerReviews(
+        userId: id,
+        order: order,
+        rating: rating,
+      )
+          .then(
         (reviews) {
           final taskerReviewResponse = TaskerReviewResponse.fromJson(reviews);
           emit(

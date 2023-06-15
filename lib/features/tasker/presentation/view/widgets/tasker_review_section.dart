@@ -6,6 +6,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+enum FilterSort { filter, sort }
+
 class TaskerReviewSection extends StatefulWidget {
   const TaskerReviewSection({super.key, this.taskerReviewsResponse});
 
@@ -16,10 +18,114 @@ class TaskerReviewSection extends StatefulWidget {
 }
 
 class _TaskerReviewSectionState extends State<TaskerReviewSection> {
+  List<String> ratingList = ['All Stars', '5 Stars', '4 Stars', '3 Stars', '2 Stars', '1 Star'];
+  List<String> sortList = ['Oldest - Newest', 'Newest - Oldest', 'Highest - Lowest', 'Lowest - Highest'];
+
+  String? currentRatingSelected;
+  String? currentSortSelected;
+
   @override
   void initState() {
     super.initState();
     context.read<TaskerCubit>().loadSingleTaskerReviews(context.read<TaskerCubit>().state.singleTasker.user?.id ?? '');
+  }
+
+  showFilterSortModal(FilterSort filterSort) {
+    final displayList = filterSort == FilterSort.filter ? ratingList : sortList;
+    showModalBottomSheet(
+      context: context,
+      useSafeArea: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) {
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              kHeight10,
+              Center(
+                child: Text(
+                  'By ${filterSort == FilterSort.filter ? 'Rating' : 'Sort'}',
+                  style: Theme.of(context).textTheme.headlineSmall,
+                ),
+              ),
+              ListView.builder(
+                shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
+                itemCount: displayList.length,
+                itemBuilder: (context, index) => typeWidget(
+                  title: '${displayList[index]}',
+                  isSelected: filterSort == FilterSort.filter
+                      ? displayList[index] == currentSortSelected
+                      : displayList[index] == currentRatingSelected,
+                  onTap: () {
+                    if (filterSort == FilterSort.filter) {
+                      setState(() {
+                        currentSortSelected = displayList[index];
+                      });
+                    } else {
+                      setState(() {
+                        currentRatingSelected = displayList[index];
+                      });
+                    }
+                    context.read<TaskerCubit>().loadSingleTaskerReviews(
+                          context.read<TaskerCubit>().state.singleTasker.user?.id ?? '',
+                          order: getOrder(displayList[index]),
+                          rating: getRating(displayList[index]),
+                        );
+                    Navigator.pop(context);
+                  },
+                ),
+              )
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  String getOrder(String? order) {
+    switch (order) {
+      case 'Oldest - Newest':
+        return "created_at";
+
+      case 'Newest - Oldest':
+        return "-created_at";
+
+      case 'Highest - Lowest':
+        return "-rating";
+
+      case 'Lowest - Highest':
+        return "rating";
+
+      default:
+        return "";
+    }
+  }
+
+  String getRating(String? rating) {
+    switch (rating) {
+      case 'All Stars':
+        return "";
+      case '5 Stars':
+        return "5";
+      case '4 Stars':
+        return "4";
+      case '3 Stars':
+        return "3";
+      case '2 Stars':
+        return "2";
+      case '1 Star':
+        return "1";
+      default:
+        return "";
+    }
   }
 
   @override
@@ -39,11 +145,19 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
                         'Reviews (${state.taskerReviewsResponse.count ?? 0})',
                         style: Theme.of(context).textTheme.headlineSmall,
                       ),
-                      OutlinedButton(
-                        onPressed: () {},
-                        child: Row(
-                          children: const [Text('Most Relevant'), Icon(Icons.arrow_drop_down)],
-                        ),
+                      Row(
+                        children: [
+                          IconButton(
+                            onPressed: () => showFilterSortModal(FilterSort.filter),
+                            icon: Icon(Icons.filter_alt_outlined),
+                            iconSize: 18,
+                          ),
+                          IconButton(
+                            onPressed: () => showFilterSortModal(FilterSort.sort),
+                            icon: Icon(Icons.sort),
+                            iconSize: 18,
+                          ),
+                        ],
                       )
                     ],
                   ),
@@ -66,30 +180,39 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
-                                        Expanded(
-                                          child: Text(
-                                            '${state.taskerReviewsResponse.result?[index].ratedBy?.fullName}',
-                                            overflow: TextOverflow.ellipsis,
-                                          ),
+                                        Row(
+                                          children: [
+                                            SizedBox(
+                                              width: MediaQuery.of(context).size.width * 0.3,
+                                              child: Text(
+                                                '${state.taskerReviewsResponse.result?[index].ratedBy?.fullName}',
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
+                                            ),
+                                            WidgetText(
+                                              label: '${state.taskerReviewsResponse.result?[index].rating}',
+                                              widget: Icon(
+                                                Icons.star_rounded,
+                                                size: 14,
+                                                color: kColorAmber,
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        const WidgetText(
-                                          label: '0',
-                                          widget: Icon(
-                                            Icons.star_rounded,
-                                            color: kColorAmber,
-                                          ),
+                                        Text(
+                                          Jiffy('${state.taskerReviewsResponse.result?[index].createdAt}').yMMMMd,
+                                          style: Theme.of(context).textTheme.bodySmall,
                                         ),
                                       ],
                                     ),
+                                    kHeight5,
                                     Text(
                                       '${state.taskerReviewsResponse.result?[index].review}',
+                                      style: Theme.of(context).textTheme.bodySmall,
                                     ),
                                   ],
-                                ),
-                                trailing: Text(
-                                  Jiffy('${state.taskerReviewsResponse.result?[index].createdAt}').yMMMMd,
-                                  style: Theme.of(context).textTheme.bodySmall,
                                 ),
                               ),
                             ],
@@ -104,6 +227,20 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
             return CircularProgressIndicator();
         }
       },
+    );
+  }
+
+  ListTile typeWidget({required String title, required bool isSelected, VoidCallback? onTap}) {
+    return ListTile(
+      onTap: onTap,
+      title: Text(
+        '$title',
+        style: Theme.of(context).textTheme.titleSmall,
+      ),
+      trailing: Icon(
+        isSelected ? Icons.radio_button_checked : Icons.radio_button_off,
+        color: kColorAmber,
+      ),
     );
   }
 }
