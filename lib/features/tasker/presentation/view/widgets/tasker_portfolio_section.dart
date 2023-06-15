@@ -1,4 +1,3 @@
-
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/core/constants/text.dart';

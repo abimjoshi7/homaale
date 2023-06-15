@@ -17,6 +17,12 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
   final bookingsBloc = locator<BookingsBloc>();
 
   @override
+  void initState() {
+    super.initState();
+    bookingsBloc.add(BookingLoaded(page: 1));
+  }
+
+  @override
   void dispose() {
     bookingsBloc.close();
     super.dispose();

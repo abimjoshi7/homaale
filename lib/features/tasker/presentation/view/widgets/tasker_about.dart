@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/dimensions.dart';
-import 'package:cipher/features/tasker/data/models/tasker_list_res.dart'
-    as tsklst;
+import 'package:cipher/features/tasker/data/models/tasker_list_res.dart' as tsklst;
+import 'package:cipher/features/tasker/presentation/view/widgets/tasker_certificate_section.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_description_section.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_education_section.dart';
 import 'package:cipher/features/tasker/presentation/view/widgets/tasker_experience_section.dart';
@@ -21,6 +21,7 @@ class TaskerAboutSection extends StatefulWidget {
     this.experience,
     this.education,
     this.joinedDate,
+    this.certificates,
   });
 
   final String? bio;
@@ -33,6 +34,7 @@ class TaskerAboutSection extends StatefulWidget {
   final List<tsklst.Portfolio>? portfolio;
   final List<tsklst.Experience>? experience;
   final List<tsklst.Education>? education;
+  final List<tsklst.Certificate>? certificates;
 
   @override
   State<TaskerAboutSection> createState() => _TaskerAboutSectionState();
@@ -78,6 +80,11 @@ class _TaskerAboutSectionState extends State<TaskerAboutSection> {
             if (widget.education!.isNotEmpty)
               TaskerEducationSection(
                 education: widget.education ?? [],
+              ),
+            addVerticalSpace(16),
+            if (widget.certificates!.isNotEmpty)
+              TaskerCertificateSection(
+                certificate: widget.certificates ?? [],
               )
             else
               Container(),

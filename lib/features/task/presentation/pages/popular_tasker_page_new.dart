@@ -104,6 +104,7 @@ class _TaskerListState extends State<TaskerList> {
                             rate: "Rs. ${state.tasker[index].hourlyRate}",
                             callbackLabel: state.tasker[index].isFollowed ?? false ? 'Following' : 'Follow',
                             isFollowed: state.tasker[index].isFollowed ?? false,
+                            buttonWidth: MediaQuery.of(context).size.width,
                             callback: () {
                               if (CacheHelper.isLoggedIn == false) {
                                 notLoggedInPopUp(context);
