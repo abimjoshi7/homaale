@@ -12,12 +12,14 @@ class TaskerDescriptionSection extends StatelessWidget {
     this.activeHourEnd,
     this.skills,
     this.location,
+    this.joinedDate,
   });
 
   final String? bio;
   final String? contact;
   final String? activeHourStart;
   final String? activeHourEnd;
+  final DateTime? joinedDate;
   final String? skills;
   final String? location;
 
@@ -28,14 +30,15 @@ class TaskerDescriptionSection extends StatelessWidget {
         return Text(bio!);
       } else {
         return const Text(
-          'A professional gardener with over 10 years of experience. I specialise in Lasagna gardening, Keyhole gardening, mittleider gardening, square foot gardening, and  conventional gardening. ',
+          '',
         );
       }
     }
 
     Widget displayUsername() {
       if (contact != null && contact!.isNotEmpty) {
-        return WidgetText(widget: Image.asset('assets/mail.png'), label: contact!);
+        return WidgetText(
+            widget: Image.asset('assets/mail.png'), label: contact!);
       } else {
         return WidgetText(
           widget: Image.asset('assets/mail.png'),
@@ -58,7 +61,31 @@ class TaskerDescriptionSection extends StatelessWidget {
       } else {
         return WidgetText(
           widget: Image.asset('assets/clock.png'),
-          label: 'Active Hours: 12:00 am - 8:00 pm',
+          label: '',
+        );
+      }
+    }
+
+    Widget displayJoinedDate() {
+      if ((joinedDate != null)) {
+        return WidgetText(
+          widget: Image.asset('assets/clock.png'),
+          label: "Joined Date: ${DateFormat.jm().format(
+            DateFormat('hh:mm:ss').parse(activeHourStart!),
+
+            // Jiffy(joinedDate.toString()) ,
+            // DateFormat('yyyy-mm-dd HH:mm').parse(joinedDate!),
+          )} - ${DateFormat.jm().format(
+            DateFormat('hh:mm:ss').parse(activeHourStart!),
+
+            // Jiffy(joinedDate).year,
+            // DateFormat('yyyy-mm-dd HH:mm').parse(joinedDate!),
+          )}",
+        );
+      } else {
+        return WidgetText(
+          widget: Image.asset('assets/clock.png'),
+          label: '',
         );
       }
     }
@@ -109,6 +136,7 @@ class TaskerDescriptionSection extends StatelessWidget {
         children: [
           displayBio(),
           kHeight15,
+          displayJoinedDate(),
           // displayUsername(),
           displayActiveHours(),
           displaySkill(),

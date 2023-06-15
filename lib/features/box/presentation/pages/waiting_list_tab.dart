@@ -112,6 +112,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
                       return Container(
                         margin: EdgeInsets.symmetric(vertical: 8),
                         child: BookingsServiceCard(
+                          hideImage: false,
                           callback: () {
                             context.read<BookingsBloc>().add(
                                   BookingSingleLoaded(
@@ -210,7 +211,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
       children: [
         result.budgetFrom == 0 || result.budgetFrom == null
             ? Text(
-                "Rs. ${Decimal.parse(result.budgetTo ?? '0.0')}",
+                "Rs. ${Decimal.parse(result.budgetTo ?? '10.0')}",
                 // style: kText17,
               )
             : Text(
@@ -218,7 +219,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
                 // style: kText17,
               ),
         Text(
-          '/ ${result.entityService?.budgetType}',
+          '/ ${result.entityService?.budgetType}   ',
           // style: kHelper13,
         ),
       ],
