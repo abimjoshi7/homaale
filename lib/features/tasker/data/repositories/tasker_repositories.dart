@@ -120,16 +120,18 @@ class TaskerRepositories {
 
   Future<Map<String, dynamic>> getSingleTaskerReviews({
     required String userId,
+    String? rating,
+    String? order,
   }) async {
     try {
       if (!CacheHelper.isLoggedIn) {
         final res = await _dio.getData(
-          url: 'task/rating/list/$userId',
+          url: 'task/rating/list/$userId/?page=1&rating=${rating ?? ''}&ordering=${order ?? ''}',
         );
         return res as Map<String, dynamic>;
       } else {
         final res = await _dio.getDatawithCredential(
-          url: 'task/rating/list/$userId',
+          url: 'task/rating/list/$userId/?page=1&rating=${rating ?? ''}&ordering=${order ?? ''}',
           token: CacheHelper.accessToken,
         );
         return res as Map<String, dynamic>;
