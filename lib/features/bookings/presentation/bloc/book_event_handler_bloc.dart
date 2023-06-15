@@ -30,10 +30,17 @@ class BookEventHandlerBloc
             requirements: event.req?.requirements,
             city: event.req?.city.toString(),
             address: event.req?.location,
-            isTermAccepted: event.isTermAccepted,
           ),
         );
       },
+    );
+
+    on<BookEventAcceptTerms>(
+      (event, emit) => emit(
+        state.copyWith(
+          isTermAccepted: event.isTermAccepted,
+        ),
+      ),
     );
   }
 }

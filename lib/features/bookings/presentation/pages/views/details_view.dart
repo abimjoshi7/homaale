@@ -14,9 +14,11 @@ import 'package:cipher/widgets/widgets.dart';
 
 class DetailsView extends StatefulWidget {
   final UploadBloc uploadBloc;
+  final BookEventHandlerBloc bookEventHandlerBloc;
   const DetailsView({
     Key? key,
     required this.uploadBloc,
+    required this.bookEventHandlerBloc,
   }) : super(key: key);
 
   @override
@@ -112,38 +114,36 @@ class _DetailsViewState extends State<DetailsView> {
                           ),
                         );
                     } else
-                      context.read<BookEventHandlerBloc>().add(
-                            BookEventPicked(
-                              req: BookEntityServiceReq(
-                                budgetTo: double.parse(
-                                  p0!,
-                                ),
-                                endDate: DateTime.parse(context
-                                    .read<BookEventHandlerBloc>()
-                                    .state
-                                    .endDate!),
-                              ),
+                      widget.bookEventHandlerBloc.add(
+                        BookEventPicked(
+                          req: BookEntityServiceReq(
+                            budgetTo: double.parse(
+                              p0!,
                             ),
-                          );
+                            endDate: DateTime.parse(context
+                                .read<BookEventHandlerBloc>()
+                                .state
+                                .endDate!),
+                          ),
+                        ),
+                      );
                   },
                 ),
               );
             if (state.taskEntityService?.isNegotiable == true)
               return NumberIncDecField(
                 controller: budgetController,
-                onSubmit: (value) => context.read<BookEventHandlerBloc>().add(
-                      BookEventPicked(
-                        req: BookEntityServiceReq(
-                          budgetTo: double.parse(
-                            budgetController.text,
-                          ),
-                          endDate: DateTime.parse(context
-                              .read<BookEventHandlerBloc>()
-                              .state
-                              .endDate!),
-                        ),
+                onSubmit: (value) => widget.bookEventHandlerBloc.add(
+                  BookEventPicked(
+                    req: BookEntityServiceReq(
+                      budgetTo: double.parse(
+                        budgetController.text,
                       ),
+                      endDate: DateTime.parse(
+                          widget.bookEventHandlerBloc.state.endDate!),
                     ),
+                  ),
+                ),
               );
             return SizedBox(
               width: 100,
@@ -224,17 +224,13 @@ class _DetailsViewState extends State<DetailsView> {
                     setState(
                       () {
                         requirementList.add(requirementController.text);
-                        context.read<BookEventHandlerBloc>().add(
-                              BookEventPicked(
-                                req: BookEntityServiceReq(
-                                  requirements: requirementList,
-                                  endDate: DateTime.parse(context
-                                      .read<BookEventHandlerBloc>()
-                                      .state
-                                      .endDate!),
-                                ),
-                              ),
-                            );
+                        widget.bookEventHandlerBloc.add(
+                          BookEventPicked(
+                            req: BookEntityServiceReq(
+                              requirements: requirementList,
+                            ),
+                          ),
+                        );
                         requirementController.clear();
                       },
                     );
@@ -257,16 +253,16 @@ class _DetailsViewState extends State<DetailsView> {
           hintText: "Service Desciption Here",
           controller: problemDescController,
           validator: validateNotEmpty,
-          onChanged: (p0) => context.read<BookEventHandlerBloc>().add(
-                BookEventPicked(
-                  req: BookEntityServiceReq(
-                    description: problemDescController.text,
-                    endDate: DateTime.parse(
-                      context.read<BookEventHandlerBloc>().state.endDate!,
-                    ),
-                  ),
+          onChanged: (p0) => widget.bookEventHandlerBloc.add(
+            BookEventPicked(
+              req: BookEntityServiceReq(
+                description: problemDescController.text,
+                endDate: DateTime.parse(
+                  widget.bookEventHandlerBloc.state.endDate!,
                 ),
               ),
+            ),
+          ),
         ),
       ),
     );
@@ -279,13 +275,13 @@ class _DetailsViewState extends State<DetailsView> {
         label: 'City',
         child: BlocBuilder<CityBloc, CityState>(
           builder: (context, state) {
-            context.read<BookEventHandlerBloc>().add(
-                  BookEventPicked(
-                    req: BookEntityServiceReq(
-                      city: int.parse(kCityCode),
-                    ),
-                  ),
-                );
+            widget.bookEventHandlerBloc.add(
+              BookEventPicked(
+                req: BookEntityServiceReq(
+                  city: int.parse(kCityCode),
+                ),
+              ),
+            );
             if (state is CityLoadSuccess) {
               return CustomDropdownSearch(
                 selectedItem: state.list
@@ -306,13 +302,13 @@ class _DetailsViewState extends State<DetailsView> {
                       cityCode = x.id;
                     },
                   );
-                  context.read<BookEventHandlerBloc>().add(
-                        BookEventPicked(
-                          req: BookEntityServiceReq(
-                            city: cityCode,
-                          ),
-                        ),
-                      );
+                  widget.bookEventHandlerBloc.add(
+                    BookEventPicked(
+                      req: BookEntityServiceReq(
+                        city: cityCode,
+                      ),
+                    ),
+                  );
                 },
               );
             }
@@ -342,12 +338,12 @@ class _DetailsViewState extends State<DetailsView> {
                         isAddressVisible = false;
                       },
                     );
-                    context.read<BookEventHandlerBloc>().add(
-                          BookEventPicked(
-                              req: BookEntityServiceReq(
-                            location: addressType,
-                          )),
-                        );
+                    widget.bookEventHandlerBloc.add(
+                      BookEventPicked(
+                          req: BookEntityServiceReq(
+                        location: addressType,
+                      )),
+                    );
                   },
                 ),
                 const Text('Remote'),
@@ -372,13 +368,13 @@ class _DetailsViewState extends State<DetailsView> {
                 controller: addressController,
                 validator: validateNotEmpty,
                 onChanged: (p0) {
-                  context.read<BookEventHandlerBloc>().add(
-                        BookEventPicked(
-                          req: BookEntityServiceReq(
-                            location: p0,
-                          ),
-                        ),
-                      );
+                  widget.bookEventHandlerBloc.add(
+                    BookEventPicked(
+                      req: BookEntityServiceReq(
+                        location: p0,
+                      ),
+                    ),
+                  );
                 },
               ),
             ),
@@ -390,28 +386,10 @@ class _DetailsViewState extends State<DetailsView> {
 
   SliverToBoxAdapter _buildMultimedia() {
     return SliverToBoxAdapter(
-      child: BlocListener<UploadBloc, UploadState>(
-        listener: (context, state) {
-          if (state.imageFileList.isNotEmpty) {
-            context.read<UploadBloc>().add(
-                  ImageToFilestoreUploaded(
-                    list: state.imageFileList,
-                  ),
-                );
-          }
-          if (state.videoFileList.isNotEmpty) {
-            context.read<UploadBloc>().add(
-                  VideoToFilestoreUploaded(
-                    list: state.videoFileList,
-                  ),
-                );
-          }
-        },
-        child: Padding(
-          padding: const EdgeInsets.only(bottom: 8.0),
-          child: CustomMultimedia(
-            bloc: widget.uploadBloc,
-          ),
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: CustomMultimedia(
+          bloc: widget.uploadBloc,
         ),
       ),
     );
@@ -424,16 +402,13 @@ class _DetailsViewState extends State<DetailsView> {
           CustomCheckBox(
             isChecked: isTermsAccepted,
             onTap: () async {
-              setState(
-                () {
-                  isTermsAccepted = !isTermsAccepted;
-                },
+              isTermsAccepted = !isTermsAccepted;
+              widget.bookEventHandlerBloc.add(
+                BookEventAcceptTerms(
+                  isTermAccepted: isTermsAccepted,
+                ),
               );
-              context.read<BookEventHandlerBloc>().add(
-                    BookEventPicked(
-                      isTermAccepted: isTermsAccepted,
-                    ),
-                  );
+              setState(() {});
             },
           ),
           addHorizontalSpace(10),
