@@ -8,7 +8,8 @@ import 'package:cipher/features/bookings/data/models/booking_single_dto.dart';
 import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_res.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as booking;
+import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart'
+    as booking;
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:dependencies/dependencies.dart';
@@ -63,7 +64,8 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               emit(
                 state.copyWith(
                   states: TheStates.success,
-                  myBookingListModel: booking.MyBookingListModel.fromJson(value),
+                  myBookingListModel:
+                      booking.MyBookingListModel.fromJson(value),
                   isLoaded: true,
                   isUpdated: false,
                   isCancelled: false,
@@ -300,7 +302,9 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
     on<BookingStatusUpdate>(
       (event, emit) async {
         try {
-          await repositories.updateStatus(status: event.status, id: event.id).then(
+          await repositories
+              .updateStatus(status: event.status, id: event.id)
+              .then(
             (value) {
               print(value);
               emit(
@@ -351,5 +355,11 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
         }
       },
     );
+    on<BookingNegotiationBudgetUpdate>((event, emit) async {
+      await repositories.updateNegotiationBookingPrice(
+        budget: event.budget,
+        id: event.id,
+      );
+    });
   }
 }

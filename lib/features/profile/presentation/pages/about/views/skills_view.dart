@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/profile/presentation/pages/about/widgets/widgets.dart';
-import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/skills/skills_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -28,7 +27,8 @@ class _SkillsViewState extends State<SkillsView> {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
-          List<int> skills = state.taskerProfile?.skills?.map((e) => e.id!).toList() ?? [];
+          List<int> skills =
+              state.taskerProfile?.skills?.map((e) => e.id!).toList() ?? [];
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -60,10 +60,12 @@ class _SkillsViewState extends State<SkillsView> {
                                   child: Column(
                                     children: [
                                       Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Row(
-                                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
                                             children: [
                                               const Text(
                                                 'Skills',
@@ -83,20 +85,29 @@ class _SkillsViewState extends State<SkillsView> {
                                           kHeight5,
                                           BlocBuilder<SkillsBloc, SkillsState>(
                                             builder: (context, state) {
-                                              if (state.theStates == TheStates.success) {
+                                              if (state.theStates ==
+                                                  TheStates.success) {
                                                 return MultiSelectDialogField(
-                                                  initialValue: widget.isForm ? state.skillsIdList ?? skills : skills,
+                                                  initialValue: widget.isForm
+                                                      ? state.skillsIdList ??
+                                                          skills
+                                                      : skills,
                                                   items: List.generate(
                                                     state.skillListRes.length,
                                                     (index) => MultiSelectItem(
-                                                      state.skillListRes[index].id,
-                                                      state.skillListRes[index].name.toString(),
+                                                      state.skillListRes[index]
+                                                          .id,
+                                                      state.skillListRes[index]
+                                                          .name
+                                                          .toString(),
                                                     ),
                                                   ),
                                                   onConfirm: (p0) {
                                                     setState(
                                                       () {
-                                                        skills = p0.map((e) => e!).toList();
+                                                        skills = p0
+                                                            .map((e) => e!)
+                                                            .toList();
                                                       },
                                                     );
                                                   },
@@ -185,7 +196,8 @@ class _SkillsViewState extends State<SkillsView> {
               BlocBuilder<SkillsBloc, SkillsState>(
                 builder: (context, state) {
                   final List<String> _skillNames = _getSkillNames(
-                    skillsIdList: widget.isForm ? state.skillsIdList ?? skills : skills,
+                    skillsIdList:
+                        widget.isForm ? state.skillsIdList ?? skills : skills,
                     skillModelList: state.skillListRes,
                   );
                   ;
@@ -195,7 +207,8 @@ class _SkillsViewState extends State<SkillsView> {
                     child: ListView.separated(
                       padding: EdgeInsets.zero,
                       scrollDirection: Axis.horizontal,
-                      itemBuilder: (context, index) => SkillBox(label: _skillNames[index]),
+                      itemBuilder: (context, index) =>
+                          SkillBox(label: _skillNames[index]),
                       separatorBuilder: (context, index) => kWidth10,
                       itemCount: _skillNames.length,
                     ),

@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
@@ -24,12 +26,18 @@ class BookedServicePage extends StatefulWidget {
 
 class _BookedServicePageState extends State<BookedServicePage> {
   int _imageIndex = 0;
-
+  TextEditingController budgetController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocBuilder<BookingsBloc, BookingsState>(
         builder: (context, state) {
+          budgetController.setText(double.parse(
+                  state.result.entityService?.isRequested ?? false
+                      ? state.result.earning ?? '0.0'
+                      : state.result.price ?? '0.0')
+              .toInt()
+              .toString());
           if (state.states == TheStates.initial) {
             return const Center(
               child: CardLoading(
@@ -230,7 +238,11 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                 Text('Proposed Price : ',
                                     style: TextStyle(color: Colors.grey)),
                                 Text(
-                                    double.parse(booking.earning.toString())
+                                    double.parse(booking.entityService
+                                                    ?.isRequested ??
+                                                false
+                                            ? booking.earning.toString()
+                                            : booking.price.toString())
                                         .toStringAsFixed(2),
                                     style: TextStyle(color: Colors.grey)),
                               ],
@@ -445,15 +457,67 @@ class _BookedServicePageState extends State<BookedServicePage> {
                   visible: booking.isAccepted ?? false,
                   child: PriceBookFooterSection(
                     onPressed: () {
-                      showBottomSheet(
+                      showModalBottomSheet(
+                        isScrollControlled: true,
                         context: context,
-                        builder: (context) {
-                          return SizedBox();
-                        },
+                        builder: (context) => Padding(
+                          padding: EdgeInsets.only(
+                            left: 16.0,
+                            top: 16.0,
+                            right: 16.0,
+                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                          ),
+                          child: Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              const CustomModalSheetDrawerIcon(),
+                              Padding(
+                                padding: kPadding10,
+                                child: Column(
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            const Text(
+                                              'Enter Budget',
+                                              style: kPurpleText16,
+                                            ),
+                                          ],
+                                        ),
+                                        kHeight5,
+                                        NumberIncDecField(
+                                          width: double.infinity,
+                                          onSubmit: (value) {},
+                                          controller: budgetController,
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              CustomElevatedButton(
+                                callback: () async =>
+                                    context.read<BookingsBloc>().add(
+                                          BookingNegotiationBudgetUpdate(
+                                            id: booking.id ?? 0,
+                                            budget: budgetController.text,
+                                          ),
+                                        ),
+                                label: 'Update Price',
+                              ),
+                              kHeight50,
+                            ],
+                          ),
+                        ),
                       );
                     },
                     price:
-                        'RS. ${double.parse(booking.earning.toString()).toStringAsFixed(2)}',
+                        'RS. ${double.parse(booking.entityService?.isRequested ?? false ? booking.earning.toString() : booking.price.toString()).toStringAsFixed(2)}',
                     bgColor: Colors.blue.shade50,
                     buttonLabel: 'Set Budget',
                     buttonColor: kColorPrimary,

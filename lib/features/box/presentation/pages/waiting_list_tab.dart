@@ -36,7 +36,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
       FetchItemsEvent(
         url: kMyBookingList,
         data: {
-          "is_accepted": false,
+          // "is_accepted": false,
           "status": "pending",
         },
         newFetch: false,
@@ -85,7 +85,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
                       FetchItemsEvent(
                         url: kMyBookingList,
                         data: {
-                          "is_accepted": false,
+                          // "is_accepted": false,
                           "status": "pending",
                         },
                         newFetch: true,
