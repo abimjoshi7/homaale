@@ -33,6 +33,7 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
   @override
   void initState() {
     super.initState();
+    startTime = DateTime.now();
     context.read<BookEventHandlerBloc>().add(
           BookEventPicked(
             req: BookEntityServiceReq(
@@ -50,22 +51,22 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const CustomFormField(
-          label: 'When do you need this done?',
-          child: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: 8.0,
-            ),
-            child: Text(
-              'Select task date from the calender to complete booking.',
-              // style: kHelper13,
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          const CustomFormField(
+            label: 'When do you need this done?',
+            child: Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: 8.0,
+              ),
+              child: Text(
+                'Select task date from the calender to complete booking.',
+                // style: kHelper13,
+              ),
             ),
           ),
-        ),
-        Expanded(
-          child: BlocBuilder<EventBloc, EventState>(
+          BlocBuilder<EventBloc, EventState>(
             builder: (context, state) {
               if (state.isLoaded == true) {
                 if (dateList.isEmpty) {
@@ -83,40 +84,44 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
               }
               return Column(
                 children: [
-                  Expanded(child: _buildCalender(context)),
+                  _buildCalender(context),
                   _buildTimeSlots(state, context),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      vertical: 8,
-                    ),
-                    child: CustomDottedContainerStack(
-                      theColor: kColorGrey.withOpacity(.3),
-                      theWidget: Text.rich(
-                        TextSpan(
-                          text: "Total Price :  ",
-                          children: [
-                            TextSpan(
-                              text: "Rs " +
-                                  double.parse(
-                                    context
-                                        .read<TaskEntityServiceBloc>()
-                                        .state
-                                        .taskEntityService!
-                                        .payableTo!,
-                                  ).toInt().toString(),
-                              style: Theme.of(context).textTheme.displayLarge,
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                  _buildPriceSection(context),
                 ],
               );
             },
           ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildPriceSection(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 8,
+      ),
+      child: CustomDottedContainerStack(
+        theColor: kColorGrey.withOpacity(.3),
+        theWidget: Text.rich(
+          TextSpan(
+            text: "Total Price :  ",
+            children: [
+              TextSpan(
+                text: "Rs " +
+                    double.parse(
+                      context
+                          .read<TaskEntityServiceBloc>()
+                          .state
+                          .taskEntityService!
+                          .payableTo!,
+                    ).toInt().toString(),
+                style: Theme.of(context).textTheme.displayLarge,
+              ),
+            ],
+          ),
         ),
-      ],
+      ),
     );
   }
 
@@ -162,7 +167,7 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
                                           BookEventPicked(
                                             req: BookEntityServiceReq(
                                               startTime: startTime != null
-                                                  ? DateFormat.jms()
+                                                  ? DateFormat.Hms()
                                                       .format(startTime!)
                                                   : null,
                                               endDate: DateTime.parse(
@@ -206,7 +211,7 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
                                           BookEventPicked(
                                             req: BookEntityServiceReq(
                                               endTime: endTime != null
-                                                  ? DateFormat.jms()
+                                                  ? DateFormat.Hms()
                                                       .format(endTime!)
                                                   : null,
                                               endDate: DateTime.parse(
@@ -335,47 +340,46 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
-          Expanded(
-            child: TheCalender(
-              calendarFormat: calendarFormat,
-              onFormatChange: (p0) => setState(
-                () {
-                  calendarFormat = p0;
-                },
-              ),
-              dateList: dateList,
-              focusedDate: focusedDate,
-              onSelect: (selectedDay, focusedDay) {
-                setState(
-                  () {
-                    focusedDate = focusedDay;
-                  },
-                );
-                context.read<BookEventHandlerBloc>().add(
-                      BookEventPicked(
-                        req: BookEntityServiceReq(
-                          endDate: focusedDate,
-                        ),
-                      ),
-                    );
-              },
-              onEvent: (day) {
-                for (final element in dateList) {
-                  if (element.toDateOnly().isAtSameMomentAs(
-                        day.toDateOnly(),
-                      )) {
-                    return [
-                      const SizedBox.shrink(),
-                    ];
-                  }
-                }
-                return [];
+          TheCalender(
+            calendarFormat: calendarFormat,
+            onFormatChange: (p0) => setState(
+              () {
+                calendarFormat = p0;
               },
             ),
+            dateList: dateList,
+            focusedDate: focusedDate,
+            onSelect: (selectedDay, focusedDay) {
+              setState(
+                () {
+                  focusedDate = focusedDay;
+                },
+              );
+              context.read<BookEventHandlerBloc>().add(
+                    BookEventPicked(
+                      req: BookEntityServiceReq(
+                        endDate: focusedDate,
+                      ),
+                    ),
+                  );
+            },
+            onEvent: (day) {
+              for (final element in dateList) {
+                if (element.toDateOnly().isAtSameMomentAs(
+                      day.toDateOnly(),
+                    )) {
+                  return [
+                    const SizedBox.shrink(),
+                  ];
+                }
+              }
+              return [];
+            },
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
-              horizontal: 20,
+              horizontal: 16,
+              vertical: 8,
             ),
             child: Wrap(
               spacing: 20,
