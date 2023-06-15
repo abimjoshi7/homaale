@@ -29,7 +29,7 @@ const kColorPurple = Color(0xffB187F2);
 const kColorDarkPurple = Color(0xff3D3F7D);
 const kColorOrange = Color(0xffFF9700);
 const kColorPink = Color(0xfffe5050);
-const kColorPink50 = Color(0xffef8d8d);
+const kColorPink50 = Color(0xfff5aeae);
 
 Color randomColorGenerator() {
   return colorList[Random().nextInt(colorList.length)];

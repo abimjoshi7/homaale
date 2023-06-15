@@ -49,7 +49,7 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
           : Currency.fromJson(json['currency'] as Map<String, dynamic>),
       isRated: json['is_rated'] as bool?,
       cancellationReason: json['cancellation_reason'] as String?,
-      cancellationDescription: json['cancellation_decription'] as String?,
+      cancellationDescription: json['cancellation_description'] as String?,
       cancelledBy: json['cancelled_by'] == null
           ? null
           : Assignee.fromJson(json['cancelled_by'] as Map<String, dynamic>),
@@ -91,7 +91,7 @@ Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
       'currency': instance.currency,
       'is_rated': instance.isRated,
       'cancellation_reason': instance.cancellationReason,
-      'cancellation_decription': instance.cancellationDescription,
+      'cancellation_description': instance.cancellationDescription,
       'cancelled_by': instance.cancelledBy,
       'created_at': instance.createdAt?.toIso8601String(),
       'updated_at': instance.updatedAt?.toIso8601String(),

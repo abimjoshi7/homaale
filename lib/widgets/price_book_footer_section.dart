@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/core/constants/colors.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -7,6 +8,7 @@ class PriceBookFooterSection extends StatelessWidget {
     Key? key,
     required this.onPressed,
     this.price,
+    this.isNegotiable,
     this.buttonLabel,
     this.theLeftWidget,
     this.bgColor,
@@ -16,6 +18,7 @@ class PriceBookFooterSection extends StatelessWidget {
 
   final VoidCallback onPressed;
   final String? price;
+  final bool? isNegotiable;
   final String? buttonLabel;
   final Widget? theLeftWidget;
   final Color? bgColor;
@@ -30,9 +33,10 @@ class PriceBookFooterSection extends StatelessWidget {
       height: MediaQuery.of(context).size.height * 0.09,
       width: double.infinity,
       decoration: BoxDecoration(
-        color: bgColor ?? Theme.of(context).cardColor,
-        //Color(0xffBCD4FA),
-      ),
+          color: bgColor ?? Theme.of(context).cardColor,
+          border: Border.all(color: kColorBlue)
+          //Color(0xffBCD4FA),
+          ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
@@ -41,9 +45,10 @@ class PriceBookFooterSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text('Total Price'),
                   Text(
-                    price ?? 'Rs. 1000',
+                      'Total Price ${isNegotiable == true ? '(Negotiable)' : ""}'),
+                  Text(
+                    price ?? '',
                     // style: kText20,
                   ),
                 ],

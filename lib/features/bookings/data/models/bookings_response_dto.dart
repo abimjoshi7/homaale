@@ -30,7 +30,7 @@ class Result with _$Result {
     Currency? currency,
     @JsonKey(name: 'is_rated') bool? isRated,
     @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-    @JsonKey(name: 'cancellation_decription') String? cancellationDescription,
+    @JsonKey(name: 'cancellation_description') String? cancellationDescription,
     @JsonKey(name: 'cancelled_by') Assignee? cancelledBy,
     @JsonKey(name: 'created_at') DateTime? createdAt,
     @JsonKey(name: 'updated_at') DateTime? updatedAt,

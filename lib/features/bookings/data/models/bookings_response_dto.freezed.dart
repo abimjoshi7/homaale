@@ -309,7 +309,7 @@ mixin _$Result {
   bool? get isRated => throw _privateConstructorUsedError;
   @JsonKey(name: 'cancellation_reason')
   String? get cancellationReason => throw _privateConstructorUsedError;
-  @JsonKey(name: 'cancellation_decription')
+  @JsonKey(name: 'cancellation_description')
   String? get cancellationDescription => throw _privateConstructorUsedError;
   @JsonKey(name: 'cancelled_by')
   Assignee? get cancelledBy => throw _privateConstructorUsedError;
@@ -358,29 +358,46 @@ abstract class $ResultCopyWith<$Res> {
       {String? id,
       Assignee? assigner,
       Assignee? assignee,
-      @JsonKey(name: 'entity_service') EntityService? entityService,
+      @JsonKey(name: 'entity_service')
+          EntityService? entityService,
       Currency? currency,
-      @JsonKey(name: 'is_rated') bool? isRated,
-      @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-      @JsonKey(name: 'cancellation_decription') String? cancellationDescription,
-      @JsonKey(name: 'cancelled_by') Assignee? cancelledBy,
-      @JsonKey(name: 'created_at') DateTime? createdAt,
-      @JsonKey(name: 'updated_at') DateTime? updatedAt,
-      @JsonKey(name: 'is_active') bool? isActive,
+      @JsonKey(name: 'is_rated')
+          bool? isRated,
+      @JsonKey(name: 'cancellation_reason')
+          String? cancellationReason,
+      @JsonKey(name: 'cancellation_description')
+          String? cancellationDescription,
+      @JsonKey(name: 'cancelled_by')
+          Assignee? cancelledBy,
+      @JsonKey(name: 'created_at')
+          DateTime? createdAt,
+      @JsonKey(name: 'updated_at')
+          DateTime? updatedAt,
+      @JsonKey(name: 'is_active')
+          bool? isActive,
       String? status,
       String? title,
       String? description,
       String? price,
       String? earning,
-      @JsonKey(name: 'estimated_time') int? estimatedTime,
-      @JsonKey(name: 'start_date') DateTime? startDate,
-      @JsonKey(name: 'end_date') DateTime? endDate,
-      @JsonKey(name: 'completed_on') DateTime? completedOn,
-      @JsonKey(name: 'start_time') String? startTime,
-      @JsonKey(name: 'end_time') String? endTime,
-      @JsonKey(name: 'extra_data') dynamic extraData,
-      @JsonKey(name: 'is_paid') bool? isPaid,
-      @JsonKey(name: 'approved_by') String? approvedBy,
+      @JsonKey(name: 'estimated_time')
+          int? estimatedTime,
+      @JsonKey(name: 'start_date')
+          DateTime? startDate,
+      @JsonKey(name: 'end_date')
+          DateTime? endDate,
+      @JsonKey(name: 'completed_on')
+          DateTime? completedOn,
+      @JsonKey(name: 'start_time')
+          String? startTime,
+      @JsonKey(name: 'end_time')
+          String? endTime,
+      @JsonKey(name: 'extra_data')
+          dynamic extraData,
+      @JsonKey(name: 'is_paid')
+          bool? isPaid,
+      @JsonKey(name: 'approved_by')
+          String? approvedBy,
       int? booking});
 
   $AssigneeCopyWith<$Res>? get assigner;
@@ -614,29 +631,46 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       {String? id,
       Assignee? assigner,
       Assignee? assignee,
-      @JsonKey(name: 'entity_service') EntityService? entityService,
+      @JsonKey(name: 'entity_service')
+          EntityService? entityService,
       Currency? currency,
-      @JsonKey(name: 'is_rated') bool? isRated,
-      @JsonKey(name: 'cancellation_reason') String? cancellationReason,
-      @JsonKey(name: 'cancellation_decription') String? cancellationDescription,
-      @JsonKey(name: 'cancelled_by') Assignee? cancelledBy,
-      @JsonKey(name: 'created_at') DateTime? createdAt,
-      @JsonKey(name: 'updated_at') DateTime? updatedAt,
-      @JsonKey(name: 'is_active') bool? isActive,
+      @JsonKey(name: 'is_rated')
+          bool? isRated,
+      @JsonKey(name: 'cancellation_reason')
+          String? cancellationReason,
+      @JsonKey(name: 'cancellation_description')
+          String? cancellationDescription,
+      @JsonKey(name: 'cancelled_by')
+          Assignee? cancelledBy,
+      @JsonKey(name: 'created_at')
+          DateTime? createdAt,
+      @JsonKey(name: 'updated_at')
+          DateTime? updatedAt,
+      @JsonKey(name: 'is_active')
+          bool? isActive,
       String? status,
       String? title,
       String? description,
       String? price,
       String? earning,
-      @JsonKey(name: 'estimated_time') int? estimatedTime,
-      @JsonKey(name: 'start_date') DateTime? startDate,
-      @JsonKey(name: 'end_date') DateTime? endDate,
-      @JsonKey(name: 'completed_on') DateTime? completedOn,
-      @JsonKey(name: 'start_time') String? startTime,
-      @JsonKey(name: 'end_time') String? endTime,
-      @JsonKey(name: 'extra_data') dynamic extraData,
-      @JsonKey(name: 'is_paid') bool? isPaid,
-      @JsonKey(name: 'approved_by') String? approvedBy,
+      @JsonKey(name: 'estimated_time')
+          int? estimatedTime,
+      @JsonKey(name: 'start_date')
+          DateTime? startDate,
+      @JsonKey(name: 'end_date')
+          DateTime? endDate,
+      @JsonKey(name: 'completed_on')
+          DateTime? completedOn,
+      @JsonKey(name: 'start_time')
+          String? startTime,
+      @JsonKey(name: 'end_time')
+          String? endTime,
+      @JsonKey(name: 'extra_data')
+          dynamic extraData,
+      @JsonKey(name: 'is_paid')
+          bool? isPaid,
+      @JsonKey(name: 'approved_by')
+          String? approvedBy,
       int? booking});
 
   @override
@@ -813,7 +847,7 @@ class _$_Result implements _Result {
       this.currency,
       @JsonKey(name: 'is_rated') this.isRated,
       @JsonKey(name: 'cancellation_reason') this.cancellationReason,
-      @JsonKey(name: 'cancellation_decription') this.cancellationDescription,
+      @JsonKey(name: 'cancellation_description') this.cancellationDescription,
       @JsonKey(name: 'cancelled_by') this.cancelledBy,
       @JsonKey(name: 'created_at') this.createdAt,
       @JsonKey(name: 'updated_at') this.updatedAt,
@@ -855,7 +889,7 @@ class _$_Result implements _Result {
   @JsonKey(name: 'cancellation_reason')
   final String? cancellationReason;
   @override
-  @JsonKey(name: 'cancellation_decription')
+  @JsonKey(name: 'cancellation_description')
   final String? cancellationDescription;
   @override
   @JsonKey(name: 'cancelled_by')
@@ -1024,7 +1058,7 @@ abstract class _Result implements Result {
           final bool? isRated,
       @JsonKey(name: 'cancellation_reason')
           final String? cancellationReason,
-      @JsonKey(name: 'cancellation_decription')
+      @JsonKey(name: 'cancellation_description')
           final String? cancellationDescription,
       @JsonKey(name: 'cancelled_by')
           final Assignee? cancelledBy,
@@ -1079,7 +1113,7 @@ abstract class _Result implements Result {
   @JsonKey(name: 'cancellation_reason')
   String? get cancellationReason;
   @override
-  @JsonKey(name: 'cancellation_decription')
+  @JsonKey(name: 'cancellation_description')
   String? get cancellationDescription;
   @override
   @JsonKey(name: 'cancelled_by')

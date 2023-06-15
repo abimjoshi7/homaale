@@ -5,15 +5,16 @@ import 'package:flutter/material.dart';
 class RequirementSection extends StatelessWidget {
   const RequirementSection({
     super.key,
-    this.requirementList,
+    this.requirementList, this.labelText,
   });
 
   final List<String>? requirementList;
+  final String? labelText;
 
   @override
   Widget build(BuildContext context) {
     return CustomFormField(
-      label: "Highlights",
+      label:labelText ?? "Highlights",
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(
