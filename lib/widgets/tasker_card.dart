@@ -139,7 +139,10 @@ class TaskerCard extends StatelessWidget {
                       ],
                     ),
                   ),
-                  _buildButton(context),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: _buildButton(context),
+                  ),
                   SizedBox(
                     height: 2,
                   ),

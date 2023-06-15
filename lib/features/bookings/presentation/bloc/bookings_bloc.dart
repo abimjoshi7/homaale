@@ -26,15 +26,16 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
           emit(state.copyWith(states: TheStates.initial));
           await repositories
               .fetchBookingsList(
-            status: event.status,
             page: event.page,
           )
               .then(
             (value) {
+              final val = BookingsResponseDto.fromJson(value);
+              print(val);
               emit(
                 state.copyWith(
                   states: TheStates.success,
-                  bookingList: BookingsResponseDto.fromJson(value),
+                  bookingList: val,
                   isLoaded: true,
                   isUpdated: false,
                   isCancelled: false,

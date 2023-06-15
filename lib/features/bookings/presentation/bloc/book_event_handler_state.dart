@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'book_event_handler_bloc.dart';
 
 class BookEventHandlerState extends Equatable {
@@ -5,27 +6,27 @@ class BookEventHandlerState extends Equatable {
   final String? endDate;
   final String? startTime;
   final String? endTime;
+  final String? description;
+  final String? address;
   final TimeSlot? timeSlot;
   final TheStates states;
   final double? budget;
   final List<String>? requirements;
-  final String? description;
-  final List<int>? images;
-  final List<int>? videos;
-  final int? city;
+  final String city;
+  final bool isTermAccepted;
   const BookEventHandlerState({
     this.startDate,
     this.endDate,
     this.startTime,
     this.endTime,
+    this.description,
+    this.address,
     this.timeSlot,
     this.states = TheStates.initial,
     this.budget,
     this.requirements,
-    this.description,
-    this.images,
-    this.videos,
-    this.city,
+    this.city = kCityCode,
+    this.isTermAccepted = false,
   });
   @override
   List<Object?> get props {
@@ -34,14 +35,14 @@ class BookEventHandlerState extends Equatable {
       endDate,
       startTime,
       endTime,
+      description,
+      address,
       timeSlot,
       states,
       budget,
       requirements,
-      description,
-      images,
-      videos,
       city,
+      isTermAccepted,
     ];
   }
 
@@ -50,28 +51,28 @@ class BookEventHandlerState extends Equatable {
     String? endDate,
     String? startTime,
     String? endTime,
+    String? description,
+    String? address,
     TimeSlot? timeSlot,
     TheStates? states,
     double? budget,
     List<String>? requirements,
-    String? description,
-    List<int>? images,
-    List<int>? videos,
-    int? city,
+    String? city,
+    bool? isTermAccepted,
   }) {
     return BookEventHandlerState(
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       startTime: startTime ?? this.startTime,
       endTime: endTime ?? this.endTime,
+      description: description ?? this.description,
+      address: address ?? this.address,
       timeSlot: timeSlot ?? this.timeSlot,
       states: states ?? this.states,
       budget: budget ?? this.budget,
       requirements: requirements ?? this.requirements,
-      description: description ?? this.description,
-      images: images ?? this.images,
-      videos: videos ?? this.videos,
       city: city ?? this.city,
+      isTermAccepted: isTermAccepted ?? this.isTermAccepted,
     );
   }
 }

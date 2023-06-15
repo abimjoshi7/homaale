@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -37,8 +38,9 @@ class TheCalender extends StatelessWidget {
           shape: BoxShape.circle,
         ),
       ),
-      onFormatChanged: onFormatChange,
-      calendarFormat: calendarFormat ?? CalendarFormat.month,
+      // onFormatChanged: onFormatChange,
+      // calendarFormat: calendarFormat ?? CalendarFormat.month,
+      calendarFormat: CalendarFormat.month,
       calendarBuilders: CalendarBuilders(
         markerBuilder: (context, day, events) {
           for (final DateTime element in dateList ?? []) {
