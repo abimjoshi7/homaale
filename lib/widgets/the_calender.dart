@@ -42,38 +42,6 @@ class TheCalender extends StatelessWidget {
       // calendarFormat: calendarFormat ?? CalendarFormat.month,
       calendarFormat: CalendarFormat.month,
       calendarBuilders: CalendarBuilders(
-        outsideBuilder: (context, day, focusedDay) => Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16,
-            vertical: 8,
-          ),
-          child: Column(
-            children: [
-              Row(
-                children: [
-                  IconText(
-                    label: 'Selected',
-                    iconData: Icons.circle,
-                    size: 13,
-                    color: kColorAmber,
-                  ),
-                  IconText(
-                    label: 'Available',
-                    iconData: Icons.circle,
-                    size: 13,
-                    color: Colors.black,
-                  ),
-                  IconText(
-                    label: 'Unavailable',
-                    iconData: Icons.circle,
-                    size: 13,
-                    color: Colors.grey,
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
         markerBuilder: (context, day, events) {
           for (final DateTime element in dateList ?? []) {
             if (element.toDateOnly().isAtSameMomentAs(

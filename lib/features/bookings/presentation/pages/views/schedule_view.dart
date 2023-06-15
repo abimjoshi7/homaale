@@ -376,6 +376,32 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
               return [];
             },
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Wrap(
+              spacing: 20,
+              children: [
+                IconText(
+                  label: 'Selected',
+                  iconData: Icons.circle,
+                  size: 13,
+                  color: kColorAmber,
+                ),
+                IconText(
+                  label: 'Available',
+                  iconData: Icons.circle,
+                  size: 13,
+                  color: Colors.black,
+                ),
+                IconText(
+                  label: 'Unavailable',
+                  iconData: Icons.circle,
+                  size: 13,
+                  color: Colors.grey,
+                ),
+              ],
+            ),
+          ),
           addVerticalSpace(
             8,
           ),
