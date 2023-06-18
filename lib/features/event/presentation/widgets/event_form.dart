@@ -1,6 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:convert';
 
+import 'package:cipher/features/event/presentation/pages/event_details_page.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -79,6 +79,9 @@ class _EventFormState extends State<EventForm> {
         seconds: int.parse(eventBloc.state.event!.duration!.split(":")[2]),
       );
       durationController.text = _duration!.inMinutes.toString();
+      setState(() {
+        isFlexible = eventBloc.state.event!.isFlexible!;
+      });
     }
   }
 
@@ -147,7 +150,7 @@ class _EventFormState extends State<EventForm> {
                                 color: kColorPrimary,
                               ),
                               hintText: startDate != null
-                                  ? DateFormat.yMMMEd().format(startDate!)
+                                  ? DateFormat.yMMMd().format(startDate!)
                                   : "",
                               callback: () => showDatePicker(
                                 context: context,
@@ -178,7 +181,7 @@ class _EventFormState extends State<EventForm> {
                                 color: kColorPrimary,
                               ),
                               hintText: endDate != null
-                                  ? DateFormat.yMMMEd().format(endDate!)
+                                  ? DateFormat.yMMMd().format(endDate!)
                                   : "",
                               callback: () => showDatePicker(
                                 context: context,
@@ -416,11 +419,12 @@ class _EventFormState extends State<EventForm> {
                                   heading: 'Success',
                                   content: "Event edited successfully",
                                   onTap: () {
-                                    Navigator.pushNamedAndRemoveUntil(
-                                      context,
-                                      Root.routeName,
-                                      (route) => false,
-                                    );
+                                    Navigator.popUntil(context, (route) {
+                                      if (route.settings.name ==
+                                          EventDetailsPage.routeName)
+                                        return true;
+                                      return false;
+                                    });
                                   },
                                   isSuccess: true,
                                 ),

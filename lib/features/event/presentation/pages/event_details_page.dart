@@ -155,7 +155,7 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                                     );
                                 await Navigator.pushNamedAndRemoveUntil(
                                   context,
-                                  TaskEntityServicePage.routeName,
+                                  Root.routeName,
                                   (route) => false,
                                 );
                               },
