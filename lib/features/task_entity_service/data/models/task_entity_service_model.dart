@@ -33,6 +33,7 @@ class TaskEntityService with _$TaskEntityService {
     double? rating,
     num? count,
     @JsonKey(name: "is_bookmarked") bool? isBookmarked,
+    @JsonKey(name: "booked_count") int? bookedCount,
     List<Offer>? offers,
     List<Badge>? endorsements,
     @JsonKey(name: "is_redeemable") bool? isRedeemable,

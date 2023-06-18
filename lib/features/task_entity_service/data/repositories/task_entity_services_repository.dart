@@ -7,6 +7,7 @@ import 'package:cipher/core/dio/dio_helper.dart';
 import 'package:cipher/features/services/data/models/self_created_task_service.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/applicant_model.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
+import 'package:cipher/features/task_entity_service/data/models/res/recommended_similar_dto.dart';
 import 'package:cipher/features/task_entity_service/data/models/res/task_entity_service_res.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 
@@ -212,6 +213,18 @@ class TaskEntityServiceRepository {
       await fetchSingleTaskEntityService(serviceId: id).then((value) {
         return TaskEntityService.fromJson(value);
       });
+
+  Future<RecommendedSimilarDto> getRecommendedSimilar(String id) async {
+    try {
+      final res = await _dio.getData(
+        url: 'task/entity/service/recommend-similar/' + "$id/",
+      );
+      return RecommendedSimilarDto.fromJson(res as Map<String, dynamic>);
+    } catch (e) {
+      log("recommended similar: $e");
+      rethrow;
+    }
+  }
 
   Future<bool> editTaskEntityService(
     String id,

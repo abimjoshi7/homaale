@@ -12,6 +12,7 @@ import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/applicant_model.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
+import 'package:cipher/features/task_entity_service/data/models/res/recommended_similar_dto.dart';
 import 'package:cipher/features/task_entity_service/data/models/res/task_entity_service_res.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 
@@ -143,6 +144,26 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
         } catch (e) {
           log('Single TES Load Error' + e.toString());
           emit(state.copyWith(theStates: TheStates.failure));
+        }
+      },
+    );
+
+    on<FetchRecommendedSimilar>(
+      (event, emit) async {
+        try {
+          emit(state.copyWith(recommendedSimilarDto: RecommendedSimilarDto()));
+          await repo.getRecommendedSimilar(event.id).then(
+            (value) {
+              emit(
+                state.copyWith(
+                  theStates: TheStates.success,
+                  recommendedSimilarDto: value,
+                ),
+              );
+            },
+          );
+        } catch (e) {
+          log('recommendedSimilarDto Error' + e.toString());
         }
       },
     );

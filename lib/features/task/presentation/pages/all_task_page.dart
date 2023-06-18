@@ -27,7 +27,6 @@ class AllTaskPage extends StatefulWidget {
 
 class _AllTaskPageState extends State<AllTaskPage> {
   late final taskBloc = locator<TaskBloc>();
-  late final user = locator<UserBloc>();
   late final ScrollController _controller;
   final budgetFrom = TextEditingController();
   final budgetTo = TextEditingController();
@@ -43,12 +42,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
   @override
   void initState() {
     super.initState();
-    user.add(UserLoaded());
-    taskBloc.add(
-      AllTaskLoadInitiated(
-        isTask: true,
-      ),
-    );
+    taskBloc.add(AllTaskLoadInitiated(isTask: true));
 
     _controller = ScrollController()
       ..addListener(() {
@@ -57,16 +51,12 @@ class _AllTaskPageState extends State<AllTaskPage> {
           taskBloc.add(AllTaskLoadInitiated(
             newFetch: false,
             isTask: true,
-            // dateFrom: dateFrom == null
-            //     ? null
-            //     : DateFormat("yyyy-MM-dd").format(dateFrom!),
-            // dateTo: dateTo == null
-            //     ? null
-            //     : DateFormat("yyyy-MM-dd").format(dateTo!),
-            // payableFrom: payableFrom.text.length == 0 ? null : payableFrom.text,
-            // payableTo: payableTo.text.length == 0 ? null : payableTo.text,
-            // serviceId: category,
-            // city: location,
+            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+            budgetFrom: budgetFrom.text.length == 0 ? null : budgetFrom.text,
+            budgetTo: budgetTo.text.length == 0 ? null : budgetTo.text,
+            serviceId: category,
+            city: location,
           )),
         );
       });
@@ -76,7 +66,6 @@ class _AllTaskPageState extends State<AllTaskPage> {
   void dispose() {
     super.dispose();
     taskBloc.close();
-    user.close();
     _controller.dispose();
   }
 
@@ -194,10 +183,10 @@ class _AllTaskPageState extends State<AllTaskPage> {
                             height: MediaQuery.of(context).size.height * 0.3,
                             child: TaskCard(
                               isRange: state.taskEntityServices![index].isRange ?? false,
-                              buttonLabel:
-                                  state.taskEntityServices![index].createdBy?.id == user.state.taskerProfile?.user?.id
-                                      ? 'View Details'
-                                      : 'Apply Now',
+                              buttonLabel: state.taskEntityServices![index].createdBy?.id ==
+                                      context.read<UserBloc>().state.taskerProfile?.user?.id
+                                  ? 'View Details'
+                                  : 'Apply Now',
                               startRate: '${state.taskEntityServices![index].budgetFrom ?? 0}',
                               createdByName: '${state.taskEntityServices![index].createdBy?.fullName}',
                               endRate: '${state.taskEntityServices![index].budgetTo ?? 0}',
@@ -239,7 +228,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                                 state: state,
                                 index: index,
                                 isApply: state.taskEntityServices![index].createdBy?.id !=
-                                    user.state.taskerProfile?.user?.id,
+                                    context.read<UserBloc>().state.taskerProfile?.user?.id,
                               ),
                               onTapCallback: () {
                                 if (!CacheHelper.isLoggedIn) {

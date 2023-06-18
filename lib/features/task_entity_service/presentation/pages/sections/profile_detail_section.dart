@@ -226,11 +226,22 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
-            IconText(
-              label: state.taskEntityService?.rating?.toString() ?? '',
-              iconData: Icons.star_outlined,
-              color: kColorAmber,
-              size: 18,
+            Row(
+              children: [
+                IconText(
+                  label: state.taskEntityService?.rating?.toString() ?? '',
+                  iconData: Icons.star_outlined,
+                  color: kColorAmber,
+                  size: 18,
+                ),
+                addHorizontalSpace(8),
+                IconText(
+                  label: state.taskEntityService?.bookedCount.toString() ?? '',
+                  iconData: Icons.people,
+                  color: kColorPrimary,
+                  size: 18,
+                ),
+              ],
             ),
             IconText(
               label:
@@ -240,6 +251,13 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
               color: Colors.red,
             ),
           ],
+        ),
+        addVerticalSpace(10),
+        IconText(
+          label: "${DateFormat('hh:mm a - MMMM dd, y').format(state.taskEntityService?.createdAt ?? DateTime.now())}",
+          iconData: Icons.calendar_month,
+          size: 18,
+          color: Colors.red,
         ),
         addVerticalSpace(10),
         HtmlRemover(

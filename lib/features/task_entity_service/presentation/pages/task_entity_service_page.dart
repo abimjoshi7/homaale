@@ -9,9 +9,10 @@ import 'package:cipher/features/chat/models/chat_person_details.dart';
 import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart'
-    as tes;
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart' as tes;
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/recommended_services.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/event_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
@@ -43,12 +44,9 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failed',
-              content: error ??
-                  'Something went wrong while trying to accept tasker. Please try again!',
+              content: error ?? 'Something went wrong while trying to accept tasker. Please try again!',
               onTap: () {
-                context
-                    .read<TaskEntityServiceBloc>()
-                    .add(ResetApproveFailureStatus());
+                context.read<TaskEntityServiceBloc>().add(ResetApproveFailureStatus());
                 Navigator.pop(context);
               },
               isSuccess: true,
@@ -62,9 +60,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
               heading: 'Success',
               content: 'Successfully hired!',
               onTap: () {
-                context
-                    .read<TaskEntityServiceBloc>()
-                    .add(ResetApproveSuccessStatus());
+                context.read<TaskEntityServiceBloc>().add(ResetApproveSuccessStatus());
                 Navigator.pop(context);
               },
               isSuccess: true,
@@ -77,12 +73,9 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failed',
-              content: error ??
-                  'Something went wrong while trying to reject tasker. Please try again!',
+              content: error ?? 'Something went wrong while trying to reject tasker. Please try again!',
               onTap: () {
-                context
-                    .read<TaskEntityServiceBloc>()
-                    .add(ResetRejectFailureStatus());
+                context.read<TaskEntityServiceBloc>().add(ResetRejectFailureStatus());
                 Navigator.pop(context);
               },
               isSuccess: true,
@@ -97,9 +90,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
               heading: 'Success',
               content: 'The Applicant has been rejected!',
               onTap: () {
-                context
-                    .read<TaskEntityServiceBloc>()
-                    .add(ResetRejectSuccessStatus());
+                context.read<TaskEntityServiceBloc>().add(ResetRejectSuccessStatus());
                 Navigator.pop(context);
               },
               isSuccess: true,
@@ -114,9 +105,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
             ...state.taskEntityService?.videos ?? [],
           ];
           return Scaffold(
-            appBar: CustomAppBar(
-                appBarTitle: state.taskEntityService?.title ?? '',
-                trailingWidget: SizedBox()),
+            appBar: CustomAppBar(appBarTitle: state.taskEntityService?.title ?? '', trailingWidget: SizedBox()),
             body: Column(
               children: [
                 Expanded(
@@ -133,22 +122,25 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                       children: [
                         ProfileDetailSection(state: state),
                         EventSection(
-                          taskEntityService: state.taskEntityService ??
-                              tes.TaskEntityService(),
+                          taskEntityService: state.taskEntityService ?? tes.TaskEntityService(),
                         ),
-                        if (state.taskEntityService?.highlights?.isNotEmpty ??
-                            false) ...[
+                        if (state.taskEntityService?.highlights?.isNotEmpty ?? false) ...[
                           addVerticalSpace(16),
                           RequirementSection(
-                            requirementList:
-                                state.taskEntityService?.highlights ?? [],
+                            requirementList: state.taskEntityService?.highlights ?? [],
                           ),
                         ],
                         addVerticalSpace(16),
                         AdditionalInfoSection(
-                          date:
-                              '${DateFormat('hh:mm a - MMMM dd, y').format(state.taskEntityService!.createdAt!)}',
-                          location: state.taskEntityService!.location,
+                          location: state.taskEntityService?.location,
+                          startDate: state.taskEntityService?.startDate == null
+                              ? null
+                              : '${DateFormat('MMMM dd, y').format(state.taskEntityService!.startDate!)}',
+                          startTime: state.taskEntityService?.startTime,
+                          endDate: state.taskEntityService?.endDate == null
+                              ? null
+                              : '${DateFormat('MMMM dd, y').format(state.taskEntityService!.endDate!)}',
+                          endTime: state.taskEntityService?.endTime,
                           views: state.taskEntityService?.viewsCount.toString(),
                         ),
                         BlocBuilder<RatingReviewsBloc, RatingReviewState>(
@@ -178,13 +170,9 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                               itemCount: mediaList.length,
                               itemBuilder: (context, index, realIndex) {
                                 return Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.2,
+                                  height: MediaQuery.of(context).size.height * 0.2,
                                   margin: EdgeInsets.only(right: 32),
-                                  child: mediaList[index]
-                                              .mediaType
-                                              ?.toLowerCase() ==
-                                          'mp4'
+                                  child: mediaList[index].mediaType?.toLowerCase() == 'mp4'
                                       ? VideoPlayerWidget(
                                           videoURL: (mediaList[index].media) ??
                                               'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
@@ -193,32 +181,17 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
+                                              borderRadius: BorderRadius.circular(16.0),
                                               child: Image.network(
-                                                mediaList[index]
-                                                    .media
-                                                    .toString(),
-                                                errorBuilder: (context, error,
-                                                        stackTrace) =>
-                                                    Image.network(
+                                                mediaList[index].media.toString(),
+                                                errorBuilder: (context, error, stackTrace) => Image.network(
                                                   kHomaaleImg,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.2,
+                                                  width: MediaQuery.of(context).size.width,
+                                                  height: MediaQuery.of(context).size.height * 0.2,
                                                   fit: BoxFit.cover,
                                                 ),
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.2,
+                                                width: MediaQuery.of(context).size.width,
+                                                height: MediaQuery.of(context).size.height * 0.2,
                                                 fit: BoxFit.cover,
                                               ),
                                             ),
@@ -253,9 +226,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                     margin: const EdgeInsets.all(2),
                                     width: 10,
                                     decoration: BoxDecoration(
-                                      color: _imageIndex == ind
-                                          ? Colors.amber
-                                          : Colors.grey,
+                                      color: _imageIndex == ind ? Colors.amber : Colors.grey,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
                                   ),
@@ -267,12 +238,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                         // SimilarEntityServiceSection(),
                         addVerticalSpace(16),
                         if ((state.taskEntityService?.isBooked ?? false) &&
-                            context
-                                    .read<UserBloc>()
-                                    .state
-                                    .taskerProfile
-                                    ?.user
-                                    ?.id !=
+                            context.read<UserBloc>().state.taskerProfile?.user?.id !=
                                 state.taskEntityService?.createdBy?.id) ...[
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4),
@@ -280,14 +246,11 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                               callback: () {
                                 locator<FirebaseFirestore>()
                                     .collection("userChats")
-                                    .doc(
-                                        "${context.read<UserBloc>().state.taskerProfile?.user?.id}")
+                                    .doc("${context.read<UserBloc>().state.taskerProfile?.user?.id}")
                                     .get()
                                     .then((value) {
                                   value.data()?.forEach((key, value) {
-                                    if (value['userInfo']['uid'] ==
-                                        state
-                                            .taskEntityService?.createdBy?.id) {
+                                    if (value['userInfo']['uid'] == state.taskEntityService?.createdBy?.id) {
                                       Navigator.pushNamed(
                                         context,
                                         ChatPage.routeName,
@@ -295,16 +258,11 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                           groupName: key,
                                           fullName:
                                               "${state.taskEntityService?.createdBy?.firstName ?? ''} ${state.taskEntityService?.createdBy?.middleName ?? ''} ${state.taskEntityService?.createdBy?.lastName ?? ''}",
-                                          date: (value['date'] as Timestamp)
-                                              .toDate()
-                                              .toString(),
-                                          id: state
-                                              .taskEntityService?.createdBy?.id,
+                                          date: (value['date'] as Timestamp).toDate().toString(),
+                                          id: state.taskEntityService?.createdBy?.id,
                                           isRead: value['read'] as bool,
                                           lastMessage: '',
-                                          profileImage: state.taskEntityService
-                                                  ?.createdBy?.profileImage ??
-                                              kHomaaleImg,
+                                          profileImage: state.taskEntityService?.createdBy?.profileImage ?? kHomaaleImg,
                                         ),
                                       );
                                     }
@@ -316,11 +274,9 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                           ),
                           addVerticalSpace(16)
                         ],
-                        if (state.applicantModel?.result?.isNotEmpty ??
-                            false) ...[
+                        if (state.applicantModel?.result?.isNotEmpty ?? false) ...[
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
                               'Applicants',
                               style: Theme.of(context).textTheme.headlineSmall,
@@ -339,12 +295,8 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                   onFavouriteTapped: () => {},
                                   callback: () => showApplicantDetailsDialog(
                                     context: context,
-                                    profileImage: state
-                                            .applicantModel
-                                            ?.result?[index]
-                                            .createdBy
-                                            ?.profileImage ??
-                                        kHomaaleImg,
+                                    profileImage:
+                                        state.applicantModel?.result?[index].createdBy?.profileImage ?? kHomaaleImg,
                                     label:
                                         '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? 'Harry'} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? 'Smith'}',
                                     happyClients:
@@ -353,74 +305,39 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                         '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
                                     rating:
                                         '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
-                                    designation: state.applicantModel
-                                        ?.result?[index].createdBy?.designation,
-                                    isProfileVerified: state
-                                            .applicantModel
-                                            ?.result?[index]
-                                            .createdBy
-                                            ?.isProfileVerified ??
-                                        false,
+                                    designation: state.applicantModel?.result?[index].createdBy?.designation,
+                                    isProfileVerified:
+                                        state.applicantModel?.result?[index].createdBy?.isProfileVerified ?? false,
                                     title: state.taskEntityService?.title ?? '',
                                     budget:
                                         'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
-                                    status: state
-                                        .applicantModel?.result?[index].status,
+                                    status: state.applicantModel?.result?[index].status,
                                     onRejectPressed: () {
                                       context.read<TaskEntityServiceBloc>().add(
                                             TaskRejectPeople(
-                                              rejectReq: RejectReq(
-                                                  booking: state.applicantModel
-                                                          ?.result?[index].id ??
-                                                      0),
+                                              rejectReq:
+                                                  RejectReq(booking: state.applicantModel?.result?[index].id ?? 0),
                                             ),
                                           );
                                       Navigator.pop(context);
                                     },
                                     onApprovePressed: () {
-                                      context.read<TaskEntityServiceBloc>().add(
-                                          TaskEntityServiceApprovePeople(
-                                              approveReq: ApproveReq(
-                                                  booking: state.applicantModel
-                                                          ?.result?[index].id ??
-                                                      0)));
+                                      context.read<TaskEntityServiceBloc>().add(TaskEntityServiceApprovePeople(
+                                          approveReq:
+                                              ApproveReq(booking: state.applicantModel?.result?[index].id ?? 0)));
                                       Navigator.pop(context);
                                     },
                                   ),
-                                  // callback: () {
-                                  //   showDialog(
-                                  //     context: context,
-                                  //     builder: (context) {
-                                  //       return CustomToast(
-                                  //         heading: 'Are you sure you want to hire?',
-                                  //         content:
-                                  //             'Do you want to hire ${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''} for your task.',
-                                  //         onTap: () {
-                                  //           context.read<TaskEntityServiceBloc>().add(TaskEntityServiceApprovePeople(
-                                  //               approveReq:
-                                  //                   ApproveReq(booking: state.applicantModel?.result?[index].id ?? 0)));
-                                  //           Navigator.pop(context);
-                                  //         },
-                                  //         isSuccess: true,
-                                  //       );
-                                  //     },
-                                  //   );
-                                  // },
                                   callbackLabel: 'View Details',
-                                  networkImageUrl: state
-                                          .applicantModel
-                                          ?.result?[index]
-                                          .createdBy
-                                          ?.profileImage ??
-                                      kHomaaleImg,
+                                  networkImageUrl:
+                                      state.applicantModel?.result?[index].createdBy?.profileImage ?? kHomaaleImg,
                                   happyClients:
                                       '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
                                   rewardPercentage:
                                       '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
                                   label:
                                       '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''}',
-                                  designation: state.applicantModel
-                                      ?.result?[index].createdBy?.designation,
+                                  designation: state.applicantModel?.result?[index].createdBy?.designation,
                                   rate:
                                       'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
                                   ratings:
@@ -431,19 +348,26 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                             ),
                           ),
                         ],
+                        RecommendedSimilarServices(
+                          isRecommended: true,
+                          recommend: state.recommendedSimilarDto.recommend,
+                        ),
+                        kHeight15,
+                        RecommendedSimilarServices(
+                          isRecommended: false,
+                          recommend: state.recommendedSimilarDto.similar,
+                        ),
                       ],
                     ),
                   ),
                 ),
                 Visibility(
-                  visible: state.taskEntityService?.createdBy?.id !=
-                      context.read<UserBloc>().state.taskerProfile?.user?.id,
+                  visible:
+                      state.taskEntityService?.createdBy?.id != context.read<UserBloc>().state.taskerProfile?.user?.id,
                   child: PriceBookFooterSection(
-                    buttonLabel:
-                        getStatus('', isService: true)["status"] as String,
+                    buttonLabel: getStatus('', isService: true)["status"] as String,
                     buttonColor: getStatus('')["color"] as Color,
-                    price:
-                        "Rs. ${Decimal.parse(state.taskEntityService?.payableTo ?? '0.0')}",
+                    price: "Rs. ${Decimal.parse(state.taskEntityService?.payableTo ?? '0.0')}",
                     onPressed: () {
                       if (!CacheHelper.isLoggedIn) {
                         notLoggedInPopUp(context);
@@ -455,8 +379,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                       if (CacheHelper.isKycVerified == false) return;
                       context.read<EventBloc>().add(
                             EventLoaded(
-                              id: state.taskEntityService?.event?.id ??
-                                  'Null Case',
+                              id: state.taskEntityService?.event?.id ?? 'Null Case',
                             ),
                           );
                       Navigator.pushNamed(
