@@ -218,7 +218,7 @@ class AddVoucherAndOffersContainer extends StatelessWidget {
               ),
               SizedBox(
                 width: 120,
-                height: 40,
+                height: 46,
                 child: CustomElevatedButton(
                   label: labelText ?? "",
                   callback: () {

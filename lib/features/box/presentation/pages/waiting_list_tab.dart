@@ -209,6 +209,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
   Column displayPrice(Result result) {
     return Column(
       children: [
+        /// TODO: for task display earning and servuce vyo vane price
         result.budgetFrom == 0 || result.budgetFrom == null
             ? Text(
                 "Rs. ${Decimal.parse(result.budgetTo ?? '0.0')}",

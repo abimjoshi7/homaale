@@ -50,8 +50,8 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
       padding: const EdgeInsets.symmetric(horizontal: 20.0),
       child: Form(
         key: _key,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: ListView(
+          // mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -61,6 +61,10 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
                   label: 'I am leaving because',
                   isRequired: true,
                   child: CustomDropDownField<String?>(
+                    validator: (p0) =>
+                    reason ==null
+                        ? "Required Field"
+                        : null,
                     onChanged: (p0) => setState(
                       () {
                         final options = deactiveReasonList.firstWhere(
