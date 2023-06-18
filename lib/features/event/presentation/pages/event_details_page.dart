@@ -119,6 +119,7 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                           children: [
                             ListTile(
                               onTap: () {
+                                Navigator.pop(context);
                                 showCustomBottomSheet(
                                   context: context,
                                   widget: EventForm(
@@ -173,8 +174,8 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                     ),
                   ),
                   child: EventDetailCard(
-                    taskEntityService: TaskEntityService(),
-                  ),
+                      // taskEntityService: TaskEntityService(),
+                      ),
                 ),
                 CustomFormField(
                   label: "Schedule",

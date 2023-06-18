@@ -20,6 +20,12 @@ class EventSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    context.read<EventBloc>().add(
+          EventLoaded(
+            id: taskEntityService.event?.id ?? "",
+          ),
+        );
+
     return Visibility(
       visible: taskEntityService.createdBy?.id ==
           context.read<UserBloc>().state.taskerProfile?.user?.id,
@@ -29,11 +35,6 @@ class EventSection extends StatelessWidget {
           visible: taskEntityService.event?.id != null,
           child: InkWell(
             onTap: () {
-              context.read<EventBloc>().add(
-                    EventLoaded(
-                      id: taskEntityService.event?.id ?? "",
-                    ),
-                  );
               Navigator.pushNamed(
                 context,
                 EventDetailsPage.routeName,
@@ -48,8 +49,8 @@ class EventSection extends StatelessWidget {
         child: taskEntityService.event?.id == null
             ? EventAttachCard()
             : EventDetailCard(
-                taskEntityService: taskEntityService,
-              ),
+                // taskEntityService: taskEntityService,
+                ),
       ),
     );
   }

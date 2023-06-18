@@ -7,17 +7,17 @@ import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 class EventDetailCard extends StatelessWidget {
-  final TaskEntityService taskEntityService;
+  // final TaskEntityService taskEntityService;
   const EventDetailCard({
     Key? key,
-    required this.taskEntityService,
+    // required this.taskEntityService,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<EventBloc, EventState>(
       builder: (context, state) {
-        if (taskEntityService.event != null || state.event != null) {
+        if (state.event != null) {
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -27,13 +27,11 @@ class EventDetailCard extends StatelessWidget {
                 children: [
                   IconText(
                     label: "${DateFormat.yMMMEd().format(
-                      taskEntityService.event?.start ??
-                          state.event?.start ??
-                          DateTime.now(),
+                      // taskEntityService.event?.start ??
+                      state.event?.start ?? DateTime.now(),
                     )} - ${DateFormat.yMMMEd().format(
-                      taskEntityService.event?.end ??
-                          state.event?.end ??
-                          DateTime.now(),
+                      // taskEntityService.event?.end ??
+                      state.event?.end ?? DateTime.now(),
                     )}",
                     iconData: Icons.calendar_today,
                   ),
@@ -56,7 +54,7 @@ class EventDetailCard extends StatelessWidget {
             ],
           );
         }
-        return Text("data");
+        return Text("No Events Available");
       },
     );
   }

@@ -110,12 +110,12 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
           final List<tes.Image> mediaList = [
-            ...state.taskEntityService?.images ?? [],
-            ...state.taskEntityService?.videos ?? [],
+            ...state.taskEntityService.images ?? [],
+            ...state.taskEntityService.videos ?? [],
           ];
           return Scaffold(
             appBar: CustomAppBar(
-                appBarTitle: state.taskEntityService?.title ?? '',
+                appBarTitle: state.taskEntityService.title ?? '',
                 trailingWidget: SizedBox()),
             body: Column(
               children: [
@@ -124,7 +124,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                     onRefresh: () async {
                       context.read<TaskEntityServiceBloc>().add(
                             TaskEntityServiceSingleLoaded(
-                              id: state.taskEntityService?.id ?? '',
+                              id: state.taskEntityService.id ?? '',
                             ),
                           );
                     },
@@ -133,23 +133,22 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                       children: [
                         ProfileDetailSection(state: state),
                         EventSection(
-                          taskEntityService: state.taskEntityService ??
-                              tes.TaskEntityService(),
+                          taskEntityService: state.taskEntityService,
                         ),
-                        if (state.taskEntityService?.highlights?.isNotEmpty ??
+                        if (state.taskEntityService.highlights?.isNotEmpty ??
                             false) ...[
                           addVerticalSpace(16),
                           RequirementSection(
                             requirementList:
-                                state.taskEntityService?.highlights ?? [],
+                                state.taskEntityService.highlights ?? [],
                           ),
                         ],
                         addVerticalSpace(16),
                         AdditionalInfoSection(
                           date:
-                              '${DateFormat('hh:mm a - MMMM dd, y').format(state.taskEntityService!.createdAt!)}',
-                          location: state.taskEntityService!.location,
-                          views: state.taskEntityService?.viewsCount.toString(),
+                              '${DateFormat('hh:mm a - MMMM dd, y').format(state.taskEntityService.createdAt!)}',
+                          location: state.taskEntityService.location,
+                          views: state.taskEntityService.viewsCount.toString(),
                         ),
                         BlocBuilder<RatingReviewsBloc, RatingReviewState>(
                           builder: (context, ratingBloc) {
@@ -266,14 +265,14 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                         ],
                         // SimilarEntityServiceSection(),
                         addVerticalSpace(16),
-                        if ((state.taskEntityService?.isBooked ?? false) &&
+                        if ((state.taskEntityService.isBooked ?? false) &&
                             context
                                     .read<UserBloc>()
                                     .state
                                     .taskerProfile
                                     ?.user
                                     ?.id !=
-                                state.taskEntityService?.createdBy?.id) ...[
+                                state.taskEntityService.createdBy?.id) ...[
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4),
                             child: CustomElevatedButton(
@@ -286,24 +285,23 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                     .then((value) {
                                   value.data()?.forEach((key, value) {
                                     if (value['userInfo']['uid'] ==
-                                        state
-                                            .taskEntityService?.createdBy?.id) {
+                                        state.taskEntityService.createdBy?.id) {
                                       Navigator.pushNamed(
                                         context,
                                         ChatPage.routeName,
                                         arguments: ChatPersonDetails(
                                           groupName: key,
                                           fullName:
-                                              "${state.taskEntityService?.createdBy?.firstName ?? ''} ${state.taskEntityService?.createdBy?.middleName ?? ''} ${state.taskEntityService?.createdBy?.lastName ?? ''}",
+                                              "${state.taskEntityService.createdBy?.firstName ?? ''} ${state.taskEntityService.createdBy?.middleName ?? ''} ${state.taskEntityService.createdBy?.lastName ?? ''}",
                                           date: (value['date'] as Timestamp)
                                               .toDate()
                                               .toString(),
                                           id: state
-                                              .taskEntityService?.createdBy?.id,
+                                              .taskEntityService.createdBy?.id,
                                           isRead: value['read'] as bool,
                                           lastMessage: '',
                                           profileImage: state.taskEntityService
-                                                  ?.createdBy?.profileImage ??
+                                                  .createdBy?.profileImage ??
                                               kHomaaleImg,
                                         ),
                                       );
@@ -361,7 +359,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                             .createdBy
                                             ?.isProfileVerified ??
                                         false,
-                                    title: state.taskEntityService?.title ?? '',
+                                    title: state.taskEntityService.title ?? '',
                                     budget:
                                         'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
                                     status: state
@@ -436,14 +434,14 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                   ),
                 ),
                 Visibility(
-                  visible: state.taskEntityService?.createdBy?.id !=
+                  visible: state.taskEntityService.createdBy?.id !=
                       context.read<UserBloc>().state.taskerProfile?.user?.id,
                   child: PriceBookFooterSection(
                     buttonLabel:
                         getStatus('', isService: true)["status"] as String,
                     buttonColor: getStatus('')["color"] as Color,
                     price:
-                        "Rs. ${Decimal.parse(state.taskEntityService?.payableTo ?? '0.0')}",
+                        "Rs. ${Decimal.parse(state.taskEntityService.payableTo ?? '0.0')}",
                     onPressed: () {
                       if (!CacheHelper.isLoggedIn) {
                         notLoggedInPopUp(context);
@@ -455,8 +453,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                       if (CacheHelper.isKycVerified == false) return;
                       context.read<EventBloc>().add(
                             EventLoaded(
-                              id: state.taskEntityService?.event?.id ??
-                                  'Null Case',
+                              id: state.taskEntityService.event?.id ?? '',
                             ),
                           );
                       Navigator.pushNamed(
