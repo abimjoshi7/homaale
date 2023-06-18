@@ -4,7 +4,7 @@ class TaskEntityServiceState extends Equatable {
   final TheStates theStates;
   final TaskEntityServiceModel taskEntityServiceModel;
   final List<TaskEntityService>? taskEntityServices;
-  final TaskEntityService? taskEntityService;
+  final TaskEntityService taskEntityService;
   final ApplicantModel? applicantModel;
   final bool? approveSuccess;
   final bool? approveFail;
@@ -26,7 +26,7 @@ class TaskEntityServiceState extends Equatable {
     this.theStates = TheStates.initial,
     this.taskEntityServiceModel = const TaskEntityServiceModel(),
     this.taskEntityServices,
-    this.taskEntityService,
+    this.taskEntityService = const TaskEntityService(),
     this.applicantModel,
     this.approveSuccess,
     this.approveFail,
@@ -49,7 +49,7 @@ class TaskEntityServiceState extends Equatable {
   const TaskEntityServiceState.initial({
     this.theStates = TheStates.initial,
     this.taskEntityServiceModel = const TaskEntityServiceModel(),
-    this.taskEntityService = null,
+    this.taskEntityService = const TaskEntityService(),
     this.applicantModel = null,
     this.approveSuccess = false,
     this.approveFail = false,

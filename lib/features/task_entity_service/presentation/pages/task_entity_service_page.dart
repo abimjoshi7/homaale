@@ -34,17 +34,6 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
   int _imageIndex = 0;
 
   @override
-  void initState() {
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    // user.close();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return BlocConsumer<TaskEntityServiceBloc, TaskEntityServiceState>(
       listener: (context, state) async {
