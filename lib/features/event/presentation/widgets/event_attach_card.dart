@@ -48,7 +48,9 @@ class EventAttachCard extends StatelessWidget with TheModalBottomSheet {
             onPressed: () {
               showCustomBottomSheet(
                 context: context,
-                widget: EventForm(),
+                widget: EventForm(
+                  type: AttachType.Create,
+                ),
               );
             },
             icon: Icon(Icons.add),

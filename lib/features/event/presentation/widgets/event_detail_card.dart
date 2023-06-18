@@ -38,7 +38,7 @@ class EventDetailCard extends StatelessWidget {
                     iconData: Icons.calendar_today,
                   ),
                   IconText(
-                    label: "${state.event?.guestLimit ?? 1} Guests",
+                    label: "${state.event?.guestLimit ?? "No"} Guests",
                     iconData: Icons.people_alt_outlined,
                   ),
                   IconText(

@@ -33,6 +33,18 @@ class EventRepository {
     }
   }
 
+  Future<void> editEvent(String id, Map<String, dynamic> data) async {
+    try {
+      await _dio.patchDataWithCredential(
+        data: data,
+        url: "event/$id/",
+        token: CacheHelper.accessToken,
+      );
+    } catch (e) {
+      throw Exception("Event edit failed : $e");
+    }
+  }
+
   Future<void> deleteEvent(String id) async {
     try {
       await _dio.deleteDataWithCredential(
@@ -41,7 +53,7 @@ class EventRepository {
         token: CacheHelper.accessToken,
       );
     } catch (e) {
-      rethrow;
+      throw Exception("Event deletion failed : $e");
     }
   }
 

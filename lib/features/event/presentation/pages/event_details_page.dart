@@ -18,6 +18,22 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(
+        appBarTitle: "Event Detail",
+        leadingWidget: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: GestureDetector(
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Icon(
+              Icons.arrow_back,
+              color: Theme.of(context).appBarTheme.iconTheme?.color,
+            ),
+          ),
+        ),
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: BlocConsumer<EventBloc, EventState>(
         listenWhen: (previous, current) {
           if (previous.isScheduleDeleted == true &&
@@ -86,243 +102,227 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
           }
         },
         builder: (context, state) {
-          return Column(
-            children: [
-              addVerticalSpace(
-                50,
-              ),
-              CustomHeader(
-                label: "Event Detail",
-              ),
-              Padding(
-                padding: const EdgeInsets.all(
-                  16,
-                ),
-                child: Column(
-                  children: [
-                    CustomFormField(
-                      label: "Event",
-                      rightSection: InkWell(
-                        onTap: () {
-                          showCustomBottomSheet(
-                            context: context,
-                            widget: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                ListTile(
-                                  onTap: () {
-                                    showCustomBottomSheet(
-                                      context: context,
-                                      widget: EventForm(),
-                                    );
-                                  },
-                                  leading: Icon(
-                                    Icons.update_outlined,
+          return Padding(
+            padding: const EdgeInsets.all(
+              16,
+            ),
+            child: Column(
+              children: [
+                CustomFormField(
+                  label: "Event",
+                  rightSection: InkWell(
+                    onTap: () {
+                      showCustomBottomSheet(
+                        context: context,
+                        widget: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            ListTile(
+                              onTap: () {
+                                showCustomBottomSheet(
+                                  context: context,
+                                  widget: EventForm(
+                                    type: AttachType.Edit,
                                   ),
-                                  title: Text("Update"),
-                                ),
-                                Divider(),
-                                // ListTile(
-                                //   onTap: () {},
-                                //   leading: Icon(
-                                //     Icons.filter_none_rounded,
-                                //   ),
-                                //   title: Text("Duplicate"),
-                                // ),
-                                // Divider(),
-                                ListTile(
-                                  onTap: () async {
-                                    context.read<EventBloc>().add(
-                                          EventDeleted(
-                                            id: state.event?.id ?? "",
-                                          ),
-                                        );
-                                    context.read<TaskEntityServiceBloc>().add(
-                                          TaskEntityServiceSingleLoaded(
-                                            id: state.entityServiceId ?? '',
-                                          ),
-                                        );
-                                    await Navigator.pushNamedAndRemoveUntil(
-                                      context,
-                                      TaskEntityServicePage.routeName,
-                                      (route) => false,
-                                    );
-                                  },
-                                  leading: Icon(
-                                    Icons.delete_outline_rounded,
-                                  ),
-                                  title: Text("Remove"),
-                                ),
-                              ],
+                                );
+                              },
+                              leading: Icon(
+                                Icons.update_outlined,
+                              ),
+                              title: Text("Edit"),
                             ),
-                          );
-                        },
-                        child: Text(
-                          "Edit",
-                          style: kLightBlueText14,
+                            Divider(),
+                            // ListTile(
+                            //   onTap: () {},
+                            //   leading: Icon(
+                            //     Icons.filter_none_rounded,
+                            //   ),
+                            //   title: Text("Duplicate"),
+                            // ),
+                            // Divider(),
+                            ListTile(
+                              onTap: () async {
+                                context.read<EventBloc>().add(
+                                      EventDeleted(
+                                        id: state.event?.id ?? "",
+                                      ),
+                                    );
+                                context.read<TaskEntityServiceBloc>().add(
+                                      TaskEntityServiceSingleLoaded(
+                                        id: state.entityServiceId ?? '',
+                                      ),
+                                    );
+                                await Navigator.pushNamedAndRemoveUntil(
+                                  context,
+                                  TaskEntityServicePage.routeName,
+                                  (route) => false,
+                                );
+                              },
+                              leading: Icon(
+                                Icons.delete_outline_rounded,
+                              ),
+                              title: Text("Remove"),
+                            ),
+                          ],
                         ),
-                      ),
-                      child: EventDetailCard(
-                        taskEntityService: TaskEntityService(),
-                      ),
+                      );
+                    },
+                    child: Text(
+                      "Edit",
+                      style: kLightBlueText14,
                     ),
-                    CustomFormField(
-                      label: "Schedule",
-                      rightSection: InkWell(
-                        onTap: () {
-                          showCustomBottomSheet(
-                            context: context,
-                            widget: ScheduleForm(),
-                          );
-                        },
-                        child: Text(
-                          "New",
-                          style: kLightBlueText14,
-                        ),
-                      ),
-                      child: SizedBox(
-                        height: 500,
-                        child: ListView.builder(
-                          padding: EdgeInsets.zero,
-                          itemCount: state.event?.schedules?.length ?? 0,
-                          itemBuilder: (context, index) => Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                  color: kColorGrey,
-                                ),
-                                borderRadius: BorderRadius.circular(
-                                  8,
+                  ),
+                  child: EventDetailCard(
+                    taskEntityService: TaskEntityService(),
+                  ),
+                ),
+                CustomFormField(
+                  label: "Schedule",
+                  rightSection: InkWell(
+                    onTap: () {
+                      showCustomBottomSheet(
+                        context: context,
+                        widget: ScheduleForm(),
+                      );
+                    },
+                    child: Text(
+                      "New",
+                      style: kLightBlueText14,
+                    ),
+                  ),
+                  child: SizedBox(
+                    height: 500,
+                    child: ListView.builder(
+                      padding: EdgeInsets.zero,
+                      itemCount: state.event?.schedules?.length ?? 0,
+                      itemBuilder: (context, index) => Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: kColorGrey,
+                            ),
+                            borderRadius: BorderRadius.circular(
+                              8,
+                            ),
+                          ),
+                          height: 80,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Icon(
+                                Icons.calendar_today_outlined,
+                              ),
+                              Expanded(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        state.event?.schedules?[index].title ??
+                                            "",
+                                        style: kPurpleText16,
+                                      ),
+                                      Flexible(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "${state.event?.allShifts?.first.slots?[index].start?.substring(0, 5) ?? ""} - ${state.event?.allShifts?.first.slots?[index].end?.substring(0, 5) ?? ""}",
+                                              style: kHelper13,
+                                            ),
+                                            AutoSizeText(
+                                              '${state.event?.allShifts?[index].date?.year}-${state.event?.allShifts?[index].date?.month}-${state.event?.allShifts?[index].date?.day}',
+                                              style: kHelper13,
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ),
-                              height: 80,
-                              child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceAround,
-                                children: [
-                                  Icon(
-                                    Icons.calendar_today_outlined,
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Text(
-                                            state.event?.schedules?[index]
-                                                    .title ??
-                                                "",
-                                            style: kPurpleText16,
-                                          ),
-                                          Flexible(
-                                            child: Column(
-                                              crossAxisAlignment:
-                                                  CrossAxisAlignment.start,
-                                              children: [
-                                                Text(
-                                                  "${state.event?.allShifts?.first.slots?[index].start?.substring(0, 5) ?? ""} - ${state.event?.allShifts?.first.slots?[index].end?.substring(0, 5) ?? ""}",
-                                                  style: kHelper13,
+                              Flexible(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    GestureDetector(
+                                      onTap: () {
+                                        showCustomBottomSheet(
+                                          context: context,
+                                          widget: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              ListTile(
+                                                onTap: () {},
+                                                leading: Icon(
+                                                  Icons.update_outlined,
                                                 ),
-                                                AutoSizeText(
-                                                  '${state.event?.allShifts?[index].date?.year}-${state.event?.allShifts?[index].date?.month}-${state.event?.allShifts?[index].date?.day}',
-                                                  style: kHelper13,
+                                                title: Text("Update"),
+                                              ),
+                                              Divider(),
+                                              ListTile(
+                                                onTap: () {},
+                                                leading: Icon(
+                                                  Icons.filter_none_rounded,
                                                 ),
-                                              ],
-                                            ),
+                                                title: Text("Duplicate"),
+                                              ),
+                                              Divider(),
+                                              ListTile(
+                                                onTap: () {
+                                                  context.read<EventBloc>().add(
+                                                        ScheduleDeleted(
+                                                          id: state
+                                                                  .event
+                                                                  ?.schedules?[
+                                                                      index]
+                                                                  .id ??
+                                                              "",
+                                                        ),
+                                                      );
+                                                },
+                                                leading: Icon(
+                                                  Icons.delete_outline_rounded,
+                                                ),
+                                                title: Text("Remove"),
+                                              ),
+                                            ],
                                           ),
-                                        ],
+                                        );
+                                      },
+                                      child: Icon(
+                                        Icons.more_vert_outlined,
                                       ),
                                     ),
-                                  ),
-                                  Flexible(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        GestureDetector(
-                                          onTap: () {
-                                            showCustomBottomSheet(
-                                              context: context,
-                                              widget: Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  ListTile(
-                                                    onTap: () {},
-                                                    leading: Icon(
-                                                      Icons.update_outlined,
-                                                    ),
-                                                    title: Text("Update"),
-                                                  ),
-                                                  Divider(),
-                                                  ListTile(
-                                                    onTap: () {},
-                                                    leading: Icon(
-                                                      Icons.filter_none_rounded,
-                                                    ),
-                                                    title: Text("Duplicate"),
-                                                  ),
-                                                  Divider(),
-                                                  ListTile(
-                                                    onTap: () {
-                                                      context
-                                                          .read<EventBloc>()
-                                                          .add(
-                                                            ScheduleDeleted(
-                                                              id: state
-                                                                      .event
-                                                                      ?.schedules?[
-                                                                          index]
-                                                                      .id ??
-                                                                  "",
-                                                            ),
-                                                          );
-                                                    },
-                                                    leading: Icon(
-                                                      Icons
-                                                          .delete_outline_rounded,
-                                                    ),
-                                                    title: Text("Remove"),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                          child: Icon(
-                                            Icons.more_vert_outlined,
-                                          ),
-                                        ),
-                                        SizedBox(
-                                          height: 30,
-                                          width: 30,
-                                          child: Switch(
-                                            value: false,
-                                            onChanged: (value) {
-                                              print(state.event);
-                                              print(state
-                                                  .event?.allShifts?.length);
-                                            },
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
+                                    SizedBox(
+                                      height: 30,
+                                      width: 30,
+                                      child: Switch(
+                                        value: false,
+                                        onChanged: (value) {
+                                          print(state.event);
+                                          print(state.event?.allShifts?.length);
+                                        },
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
                           ),
                         ),
                       ),
                     ),
-                  ],
+                  ),
                 ),
-              )
-            ],
+              ],
+            ),
           );
         },
       ),

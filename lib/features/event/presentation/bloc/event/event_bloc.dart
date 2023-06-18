@@ -122,6 +122,40 @@ class EventBloc extends Bloc<EventEvent, EventState> {
       },
     );
 
+    on<EventEdited>(
+      (event, emit) async {
+        try {
+          emit(
+            state.copyWith(
+              isEdited: false,
+            ),
+          );
+          await repo
+              .editEvent(
+                event.id,
+                event.data,
+              )
+              .then(
+                (value) => emit(
+                  state.copyWith(
+                    theStates: TheStates.success,
+                    isEdited: true,
+                    // event: Event(),
+                    // createdEventRes: CreateEventRes(),
+                  ),
+                ),
+              );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              theStates: TheStates.failure,
+              isEdited: false,
+            ),
+          );
+        }
+      },
+    );
+
     on<EventDeleted>(
       (event, emit) async {
         try {
