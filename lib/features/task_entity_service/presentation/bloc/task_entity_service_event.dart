@@ -187,3 +187,10 @@ class ResetTESEditStatus extends TaskEntityServiceEvent {
   @override
   List<Object?> get props => [];
 }
+
+class FetchRecommendedSimilar extends TaskEntityServiceEvent {
+  final String id;
+  const FetchRecommendedSimilar({required this.id});
+  @override
+  List<Object?> get props => [id];
+}
