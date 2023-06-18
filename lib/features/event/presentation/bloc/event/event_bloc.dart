@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/event/data/models/event.dart';

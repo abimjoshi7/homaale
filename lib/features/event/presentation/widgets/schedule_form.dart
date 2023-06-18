@@ -1,7 +1,9 @@
 import 'package:cipher/core/app/root.dart';
+import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/event/data/models/req/create_schedule_req.dart';
 import 'package:cipher/features/utilities/data/models/models.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
@@ -17,255 +19,269 @@ class ScheduleForm extends StatefulWidget {
   State<ScheduleForm> createState() => _ScheduleFormState();
 }
 
-class _ScheduleFormState extends State<ScheduleForm> {
+class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
+  DateTime? startDate;
+  DateTime? endDate;
   int? repeatType;
   List<TimeSlot> _timeSlots = [];
+  List<TheSlotMaker> _theSlotMaker = [];
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ScheduleBloc(),
-      child: BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
-        builder: (context, state) {
-          return Column(
-            children: [
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  "New Schedule",
-                  style: kPurpleText17,
-                ),
+    return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            Align(
+              alignment: Alignment.center,
+              child: Text(
+                "New Schedule",
+                style: kPurpleText17,
               ),
-              addVerticalSpace(8),
-              Row(
-                children: [
-                  Flexible(
-                    child: CustomFormField(
-                      label: "Start Date",
-                      child: CustomFormContainer(
-                        hintText: state.taskEntityService!.event?.start == null
-                            ? ""
-                            : DateFormat.yMMMEd().format(
-                                state.taskEntityService!.event!.start!,
-                              ),
-                        leadingWidget: Icon(
-                          Icons.calendar_today_rounded,
-                        ),
-                        // callback: () {
-                        //   showDatePicker(
-                        //     context: context,
-                        //     initialDate: DateTime.now(),
-                        //     firstDate: DateTime(2000),
-                        //     lastDate: DateTime(2050),
-                        //   ).then(
-                        //     (value) {
-                        //       setState(
-                        //         () {
-                        //           state.taskEntityService?.event?.start = value;
-                        //         },
-                        //       );
-                        //     },
-                        //   );
-                        // },
+            ),
+            addVerticalSpace(8),
+            Row(
+              children: [
+                Flexible(
+                  child: CustomFormField(
+                    label: "Start Date",
+                    child: CustomFormContainer(
+                      hintText: DateFormat.yMMMd().format(
+                        startDate ?? state.taskEntityService.event!.start!,
                       ),
-                    ),
-                  ),
-                  addHorizontalSpace(16),
-                  Flexible(
-                    child: CustomFormField(
-                      label: "End Date",
-                      child: CustomFormContainer(
-                        hintText: state.taskEntityService!.event?.end == null
-                            ? ""
-                            : DateFormat.yMMMEd().format(
-                                state.taskEntityService!.event!.end!,
-                              ),
-                        leadingWidget: Icon(
-                          Icons.calendar_today_rounded,
-                        ),
-                        // callback: () {
-                        //   showDatePicker(
-                        //     context: context,
-                        //     initialDate: DateTime.now(),
-                        //     firstDate: DateTime(2000),
-                        //     lastDate: DateTime(2050),
-                        //   ).then(
-                        //     (value) {
-                        //       setState(
-                        //         () {
-                        //           endDate = value;
-                        //         },
-                        //       );
-                        //     },
-                        //   );
-                        // },
+                      leadingWidget: Icon(
+                        Icons.calendar_today_rounded,
+                        color: kColorSilver,
                       ),
-                    ),
-                  ),
-                ],
-              ),
-              CustomFormField(
-                label: "Shifts",
-                rightSection: InkWell(
-                    onTap: () async {
-                      final TimeOfDay? startTime = await showTimePicker(
-                        context: context,
-                        initialTime: TimeOfDay.now(),
-                        helpText: "Start Time",
-                      );
-                      if (startTime != null) {
-                        final TimeOfDay? endTime = await showTimePicker(
+                      callback: () async {
+                        await showDatePicker(
                           context: context,
-                          initialTime: startTime,
-                          helpText: "End Time",
-                        );
-                        if (endTime != null) {
-                          setState(
-                            () {
-                              _timeSlots.add(
-                                TimeSlot(
-                                  startTime: startTime,
-                                  endTime: endTime,
-                                ),
-                              );
-                            },
-                          );
-                        }
-                      }
-                    },
-                    child: Text(
-                      "+Add",
-                      style: kLightBlueText14,
-                    )),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(
-                    _timeSlots.isEmpty ? 0 : _timeSlots.length,
-                    (index) => TheSlotMaker(
-                      startTime:
-                          '${_timeSlots[index].startTime?.format(context)}',
-                      endTime: '${_timeSlots[index].endTime?.format(context)}',
-                      selectedIndex: index,
-                      startCallback: () async {},
-                      endCallback: () async {},
-                      clearCallback: () {
-                        setState(
-                          () {
-                            _timeSlots.removeAt(index);
+                          initialDate: state.taskEntityService.event!.start!,
+                          firstDate: state.taskEntityService.event!.start!,
+                          lastDate: state.taskEntityService.event!.end!,
+                        ).then(
+                          (value) {
+                            setState(
+                              () {
+                                startDate = value;
+                              },
+                            );
                           },
                         );
                       },
                     ),
                   ),
                 ),
-              ),
-              CustomFormField(
-                label: "Repeat",
-                child: CustomDropDownField(
-                  list: [
-                    "None",
-                    "Daily",
-                    "Weekly",
-                    "Custom",
-                  ],
-                  onChanged: (value) => setState(
-                    () {
-                      switch (value) {
-                        case "None":
-                          repeatType = 0;
-                          break;
-                        case "Daily":
-                          repeatType = 1;
-                          break;
-                        case "Weekly":
-                          repeatType = 2;
-                          break;
-                        case "Custom":
-                          repeatType = 3;
-                          break;
-                      }
+                addHorizontalSpace(16),
+                Flexible(
+                  child: CustomFormField(
+                    label: "End Date",
+                    child: CustomFormContainer(
+                      hintText: DateFormat.yMMMd().format(
+                        endDate ?? state.taskEntityService.event!.end!,
+                      ),
+                      leadingWidget: Icon(
+                        Icons.calendar_today_rounded,
+                        color: kColorSilver,
+                      ),
+                      callback: () {
+                        showDatePicker(
+                          context: context,
+                          initialDate:
+                              startDate ?? state.taskEntityService.event!.end!,
+                          firstDate:
+                              startDate ?? state.taskEntityService.event!.end!,
+                          lastDate: state.taskEntityService.event!.end!,
+                        ).then(
+                          (value) {
+                            setState(
+                              () {
+                                endDate = value;
+                              },
+                            );
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            addVerticalSpace(
+              8,
+            ),
+            CustomFormField(
+              label: "Shifts",
+              rightSection: InkWell(
+                  onTap: () async {
+                    setState(() {
+                      _theSlotMaker.add(
+                        TheSlotMaker(
+                          selectedIndex: 1,
+                        ),
+                      );
+                    });
+
+                    // if (startTime != null) {
+                    //   final DateTime? endTime = await CupertinoDatePicker(
+                    //     context: context,
+                    //     initialTime: startTime,
+                    //     helpText: "End Time",
+                    //   );
+                    //   if (endTime != null) {
+                    //     setState(
+                    //       () {
+                    //         _timeSlots.add(
+                    //           TimeSlot(
+                    //             startTime: startTime,
+                    //             endTime: endTime,
+                    //           ),
+                    //         );
+                    //       },
+                    //     );
+                    //   }
+                    // }
+                  },
+                  child: Text(
+                    "+Add",
+                    style: kLightBlueText14,
+                  )),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: List.generate(
+                  _theSlotMaker.isEmpty ? 1 : _theSlotMaker.length,
+                  (index) => TheSlotMaker(
+                    // startTime:
+                    //     DateFormat.Hm().format(_timeSlots[index].startTime!),
+                    // endTime: DateFormat.Hm().format(_timeSlots[index].endTime!),
+                    // '${_timeSlots[index].startTime?.format(context)}',
+                    // endTime: '${_timeSlots[index].endTime?.format(context)}',
+                    selectedIndex: index,
+                    // startCallback: () async {},
+                    // endCallback: () async {},
+                    clearCallback: () {
+                      setState(
+                        () {
+                          _theSlotMaker.removeAt(index);
+                        },
+                      );
                     },
                   ),
                 ),
               ),
-              BlocListener<ScheduleBloc, ScheduleState>(
-                listener: (context, scheduleState) {
-                  if (scheduleState.isCreated == true &&
-                      scheduleState.createScheduleRes != null) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => CustomToast(
-                        heading: "Success",
-                        content: "Schedule created successfully",
-                        onTap: () {
-                          Navigator.pushNamedAndRemoveUntil(
-                            context,
-                            Root.routeName,
-                            (route) => false,
-                          );
-                        },
-                        isSuccess: true,
-                      ),
-                    );
-                  }
-                  if (scheduleState.theState == TheStates.failure &&
-                      scheduleState.isCreated == false) {
-                    showDialog(
-                      context: context,
-                      builder: (context) => CustomToast(
-                        heading: "Failure",
-                        content: "Schedule cannot be created",
-                        onTap: () {},
-                        isSuccess: false,
-                      ),
-                    );
-                  }
-                },
-                child: CustomElevatedButton(
-                  label: "Save",
-                  callback: () {
-                    final req = CreateScheduleReq(
-                      id: state.taskEntityService?.id,
-                      event: state.taskEntityService?.event?.id,
-                      startDate: DateFormat("yyyy-MM-dd")
-                          .format(state.taskEntityService!.event!.start!),
-                      endDate: DateFormat("yyyy-MM-dd")
-                          .format(state.taskEntityService!.event!.end!),
-                      repeatType: repeatType,
-                      slots: _timeSlots
-                          .map(
-                            (e) => Slot(
-                              start: e.startTime?.format(context),
-                              end: e.endTime?.format(context),
-                            ),
-                          )
-                          .toList(),
-                      guestLimit: 1,
-                      isActive: true,
-                    );
-
-                    context.read<ScheduleBloc>().add(
-                          ScheduleEventPosted(
-                            createScheduleReq: req,
-                          ),
-                        );
+            ),
+            CustomFormField(
+              label: "Repeat",
+              child: CustomDropDownField(
+                list: [
+                  "None",
+                  "Daily",
+                  "Weekly",
+                  "Custom",
+                ],
+                onChanged: (value) => setState(
+                  () {
+                    switch (value) {
+                      case "None":
+                        repeatType = 0;
+                        break;
+                      case "Daily":
+                        repeatType = 1;
+                        break;
+                      case "Weekly":
+                        repeatType = 2;
+                        break;
+                      case "Custom":
+                        repeatType = 3;
+                        break;
+                    }
                   },
                 ),
               ),
-              addVerticalSpace(8),
-              CustomElevatedButton(
-                label: "Cancel",
-                mainColor: Colors.white,
-                textColor: kColorPrimary,
-                borderColor: kColorPrimary,
-                callback: () async {
-                  Navigator.pop(context);
-                },
-              ),
-            ],
-          );
-        },
-      ),
+            ),
+            addVerticalSpace(8),
+
+            // BlocListener<ScheduleBloc, ScheduleState>(
+            //   listener: (context, scheduleState) {
+            //     if (scheduleState.isCreated == true &&
+            //         scheduleState.createScheduleRes != null) {
+            //       showDialog(
+            //         context: context,
+            //         builder: (context) => CustomToast(
+            //           heading: "Success",
+            //           content: "Schedule created successfully",
+            //           onTap: () {
+            //             Navigator.pushNamedAndRemoveUntil(
+            //               context,
+            //               Root.routeName,
+            //               (route) => false,
+            //             );
+            //           },
+            //           isSuccess: true,
+            //         ),
+            //       );
+            //     }
+            //     if (scheduleState.theState == TheStates.failure &&
+            //         scheduleState.isCreated == false) {
+            //       showDialog(
+            //         context: context,
+            //         builder: (context) => CustomToast(
+            //           heading: "Failure",
+            //           content: "Schedule cannot be created",
+            //           onTap: () {},
+            //           isSuccess: false,
+            //         ),
+            //       );
+            //     }
+            //   },
+            //   child: CustomElevatedButton(
+            //     label: "Save",
+            //     callback: () {
+            //       final req = CreateScheduleReq(
+            //         id: state.taskEntityService.id,
+            //         event: state.taskEntityService.event?.id,
+            //         startDate: DateFormat("yyyy-MM-dd")
+            //             .format(state.taskEntityService.event!.start!),
+            //         endDate: DateFormat("yyyy-MM-dd")
+            //             .format(state.taskEntityService.event!.end!),
+            //         repeatType: repeatType,
+            //         slots: _timeSlots
+            //             .map(
+            //               (e) => Slot(
+            //                 start: e.startTime?.format(context),
+            //                 end: e.endTime?.format(context),
+            //               ),
+            //             )
+            //             .toList(),
+            //         guestLimit: 1,
+            //         isActive: true,
+            //       );
+
+            //       context.read<ScheduleBloc>().add(
+            //             ScheduleEventPosted(
+            //               createScheduleReq: req,
+            //             ),
+            //           );
+            //     },
+            //   ),
+            // ),
+            addVerticalSpace(8),
+            // CustomElevatedButton(
+            //   label: "Cancel",
+            //   mainColor: Colors.white,
+            //   textColor: kColorPrimary,
+            //   borderColor: kColorPrimary,
+            //   callback: () async {
+            //     Navigator.pop(context);
+            //   },
+            // ),
+          ],
+        );
+      },
     );
   }
+
+  // Row a(BuildContext context) {
+  //   return ;
+  // }
 }

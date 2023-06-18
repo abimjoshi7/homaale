@@ -30,18 +30,18 @@ class _ScheduleSectionState extends State<ScheduleSection> {
       builder: (context, state) {
         return Visibility(
           visible:
-              widget.taskEntityServiceState.taskEntityService?.createdBy?.id ==
+              widget.taskEntityServiceState.taskEntityService.createdBy?.id ==
                   widget.userState.taskerProfile?.user?.id,
           child: state.event?.allShifts?.length != 0
               ? SizedBox.shrink()
               : CustomFormField(
                   label:
-                      widget.taskEntityServiceState.taskEntityService?.event !=
+                      widget.taskEntityServiceState.taskEntityService.event !=
                               null
                           ? "Schedule"
                           : "",
                   child:
-                      widget.taskEntityServiceState.taskEntityService?.event !=
+                      widget.taskEntityServiceState.taskEntityService.event !=
                               null
                           ? Container(
                               padding: EdgeInsets.symmetric(
