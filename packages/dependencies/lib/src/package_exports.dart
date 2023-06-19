@@ -36,8 +36,7 @@ export 'package:telephony/telephony.dart';
 export 'package:firebase_core/firebase_core.dart';
 export 'package:card_loading/card_loading.dart';
 export 'package:connectivity_plus/connectivity_plus.dart';
-export 'package:flutter_inappwebview/flutter_inappwebview.dart'
-    hide AndroidOptions, KeyUsage, ASN1Object;
+export 'package:flutter_inappwebview/flutter_inappwebview.dart' hide AndroidOptions, KeyUsage, ASN1Object;
 export 'package:dropdown_search/dropdown_search.dart';
 export 'package:cloud_firestore/cloud_firestore.dart' hide Filter;
 export 'package:tuple/tuple.dart';
@@ -52,3 +51,4 @@ export 'package:image_compression/image_compression.dart';
 export 'package:http_parser/http_parser.dart';
 export 'package:csv/csv.dart';
 export 'package:open_filex/open_filex.dart';
+export 'package:device_info_plus/device_info_plus.dart';
