@@ -55,7 +55,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
       child: Stack(
         children: [
           Container(
-            height: 200,
+            height: 210,
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -66,7 +66,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
             left: 5,
             right: 0,
             child: Container(
-              height: 200,
+              height: 208,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: Theme.of(context).cardColor,
@@ -86,20 +86,53 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Row(
-                        mainAxisAlignment: hideImage !=null ? MainAxisAlignment.spaceBetween :MainAxisAlignment.start,
+                        mainAxisAlignment: hideImage != null
+                            ? MainAxisAlignment.spaceBetween
+                            : MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           hideImage != null
-                              ? Container(
-                                  height: 65,
-                                  width: 65,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(16.0),
-                                    image: DecorationImage(
-                                      image: NetworkImage(kHomaaleImg),
-                                      fit: BoxFit.cover,
+                              ? Column(
+                                  children: [
+                                    isTask != null
+                                        ? Container(
+                                            padding: const EdgeInsets.all(6.0),
+                                            height: 25.0,
+                                            width: 65.0,
+                                            decoration: BoxDecoration(
+                                              color: Color(0xffEDF4FF),
+                                              borderRadius:
+                                                  BorderRadius.circular(4.0),
+                                            ),
+                                            child: Center(
+                                              child: Text(
+                                                isTask == true
+                                                    ? 'Task'
+                                                    : 'Service',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .titleSmall
+                                                    ?.copyWith(
+                                                        fontSize: 10.0,
+                                                        color: kColorPrimary),
+                                              ),
+                                            ),
+                                          )
+                                        : SizedBox.shrink(),
+                                    addVerticalSpace(4.0),
+                                    Container(
+                                      height: 65,
+                                      width: 65,
+                                      decoration: BoxDecoration(
+                                        borderRadius:
+                                            BorderRadius.circular(16.0),
+                                        image: DecorationImage(
+                                          image: NetworkImage(kHomaaleImg),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                                     ),
-                                  ),
+                                  ],
                                 )
                               : const SizedBox.shrink(),
                           Column(
@@ -207,24 +240,6 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                         bottomLeftWidget ??
                             Row(
                               children: [
-                                isTask != null
-                                    ? SizedBox(
-                                        height: 30.0,
-                                        // width: 55.0,
-                                        child: Chip(
-                                          backgroundColor: Colors.grey,
-                                          label: Text(
-                                            isTask == true ? 'Task' : 'Service',
-                                            style: TextStyle(
-                                              color: Colors.white,
-                                              fontSize: 12.0,
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    : SizedBox.shrink(),
-                                addHorizontalSpace(4.0),
-                                const Text("Status :"),
                                 kWidth5,
                                 Chip(
                                   backgroundColor:

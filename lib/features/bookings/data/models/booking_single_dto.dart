@@ -41,7 +41,8 @@ class BookingSingleDto with _$BookingSingleDto {
     @JsonKey(name: 'updated_by') String? updatedBy,
   }) = _BookingSingleDto;
 
-  factory BookingSingleDto.fromJson(Map<String, dynamic> json) => _$BookingSingleDtoFromJson(json);
+  factory BookingSingleDto.fromJson(Map<String, dynamic> json) =>
+      _$BookingSingleDtoFromJson(json);
 }
 
 @freezed
@@ -94,7 +95,8 @@ class CreatedBy with _$CreatedBy {
     @JsonKey(name: 'address_line2') String? addressLine2,
   }) = _CreatedBy;
 
-  factory CreatedBy.fromJson(Map<String, dynamic> json) => _$CreatedByFromJson(json);
+  factory CreatedBy.fromJson(Map<String, dynamic> json) =>
+      _$CreatedByFromJson(json);
 }
 
 @freezed
@@ -105,7 +107,8 @@ class ChargeCurrency with _$ChargeCurrency {
     String? symbol,
   }) = _ChargeCurrency;
 
-  factory ChargeCurrency.fromJson(Map<String, dynamic> json) => _$ChargeCurrencyFromJson(json);
+  factory ChargeCurrency.fromJson(Map<String, dynamic> json) =>
+      _$ChargeCurrencyFromJson(json);
 }
 
 @freezed
@@ -158,13 +161,14 @@ class CreatedByCity with _$CreatedByCity {
   const factory CreatedByCity({
     int? id,
     String? name,
-    @JsonKey() String? zipCode,
+    @JsonKey(name: 'zip_code') String? zipCode,
     double? latitude,
     double? longitude,
     String? country,
   }) = _CreatedByCity;
 
-  factory CreatedByCity.fromJson(Map<String, dynamic> json) => _$CreatedByCityFromJson(json);
+  factory CreatedByCity.fromJson(Map<String, dynamic> json) =>
+      _$CreatedByCityFromJson(json);
 }
 
 @freezed
@@ -174,7 +178,8 @@ class Country with _$Country {
     String? code,
   }) = _Country;
 
-  factory Country.fromJson(Map<String, dynamic> json) => _$CountryFromJson(json);
+  factory Country.fromJson(Map<String, dynamic> json) =>
+      _$CountryFromJson(json);
 }
 
 @freezed
@@ -221,7 +226,8 @@ class EntityService with _$EntityService {
     String? owner,
   }) = _EntityService;
 
-  factory EntityService.fromJson(Map<String, dynamic> json) => _$EntityServiceFromJson(json);
+  factory EntityService.fromJson(Map<String, dynamic> json) =>
+      _$EntityServiceFromJson(json);
 }
 
 @freezed
@@ -232,7 +238,8 @@ class Currency with _$Currency {
     String? symbol,
   }) = _Currency;
 
-  factory Currency.fromJson(Map<String, dynamic> json) => _$CurrencyFromJson(json);
+  factory Currency.fromJson(Map<String, dynamic> json) =>
+      _$CurrencyFromJson(json);
 }
 
 @freezed
@@ -274,11 +281,13 @@ class Service with _$Service {
     @JsonKey(name: 'is_verified') bool? isVerified,
     Category? category,
     List<Image>? images,
-    @JsonKey(name: 'required_documents') List<RequiredDocument>? requiredDocuments,
+    @JsonKey(name: 'required_documents')
+    List<RequiredDocument>? requiredDocuments,
     String? commission,
   }) = _Service;
 
-  factory Service.fromJson(Map<String, dynamic> json) => _$ServiceFromJson(json);
+  factory Service.fromJson(Map<String, dynamic> json) =>
+      _$ServiceFromJson(json);
 }
 
 @freezed
@@ -290,7 +299,8 @@ class Category with _$Category {
     String? slug,
   }) = _Category;
 
-  factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
+  factory Category.fromJson(Map<String, dynamic> json) =>
+      _$CategoryFromJson(json);
 }
 
 @freezed
@@ -302,5 +312,6 @@ class RequiredDocument with _$RequiredDocument {
     @JsonKey(name: 'required_for_merchant') bool? requiredForMerchant,
   }) = _RequiredDocument;
 
-  factory RequiredDocument.fromJson(Map<String, dynamic> json) => _$RequiredDocumentFromJson(json);
+  factory RequiredDocument.fromJson(Map<String, dynamic> json) =>
+      _$RequiredDocumentFromJson(json);
 }

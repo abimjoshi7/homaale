@@ -42,23 +42,6 @@ class _WaitingListTabState extends State<WaitingListTab> {
         newFetch: false,
       ),
     );
-    // _controller.addListener(
-    //   () {
-    //     ScrollHelper.nextPageTrigger(
-    //       _controller,
-    //       _scrollBloc.add(
-    //         FetchItemsEvent(
-    //           url: kMyBookingList,
-    //           data: {
-    //             "is_accepted": false,
-    //             "status": "pending",
-    //           },
-    //           newFetch: false,
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // );
   }
 
   @override
@@ -190,8 +173,6 @@ class _WaitingListTabState extends State<WaitingListTab> {
                               // Navigator.pop(context);
                               Navigator.pushNamed(
                                   context, BookingCancelPage.routeName,
-                                  //Todo: Need to send client and merchant on the basics of task and service
-                                  // if TASK send ->Client or Service ->Send merchant
                                   arguments: {
                                     'client': data[index]
                                                 .entityService
@@ -237,20 +218,15 @@ class _WaitingListTabState extends State<WaitingListTab> {
   }
 
   Column displayPrice(Result result) {
+    print("Result booking: $result");
     return Column(
       children: [
-        /// TODO: for task display earning and servuce vyo vane price
-        result.budgetFrom == 0 || result.budgetFrom == null
-            ? Text(
-                "Rs. ${Decimal.parse(result.budgetTo ?? '0.0')}",
-                // style: kText17,
-              )
-            : Text(
-                "Rs. ${Decimal.parse(result.budgetFrom ?? '0.0')} - Rs. ${Decimal.parse(result.budgetTo ?? '0.0')}",
-                // style: kText17,
-              ),
         Text(
-          '/ ${result.entityService?.budgetType}   ',
+          "${result.entityService?.currency?.symbol ?? "Rs."} ${Decimal.parse(result.entityService?.isRequested == true ? result.earning ?? '0.0' : result.price ?? '0.0')}",
+          // style: kText17,
+        ),
+        Text(
+          '/ ${result.entityService?.budgetType}',
           // style: kHelper13,
         ),
       ],
