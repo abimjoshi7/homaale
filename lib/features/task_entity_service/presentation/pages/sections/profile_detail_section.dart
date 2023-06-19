@@ -39,7 +39,8 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                     shape: BoxShape.circle,
                     image: DecorationImage(
                       image: NetworkImage(
-                        state.taskEntityService?.createdBy?.profileImage ?? kDefaultAvatarNImg,
+                        state.taskEntityService.createdBy?.profileImage ??
+                            kDefaultAvatarNImg,
                       ),
                     ),
                   ),
@@ -53,14 +54,14 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                     SizedBox(
                       width: MediaQuery.of(context).size.width * 0.6,
                       child: Text(
-                        state.taskEntityService?.title ?? '',
+                        state.taskEntityService.title ?? '',
                         style: Theme.of(context).textTheme.headlineSmall,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Text(
-                      "${state.taskEntityService?.createdBy?.firstName ?? ''}"
-                      " ${state.taskEntityService?.createdBy?.lastName ?? ''}",
+                      "${state.taskEntityService.createdBy?.firstName ?? ''}"
+                      " ${state.taskEntityService.createdBy?.lastName ?? ''}",
                       style: kLightBlueText14,
                     ),
                   ],
@@ -69,12 +70,14 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
             ),
             Row(
               children: <Widget>[
-                state.taskEntityService?.createdBy?.id == context.read<UserBloc>().state.taskerProfile?.user?.id
+                state.taskEntityService.createdBy?.id ==
+                        context.read<UserBloc>().state.taskerProfile?.user?.id
                     ? SizedBox()
                     : CustomFavoriteIcon(
-                        typeID: state.taskEntityService?.id ?? '',
+                        typeID: state.taskEntityService.id ?? '',
                         type: ServiceType.entityservice,
-                        isBookmarked: state.taskEntityService?.isBookmarked ?? false,
+                        isBookmarked:
+                            state.taskEntityService.isBookmarked ?? false,
                       ),
                 addHorizontalSpace(8),
                 InkWell(
@@ -94,21 +97,29 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                               style: Theme.of(context).textTheme.displayMedium,
                             ),
                             onTap: () {
+                              Navigator.pop(context);
                               if (!CacheHelper.isLoggedIn) {
                                 notLoggedInPopUp(context);
                               }
                               if (!CacheHelper.isLoggedIn) return;
-                              final box = context.findRenderObject() as RenderBox?;
+                              final box =
+                                  context.findRenderObject() as RenderBox?;
                               Share.share(
-                                "$kShareLinks/services/${state.taskEntityService?.id}",
-                                subject: state.taskEntityService?.title,
-                                sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
+                                "$kShareLinks/services/${state.taskEntityService.id}",
+                                subject: state.taskEntityService.title,
+                                sharePositionOrigin:
+                                    box!.localToGlobal(Offset.zero) & box.size,
                               );
                             },
                           ),
                           Visibility(
-                            visible: context.read<UserBloc>().state.taskerProfile?.user?.id !=
-                                state.taskEntityService?.createdBy?.id,
+                            visible: context
+                                    .read<UserBloc>()
+                                    .state
+                                    .taskerProfile
+                                    ?.user
+                                    ?.id !=
+                                state.taskEntityService.createdBy?.id,
                             child: ListTile(
                               leading: Icon(
                                 Icons.report,
@@ -117,27 +128,34 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                               horizontalTitleGap: 4,
                               title: Text(
                                 'Report',
-                                style: Theme.of(context).textTheme.displayMedium,
+                                style:
+                                    Theme.of(context).textTheme.displayMedium,
                               ),
                               onTap: () {
                                 context
                                     .read<SupportTicketTypeOptionsBloc>()
-                                    .add(SupportTicketTypeOptionsLoaded(target: 'entityservice'));
+                                    .add(SupportTicketTypeOptionsLoaded(
+                                        target: 'entityservice'));
                                 Navigator.pushNamed(
                                   context,
                                   CommonReportPage.routeName,
                                   arguments: {
                                     'isType': 'isTask',
                                     'model': 'entityservice',
-                                    'objectId': state.taskEntityService?.id
+                                    'objectId': state.taskEntityService.id
                                   },
                                 );
                               },
                             ),
                           ),
                           Offstage(
-                            offstage: context.read<UserBloc>().state.taskerProfile?.user?.id !=
-                                state.taskEntityService?.createdBy?.id,
+                            offstage: context
+                                    .read<UserBloc>()
+                                    .state
+                                    .taskerProfile
+                                    ?.user
+                                    ?.id !=
+                                state.taskEntityService.createdBy?.id,
                             child: Column(
                               children: [
                                 ListTile(
@@ -146,9 +164,13 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                       context: context,
                                       isScrollControlled: true,
                                       builder: (context) => Container(
-                                        height: MediaQuery.of(context).size.height * 0.75,
+                                        height:
+                                            MediaQuery.of(context).size.height *
+                                                0.75,
                                         padding: EdgeInsets.only(
-                                            bottom: MediaQuery.of(context).viewInsets.bottom,
+                                            bottom: MediaQuery.of(context)
+                                                .viewInsets
+                                                .bottom,
                                             left: 8,
                                             right: 8,
                                             top: 8),
@@ -157,7 +179,7 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                             mainAxisSize: MainAxisSize.min,
                                             children: [
                                               EditTaskEntityServiceForm(
-                                                id: state.taskEntityService?.id,
+                                                id: state.taskEntityService.id,
                                                 isRequested: false,
                                               ),
                                             ],
@@ -173,7 +195,9 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                   horizontalTitleGap: 4,
                                   title: Text(
                                     "Edit",
-                                    style: Theme.of(context).textTheme.displayMedium,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium,
                                   ),
                                 ),
                                 ListTile(
@@ -184,7 +208,9 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                   horizontalTitleGap: 4,
                                   title: Text(
                                     "Remove",
-                                    style: Theme.of(context).textTheme.displayMedium,
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayMedium,
                                   ),
                                   onTap: () {
                                     if (!CacheHelper.isLoggedIn) {
@@ -193,9 +219,12 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                     if (!CacheHelper.isLoggedIn) return;
                                     Future.delayed(
                                       Duration.zero,
-                                      () => context.read<TaskEntityServiceBloc>().add(
+                                      () => context
+                                          .read<TaskEntityServiceBloc>()
+                                          .add(
                                             TaskEntityServiceDeleted(
-                                              id: state.taskEntityService?.id ?? "",
+                                              id: state.taskEntityService.id ??
+                                                  "",
                                             ),
                                           ),
                                     ).whenComplete(
@@ -229,14 +258,14 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
             Row(
               children: [
                 IconText(
-                  label: state.taskEntityService?.rating?.toString() ?? '',
+                  label: state.taskEntityService.rating?.toString() ?? '',
                   iconData: Icons.star_outlined,
                   color: kColorAmber,
                   size: 18,
                 ),
                 addHorizontalSpace(8),
                 IconText(
-                  label: state.taskEntityService?.bookedCount.toString() ?? '',
+                  label: state.taskEntityService.bookedCount.toString(),
                   iconData: Icons.people,
                   color: kColorPrimary,
                   size: 18,
@@ -245,7 +274,7 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
             ),
             IconText(
               label:
-                  "${state.taskEntityService?.city?.name ?? ''}, ${state.taskEntityService?.city?.country?.name ?? ''}",
+                  "${state.taskEntityService.city?.name ?? ''}, ${state.taskEntityService.city?.country?.name ?? ''}",
               iconData: Icons.location_on_outlined,
               size: 18,
               color: Colors.red,
@@ -254,15 +283,14 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
         ),
         addVerticalSpace(10),
         IconText(
-          label: "${DateFormat('hh:mm a - MMMM dd, y').format(state.taskEntityService?.createdAt ?? DateTime.now())}",
+          label:
+              "${DateFormat('hh:mm a - MMMM dd, y').format(state.taskEntityService.createdAt ?? DateTime.now())}",
           iconData: Icons.calendar_month,
           size: 18,
           color: Colors.red,
         ),
         addVerticalSpace(10),
-        HtmlRemover(
-            text: state.taskEntityService?.description ??
-                'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.'),
+        HtmlRemover(text: state.taskEntityService.description ?? ''),
         addHorizontalSpace(10),
       ],
     );

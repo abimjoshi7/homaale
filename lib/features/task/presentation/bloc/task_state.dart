@@ -1,6 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-
-
 part of 'task_bloc.dart';
 
 class TaskState extends Equatable {
@@ -21,6 +18,7 @@ class TaskState extends Equatable {
   final bool? isDateSort;
   final bool? isBudgetSort;
   final bool? isFilter;
+  final bool isNegotiationStatusChanged;
   final List<ServiceList>? serviceList;
   final bool? servicesLoaded;
   final bool isLastPage;
@@ -43,6 +41,7 @@ class TaskState extends Equatable {
     this.isDateSort = false,
     this.isBudgetSort = false,
     this.isFilter = false,
+    this.isNegotiationStatusChanged = false,
     this.serviceList,
     this.servicesLoaded = false,
     this.isLastPage = false,
@@ -68,6 +67,7 @@ class TaskState extends Equatable {
       isDateSort,
       isBudgetSort,
       isFilter,
+      isNegotiationStatusChanged,
       serviceList,
       servicesLoaded,
       isLastPage,
@@ -92,6 +92,7 @@ class TaskState extends Equatable {
     bool? isDateSort,
     bool? isBudgetSort,
     bool? isFilter,
+    bool? isNegotiationStatusChanged,
     List<ServiceList>? serviceList,
     bool? servicesLoaded,
     bool? isLastPage,
@@ -99,10 +100,12 @@ class TaskState extends Equatable {
     return TaskState(
       theState: theState ?? this.theState,
       myTaskRes: myTaskRes ?? this.myTaskRes,
-      taskEntityServiceModel: taskEntityServiceModel ?? this.taskEntityServiceModel,
+      taskEntityServiceModel:
+          taskEntityServiceModel ?? this.taskEntityServiceModel,
       taskEntityServices: taskEntityServices ?? this.taskEntityServices,
       taskModel: taskModel ?? this.taskModel,
-      selfCreatedTaskServiceModel: selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
+      selfCreatedTaskServiceModel:
+          selfCreatedTaskServiceModel ?? this.selfCreatedTaskServiceModel,
       taskApplyCountModel: taskApplyCountModel ?? this.taskApplyCountModel,
       applicantModel: applicantModel ?? this.applicantModel,
       applyTaskFail: applyTaskFail ?? this.applyTaskFail,
@@ -114,6 +117,8 @@ class TaskState extends Equatable {
       isDateSort: isDateSort ?? this.isDateSort,
       isBudgetSort: isBudgetSort ?? this.isBudgetSort,
       isFilter: isFilter ?? this.isFilter,
+      isNegotiationStatusChanged:
+          isNegotiationStatusChanged ?? this.isNegotiationStatusChanged,
       serviceList: serviceList ?? this.serviceList,
       servicesLoaded: servicesLoaded ?? this.servicesLoaded,
       isLastPage: isLastPage ?? this.isLastPage,

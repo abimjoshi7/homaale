@@ -35,9 +35,10 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       createdAt: json['created_at'] as String?,
       status: json['status'] as String?,
       currency: json['currency'] as String?,
-      budgetFrom: json['budget_from'] as String?,
-      budgetTo: json['budget_to'] as String?,
+      price: json['price'] as String?,
+      earning: json['earning'] as String?,
       budgetType: json['budget_type'] as String?,
+      description: json['description'] as String?,
       createdBy: json['created_by'] == null
           ? null
           : CreatedBy.fromJson(json['created_by'] as Map<String, dynamic>),
@@ -48,9 +49,10 @@ Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
       'created_at': instance.createdAt,
       'status': instance.status,
       'currency': instance.currency,
-      'budget_from': instance.budgetFrom,
-      'budget_to': instance.budgetTo,
+      'price': instance.price,
+      'earning': instance.earning,
       'budget_type': instance.budgetType,
+      'description': instance.description,
       'created_by': instance.createdBy,
     };
 

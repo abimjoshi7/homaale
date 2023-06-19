@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
@@ -8,10 +9,12 @@ import 'package:cipher/features/bookings/data/models/booking_single_dto.dart';
 import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_req.dart';
 import 'package:cipher/features/bookings/data/models/edit_booking_res.dart';
-import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart' as booking;
+import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart'
+    as booking;
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
 
 part 'bookings_event.dart';
 part 'bookings_state.dart';
@@ -64,7 +67,8 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
               emit(
                 state.copyWith(
                   states: TheStates.success,
-                  myBookingListModel: booking.MyBookingListModel.fromJson(value),
+                  myBookingListModel:
+                      booking.MyBookingListModel.fromJson(value),
                   isLoaded: true,
                   isUpdated: false,
                   isCancelled: false,
@@ -301,7 +305,9 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
     on<BookingStatusUpdate>(
       (event, emit) async {
         try {
-          await repositories.updateStatus(status: event.status, id: event.id).then(
+          await repositories
+              .updateStatus(status: event.status, id: event.id)
+              .then(
             (value) {
               print(value);
               emit(
@@ -352,5 +358,40 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
         }
       },
     );
+    on<BookingNegotiationBudgetUpdate>((event, emit) async {
+      try {
+        await repositories
+            .updateNegotiationBookingPrice(
+          budget: event.budget,
+          id: event.id,
+        )
+            .then((value) {
+          Fluttertoast.showToast(
+            msg: "Booking price has been updated!",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: kColorGreen,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+          add(
+            BookingSingleLoaded(
+              event.id,
+            ),
+          );
+        });
+      } catch (e) {
+        Fluttertoast.showToast(
+          msg: "Failed to update booking price: $e",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: kColorLightGrey,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
+    });
   }
 }

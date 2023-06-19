@@ -122,7 +122,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
 
                             context.read<TaskEntityServiceBloc>().add(
                                   FetchRecommendedSimilar(
-                                    id: state.taskEntityServiceModel.result?[index].id ?? '',
+                                    id: state.taskEntityServices?[index].id ?? "",
                                   ),
                                 );
 

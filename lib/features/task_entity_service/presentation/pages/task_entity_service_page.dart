@@ -9,7 +9,9 @@ import 'package:cipher/features/chat/models/chat_person_details.dart';
 import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart' as tes;
+import 'package:cipher/features/task/presentation/bloc/task_bloc.dart' as tb;
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart'
+    as tes;
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/recommended_services.dart';
@@ -165,12 +167,13 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                           ),
                           Container(
                             width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.21,
+                            height: MediaQuery.of(context).size.height * 0.22,
                             child: CarouselSlider.builder(
                               itemCount: mediaList.length,
                               itemBuilder: (context, index, realIndex) {
                                 return Container(
-                                  height: MediaQuery.of(context).size.height * 0.2,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.21,
                                   margin: EdgeInsets.only(right: 32),
                                   child: mediaList[index].mediaType?.toLowerCase() == 'mp4'
                                       ? VideoPlayerWidget(
@@ -284,7 +287,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                           ),
                           addVerticalSpace(10),
                           SizedBox(
-                            height: 500,
+                            height: 505,
                             child: GridView.count(
                               shrinkWrap: true,
                               padding: EdgeInsets.zero,
@@ -295,8 +298,15 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                   onFavouriteTapped: () => {},
                                   callback: () => showApplicantDetailsDialog(
                                     context: context,
-                                    profileImage:
-                                        state.applicantModel?.result?[index].createdBy?.profileImage ?? kHomaaleImg,
+                                    isNegotiable:
+                                        state.taskEntityService?.isNegotiable ??
+                                            false,
+                                    profileImage: state
+                                            .applicantModel
+                                            ?.result?[index]
+                                            .createdBy
+                                            ?.profileImage ??
+                                        kHomaaleImg,
                                     label:
                                         '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? 'Harry'} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? 'Smith'}',
                                     happyClients:
@@ -310,8 +320,9 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                         state.applicantModel?.result?[index].createdBy?.isProfileVerified ?? false,
                                     title: state.taskEntityService?.title ?? '',
                                     budget:
-                                        'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
-                                    status: state.applicantModel?.result?[index].status,
+                                        '${state.applicantModel?.result?[index].currency}. ${state.applicantModel?.result?[index].price}',
+                                    status: state
+                                        .applicantModel?.result?[index].status,
                                     onRejectPressed: () {
                                       context.read<TaskEntityServiceBloc>().add(
                                             TaskRejectPeople(
@@ -327,6 +338,16 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                               ApproveReq(booking: state.applicantModel?.result?[index].id ?? 0)));
                                       Navigator.pop(context);
                                     },
+                                    onNegotiatePressed: () {
+                                      context.read<tb.TaskBloc>().add(
+                                            tb.ChangeTaskNegotiationStatus(
+                                              id: state.applicantModel
+                                                      ?.result?[index].id ??
+                                                  0,
+                                            ),
+                                          );
+                                      //TODO: chat navigations
+                                    },
                                   ),
                                   callbackLabel: 'View Details',
                                   networkImageUrl:
@@ -339,7 +360,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                       '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''}',
                                   designation: state.applicantModel?.result?[index].createdBy?.designation,
                                   rate:
-                                      'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
+                                      '${state.applicantModel?.result?[index].currency}. ${state.applicantModel?.result?[index].price}',
                                   ratings:
                                       '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
                                   buttonWidth: 100,

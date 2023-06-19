@@ -3,6 +3,7 @@ import 'package:cipher/features/search/presentation/widgets/search_card.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,13 @@ class TasksSection extends StatelessWidget {
                     context.read<TaskBloc>().add(
                           SingleEntityTaskLoadInitiated(
                             id: tasks?[index].id ?? "",
+                            userId: context
+                                    .read<UserBloc>()
+                                    .state
+                                    .taskerProfile
+                                    ?.user
+                                    ?.id ??
+                                '',
                           ),
                         );
                     Future.delayed(

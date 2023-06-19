@@ -10,175 +10,190 @@ class PasswordAndSecurity extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        appBar: CustomAppBar(
+          appBarTitle: 'Password & Security',
+        ),
         body: Column(
-      children: [
-        kHeight50,
-        CustomHeader(
-          leadingWidget: IconButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            icon: const Icon(
-              Icons.arrow_back,
-            ),
-          ),
-          trailingWidget: IconButton(
-            icon: const Icon(Icons.search),
-            onPressed: () {},
-          ),
-          child: const Text(
-            'Password & Security',
-            // style: TextStyle(
-            //   fontSize: 14,
-            //   fontWeight: FontWeight.w500,
-            //   color: Color(
-            //     0xff212529,
-            //   ),
-            // ),
-          ),
-        ),
-        const Divider(),
-        Expanded(
-          child: Padding(
-            padding: kPadding20,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                kHeight20,
-                 Text(
-                  'Password',
-                  style: Theme.of(context).textTheme.headlineSmall,
-                ),
-                kHeight5,
-                const Text(
-                  'You will be asked to enter password before logging in Homaale',
-                  // style: kHelper13,
-                ),
-                kHeight20,
-
-                Center(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      SizedBox(
-                        width: 200,
-                        child: CustomElevatedButton(
-                          callback: () {
-                            showModalBottomSheet(
-                              isScrollControlled: true,
-                              context: context,
-                              builder: (context) => Padding(
-                                padding: EdgeInsets.only(
-                                  bottom:
-                                      MediaQuery.of(context).viewInsets.bottom,
-                                ),
-                                child: const ChangePasswordModalSheet(),
-                              ),
-                            );
-                          },
-                          label: 'Change password',
-                        ),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 25),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    kHeight20,
+                    Text(
+                      'Password',
+                      style: Theme.of(context).textTheme.headlineSmall,
+                    ),
+                    kHeight5,
+                    const Text(
+                      'You will be asked to enter password before logging in Homaale.',
+                      // style: kHelper13,
+                    ),
+                    kHeight20,
+                    Center(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          SizedBox(
+                            width: 200,
+                            child: CustomElevatedButton(
+                              callback: () {
+                                showModalBottomSheet(
+                                  isScrollControlled: true,
+                                  context: context,
+                                  builder: (context) => Padding(
+                                    padding: EdgeInsets.only(
+                                      bottom: MediaQuery.of(context)
+                                          .viewInsets
+                                          .bottom,
+                                    ),
+                                    child: const ChangePasswordModalSheet(),
+                                  ),
+                                );
+                              },
+                              label: 'Change password',
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    kHeight20,
+                    ListTile(
+                      onTap: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) => Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context)
+                                  .viewInsets
+                                  .bottom,
+                            ),
+                            child: const AddPhoneNumberModalSheet(),
+                          ),
+                        );
+                      },
+                      title: Text('Add new phone number'),
+                      trailing: Icon(Icons.keyboard_arrow_down),
+                    ),
+                    ListTile(
+                      onTap: () {
+                        showModalBottomSheet(
+                          isScrollControlled: true,
+                          context: context,
+                          builder: (context) => Padding(
+                            padding: EdgeInsets.only(
+                              bottom: MediaQuery.of(context)
+                                  .viewInsets
+                                  .bottom,
+                            ),
+                            child: const AddEmailModalSheet(),
+                          ),
+                        );
+                      },
+                      title: Text('Update email'),
+                      trailing: Icon(Icons.keyboard_arrow_down),
+                    ),
+
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //           children: [
+                    //             const Text('Two Factor Authentication'),
+                    //             Switch(
+                    //               value: false,
+                    //               onChanged: (value) {},
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         kHeight5,
+                    //         const Text(
+                    //           'Add an extra layer of security to block unauthorized access and protect your account.',
+                    //           style: kHelper13,
+                    //         ),
+                    //         kHeight20,
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //           children: [
+                    //             const Text(
+                    //               'Authenticator App Code',
+                    //             ),
+                    //             OutlinedButton(
+                    //               onPressed: () {
+                    //                 showModalBottomSheet(
+                    //                   constraints: const BoxConstraints(
+                    //                     maxHeight: 750,
+                    //                     minWidth: double.infinity,
+                    //                   ),
+                    //                   isScrollControlled: true,
+                    //                   context: context,
+                    //                   builder: (context) => const AuthenticatorAppCode(),
+                    //                 );
+                    //               },
+                    //               child: const Text(
+                    //                 'Setup',
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         kHeight5,
+                    //         const Text(
+                    //           "Enter a code generated by Google authenticator app to confirm it's you.",
+                    //           style: kHelper13,
+                    //         ),
+                    //         kHeight20,
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //           children: [
+                    //             const Text('SMS Recovery'),
+                    //             OutlinedButton(
+                    //               onPressed: () {},
+                    //               child: const Text(
+                    //                 'Setup',
+                    //               ),
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         kHeight5,
+                    //         const Text(
+                    //           "Recieve a four digit code by text message to confirm it's you",
+                    //           style: kHelper13,
+                    //         ),
+                    //         kHeight20,
+                    //         Row(
+                    //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //           children: [
+                    //             const Text(
+                    //               'Security Question',
+                    //               style: kPurpleText16,
+                    //             ),
+                    //             Switch(
+                    //               value: false,
+                    //               onChanged: (value) {},
+                    //             ),
+                    //           ],
+                    //         ),
+                    //         kHeight5,
+                    //         const Text(
+                    //           "Answer a question you choose to confirm it's you.",
+                    //           style: kHelper13,
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    // ),
+                    // CustomElevatedButton(
+                    //   callback: () {},
+                    //   label: 'Save',
+                    // ),
+                    // kHeight50,
+                  ],
                 ),
-                kHeight20,
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //           children: [
-                //             const Text('Two Factor Authentication'),
-                //             Switch(
-                //               value: false,
-                //               onChanged: (value) {},
-                //             ),
-                //           ],
-                //         ),
-                //         kHeight5,
-                //         const Text(
-                //           'Add an extra layer of security to block unauthorized access and protect your account.',
-                //           style: kHelper13,
-                //         ),
-                //         kHeight20,
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //           children: [
-                //             const Text(
-                //               'Authenticator App Code',
-                //             ),
-                //             OutlinedButton(
-                //               onPressed: () {
-                //                 showModalBottomSheet(
-                //                   constraints: const BoxConstraints(
-                //                     maxHeight: 750,
-                //                     minWidth: double.infinity,
-                //                   ),
-                //                   isScrollControlled: true,
-                //                   context: context,
-                //                   builder: (context) => const AuthenticatorAppCode(),
-                //                 );
-                //               },
-                //               child: const Text(
-                //                 'Setup',
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //         kHeight5,
-                //         const Text(
-                //           "Enter a code generated by Google authenticator app to confirm it's you.",
-                //           style: kHelper13,
-                //         ),
-                //         kHeight20,
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //           children: [
-                //             const Text('SMS Recovery'),
-                //             OutlinedButton(
-                //               onPressed: () {},
-                //               child: const Text(
-                //                 'Setup',
-                //               ),
-                //             ),
-                //           ],
-                //         ),
-                //         kHeight5,
-                //         const Text(
-                //           "Recieve a four digit code by text message to confirm it's you",
-                //           style: kHelper13,
-                //         ),
-                //         kHeight20,
-                //         Row(
-                //           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //           children: [
-                //             const Text(
-                //               'Security Question',
-                //               style: kPurpleText16,
-                //             ),
-                //             Switch(
-                //               value: false,
-                //               onChanged: (value) {},
-                //             ),
-                //           ],
-                //         ),
-                //         kHeight5,
-                //         const Text(
-                //           "Answer a question you choose to confirm it's you.",
-                //           style: kHelper13,
-                //         ),
-                //       ],
-                //     ),
-                //   ),
-                // ),
-                // CustomElevatedButton(
-                //   callback: () {},
-                //   label: 'Save',
-                // ),
-                // kHeight50,
-              ],
+              ),
             ),
-          ),
-        ),
-      ],
-    ));
+          ],
+        ));
   }
 }

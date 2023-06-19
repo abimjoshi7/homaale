@@ -96,9 +96,17 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         String? statusTitle =
-                            todayList[index].contentObject?.status ??
-                                todayList[index].title;
+                            todayList[index].contentObject?.status ==
+                                        "pending" &&
+                                    (todayList[index].title == "negotiated" ||
+                                        todayList[index].title == "accepted")
+                                ? todayList[index].title
+                                : todayList[index].contentObject?.status ??
+                                    todayList[index].title;
                         return ListTileComponent(
+                          hasStatusBox:
+                              !(todayList[index].title == "negotiated" ||
+                                  todayList[index].title == "accepted"),
                           readDate: state.notificationList[index].readDate,
                           bgColor: getNotificationStatus(
                               status: statusTitle?.toLowerCase() ?? '',
@@ -171,8 +179,14 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         String? statusTitle =
-                            earlierList[index].contentObject?.status ??
-                                earlierList[index].title;
+                            earlierList[index].contentObject?.status ==
+                                        "pending" &&
+                                    (earlierList[index].title == "negotiated" ||
+                                        earlierList[index].title == "accepted")
+                                ? earlierList[index].title
+                                : earlierList[index].contentObject?.status ??
+                                    earlierList[index].title;
+
                         return ListTileComponent(
                           readDate: earlierList[index].readDate,
                           bgColor: getNotificationStatus(
