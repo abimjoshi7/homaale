@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/features/bloc/scroll_bloc.dart';
+import 'package:cipher/features/booking_cancel/presentation/pages/booking_cancel_page.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
@@ -127,6 +128,11 @@ class _WaitingListTabState extends State<WaitingListTab> {
                             Navigator.pushNamed(
                               context,
                               BookedServicePage.routeName,
+                              arguments: {
+                                "is_task":
+                                    data[index].entityService?.isRequested ==
+                                        true
+                              },
                             );
                           },
                           editTap: () async {
@@ -177,11 +183,23 @@ class _WaitingListTabState extends State<WaitingListTab> {
                           cancelTap: () {
                             if (data[index].status?.toLowerCase() ==
                                 'pending') {
-                              bookingsBloc.add(
-                                BookingCancelled(
-                                    id: data[index].id ?? 0, isTask: true),
-                              );
-                              Navigator.pop(context);
+                              // bookingsBloc.add(
+                              //   BookingCancelled(
+                              //       id: data[index].id ?? 0, isTask: true),
+                              // );
+                              // Navigator.pop(context);
+                              Navigator.pushNamed(
+                                  context, BookingCancelPage.routeName,
+                                  //Todo: Need to send client and merchant on the basics of task and service
+                                  // if TASK send ->Client or Service ->Send merchant
+                                  arguments: {
+                                    'client': data[index]
+                                                .entityService
+                                                ?.isRequested ==
+                                            true
+                                        ? 'client'
+                                        : 'merchant',
+                                  });
                             } else {
                               Navigator.pop(context);
                               showDialog(

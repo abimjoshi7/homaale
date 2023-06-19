@@ -27,6 +27,10 @@ class _BookedServicePageState extends State<BookedServicePage> {
   TextEditingController budgetController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final Map<String, dynamic>? routeData =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final bool? isTask = routeData?["is_task"] as bool?;
+
     return Scaffold(
       body: BlocConsumer<BookingsBloc, BookingsState>(
         listener: (context, state) {
@@ -154,17 +158,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                                   //Todo: Need to send client and merchant on the basics of task and service
                                                   // if TASK send ->Client or Service ->Send merchant
                                                   arguments: {
-                                                    'client': booking
-                                                                .entityService
-                                                                ?.createdBy
-                                                                ?.id ==
-                                                            context
-                                                                .read<
-                                                                    UserBloc>()
-                                                                .state
-                                                                .taskerProfile
-                                                                ?.user
-                                                                ?.id
+                                                    'client': isTask == true
                                                         ? 'client'
                                                         : 'merchant',
                                                   });
