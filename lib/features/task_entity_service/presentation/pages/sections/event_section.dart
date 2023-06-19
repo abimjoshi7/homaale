@@ -20,38 +20,37 @@ class EventSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocConsumer<EventBloc, EventState>(
-      listener: (context, state) {},
-      builder: (context, state) {
-        return Visibility(
-          visible: taskEntityService.createdBy?.id == context.read<UserBloc>().state.taskerProfile?.user?.id,
-          child: CustomFormField(
-            label: "Events",
-            rightSection: InkWell(
-              onTap: () {
-                context.read<EventBloc>().add(
-                      EventLoaded(
-                        id: taskEntityService.event?.id ?? "",
-                      ),
-                    );
-                Navigator.pushNamed(
-                  context,
-                  EventDetailsPage.routeName,
-                );
-              },
-              child: Text(
-                "View Details",
-                style: kLightBlueText14,
-              ),
+    return Visibility(
+      visible: taskEntityService.createdBy?.id ==
+          context.read<UserBloc>().state.taskerProfile?.user?.id,
+      child: CustomFormField(
+        label: "Events",
+        rightSection: Visibility(
+          visible: taskEntityService.event?.id != null,
+          child: InkWell(
+            onTap: () {
+              context.read<EventBloc>().add(
+                    EventLoaded(
+                      id: taskEntityService.event?.id ?? "",
+                    ),
+                  );
+              Navigator.pushNamed(
+                context,
+                EventDetailsPage.routeName,
+              );
+            },
+            child: Text(
+              "View Details",
+              style: kLightBlueText14,
             ),
-            child: taskEntityService.event?.id == null
-                ? EventAttachCard()
-                : EventDetailCard(
-                    taskEntityService: taskEntityService,
-                  ),
           ),
-        );
-      },
+        ),
+        child: taskEntityService.event?.id == null
+            ? EventAttachCard()
+            : EventDetailCard(
+                taskEntityService: taskEntityService,
+              ),
+      ),
     );
   }
 }

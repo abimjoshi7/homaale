@@ -42,8 +42,8 @@ class AllTaskLoadInitiated extends TaskEvent {
   final bool? isTask;
   final int? page;
   final List<String>? order;
-  final bool? isDateSort;
-  final bool? isBudgetSort;
+  final String? dateSort;
+  final String? budgetSort;
   final String? serviceId;
   final String? city;
   final bool? isFilter;
@@ -61,8 +61,8 @@ class AllTaskLoadInitiated extends TaskEvent {
     this.isTask,
     this.page,
     this.order,
-    this.isDateSort,
-    this.isBudgetSort,
+    this.dateSort,
+    this.budgetSort,
     this.serviceId,
     this.city,
     this.isFilter,
@@ -82,8 +82,8 @@ class AllTaskLoadInitiated extends TaskEvent {
         isTask,
         page,
         order,
-        isDateSort,
-        isBudgetSort,
+        dateSort,
+        budgetSort,
         serviceId,
         isFilter,
         city,

@@ -42,6 +42,21 @@ class EventAvailabilityChecked extends EventEvent {
       ];
 }
 
+class EventEdited extends EventEvent {
+  final String id;
+  final Map<String, dynamic> data;
+  EventEdited({
+    required this.id,
+    required this.data,
+  });
+
+  @override
+  List<Object?> get props => [
+        id,
+        data,
+      ];
+}
+
 class EventDeleted extends EventEvent {
   final String id;
   EventDeleted({

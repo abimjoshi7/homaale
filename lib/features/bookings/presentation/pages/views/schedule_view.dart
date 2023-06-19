@@ -1,20 +1,23 @@
-import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
-import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
-import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
-import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
-import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
+import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
+import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
+import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/services/presentation/widgets/the_time_slot.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 class ScheduleView extends StatefulWidget {
+  final BookEventHandlerBloc bookEventHandlerBloc;
   const ScheduleView({
-    super.key,
-  });
+    Key? key,
+    required this.bookEventHandlerBloc,
+  }) : super(key: key);
 
   @override
   State<ScheduleView> createState() => _ScheduleViewState();
@@ -34,19 +37,19 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
   void initState() {
     super.initState();
     startTime = DateTime.now();
-    context.read<BookEventHandlerBloc>().add(
-          BookEventPicked(
-            req: BookEntityServiceReq(
-              startDate: focusedDate,
-              endDate: focusedDate,
-              budgetTo: double.parse(context
-                  .read<TaskEntityServiceBloc>()
-                  .state
-                  .taskEntityService!
-                  .payableTo!),
-            ),
-          ),
-        );
+    widget.bookEventHandlerBloc.add(
+      BookEventPicked(
+        req: BookEntityServiceReq(
+          startDate: focusedDate,
+          endDate: focusedDate,
+          budgetTo: double.parse(context
+              .read<TaskEntityServiceBloc>()
+              .state
+              .taskEntityService!
+              .payableTo!),
+        ),
+      ),
+    );
   }
 
   @override
@@ -161,25 +164,20 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
                                       ),
                                     ),
                                   ).whenComplete(
-                                    () => context
-                                        .read<BookEventHandlerBloc>()
-                                        .add(
-                                          BookEventPicked(
-                                            req: BookEntityServiceReq(
-                                              startTime: startTime != null
-                                                  ? DateFormat.Hms()
-                                                      .format(startTime!)
-                                                  : null,
-                                              endDate: DateTime.parse(
-                                                context
-                                                    .read<
-                                                        BookEventHandlerBloc>()
-                                                    .state
-                                                    .endDate!,
-                                              ),
-                                            ),
+                                    () => widget.bookEventHandlerBloc.add(
+                                      BookEventPicked(
+                                        req: BookEntityServiceReq(
+                                          startTime: startTime != null
+                                              ? DateFormat.Hms()
+                                                  .format(startTime!)
+                                              : null,
+                                          endDate: DateTime.parse(
+                                            widget.bookEventHandlerBloc.state
+                                                .endDate!,
                                           ),
                                         ),
+                                      ),
+                                    ),
                                   );
                                 },
                                 child: Text(
@@ -205,25 +203,20 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
                                       ),
                                     ),
                                   ).whenComplete(
-                                    () => context
-                                        .read<BookEventHandlerBloc>()
-                                        .add(
-                                          BookEventPicked(
-                                            req: BookEntityServiceReq(
-                                              endTime: endTime != null
-                                                  ? DateFormat.Hms()
-                                                      .format(endTime!)
-                                                  : null,
-                                              endDate: DateTime.parse(
-                                                context
-                                                    .read<
-                                                        BookEventHandlerBloc>()
-                                                    .state
-                                                    .endDate!,
-                                              ),
-                                            ),
+                                    () => widget.bookEventHandlerBloc.add(
+                                      BookEventPicked(
+                                        req: BookEntityServiceReq(
+                                          endTime: endTime != null
+                                              ? DateFormat.Hms()
+                                                  .format(endTime!)
+                                              : null,
+                                          endDate: DateTime.parse(
+                                            widget.bookEventHandlerBloc.state
+                                                .endDate!,
                                           ),
                                         ),
+                                      ),
+                                    ),
                                   );
                                 },
                                 child: Text(
@@ -250,32 +243,31 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
                               scrollDirection: Axis.horizontal,
                               itemCount: element.slots!.length,
                               itemBuilder: (context, index) {
-                                context.read<BookEventHandlerBloc>().add(
-                                      BookEventPicked(
-                                        req: BookEntityServiceReq(
-                                          endDate: focusedDate,
-                                          startTime: element.slots?.first.start,
-                                          endTime: element.slots?.first.end,
-                                        ),
-                                      ),
-                                    );
+                                widget.bookEventHandlerBloc.add(
+                                  BookEventPicked(
+                                    req: BookEntityServiceReq(
+                                      endDate: focusedDate,
+                                      startTime: element.slots?.first.start,
+                                      endTime: element.slots?.first.end,
+                                    ),
+                                  ),
+                                );
                                 return Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: InkWell(
                                     onTap: () async {
                                       print(focusedDate);
                                       print(element.slots?.first.start);
-                                      context.read<BookEventHandlerBloc>().add(
-                                            BookEventPicked(
-                                              req: BookEntityServiceReq(
-                                                endDate: focusedDate,
-                                                startTime:
-                                                    element.slots?[index].start,
-                                                endTime:
-                                                    element.slots?[index].end,
-                                              ),
-                                            ),
-                                          );
+                                      widget.bookEventHandlerBloc.add(
+                                        BookEventPicked(
+                                          req: BookEntityServiceReq(
+                                            endDate: focusedDate,
+                                            startTime:
+                                                element.slots?[index].start,
+                                            endTime: element.slots?[index].end,
+                                          ),
+                                        ),
+                                      );
                                       setState(
                                         () {
                                           selectedIndex = index;
@@ -355,13 +347,13 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
                   focusedDate = focusedDay;
                 },
               );
-              context.read<BookEventHandlerBloc>().add(
-                    BookEventPicked(
-                      req: BookEntityServiceReq(
-                        endDate: focusedDate,
-                      ),
-                    ),
-                  );
+              widget.bookEventHandlerBloc.add(
+                BookEventPicked(
+                  req: BookEntityServiceReq(
+                    endDate: focusedDate,
+                  ),
+                ),
+              );
             },
             onEvent: (day) {
               for (final element in dateList) {

@@ -9,8 +9,8 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
   final bool? isTask;
   final int? page;
   final List<String>? order;
-  final bool? isDateSort;
-  final bool? isBudgetSort;
+  final String? dateSort;
+  final String? budgetSort;
   final String? serviceId;
   final String? city;
   final bool? isFilter;
@@ -28,8 +28,8 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
     this.isTask,
     this.page,
     this.order,
-    this.isDateSort,
-    this.isBudgetSort,
+    this.dateSort,
+    this.budgetSort,
     this.serviceId,
     this.city,
     this.isFilter,
@@ -49,8 +49,8 @@ class TaskEntityServiceInitiated extends TaskEntityServiceEvent {
         isTask,
         page,
         order,
-        isDateSort,
-        isBudgetSort,
+        dateSort,
+        budgetSort,
         serviceId,
         isFilter,
         city,
@@ -186,4 +186,11 @@ class ResetFilterSort extends TaskEntityServiceEvent {
 class ResetTESEditStatus extends TaskEntityServiceEvent {
   @override
   List<Object?> get props => [];
+}
+
+class FetchRecommendedSimilar extends TaskEntityServiceEvent {
+  final String id;
+  const FetchRecommendedSimilar({required this.id});
+  @override
+  List<Object?> get props => [id];
 }

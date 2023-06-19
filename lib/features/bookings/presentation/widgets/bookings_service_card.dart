@@ -24,6 +24,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
   final bool? hidePopupButton;
   // "isTask" is only passed in waiting list box feature
   final bool? isTask;
+  final bool? hideImage;
 
   const BookingsServiceCard({
     Key? key,
@@ -44,6 +45,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
     this.theHeight,
     this.hidePopupButton = false,
     this.isTask,
+    this.hideImage,
   }) : super(key: key);
 
   @override
@@ -57,7 +59,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
-              color: cardColor,
+              color: hideImage == null ? cardColor : null,
             ),
           ),
           Positioned(
@@ -84,126 +86,111 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            SizedBox(
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              child: AutoSizeText(
-                                serviceName ?? '',
-                                style:
-                                    Theme.of(context).textTheme.headlineSmall,
-                              ),
-                            ),
-                            AutoSizeText(
-                              providerName ?? '',
-                              style: kLightBlueText14,
-                            ),
-                          ],
-                        ),
-                        hidePopupButton ?? false
-                            ? SizedBox()
-                            : IconButton(
-                                onPressed: () {
-                                  showCustomBottomSheet(
-                                    context: context,
-                                    widget: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        ListTile(
-                                          onTap: editTap,
-                                          leading: Icon(
-                                            Icons.edit_outlined,
-                                          ),
-                                          title: Text("Edit"),
-                                        ),
-                                        Divider(),
-                                        ListTile(
-                                          onTap: cancelTap,
-                                          leading: Icon(
-                                            Icons.cancel_outlined,
-                                          ),
-                                          title: Text("Cancel"),
-                                        ),
-                                        Divider(),
-
-                                        ListTile(
-                                          onTap: deleteTap,
-                                          leading: Icon(
-                                            Icons.delete_outline_rounded,
-                                          ),
-                                          title: Text("Remove"),
-                                        ),
-                                        // TextButton.icon(
-                                        //   style: TextButton.styleFrom(
-                                        //       foregroundColor: kColorBlue),
-                                        //   onPressed: editTap,
-                                        //   icon: ,
-                                        //   label: ,
-                                        // ),
-                                        // Divider(),
-                                        // TextButton.icon(
-                                        //   style: TextButton.styleFrom(
-                                        //       foregroundColor: kColorGrey),
-                                        //   onPressed: cancelTap,
-                                        //   icon: Icon(
-                                        //     Icons.cancel_outlined,
-                                        //   ),
-                                        //   label: Text("Cancel"),
-                                        // ),
-                                        // Divider(),
-                                        // TextButton.icon(
-                                        //   style: TextButton.styleFrom(
-                                        //       foregroundColor: Colors.red),
-                                        //   onPressed: deleteTap,
-                                        //   icon: Icon(
-                                        //     Icons.delete_outline_rounded,
-                                        //   ),
-                                        //   label: Text("Remove"),
-                                        // ),
-                                      ],
+                        mainAxisAlignment: hideImage !=null ? MainAxisAlignment.spaceBetween :MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          hideImage != null
+                              ? Container(
+                                  height: 65,
+                                  width: 65,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(16.0),
+                                    image: DecorationImage(
+                                      image: NetworkImage(kHomaaleImg),
+                                      fit: BoxFit.cover,
                                     ),
-                                  );
-                                },
-                                icon: Icon(
-                                  Icons.more_vert_rounded,
+                                  ),
+                                )
+                              : const SizedBox.shrink(),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                width: hideImage != null
+                                    ? MediaQuery.of(context).size.width * 0.55
+                                    : MediaQuery.of(context).size.width * 0.7,
+                                child: AutoSizeText(
+                                  serviceName ?? '',
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
                                 ),
                               ),
-                        // PopupMenuButton(
-                        //   offset: Offset(10, 10),
-                        //   constraints: BoxConstraints(
-                        //     maxHeight: 100,
-                        //     maxWidth: 100,
-                        //   ),
-                        //   itemBuilder: (context) => [
-                        //     PopupMenuItem(
-                        //       onTap: editTap,
-                        //       child: const IconText(
-                        //         iconData: Icons.edit_note_outlined,
-                        //         label: 'Edit',
-                        //       ),
-                        //     ),
-                        //     // PopupMenuItem(
-                        //     //   onTap: cancelTap,
-                        //     //   child: const IconText(
-                        //     //     iconData: Icons.clear_rounded,
-                        //     //     label: 'Cancel',
-                        //     //   ),
-                        //     // ),
-                        //     // PopupMenuItem(
-                        //     //   onTap: deleteTap,
-                        //     //   child: const IconText(
-                        //     //     iconData: Icons.delete_outline_rounded,
-                        //     //     label: 'Delete',
-                        //     //   ),
-                        //     // ),
-                        //   ],
-                        // ),
-                      ],
-                    ),
+                              AutoSizeText(
+                                providerName ?? '',
+                                style: kLightBlueText14,
+                              ),
+                            ],
+                          ),
+                          hidePopupButton ?? false
+                              ? SizedBox()
+                              : IconButton(
+                                  onPressed: () {
+                                    showCustomBottomSheet(
+                                      context: context,
+                                      widget: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          ListTile(
+                                            onTap: editTap,
+                                            leading: Icon(
+                                              Icons.edit_outlined,
+                                            ),
+                                            title: Text("Edit"),
+                                          ),
+                                          Divider(),
+                                          ListTile(
+                                            onTap: cancelTap,
+                                            leading: Icon(
+                                              Icons.cancel_outlined,
+                                            ),
+                                            title: Text("Cancel"),
+                                          ),
+                                          Divider(),
+
+                                          ListTile(
+                                            onTap: deleteTap,
+                                            leading: Icon(
+                                              Icons.delete_outline_rounded,
+                                            ),
+                                            title: Text("Remove"),
+                                          ),
+                                          // TextButton.icon(
+                                          //   style: TextButton.styleFrom(
+                                          //       foregroundColor: kColorBlue),
+                                          //   onPressed: editTap,
+                                          //   icon: ,
+                                          //   label: ,
+                                          // ),
+                                          // Divider(),
+                                          // TextButton.icon(
+                                          //   style: TextButton.styleFrom(
+                                          //       foregroundColor: kColorGrey),
+                                          //   onPressed: cancelTap,
+                                          //   icon: Icon(
+                                          //     Icons.cancel_outlined,
+                                          //   ),
+                                          //   label: Text("Cancel"),
+                                          // ),
+                                          // Divider(),
+                                          // TextButton.icon(
+                                          //   style: TextButton.styleFrom(
+                                          //       foregroundColor: Colors.red),
+                                          //   onPressed: deleteTap,
+                                          //   icon: Icon(
+                                          //     Icons.delete_outline_rounded,
+                                          //   ),
+                                          //   label: Text("Remove"),
+                                          // ),
+                                        ],
+                                      ),
+                                    );
+                                  },
+                                  icon: Icon(
+                                    Icons.more_vert_rounded,
+                                  ),
+                                ),
+                        ]),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [

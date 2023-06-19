@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/helpers/date_helper.dart';
 import 'package:cipher/features/box/presentation/bloc/order_id_create_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_id_create_event.dart';
 import 'package:cipher/features/box/presentation/bloc/order_id_create_state.dart';
@@ -69,9 +68,7 @@ class _PaymentTabState extends State<PaymentTab> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Divider(
-                              height: 3,
-                              thickness: 2,
-                              color: Color(0Xff00D084),
+                              thickness: 1.5,
                             ),
                             BlocBuilder<OrderIdCreateBloc, OrderIdCreateState>(
                               bloc: orderIdCreateBloc,
@@ -215,11 +212,12 @@ class _PaymentTabState extends State<PaymentTab> {
                                 ),
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+                              padding: EdgeInsets.symmetric(vertical: 8,horizontal: 4),
                               child: Column(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.all(10.0),
+                                    padding: const EdgeInsets.symmetric(vertical: 14.0,horizontal: 10),
                                     child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [

@@ -27,7 +27,6 @@ class AllTaskPage extends StatefulWidget {
 
 class _AllTaskPageState extends State<AllTaskPage> {
   late final taskBloc = locator<TaskBloc>();
-  late final user = locator<UserBloc>();
   late final ScrollController _controller;
   final budgetFrom = TextEditingController();
   final budgetTo = TextEditingController();
@@ -39,16 +38,13 @@ class _AllTaskPageState extends State<AllTaskPage> {
   String? category;
   String? serviceId;
   String? location;
+  String? sortBudget;
+  String? sortDate;
 
   @override
   void initState() {
     super.initState();
-    user.add(UserLoaded());
-    taskBloc.add(
-      AllTaskLoadInitiated(
-        isTask: true,
-      ),
-    );
+    taskBloc.add(AllTaskLoadInitiated(isTask: true));
 
     _controller = ScrollController()
       ..addListener(() {
@@ -57,16 +53,14 @@ class _AllTaskPageState extends State<AllTaskPage> {
           taskBloc.add(AllTaskLoadInitiated(
             newFetch: false,
             isTask: true,
-            // dateFrom: dateFrom == null
-            //     ? null
-            //     : DateFormat("yyyy-MM-dd").format(dateFrom!),
-            // dateTo: dateTo == null
-            //     ? null
-            //     : DateFormat("yyyy-MM-dd").format(dateTo!),
-            // payableFrom: payableFrom.text.length == 0 ? null : payableFrom.text,
-            // payableTo: payableTo.text.length == 0 ? null : payableTo.text,
-            // serviceId: category,
-            // city: location,
+            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+            budgetFrom: budgetFrom.text.length == 0 ? null : budgetFrom.text,
+            budgetTo: budgetTo.text.length == 0 ? null : budgetTo.text,
+            serviceId: category,
+            city: location,
+            dateSort: sortDate,
+            budgetSort: sortBudget,
           )),
         );
       });
@@ -76,7 +70,6 @@ class _AllTaskPageState extends State<AllTaskPage> {
   void dispose() {
     super.dispose();
     taskBloc.close();
-    user.close();
     _controller.dispose();
   }
 
@@ -144,29 +137,20 @@ class _AllTaskPageState extends State<AllTaskPage> {
                             ),
                             addHorizontalSpace(5),
                             _buildCategory(),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildLocation(),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildFromDate(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildToDate(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildBudgetFrom(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildBudgetTo(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
+                            _buildBudgetSort(),
+                            addHorizontalSpace(8),
+                            _buildDateSort(),
                             _buildClearFilters(context),
                           ],
                         )
@@ -197,10 +181,10 @@ class _AllTaskPageState extends State<AllTaskPage> {
                             height: MediaQuery.of(context).size.height * 0.3,
                             child: TaskCard(
                               isRange: state.taskEntityServices![index].isRange ?? false,
-                              buttonLabel:
-                                  state.taskEntityServices![index].createdBy?.id == user.state.taskerProfile?.user?.id
-                                      ? 'View Details'
-                                      : 'Apply Now',
+                              buttonLabel: state.taskEntityServices![index].createdBy?.id ==
+                                      context.read<UserBloc>().state.taskerProfile?.user?.id
+                                  ? 'View Details'
+                                  : 'Apply Now',
                               startRate: '${state.taskEntityServices![index].budgetFrom ?? 0}',
                               createdByName: '${state.taskEntityServices![index].createdBy?.fullName}',
                               endRate: '${state.taskEntityServices![index].budgetTo ?? 0}',
@@ -261,9 +245,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
                               callback: () => onTaskPressed(
                                 state: state,
                                 index: index,
-                                isApply: state.taskEntityServices![index]
-                                        .createdBy?.id !=
-                                    user.state.taskerProfile?.user?.id,
+                                isApply: state.taskEntityServices![index].createdBy?.id !=
+                                    context.read<UserBloc>().state.taskerProfile?.user?.id,
                               ),
                               onTapCallback: () {
                                 if (!CacheHelper.isLoggedIn) {
@@ -546,6 +529,90 @@ class _AllTaskPageState extends State<AllTaskPage> {
     );
   }
 
+  Widget _buildBudgetSort() {
+    return CustomFilterChip(
+      iconData: Icons.attach_money,
+      label: sortBudget != null
+          ? sortBudget == '-budget_to'
+              ? 'Budget Desc'
+              : 'Budget Asec'
+          : 'Sort Budget',
+      callback: (value) {
+        setState(() {
+          sortBudget = sortBudget == null
+              ? '-budget_to'
+              : sortBudget == '-budget_to'
+                  ? 'budget_to'
+                  : '-budget_to';
+        });
+        taskBloc.add(
+          AllTaskLoadInitiated(
+            newFetch: true,
+            isTask: false,
+            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+            dateTo: dateTo == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateTo!,
+                  ),
+            dateFrom: dateFrom == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateFrom!,
+                  ),
+            serviceId: serviceId,
+            city: location,
+            dateSort: sortDate,
+            budgetSort: sortBudget,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDateSort() {
+    return CustomFilterChip(
+      iconData: Icons.date_range,
+      label: sortDate != null
+          ? sortDate == '-created_at'
+              ? 'Date Desc'
+              : 'Date Asec'
+          : 'Sort Date',
+      callback: (value) {
+        setState(() {
+          sortDate = sortDate == null
+              ? '-created_at'
+              : sortDate == '-created_at'
+                  ? 'created_at'
+                  : '-created_at';
+        });
+        taskBloc.add(
+          AllTaskLoadInitiated(
+            newFetch: true,
+            isTask: false,
+            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+            dateTo: dateTo == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateTo!,
+                  ),
+            dateFrom: dateFrom == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateFrom!,
+                  ),
+            serviceId: serviceId,
+            city: location,
+            dateSort: sortDate,
+            budgetSort: sortBudget,
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildClearFilters(
     BuildContext context,
   ) {
@@ -558,6 +625,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
           budgetTo.clear();
           category = null;
           location = null;
+          sortBudget = null;
+          sortDate = null;
         });
         taskBloc.add(
           AllTaskLoadInitiated(

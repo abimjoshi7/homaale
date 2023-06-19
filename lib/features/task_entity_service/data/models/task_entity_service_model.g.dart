@@ -56,6 +56,7 @@ _$_TaskEntityService _$$_TaskEntityServiceFromJson(Map<String, dynamic> json) =>
       rating: (json['rating'] as num?)?.toDouble(),
       count: json['count'] as num?,
       isBookmarked: json['is_bookmarked'] as bool?,
+      bookedCount: json['booked_count'] as int?,
       offers: (json['offers'] as List<dynamic>?)
           ?.map((e) => Offer.fromJson(e as Map<String, dynamic>))
           .toList(),
@@ -134,6 +135,7 @@ Map<String, dynamic> _$$_TaskEntityServiceToJson(
       'rating': instance.rating,
       'count': instance.count,
       'is_bookmarked': instance.isBookmarked,
+      'booked_count': instance.bookedCount,
       'offers': instance.offers,
       'endorsements': instance.endorsements,
       'is_redeemable': instance.isRedeemable,

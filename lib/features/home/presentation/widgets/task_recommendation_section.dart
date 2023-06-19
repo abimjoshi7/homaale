@@ -2,10 +2,12 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
+import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
@@ -38,6 +40,17 @@ class _TasksRecommendationSectionState
             id: state.taskEntityServiceModel.result![index].id!,
             userId:
                 context.read<UserBloc>().state.taskerProfile?.user?.id ?? '',
+          ),
+        );
+
+    context.read<TaskEntityServiceBloc>().add(
+          FetchRecommendedSimilar(
+            id: state.taskEntityServiceModel.result?[index].id ?? '',
+          ),
+        );
+    context.read<RatingReviewsBloc>().add(
+          SetToInitial(
+            id: state.taskEntityServiceModel.result?[index].id ?? '',
           ),
         );
     if (isApply) {

@@ -1,4 +1,3 @@
-
 import 'package:dependencies/dependencies.dart';
 
 String getVerboseDateTimeRepresentation(DateTime dateTime) {
@@ -47,7 +46,6 @@ String getVerboseDateTimeRepresentation(DateTime dateTime) {
 }
 
 extension DateHelpers on DateTime {
-
   String toTimeAgoLabel({bool isIntervalNumericVisible = true}) {
     final now = DateTime.now();
     final durationSinceNow = now.difference(this);
@@ -55,12 +53,14 @@ extension DateHelpers on DateTime {
     final inDays = durationSinceNow.inDays;
     if (inDays >= 1) {
       return (inDays / 7).floor() >= 1
-          ? isIntervalNumericVisible ? '1 week ago' : 'Last week'
+          ? isIntervalNumericVisible
+              ? '1 week ago'
+              : 'Last week'
           : inDays >= 2
-          ? '$inDays days ago'
-          : isIntervalNumericVisible
-          ? '1 day ago'
-          : 'Yesterday';
+              ? '$inDays days ago'
+              : isIntervalNumericVisible
+                  ? '1 day ago'
+                  : 'Yesterday';
     }
 
     final inHours = durationSinceNow.inHours;
@@ -68,8 +68,8 @@ extension DateHelpers on DateTime {
       return inHours >= 2
           ? '$inHours hours ago'
           : isIntervalNumericVisible
-          ? '1 hour ago'
-          : 'An hour ago';
+              ? '1 hour ago'
+              : 'An hour ago';
     }
 
     final inMinutes = durationSinceNow.inMinutes;
@@ -77,11 +77,18 @@ extension DateHelpers on DateTime {
       return inMinutes >= 2
           ? '$inMinutes minutes ago'
           : isIntervalNumericVisible
-          ? '1 minute ago'
-          : 'A minute ago';
+              ? '1 minute ago'
+              : 'A minute ago';
     }
 
     final inSeconds = durationSinceNow.inSeconds;
     return inSeconds >= 3 ? '$inSeconds seconds ago' : 'Just now';
   }
+}
+
+String formatDuration(Duration duration) {
+  String hours = duration.inHours.toString().padLeft(0, '2');
+  String minutes = duration.inMinutes.remainder(60).toString().padLeft(2, '0');
+  String seconds = duration.inSeconds.remainder(60).toString().padLeft(2, '0');
+  return "$hours:$minutes:$seconds";
 }

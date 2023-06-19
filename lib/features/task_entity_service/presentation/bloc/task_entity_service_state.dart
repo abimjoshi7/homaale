@@ -4,7 +4,7 @@ class TaskEntityServiceState extends Equatable {
   final TheStates theStates;
   final TaskEntityServiceModel taskEntityServiceModel;
   final List<TaskEntityService>? taskEntityServices;
-  final TaskEntityService? taskEntityService;
+  final TaskEntityService taskEntityService;
   final ApplicantModel? applicantModel;
   final bool? approveSuccess;
   final bool? approveFail;
@@ -22,11 +22,14 @@ class TaskEntityServiceState extends Equatable {
   final SelfCreatedTaskService? selfCreatedTaskService;
   final List<ServiceList>? serviceList;
   final bool isLastPage;
+  final RecommendedSimilarDto recommendedSimilarDto;
+
   const TaskEntityServiceState({
     this.theStates = TheStates.initial,
     this.taskEntityServiceModel = const TaskEntityServiceModel(),
+    this.recommendedSimilarDto = const RecommendedSimilarDto(),
     this.taskEntityServices,
-    this.taskEntityService,
+    this.taskEntityService = const TaskEntityService(),
     this.applicantModel,
     this.approveSuccess,
     this.approveFail,
@@ -49,7 +52,8 @@ class TaskEntityServiceState extends Equatable {
   const TaskEntityServiceState.initial({
     this.theStates = TheStates.initial,
     this.taskEntityServiceModel = const TaskEntityServiceModel(),
-    this.taskEntityService = null,
+    this.recommendedSimilarDto = const RecommendedSimilarDto(),
+    this.taskEntityService = const TaskEntityService(),
     this.applicantModel = null,
     this.approveSuccess = false,
     this.approveFail = false,
@@ -92,11 +96,12 @@ class TaskEntityServiceState extends Equatable {
     SelfCreatedTaskService? selfCreatedTaskService,
     List<ServiceList>? serviceList,
     bool? isLastPage,
+    RecommendedSimilarDto? recommendedSimilarDto,
   }) {
     return TaskEntityServiceState(
       theStates: theStates ?? this.theStates,
-      taskEntityServiceModel:
-          taskEntityServiceModel ?? this.taskEntityServiceModel,
+      taskEntityServiceModel: taskEntityServiceModel ?? this.taskEntityServiceModel,
+      recommendedSimilarDto: recommendedSimilarDto ?? this.recommendedSimilarDto,
       taskEntityServices: taskEntityServices ?? this.taskEntityServices,
       taskEntityService: taskEntityService ?? this.taskEntityService,
       applicantModel: applicantModel ?? this.applicantModel,
@@ -113,8 +118,7 @@ class TaskEntityServiceState extends Equatable {
       isBudgetSort: isBudgetSort ?? this.isBudgetSort,
       isFilter: isFilter ?? this.isFilter,
       serviceLoaded: serviceLoaded ?? this.serviceLoaded,
-      selfCreatedTaskService:
-          selfCreatedTaskService ?? this.selfCreatedTaskService,
+      selfCreatedTaskService: selfCreatedTaskService ?? this.selfCreatedTaskService,
       serviceList: serviceList ?? this.serviceList,
       isLastPage: isLastPage ?? this.isLastPage,
     );
@@ -144,6 +148,7 @@ class TaskEntityServiceState extends Equatable {
       selfCreatedTaskService,
       serviceList,
       isLastPage,
+      recommendedSimilarDto,
     ];
   }
 }

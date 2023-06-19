@@ -27,6 +27,7 @@ class ServiceBookingMainView extends StatefulWidget {
 
 class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
   final uploadBloc = locator<UploadBloc>();
+  final bookEventHandlerBloc = locator<BookEventHandlerBloc>();
   int selectedIndex = 0;
   late PageController _pageController;
   final List<Widget> widgetList = [];
@@ -36,8 +37,13 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
     super.initState();
     widgetList.addAll(
       [
-        const ScheduleView(),
-        DetailsView(uploadBloc: uploadBloc),
+        ScheduleView(
+          bookEventHandlerBloc: bookEventHandlerBloc,
+        ),
+        DetailsView(
+          uploadBloc: uploadBloc,
+          bookEventHandlerBloc: bookEventHandlerBloc,
+        ),
       ],
     );
     _pageController = PageController(
@@ -199,10 +205,10 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
       listener: (context, uploadState) {
         if (uploadState.isImageUploaded && uploadState.isVideoUploaded) {
           final req = BookEntityServiceReq(
-            location: context.read<BookEventHandlerBloc>().state.address,
+            location: bookEventHandlerBloc.state.address,
             entityService: state.taskEntityService?.id,
-            price: context.read<BookEventHandlerBloc>().state.budget,
-            budgetTo: context.read<BookEventHandlerBloc>().state.budget,
+            price: bookEventHandlerBloc.state.budget,
+            budgetTo: bookEventHandlerBloc.state.budget,
             requirements: context
                         .read<BookEventHandlerBloc>()
                         .state
@@ -210,16 +216,14 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
                         ?.length ==
                     0
                 ? []
-                : context.read<BookEventHandlerBloc>().state.requirements,
-            startDate: DateTime.parse(
-                context.read<BookEventHandlerBloc>().state.startDate!),
-            endDate: DateTime.parse(
-                context.read<BookEventHandlerBloc>().state.endDate!),
-            startTime: context.read<BookEventHandlerBloc>().state.startTime,
-            endTime: context.read<BookEventHandlerBloc>().state.endTime,
-            description: context.read<BookEventHandlerBloc>().state.description,
+                : bookEventHandlerBloc.state.requirements,
+            startDate: DateTime.parse(bookEventHandlerBloc.state.startDate!),
+            endDate: DateTime.parse(bookEventHandlerBloc.state.endDate!),
+            startTime: bookEventHandlerBloc.state.startTime,
+            endTime: bookEventHandlerBloc.state.endTime,
+            description: bookEventHandlerBloc.state.description,
             city: int.parse(
-              context.read<BookEventHandlerBloc>().state.city,
+              bookEventHandlerBloc.state.city,
             ),
             images: uploadBloc.state.uploadedImageList,
             videos: uploadBloc.state.uploadedVideoList,
@@ -239,42 +243,50 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
             );
             _pageController.jumpToPage(1);
           } else {
-            if (uploadBloc.state.imageFileList.isEmpty &&
-                uploadBloc.state.videoFileList.isEmpty) {
-              final req = BookEntityServiceReq(
-                location: context.read<BookEventHandlerBloc>().state.address,
-                entityService: state.taskEntityService?.id,
-                price: context.read<BookEventHandlerBloc>().state.budget,
-                budgetTo: context.read<BookEventHandlerBloc>().state.budget,
-                requirements: context
-                            .read<BookEventHandlerBloc>()
-                            .state
-                            .requirements
-                            ?.length ==
-                        0
-                    ? []
-                    : context.read<BookEventHandlerBloc>().state.requirements,
-                startDate: DateTime.parse(
-                    context.read<BookEventHandlerBloc>().state.startDate!),
-                endDate: DateTime.parse(
-                    context.read<BookEventHandlerBloc>().state.endDate!),
-                startTime: context.read<BookEventHandlerBloc>().state.startTime,
-                endTime: context.read<BookEventHandlerBloc>().state.endTime,
-                description:
-                    context.read<BookEventHandlerBloc>().state.description,
-                city: int.parse(
-                  context.read<BookEventHandlerBloc>().state.city,
-                ),
-                images: [],
-                videos: [],
-              );
-              context.read<BookingsBloc>().add(
-                    BookingCreated(req),
-                  );
+            if (bookEventHandlerBloc.state.isTermAccepted) {
+              if (uploadBloc.state.imageFileList.isEmpty &&
+                  uploadBloc.state.videoFileList.isEmpty) {
+                final req = BookEntityServiceReq(
+                  location: bookEventHandlerBloc.state.address,
+                  entityService: state.taskEntityService?.id,
+                  price: bookEventHandlerBloc.state.budget,
+                  budgetTo: bookEventHandlerBloc.state.budget,
+                  requirements: context
+                              .read<BookEventHandlerBloc>()
+                              .state
+                              .requirements
+                              ?.length ==
+                          0
+                      ? []
+                      : bookEventHandlerBloc.state.requirements,
+                  startDate:
+                      DateTime.parse(bookEventHandlerBloc.state.startDate!),
+                  endDate: DateTime.parse(bookEventHandlerBloc.state.endDate!),
+                  startTime: bookEventHandlerBloc.state.startTime,
+                  endTime: bookEventHandlerBloc.state.endTime,
+                  description: bookEventHandlerBloc.state.description,
+                  city: int.parse(
+                    bookEventHandlerBloc.state.city,
+                  ),
+                  images: [],
+                  videos: [],
+                );
+                context.read<BookingsBloc>().add(
+                      BookingCreated(req),
+                    );
+              } else {
+                await upload
+                  ..uploadImage()
+                  ..uploadVideo();
+              }
             } else {
-              await upload
-                ..uploadImage()
-                ..uploadVideo();
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    "Please accept terms and conditions.",
+                  ),
+                ),
+              );
             }
 
             // if (state.taskEntityService?.event == null) {
@@ -285,10 +297,10 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
             //   //     uploadBloc.state.videoFileList.length != 0)
             //   //   await _uploadFile();
             //   final req = BookEntityServiceReq(
-            //     location: context.read<BookEventHandlerBloc>().state.address,
+            //     location: bookEventHandlerBloc.state.address,
             //     entityService: state.taskEntityService?.id,
-            //     price: context.read<BookEventHandlerBloc>().state.budget,
-            //     budgetTo: context.read<BookEventHandlerBloc>().state.budget,
+            //     price: bookEventHandlerBloc.state.budget,
+            //     budgetTo: bookEventHandlerBloc.state.budget,
             //     requirements: context
             //                 .read<BookEventHandlerBloc>()
             //                 .state
@@ -296,18 +308,18 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
             //                 ?.length ==
             //             0
             //         ? []
-            //         : context.read<BookEventHandlerBloc>().state.requirements,
+            //         : bookEventHandlerBloc.state.requirements,
             //     startDate: DateTime.parse(
-            //         context.read<BookEventHandlerBloc>().state.startDate!),
+            //         bookEventHandlerBloc.state.startDate!),
             //     endDate: DateTime.parse(
-            //         context.read<BookEventHandlerBloc>().state.endDate!),
+            //         bookEventHandlerBloc.state.endDate!),
             //     startTime:
-            //         context.read<BookEventHandlerBloc>().state.startTime,
-            //     endTime: context.read<BookEventHandlerBloc>().state.endTime,
+            //         bookEventHandlerBloc.state.startTime,
+            //     endTime: bookEventHandlerBloc.state.endTime,
             //     description:
-            //         context.read<BookEventHandlerBloc>().state.description,
+            //         bookEventHandlerBloc.state.description,
             //     city: int.parse(
-            //       context.read<BookEventHandlerBloc>().state.city,
+            //       bookEventHandlerBloc.state.city,
             //     ),
             //     images: uploadBloc.state.uploadedImageList.isEmpty
             //         ? []
@@ -321,9 +333,9 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
             //       );
             // } else {
             //   final availableReq = EventAvailability(
-            //     date: context.read<BookEventHandlerBloc>().state.endDate,
-            //     start: context.read<BookEventHandlerBloc>().state.startTime,
-            //     end: context.read<BookEventHandlerBloc>().state.endTime,
+            //     date: bookEventHandlerBloc.state.endDate,
+            //     start: bookEventHandlerBloc.state.startTime,
+            //     end: bookEventHandlerBloc.state.endTime,
             //   );
 
             //   context.read<EventBloc>().add(

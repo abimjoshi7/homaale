@@ -117,6 +117,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
                           // "isTask" is only passed in waiting list box feature
                           isTask:
                               data[index].entityService?.isRequested == true,
+                          hideImage: false,
                           callback: () {
                             context.read<BookingsBloc>().add(
                                   BookingSingleLoaded(
@@ -220,6 +221,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
   Column displayPrice(Result result) {
     return Column(
       children: [
+        /// TODO: for task display earning and servuce vyo vane price
         result.budgetFrom == 0 || result.budgetFrom == null
             ? Text(
                 "Rs. ${Decimal.parse(result.budgetTo ?? '0.0')}",
@@ -230,7 +232,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
                 // style: kText17,
               ),
         Text(
-          '/ ${result.entityService?.budgetType}',
+          '/ ${result.entityService?.budgetType}   ',
           // style: kHelper13,
         ),
       ],

@@ -10,6 +10,7 @@ import 'package:cipher/features/account_settings/presentation/pages/password_and
 import 'package:cipher/features/archive/presentation/bloc/archive_task_entity_service_bloc.dart';
 import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_payment_bloc.dart';
 import 'package:cipher/features/bloc/scroll_bloc.dart';
+import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bloc.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_item_list_bloc.dart';
 import 'package:cipher/features/box/presentation/bloc/order_retrive_bloc.dart';
@@ -144,6 +145,7 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => PromoCodeApplyBloc()),
           BlocProvider(create: (context) => PaymentVerifyBloc()),
           BlocProvider(create: (context) => locator<SavedBloc>()),
+          BlocProvider(create: (context) => locator<BookEventHandlerBloc>()),
           BlocProvider(create: (context) => WalletBloc()),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(

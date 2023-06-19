@@ -26,6 +26,10 @@ class TheCalender extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
+      headerStyle: HeaderStyle(
+        formatButtonVisible: false,
+        titleCentered: true,
+      ),
       calendarStyle: CalendarStyle(
         todayDecoration: BoxDecoration(
           color: kColorPrimary.withOpacity(
@@ -38,8 +42,6 @@ class TheCalender extends StatelessWidget {
           shape: BoxShape.circle,
         ),
       ),
-      // onFormatChanged: onFormatChange,
-      // calendarFormat: calendarFormat ?? CalendarFormat.month,
       calendarFormat: CalendarFormat.month,
       calendarBuilders: CalendarBuilders(
         markerBuilder: (context, day, events) {

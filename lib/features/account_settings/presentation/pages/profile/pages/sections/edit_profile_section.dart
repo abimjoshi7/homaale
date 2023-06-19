@@ -74,11 +74,12 @@ class _EditProfileSectionState extends State<EditProfileSection> {
               isSuccess: true,
               heading: 'Success',
               content: 'Profile was updated successfully',
-              onTap: () => Navigator.pushNamedAndRemoveUntil(
-                context,
-                Root.routeName,
-                (route) => false,
-              ),
+              onTap: () => Navigator.pop(context),
+              //     Navigator.pushNamedAndRemoveUntil(
+              //   context,
+              //   Root.routeName,
+              //   (route) => false,
+              // ),
             ),
           );
         } else if (state.theStates == TheStates.failure) {
@@ -88,11 +89,12 @@ class _EditProfileSectionState extends State<EditProfileSection> {
               isSuccess: false,
               heading: 'Failure',
               content: 'Profile cannot be updated',
-              onTap: () => Navigator.pushNamedAndRemoveUntil(
-                context,
-                Root.routeName,
-                (route) => false,
-              ),
+              onTap: () => Navigator.pop(context),
+              // onTap: () => Navigator.pushNamedAndRemoveUntil(
+              //   context,
+              //   Root.routeName,
+              //   (route) => false,
+              // ),
             ),
           );
         }
@@ -104,6 +106,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
           lastName = state.taskerProfile?.user?.lastName;
           designation = state.taskerProfile?.designation;
           profilePicture = state.taskerProfile?.profileImage;
+          bio = state.taskerProfile?.bio;
 
           return Padding(
             padding: const EdgeInsets.only(left: 8.0),
@@ -284,32 +287,32 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                           ),
                         ),
                       ),
-                      CustomFormField(
-                        label: 'Contact',
-                        child: CustomTextFormField(
-                          textInputType: TextInputType.number,
-                          hintText: state.taskerProfile?.user?.phone ?? '',
-                          prefixWidget: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset('assets/nepalflag.png'),
-                                Text('+977',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall),
-                                const Icon(Icons.arrow_drop_down)
-                              ],
-                            ),
-                          ),
-                          onChanged: (p0) => setState(
-                            () {
-                              contact = p0;
-                            },
-                          ),
-                        ),
-                      ),
+                      // CustomFormField(
+                      //   label: 'Contact',
+                      //   child: CustomTextFormField(
+                      //     textInputType: TextInputType.number,
+                      //     hintText: state.taskerProfile?.user?.phone ?? '',
+                      //     prefixWidget: Padding(
+                      //       padding: const EdgeInsets.all(8),
+                      //       child: Row(
+                      //         mainAxisSize: MainAxisSize.min,
+                      //         children: [
+                      //           Image.asset('assets/nepalflag.png'),
+                      //           Text('+977',
+                      //               style: Theme.of(context)
+                      //                   .textTheme
+                      //                   .headlineSmall),
+                      //           const Icon(Icons.arrow_drop_down)
+                      //         ],
+                      //       ),
+                      //     ),
+                      //     onChanged: (p0) => setState(
+                      //       () {
+                      //         contact = p0;
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
                       CustomFormField(
                         label: 'Date of birth',
                         child: InkWell(
@@ -467,11 +470,11 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                         label: 'Bio',
                         child: CustomTextFormField(
                           maxLines: 3,
-                          hintText:
-                              bio ?? state.taskerProfile?.bio ?? 'Enter Bio',
+                          hintText: state.taskerProfile?.bio ?? 'Enter Bio',
                           onChanged: (p0) => setState(
                             () {
                               bio = p0;
+                              print(state.taskerProfile?.bio);
                             },
                           ),
                         ),
@@ -501,7 +504,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                                 state.taskerProfile?.dateOfBirth ??
                                 DateTime.now(),
                           ),
-                          "bio": bio ?? state.taskerProfile?.bio ?? 'Bio',
+                          "bio": bio ?? state.taskerProfile?.bio ,
                           "gender":
                               _gender ?? state.taskerProfile?.gender ?? "Male",
                           // "profile_image": state.taskerProfile?.profileImage
@@ -515,7 +518,6 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                         if (uploadBloc.state.imageFileList.length != 0) {
                           final file = await MultipartFile.fromFile(
                               uploadBloc.state.imageFileList.last);
-                          print(file.filename);
                           user.addAll({
                             "profile_image": file,
                           });
@@ -525,15 +527,15 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                               UserEdited(req: user),
                             );
                       },
-                      label: 'Save',
+                      label:'Save'
                     ),
                   ),
                   addVerticalSpace(10),
                   Center(
                     child: CustomElevatedButton(
                       callback: () async {
-                        print(uploadBloc.state.imageFileList);
-                        // Navigator.pop(context);
+                        // print(uploadBloc.state.imageFileList);
+                        Navigator.pop(context);
                       },
                       label: 'Cancel',
                       textColor: kColorPrimary,

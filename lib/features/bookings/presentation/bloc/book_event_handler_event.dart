@@ -6,14 +6,23 @@ abstract class BookEventHandlerEvent extends Equatable {}
 
 class BookEventPicked extends BookEventHandlerEvent {
   final BookEntityServiceReq? req;
-  final bool isTermAccepted;
   BookEventPicked({
     this.req,
-    this.isTermAccepted = false,
   });
   @override
   List<Object?> get props => [
         req,
+      ];
+}
+
+class BookEventAcceptTerms extends BookEventHandlerEvent {
+  final bool? isTermAccepted;
+  BookEventAcceptTerms({
+    this.isTermAccepted,
+  });
+
+  @override
+  List<Object?> get props => [
         isTermAccepted,
       ];
 }
