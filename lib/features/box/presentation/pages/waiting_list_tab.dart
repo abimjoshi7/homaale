@@ -33,7 +33,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
   void initState() {
     super.initState();
     _scrollBloc.add(
-      FetchItemsEvent(  
+      FetchItemsEvent(
         url: kMyBookingList,
         data: {
           "status": "pending",

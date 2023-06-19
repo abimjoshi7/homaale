@@ -28,14 +28,16 @@ class _BookedServicePageState extends State<BookedServicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<BookingsBloc, BookingsState>(
-        builder: (context, state) {
-          budgetController.setText(double.parse(
+      body: BlocConsumer<BookingsBloc, BookingsState>(
+        listener: (context, state) {
+          budgetController.text = (double.parse(
                   state.result.entityService?.isRequested ?? false
                       ? state.result.earning ?? '0.0'
                       : state.result.price ?? '0.0')
               .toInt()
               .toString());
+        },
+        builder: (context, state) {
           if (state.states == TheStates.initial) {
             return const Center(
               child: CardLoading(
@@ -499,13 +501,15 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                 ),
                               ),
                               CustomElevatedButton(
-                                callback: () async =>
-                                    context.read<BookingsBloc>().add(
-                                          BookingNegotiationBudgetUpdate(
-                                            id: booking.id ?? 0,
-                                            budget: budgetController.text,
-                                          ),
+                                callback: () async {
+                                  context.read<BookingsBloc>().add(
+                                        BookingNegotiationBudgetUpdate(
+                                          id: booking.id ?? 0,
+                                          budget: budgetController.text,
                                         ),
+                                      );
+                                  Navigator.pop(context);
+                                },
                                 label: 'Update Price',
                               ),
                               kHeight50,

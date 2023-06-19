@@ -17,7 +17,9 @@ showApplicantDetailsDialog({
   String? budget,
   String? description,
   String? status,
+  bool isAccepted = false,
   required VoidCallback onNegotiatePressed,
+  // required VoidCallback onAcceptedCallback,
   required VoidCallback onApprovePressed,
   required VoidCallback onRejectPressed,
 }) {

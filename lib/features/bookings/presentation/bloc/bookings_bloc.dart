@@ -1,5 +1,6 @@
 import 'dart:developer';
 
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/book_entity_service_req.dart';
@@ -13,6 +14,7 @@ import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart'
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
 
 part 'bookings_event.dart';
 part 'bookings_state.dart';
@@ -357,10 +359,39 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
       },
     );
     on<BookingNegotiationBudgetUpdate>((event, emit) async {
-      await repositories.updateNegotiationBookingPrice(
-        budget: event.budget,
-        id: event.id,
-      );
+      try {
+        await repositories
+            .updateNegotiationBookingPrice(
+          budget: event.budget,
+          id: event.id,
+        )
+            .then((value) {
+          Fluttertoast.showToast(
+            msg: "Booking price has been updated!",
+            toastLength: Toast.LENGTH_LONG,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: kColorGreen,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+          add(
+            BookingSingleLoaded(
+              event.id,
+            ),
+          );
+        });
+      } catch (e) {
+        Fluttertoast.showToast(
+          msg: "Failed to update booking price: $e",
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: kColorLightGrey,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
     });
   }
 }
