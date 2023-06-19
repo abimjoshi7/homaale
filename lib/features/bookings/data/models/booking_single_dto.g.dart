@@ -276,7 +276,7 @@ _$_CreatedByCity _$$_CreatedByCityFromJson(Map<String, dynamic> json) =>
     _$_CreatedByCity(
       id: json['id'] as int?,
       name: json['name'] as String?,
-      zipCode: json['zipCode'] as String?,
+      zipCode: json['zip_code'] as String?,
       latitude: (json['latitude'] as num?)?.toDouble(),
       longitude: (json['longitude'] as num?)?.toDouble(),
       country: json['country'] as String?,
@@ -286,7 +286,7 @@ Map<String, dynamic> _$$_CreatedByCityToJson(_$_CreatedByCity instance) =>
     <String, dynamic>{
       'id': instance.id,
       'name': instance.name,
-      'zipCode': instance.zipCode,
+      'zip_code': instance.zipCode,
       'latitude': instance.latitude,
       'longitude': instance.longitude,
       'country': instance.country,

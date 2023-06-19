@@ -1,5 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/features/bloc/scroll_bloc.dart';
+import 'package:cipher/features/booking_cancel/presentation/pages/booking_cancel_page.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/presentation/pages/booked_service_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
@@ -36,29 +37,11 @@ class _WaitingListTabState extends State<WaitingListTab> {
       FetchItemsEvent(
         url: kMyBookingList,
         data: {
-          "is_accepted": false,
           "status": "pending",
         },
         newFetch: false,
       ),
     );
-    // _controller.addListener(
-    //   () {
-    //     ScrollHelper.nextPageTrigger(
-    //       _controller,
-    //       _scrollBloc.add(
-    //         FetchItemsEvent(
-    //           url: kMyBookingList,
-    //           data: {
-    //             "is_accepted": false,
-    //             "status": "pending",
-    //           },
-    //           newFetch: false,
-    //         ),
-    //       ),
-    //     );
-    //   },
-    // );
   }
 
   @override
@@ -72,7 +55,9 @@ class _WaitingListTabState extends State<WaitingListTab> {
     return BlocBuilder<ScrollBloc, ScrollState>(
       bloc: _scrollBloc,
       builder: (context, state) {
-        var data = state.result.map((e) => Result.fromJson(e as Map<String, dynamic>)).toList();
+        var data = state.result
+            .map((e) => Result.fromJson(e as Map<String, dynamic>))
+            .toList();
         if (state.theState == TheStates.success) {
           return Column(
             children: [
@@ -83,7 +68,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
                       FetchItemsEvent(
                         url: kMyBookingList,
                         data: {
-                          "is_accepted": false,
+                          // "is_accepted": false,
                           "status": "pending",
                         },
                         newFetch: true,
@@ -94,7 +79,8 @@ class _WaitingListTabState extends State<WaitingListTab> {
                     controller: _controller,
                     physics: AlwaysScrollableScrollPhysics(),
                     padding: EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: state.hasReachedMax ? data.length : data.length + 1,
+                    itemCount:
+                        state.hasReachedMax ? data.length : data.length + 1,
                     itemBuilder: (context, index) {
                       if (index >= data.length) {
                         _scrollBloc.add(
@@ -112,6 +98,9 @@ class _WaitingListTabState extends State<WaitingListTab> {
                       return Container(
                         margin: EdgeInsets.symmetric(vertical: 8),
                         child: BookingsServiceCard(
+                          // "isTask" is only passed in waiting list box feature
+                          isTask:
+                              data[index].entityService?.isRequested == true,
                           hideImage: false,
                           callback: () {
                             context.read<BookingsBloc>().add(
@@ -122,10 +111,16 @@ class _WaitingListTabState extends State<WaitingListTab> {
                             Navigator.pushNamed(
                               context,
                               BookedServicePage.routeName,
+                              arguments: {
+                                "is_task":
+                                    data[index].entityService?.isRequested ==
+                                        true
+                              },
                             );
                           },
                           editTap: () async {
-                            if (data[index].status?.toLowerCase() == 'pending') {
+                            if (data[index].status?.toLowerCase() ==
+                                'pending') {
                               Navigator.pop(context);
                               showEditForm(context, data[index]);
                             } else {
@@ -144,9 +139,13 @@ class _WaitingListTabState extends State<WaitingListTab> {
                             }
                           },
                           deleteTap: () {
-                            if (data[index].status?.toLowerCase() == 'pending') {
+                            if (data[index].status?.toLowerCase() ==
+                                'pending') {
                               bookingsBloc.add(
-                                BookingRejected(rejectReq: RejectReq(booking: data[index].id ?? 0), isTask: true),
+                                BookingRejected(
+                                    rejectReq:
+                                        RejectReq(booking: data[index].id ?? 0),
+                                    isTask: true),
                               );
                               Navigator.pop(context);
                             } else {
@@ -165,11 +164,23 @@ class _WaitingListTabState extends State<WaitingListTab> {
                             }
                           },
                           cancelTap: () {
-                            if (data[index].status?.toLowerCase() == 'pending') {
-                              bookingsBloc.add(
-                                BookingCancelled(id: data[index].id ?? 0, isTask: true),
-                              );
-                              Navigator.pop(context);
+                            if (data[index].status?.toLowerCase() ==
+                                'pending') {
+                              // bookingsBloc.add(
+                              //   BookingCancelled(
+                              //       id: data[index].id ?? 0, isTask: true),
+                              // );
+                              // Navigator.pop(context);
+                              Navigator.pushNamed(
+                                  context, BookingCancelPage.routeName,
+                                  arguments: {
+                                    'client': data[index]
+                                                .entityService
+                                                ?.isRequested ==
+                                            true
+                                        ? 'client'
+                                        : 'merchant',
+                                  });
                             } else {
                               Navigator.pop(context);
                               showDialog(
@@ -207,20 +218,15 @@ class _WaitingListTabState extends State<WaitingListTab> {
   }
 
   Column displayPrice(Result result) {
+    print("Result booking: $result");
     return Column(
       children: [
-        /// TODO: for task display earning and servuce vyo vane price
-        result.budgetFrom == 0 || result.budgetFrom == null
-            ? Text(
-                "Rs. ${Decimal.parse(result.budgetTo ?? '0.0')}",
-                // style: kText17,
-              )
-            : Text(
-                "Rs. ${Decimal.parse(result.budgetFrom ?? '0.0')} - Rs. ${Decimal.parse(result.budgetTo ?? '0.0')}",
-                // style: kText17,
-              ),
         Text(
-          '/ ${result.entityService?.budgetType}   ',
+          "${result.entityService?.currency?.symbol ?? "Rs."} ${Decimal.parse(result.entityService?.isRequested == true ? result.earning ?? '0.0' : result.price ?? '0.0')}",
+          // style: kText17,
+        ),
+        Text(
+          '/ ${result.entityService?.budgetType}',
           // style: kHelper13,
         ),
       ],
@@ -249,7 +255,8 @@ class _WaitingListTabState extends State<WaitingListTab> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label: "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
+                  label:
+                      "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
                   color: kColorGreen,
                 ),
               ),

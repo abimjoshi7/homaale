@@ -37,6 +37,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
   String? currencyCode;
   DateTime? startTime;
   DateTime? endTime;
+  bool isNegotiable = false;
   bool isDiscounted = false;
   bool isSpecified = true;
   bool isAddressVisibile = true;
@@ -117,6 +118,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           _buildDate(context),
                           _buildCurrency(),
                           _buildBudget(),
+                          _buildIsNegotiable(),
                           _buildDialog(),
                           //* Paused as discussed
                           // Row(
@@ -233,7 +235,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 endTime:
                     endTime != null ? DateFormat.jms().format(endTime!) : null,
                 shareLocation: true,
-                isNegotiable: true,
+                isNegotiable: isNegotiable,
                 location: addressController.text,
                 revisions: 0,
                 avatar: 2,
@@ -384,6 +386,31 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
           ),
         );
       },
+    );
+  }
+
+  Padding _buildIsNegotiable() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Row(
+        children: <Widget>[
+          CustomCheckBox(
+            isChecked: isNegotiable,
+            onTap: () async {
+              setState(
+                () {
+                  isNegotiable = !isNegotiable;
+                },
+              );
+            },
+          ),
+          addHorizontalSpace(10),
+          Text(
+            "Do you want to negotiate the price?",
+            style: TextStyle(fontSize: 12.0),
+          )
+        ],
+      ),
     );
   }
 

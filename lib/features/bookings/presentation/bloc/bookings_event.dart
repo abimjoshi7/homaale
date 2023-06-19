@@ -138,3 +138,14 @@ class BookingStatusUpdate extends BookingsEvent {
   @override
   List<Object?> get props => [id, status];
 }
+
+class BookingNegotiationBudgetUpdate extends BookingsEvent {
+  final int id;
+  final String budget;
+  BookingNegotiationBudgetUpdate({
+    required this.id,
+    required this.budget,
+  });
+  @override
+  List<Object?> get props => [id, budget];
+}

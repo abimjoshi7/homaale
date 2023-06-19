@@ -7,13 +7,35 @@ abstract class TaskEvent extends Equatable {
 
 class SingleEntityTaskLoadInitiated extends TaskEvent {
   final String id;
+  final String userId;
   const SingleEntityTaskLoadInitiated({
     required this.id,
+    required this.userId,
   });
   @override
   List<Object?> get props => [
         id,
       ];
+
+  SingleEntityTaskLoadInitiated copyWith({
+    String? id,
+    String? userId,
+  }) {
+    return SingleEntityTaskLoadInitiated(
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+    );
+  }
+
+  @override
+  bool operator ==(covariant SingleEntityTaskLoadInitiated other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id && other.userId == userId;
+  }
+
+  @override
+  int get hashCode => id.hashCode ^ userId.hashCode;
 }
 
 class AllTaskLoadInitiated extends TaskEvent {
@@ -160,5 +182,14 @@ class TaskBookInitiated extends TaskEvent {
 class FetchServicesList extends TaskEvent {
   @override
   // TODO: implement props
+  List<Object?> get props => [];
+}
+
+class ChangeTaskNegotiationStatus extends TaskEvent {
+  final int id;
+  ChangeTaskNegotiationStatus({
+    required this.id,
+  });
+  @override
   List<Object?> get props => [];
 }

@@ -42,8 +42,8 @@ class TaskerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.5,
-      width: MediaQuery.of(context).size.width * 0.5,
+      height: MediaQuery.of(context).size.height * 0.95,
+      width: MediaQuery.of(context).size.width * 0.6,
       child: Card(
         color: Theme.of(context).cardColor,
         child: Column(
@@ -51,7 +51,7 @@ class TaskerCard extends StatelessWidget {
           children: <Widget>[
             addVerticalSpace(5),
             Container(
-              height: MediaQuery.of(context).size.height * 0.07,
+              height: MediaQuery.of(context).size.height * 0.06,
               width: MediaQuery.of(context).size.width * 0.3,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
@@ -144,7 +144,7 @@ class TaskerCard extends StatelessWidget {
                     child: _buildButton(context),
                   ),
                   SizedBox(
-                    height: 5,
+                    height: 2,
                   ),
                 ],
               ),

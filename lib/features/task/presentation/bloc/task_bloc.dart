@@ -17,6 +17,7 @@ import 'package:cipher/features/task/data/repositories/task_repositories.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/applicant_model.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/task_entity_service/data/repositories/task_entity_services_repository.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 
 part 'task_event.dart';
@@ -125,6 +126,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             (singleTask) async {
               await repo.singleTaskAppliedCount(id: event.id).then((count) async {
                 if (CacheHelper.isLoggedIn) {
+                  // if (state.taskModel?.createdBy?.id == event.userId) {
                   await tesRepo.getApplicants(event.id).then((applicants) {
                     emit(
                       state.copyWith(
@@ -305,5 +307,25 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         );
       },
     );
+
+    on<ChangeTaskNegotiationStatus>((event, emit) async {
+      try {
+        await _repo
+            .changeNegotiationStatus(
+              id: event.id,
+            )
+            .then(
+              (value) => emit(
+                state.copyWith(
+                  isNegotiationStatusChanged: true,
+                ),
+              ),
+            );
+      } catch (e) {
+        emit(state.copyWith(
+          isNegotiationStatusChanged: false,
+        ));
+      }
+    });
   }
 }
