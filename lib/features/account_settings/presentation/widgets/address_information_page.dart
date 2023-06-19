@@ -233,7 +233,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
               ),
               kHeight10,
               CustomElevatedButton(
-                callback: () async {
+                callback: () {
                   Navigator.pop(context);
                 },
                 label: 'Cancel',

@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -9,7 +10,6 @@ import 'package:cipher/features/content_client/presentation/pages/pages.dart';
 import 'package:cipher/features/services/presentation/pages/sections/detail_header_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 class DetailsView extends StatefulWidget {
