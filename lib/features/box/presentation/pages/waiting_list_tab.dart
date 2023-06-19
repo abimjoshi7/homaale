@@ -249,7 +249,11 @@ class _WaitingListTabState extends State<WaitingListTab> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label: "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
+                  label: "${DateFormat.jm().format(
+                    DateFormat('hh:mm:ss').parse(result.startTime!),
+                  )} - ${DateFormat.jm().format(
+                    DateFormat('hh:mm:ss').parse(result.endTime!),
+                  )}",
                   color: kColorGreen,
                 ),
               ),

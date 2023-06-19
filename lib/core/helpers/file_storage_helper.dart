@@ -7,19 +7,25 @@ import 'package:flutter/material.dart';
 class FileStorageHelper {
   Future<bool> _checkPermission(TargetPlatform platform) async {
     if (platform == TargetPlatform.android) {
-      final status = await Permission.storage.status;
-      if (status == PermissionStatus.denied ||
-          status == PermissionStatus.permanentlyDenied) await openAppSettings();
-      if (status != PermissionStatus.granted) {
-        final result = await Permission.storage.request();
-        if (result == PermissionStatus.granted) {
+      DeviceInfoPlugin plugin = DeviceInfoPlugin();
+      AndroidDeviceInfo android = await plugin.androidInfo;
+      if (android.version.sdkInt < 33) {
+        if (await Permission.storage.request().isGranted) {
           return true;
+        } else if (await Permission.storage.request().isPermanentlyDenied) {
+          await openAppSettings();
+        } else if (await Permission.audio.request().isDenied) {
+          return false;
         }
       } else {
-        return true;
+        if (await Permission.photos.request().isGranted) {
+          return true;
+        } else if (await Permission.photos.request().isPermanentlyDenied) {
+          await openAppSettings();
+        } else if (await Permission.photos.request().isDenied) {
+          return false;
+        }
       }
-    } else {
-      return true;
     }
     return false;
   }

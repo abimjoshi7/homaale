@@ -1,5 +1,4 @@
-import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart'
-    as sets;
+import 'package:cipher/features/account_settings/presentation/pages/settings/settings.dart' as sets;
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
@@ -94,7 +93,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               icon: const Icon(
                 Icons.mail,
               ),
-              label: 'Contact us',
+              label: 'Contact Us',
               trailingWidget: const Icon(
                 Icons.arrow_forward_ios,
                 size: 16,
@@ -114,8 +113,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       color: Colors.redAccent,
                     ),
                     label: 'Logout',
-                    style: TextStyle(
-                        color: Colors.redAccent, fontWeight: FontWeight.w600),
+                    style: TextStyle(color: Colors.redAccent, fontWeight: FontWeight.w600),
                     trailingWidget: SizedBox());
               },
             ),
