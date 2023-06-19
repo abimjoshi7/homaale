@@ -1,4 +1,3 @@
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -25,6 +24,18 @@ class EventDetailCard extends StatelessWidget {
                 direction: Axis.vertical,
                 spacing: 4,
                 children: [
+                  Row(
+                    children: [
+                      Text(
+                        "Title : ",
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                      Text(
+                        state.event?.title ?? "",
+                        style: Theme.of(context).textTheme.titleSmall,
+                      ),
+                    ],
+                  ),
                   IconText(
                     label: "${DateFormat.yMMMEd().format(
                       // taskEntityService.event?.start ??

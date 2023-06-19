@@ -1,26 +1,38 @@
-import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/mixins/mixins.dart';
-import 'package:cipher/widgets/widgets.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-class TheSlotMaker extends StatelessWidget with TheModalBottomSheet {
-  final int selectedIndex;
+import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/mixins/mixins.dart';
+import 'package:cipher/features/utilities/data/models/models.dart';
+import 'package:cipher/widgets/widgets.dart';
+
+class TheSlotMaker extends StatefulWidget {
   final VoidCallback? startCallback;
   final VoidCallback? endCallback;
   final VoidCallback? clearCallback;
-  final String? startTime;
-  final String? endTime;
+  final ValueChanged<DateTime> addToList;
+  final bool showClear;
+  // final TimeSlot? timeSlot;
+
   const TheSlotMaker({
     Key? key,
-    required this.selectedIndex,
+    // this.timeSlot,
     this.startCallback,
     this.endCallback,
     this.clearCallback,
-    this.startTime,
-    this.endTime,
+    required this.addToList,
+    this.showClear = true,
   }) : super(key: key);
 
+  @override
+  State<TheSlotMaker> createState() => _TheSlotMakerState();
+}
+
+class _TheSlotMakerState extends State<TheSlotMaker> with TheModalBottomSheet {
+  TimeSlot? timeSlot;
+  DateTime? startTime;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -32,31 +44,26 @@ class TheSlotMaker extends StatelessWidget with TheModalBottomSheet {
               CustomFormField(
                 label: "Start Time",
                 child: CustomFormContainer(
+                  hintText: startTime != null
+                      ? DateFormat.jm().format(
+                          startTime!,
+                        )
+                      : "",
                   leadingWidget: Icon(
                     Icons.alarm_sharp,
                     color: kColorSilver,
                   ),
-                  callback: () async {
-                    await showCustomBottomSheet(
-                      context: context,
-                      widget: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        child: CupertinoDatePicker(
-                          mode: CupertinoDatePickerMode.time,
-                          onDateTimeChanged: (value) {
-                            // setState(
-                            //   () {
-                            //     _timeSlots.add(
-                            //       TimeSlot(
-                            //         startTime: value,
-                            //       ),
-                            //     );
-                            //   },
-                            // );
-                          },
-                        ),
-                      ),
-                    );
+                  callback: () {
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (context) => CupertinoDatePicker(
+                              onDateTimeChanged: (value) {
+                                setState(() {
+                                  startTime = value;
+                                });
+                                print(value);
+                              },
+                            ));
                   },
                 ),
               ),
@@ -66,94 +73,38 @@ class TheSlotMaker extends StatelessWidget with TheModalBottomSheet {
         addHorizontalSpace(
           16,
         ),
-        Flexible(
-          child: Column(
-            children: [
-              CustomFormField(
-                label: "End Time",
-                child: CustomFormContainer(
-                  leadingWidget: Icon(
-                    Icons.alarm_sharp,
-                    color: kColorSilver,
-                  ),
-                  callback: () async {
-                    await showCustomBottomSheet(
-                      context: context,
-                      widget: SizedBox(
-                        height: MediaQuery.of(context).size.height * 0.25,
-                        child: CupertinoDatePicker(
-                          mode: CupertinoDatePickerMode.time,
-                          onDateTimeChanged: (value) {
-                            // setState(
-                            //   () {
-                            //     _timeSlots.add(
-                            //       TimeSlot(
-                            //         startTime: value,
-                            //       ),
-                            //     );
-                            //   },
-                            // );
-                          },
-                        ),
-                      ),
-                    );
-                  },
-                ),
-              )
-            ],
+        // Flexible(
+        //   child: Column(
+        //     children: [
+        //       CustomFormField(
+        //         label: "End Time",
+        //         child: CustomFormContainer(
+        //           hintText: widget.timeSlot != null
+        //               ? DateFormat.jm().format(
+        //                   widget.timeSlot!.endTime!,
+        //                 )
+        //               : "",
+        //           leadingWidget: Icon(
+        //             Icons.alarm_sharp,
+        //             color: kColorSilver,
+        //           ),
+        //           callback: widget.endCallback,
+        //         ),
+        //       )
+        //     ],
+        //   ),
+        // ),
+        Visibility(
+          visible: widget.showClear,
+          child: IconButton.outlined(
+            onPressed: widget.clearCallback,
+            icon: Icon(
+              Icons.clear,
+              color: kColorSilver,
+            ),
           ),
         ),
-        selectedIndex == 0
-            ? SizedBox(
-                width: 48,
-              )
-            : IconButton.outlined(
-                onPressed: clearCallback,
-                icon: Icon(
-                  Icons.clear,
-                  color: kColorSilver,
-                ),
-              )
       ],
     );
-    // return Padding(
-    //   padding: const EdgeInsets.only(
-    //     bottom: 4,
-    //   ),
-    //   child: CustomFormContainer(
-    //     leadingWidget: Row(
-    //       children: [
-    //         Icon(
-    //           Icons.access_time_rounded,
-    //         ),
-    //         addHorizontalSpace(8),
-    //         InkWell(
-    //           onTap: startCallback,
-    //           child: AutoSizeText(
-    //             startTime ?? "--",
-    //             style: kLightBlueText14,
-    //           ),
-    //         ),
-    //         addHorizontalSpace(8),
-    //         Text('-'),
-    //         addHorizontalSpace(8),
-    //         InkWell(
-    //           onTap: endCallback,
-    //           child: AutoSizeText(
-    //             endTime ?? "--",
-    //             style: kLightBlueText14,
-    //           ),
-    //         ),
-    //       ],
-    //     ),
-    //     trailingWidget: IconButton(
-    //       icon: Icon(
-    //         Icons.clear,
-    //         size: 15,
-    //       ),
-    //       onPressed: clearCallback,
-    //     ),
-    //   ),
-    // );
   }
 }
