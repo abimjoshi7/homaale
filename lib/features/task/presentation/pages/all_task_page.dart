@@ -38,6 +38,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
   String? category;
   String? serviceId;
   String? location;
+  String? sortBudget;
+  String? sortDate;
 
   @override
   void initState() {
@@ -57,6 +59,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
             budgetTo: budgetTo.text.length == 0 ? null : budgetTo.text,
             serviceId: category,
             city: location,
+            dateSort: sortDate,
+            budgetSort: sortBudget,
           )),
         );
       });
@@ -131,29 +135,20 @@ class _AllTaskPageState extends State<AllTaskPage> {
                             ),
                             addHorizontalSpace(5),
                             _buildCategory(),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildLocation(),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildFromDate(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildToDate(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildBudgetFrom(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildBudgetTo(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
+                            _buildBudgetSort(),
+                            addHorizontalSpace(8),
+                            _buildDateSort(),
                             _buildClearFilters(context),
                           ],
                         )
@@ -493,6 +488,90 @@ class _AllTaskPageState extends State<AllTaskPage> {
     );
   }
 
+  Widget _buildBudgetSort() {
+    return CustomFilterChip(
+      iconData: Icons.attach_money,
+      label: sortBudget != null
+          ? sortBudget == '-budget_to'
+              ? 'Budget Desc'
+              : 'Budget Asec'
+          : 'Sort Budget',
+      callback: (value) {
+        setState(() {
+          sortBudget = sortBudget == null
+              ? '-budget_to'
+              : sortBudget == '-budget_to'
+                  ? 'budget_to'
+                  : '-budget_to';
+        });
+        taskBloc.add(
+          AllTaskLoadInitiated(
+            newFetch: true,
+            isTask: false,
+            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+            dateTo: dateTo == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateTo!,
+                  ),
+            dateFrom: dateFrom == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateFrom!,
+                  ),
+            serviceId: serviceId,
+            city: location,
+            dateSort: sortDate,
+            budgetSort: sortBudget,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDateSort() {
+    return CustomFilterChip(
+      iconData: Icons.date_range,
+      label: sortDate != null
+          ? sortDate == '-created_at'
+              ? 'Date Desc'
+              : 'Date Asec'
+          : 'Sort Date',
+      callback: (value) {
+        setState(() {
+          sortDate = sortDate == null
+              ? '-created_at'
+              : sortDate == '-created_at'
+                  ? 'created_at'
+                  : '-created_at';
+        });
+        taskBloc.add(
+          AllTaskLoadInitiated(
+            newFetch: true,
+            isTask: false,
+            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+            dateTo: dateTo == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateTo!,
+                  ),
+            dateFrom: dateFrom == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateFrom!,
+                  ),
+            serviceId: serviceId,
+            city: location,
+            dateSort: sortDate,
+            budgetSort: sortBudget,
+          ),
+        );
+      },
+    );
+  }
+
   Widget _buildClearFilters(
     BuildContext context,
   ) {
@@ -505,6 +584,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
           budgetTo.clear();
           category = null;
           location = null;
+          sortBudget = null;
+          sortDate = null;
         });
         taskBloc.add(
           AllTaskLoadInitiated(

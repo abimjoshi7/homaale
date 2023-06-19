@@ -38,15 +38,13 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
   final _categoryKey = GlobalKey<FormFieldState>();
   final _locationKey = GlobalKey<FormFieldState>();
 
+  String? sortBudget;
+  String? sortDate;
+
   @override
   void initState() {
     super.initState();
-    entityServiceBloc = locator<TaskEntityServiceBloc>()
-      ..add(
-        TaskEntityServiceInitiated(
-          isTask: false,
-        ),
-      );
+    entityServiceBloc = locator<TaskEntityServiceBloc>()..add(TaskEntityServiceInitiated(isTask: false));
 
     _controller = ScrollController()
       ..addListener(
@@ -63,6 +61,9 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                 payableTo: payableTo.text.length == 0 ? null : payableTo.text,
                 serviceId: category,
                 city: location,
+                category: category,
+                dateSort: sortDate,
+                budgetSort: sortBudget,
               ),
             ),
           );
@@ -211,29 +212,21 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               ),
               addHorizontalSpace(5),
               _buildCategory(),
-              addHorizontalSpace(
-                8,
-              ),
+              addHorizontalSpace(8),
               _buildLocation(),
-              addHorizontalSpace(
-                8,
-              ),
+              addHorizontalSpace(8),
               _buildFromDate(context),
-              addHorizontalSpace(
-                8,
-              ),
+              addHorizontalSpace(8),
               _buildToDate(context),
-              addHorizontalSpace(
-                8,
-              ),
+              addHorizontalSpace(8),
               _buildPayableFrom(context),
-              addHorizontalSpace(
-                8,
-              ),
+              addHorizontalSpace(8),
               _buildPayableTo(context),
-              addHorizontalSpace(
-                8,
-              ),
+              addHorizontalSpace(8),
+              _buildBudgetSort(),
+              addHorizontalSpace(8),
+              _buildDateSort(),
+              addHorizontalSpace(8),
               _buildClearFilters(context),
             ],
           )
@@ -268,6 +261,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                   dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
                   city: location,
                   category: category,
+                  dateSort: sortDate,
+                  budgetSort: sortBudget,
                 ));
               },
             );
@@ -308,6 +303,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                     dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
                     serviceId: serviceId,
                     city: location,
+                    dateSort: sortDate,
+                    budgetSort: sortBudget,
                   ),
                 );
               },
@@ -343,6 +340,10 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                     payableTo: payableTo.length == 0 ? null : payableTo.text,
                     dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
                     dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    serviceId: serviceId,
+                    city: location,
+                    dateSort: sortDate,
+                    budgetSort: sortBudget,
                   ),
                 );
                 Navigator.pop(context);
@@ -379,6 +380,10 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                     payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
                     dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
                     dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    serviceId: serviceId,
+                    city: location,
+                    dateSort: sortDate,
+                    budgetSort: sortBudget,
                   ),
                 );
                 Navigator.pop(context);
@@ -411,16 +416,21 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
             });
             entityServiceBloc.add(
               TaskEntityServiceInitiated(
-                  newFetch: true,
-                  isTask: false,
-                  dateFrom: DateFormat("yyyy-MM-dd").format(
-                    dateFrom!,
-                  ),
-                  dateTo: dateTo == null
-                      ? null
-                      : DateFormat("yyyy-MM-dd").format(
-                          dateTo!,
-                        )),
+                newFetch: true,
+                isTask: false,
+                dateFrom: DateFormat("yyyy-MM-dd").format(
+                  dateFrom!,
+                ),
+                dateTo: dateTo == null
+                    ? null
+                    : DateFormat("yyyy-MM-dd").format(
+                        dateTo!,
+                      ),
+                serviceId: serviceId,
+                city: location,
+                dateSort: sortDate,
+                budgetSort: sortBudget,
+              ),
             );
           },
         );
@@ -450,18 +460,107 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
 
             entityServiceBloc.add(
               TaskEntityServiceInitiated(
-                  newFetch: true,
-                  isTask: false,
-                  dateTo: DateFormat("yyyy-MM-dd").format(
-                    dateTo!,
-                  ),
-                  dateFrom: dateFrom == null
-                      ? null
-                      : DateFormat("yyyy-MM-dd").format(
-                          dateFrom!,
-                        )),
+                newFetch: true,
+                isTask: false,
+                dateTo: DateFormat("yyyy-MM-dd").format(
+                  dateTo!,
+                ),
+                dateFrom: dateFrom == null
+                    ? null
+                    : DateFormat("yyyy-MM-dd").format(
+                        dateFrom!,
+                      ),
+                serviceId: serviceId,
+                city: location,
+                dateSort: sortDate,
+                budgetSort: sortBudget,
+              ),
             );
           },
+        );
+      },
+    );
+  }
+
+  Widget _buildBudgetSort() {
+    return CustomFilterChip(
+      iconData: Icons.attach_money,
+      label: sortBudget != null
+          ? sortBudget == '-budget_to'
+              ? 'Budget Desc'
+              : 'Budget Asec'
+          : 'Sort Budget',
+      callback: (value) {
+        setState(() {
+          sortBudget = sortBudget == null
+              ? '-budget_to'
+              : sortBudget == '-budget_to'
+                  ? 'budget_to'
+                  : '-budget_to';
+        });
+        entityServiceBloc.add(
+          TaskEntityServiceInitiated(
+            newFetch: true,
+            isTask: false,
+            payableTo: payableTo.length == 0 ? null : payableTo.text,
+            payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
+            dateTo: dateTo == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateTo!,
+                  ),
+            dateFrom: dateFrom == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateFrom!,
+                  ),
+            serviceId: serviceId,
+            city: location,
+            dateSort: sortDate,
+            budgetSort: sortBudget,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildDateSort() {
+    return CustomFilterChip(
+      iconData: Icons.date_range,
+      label: sortDate != null
+          ? sortDate == '-created_at'
+              ? 'Date Desc'
+              : 'Date Asec'
+          : 'Sort Date',
+      callback: (value) {
+        setState(() {
+          sortDate = sortDate == null
+              ? '-created_at'
+              : sortDate == '-created_at'
+                  ? 'created_at'
+                  : '-created_at';
+        });
+        entityServiceBloc.add(
+          TaskEntityServiceInitiated(
+            newFetch: true,
+            isTask: false,
+            payableTo: payableTo.length == 0 ? null : payableTo.text,
+            payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
+            dateTo: dateTo == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateTo!,
+                  ),
+            dateFrom: dateFrom == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateFrom!,
+                  ),
+            serviceId: serviceId,
+            city: location,
+            dateSort: sortDate,
+            budgetSort: sortBudget,
+          ),
         );
       },
     );
@@ -479,6 +578,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
           payableTo.clear();
           category = null;
           location = null;
+          sortBudget = null;
+          sortDate = null;
         });
         entityServiceBloc.add(
           TaskEntityServiceInitiated(
