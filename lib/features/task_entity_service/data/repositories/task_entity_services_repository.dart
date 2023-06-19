@@ -35,12 +35,11 @@ class TaskEntityServiceRepository {
     bool? isNearBy,
     bool? isOwned,
   }) async {
-    var orders = order != null && order.isNotEmpty ? order.join(',') : '';
     try {
       final req = {
         "is_requested": isTask,
         "page": page,
-        "ordering": orders,
+        "ordering": order,
         "page_size": kPageSize,
         'service': serviceId,
         'city': city,

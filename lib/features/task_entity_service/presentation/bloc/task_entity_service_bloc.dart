@@ -57,6 +57,7 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
               category: event.category,
               query: event.query,
               serviceId: event.serviceId,
+              order: [event.budgetSort.toString(), event.dateSort.toString()],
             );
 
             emit(
@@ -81,13 +82,10 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
               category: event.category,
               query: event.query,
               serviceId: event.serviceId,
+              order: [event.budgetSort.toString(), event.dateSort.toString()],
             );
             if (taskEntityServiceModel.next == null) {
-              emit(
-                state.copyWith(
-                  isLastPage: true,
-                ),
-              );
+              emit(state.copyWith(isLastPage: true));
             } else {
               emit(
                 state.copyWith(
