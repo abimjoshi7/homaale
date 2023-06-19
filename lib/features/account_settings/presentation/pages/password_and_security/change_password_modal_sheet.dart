@@ -180,11 +180,352 @@ class _ChangePasswordModalSheetState extends State<ChangePasswordModalSheet> {
                       );
                 }
               },
-              label: 'Save',
+              label: 'Update',
             );
           },
         ),
         kHeight20,
+        CustomElevatedButton(
+          borderColor: kColorPrimary,
+          mainColor: Colors.white,
+          textColor: kColorPrimary,
+          callback: () {
+            Navigator.pop(context);
+          },
+          label: 'Cancel',
+        ),
+        kHeight20,
+
+      ],
+    );
+  }
+}
+
+class AddPhoneNumberModalSheet extends StatefulWidget {
+  const AddPhoneNumberModalSheet({
+    super.key,
+  });
+
+  @override
+  State<AddPhoneNumberModalSheet> createState() =>
+      _AddPhoneNumberModalSheetState();
+}
+
+class _AddPhoneNumberModalSheetState extends State<AddPhoneNumberModalSheet> {
+  List<bool> isObscure = [true, true, true];
+  final phoneNo = TextEditingController();
+  final password = TextEditingController();
+  final _key = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    phoneNo.dispose();
+    password.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const CustomModalSheetDrawerIcon(),
+        kHeight10,
+        const Text(
+          'Update Password',
+          // style: kText17,
+        ),
+        Form(
+          key: _key,
+          child: Padding(
+            padding: kPadding20,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomFormField(
+                  label: 'Phone',
+                  isRequired: true,
+                  child: CustomTextFormField(
+                    onSaved: (p0) => setState(
+                      () {
+                        phoneNo.text = p0!;
+                      },
+                    ),
+                    suffixWidget: IconButton(
+                      icon: Icon(
+                        isObscure[0] == true
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: kColorPrimary,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isObscure[0] = !isObscure[0];
+                        });
+                      },
+                    ),
+                    obscureText: isObscure[0],
+                    validator: validateNumber,
+                  ),
+                ),
+                CustomFormField(
+                  label: 'Password',
+                  isRequired: true,
+                  child: CustomTextFormField(
+                    onSaved: (p0) => setState(
+                      () {
+                        password.text = p0!;
+                      },
+                    ),
+                    suffixWidget: IconButton(
+                      icon: Icon(
+                        isObscure[1] == true
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: kColorPrimary,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isObscure[1] = !isObscure[1];
+                        });
+                      },
+                    ),
+                    obscureText: isObscure[1],
+                    validator: validatePassword,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        BlocConsumer<PasswordSecurityBloc, PasswordSecurityState>(
+          listener: (context, state) {
+            if (state is PasswordSecuritySuccess) {
+              showDialog(
+                context: context,
+                builder: (context) => CustomToast(
+                  heading: 'Success',
+                  content: 'Password changed successfully',
+                  onTap: () => Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Root.routeName,
+                    (route) => false,
+                  ),
+                  isSuccess: true,
+                ),
+              );
+            }
+            if (state is PasswordSecurityFailure) {
+              showDialog(
+                context: context,
+                builder: (context) => CustomToast(
+                  heading: 'Failure',
+                  content: 'Password cannot be changed',
+                  isSuccess: false,
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            return CustomElevatedButton(
+              callback: () {
+                if (_key.currentState!.validate()) {
+                  _key.currentState!.save();
+                  final passwordSecurity = PasswordSecurity(
+                    oldPassword: phoneNo.text,
+                    newPassword: password.text,
+                  );
+                  context.read<PasswordSecurityBloc>().add(
+                        PasswordSecurityInitiated(
+                          passwordSecurity: passwordSecurity,
+                        ),
+                      );
+                }
+              },
+              label: 'Update',
+            );
+          },
+        ),
+        kHeight20,
+        CustomElevatedButton(
+          borderColor: kColorPrimary,
+          mainColor: Colors.white,
+          textColor: kColorPrimary,
+          callback: () {
+            Navigator.pop(context);
+          },
+          label: 'Cancel',
+        ),
+        kHeight20,
+
+      ],
+    );
+  }
+}
+
+class AddEmailModalSheet extends StatefulWidget {
+  const AddEmailModalSheet({
+    super.key,
+  });
+
+  @override
+  State<AddEmailModalSheet> createState() =>
+      _AddEmailModalSheetState();
+}
+
+class _AddEmailModalSheetState extends State<AddEmailModalSheet> {
+  List<bool> isObscure = [true, true, true];
+  final email = TextEditingController();
+  final password = TextEditingController();
+  final _key = GlobalKey<FormState>();
+
+  @override
+  void dispose() {
+    email.dispose();
+    password.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        const CustomModalSheetDrawerIcon(),
+        kHeight10,
+        const Text(
+          'Update Email',
+          // style: kText17,
+        ),
+        Form(
+          key: _key,
+          child: Padding(
+            padding: kPadding20,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomFormField(
+                  label: 'Email',
+                  isRequired: true,
+                  child: CustomTextFormField(
+                    onSaved: (p0) => setState(
+                      () {
+                        email.text = p0!;
+                      },
+                    ),
+                    suffixWidget: IconButton(
+                      icon: Icon(
+                        isObscure[0] == true
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: kColorPrimary,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isObscure[0] = !isObscure[0];
+                        });
+                      },
+                    ),
+                    obscureText: isObscure[0],
+                    validator: validateNumber,
+                  ),
+                ),
+                CustomFormField(
+                  label: 'Password',
+                  isRequired: true,
+                  child: CustomTextFormField(
+                    onSaved: (p0) => setState(
+                      () {
+                        password.text = p0!;
+                      },
+                    ),
+                    suffixWidget: IconButton(
+                      icon: Icon(
+                        isObscure[1] == true
+                            ? Icons.visibility_off
+                            : Icons.visibility,
+                        color: kColorPrimary,
+                      ),
+                      onPressed: () {
+                        setState(() {
+                          isObscure[1] = !isObscure[1];
+                        });
+                      },
+                    ),
+                    obscureText: isObscure[1],
+                    validator: validatePassword,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        BlocConsumer<PasswordSecurityBloc, PasswordSecurityState>(
+          listener: (context, state) {
+            if (state is PasswordSecuritySuccess) {
+              showDialog(
+                context: context,
+                builder: (context) => CustomToast(
+                  heading: 'Success',
+                  content: 'Email Updated successfully',
+                  onTap: () => Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Root.routeName,
+                    (route) => false,
+                  ),
+                  isSuccess: true,
+                ),
+              );
+            }
+            if (state is PasswordSecurityFailure) {
+              showDialog(
+                context: context,
+                builder: (context) => CustomToast(
+                  heading: 'Failure',
+                  content: 'Email Updated Failed.',
+                  isSuccess: false,
+                  onTap: () {
+                    Navigator.pop(context);
+                  },
+                ),
+              );
+            }
+          },
+          builder: (context, state) {
+            return CustomElevatedButton(
+              callback: () {
+                if (_key.currentState!.validate()) {
+                  _key.currentState!.save();
+                  final passwordSecurity = PasswordSecurity(
+                    oldPassword: email.text,
+                    newPassword: password.text,
+                  );
+                  context.read<PasswordSecurityBloc>().add(
+                        PasswordSecurityInitiated(
+                          passwordSecurity: passwordSecurity,
+                        ),
+                      );
+                }
+              },
+              label: 'Update',
+            );
+          },
+        ),
+        kHeight20,
+        CustomElevatedButton(
+          borderColor: kColorPrimary,
+          mainColor: Colors.white,
+          textColor: kColorPrimary,
+          callback: () {
+            Navigator.pop(context);
+          },
+          label: 'Cancel',
+        ),
+        kHeight20,
+
       ],
     );
   }

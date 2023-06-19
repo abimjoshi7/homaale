@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
@@ -67,7 +66,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
     return BlocConsumer<UserBloc, UserState>(
       bloc: userBloc,
       listener: (context, state) async {
-        if (state.theStates == TheStates.success) {
+        if (state.theStates == TheStates.success && state.isEdited == true) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -82,7 +81,8 @@ class _EditProfileSectionState extends State<EditProfileSection> {
               // ),
             ),
           );
-        } else if (state.theStates == TheStates.failure) {
+        } else if (state.theStates == TheStates.failure &&
+            state.isEdited == false) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -100,14 +100,13 @@ class _EditProfileSectionState extends State<EditProfileSection> {
         }
       },
       builder: (context, state) {
+        // firstName = state.taskerProfile?.user?.firstName;
+        // middleName = state.taskerProfile?.user?.middleName;
+        // lastName = state.taskerProfile?.user?.lastName;
+        // designation = state.taskerProfile?.designation;
+        // profilePicture = state.taskerProfile?.profileImage;
+        // bio = state.taskerProfile?.bio;
         if (state.theStates == TheStates.success) {
-          firstName = state.taskerProfile?.user?.firstName;
-          middleName = state.taskerProfile?.user?.middleName;
-          lastName = state.taskerProfile?.user?.lastName;
-          designation = state.taskerProfile?.designation;
-          profilePicture = state.taskerProfile?.profileImage;
-          bio = state.taskerProfile?.bio;
-
           return Padding(
             padding: const EdgeInsets.only(left: 8.0),
             child: Form(
@@ -474,7 +473,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                           onChanged: (p0) => setState(
                             () {
                               bio = p0;
-                              print(state.taskerProfile?.bio);
+                              print('BIO: ${p0}');
                             },
                           ),
                         ),
@@ -484,51 +483,51 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                   addVerticalSpace(10),
                   Center(
                     child: CustomElevatedButton(
-                      callback: () async {
-                        _key.currentState?.save();
-                        final Map<String, dynamic> user = {
-                          "first_name": firstName!.isEmpty
-                              ? state.taskerProfile?.user!.firstName
-                              : firstName,
-                          "middle_name": middleName!.isEmpty
-                              ? state.taskerProfile?.user!.middleName
-                              : middleName,
-                          "last_name": lastName!.isEmpty
-                              ? state.taskerProfile?.user!.lastName
-                              : lastName,
-                          // "designation": designation!.isEmpty
-                          //     ? state.taskerProfile?.designation
-                          //     : designation,
-                          "date_of_birth": DateFormat("yyyy-MM-dd").format(
-                            dob ??
-                                state.taskerProfile?.dateOfBirth ??
-                                DateTime.now(),
-                          ),
-                          "bio": bio ?? state.taskerProfile?.bio ,
-                          "gender":
-                              _gender ?? state.taskerProfile?.gender ?? "Male",
-                          // "profile_image": state.taskerProfile?.profileImage
-                          // uploadBloc.state.imageFileList.length == 0
-                          //     ? state.taskerProfile?.profileImage
-                          //     : await MultipartFile.fromString(
-                          //         uploadBloc.state.imageFileList.last,
-                          //       )
-                        };
+                        callback: () async {
+                          _key.currentState?.save();
+                          final Map<String, dynamic> user = {
+                            "first_name": firstName!.isEmpty
+                                ? state.taskerProfile?.user!.firstName
+                                : firstName,
+                            "middle_name": middleName!.isEmpty
+                                ? state.taskerProfile?.user!.middleName
+                                : middleName,
+                            "last_name": lastName!.isEmpty
+                                ? state.taskerProfile?.user!.lastName
+                                : lastName,
+                            // "designation": designation!.isEmpty
+                            //     ? state.taskerProfile?.designation
+                            //     : designation,
+                            "date_of_birth": DateFormat("yyyy-MM-dd").format(
+                              dob ??
+                                  state.taskerProfile?.dateOfBirth ??
+                                  DateTime.now(),
+                            ),
+                            "bio": bio ?? state.taskerProfile?.bio,
+                            "gender": _gender ??
+                                state.taskerProfile?.gender ??
+                                "Male",
+                            // "profile_image": state.taskerProfile?.profileImage
+                            // uploadBloc.state.imageFileList.length == 0
+                            //     ? state.taskerProfile?.profileImage
+                            //     : await MultipartFile.fromString(
+                            //         uploadBloc.state.imageFileList.last,
+                            //       )
+                          };
 
-                        if (uploadBloc.state.imageFileList.length != 0) {
-                          final file = await MultipartFile.fromFile(
-                              uploadBloc.state.imageFileList.last);
-                          user.addAll({
-                            "profile_image": file,
-                          });
-                        }
-                        if (!mounted) return;
-                        context.read<UserBloc>().add(
-                              UserEdited(req: user),
-                            );
-                      },
-                      label:'Save'
-                    ),
+                          if (uploadBloc.state.imageFileList.length != 0) {
+                            final file = await MultipartFile.fromFile(
+                                uploadBloc.state.imageFileList.last);
+                            user.addAll({
+                              "profile_image": file,
+                            });
+                          }
+                          if (!mounted) return;
+                          context.read<UserBloc>().add(
+                                UserEdited(req: user),
+                              );
+                        },
+                        label: 'Save'),
                   ),
                   addVerticalSpace(10),
                   Center(

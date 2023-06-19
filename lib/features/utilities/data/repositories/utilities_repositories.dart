@@ -75,7 +75,7 @@ class UtilitiesRepositories {
     String? countryCode,
   }) async {
     final x = await _dio.getDatawithCredential(
-      url: 'locale/cms/language/options/',
+      url: 'locale/language/options/',
       token: CacheHelper.accessToken,
     );
     return List<LanguageModel>.from(

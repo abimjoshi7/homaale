@@ -29,7 +29,7 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage>
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: 'Legals',trailingWidget: SizedBox()
+        appBarTitle: 'Help & Support',trailingWidget: SizedBox()
       ),
       body: Column(
         children: [

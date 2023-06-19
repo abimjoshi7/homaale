@@ -234,9 +234,8 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                                   context.findRenderObject()
                                                       as RenderBox?;
                                               Share.share(
-                                                "$kShareLinks/bookings/${booking.entityService?.createdBy?.id}",
-                                                subject: booking.entityService
-                                                    ?.createdBy?.fullName,
+                                                "$kShareLinks/bookings/${booking.id}",
+                                                subject: booking.title,
                                                 sharePositionOrigin: box!
                                                         .localToGlobal(
                                                             Offset.zero) &
