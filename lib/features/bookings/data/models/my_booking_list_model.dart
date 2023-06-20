@@ -17,8 +17,7 @@ class MyBookingListModel with _$MyBookingListModel {
     List<Result>? result,
   }) = _MyBookingListModel;
 
-  factory MyBookingListModel.fromJson(Map<String, dynamic> json) =>
-      _$MyBookingListModelFromJson(json);
+  factory MyBookingListModel.fromJson(Map<String, dynamic> json) => _$MyBookingListModelFromJson(json);
 }
 
 @freezed
@@ -76,8 +75,7 @@ class ResultCreatedBy with _$ResultCreatedBy {
     @JsonKey(name: 'address_line2') String? addressLine2,
   }) = _ResultCreatedBy;
 
-  factory ResultCreatedBy.fromJson(Map<String, dynamic> json) =>
-      _$ResultCreatedByFromJson(json);
+  factory ResultCreatedBy.fromJson(Map<String, dynamic> json) => _$ResultCreatedByFromJson(json);
 }
 
 @freezed
@@ -88,8 +86,7 @@ class Currency with _$Currency {
     String? symbol,
   }) = _Currency;
 
-  factory Currency.fromJson(Map<String, dynamic> json) =>
-      _$CurrencyFromJson(json);
+  factory Currency.fromJson(Map<String, dynamic> json) => _$CurrencyFromJson(json);
 }
 
 @freezed
@@ -104,8 +101,7 @@ class CreatedByCity with _$CreatedByCity {
     String? country,
   }) = _CreatedByCity;
 
-  factory CreatedByCity.fromJson(Map<String, dynamic> json) =>
-      _$CreatedByCityFromJson(json);
+  factory CreatedByCity.fromJson(Map<String, dynamic> json) => _$CreatedByCityFromJson(json);
 }
 
 @freezed
@@ -184,8 +180,7 @@ class EntityService with _$EntityService {
     String? owner,
   }) = _EntityService;
 
-  factory EntityService.fromJson(Map<String, dynamic> json) =>
-      _$EntityServiceFromJson(json);
+  factory EntityService.fromJson(Map<String, dynamic> json) => _$EntityServiceFromJson(json);
 }
 
 @freezed
@@ -198,8 +193,7 @@ class EntityServiceCity with _$EntityServiceCity {
     Country? country,
   }) = _EntityServiceCity;
 
-  factory EntityServiceCity.fromJson(Map<String, dynamic> json) =>
-      _$EntityServiceCityFromJson(json);
+  factory EntityServiceCity.fromJson(Map<String, dynamic> json) => _$EntityServiceCityFromJson(json);
 }
 
 @freezed
@@ -209,8 +203,7 @@ class Country with _$Country {
     String? code,
   }) = _Country;
 
-  factory Country.fromJson(Map<String, dynamic> json) =>
-      _$CountryFromJson(json);
+  factory Country.fromJson(Map<String, dynamic> json) => _$CountryFromJson(json);
 }
 
 @freezed
@@ -234,8 +227,7 @@ class EntityServiceCreatedBy with _$EntityServiceCreatedBy {
     Badge? badge,
   }) = _EntityServiceCreatedBy;
 
-  factory EntityServiceCreatedBy.fromJson(Map<String, dynamic> json) =>
-      _$EntityServiceCreatedByFromJson(json);
+  factory EntityServiceCreatedBy.fromJson(Map<String, dynamic> json) => _$EntityServiceCreatedByFromJson(json);
 }
 
 @freezed
@@ -258,13 +250,11 @@ class Service with _$Service {
     @JsonKey(name: 'is_verified') bool? isVerified,
     Category? category,
     List<dynamic>? images,
-    @JsonKey(name: 'required_documents')
-    List<RequiredDocument>? requiredDocuments,
+    @JsonKey(name: 'required_documents') List<RequiredDocument>? requiredDocuments,
     String? commission,
   }) = _Service;
 
-  factory Service.fromJson(Map<String, dynamic> json) =>
-      _$ServiceFromJson(json);
+  factory Service.fromJson(Map<String, dynamic> json) => _$ServiceFromJson(json);
 }
 
 @freezed
@@ -276,8 +266,7 @@ class Category with _$Category {
     String? slug,
   }) = _Category;
 
-  factory Category.fromJson(Map<String, dynamic> json) =>
-      _$CategoryFromJson(json);
+  factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
 }
 
 @freezed
@@ -289,8 +278,7 @@ class RequiredDocument with _$RequiredDocument {
     @JsonKey(name: 'required_for_merchant') bool? requiredForMerchant,
   }) = _RequiredDocument;
 
-  factory RequiredDocument.fromJson(Map<String, dynamic> json) =>
-      _$RequiredDocumentFromJson(json);
+  factory RequiredDocument.fromJson(Map<String, dynamic> json) => _$RequiredDocumentFromJson(json);
 }
 
 @freezed
@@ -303,7 +291,7 @@ class Event with _$Event {
     String? duration,
     @JsonKey(name: 'is_flexible') bool? isFlexible,
     @JsonKey(name: 'is_active') bool? isActive,
-    @JsonKey(name: 'active_dates') String? activeDates,
+    @JsonKey(name: 'active_dates') List<String>? activeDates,
     @JsonKey(name: 'guest_limit') double? guestLimit,
   }) = _Event;
 
