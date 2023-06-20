@@ -1,5 +1,4 @@
 import 'package:cipher/core/mixins/mixins.dart';
-import 'package:cipher/features/utilities/data/models/models.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +21,14 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   DateTime? startTime;
   DateTime? endTime;
   int? repeatType;
-  List<DateTime> _timeSlots = [];
+  List<DateTime?> _timeSlots = [];
   List<TheSlotMaker> _theSlotMaker = [];
+  int widgetcount = 0;
   List<Map<int, dynamic>> test = [];
+  final GlobalKey<FormState> _key = GlobalKey<FormState>();
+
+  void addToList(DateTime date, int index) =>
+      setState(() => _timeSlots[index] = date);
 
   @override
   Widget build(BuildContext context) {
@@ -52,11 +56,8 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
                   onTap: () async {
                     setState(
                       () {
-                        _theSlotMaker.add(
-                          TheSlotMaker(
-                            addToList: (value) {},
-                          ),
-                        );
+                        widgetcount++;
+                        _timeSlots.add(null);
                       },
                     );
                   },
@@ -64,104 +65,21 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
                     "+Add",
                     style: kLightBlueText14,
                   )),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: List.generate(
-                  _theSlotMaker.length,
-                  (index) {
-                    return TheSlotMaker(
-                      showClear: _theSlotMaker.length == 1 ? false : true,
-                      startCallback: () async {
-                        await showCustomBottomSheet(
-                          context: context,
-                          widget: SizedBox(
-                            height: 300,
-                            child: Column(
-                              children: [
-                                Text(
-                                  "Start Time",
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineMedium,
-                                ),
-                                Expanded(
-                                  child: CupertinoDatePicker(
-                                    onDateTimeChanged: (value) {
-                                      setState(() {
-                                        startTime = value;
-                                      });
-                                    },
-                                    mode: CupertinoDatePickerMode.time,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        );
-
-                        test[index].update(
-                          index,
-                          (value) => startTime,
-                          ifAbsent: () => startTime,
-                        );
-                        // if (_timeSlots[index].startTime == null)
-                        //   setState(
-                        //     () {
-                        //       _timeSlots.insert(
-                        //         index,
-                        //         TimeSlot(
-                        //           id: index,
-                        //           startTime: startTime,
-                        //         ),
-                        //       );
-                        //     },
-                        //   );
-                      },
-                      endCallback: () {
-                        // await showCustomBottomSheet(
-                        //   context: context,
-                        //   widget: SizedBox(
-                        //     height: 300,
-                        //     child: Column(
-                        //       children: [
-                        //         Text(
-                        //           "End Time",
-                        //           style: Theme.of(context)
-                        //               .textTheme
-                        //               .headlineMedium,
-                        //         ),
-                        //         Expanded(
-                        //           child: CupertinoDatePicker(
-                        //             onDateTimeChanged: (value) {
-                        //               setState(() {
-                        //                 endTime = value;
-                        //               });
-                        //             },
-                        //             mode: CupertinoDatePickerMode.time,
-                        //           ),
-                        //         ),
-                        //       ],
-                        //     ),
-                        //   ),
-                        // );
-                        _timeSlots.forEach(
-                          (element) => print(element),
-                        );
-                      },
-                      clearCallback: () {
-                        _theSlotMaker.length == 1
-                            ? null
-                            : setState(
-                                () {
-                                  _theSlotMaker.removeAt(index);
-                                },
-                              );
-                      },
-                      addToList: (value) {
-                        _timeSlots.add(value);
-                      },
-                    );
-                  },
+              child: Form(
+                key: _key,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: List.generate(
+                    widgetcount,
+                    (index) {
+                      return TheSlotMaker(
+                        showClear: _theSlotMaker.length == 1 ? false : true,
+                        clearCallback: () {},
+                        addToList: addToList,
+                        index: index,
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -196,81 +114,7 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
             ),
             addVerticalSpace(8),
             _buildButton(),
-
-            // BlocListener<ScheduleBloc, ScheduleState>(
-            //   listener: (context, scheduleState) {
-            //     if (scheduleState.isCreated == true &&
-            //         scheduleState.createScheduleRes != null) {
-            //       showDialog(
-            //         context: context,
-            //         builder: (context) => CustomToast(
-            //           heading: "Success",
-            //           content: "Schedule created successfully",
-            //           onTap: () {
-            //             Navigator.pushNamedAndRemoveUntil(
-            //               context,
-            //               Root.routeName,
-            //               (route) => false,
-            //             );
-            //           },
-            //           isSuccess: true,
-            //         ),
-            //       );
-            //     }
-            //     if (scheduleState.theState == TheStates.failure &&
-            //         scheduleState.isCreated == false) {
-            //       showDialog(
-            //         context: context,
-            //         builder: (context) => CustomToast(
-            //           heading: "Failure",
-            //           content: "Schedule cannot be created",
-            //           onTap: () {},
-            //           isSuccess: false,
-            //         ),
-            //       );
-            //     }
-            //   },
-            //   child: CustomElevatedButton(
-            //     label: "Save",
-            //     callback: () {
-            //       final req = CreateScheduleReq(
-            //         id: state.taskEntityService.id,
-            //         event: state.taskEntityService.event?.id,
-            //         startDate: DateFormat("yyyy-MM-dd")
-            //             .format(state.taskEntityService.event!.start!),
-            //         endDate: DateFormat("yyyy-MM-dd")
-            //             .format(state.taskEntityService.event!.end!),
-            //         repeatType: repeatType,
-            //         slots: _timeSlots
-            //             .map(
-            //               (e) => Slot(
-            //                 start: e.startTime?.format(context),
-            //                 end: e.endTime?.format(context),
-            //               ),
-            //             )
-            //             .toList(),
-            //         guestLimit: 1,
-            //         isActive: true,
-            //       );
-
-            //       context.read<ScheduleBloc>().add(
-            //             ScheduleEventPosted(
-            //               createScheduleReq: req,
-            //             ),
-            //           );
-            //     },
-            //   ),
-            // ),
             addVerticalSpace(8),
-            // CustomElevatedButton(
-            //   label: "Cancel",
-            //   mainColor: Colors.white,
-            //   textColor: kColorPrimary,
-            //   borderColor: kColorPrimary,
-            //   callback: () async {
-            //     Navigator.pop(context);
-            //   },
-            // ),
           ],
         );
       },
@@ -281,33 +125,10 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
     return CustomElevatedButton(
       label: "Save",
       callback: () {
-        print(_timeSlots);
-        print(test);
-        // final req = CreateScheduleReq(
-        //   id: state.taskEntityService.id,
-        //   event: state.taskEntityService.event?.id,
-        //   startDate: DateFormat("yyyy-MM-dd")
-        //       .format(state.taskEntityService.event!.start!),
-        //   endDate: DateFormat("yyyy-MM-dd")
-        //       .format(state.taskEntityService.event!.end!),
-        //   repeatType: repeatType,
-        //   slots: _timeSlots
-        //       .map(
-        //         (e) => Slot(
-        //           start: e.startTime?.format(context),
-        //           end: e.endTime?.format(context),
-        //         ),
-        //       )
-        //       .toList(),
-        //   guestLimit: 1,
-        //   isActive: true,
-        // );
-
-        // context.read<ScheduleBloc>().add(
-        //       ScheduleEventPosted(
-        //         createScheduleReq: req,
-        //       ),
-        //     );
+        print("time" + _timeSlots.toString());
+        if (_key.currentState!.validate()) {
+          print("validated!");
+        }
       },
     );
   }

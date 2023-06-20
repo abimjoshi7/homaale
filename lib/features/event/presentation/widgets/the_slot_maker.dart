@@ -1,4 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -8,22 +7,20 @@ import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/utilities/data/models/models.dart';
 import 'package:cipher/widgets/widgets.dart';
 
+typedef AddToList = void Function(DateTime, int);
+
 class TheSlotMaker extends StatefulWidget {
-  final VoidCallback? startCallback;
-  final VoidCallback? endCallback;
   final VoidCallback? clearCallback;
-  final ValueChanged<DateTime> addToList;
+  final AddToList addToList;
   final bool showClear;
-  // final TimeSlot? timeSlot;
+  final int index;
 
   const TheSlotMaker({
     Key? key,
-    // this.timeSlot,
-    this.startCallback,
-    this.endCallback,
     this.clearCallback,
     required this.addToList,
     this.showClear = true,
+    required this.index,
   }) : super(key: key);
 
   @override
@@ -33,6 +30,7 @@ class TheSlotMaker extends StatefulWidget {
 class _TheSlotMakerState extends State<TheSlotMaker> with TheModalBottomSheet {
   TimeSlot? timeSlot;
   DateTime? startTime;
+  DateTime? endTime;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -43,27 +41,37 @@ class _TheSlotMakerState extends State<TheSlotMaker> with TheModalBottomSheet {
             children: [
               CustomFormField(
                 label: "Start Time",
-                child: CustomFormContainer(
+                child: CustomTextFormField(
+                  readOnly: true,
+                  validator: (p0) =>
+                      startTime == null ? "Required Field" : null,
                   hintText: startTime != null
                       ? DateFormat.jm().format(
                           startTime!,
                         )
                       : "",
-                  leadingWidget: Icon(
+                  hintStyle: Theme.of(context).textTheme.bodyMedium,
+                  prefixWidget: Icon(
                     Icons.alarm_sharp,
                     color: kColorSilver,
                   ),
-                  callback: () {
-                    showModalBottomSheet(
-                        context: context,
-                        builder: (context) => CupertinoDatePicker(
-                              onDateTimeChanged: (value) {
-                                setState(() {
-                                  startTime = value;
-                                });
-                                print(value);
-                              },
-                            ));
+                  onTap: () {
+                    showCustomBottomSheet(
+                      context: context,
+                      widget: SizedBox(
+                        height: 400,
+                        child: CupertinoDatePicker(
+                          mode: CupertinoDatePickerMode.time,
+                          onDateTimeChanged: (value) {
+                            setState(() {
+                              startTime = value;
+                              widget.addToList(value, widget.index);
+                            });
+                            print(value);
+                          },
+                        ),
+                      ),
+                    );
                   },
                 ),
               ),
@@ -73,27 +81,45 @@ class _TheSlotMakerState extends State<TheSlotMaker> with TheModalBottomSheet {
         addHorizontalSpace(
           16,
         ),
-        // Flexible(
-        //   child: Column(
-        //     children: [
-        //       CustomFormField(
-        //         label: "End Time",
-        //         child: CustomFormContainer(
-        //           hintText: widget.timeSlot != null
-        //               ? DateFormat.jm().format(
-        //                   widget.timeSlot!.endTime!,
-        //                 )
-        //               : "",
-        //           leadingWidget: Icon(
-        //             Icons.alarm_sharp,
-        //             color: kColorSilver,
-        //           ),
-        //           callback: widget.endCallback,
-        //         ),
-        //       )
-        //     ],
-        //   ),
-        // ),
+        Flexible(
+          child: Column(
+            children: [
+              CustomFormField(
+                label: "End Time",
+                child: CustomTextFormField(
+                  readOnly: true,
+                  validator: (p0) =>
+                      startTime == null ? "Required Field" : null,
+                  hintText: endTime != null
+                      ? DateFormat.jm().format(
+                          endTime!,
+                        )
+                      : "",
+                  hintStyle: Theme.of(context).textTheme.bodyMedium,
+                  prefixWidget: Icon(
+                    Icons.alarm_sharp,
+                    color: kColorSilver,
+                  ),
+                  onTap: () {
+                    showModalBottomSheet(
+                      context: context,
+                      builder: (context) => CupertinoDatePicker(
+                        mode: CupertinoDatePickerMode.time,
+                        onDateTimeChanged: (value) {
+                          setState(() {
+                            endTime = value;
+                            widget.addToList(value, widget.index);
+                          });
+                          print(value);
+                        },
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
         Visibility(
           visible: widget.showClear,
           child: IconButton.outlined(
