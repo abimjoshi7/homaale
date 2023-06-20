@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -76,12 +77,14 @@ class CustomLogout extends StatelessWidget {
                   callback: () async {
                     final googleSignIn = GoogleSignIn(
                       scopes: ['openid', 'email', 'profile'],
-                      serverClientId: '245846975950-vucoc2e1cmeielq5f5neoca7880n0u2i.apps.googleusercontent.com',
+                      serverClientId:
+                          '245846975950-vucoc2e1cmeielq5f5neoca7880n0u2i.apps.googleusercontent.com',
                     );
                     await googleSignIn.signOut();
                     context.read<SignInBloc>().add(
                           SignOutInitiated(),
                         );
+                    context.read<UserBloc>().add(UserCleared());
                     await Navigator.pushNamedAndRemoveUntil(
                       context,
                       SignInPage.routeName,
