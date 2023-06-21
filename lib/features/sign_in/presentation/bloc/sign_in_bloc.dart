@@ -111,11 +111,9 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       CacheHelper.isLoggedIn = false;
       emit(
         state.copyWith(
-          theStates: TheStates.success,
-        ),
+            // theStates: TheStates.success,
+            ),
       );
     });
   }
 }
-
-

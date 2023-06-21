@@ -64,4 +64,12 @@ class UserLocationCubit extends Cubit<UserLocationState> {
       );
     }
   }
+
+  void removeTempLocation() {
+    emit(state.remove(
+      theStates: state.theStates,
+      location: state.location,
+      address: state.address,
+    ));
+  }
 }

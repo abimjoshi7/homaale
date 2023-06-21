@@ -76,7 +76,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           ),
                         );
                       }
-                      if (value == LocationPermission.always || value == LocationPermission.whileInUse) {
+                      if (value == LocationPermission.always ||
+                          value == LocationPermission.whileInUse) {
                         if (!mounted) return;
                         Navigator.push(
                             context,
@@ -100,13 +101,15 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     BlocBuilder<UserLocationCubit, UserLocationState>(
                       builder: (_, state) {
                         return SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.55,
+                          // width: MediaQuery.of(context).size.width * 0.55,
                           child: AutoSizeText(
                             state.address ?? 'Click to access location',
                             overflow: TextOverflow.ellipsis,
                             minFontSize: 12.0,
-                            style:
-                                const TextStyle(overflow: TextOverflow.ellipsis, color: Colors.white, fontSize: 13.0),
+                            style: const TextStyle(
+                                overflow: TextOverflow.ellipsis,
+                                color: Colors.white,
+                                fontSize: 13.0),
                           ),
                         );
                       },
@@ -114,7 +117,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     const Icon(
                       Icons.arrow_drop_down,
                       color: Colors.white,
-                      size: 14,
+                      size: 16,
                     )
                   ],
                 ),
@@ -140,7 +143,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           fit: BoxFit.cover,
                           image: (CacheHelper.isLoggedIn)
                               ? NetworkImage(
-                                  state.taskerProfile?.profileImage ?? kDefaultAvatarNImg,
+                                  state.taskerProfile?.profileImage ??
+                                      kDefaultAvatarNImg,
                                 )
                               : NetworkImage(
                                   kDefaultAvatarNImg,
@@ -172,7 +176,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     title: displayUserInfo(),
                     trailing: BlocBuilder<NotificationBloc, NotificationState>(
                       builder: (context, state) {
-                        if (state.notificationStatus == NotificationStatus.success) {
+                        if (state.notificationStatus ==
+                            NotificationStatus.success) {
                           return SizedBox(
                             width: 50,
                             height: 40,
@@ -193,7 +198,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                       position: TooltipPosition.bottom,
                                       showKey: Home.notificationKey,
                                       showCaseTitle: 'Notifications',
-                                      showCaseDec: 'See all notifications from here.',
+                                      showCaseDec:
+                                          'See all notifications from here.',
                                       child: Icon(
                                         (CacheHelper.isLoggedIn)
                                             ? Icons.notifications_none
@@ -205,17 +211,24 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                                   ),
                                 ),
                                 if (CacheHelper.isLoggedIn)
-                                  state.allNotificationList.unreadCount != null &&
-                                          state.allNotificationList.unreadCount != 0
+                                  state.allNotificationList.unreadCount !=
+                                              null &&
+                                          state.allNotificationList
+                                                  .unreadCount !=
+                                              0
                                       ? Positioned(
                                           right: 13,
                                           child: Container(
                                             height: 20,
                                             width: 20,
-                                            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                                            decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.red),
                                             child: Center(
                                               child: Text(
-                                                state.allNotificationList.unreadCount.toString(),
+                                                state.allNotificationList
+                                                    .unreadCount
+                                                    .toString(),
                                                 style: const TextStyle(
                                                   color: Colors.white,
                                                   fontSize: 14,

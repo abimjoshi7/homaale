@@ -82,6 +82,10 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                 addHorizontalSpace(8),
                 InkWell(
                   onTap: () {
+                    if (CacheHelper.isLoggedIn == false) {
+                      notLoggedInPopUp(context);
+                    }
+                    if (CacheHelper.isLoggedIn == false) return;
                     showCustomBottomSheet(
                       context: context,
                       widget: Column(

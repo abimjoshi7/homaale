@@ -15,6 +15,12 @@ class UserBloc extends Bloc<UserEvent, UserState> {
       : super(
           const UserState(),
         ) {
+    on<UserCleared>((event, emit) {
+      emit(state.copyWith(
+        taskerProfile: TaskerProfile(),
+      ));
+      CacheHelper.isLoggedIn = false;
+    });
     on<UserLoaded>(
       (event, emit) async {
         try {
@@ -27,7 +33,8 @@ class UserBloc extends Bloc<UserEvent, UserState> {
           );
           await respositories.fetchUser().then(
             (value) {
-              emit(state.copyWith(theStates: TheStates.success, taskerProfile: value));
+              emit(state.copyWith(
+                  theStates: TheStates.success, taskerProfile: value));
             },
           );
         } catch (e) {
