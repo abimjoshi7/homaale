@@ -89,7 +89,8 @@ class KycView extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              state.kycModel!.fullName.toString(),
+                              state.kycModel?.fullName.toString() ??
+                                  "Homaale User",
                               style: Theme.of(context).textTheme.headlineSmall,
                             ),
                             addVerticalSpace(8.0),
@@ -102,7 +103,7 @@ class KycView extends StatelessWidget {
                             ),
                             addVerticalSpace(8.0),
                             Text(
-                              state.kycModel!.user!.email!,
+                              state.kycModel?.user?.email ?? "",
                               style: Theme.of(context).textTheme.bodySmall,
                             ),
                           ],
@@ -117,7 +118,7 @@ class KycView extends StatelessWidget {
                           size: 20.0,
                         ),
                         Text(
-                          state.kycModel!.address!,
+                          state.kycModel?.address ?? "Remote",
                           style: Theme.of(context)
                               .textTheme
                               .bodySmall
