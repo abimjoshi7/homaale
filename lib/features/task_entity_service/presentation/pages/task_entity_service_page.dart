@@ -10,8 +10,7 @@ import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart' as tb;
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart'
-    as tes;
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart' as tes;
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/recommended_services.dart';
@@ -172,8 +171,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                               itemCount: mediaList.length,
                               itemBuilder: (context, index, realIndex) {
                                 return Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.21,
+                                  height: MediaQuery.of(context).size.height * 0.21,
                                   margin: EdgeInsets.only(right: 32),
                                   child: mediaList[index].mediaType?.toLowerCase() == 'mp4'
                                       ? VideoPlayerWidget(
@@ -298,15 +296,9 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                   onFavouriteTapped: () => {},
                                   callback: () => showApplicantDetailsDialog(
                                     context: context,
-                                    isNegotiable:
-                                        state.taskEntityService?.isNegotiable ??
-                                            false,
-                                    profileImage: state
-                                            .applicantModel
-                                            ?.result?[index]
-                                            .createdBy
-                                            ?.profileImage ??
-                                        kHomaaleImg,
+                                    isNegotiable: state.taskEntityService?.isNegotiable ?? false,
+                                    profileImage:
+                                        state.applicantModel?.result?[index].createdBy?.profileImage ?? kHomaaleImg,
                                     label:
                                         '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? 'Harry'} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? 'Smith'}',
                                     happyClients:
@@ -321,8 +313,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                     title: state.taskEntityService?.title ?? '',
                                     budget:
                                         '${state.applicantModel?.result?[index].currency}. ${state.applicantModel?.result?[index].price}',
-                                    status: state
-                                        .applicantModel?.result?[index].status,
+                                    status: state.applicantModel?.result?[index].status,
                                     onRejectPressed: () {
                                       context.read<TaskEntityServiceBloc>().add(
                                             TaskRejectPeople(
@@ -341,9 +332,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                     onNegotiatePressed: () {
                                       context.read<tb.TaskBloc>().add(
                                             tb.ChangeTaskNegotiationStatus(
-                                              id: state.applicantModel
-                                                      ?.result?[index].id ??
-                                                  0,
+                                              id: state.applicantModel?.result?[index].id ?? 0,
                                             ),
                                           );
                                       //TODO: chat navigations
@@ -383,12 +372,14 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                   ),
                 ),
                 Visibility(
-                  visible:
-                      state.taskEntityService?.createdBy?.id != context.read<UserBloc>().state.taskerProfile?.user?.id,
+                  visible: true,
                   child: PriceBookFooterSection(
+                    isNegotiable: state.taskEntityService.isNegotiable,
+                    isUser:
+                        state.taskEntityService.createdBy?.id == context.read<UserBloc>().state.taskerProfile?.user?.id,
                     buttonLabel: getStatus('', isService: true)["status"] as String,
                     buttonColor: getStatus('')["color"] as Color,
-                    price: "Rs. ${Decimal.parse(state.taskEntityService?.payableTo ?? '0.0')}",
+                    price: "Rs. ${Decimal.parse(state.taskEntityService.payableTo ?? '0.0')}",
                     onPressed: () {
                       if (!CacheHelper.isLoggedIn) {
                         notLoggedInPopUp(context);

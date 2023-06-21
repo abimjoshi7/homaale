@@ -118,73 +118,69 @@ class _ServicesProfileState extends State<ServicesProfile> {
                           );
                           return BottomLoader();
                         }
-                        return GestureDetector(
-                          onTap: () {
+                        return ServiceCard(
+                          callback: () {
                             context.read<TaskEntityServiceBloc>().add(
                                   TaskEntityServiceSingleLoaded(
+                                    id: data[index].id ?? "",
+                                  ),
+                                );
+
+                            context.read<TaskEntityServiceBloc>().add(
+                                  FetchRecommendedSimilar(
                                     id: data[index].id ?? '',
                                   ),
                                 );
-                            Navigator.pushNamed(context, TaskEntityServicePage.routeName);
+
+                            context.read<RatingReviewsBloc>().add(SetToInitial(
+                                  id: data[index].id ?? "",
+                                ));
+
+                            Navigator.pushNamed(
+                              context,
+                              TaskEntityServicePage.routeName,
+                            );
                           },
-                          child: ServiceCard(
-                            callback: () {
-                              context.read<TaskEntityServiceBloc>().add(
-                                    TaskEntityServiceSingleLoaded(
-                                      id: data[index].id ?? "",
-                                    ),
-                                  );
-
-                              context.read<RatingReviewsBloc>().add(SetToInitial(
-                                    id: data[index].id ?? "",
-                                  ));
-
-                              Navigator.pushNamed(
-                                context,
-                                TaskEntityServicePage.routeName,
-                              );
-                            },
-                            title: data[index].title,
-                            imagePath: data[index].images?.length == 0
-                                ? kHomaaleImg
-                                : data[index].images?.first.media.toString(),
-                            createdBy: "${data[index].createdBy?.firstName} ${data[index].createdBy?.lastName}",
-                            description: data[index].description,
-                            location: data[index].location == '' ? "Remote" : data[index].location,
-                            rateTo: double.parse(data[index].payableTo ?? "").toInt().toString(),
-                            rateFrom: double.parse(data[index].payableFrom ?? "").toInt().toString(),
-                            isRange: data[index].isRange,
-                            isBookmarked: false,
-                            isOwner: true,
-                            editCallback: () {
-                              showModalBottomSheet(
-                                context: context,
-                                isScrollControlled: true,
-                                builder: (context) => Container(
-                                  height: MediaQuery.of(context).size.height * 0.75,
-                                  padding: EdgeInsets.only(
-                                      bottom: MediaQuery.of(context).viewInsets.bottom, left: 8, right: 8, top: 8),
-                                  child: SingleChildScrollView(
-                                    child: Column(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        EditTaskEntityServiceForm(
-                                          id: data[index].id ?? "",
-                                          isRequested: false,
-                                        ),
-                                      ],
-                                    ),
+                          title: data[index].title,
+                          imagePath: data[index].images?.length == 0
+                              ? kHomaaleImg
+                              : data[index].images?.first.media.toString(),
+                          createdBy: "${data[index].createdBy?.firstName} ${data[index].createdBy?.lastName}",
+                          description: data[index].description,
+                          location: data[index].location == '' ? "Remote" : data[index].location,
+                          rateTo: double.parse(data[index].payableTo ?? "").toInt().toString(),
+                          rateFrom: double.parse(data[index].payableFrom ?? "").toInt().toString(),
+                          isRange: data[index].isRange,
+                          isBookmarked: false,
+                          isOwner: true,
+                          editCallback: () {
+                            showModalBottomSheet(
+                              context: context,
+                              isScrollControlled: true,
+                              builder: (context) => Container(
+                                height: MediaQuery.of(context).size.height * 0.75,
+                                padding: EdgeInsets.only(
+                                    bottom: MediaQuery.of(context).viewInsets.bottom, left: 8, right: 8, top: 8),
+                                child: SingleChildScrollView(
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      EditTaskEntityServiceForm(
+                                        id: data[index].id ?? "",
+                                        isRequested: false,
+                                      ),
+                                    ],
                                   ),
                                 ),
-                              );
-                            },
-                            shareCallback: () {
-                              Share.share(
-                                "$kShareLinks/services/${data[index].id}",
-                                subject: data[index].title,
-                              );
-                            },
-                          ),
+                              ),
+                            );
+                          },
+                          shareCallback: () {
+                            Share.share(
+                              "$kShareLinks/services/${data[index].id}",
+                              subject: data[index].title,
+                            );
+                          },
                         );
                       },
                     ),

@@ -643,6 +643,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                   Visibility(
                     visible: true,
                     child: PriceBookFooterSection(
+                      isNegotiable: state.taskModel?.isNegotiable ?? false,
                       isUser: state.taskModel?.createdBy?.id == context.read<UserBloc>().state.taskerProfile?.user?.id,
                       buttonLabel: getStatus('')["status"] as String,
                       buttonColor: getStatus('')["color"] as Color,

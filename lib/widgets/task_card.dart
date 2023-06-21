@@ -90,7 +90,6 @@ class TaskCard extends StatelessWidget {
                               taskName ?? '',
                             ),
                             style: Theme.of(context).textTheme.titleMedium,
-                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
@@ -98,7 +97,6 @@ class TaskCard extends StatelessWidget {
                               createdByName ?? '',
                             ),
                             style: Theme.of(context).textTheme.titleSmall?.copyWith(color: kColorLightGrey),
-                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ],
