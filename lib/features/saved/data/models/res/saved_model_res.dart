@@ -49,7 +49,7 @@ class Data with _$Data {
     List<Education>? education,
     List<Certificate>? certificates,
     Stats? stats,
-    double? rating,
+    dynamic rating,
     CountryClass? country,
     CountryClass? language,
     City? city,

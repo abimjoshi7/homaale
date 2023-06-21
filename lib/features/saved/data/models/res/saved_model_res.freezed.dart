@@ -619,7 +619,7 @@ mixin _$Data {
   List<Education>? get education => throw _privateConstructorUsedError;
   List<Certificate>? get certificates => throw _privateConstructorUsedError;
   Stats? get stats => throw _privateConstructorUsedError;
-  double? get rating => throw _privateConstructorUsedError;
+  dynamic get rating => throw _privateConstructorUsedError;
   CountryClass? get country => throw _privateConstructorUsedError;
   CountryClass? get language => throw _privateConstructorUsedError;
   City? get city => throw _privateConstructorUsedError;
@@ -719,7 +719,7 @@ abstract class $DataCopyWith<$Res> {
       List<Education>? education,
       List<Certificate>? certificates,
       Stats? stats,
-      double? rating,
+      dynamic rating,
       CountryClass? country,
       CountryClass? language,
       City? city,
@@ -900,7 +900,7 @@ class _$DataCopyWithImpl<$Res, $Val extends Data>
       rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as dynamic,
       country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
@@ -1238,7 +1238,7 @@ abstract class _$$_DataCopyWith<$Res> implements $DataCopyWith<$Res> {
       List<Education>? education,
       List<Certificate>? certificates,
       Stats? stats,
-      double? rating,
+      dynamic rating,
       CountryClass? country,
       CountryClass? language,
       City? city,
@@ -1425,7 +1425,7 @@ class __$$_DataCopyWithImpl<$Res> extends _$DataCopyWithImpl<$Res, _$_Data>
       rating: freezed == rating
           ? _value.rating
           : rating // ignore: cast_nullable_to_non_nullable
-              as double?,
+              as dynamic,
       country: freezed == country
           ? _value.country
           : country // ignore: cast_nullable_to_non_nullable
@@ -1758,7 +1758,7 @@ class _$_Data implements _Data {
   @override
   final Stats? stats;
   @override
-  final double? rating;
+  final dynamic rating;
   @override
   final CountryClass? country;
   @override
@@ -1953,7 +1953,7 @@ class _$_Data implements _Data {
             const DeepCollectionEquality()
                 .equals(other._certificates, _certificates) &&
             (identical(other.stats, stats) || other.stats == stats) &&
-            (identical(other.rating, rating) || other.rating == rating) &&
+            const DeepCollectionEquality().equals(other.rating, rating) &&
             (identical(other.country, country) || other.country == country) &&
             (identical(other.language, language) ||
                 other.language == language) &&
@@ -2050,7 +2050,7 @@ class _$_Data implements _Data {
         const DeepCollectionEquality().hash(_education),
         const DeepCollectionEquality().hash(_certificates),
         stats,
-        rating,
+        const DeepCollectionEquality().hash(rating),
         country,
         language,
         city,
@@ -2128,7 +2128,7 @@ abstract class _Data implements Data {
       final List<Education>? education,
       final List<Certificate>? certificates,
       final Stats? stats,
-      final double? rating,
+      final dynamic rating,
       final CountryClass? country,
       final CountryClass? language,
       final City? city,
@@ -2205,7 +2205,7 @@ abstract class _Data implements Data {
   @override
   Stats? get stats;
   @override
-  double? get rating;
+  dynamic get rating;
   @override
   CountryClass? get country;
   @override
