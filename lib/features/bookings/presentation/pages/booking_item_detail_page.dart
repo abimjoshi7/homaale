@@ -411,7 +411,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                                   .taskerProfile
                                                   ?.user
                                                   ?.id)
-                                          ? 'Requirements'
+                                          ? 'Highlights'
                                           : 'Highlights',
                                       requirementList:
                                           booking.entityService?.highlights,

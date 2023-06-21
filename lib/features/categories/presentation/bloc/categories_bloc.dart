@@ -1,8 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:developer';
 
-import 'package:cipher/features/categories/data/models/sub_category_res.dart'
-    hide Category;
+import 'package:cipher/features/categories/data/models/sub_category_res.dart' hide Category;
 import 'package:cipher/features/categories/data/models/task_sub_category_model.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -59,14 +58,16 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     on<TaskSubCategoryLoaded>((event, emit) async {
       try {
         await repositories.getService(event.categoryId).then(
-              (value) => emit(
-                state.copyWith(
-                  theStates: TheStates.success,
-                  serviceList: value,
-                  categoryName: event.categoryName,
-                ),
+          (value) {
+            emit(
+              state.copyWith(
+                theStates: TheStates.success,
+                serviceList: value,
+                categoryName: event.categoryName,
               ),
             );
+          },
+        );
       } catch (e) {
         emit(
           state.copyWith(
@@ -137,7 +138,7 @@ class CategoriesBloc extends Bloc<CategoriesEvent, CategoriesState> {
     on<SubCategoriesChanged>(
       (event, emit) {
         try {
-          for (final element in state.serviceList ?? []) {
+          for (final SubCategoryRes element in state.serviceList ?? []) {
             if (event.name == element.title) {
               emit(
                 state.copyWith(

@@ -57,7 +57,7 @@ class _SplashPageState extends State<SplashPage> {
         },
       ),
     );
-    initialFetch(context);
+    // initialFetch(context);
     super.initState();
   }
 

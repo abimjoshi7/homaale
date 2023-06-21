@@ -180,7 +180,8 @@ class TaskCard extends StatelessWidget {
                       ),
                       IconText(
                         label: count ?? '0',
-                        iconData: Icons.visibility_outlined,
+                        iconData: Icons.people,
+                        color: kColorPrimary,
                       ),
                     ],
                   ),

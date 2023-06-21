@@ -24,13 +24,6 @@ class TrendingServicesPage extends StatefulWidget {
 }
 
 class _TrendingServicesPageState extends State<TrendingServicesPage> with TheModalBottomSheet {
-  String? selectedCategoryId;
-  String? selectedLocation;
-  DateTime? dateFrom;
-  DateTime? dateTo;
-  String? category;
-  String? serviceId;
-  String? location;
   late final TaskEntityServiceBloc entityServiceBloc;
   late final ScrollController _controller;
   final payableFrom = TextEditingController();
@@ -38,8 +31,16 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
   final _categoryKey = GlobalKey<FormFieldState>();
   final _locationKey = GlobalKey<FormFieldState>();
 
+  bool isFilteredSort = false;
   String? sortBudget;
   String? sortDate;
+  String? selectedCategoryId;
+  String? selectedLocation;
+  DateTime? dateFrom;
+  DateTime? dateTo;
+  String? category;
+  String? serviceId;
+  String? location;
 
   @override
   void initState() {
@@ -227,7 +228,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               addHorizontalSpace(8),
               _buildDateSort(),
               addHorizontalSpace(8),
-              _buildClearFilters(context),
+              isFilteredSort ? _buildClearFilters(context) : SizedBox.shrink(),
             ],
           )
         ],
@@ -292,6 +293,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                     setState(() {
                       category = value as String;
                       serviceId = element.id.toString();
+                      isFilteredSort = true;
                     });
                 }
                 entityServiceBloc.add(
@@ -332,6 +334,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               onFieldSubmitted: (p0) {
                 setState(() {
                   payableFrom.text = p0!;
+                  isFilteredSort = true;
                 });
                 entityServiceBloc.add(
                   TaskEntityServiceInitiated(
@@ -372,6 +375,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               onFieldSubmitted: (p0) {
                 setState(() {
                   payableTo.text = p0!;
+                  isFilteredSort = true;
                 });
                 entityServiceBloc.add(
                   TaskEntityServiceInitiated(
@@ -413,6 +417,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
           (value) {
             setState(() {
               dateFrom = value;
+              isFilteredSort = true;
             });
             entityServiceBloc.add(
               TaskEntityServiceInitiated(
@@ -456,6 +461,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
           (value) {
             setState(() {
               dateTo = value;
+              isFilteredSort = true;
             });
 
             entityServiceBloc.add(
@@ -497,6 +503,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               : sortBudget == '-budget_to'
                   ? 'budget_to'
                   : '-budget_to';
+          isFilteredSort = true;
         });
         entityServiceBloc.add(
           TaskEntityServiceInitiated(
@@ -539,6 +546,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               : sortDate == '-created_at'
                   ? 'created_at'
                   : '-created_at';
+          isFilteredSort = true;
         });
         entityServiceBloc.add(
           TaskEntityServiceInitiated(
@@ -580,11 +588,10 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
           location = null;
           sortBudget = null;
           sortDate = null;
+          isFilteredSort = false;
         });
         entityServiceBloc.add(
-          TaskEntityServiceInitiated(
-            newFetch: true,
-          ),
+          TaskEntityServiceInitiated(newFetch: true),
         );
       },
       icon: Icon(

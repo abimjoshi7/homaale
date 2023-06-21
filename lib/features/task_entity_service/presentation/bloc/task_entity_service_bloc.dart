@@ -120,15 +120,24 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
           await repo.getSingleTaskEntityService(event.id).then(
             (value) async {
               if (CacheHelper.isLoggedIn) {
-                await repo.getApplicants(event.id).then(
-                      (applicants) => emit(
-                        state.copyWith(
-                          theStates: TheStates.success,
-                          taskEntityService: value,
-                          applicantModel: applicants,
+                if (event.isEdit == null) {
+                  await repo.getApplicants(event.id).then(
+                        (applicants) => emit(
+                          state.copyWith(
+                            theStates: TheStates.success,
+                            taskEntityService: value,
+                            applicantModel: applicants,
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                } else {
+                  emit(
+                    state.copyWith(
+                      theStates: TheStates.success,
+                      taskEntityService: value,
+                    ),
+                  );
+                }
               } else {
                 emit(
                   state.copyWith(
