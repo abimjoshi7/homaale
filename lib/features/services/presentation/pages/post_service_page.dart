@@ -487,6 +487,8 @@ class _PostServicePageState extends State<PostServicePage> {
           ),
         ),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Visibility(
               visible: isBudgetVariable,
