@@ -1,6 +1,5 @@
 import 'dart:developer';
 
-import 'package:cipher/core/app/initial_data_fetch.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
@@ -37,13 +36,16 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
       (event, emit) async {
         if (!event.newFetch && state.isLastPage) return;
         try {
-          if (event.newFetch)
-            emit(
-              state.copyWith(
-                theStates: TheStates.initial,
-              ),
-            );
+          if (event.newFetch) emit(state.copyWith(theStates: TheStates.initial));
           if (state.theStates == TheStates.initial) {
+            var orderList = <String>[];
+            if (event.budgetSort != null) {
+              orderList.add(event.budgetSort.toString());
+            }
+            if (event.dateSort != null) {
+              orderList.add(event.dateSort.toString());
+            }
+
             var taskEntityServiceModel = await repo.getTaskEntityServices(
               isTask: event.isTask,
               page: 1,
@@ -57,7 +59,7 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
               category: event.category,
               query: event.query,
               serviceId: event.serviceId,
-              order: [event.budgetSort.toString(), event.dateSort.toString()],
+              order: orderList,
             );
 
             emit(
@@ -69,6 +71,13 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
               ),
             );
           } else {
+            var orderList = <String>[];
+            if (event.budgetSort != null) {
+              orderList.add(event.budgetSort.toString());
+            }
+            if (event.dateSort != null) {
+              orderList.add(event.dateSort.toString());
+            }
             var taskEntityServiceModel = await repo.getTaskEntityServices(
               page: state.taskEntityServiceModel.current! + 1,
               isTask: event.isTask,
@@ -82,7 +91,7 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
               category: event.category,
               query: event.query,
               serviceId: event.serviceId,
-              order: [event.budgetSort.toString(), event.dateSort.toString()],
+              order: orderList,
             );
             if (taskEntityServiceModel.next == null) {
               emit(state.copyWith(isLastPage: true));

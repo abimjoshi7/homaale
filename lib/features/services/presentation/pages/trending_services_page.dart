@@ -502,9 +502,9 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               ? '-budget_to'
               : sortBudget == '-budget_to'
                   ? 'budget_to'
-                  : '-budget_to';
-          isFilteredSort = true;
+                  : '-budget_to';   isFilteredSort = true;
         });
+       
         entityServiceBloc.add(
           TaskEntityServiceInitiated(
             newFetch: true,

@@ -47,20 +47,28 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
               ),
             );
           if (state.theState == TheStates.initial) {
+            var orderList = <String>[];
+            if (event.budgetSort != null) {
+              orderList.add(event.budgetSort.toString());
+            }
+            if (event.dateSort != null) {
+              orderList.add(event.dateSort.toString());
+            }
             var taskEntityServiceModel = await _repo.getTaskEntityServices(
-                isTask: true,
-                page: 1,
-                budgetFrom: event.budgetFrom,
-                budgetTo: event.budgetTo,
-                payableFrom: event.payableFrom,
-                payableTo: event.payableTo,
-                dateFrom: event.dateFrom,
-                dateTo: event.dateTo,
-                city: event.city,
-                category: event.category,
-                query: event.query,
-                serviceId: event.serviceId,
-                order: [event.dateSort.toString(), event.budgetSort.toString()]);
+              isTask: true,
+              page: 1,
+              budgetFrom: event.budgetFrom,
+              budgetTo: event.budgetTo,
+              payableFrom: event.payableFrom,
+              payableTo: event.payableTo,
+              dateFrom: event.dateFrom,
+              dateTo: event.dateTo,
+              city: event.city,
+              category: event.category,
+              query: event.query,
+              serviceId: event.serviceId,
+              order: orderList,
+            );
             emit(
               state.copyWith(
                 theState: TheStates.success,
@@ -70,6 +78,13 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
               ),
             );
           } else {
+            var orderList = <String>[];
+            if (event.budgetSort != null) {
+              orderList.add(event.budgetSort.toString());
+            }
+            if (event.dateSort != null) {
+              orderList.add(event.dateSort.toString());
+            }
             var taskEntityServiceModel = await _repo.getTaskEntityServices(
                 page: state.taskEntityServiceModel.current! + 1,
                 isTask: true,
@@ -83,7 +98,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
                 category: event.category,
                 query: event.query,
                 serviceId: event.serviceId,
-                order: [event.dateSort.toString(), event.budgetSort.toString()]);
+                order: orderList);
             if (taskEntityServiceModel.next == null) {
               emit(
                 state.copyWith(
