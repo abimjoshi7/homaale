@@ -20,7 +20,7 @@ CreateScheduleReq _$CreateScheduleReqFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CreateScheduleReq {
-  String? get id => throw _privateConstructorUsedError;
+// String? id,
   String? get event => throw _privateConstructorUsedError;
   @JsonKey(name: "repeat_type")
   int? get repeatType => throw _privateConstructorUsedError;
@@ -47,8 +47,7 @@ abstract class $CreateScheduleReqCopyWith<$Res> {
       _$CreateScheduleReqCopyWithImpl<$Res, CreateScheduleReq>;
   @useResult
   $Res call(
-      {String? id,
-      String? event,
+      {String? event,
       @JsonKey(name: "repeat_type") int? repeatType,
       @JsonKey(name: "start_date") String? startDate,
       @JsonKey(name: "end_date") String? endDate,
@@ -70,7 +69,6 @@ class _$CreateScheduleReqCopyWithImpl<$Res, $Val extends CreateScheduleReq>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
     Object? event = freezed,
     Object? repeatType = freezed,
     Object? startDate = freezed,
@@ -80,10 +78,6 @@ class _$CreateScheduleReqCopyWithImpl<$Res, $Val extends CreateScheduleReq>
     Object? slots = freezed,
   }) {
     return _then(_value.copyWith(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
       event: freezed == event
           ? _value.event
           : event // ignore: cast_nullable_to_non_nullable
@@ -125,8 +119,7 @@ abstract class _$$_CreateScheduleReqCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {String? id,
-      String? event,
+      {String? event,
       @JsonKey(name: "repeat_type") int? repeatType,
       @JsonKey(name: "start_date") String? startDate,
       @JsonKey(name: "end_date") String? endDate,
@@ -146,7 +139,6 @@ class __$$_CreateScheduleReqCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = freezed,
     Object? event = freezed,
     Object? repeatType = freezed,
     Object? startDate = freezed,
@@ -156,10 +148,6 @@ class __$$_CreateScheduleReqCopyWithImpl<$Res>
     Object? slots = freezed,
   }) {
     return _then(_$_CreateScheduleReq(
-      id: freezed == id
-          ? _value.id
-          : id // ignore: cast_nullable_to_non_nullable
-              as String?,
       event: freezed == event
           ? _value.event
           : event // ignore: cast_nullable_to_non_nullable
@@ -196,8 +184,7 @@ class __$$_CreateScheduleReqCopyWithImpl<$Res>
 @JsonSerializable()
 class _$_CreateScheduleReq implements _CreateScheduleReq {
   const _$_CreateScheduleReq(
-      {this.id,
-      this.event,
+      {this.event,
       @JsonKey(name: "repeat_type") this.repeatType,
       @JsonKey(name: "start_date") this.startDate,
       @JsonKey(name: "end_date") this.endDate,
@@ -209,8 +196,7 @@ class _$_CreateScheduleReq implements _CreateScheduleReq {
   factory _$_CreateScheduleReq.fromJson(Map<String, dynamic> json) =>
       _$$_CreateScheduleReqFromJson(json);
 
-  @override
-  final String? id;
+// String? id,
   @override
   final String? event;
   @override
@@ -240,7 +226,7 @@ class _$_CreateScheduleReq implements _CreateScheduleReq {
 
   @override
   String toString() {
-    return 'CreateScheduleReq(id: $id, event: $event, repeatType: $repeatType, startDate: $startDate, endDate: $endDate, guestLimit: $guestLimit, isActive: $isActive, slots: $slots)';
+    return 'CreateScheduleReq(event: $event, repeatType: $repeatType, startDate: $startDate, endDate: $endDate, guestLimit: $guestLimit, isActive: $isActive, slots: $slots)';
   }
 
   @override
@@ -248,7 +234,6 @@ class _$_CreateScheduleReq implements _CreateScheduleReq {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$_CreateScheduleReq &&
-            (identical(other.id, id) || other.id == id) &&
             (identical(other.event, event) || other.event == event) &&
             (identical(other.repeatType, repeatType) ||
                 other.repeatType == repeatType) &&
@@ -266,7 +251,6 @@ class _$_CreateScheduleReq implements _CreateScheduleReq {
   @override
   int get hashCode => Object.hash(
       runtimeType,
-      id,
       event,
       repeatType,
       startDate,
@@ -292,8 +276,7 @@ class _$_CreateScheduleReq implements _CreateScheduleReq {
 
 abstract class _CreateScheduleReq implements CreateScheduleReq {
   const factory _CreateScheduleReq(
-      {final String? id,
-      final String? event,
+      {final String? event,
       @JsonKey(name: "repeat_type") final int? repeatType,
       @JsonKey(name: "start_date") final String? startDate,
       @JsonKey(name: "end_date") final String? endDate,
@@ -304,9 +287,7 @@ abstract class _CreateScheduleReq implements CreateScheduleReq {
   factory _CreateScheduleReq.fromJson(Map<String, dynamic> json) =
       _$_CreateScheduleReq.fromJson;
 
-  @override
-  String? get id;
-  @override
+  @override // String? id,
   String? get event;
   @override
   @JsonKey(name: "repeat_type")

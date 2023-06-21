@@ -1,14 +1,24 @@
-import 'package:cipher/core/mixins/mixins.dart';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/mixins/mixins.dart';
+import 'package:cipher/features/event/data/models/req/create_schedule_req.dart';
+import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
+import 'package:cipher/features/event/presentation/bloc/schedule/schedule_bloc.dart';
+import 'package:cipher/features/event/presentation/widgets/widgets.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 class ScheduleForm extends StatefulWidget {
-  const ScheduleForm({super.key});
+  final AttachType attachType;
+  const ScheduleForm({
+    Key? key,
+    required this.attachType,
+  }) : super(key: key);
 
   @override
   State<ScheduleForm> createState() => _ScheduleFormState();
@@ -24,6 +34,15 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   List<DateTime?> endSelectedDates = [];
   TextEditingController itemController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
+  final GlobalKey<FormState> _repeatkey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.attachType == AttachType.Edit) {
+      // context.read<EventBloc>().add(event)
+    }
+  }
 
   void addItem() {
     setState(() {
@@ -52,7 +71,7 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
             Align(
               alignment: Alignment.center,
               child: Text(
-                "New Schedule",
+                "${widget.attachType == AttachType.Create ? "New" : "Edit"} Schedule",
                 style: kPurpleText17,
               ),
             ),
@@ -66,7 +85,7 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
             _buildShifts(),
             _buildRepeatType(),
             addVerticalSpace(8),
-            _buildButton(),
+            _buildButton(state),
             addVerticalSpace(8),
           ],
         );
@@ -77,30 +96,34 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   CustomFormField _buildRepeatType() {
     return CustomFormField(
       label: "Repeat",
-      child: CustomDropDownField(
-        list: [
-          "None",
-          "Daily",
-          "Weekly",
-          "Custom",
-        ],
-        onChanged: (value) => setState(
-          () {
-            switch (value) {
-              case "None":
-                repeatType = 0;
-                break;
-              case "Daily":
-                repeatType = 1;
-                break;
-              case "Weekly":
-                repeatType = 2;
-                break;
-              case "Custom":
-                repeatType = 3;
-                break;
-            }
-          },
+      child: Form(
+        key: _repeatkey,
+        child: CustomDropDownField(
+          validator: (p0) => repeatType == null ? "Required Field" : null,
+          list: [
+            "None",
+            "Daily",
+            "Weekly",
+            "Custom",
+          ],
+          onChanged: (value) => setState(
+            () {
+              switch (value) {
+                case "None":
+                  repeatType = 0;
+                  break;
+                case "Daily":
+                  repeatType = 1;
+                  break;
+                case "Weekly":
+                  repeatType = 2;
+                  break;
+                case "Custom":
+                  repeatType = 3;
+                  break;
+              }
+            },
+          ),
         ),
       ),
     );
@@ -139,6 +162,7 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
                   itemCount: startDateControllers.length,
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
+                      contentPadding: EdgeInsets.zero,
                       title: Row(
                         children: [
                           Flexible(
@@ -242,12 +266,74 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
     );
   }
 
-  CustomElevatedButton _buildButton() {
-    return CustomElevatedButton(
-      label: "Save",
-      callback: () {
-        if (_key.currentState!.validate()) {}
+  Widget _buildButton(TaskEntityServiceState state) {
+    return BlocListener<ScheduleBloc, ScheduleState>(
+      listener: (context, scheduleState) {
+        if (scheduleState.isCreated == true &&
+            scheduleState.createScheduleRes != null) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: "Success",
+              content: "Schedule created successfully",
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Root.routeName,
+                  (route) => false,
+                );
+              },
+              isSuccess: true,
+            ),
+          );
+        }
+        if (scheduleState.theState == TheStates.failure &&
+            scheduleState.isCreated == false) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: "Failure",
+              content: "Schedule cannot be created",
+              onTap: () {},
+              isSuccess: false,
+            ),
+          );
+        }
       },
+      child: CustomElevatedButton(
+        label: "Save",
+        callback: () {
+          if (_key.currentState!.validate() &&
+              _repeatkey.currentState!.validate()) {
+            final List<Slot> slots = List.generate(
+              startSelectedDates.length,
+              (index) => Slot(
+                start: DateFormat.Hms().format(startSelectedDates[index]!),
+                end: DateFormat.Hms().format(endSelectedDates[index]!),
+              ),
+            );
+            final req = CreateScheduleReq(
+              // id: state.taskEntityService.id,
+              event: state.taskEntityService.event?.id,
+              startDate: DateFormat("yyyy-MM-dd")
+                  .format(state.taskEntityService.event!.start!),
+              endDate: DateFormat("yyyy-MM-dd")
+                  .format(state.taskEntityService.event!.end!),
+              repeatType: repeatType,
+              slots: slots,
+              guestLimit: context.read<EventBloc>().state.event?.guestLimit,
+              isActive: context.read<EventBloc>().state.event?.isActive,
+            );
+            print(slots);
+            print(req);
+            context.read<ScheduleBloc>().add(
+                  ScheduleEventPosted(
+                    createScheduleReq: req,
+                  ),
+                );
+          }
+        },
+      ),
     );
   }
 

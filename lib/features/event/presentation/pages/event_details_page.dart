@@ -123,7 +123,9 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
         onTap: () {
           showCustomBottomSheet(
             context: context,
-            widget: ScheduleForm(),
+            widget: ScheduleForm(
+              attachType: AttachType.Create,
+            ),
           );
         },
         child: Text(
@@ -147,7 +149,7 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                   8,
                 ),
               ),
-              height: 80,
+              height: 90,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
@@ -169,13 +171,53 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
-                                  "${state.event?.allShifts?.first.slots?[index].start?.substring(0, 5) ?? ""} - ${state.event?.allShifts?.first.slots?[index].end?.substring(0, 5) ?? ""}",
-                                  style: kHelper13,
+                                // InkWell(
+                                //   onTap: () {
+                                //     print(123);
+                                //     print(state.event);
+                                //   },
+                                //   child: Text(
+                                //     "asd",
+                                //     // "${state.event?.allShifts?.first.slots?[index].start} - ${state.event?.allShifts?.first.slots?[index].end}",
+                                //     // "${state.event?.allShifts?.first.slots?[index].start?.substring(0, 5) ?? ""} - ${state.event?.allShifts?.first.slots?[index].end?.substring(0, 5) ?? ""}",
+                                //     style: kHelper13,
+                                //   ),
+                                // ),
+                                Text.rich(
+                                  TextSpan(
+                                    text: "Start: ",
+                                    style: TextStyle(
+                                      color: Colors.green,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: DateFormat.yMMMMd().format(
+                                          state.event!.start!,
+                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                    ],
+                                  ),
                                 ),
-                                AutoSizeText(
-                                  '${state.event?.allShifts?[index].date?.year}-${state.event?.allShifts?[index].date?.month}-${state.event?.allShifts?[index].date?.day}',
-                                  style: kHelper13,
+                                Text.rich(
+                                  TextSpan(
+                                    text: "End:   ",
+                                    style: TextStyle(
+                                      color: Colors.red,
+                                    ),
+                                    children: [
+                                      TextSpan(
+                                        text: DateFormat.yMMMMd().format(
+                                          state.event!.end!,
+                                        ),
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodySmall,
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
                             ),
@@ -196,20 +238,28 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   ListTile(
-                                    onTap: () {},
+                                    onTap: () {
+                                      Navigator.pop(context);
+                                      showCustomBottomSheet(
+                                        context: context,
+                                        widget: ScheduleForm(
+                                          attachType: AttachType.Edit,
+                                        ),
+                                      );
+                                    },
                                     leading: Icon(
                                       Icons.update_outlined,
                                     ),
-                                    title: Text("Update"),
+                                    title: Text("Edit"),
                                   ),
-                                  Divider(),
-                                  ListTile(
-                                    onTap: () {},
-                                    leading: Icon(
-                                      Icons.filter_none_rounded,
-                                    ),
-                                    title: Text("Duplicate"),
-                                  ),
+                                  // Divider(),
+                                  // ListTile(
+                                  //   onTap: () {},
+                                  //   leading: Icon(
+                                  //     Icons.filter_none_rounded,
+                                  //   ),
+                                  //   title: Text("Duplicate"),
+                                  // ),
                                   Divider(),
                                   ListTile(
                                     onTap: () {
@@ -237,11 +287,25 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                         SizedBox(
                           height: 30,
                           width: 30,
-                          child: Switch(
-                            value: false,
-                            onChanged: (value) {
-                              print(state.event);
-                              print(state.event?.allShifts?.length);
+                          child: BlocBuilder<EventBloc, EventState>(
+                            builder: (context, state) {
+                              return Switch(
+                                value: state.event?.isActive ?? false,
+                                onChanged: (value) {
+                                  context.read<EventBloc>().add(
+                                        EventEdited(
+                                          id: state.event?.id ?? "",
+                                          data: {
+                                            "is_active":
+                                                !state.event!.isActive!,
+                                          },
+                                        ),
+                                      );
+
+                                  print(state.event);
+                                  print(state.event?.allShifts?.length);
+                                },
+                              );
                             },
                           ),
                         )

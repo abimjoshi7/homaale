@@ -21,6 +21,7 @@ import 'package:cipher/features/content_client/presentation/cubit/privacy_policy
 import 'package:cipher/features/content_client/presentation/cubit/terms_of_use/terms_of_use_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
+import 'package:cipher/features/event/presentation/bloc/schedule/schedule_bloc.dart';
 import 'package:cipher/features/google_maps/presentation/bloc/nearby_task_entity_service_bloc/nearby_task_entity_service_bloc.dart';
 import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
@@ -137,6 +138,7 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => locator<TaskerCubit>()),
           BlocProvider(create: (context) => locator<NotificationBloc>()),
           BlocProvider(create: (context) => EventBloc()),
+          BlocProvider(create: (context) => ScheduleBloc()),
           BlocProvider(create: (context) => locator<PaymentBloc>()),
           BlocProvider(create: (context) => locator<PaymentTypeBloc>()),
           BlocProvider(create: (context) => OrderItemListBloc()),
