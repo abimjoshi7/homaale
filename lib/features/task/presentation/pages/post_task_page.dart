@@ -15,6 +15,7 @@ import 'package:cipher/features/task_entity_service/presentation/bloc/task_entit
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:flutter/services.dart';
 
 class PostTaskPage extends StatefulWidget {
   static const routeName = '/post-task-page';
@@ -492,34 +493,56 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
             ],
           ),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Visibility(
                 visible: isBudgetVariable,
                 child: Expanded(
-                  flex: 2,
-                  child: NumberIncDecField(
-                    controller: startPriceController,
+                  flex: isBudgetVariable ? 1 : 2,
+                  child: CustomTextFormField(
+                    textInputType:
+                        TextInputType.numberWithOptions(decimal: true),
                     validator: (p0) {
-                      if (isBudgetVariable) {
-                        return p0 == null || p0.isEmpty
-                            ? "Required Field"
-                            : null;
+                      if (!isBudgetVariable) return null;
+                      if (p0 == null || p0.isEmpty) {
+                        return "Required Field";
+                      }
+                      if (p0.isEmpty) return null;
+                      if (int.parse(p0) < 10) {
+                        return "Budget Cannot Be Less Than 10";
+                      }
+                      if (p0 == endPriceController.text) {
+                        return "Invalid Range";
+                      }
+                      if (endPriceController.text.isNotEmpty) {
+                        if (int.parse(p0) >
+                            int.parse(endPriceController.text)) {
+                          return "Cannot be more than End budget";
+                        }
                       }
                       return null;
                     },
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    controller: startPriceController,
+                    style: Theme.of(context).textTheme.displayLarge,
                     onChanged: (value) => setState(
                       () {
                         if (startPriceController.text.isNotEmpty)
                           budgetFrom = getRecievableAmount(
-                            double.parse(startPriceController.text),
-                            double.parse(context
-                                    .read<CategoriesBloc>()
-                                    .state
-                                    .commission ??
-                                "0.0"),
+                            int.parse(startPriceController.text).toDouble(),
+                            int.parse(context
+                                        .read<CategoriesBloc>()
+                                        .state
+                                        .commission ??
+                                    "0")
+                                .toDouble(),
                           );
                       },
                     ),
+                    suffixWidget: budgetIncrementIcon(startPriceController),
                   ),
                 ),
               ),
@@ -528,6 +551,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
+                    vertical: 10.0,
                   ),
                   child: const Text(
                     "-",
@@ -535,22 +559,53 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 ),
               ),
               Expanded(
-                flex: 2,
-                child: NumberIncDecField(
-                  validator: (p0) =>
-                      p0 == null || p0.isEmpty ? "Required" : null,
+                flex: isBudgetVariable ? 1 : 2,
+                child: CustomTextFormField(
+                  errorMaxLines: 3,
+                  errorStyle: TextStyle(),
+                  textInputType: TextInputType.numberWithOptions(decimal: true),
+                  validator: (p0) {
+                    if (p0 == null || p0.isEmpty) {
+                      return "Required Field";
+                    }
+                    if (p0.isEmpty) ;
+                    if (int.parse(p0) < 10) {
+                      return "Budget Cannot Be Less Than 10";
+                    }
+                    if (isBudgetVariable &&
+                        startPriceController.text.isNotEmpty) {
+                      if (p0 == startPriceController.text) {
+                        return "Invalid Range";
+                      }
+                      if (int.parse(p0) <
+                          int.parse(startPriceController.text)) {
+                        return "Cannot be less than Start budget";
+                      }
+                    }
+
+                    return null;
+                  },
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
                   controller: endPriceController,
-                  onChanged: (value) => setState(
-                    () {
-                      if (endPriceController.text.isNotEmpty)
-                        budgetTo = getRecievableAmount(
-                          double.parse(endPriceController.text),
-                          double.parse(
-                              context.read<CategoriesBloc>().state.commission ??
-                                  "0.0"),
-                        );
-                    },
-                  ),
+                  style: Theme.of(context).textTheme.displayLarge,
+                  onChanged: (p0) {
+                    setState(
+                      () {
+                        if (endPriceController.text.isNotEmpty)
+                          budgetTo = getRecievableAmount(
+                            double.parse(endPriceController.text),
+                            double.parse(context
+                                    .read<CategoriesBloc>()
+                                    .state
+                                    .commission ??
+                                "0.0"),
+                          );
+                      },
+                    );
+                  },
+                  suffixWidget: budgetIncrementIcon(endPriceController),
                 ),
               ),
               Flexible(
@@ -577,6 +632,54 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 ),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding budgetIncrementIcon(TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 5.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          InkWell(
+            child: const Icon(
+              Icons.keyboard_arrow_up_rounded,
+              size: 18,
+              color: kColorGrey,
+            ),
+            onTap: () {
+              int currentValue = int.parse(controller.text);
+              setState(
+                () {
+                  currentValue++;
+                  controller
+                      .setText((currentValue).toString()); // incrementing value
+                },
+              );
+            },
+          ),
+          InkWell(
+            child: const Icon(
+              Icons.keyboard_arrow_down_rounded,
+              size: 18,
+              color: kColorGrey,
+            ),
+            onTap: () {
+              int currentValue = int.parse(
+                controller.text,
+              );
+              setState(
+                () {
+                  currentValue--;
+                  controller.setText((currentValue > 0 ? currentValue : 0)
+                      .toString()); // decrementing value
+                },
+              );
+            },
           ),
         ],
       ),
