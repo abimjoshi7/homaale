@@ -63,7 +63,6 @@ class CustomTextFormField extends StatelessWidget {
       autofocus: autofocus ?? false,
       initialValue: value,
       autovalidateMode: autoValidateMode,
-
       style: Theme.of(context).textTheme.bodySmall,
       readOnly: readOnly ?? false,
       focusNode: node,
@@ -89,6 +88,7 @@ class CustomTextFormField extends StatelessWidget {
         ),
         hintText: hintText,
         hintStyle: hintStyle ?? Theme.of(context).textTheme.displaySmall,
+        errorMaxLines: 2,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xffDEE2E6)),
           borderRadius: BorderRadius.circular(8),
@@ -103,7 +103,6 @@ class CustomTextFormField extends StatelessWidget {
         ),
         prefixIcon: prefixWidget,
         suffixIcon: suffixWidget,
-
       ),
     );
   }

@@ -726,77 +726,94 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
           CustomFormField(
             label: "Select Time",
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Flexible(
-                  child: InkWell(
+                  child: CustomTextFormField(
+                    readOnly: true,
+                    validator: (p0) {
+                      if (startTime == null) {
+                        return ("Required Field");
+                      }
+                      if (startTime == null || endTime == null) ;
+                      if (startTime!.isAtSameMomentAs(endTime!)) {
+                        return ("Both Times Cannot be same.");
+                      }
+                      if (startTime!.isAfter(endTime!)) {
+                        return ("Start time cannot be after End time.");
+                      }
+                      return null;
+                    },
                     onTap: () async {
                       await showCustomBottomSheet(
                         context: context,
                         widget: SizedBox.fromSize(
                           size: Size.fromHeight(250),
                           child: CupertinoDatePicker(
+                            minuteInterval: 15,
+                            initialDateTime: startTime ?? DateTime.now(),
                             mode: CupertinoDatePickerMode.time,
                             onDateTimeChanged: (value) => setState(
-                              () {
-                                startTime = value;
-                              },
+                              () => startTime = value,
                             ),
                           ),
                         ),
                       );
-                      // await showTimePicker(
-                      //   context: context,
-                      //   initialTime: TimeOfDay.now(),
-                      // ).then(
-                      //   (value) => setState(
-                      //     () {
-                      //       startTime = value;
-                      //     },
-                      //   ),
-                      // );
                     },
-                    child: CustomFormContainer(
-                      hintText: startTime != null
-                          ? DateFormat.jm().format(startTime!)
-                          : 'hh:mm:ss',
-                    ),
+                    hintText: startTime != null
+                        ? DateFormat.jm().format(startTime!)
+                        : 'hh:mm:ss',
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Colors.grey.shade700),
                   ),
                 ),
-                const Text(' - '),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: const Text(' - '),
+                ),
                 Flexible(
-                  child: InkWell(
+                  child: CustomTextFormField(
+                    readOnly: true,
+                    autoValidateMode: AutovalidateMode.onUserInteraction,
+                    validator: (p0) {
+                      if (endTime == null) {
+                        return ("Required Field");
+                      }
+                      if (startTime == null || endTime == null) ;
+                      if (endTime!.isAtSameMomentAs(startTime!)) {
+                        return ("Both times cannot be same.");
+                      }
+                      if (endTime!.isBefore(endTime!)) {
+                        return ("End time cannot be before Start time.");
+                      }
+                      return null;
+                    },
                     onTap: () async {
                       await showCustomBottomSheet(
                         context: context,
                         widget: SizedBox.fromSize(
                           size: Size.fromHeight(250),
                           child: CupertinoDatePicker(
+                            minuteInterval: 15,
+                            initialDateTime: endTime ?? DateTime.now(),
                             mode: CupertinoDatePickerMode.time,
                             onDateTimeChanged: (value) => setState(
-                              () {
-                                endTime = value;
-                              },
+                              () => endTime = value,
                             ),
                           ),
                         ),
                       );
-
-                      // await showTimePicker(
-                      //   context: context,
-                      //   initialTime: TimeOfDay.now(),
-                      // ).then(
-                      //   (value) => setState(
-                      //     () {
-                      //       endTime = value;
-                      //     },
-                      //   ),
-                      // );
                     },
-                    child: CustomFormContainer(
-                      hintText: endTime != null
-                          ? DateFormat.jm().format(endTime!)
-                          : 'hh:mm:ss',
-                    ),
+                    hintText: endTime != null
+                        ? DateFormat.jm().format(endTime!)
+                        : 'hh:mm:ss',
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Colors.grey.shade700),
                   ),
                 ),
                 IconButton(
