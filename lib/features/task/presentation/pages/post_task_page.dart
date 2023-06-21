@@ -554,7 +554,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                     vertical: 10.0,
                   ),
                   child: const Text(
-                    "-",
+                    "To",
                   ),
                 ),
               ),
@@ -595,12 +595,13 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                       () {
                         if (endPriceController.text.isNotEmpty)
                           budgetTo = getRecievableAmount(
-                            double.parse(endPriceController.text),
-                            double.parse(context
-                                    .read<CategoriesBloc>()
-                                    .state
-                                    .commission ??
-                                "0.0"),
+                            int.parse(endPriceController.text).toDouble(),
+                            int.parse(context
+                                        .read<CategoriesBloc>()
+                                        .state
+                                        .commission ??
+                                    "0")
+                                .toDouble(),
                           );
                       },
                     );
@@ -829,7 +830,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
           CustomFormField(
             label: "Select Time",
             child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Flexible(
@@ -854,8 +855,8 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                         widget: SizedBox.fromSize(
                           size: Size.fromHeight(250),
                           child: CupertinoDatePicker(
-                            minuteInterval: 15,
-                            initialDateTime: startTime ?? DateTime.now(),
+                            initialDateTime:
+                                startTime != null ? startTime : DateTime.now(),
                             mode: CupertinoDatePickerMode.time,
                             onDateTimeChanged: (value) => setState(
                               () => startTime = value,
@@ -900,7 +901,6 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                         widget: SizedBox.fromSize(
                           size: Size.fromHeight(250),
                           child: CupertinoDatePicker(
-                            minuteInterval: 15,
                             initialDateTime: endTime ?? DateTime.now(),
                             mode: CupertinoDatePickerMode.time,
                             onDateTimeChanged: (value) => setState(
