@@ -138,14 +138,23 @@ class _TasksRecommendationSectionState
                                         ?.id
                                 ? 'View Details'
                                 : 'Apply Now',
-                            startRate: '${state.taskEntityServiceModel.result?[index].budgetFrom ?? 0}',
-                            endRate: '${state.taskEntityServiceModel.result?[index].budgetTo ?? 0}',
-                            budgetType: '${state.taskEntityServiceModel.result?[index].budgetType}',
-                            count: state.taskEntityServiceModel.result?[index].count.toString(),
-                            imageUrl:
-                                state.taskEntityServiceModel.result?[index].createdBy?.profileImage ?? kHomaaleImg,
-                            createdByName: '${state.taskEntityServiceModel.result?[index].createdBy?.fullName}',
-                            location: state.taskEntityServiceModel.result?[index].location == ''
+                            startRate:
+                                '${state.taskEntityServiceModel.result?[index].budgetFrom ?? 0}',
+                            endRate:
+                                '${state.taskEntityServiceModel.result?[index].budgetTo ?? 0}',
+                            budgetType:
+                                '${state.taskEntityServiceModel.result?[index].budgetType}',
+                            count: state
+                                .taskEntityServiceModel.result?[index].count
+                                .toString(),
+                            imageUrl: state.taskEntityServiceModel
+                                    .result?[index].createdBy?.profileImage ??
+                                kHomaaleImg,
+                            createdByName:
+                                '${state.taskEntityServiceModel.result?[index].createdBy?.fullName}',
+                            location: state.taskEntityServiceModel
+                                        .result?[index].location ==
+                                    ''
                                 ? 'Remote'
                                 : state.taskEntityServiceModel.result?[index]
                                     .location,
@@ -162,6 +171,10 @@ class _TasksRecommendationSectionState
                             taskName: state
                                 .taskEntityServiceModel.result?[index].title,
                             editCallback: () {
+                              if (CacheHelper.isLoggedIn == false) {
+                                notLoggedInPopUp(context);
+                              }
+                              if (CacheHelper.isLoggedIn == false) return;
                               showModalBottomSheet(
                                 context: context,
                                 isScrollControlled: true,

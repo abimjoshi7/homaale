@@ -41,6 +41,8 @@ class _CustomFavoriteIconState extends State<CustomFavoriteIcon> {
                   if (!CacheHelper.isLoggedIn) {
                     notLoggedInPopUp(context);
                   }
+                  if (!CacheHelper.isLoggedIn) return;
+
                   context.read<SavedBloc>().add(
                         SavedAdded(
                           savedAddReq: SavedAddReq(
@@ -56,14 +58,17 @@ class _CustomFavoriteIconState extends State<CustomFavoriteIcon> {
                 ),
               );
             case TheStates.loading:
-              return context.watch<SavedBloc>().state.idToBeSaved == widget.typeID
+              return context.watch<SavedBloc>().state.idToBeSaved ==
+                      widget.typeID
                   ? SizedBox(
                       height: 15,
                       width: 20,
                       child: CircularProgressIndicator(strokeWidth: 1),
                     )
                   : Icon(
-                      widget.isBookmarked ? Icons.bookmark : Icons.bookmark_outline,
+                      widget.isBookmarked
+                          ? Icons.bookmark
+                          : Icons.bookmark_outline,
                       color: Colors.red,
                     );
             case TheStates.success:
@@ -82,7 +87,9 @@ class _CustomFavoriteIconState extends State<CustomFavoriteIcon> {
                       );
                 },
                 child: Icon(
-                  state.savedAddRes?.status == 'add' ? Icons.bookmark : Icons.bookmark_border_outlined,
+                  state.savedAddRes?.status == 'add'
+                      ? Icons.bookmark
+                      : Icons.bookmark_border_outlined,
                   color: Colors.red,
                 ),
               );

@@ -10,6 +10,7 @@ class CustomTextFormField extends StatelessWidget {
     this.theHeight = 50,
     this.theWidth,
     this.hintText = '',
+    this.style,
     this.hintStyle,
     this.prefixWidget,
     this.suffixWidget,
@@ -27,15 +28,18 @@ class CustomTextFormField extends StatelessWidget {
     this.controller,
     this.node,
     this.inputFormatters,
-    this.icon,
-    this.autoValidateMode = AutovalidateMode.onUserInteraction,
     this.inputAction = TextInputAction.next,
+    this.autoValidateMode = AutovalidateMode.onUserInteraction,
+    this.icon,
+    this.errorMaxLines,
+    this.errorStyle,
   }) : super(key: key);
   final bool? autofocus;
   final bool? readOnly;
   final double theHeight;
   final double? theWidth;
   final String hintText;
+  final TextStyle? style;
   final TextStyle? hintStyle;
   final Widget? prefixWidget;
   final Widget? suffixWidget;
@@ -56,6 +60,8 @@ class CustomTextFormField extends StatelessWidget {
   final TextInputAction? inputAction;
   final AutovalidateMode autoValidateMode;
   final Widget? icon;
+  final int? errorMaxLines;
+  final TextStyle? errorStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -63,8 +69,7 @@ class CustomTextFormField extends StatelessWidget {
       autofocus: autofocus ?? false,
       initialValue: value,
       autovalidateMode: autoValidateMode,
-
-      style: Theme.of(context).textTheme.bodySmall,
+      style: style ?? Theme.of(context).textTheme.bodySmall,
       readOnly: readOnly ?? false,
       focusNode: node,
       controller: controller,
@@ -89,6 +94,8 @@ class CustomTextFormField extends StatelessWidget {
         ),
         hintText: hintText,
         hintStyle: hintStyle ?? Theme.of(context).textTheme.displaySmall,
+        errorMaxLines: errorMaxLines ?? 3,
+        errorStyle: errorStyle,
         enabledBorder: OutlineInputBorder(
           borderSide: const BorderSide(color: Color(0xffDEE2E6)),
           borderRadius: BorderRadius.circular(8),
@@ -103,7 +110,6 @@ class CustomTextFormField extends StatelessWidget {
         ),
         prefixIcon: prefixWidget,
         suffixIcon: suffixWidget,
-
       ),
     );
   }

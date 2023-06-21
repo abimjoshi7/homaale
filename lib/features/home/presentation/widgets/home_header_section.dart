@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/user_location_constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/account_view.dart';
 import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
 import 'package:cipher/features/home/presentation/pages/home.dart';
@@ -15,7 +14,6 @@ import 'package:cipher/features/user_location/presentation/choose_location_page.
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../wallet/presentation/bloc/wallet_bloc.dart';
 
@@ -81,6 +79,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       if (value == LocationPermission.always ||
                           value == LocationPermission.whileInUse) {
                         if (!mounted) return;
+                        context.read<UserLocationCubit>().removeTempLocation();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -102,8 +101,11 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     ),
                     BlocBuilder<UserLocationCubit, UserLocationState>(
                       builder: (_, state) {
-                        return SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.55,
+                        return ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: 20.0,
+                            maxWidth: MediaQuery.of(context).size.width * 0.55,
+                          ),
                           child: AutoSizeText(
                             state.address ?? 'Click to access location',
                             overflow: TextOverflow.ellipsis,
@@ -119,7 +121,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     const Icon(
                       Icons.arrow_drop_down,
                       color: Colors.white,
-                      size: 14,
+                      size: 16,
                     )
                   ],
                 ),
@@ -164,7 +166,6 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     leading: InkWell(
                       onTap: () {
                         if (CacheHelper.isLoggedIn) {
-                          log(CacheHelper.accessToken ?? "");
                           context.read<WalletBloc>().add(WalletLoaded());
                           Navigator.pushNamed(
                             context,

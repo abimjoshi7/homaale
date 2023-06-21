@@ -54,6 +54,7 @@ import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/skills/skills_bloc.dart';
 import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/locator.dart';
+import 'package:cipher/main.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../features/booking_cancel/presentation/bloc/booking_cancel_bloc.dart';

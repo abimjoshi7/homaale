@@ -32,3 +32,8 @@ class UserDeleted extends UserEvent {
   @override
   List<Object?> get props => [];
 }
+
+class UserCleared extends UserEvent {
+  @override
+  List<Object?> get props => [];
+}

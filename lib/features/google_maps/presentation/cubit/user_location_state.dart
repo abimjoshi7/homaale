@@ -13,6 +13,18 @@ class UserLocationState extends Equatable {
     this.tempLocation,
   });
 
+  UserLocationState remove({
+    TheStates? theStates,
+    LatLng? location,
+    String? address,
+  }) {
+    return UserLocationState(
+     theStates: theStates ?? this.theStates,
+      location: location ?? this.location,
+      address: address ?? this.address,
+    );
+  }
+
   UserLocationState copyWith({
     TheStates? theStates,
     LatLng? location,
