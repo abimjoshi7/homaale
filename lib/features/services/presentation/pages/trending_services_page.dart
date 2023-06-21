@@ -141,7 +141,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                           imagePath: state.taskEntityServices?[index].images?.length == 0
                               ? kHomaaleImg
                               : state.taskEntityServices?[index].images?.first.media,
-                          rating: state.taskEntityServices?[index].rating?.toString(),
+                          rating: state.taskEntityServiceModel.result?[index].rating?.toString() ?? '0.0',
                           createdBy:
                               "${state.taskEntityServices?[index].createdBy?.firstName} ${state.taskEntityServices?[index].createdBy?.lastName}",
                           description: state.taskEntityServices?[index].description,
@@ -245,7 +245,9 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
           if (state is CityLoadSuccess)
             return CustomDropdownSearch(
               key: _locationKey,
-              hintText: location ?? "Location",
+              selectedItem: location,
+              hintText: "Location",
+              serviceId: location,
               list: List.generate(
                 state.list.length,
                 (index) => state.list[index].name,
@@ -266,6 +268,24 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                   budgetSort: sortBudget,
                 ));
               },
+              onRemovePressed: () {
+                setState(() {
+                  location = null;
+                  isFilteredSort = false;
+                });
+                entityServiceBloc.add(TaskEntityServiceInitiated(
+                  newFetch: true,
+                  payableFrom: payableFrom.text.isEmpty ? null : payableFrom.text,
+                  payableTo: payableTo.text.isEmpty ? null : payableTo.text,
+                  dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                  dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                  city: location,
+                  category: category,
+                  serviceId: serviceId,
+                  dateSort: sortDate,
+                  budgetSort: sortBudget,
+                ));
+              },
             );
           return SizedBox.shrink();
         },
@@ -282,7 +302,9 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
           if (state.theStates == TheStates.success)
             return CustomDropdownSearch(
               key: _categoryKey,
-              hintText: category ?? "Category",
+              selectedItem: category,
+              hintText: "Category",
+              serviceId: '',
               list: List.generate(
                 state.serviceList!.length,
                 (index) => state.serviceList?[index].title ?? "",
@@ -309,6 +331,25 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                     budgetSort: sortBudget,
                   ),
                 );
+              },
+              onRemovePressed: () {
+                setState(() {
+                  category = null;
+                  serviceId = null;
+                  isFilteredSort = false;
+                });
+                entityServiceBloc.add(TaskEntityServiceInitiated(
+                  newFetch: true,
+                  payableFrom: payableFrom.text.isEmpty ? null : payableFrom.text,
+                  payableTo: payableTo.text.isEmpty ? null : payableTo.text,
+                  dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                  dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                  city: location,
+                  category: category,
+                  serviceId: serviceId,
+                  dateSort: sortDate,
+                  budgetSort: sortBudget,
+                ));
               },
             );
           return SizedBox.shrink();
@@ -502,9 +543,10 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               ? '-budget_to'
               : sortBudget == '-budget_to'
                   ? 'budget_to'
-                  : '-budget_to';   isFilteredSort = true;
+                  : '-budget_to';
+          isFilteredSort = true;
         });
-       
+
         entityServiceBloc.add(
           TaskEntityServiceInitiated(
             newFetch: true,
