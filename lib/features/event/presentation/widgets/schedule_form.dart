@@ -4,7 +4,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/features/event/presentation/widgets/the_slot_maker.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 
@@ -18,17 +17,31 @@ class ScheduleForm extends StatefulWidget {
 class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   DateTime? startDate;
   DateTime? endDate;
-  DateTime? startTime;
-  DateTime? endTime;
   int? repeatType;
-  List<DateTime?> _timeSlots = [];
-  List<TheSlotMaker> _theSlotMaker = [];
-  int widgetcount = 0;
-  List<Map<int, dynamic>> test = [];
+  List<TextEditingController> startDateControllers = [];
+  List<TextEditingController> endDateControllers = [];
+  List<DateTime?> startSelectedDates = [];
+  List<DateTime?> endSelectedDates = [];
+  TextEditingController itemController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
 
-  void addToList(DateTime date, int index) =>
-      setState(() => _timeSlots[index] = date);
+  void addItem() {
+    setState(() {
+      startDateControllers.add(TextEditingController());
+      endDateControllers.add(TextEditingController());
+      startSelectedDates.add(null);
+      endSelectedDates.add(null);
+    });
+  }
+
+  void deleteItem(int index) {
+    setState(() {
+      startDateControllers.removeAt(index);
+      endDateControllers.removeAt(index);
+      startSelectedDates.removeAt(index);
+      endSelectedDates.removeAt(index);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -50,68 +63,8 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
             addVerticalSpace(
               8,
             ),
-            CustomFormField(
-              label: "Shifts",
-              rightSection: InkWell(
-                  onTap: () async {
-                    setState(
-                      () {
-                        widgetcount++;
-                        _timeSlots.add(null);
-                      },
-                    );
-                  },
-                  child: Text(
-                    "+Add",
-                    style: kLightBlueText14,
-                  )),
-              child: Form(
-                key: _key,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: List.generate(
-                    widgetcount,
-                    (index) {
-                      return TheSlotMaker(
-                        showClear: _theSlotMaker.length == 1 ? false : true,
-                        clearCallback: () {},
-                        addToList: addToList,
-                        index: index,
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ),
-            CustomFormField(
-              label: "Repeat",
-              child: CustomDropDownField(
-                list: [
-                  "None",
-                  "Daily",
-                  "Weekly",
-                  "Custom",
-                ],
-                onChanged: (value) => setState(
-                  () {
-                    switch (value) {
-                      case "None":
-                        repeatType = 0;
-                        break;
-                      case "Daily":
-                        repeatType = 1;
-                        break;
-                      case "Weekly":
-                        repeatType = 2;
-                        break;
-                      case "Custom":
-                        repeatType = 3;
-                        break;
-                    }
-                  },
-                ),
-              ),
-            ),
+            _buildShifts(),
+            _buildRepeatType(),
             addVerticalSpace(8),
             _buildButton(),
             addVerticalSpace(8),
@@ -121,14 +74,179 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
     );
   }
 
+  CustomFormField _buildRepeatType() {
+    return CustomFormField(
+      label: "Repeat",
+      child: CustomDropDownField(
+        list: [
+          "None",
+          "Daily",
+          "Weekly",
+          "Custom",
+        ],
+        onChanged: (value) => setState(
+          () {
+            switch (value) {
+              case "None":
+                repeatType = 0;
+                break;
+              case "Daily":
+                repeatType = 1;
+                break;
+              case "Weekly":
+                repeatType = 2;
+                break;
+              case "Custom":
+                repeatType = 3;
+                break;
+            }
+          },
+        ),
+      ),
+    );
+  }
+
+  Widget _buildShifts() {
+    return Form(
+      key: _key,
+      child: ConstrainedBox(
+        constraints: BoxConstraints.loose(
+          Size(
+            double.maxFinite,
+            600,
+          ),
+        ),
+        child: CustomFormField(
+          label: "Shifts",
+          rightSection: InkWell(
+            onTap: addItem,
+            child: Text(
+              "+Add",
+              style: kLightBlueText14,
+            ),
+          ),
+          child: Column(
+            children: <Widget>[
+              ConstrainedBox(
+                constraints: BoxConstraints.loose(
+                  Size(
+                    double.maxFinite,
+                    600,
+                  ),
+                ),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: startDateControllers.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return ListTile(
+                      title: Row(
+                        children: [
+                          Flexible(
+                            child: CustomTextFormField(
+                              validator: (p0) =>
+                                  startDateControllers[index].text.isEmpty
+                                      ? "Required Field"
+                                      : null,
+                              hintText: "Start Time",
+                              hintStyle: Theme.of(context).textTheme.bodyMedium,
+                              readOnly: true,
+                              controller: startDateControllers[index],
+                              onTap: () async {
+                                DateTime? selectedDate;
+                                await showCustomBottomSheet(
+                                  context: context,
+                                  widget: SizedBox(
+                                    height: 200,
+                                    child: CupertinoDatePicker(
+                                      mode: CupertinoDatePickerMode.time,
+                                      onDateTimeChanged: (value) {
+                                        setState(() {
+                                          selectedDate = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                );
+
+                                if (selectedDate != null) {
+                                  setState(() {
+                                    startSelectedDates[index] = selectedDate;
+                                    startDateControllers[index].text =
+                                        DateFormat.Hms().format(selectedDate!);
+                                  });
+                                }
+                              },
+                            ),
+                          ),
+                          addHorizontalSpace(
+                            8,
+                          ),
+                          Flexible(
+                            child: CustomTextFormField(
+                              validator: (p0) =>
+                                  endDateControllers[index].text.isEmpty
+                                      ? "Required Field"
+                                      : null,
+                              hintText: "End Time",
+                              hintStyle: Theme.of(context).textTheme.bodyMedium,
+                              readOnly: true,
+                              controller: endDateControllers[index],
+                              onTap: () async {
+                                DateTime? selectedDate;
+                                await showCustomBottomSheet(
+                                  context: context,
+                                  widget: SizedBox(
+                                    height: 200,
+                                    child: CupertinoDatePicker(
+                                      mode: CupertinoDatePickerMode.time,
+                                      onDateTimeChanged: (value) {
+                                        setState(() {
+                                          selectedDate = value;
+                                        });
+                                      },
+                                    ),
+                                  ),
+                                );
+
+                                if (selectedDate != null) {
+                                  setState(() {
+                                    endSelectedDates[index] = selectedDate;
+                                    endDateControllers[index].text =
+                                        DateFormat.Hms().format(selectedDate!);
+                                  });
+                                }
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.delete),
+                            onPressed: () {
+                              deleteItem(index);
+                            },
+                          ),
+                        ],
+                      ),
+                    );
+                  },
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
   CustomElevatedButton _buildButton() {
     return CustomElevatedButton(
       label: "Save",
       callback: () {
-        print("time" + _timeSlots.toString());
-        if (_key.currentState!.validate()) {
-          print("validated!");
-        }
+        if (_key.currentState!.validate()) {}
       },
     );
   }

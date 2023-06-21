@@ -14,15 +14,15 @@ class TimeSlot {
   String toString() =>
       'TimeSlot(index: $index, startTime: $startTime, endTime: $endTime)';
 
-  @override
-  bool operator ==(covariant TimeSlot other) {
-    if (identical(this, other)) return true;
-
-    return other.index == index &&
-        other.startTime == startTime &&
-        other.endTime == endTime;
+  TimeSlot copyWith({
+    int? index,
+    DateTime? startTime,
+    DateTime? endTime,
+  }) {
+    return TimeSlot(
+      index: index ?? this.index,
+      startTime: startTime ?? this.startTime,
+      endTime: endTime ?? this.endTime,
+    );
   }
-
-  @override
-  int get hashCode => index.hashCode ^ startTime.hashCode ^ endTime.hashCode;
 }
