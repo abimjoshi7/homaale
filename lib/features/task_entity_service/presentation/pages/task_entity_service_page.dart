@@ -112,12 +112,12 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
           final List<tes.Image> mediaList = [
-            ...state.taskEntityService?.images ?? [],
-            ...state.taskEntityService?.videos ?? [],
+            ...state.taskEntityService.images ?? [],
+            ...state.taskEntityService.videos ?? [],
           ];
           return Scaffold(
             appBar: CustomAppBar(
-                appBarTitle: state.taskEntityService?.title ?? '',
+                appBarTitle: state.taskEntityService.title ?? '',
                 trailingWidget: SizedBox()),
             body: Column(
               children: [
@@ -126,7 +126,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                     onRefresh: () async {
                       context.read<TaskEntityServiceBloc>().add(
                             TaskEntityServiceSingleLoaded(
-                              id: state.taskEntityService?.id ?? '',
+                              id: state.taskEntityService.id ?? '',
                             ),
                           );
                     },
@@ -135,29 +135,28 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                       children: [
                         ProfileDetailSection(state: state),
                         EventSection(
-                          taskEntityService: state.taskEntityService ??
-                              tes.TaskEntityService(),
+                          taskEntityService: state.taskEntityService ,
                         ),
-                        if (state.taskEntityService?.highlights?.isNotEmpty ??
+                        if (state.taskEntityService.highlights?.isNotEmpty ??
                             false) ...[
                           addVerticalSpace(16),
                           RequirementSection(
                             requirementList:
-                                state.taskEntityService?.highlights ?? [],
+                                state.taskEntityService.highlights ?? [],
                           ),
                         ],
                         addVerticalSpace(16),
                         AdditionalInfoSection(
-                          location: state.taskEntityService?.location,
-                          startDate: state.taskEntityService?.startDate == null
+                          location: state.taskEntityService.location,
+                          startDate: state.taskEntityService.startDate == null
                               ? null
-                              : '${DateFormat('MMMM dd, y').format(state.taskEntityService!.startDate!)}',
-                          startTime: state.taskEntityService?.startTime,
-                          endDate: state.taskEntityService?.endDate == null
+                              : '${DateFormat('MMMM dd, y').format(state.taskEntityService.startDate!)}',
+                          startTime: state.taskEntityService.startTime,
+                          endDate: state.taskEntityService.endDate == null
                               ? null
-                              : '${DateFormat('MMMM dd, y').format(state.taskEntityService!.endDate!)}',
-                          endTime: state.taskEntityService?.endTime,
-                          views: state.taskEntityService?.viewsCount.toString(),
+                              : '${DateFormat('MMMM dd, y').format(state.taskEntityService.endDate!)}',
+                          endTime: state.taskEntityService.endTime,
+                          views: state.taskEntityService.viewsCount.toString(),
                         ),
                         BlocBuilder<RatingReviewsBloc, RatingReviewState>(
                           builder: (context, ratingBloc) {
@@ -274,14 +273,14 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                         ],
                         // SimilarEntityServiceSection(),
                         addVerticalSpace(16),
-                        if ((state.taskEntityService?.isBooked ?? false) &&
+                        if ((state.taskEntityService.isBooked ?? false) &&
                             context
                                     .read<UserBloc>()
                                     .state
                                     .taskerProfile
                                     ?.user
                                     ?.id !=
-                                state.taskEntityService?.createdBy?.id) ...[
+                                state.taskEntityService.createdBy?.id) ...[
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 4),
                             child: CustomElevatedButton(
@@ -295,23 +294,23 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                   value.data()?.forEach((key, value) {
                                     if (value['userInfo']['uid'] ==
                                         state
-                                            .taskEntityService?.createdBy?.id) {
+                                            .taskEntityService.createdBy?.id) {
                                       Navigator.pushNamed(
                                         context,
                                         ChatPage.routeName,
                                         arguments: ChatPersonDetails(
                                           groupName: key,
                                           fullName:
-                                              "${state.taskEntityService?.createdBy?.firstName ?? ''} ${state.taskEntityService?.createdBy?.middleName ?? ''} ${state.taskEntityService?.createdBy?.lastName ?? ''}",
+                                              "${state.taskEntityService.createdBy?.firstName ?? ''} ${state.taskEntityService.createdBy?.middleName ?? ''} ${state.taskEntityService.createdBy?.lastName ?? ''}",
                                           date: (value['date'] as Timestamp)
                                               .toDate()
                                               .toString(),
                                           id: state
-                                              .taskEntityService?.createdBy?.id,
+                                              .taskEntityService.createdBy?.id,
                                           isRead: value['read'] as bool,
                                           lastMessage: '',
                                           profileImage: state.taskEntityService
-                                                  ?.createdBy?.profileImage ??
+                                                  .createdBy?.profileImage ??
                                               kHomaaleImg,
                                         ),
                                       );
@@ -335,100 +334,98 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                             ),
                           ),
                           addVerticalSpace(10),
-                          SizedBox(
-                            height: 505,
-                            child: GridView.count(
-                              shrinkWrap: true,
-                              padding: EdgeInsets.zero,
-                              crossAxisCount: 2,
-                              children: List.generate(
-                                state.applicantModel?.result?.length ?? 0,
-                                (index) => TaskerCard(
-                                  onFavouriteTapped: () => {},
-                                  callback: () => showApplicantDetailsDialog(
-                                    context: context,
-                                    isNegotiable:
-                                        state.taskEntityService?.isNegotiable ??
-                                            false,
-                                    profileImage: state
-                                            .applicantModel
-                                            ?.result?[index]
-                                            .createdBy
-                                            ?.profileImage ??
-                                        kHomaaleImg,
-                                    label:
-                                        '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? 'Harry'} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? 'Smith'}',
-                                    happyClients:
-                                        '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
-                                    successRate:
-                                        '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
-                                    rating:
-                                        '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
-                                    designation: state.applicantModel
-                                        ?.result?[index].createdBy?.designation,
-                                    isProfileVerified: state
-                                            .applicantModel
-                                            ?.result?[index]
-                                            .createdBy
-                                            ?.isProfileVerified ??
-                                        false,
-                                    title: state.taskEntityService?.title ?? '',
-                                    budget:
-                                        '${state.applicantModel?.result?[index].currency}. ${state.applicantModel?.result?[index].price}',
-                                    status: state
-                                        .applicantModel?.result?[index].status,
-                                    onRejectPressed: () {
-                                      context.read<TaskEntityServiceBloc>().add(
-                                            TaskRejectPeople(
-                                              rejectReq: RejectReq(
-                                                  booking: state.applicantModel
-                                                          ?.result?[index].id ??
-                                                      0),
-                                            ),
-                                          );
-                                      Navigator.pop(context);
-                                    },
-                                    onApprovePressed: () {
-                                      context.read<TaskEntityServiceBloc>().add(
-                                          TaskEntityServiceApprovePeople(
-                                              approveReq: ApproveReq(
-                                                  booking: state.applicantModel
-                                                          ?.result?[index].id ??
-                                                      0)));
-                                      Navigator.pop(context);
-                                    },
-                                    onNegotiatePressed: () {
-                                      context.read<tb.TaskBloc>().add(
-                                            tb.ChangeTaskNegotiationStatus(
-                                              id: state.applicantModel
-                                                      ?.result?[index].id ??
-                                                  0,
-                                            ),
-                                          );
-                                      //TODO: chat navigations
-                                    },
-                                  ),
-                                  callbackLabel: 'View Details',
-                                  networkImageUrl: state
+                          GridView.count(
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
+                            padding: EdgeInsets.zero,
+                            crossAxisCount: 2,
+                            children: List.generate(
+                              state.applicantModel?.result?.length ?? 0,
+                              (index) => TaskerCard(
+                                onFavouriteTapped: () => {},
+                                callback: () => showApplicantDetailsDialog(
+                                  context: context,
+                                  isNegotiable:
+                                      state.taskEntityService.isNegotiable ??
+                                          false,
+                                  profileImage: state
                                           .applicantModel
                                           ?.result?[index]
                                           .createdBy
                                           ?.profileImage ??
                                       kHomaaleImg,
-                                  happyClients:
-                                      '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
-                                  rewardPercentage:
-                                      '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
                                   label:
                                       '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''}',
+                                  happyClients:
+                                      '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
+                                  successRate:
+                                      '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
+                                  rating:
+                                      '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
                                   designation: state.applicantModel
                                       ?.result?[index].createdBy?.designation,
-                                  rate:
+                                  isProfileVerified: state
+                                          .applicantModel
+                                          ?.result?[index]
+                                          .createdBy
+                                          ?.isProfileVerified ??
+                                      false,
+                                  title: state.taskEntityService.title ?? '',
+                                  budget:
                                       '${state.applicantModel?.result?[index].currency}. ${state.applicantModel?.result?[index].price}',
-                                  ratings:
-                                      '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
-                                  buttonWidth: 100,
+                                  status: state
+                                      .applicantModel?.result?[index].status,
+                                  onRejectPressed: () {
+                                    context.read<TaskEntityServiceBloc>().add(
+                                          TaskRejectPeople(
+                                            rejectReq: RejectReq(
+                                                booking: state.applicantModel
+                                                        ?.result?[index].id ??
+                                                    0),
+                                          ),
+                                        );
+                                    Navigator.pop(context);
+                                  },
+                                  onApprovePressed: () {
+                                    context.read<TaskEntityServiceBloc>().add(
+                                        TaskEntityServiceApprovePeople(
+                                            approveReq: ApproveReq(
+                                                booking: state.applicantModel
+                                                        ?.result?[index].id ??
+                                                    0)));
+                                    Navigator.pop(context);
+                                  },
+                                  onNegotiatePressed: () {
+                                    context.read<tb.TaskBloc>().add(
+                                          tb.ChangeTaskNegotiationStatus(
+                                            id: state.applicantModel
+                                                    ?.result?[index].id ??
+                                                0,
+                                          ),
+                                        );
+                                    //TODO: chat navigations
+                                  },
                                 ),
+                                callbackLabel: 'View Details',
+                                networkImageUrl: state
+                                        .applicantModel
+                                        ?.result?[index]
+                                        .createdBy
+                                        ?.profileImage ??
+                                    kHomaaleImg,
+                                happyClients:
+                                    '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
+                                rewardPercentage:
+                                    '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
+                                label:
+                                    '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''}',
+                                designation: state.applicantModel
+                                    ?.result?[index].createdBy?.designation,
+                                rate:
+                                    '${state.applicantModel?.result?[index].currency}. ${state.applicantModel?.result?[index].price}',
+                                ratings:
+                                    '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
+                                buttonWidth: 100,
                               ),
                             ),
                           ),
@@ -447,7 +444,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                   ),
                 ),
                 Visibility(
-                  visible: state.taskEntityService?.createdBy?.id !=
+                  visible: state.taskEntityService.createdBy?.id !=
                       context.read<UserBloc>().state.taskerProfile?.user?.id,
                   child: PriceBookFooterSection(
                     isNegotiable: state.taskEntityService.isNegotiable ?? false,
@@ -455,7 +452,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                         getStatus('', isService: true)["status"] as String,
                     buttonColor: getStatus('')["color"] as Color,
                     price:
-                        "Rs. ${Decimal.parse(state.taskEntityService?.payableTo ?? '0.0')}",
+                        "Rs. ${Decimal.parse(state.taskEntityService.payableTo ?? '0.0')}",
                     onPressed: () {
                       if (!CacheHelper.isLoggedIn) {
                         notLoggedInPopUp(context);
@@ -467,7 +464,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                       if (CacheHelper.isKycVerified == false) return;
                       context.read<EventBloc>().add(
                             EventLoaded(
-                              id: state.taskEntityService?.event?.id ??
+                              id: state.taskEntityService.event?.id ??
                                   'Null Case',
                             ),
                           );

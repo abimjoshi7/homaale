@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 
+import '../../error_pages/no_internet_page.dart';
+
 class ChatListingPage extends StatefulWidget {
   static const String routeName = '/chat-listing';
   const ChatListingPage({super.key});
@@ -35,13 +37,12 @@ class _ChatListingPageState extends State<ChatListingPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      appBar: CustomAppBar(
+        appBarTitle: 'Messages',
+        trailingWidget: SizedBox(),
+      ),
+      body: ListView(
         children: [
-          kHeight50,
-          CustomHeader(
-            label: 'Messages',
-          ),
-          Divider(),
           BlocBuilder<UserBloc, UserState>(
             builder: (context, userState) {
               if (userState.theStates == TheStates.success) {
@@ -216,8 +217,10 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                 );
                               } else if (state.states == TheStates.failure) {
                                 return Center(
-                                    child: Text(
-                                        'No chats. Start a service or task to initiate chat'));
+                                    child: CommonErrorContainer(
+                                      assetsPath: 'assets/no_data_found.png',
+                                      errorDes: 'No chats. Start a service or task to initiate chat',
+                                    ));
                               } else {
                                 return Center(
                                     child: CircularProgressIndicator());
@@ -229,22 +232,25 @@ class _ChatListingPageState extends State<ChatListingPage> {
                             width: MediaQuery.of(context).size.width,
                             height: MediaQuery.of(context).size.height * 0.9,
                             child: Center(
-                              child: Text(
-                                  'No chats. Start a service or task to initiate chat'),
-                            ),
+                                child: CommonErrorContainer(
+                                  assetsPath: 'assets/no_data_found.png',
+                                  errorDes: 'No chats. Start a service or task to initiate chat',
+                                )),
                           );
                         }
                       } else {
-                        return Center(
-                            child: Text(
-                                'No chats. Start a service or task to initiate chat'));
+                        return  Center(
+                            child: CommonErrorContainer(
+                              assetsPath: 'assets/no_data_found.png',
+                              errorDes: 'No chats. Start a service or task to initiate chat',
+                            ));
                       }
                     }
-                    return Center(child: CircularProgressIndicator());
+                    return Center(child: CardLoading(height: 200));
                   },
                 );
               }
-              return Center(child: CircularProgressIndicator());
+              return Center(child: CardLoading(height: 200));
             },
           ),
         ],

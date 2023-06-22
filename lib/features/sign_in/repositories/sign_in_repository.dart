@@ -9,6 +9,8 @@ import 'package:cipher/features/sign_in/models/user_login_res.dart';
 import 'package:cipher/features/sign_up/data/models/otp_reset_verify_req.dart';
 import 'package:cipher/features/sign_up/data/models/otp_reset_verify_res.dart';
 
+import '../../../core/cache/cache_helper.dart';
+
 class SignInRepository {
   final _dioHelper = DioHelper();
 
@@ -53,6 +55,50 @@ class SignInRepository {
           "email": email,
         },
         url: 'user/reset/',
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log(
+        e.toString(),
+      );
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> changePhone({
+    required String phone,
+    required String password,
+  }) async {
+    try {
+      final res = await _dioHelper.postDataWithCredential(
+        data: {
+          "phone": phone,
+          "password": password,
+        },
+        url: 'tasker/change-phone/',
+        token: CacheHelper.accessToken,
+      );
+      return res as Map<String, dynamic>;
+    } catch (e) {
+      log(
+        'error ' + e.toString(),
+      );
+      rethrow;
+    }
+  }
+
+  Future<Map<String, dynamic>> changeEmail({
+    required String email,
+    required String password,
+  }) async {
+    try {
+      final res = await _dioHelper.postDataWithCredential(
+        data: {
+          "email": email,
+          "password": password,
+        },
+        url: 'tasker/change-email/',
+        token: CacheHelper.accessToken,
       );
       return res as Map<String, dynamic>;
     } catch (e) {
