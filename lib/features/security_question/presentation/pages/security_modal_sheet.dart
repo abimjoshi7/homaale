@@ -97,18 +97,22 @@ class _SecurityModalSheetState extends State<SecurityModalSheet> {
                       context.read<SecurityBloc>().add(SecurityAnswerPost(
                           id: state.securityQuestionReq?[currentIndex!].id ?? 0,
                           answer: answer.text));
+
+                      Future.delayed(const Duration(seconds: 1), () {
+                        Navigator.pop(context);
+                      });
+                      // if (state.securityAnswerRes?.answer == answer.text)
+                      //   showDialog(
+                      //       context: context,
+                      //       builder: (context) => CustomToast(
+                      //             heading: 'Success',
+                      //             content: 'Security Question is added',
+                      //             onTap: () {
+                      //               Navigator.pop(context);
+                      //             },
+                      //             isSuccess: true,
+                      //           ));
                     }
-                    if (state.securityAnswerRes?.answer == answer.text)
-                      showDialog(
-                          context: context,
-                          builder: (context) => CustomToast(
-                                heading: 'Success',
-                                content: 'Security Question is added',
-                                onTap: () {
-                                  Navigator.pop(context);
-                                },
-                                isSuccess: true,
-                              ));
                   },
                   label: 'Submit',
                 ),
