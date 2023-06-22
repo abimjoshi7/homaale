@@ -69,19 +69,10 @@ class TaskerDescriptionSection extends StatelessWidget {
     Widget displayJoinedDate() {
       if ((joinedDate != null)) {
         return WidgetText(
-          widget: Image.asset('assets/clock.png'),
-          label: "Joined Date: ${DateFormat.jm().format(
-            DateFormat('hh:mm:ss').parse(activeHourStart!),
-
-            // Jiffy(joinedDate.toString()) ,
-            // DateFormat('yyyy-mm-dd HH:mm').parse(joinedDate!),
-          )} - ${DateFormat.jm().format(
-            DateFormat('hh:mm:ss').parse(activeHourStart!),
-
-            // Jiffy(joinedDate).year,
-            // DateFormat('yyyy-mm-dd HH:mm').parse(joinedDate!),
-          )}",
-        );
+            widget: Icon(Icons.date_range,color: kColorSecondary),
+            label: "Joined Date: ${DateFormat.yMMMd().format(
+              DateFormat('yyyy-MM-dd').parse(joinedDate.toString()),
+            )}");
       } else {
         return WidgetText(
           widget: Image.asset('assets/clock.png'),

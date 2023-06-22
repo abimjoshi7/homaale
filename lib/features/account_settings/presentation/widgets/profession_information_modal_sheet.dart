@@ -10,10 +10,12 @@ class ProfessionalInformationModalSheet extends StatefulWidget {
   const ProfessionalInformationModalSheet({super.key});
 
   @override
-  State<ProfessionalInformationModalSheet> createState() => _ProfessionalInformationModalSheetState();
+  State<ProfessionalInformationModalSheet> createState() =>
+      _ProfessionalInformationModalSheetState();
 }
 
-class _ProfessionalInformationModalSheetState extends State<ProfessionalInformationModalSheet> {
+class _ProfessionalInformationModalSheetState
+    extends State<ProfessionalInformationModalSheet> {
   String? userType;
   String? specialities;
   String? experienceLevel;
@@ -34,7 +36,7 @@ class _ProfessionalInformationModalSheetState extends State<ProfessionalInformat
             context: context,
             builder: (context) => CustomToast(
               heading: 'Success',
-              content: 'Profile edited succesfully',
+              content: 'Profile edited successfully',
               onTap: () {
                 Navigator.pop(context);
               },
@@ -55,6 +57,17 @@ class _ProfessionalInformationModalSheetState extends State<ProfessionalInformat
         }
       },
       builder: (context, state) {
+        final skills = context.read<SkillsBloc>().state.skillsIdList;
+        final Map<String, dynamic> map = {
+          "skills": skills,
+          "active_hour_start": startTime?.format(context) ??
+              state.taskerProfile?.activeHourStart,
+          "active_hour_end": endTime?.format(context) ??
+              state.taskerProfile?.activeHourEnd,
+          "experience_level":
+          experienceLevel ?? state.taskerProfile?.experienceLevel,
+        };
+
         if (state.theStates == TheStates.success) {
           return Padding(
             padding: const EdgeInsets.all(12.0),
@@ -80,14 +93,17 @@ class _ProfessionalInformationModalSheetState extends State<ProfessionalInformat
                       CustomFormField(
                         label: 'Experience Level',
                         child: CustomDropDownField<String>(
-                          hintText: state.taskerProfile?.experienceLevel ?? 'Enter your skills',
+                          hintText: state.taskerProfile?.experienceLevel ??
+                              'Enter your skills',
                           list: const [
-                            'Beginner (0 to 1 years experience)',
-                            'Intermediate (1 to 5 years experience)',
-                            'Expert (5 years experience or more)',
+                            'Beginner', 'Intermediate', 'Expert'
+                            // 'Beginner (0 to 1 years experience)',
+                            // 'Intermediate (1 to 5 years experience)',
+                            // 'Expert (5 years experience or more)',
                           ],
                           onChanged: (value) => setState(
                             () {
+                              print(state.taskerProfile?.experienceLevel);
                               if (value!.startsWith('Be')) {
                                 experienceLevel = 'Beginner';
                               } else if (value.startsWith('In')) {
@@ -220,14 +236,6 @@ class _ProfessionalInformationModalSheetState extends State<ProfessionalInformat
               ),
               CustomElevatedButton(
                 callback: () async {
-                  final skills = context.read<SkillsBloc>().state.skillsIdList;
-
-                  final map = {
-                    "skills": skills,
-                    "active_hour_start": startTime?.format(context) ?? state.taskerProfile?.activeHourStart,
-                    "active_hour_end": endTime?.format(context) ?? state.taskerProfile?.activeHourEnd,
-                    "experience_level": experienceLevel ?? state.taskerProfile?.experienceLevel,
-                  };
                   context.read<UserBloc>().add(UserEdited(req: map));
                 },
                 label: 'Save',

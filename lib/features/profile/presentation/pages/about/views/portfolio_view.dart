@@ -31,9 +31,9 @@ class _PortfolioViewState extends State<PortfolioView> {
     super.initState();
     _scrollBloc.add(
       FetchItemsEvent(
-     url:   kPortfolio,
-       data: {},
-    newFetch:    true,
+        url: kPortfolio,
+        data: {},
+        newFetch: true,
       ),
     );
     _controller.addListener(
@@ -42,9 +42,9 @@ class _PortfolioViewState extends State<PortfolioView> {
           _controller,
           _scrollBloc.add(
             FetchItemsEvent(
-            url:  kPortfolio,
-            data:  {},
-              newFetch:false,
+              url: kPortfolio,
+              data: {},
+              newFetch: false,
             ),
           ),
         );
@@ -84,10 +84,13 @@ class _PortfolioViewState extends State<PortfolioView> {
       builder: (context, state) {
         if (state is TaskerGetPortfolioSuccess) {
           return SizedBox(
-            height: MediaQuery.of(context).size.height * 0.2,
+            height: state.taskerPortfolioRes.length == 0
+                ? 50
+                : MediaQuery.of(context).size.height * 0.2,
             width: double.infinity,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,

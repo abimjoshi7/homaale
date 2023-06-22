@@ -1,7 +1,8 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/scroll_helper.dart';
 import 'package:cipher/features/bloc/scroll_bloc.dart';
-import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart' as bookings;
+import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart'
+    as bookings;
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/booking_item_detail_page.dart';
 import 'package:cipher/features/bookings/presentation/widgets/widget.dart';
@@ -65,24 +66,30 @@ class _BookingSectionState extends State<BookingSection> {
     return BlocBuilder<ScrollBloc, ScrollState>(
       bloc: _scrollBloc,
       builder: (context, state) {
-        var bookingList = state.result.map((e) => bookings.Result.fromJson(e as Map<String, dynamic>)).toList();
+        var bookingList = state.result
+            .map((e) => bookings.Result.fromJson(e as Map<String, dynamic>))
+            .toList();
 
         return state.theState == TheStates.initial
-            ? SizedBox(child: Center(child: CircularProgressIndicator()))
+            ? SizedBox(child: Center(child: CardLoading(height: 500)))
             : bookingList.isEmpty
                 ? Center(
                     child: CommonErrorContainer(
                     assetsPath: 'assets/no_data_found.png',
                     errorTile: 'Item not available.',
-                    errorDes: 'We’re sorry, the data you search could not found.',
+                    errorDes:
+                        'We’re sorry, the data you search could not found.',
                   ))
                 : Column(
                     children: [
                       Expanded(
                         child: ListView.builder(
                           controller: _controller,
-                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                          itemCount: state.hasReachedMax ? bookingList.length : bookingList.length + 1,
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                          itemCount: state.hasReachedMax
+                              ? bookingList.length
+                              : bookingList.length + 1,
                           itemBuilder: (context, index) {
                             switch (state.theState) {
                               case TheStates.success:
@@ -96,69 +103,122 @@ class _BookingSectionState extends State<BookingSection> {
                                   );
                                   return BottomLoader();
                                 } else {
-                                  if (widget.bookingSectionType == BookingSectionType.todo) {
+                                  if (widget.bookingSectionType ==
+                                      BookingSectionType.todo) {
                                     var todoList = bookingList
                                         .where((e) =>
-                                            e.assignee?.id == context.read<UserBloc>().state.taskerProfile?.user?.id)
+                                            e.assignee?.id ==
+                                            context
+                                                .read<UserBloc>()
+                                                .state
+                                                .taskerProfile
+                                                ?.user
+                                                ?.id)
                                         .toList();
                                     return todoList.isEmpty
                                         ? CommonErrorContainer(
-                                            assetsPath: 'assets/no_data_found.png',
-                                            errorTile: 'Payment Item not available right Now.',
-                                            errorDes: 'We’re sorry, the data you search could not found. '
+                                            assetsPath:
+                                                'assets/no_data_found.png',
+                                            errorTile:
+                                                'Item not available right Now.',
+                                            errorDes:
+                                                'We’re sorry, the data you search could not found. '
                                                 'Please go back.',
                                           )
                                         : bookingList[index].assignee?.id ==
-                                                context.read<UserBloc>().state.taskerProfile?.user?.id
+                                                context
+                                                    .read<UserBloc>()
+                                                    .state
+                                                    .taskerProfile
+                                                    ?.user
+                                                    ?.id
                                             ? Container(
-                                                margin: EdgeInsets.only(bottom: 16),
+                                                margin:
+                                                    EdgeInsets.only(bottom: 16),
                                                 child: BookingsServiceCard(
                                                   callback: () {
-                                                    BlocProvider.of<BookingsBloc>(context).add(
-                                                      BookingSingleLoaded(bookingList[index].id),
+                                                    BlocProvider.of<
+                                                                BookingsBloc>(
+                                                            context)
+                                                        .add(
+                                                      BookingSingleLoaded(
+                                                          bookingList[index]
+                                                              .id),
                                                     );
-                                                    Navigator.pushNamed(context, BookingItemDetailPage.routeName,
-                                                        arguments: {'client': 'merchant'});
+                                                    Navigator.pushNamed(
+                                                        context,
+                                                        BookingItemDetailPage
+                                                            .routeName,
+                                                        arguments: {
+                                                          'client': 'merchant'
+                                                        });
                                                   },
-                                                  serviceName: bookingList[index].title,
+                                                  serviceName:
+                                                      bookingList[index].title,
                                                   providerName:
                                                       "${bookingList[index].assigner?.firstName} ${bookingList[index].assigner?.lastName}",
-                                                  mainContentWidget: showBookingDetails(bookingList[index]),
-                                                  status: bookingList[index].status,
+                                                  mainContentWidget:
+                                                      showBookingDetails(
+                                                          bookingList[index]),
+                                                  status:
+                                                      bookingList[index].status,
                                                   hidePopupButton: true,
-                                                  bottomRightWidget: displayPrice(bookingList[index]),
+                                                  bottomRightWidget:
+                                                      displayPrice(
+                                                          bookingList[index]),
                                                 ),
                                               )
                                             : SizedBox();
                                   } else {
                                     var myBookingList = bookingList
                                         .where((e) =>
-                                            e.assigner?.id == context.read<UserBloc>().state.taskerProfile?.user?.id)
+                                            e.assigner?.id ==
+                                            context
+                                                .read<UserBloc>()
+                                                .state
+                                                .taskerProfile
+                                                ?.user
+                                                ?.id)
                                         .toList();
                                     return myBookingList.isEmpty
                                         ? CommonErrorContainer(
-                                            assetsPath: 'assets/no_data_found.png',
-                                            errorTile: 'Payment Item not available right Now.',
-                                            errorDes: 'We’re sorry, the data you search could not found. '
+                                            assetsPath:
+                                                'assets/no_data_found.png',
+                                            errorTile:
+                                                'Item not available right Now.',
+                                            errorDes:
+                                                'We’re sorry, the data you search could not found. '
                                                 'Please go back.',
                                           )
                                         : Container(
                                             margin: EdgeInsets.only(bottom: 16),
                                             child: BookingsServiceCard(
                                               callback: () {
-                                                BlocProvider.of<BookingsBloc>(context).add(
-                                                  BookingSingleLoaded(bookingList[index].id),
+                                                BlocProvider.of<BookingsBloc>(
+                                                        context)
+                                                    .add(
+                                                  BookingSingleLoaded(
+                                                      bookingList[index].id),
                                                 );
-                                                Navigator.pushNamed(context, BookingItemDetailPage.routeName,
-                                                    arguments: {'client': 'client'});
+                                                Navigator.pushNamed(
+                                                    context,
+                                                    BookingItemDetailPage
+                                                        .routeName,
+                                                    arguments: {
+                                                      'client': 'client'
+                                                    });
                                               },
-                                              serviceName: bookingList[index].title,
+                                              serviceName:
+                                                  bookingList[index].title,
                                               providerName:
                                                   "${bookingList[index].assignee?.firstName} ${bookingList[index].assignee?.lastName}",
-                                              mainContentWidget: showBookingDetails(bookingList[index]),
+                                              mainContentWidget:
+                                                  showBookingDetails(
+                                                      bookingList[index]),
                                               status: bookingList[index].status,
                                               hidePopupButton: true,
-                                              bottomRightWidget: displayPrice(bookingList[index]),
+                                              bottomRightWidget: displayPrice(
+                                                  bookingList[index]),
                                             ),
                                           );
                                   }
@@ -199,7 +259,8 @@ class _BookingSectionState extends State<BookingSection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label: "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
+                  label:
+                      "${result.startTime ?? '00:00'} - ${result.endTime ?? '00:00'}",
                   color: kColorGreen,
                 ),
               ),

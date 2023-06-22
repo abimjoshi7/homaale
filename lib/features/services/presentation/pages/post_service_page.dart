@@ -14,6 +14,7 @@ import 'package:cipher/features/task_entity_service/presentation/bloc/task_entit
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:flutter/services.dart';
 
 class PostServicePage extends StatefulWidget {
   static const routeName = '/add-service-page';
@@ -130,22 +131,39 @@ class _PostServicePageState extends State<PostServicePage> {
                 slivers: [
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 16.0,
+                      ),
                       child: Column(
                         children: [
+                          addVerticalSpace(10.0),
                           _buildTitle(),
+                          addVerticalSpace(10.0),
                           _buildCategory(),
+                          addVerticalSpace(10.0),
                           _buildHighlights(),
+                          addVerticalSpace(10.0),
                           _buildServiceType(),
+                          addVerticalSpace(10.0),
                           _buildAddress(),
+                          addVerticalSpace(10.0),
                           _buildCity(),
+                          addVerticalSpace(10.0),
                           _buildDescription(),
+                          addVerticalSpace(10.0),
                           _buildCurrency(),
+                          // addVerticalSpace(10.0),
+                          _buildIsNegotiable(),
+                          // addVerticalSpace(10.0),
                           _buildDialog(),
+                          addVerticalSpace(10.0),
                           CustomMultimedia(
                             bloc: uploadBloc,
                           ),
+                          addVerticalSpace(10.0),
                           _buildTerms(context),
+                          addVerticalSpace(10.0),
                           _buildButton(),
                         ],
                       ),
@@ -179,6 +197,7 @@ class _PostServicePageState extends State<PostServicePage> {
       listener: (context, state) {
         if (state.theStates == TheStates.success && state.isCreated == true) {
           showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (context) => CustomToast(
               heading: 'Success',
@@ -196,6 +215,7 @@ class _PostServicePageState extends State<PostServicePage> {
         }
         if (state.theStates == TheStates.failure && state.isCreated == false) {
           showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failure',
@@ -240,7 +260,7 @@ class _PostServicePageState extends State<PostServicePage> {
                 startTime: null,
                 endTime: null,
                 shareLocation: true,
-                isNegotiable: isDiscounted,
+                isNegotiable: isNegotiable,
                 location: addressController.text,
                 revisions: 0,
                 avatar: 2,
@@ -302,7 +322,7 @@ class _PostServicePageState extends State<PostServicePage> {
                         startTime: null,
                         endTime: null,
                         shareLocation: true,
-                        isNegotiable: isDiscounted,
+                        isNegotiable: isNegotiable,
                         location: addressController.text,
                         revisions: 0,
                         avatar: 2,
@@ -447,6 +467,7 @@ class _PostServicePageState extends State<PostServicePage> {
             },
           ),
         ),
+        addVerticalSpace(10.0),
         CustomFormField(
           label: 'Price',
           isRequired: true,
@@ -484,19 +505,41 @@ class _PostServicePageState extends State<PostServicePage> {
             ],
           ),
         ),
+        addVerticalSpace(10.0),
         Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Visibility(
               visible: isBudgetVariable,
               child: Expanded(
-                flex: 2,
-                child: NumberIncDecField(
-                  controller: startPriceController,
+                flex: isBudgetVariable ? 1 : 2,
+                child: CustomTextFormField(
+                  textInputType: TextInputType.numberWithOptions(decimal: true),
                   validator: (p0) {
-                    if (isBudgetVariable) if (p0 == null || p0.isEmpty)
-                      return "Required";
+                    if (!isBudgetVariable) return null;
+                    if (p0 == null || p0.isEmpty) {
+                      return "Required Field";
+                    }
+                    if (p0.isEmpty) return null;
+                    if (int.parse(p0) < 10) {
+                      return "Budget Cannot Be Less Than 10";
+                    }
+                    if (p0 == endPriceController.text) {
+                      return "Invalid Range";
+                    }
+                    if (endPriceController.text.isNotEmpty) {
+                      if (int.parse(p0) > int.parse(endPriceController.text)) {
+                        return "Cannot be more than End budget";
+                      }
+                    }
                     return null;
                   },
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  controller: startPriceController,
+                  style: Theme.of(context).textTheme.displayLarge,
                   onChanged: (value) => setState(
                     () {
                       if (startPriceController.text.isNotEmpty)
@@ -508,29 +551,68 @@ class _PostServicePageState extends State<PostServicePage> {
                         );
                     },
                   ),
+                  suffixWidget: budgetIncrementIcon(startPriceController),
                 ),
               ),
             ),
             Visibility(
               visible: isBudgetVariable,
-              child: const Text(' To '),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10.0,
+                ),
+                child: const Text(
+                  "To",
+                ),
+              ),
             ),
             Expanded(
-              flex: 2,
-              child: NumberIncDecField(
+              flex: isBudgetVariable ? 1 : 2,
+              child: CustomTextFormField(
+                errorMaxLines: 3,
+                errorStyle: TextStyle(),
+                textInputType: TextInputType.numberWithOptions(decimal: true),
+                validator: (p0) {
+                  if (p0 == null || p0.isEmpty) {
+                    return "Required Field";
+                  }
+                  if (p0.isEmpty) ;
+                  if (int.parse(p0) < 10) {
+                    return "Budget Cannot Be Less Than 10";
+                  }
+                  if (isBudgetVariable &&
+                      startPriceController.text.isNotEmpty) {
+                    if (p0 == startPriceController.text) {
+                      return "Invalid Range";
+                    }
+                    if (int.parse(p0) < int.parse(startPriceController.text)) {
+                      return "Cannot be less than Start budget";
+                    }
+                  }
+
+                  return null;
+                },
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
                 controller: endPriceController,
-                validator: (p0) => p0 == null || p0.isEmpty ? "Required" : null,
+                style: Theme.of(context).textTheme.displayLarge,
                 onChanged: (value) => setState(
                   () {
                     if (endPriceController.text.isNotEmpty)
                       budgetTo = getPayableAmount(
-                        double.parse(endPriceController.text),
-                        double.parse(
-                            context.read<CategoriesBloc>().state.commission ??
-                                "0.0"),
+                        int.parse(endPriceController.text).toDouble(),
+                        int.parse(context
+                                    .read<CategoriesBloc>()
+                                    .state
+                                    .commission ??
+                                "0")
+                            .toDouble(),
                       );
                   },
                 ),
+                suffixWidget: budgetIncrementIcon(endPriceController),
               ),
             ),
             Flexible(
@@ -624,6 +706,54 @@ class _PostServicePageState extends State<PostServicePage> {
         //   ],
         // ),
       ],
+    );
+  }
+
+  Padding budgetIncrementIcon(TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 5.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          InkWell(
+            child: const Icon(
+              Icons.keyboard_arrow_up_rounded,
+              size: 18,
+              color: kColorGrey,
+            ),
+            onTap: () {
+              int currentValue = int.parse(controller.text);
+              setState(
+                () {
+                  currentValue++;
+                  controller
+                      .setText((currentValue).toString()); // incrementing value
+                },
+              );
+            },
+          ),
+          InkWell(
+            child: const Icon(
+              Icons.keyboard_arrow_down_rounded,
+              size: 18,
+              color: kColorGrey,
+            ),
+            onTap: () {
+              int currentValue = int.parse(
+                controller.text,
+              );
+              setState(
+                () {
+                  currentValue--;
+                  controller.setText((currentValue > 0 ? currentValue : 0)
+                      .toString()); // decrementing value
+                },
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -862,6 +992,31 @@ class _PostServicePageState extends State<PostServicePage> {
         controller: titleController,
         hintText: 'Enter your service name',
         validator: validateNotEmpty,
+      ),
+    );
+  }
+
+  Padding _buildIsNegotiable() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Row(
+        children: <Widget>[
+          CustomCheckBox(
+            isChecked: isNegotiable,
+            onTap: () async {
+              setState(
+                () {
+                  isNegotiable = !isNegotiable;
+                },
+              );
+            },
+          ),
+          addHorizontalSpace(10),
+          Text(
+            "Do you want to negotiate the price?",
+            style: TextStyle(fontSize: 12.0),
+          )
+        ],
       ),
     );
   }

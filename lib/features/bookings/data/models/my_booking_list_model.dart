@@ -24,27 +24,37 @@ class MyBookingListModel with _$MyBookingListModel {
 class Result with _$Result {
   const factory Result({
     int? id,
-    @JsonKey(name: "created_by") ResultCreatedBy? createdBy,
-    @JsonKey(name: "entity_service") EntityService? entityService,
-    List<Image>? images,
-    List<Image>? videos,
-    @JsonKey(name: "progress_percent") double? progressPercent,
-    @JsonKey(name: "created_at") DateTime? createdAt,
-    @JsonKey(name: "updated_at") DateTime? updatedAt,
+    @JsonKey(name: 'created_by') ResultCreatedBy? createdBy,
+    @JsonKey(name: 'entity_service') EntityService? entityService,
+    List<dynamic>? images,
+    List<dynamic>? videos,
+    @JsonKey(name: 'progress_percentage') int? progressPercent,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
+    @JsonKey(name: 'updated_at') DateTime? updatedAt,
     String? description,
     List<String>? requirements,
-    @JsonKey(name: "budget_from") String? budgetFrom,
-    @JsonKey(name: "budget_to") String? budgetTo,
-    @JsonKey(name: "start_date") DateTime? startDate,
-    @JsonKey(name: "end_date") DateTime? endDate,
-    @JsonKey(name: "start_time") String? startTime,
-    @JsonKey(name: "end_time") String? endTime,
+    String? price,
+    String? earning,
+    @JsonKey(name: 'start_date') DateTime? startDate,
+    @JsonKey(name: 'end_date') DateTime? endDate,
+    @JsonKey(name: 'start_time') String? startTime,
+    @JsonKey(name: 'end_time') String? endTime,
     String? location,
-    @JsonKey(name: "is_active") bool? isActive,
+    @JsonKey(name: 'is_active') bool? isActive,
     String? status,
-    @JsonKey(name: "is_accepted") bool? isAccepted,
-    // @JsonKey(name: "booking_merchant") dynamic bookingMerchant,
+    @JsonKey(name: 'extra_data') dynamic? extraData,
+    @JsonKey(name: 'is_accepted') bool? isAccepted,
+    @JsonKey(name: 'cancelling_party') String? cancellingParty,
+    @JsonKey(name: 'cancellation_reason') String? cancellationReason,
+    @JsonKey(name: 'cancellation_description') String? cancellationDescription,
+    @JsonKey(name: 'is_refunded') bool? isRefunded,
+    @JsonKey(name: 'is_compensated') bool? isCompensated,
+    @JsonKey(name: 'is_penalized') bool? isPenalized,
+    @JsonKey(name: 'updated_by') String? updatedBy,
+    @JsonKey(name: 'approved_by') dynamic? approvedBy,
+    String? owner,
     int? city,
+    @JsonKey(name: 'cancelled_by') dynamic? cancelledBy,
   }) = _Result;
 
   factory Result.fromJson(Map<String, dynamic> json) => _$ResultFromJson(json);
@@ -56,12 +66,13 @@ class ResultCreatedBy with _$ResultCreatedBy {
     int? id,
     User? user,
     String? bio,
-    @JsonKey(name: "user_type") String? userType,
-    @JsonKey(name: "profile_image") String? profileImage,
+    @JsonKey(name: 'profile_image') String? profileImage,
     Stats? stats,
-    String? skill,
-    @JsonKey(name: "charge_currency") Currency? chargeCurrency,
-    @JsonKey(name: "hourly_rate") double? hourlyRate,
+    List<String>? skills,
+    @JsonKey(name: 'charge_currency') Currency? chargeCurrency,
+    CreatedByCity? city,
+    @JsonKey(name: 'address_line1') String? addressLine1,
+    @JsonKey(name: 'address_line2') String? addressLine2,
   }) = _ResultCreatedBy;
 
   factory ResultCreatedBy.fromJson(Map<String, dynamic> json) => _$ResultCreatedByFromJson(json);
@@ -79,15 +90,30 @@ class Currency with _$Currency {
 }
 
 @freezed
+class CreatedByCity with _$CreatedByCity {
+  const factory CreatedByCity({
+    int? id,
+    String? name,
+    @JsonKey(name: 'local_name') String? localName,
+    @JsonKey(name: 'zip_code') String? zipCode,
+    double? latitude,
+    double? longitude,
+    String? country,
+  }) = _CreatedByCity;
+
+  factory CreatedByCity.fromJson(Map<String, dynamic> json) => _$CreatedByCityFromJson(json);
+}
+
+@freezed
 class Stats with _$Stats {
   const factory Stats({
-    @JsonKey(name: "success_rate") double? successRate,
-    @JsonKey(name: "happy_clients") double? happyClients,
-    @JsonKey(name: "task_completed") double? taskCompleted,
-    @JsonKey(name: "user_reviews") double? userReviews,
-    @JsonKey(name: "task_assigned") double? taskAssigned,
-    @JsonKey(name: "task_in_progress") double? taskInProgress,
-    @JsonKey(name: "task_cancelled") double? taskCancelled,
+    @JsonKey(name: 'success_rate') num? successRate,
+    @JsonKey(name: 'happy_clients') num? happyClients,
+    @JsonKey(name: 'task_completed') num? taskCompleted,
+    @JsonKey(name: 'user_reviews') num? userReviews,
+    @JsonKey(name: 'task_assigned') num? taskAssigned,
+    @JsonKey(name: 'task_in_progress') num? taskInProgress,
+    @JsonKey(name: 'task_cancelled') num? taskCancelled,
   }) = _Stats;
 
   factory Stats.fromJson(Map<String, dynamic> json) => _$StatsFromJson(json);
@@ -99,12 +125,12 @@ class User with _$User {
     String? id,
     String? username,
     String? email,
-    String? phone,
-    @JsonKey(name: "full_name") String? fullName,
-    @JsonKey(name: "first_name") String? firstName,
-    @JsonKey(name: "middle_name") String? middleName,
-    @JsonKey(name: "last_name") String? lastName,
-    @JsonKey(name: "created_at") DateTime? createdAt,
+    dynamic? phone,
+    @JsonKey(name: 'full_name') String? fullName,
+    @JsonKey(name: 'first_name') String? firstName,
+    @JsonKey(name: 'middle_name') String? middleName,
+    @JsonKey(name: 'last_name') String? lastName,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
   }) = _User;
 
   factory User.fromJson(Map<String, dynamic> json) => _$UserFromJson(json);
@@ -114,75 +140,60 @@ class User with _$User {
 class EntityService with _$EntityService {
   const factory EntityService({
     String? id,
-    @JsonKey(name: "created_by") EntityServiceCreatedBy? createdBy,
+    @JsonKey(name: 'created_by') EntityServiceCreatedBy? createdBy,
     Currency? currency,
-    City? city,
-    List<Image>? images,
-    List<Image>? videos,
+    EntityServiceCity? city,
+    List<dynamic>? images,
+    List<dynamic>? videos,
     Service? service,
-    @JsonKey(name: "created_at") DateTime? createdAt,
-    @JsonKey(name: "updated_at") DateTime? updatedAt,
+    Event? event,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
+    @JsonKey(name: 'updated_at') DateTime? updatedAt,
     String? title,
     String? description,
     List<String>? highlights,
-    @JsonKey(name: "budget_type") String? budgetType,
-    @JsonKey(name: "budget_from") String? budgetFrom,
-    @JsonKey(name: "budget_to") String? budgetTo,
-    @JsonKey(name: "start_date") DateTime? startDate,
-    @JsonKey(name: "end_date") DateTime? endDate,
-    @JsonKey(name: "start_time") String? startTime,
-    @JsonKey(name: "end_time") String? endTime,
-    @JsonKey(name: "share_location") bool? shareLocation,
-    @JsonKey(name: "is_negotiable") bool? isNegotiable,
+    @JsonKey(name: 'budget_type') String? budgetType,
+    @JsonKey(name: 'is_range') bool? isRange,
+    @JsonKey(name: 'budget_from') String? budgetFrom,
+    @JsonKey(name: 'budget_to') String? budgetTo,
+    @JsonKey(name: 'payable_from') String? payableFrom,
+    @JsonKey(name: 'payable_to') String? payableTo,
+    @JsonKey(name: 'start_date') DateTime? startDate,
+    @JsonKey(name: 'end_date') DateTime? endDate,
+    @JsonKey(name: 'start_time') String? startTime,
+    @JsonKey(name: 'end_time') String? endTime,
+    @JsonKey(name: 'share_location') bool? shareLocation,
+    @JsonKey(name: 'is_negotiable') bool? isNegotiable,
     int? revisions,
-    // @JsonKey(name: "recursion_type") String? recursionType,
-    @JsonKey(name: "view_count") int? viewsCount,
+    @JsonKey(name: 'views_count') int? viewsCount,
     String? location,
-    @JsonKey(name: "is_professional") bool? isProfessional,
-    @JsonKey(name: "is_online") bool? isOnline,
-    @JsonKey(name: "is_requested") bool? isRequested,
-    @JsonKey(name: "discount_type") String? discountType,
-    @JsonKey(name: "discount_value") String? discountValue,
-    @JsonKey(name: "no_of_reservation") int? noOfReservation,
+    @JsonKey(name: 'is_profesisonal') bool? isProfessional,
+    @JsonKey(name: 'is_online') bool? isOnline,
+    @JsonKey(name: 'is_requested') bool? isRequested,
+    @JsonKey(name: 'discount_type') String? discountType,
+    @JsonKey(name: 'discount_value') String? discountValue,
     String? slug,
-    @JsonKey(name: "is_active") bool? isActive,
-    @JsonKey(name: "needs_approval") bool? needsApproval,
-    @JsonKey(name: "is_endorsed") bool? isEndorsed,
-    // dynamic? merchant,
-    Event? event,
-    // dynamic? avatar,
+    @JsonKey(name: 'is_active') bool? isActive,
+    @JsonKey(name: 'needs_approval') bool? needsApproval,
+    @JsonKey(name: 'is_endorsed') bool? isEndorsed,
+    @JsonKey(name: 'updated_by') String? updatedBy,
+    String? owner,
   }) = _EntityService;
 
   factory EntityService.fromJson(Map<String, dynamic> json) => _$EntityServiceFromJson(json);
 }
 
 @freezed
-class Event with _$Event {
-  const factory Event({
-    String? id,
-    String? title,
-    DateTime? start,
-    DateTime? end,
-    String? duration,
-    bool? isFlexible,
-    bool? isActive,
-    List<DateTime>? activeDates,
-  }) = _Event;
-
-  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
-}
-
-@freezed
-class City with _$City {
-  const factory City({
+class EntityServiceCity with _$EntityServiceCity {
+  const factory EntityServiceCity({
     int? id,
     String? name,
     double? latitude,
     double? longitude,
     Country? country,
-  }) = _City;
+  }) = _EntityServiceCity;
 
-  factory City.fromJson(Map<String, dynamic> json) => _$CityFromJson(json);
+  factory EntityServiceCity.fromJson(Map<String, dynamic> json) => _$EntityServiceCityFromJson(json);
 }
 
 @freezed
@@ -202,18 +213,17 @@ class EntityServiceCreatedBy with _$EntityServiceCreatedBy {
     String? username,
     String? email,
     String? phone,
-    @JsonKey(name: "full_name") String? fullName,
-    @JsonKey(name: "first_name") String? firstName,
-    @JsonKey(name: "middle_name") String? middleName,
-    @JsonKey(name: "last_name") String? lastName,
-    @JsonKey(name: "profile_image") String? profileImage,
+    @JsonKey(name: 'full_name') String? fullName,
+    @JsonKey(name: 'first_name') String? firstName,
+    @JsonKey(name: 'middle_name') String? middleName,
+    @JsonKey(name: 'last_name') String? lastName,
+    @JsonKey(name: 'profile_image') String? profileImage,
     String? bio,
-    @JsonKey(name: "created_at") DateTime? createdAt,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
     String? designation,
-    @JsonKey(name: "user_type") String? userType,
-    @JsonKey(name: "is_profile_verified") bool? isProfileVerified,
-    @JsonKey(name: "is_followed") bool? isFollowed,
-    @JsonKey(name: "is_following") bool? isFollowing,
+    @JsonKey(name: 'is_profile_verified') bool? isProfileVerified,
+    @JsonKey(name: 'is_followed') bool? isFollowed,
+    @JsonKey(name: 'is_following') bool? isFollowing,
     Badge? badge,
   }) = _EntityServiceCreatedBy;
 
@@ -232,27 +242,16 @@ class Badge with _$Badge {
 }
 
 @freezed
-class Image with _$Image {
-  const factory Image({
-    int? id,
-    String? name,
-    String? size,
-    @JsonKey(name: "media_type") String? mediaType,
-    String? media,
-  }) = _Image;
-
-  factory Image.fromJson(Map<String, dynamic> json) => _$ImageFromJson(json);
-}
-
-@freezed
 class Service with _$Service {
   const factory Service({
     String? id,
     String? title,
-    @JsonKey(name: "is_active") bool? isActive,
-    @JsonKey(name: "is_verified") bool? isVerified,
+    @JsonKey(name: 'is_active') bool? isActive,
+    @JsonKey(name: 'is_verified') bool? isVerified,
     Category? category,
-    List<Image>? images,
+    List<dynamic>? images,
+    @JsonKey(name: 'required_documents') List<RequiredDocument>? requiredDocuments,
+    String? commission,
   }) = _Service;
 
   factory Service.fromJson(Map<String, dynamic> json) => _$ServiceFromJson(json);
@@ -268,4 +267,33 @@ class Category with _$Category {
   }) = _Category;
 
   factory Category.fromJson(Map<String, dynamic> json) => _$CategoryFromJson(json);
+}
+
+@freezed
+class RequiredDocument with _$RequiredDocument {
+  const factory RequiredDocument({
+    int? id,
+    String? name,
+    @JsonKey(name: 'required_for_user') bool? requiredForUser,
+    @JsonKey(name: 'required_for_merchant') bool? requiredForMerchant,
+  }) = _RequiredDocument;
+
+  factory RequiredDocument.fromJson(Map<String, dynamic> json) => _$RequiredDocumentFromJson(json);
+}
+
+@freezed
+class Event with _$Event {
+  const factory Event({
+    String? id,
+    String? title,
+    DateTime? start,
+    DateTime? end,
+    String? duration,
+    @JsonKey(name: 'is_flexible') bool? isFlexible,
+    @JsonKey(name: 'is_active') bool? isActive,
+    @JsonKey(name: 'active_dates') List<String>? activeDates,
+    @JsonKey(name: 'guest_limit') double? guestLimit,
+  }) = _Event;
+
+  factory Event.fromJson(Map<String, dynamic> json) => _$EventFromJson(json);
 }

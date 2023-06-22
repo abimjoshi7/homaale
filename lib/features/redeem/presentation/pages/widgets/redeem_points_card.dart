@@ -45,7 +45,7 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
     }, builder: (context, state) {
       return state.status == TheStates.initial
           ? CardLoading(height: 100)
-          : state.redeem.length == 0
+          : state.redeem.length == 0 &&  state.status ==TheStates.success
               ? SizedBox(
                   width: 200,
                   height: 200,

@@ -167,7 +167,8 @@ class BookingRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> bookingHistory(BookingHistoryReq bookingHistoryReq) async {
+  Future<Map<String, dynamic>> bookingHistory(
+      BookingHistoryReq bookingHistoryReq) async {
     try {
       final query = bookingHistoryReq.toJson();
       log('booking api $query');
@@ -183,7 +184,8 @@ class BookingRepositories {
     }
   }
 
-  Future<Map<String, dynamic>> updateStatus({required String status, required String id}) async {
+  Future<Map<String, dynamic>> updateStatus(
+      {required String status, required String id}) async {
     try {
       final res = await _dio.postDataWithCredential(
         data: {
@@ -212,6 +214,24 @@ class BookingRepositories {
       );
     } catch (e) {
       log("Archive Task Entity Service Failure:${e.toString()}");
+      rethrow;
+    }
+  }
+
+  Future<void> updateNegotiationBookingPrice({
+    required String budget,
+    required int id,
+  }) async {
+    try {
+      await _dio.patchDataWithCredential(
+        data: {
+          "price": budget,
+        },
+        url: "/task/entity/service-booking/negotiate/$id/",
+        token: CacheHelper.accessToken,
+      );
+    } catch (e) {
+      log("Failure to update Negotiation Booking Price:${e.toString()}");
       rethrow;
     }
   }

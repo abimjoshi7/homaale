@@ -4,9 +4,11 @@ import 'package:cipher/features/bloc/scroll_bloc.dart';
 import 'package:cipher/features/error_pages/no_internet_page.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
-import 'package:cipher/features/services/data/models/self_created_task_service.dart'
-    as self;
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart'
+    as task;
+
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -28,28 +30,13 @@ class _TasksProfileState extends State<TasksProfile> {
     super.initState();
     _scrollBloc.add(
       FetchItemsEvent(
-        url: kMyTaskEntityServices,
+        url: kTaskEntityService,
         data: {
           "is_requested": true,
+          "created_by": context.read<UserBloc>().state.taskerProfile?.user?.id,
         },
         newFetch: true,
       ),
-    );
-    _controller.addListener(
-      () {
-        ScrollHelper.nextPageTrigger(
-          _controller,
-          _scrollBloc.add(
-            FetchItemsEvent(
-              url: kMyTaskEntityServices,
-              data: {
-                "is_requested": true,
-              },
-              newFetch: false,
-            ),
-          ),
-        );
-      },
     );
   }
 
@@ -67,7 +54,7 @@ class _TasksProfileState extends State<TasksProfile> {
         if (state.theState == TheStates.success) {
           final data = state.result
               .map(
-                (e) => self.Result.fromJson(
+                (e) => task.TaskEntityService.fromJson(
                   e as Map<String, dynamic>,
                 ),
               )
@@ -90,9 +77,15 @@ class _TasksProfileState extends State<TasksProfile> {
                       if (index >= data.length) {
                         _scrollBloc.add(
                           FetchItemsEvent(
-                            url: kMyTaskEntityServices,
+                            url: kTaskEntityService,
                             data: {
                               "is_requested": true,
+                              "created_by": context
+                                  .read<UserBloc>()
+                                  .state
+                                  .taskerProfile
+                                  ?.user
+                                  ?.id,
                             },
                             newFetch: false,
                           ),
@@ -109,7 +102,7 @@ class _TasksProfileState extends State<TasksProfile> {
                           startRate: '${data[index].budgetFrom ?? 0}',
                           endRate: '${data[index].budgetTo ?? 0}',
                           budgetType: '${data[index].budgetType}',
-                          count: data[index].viewsCount.toString(),
+                          count: data[index].count.toString(),
                           imageUrl: data[index].createdBy?.profileImage ??
                               kHomaaleImg,
                           location: data[index].location == ''
@@ -152,9 +145,18 @@ class _TasksProfileState extends State<TasksProfile> {
                             );
                           },
                           callback: () {
-                            context.read<TaskBloc>().add(
-                                SingleEntityTaskLoadInitiated(
-                                    id: data[index].id ?? ''));
+                            context
+                                .read<TaskBloc>()
+                                .add(SingleEntityTaskLoadInitiated(
+                                  id: data[index].id ?? '',
+                                  userId: context
+                                          .read<UserBloc>()
+                                          .state
+                                          .taskerProfile
+                                          ?.user
+                                          ?.id ??
+                                      '',
+                                ));
                             Navigator.pushNamed(
                                 context, SingleTaskPage.routeName);
                           },
@@ -166,7 +168,7 @@ class _TasksProfileState extends State<TasksProfile> {
           );
         }
         return const Center(
-          child: CircularProgressIndicator(),
+          child:  CardLoading(height: 400),
         );
       },
     );

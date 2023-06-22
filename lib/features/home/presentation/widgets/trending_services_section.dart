@@ -17,8 +17,7 @@ class TrendingServicesSection extends StatefulWidget {
   });
 
   @override
-  State<TrendingServicesSection> createState() =>
-      _TrendingServicesSectionState();
+  State<TrendingServicesSection> createState() => _TrendingServicesSectionState();
 }
 
 class _TrendingServicesSectionState extends State<TrendingServicesSection> {
@@ -32,7 +31,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
             child: Column(
               children: <Widget>[
                 SectionHeading(
-                  labelName: 'Trending services',
+                  labelName: 'Trending Services',
                   onTap: () async {
                     Navigator.pushNamed(
                       context,
@@ -49,22 +48,22 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
                     itemCount: state.taskEntityServiceModel.result?.length ?? 0,
-                    separatorBuilder: (context, index) =>
-                        addHorizontalSpace(10),
+                    separatorBuilder: (context, index) => addHorizontalSpace(10),
                     itemBuilder: (context, index) => GestureDetector(
                       onTap: () {
                         context.read<TaskEntityServiceBloc>().add(
                               TaskEntityServiceSingleLoaded(
-                                id: state.taskEntityServiceModel.result?[index]
-                                        .id ??
-                                    '',
+                                id: state.taskEntityServiceModel.result?[index].id ?? '',
+                              ),
+                            );
+                        context.read<TaskEntityServiceBloc>().add(
+                              FetchRecommendedSimilar(
+                                id: state.taskEntityServiceModel.result?[index].id ?? '',
                               ),
                             );
                         context.read<RatingReviewsBloc>().add(
                               SetToInitial(
-                                id: state.taskEntityServiceModel.result?[index]
-                                        .id ??
-                                    '',
+                                id: state.taskEntityServiceModel.result?[index].id ?? '',
                               ),
                             );
                         Navigator.pushNamed(
@@ -75,70 +74,41 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                       child: SizedBox(
                         width: MediaQuery.of(context).size.width * 0.48,
                         child: ServiceCard(
-                          location: state.taskEntityServiceModel.result?[index]
-                                      .location ==
-                                  ""
+                          location: state.taskEntityServiceModel.result?[index].location == ""
                               ? "Remote"
-                              : state.taskEntityServiceModel.result?[index]
-                                  .location,
+                              : state.taskEntityServiceModel.result?[index].location,
                           createdBy:
                               "${state.taskEntityServiceModel.result?[index].createdBy?.firstName} ${state.taskEntityServiceModel.result?[index].createdBy?.lastName}",
-                          title:
-                              state.taskEntityServiceModel.result?[index].title,
-                          imagePath: state.taskEntityServiceModel.result?[index]
-                                      .images?.length ==
-                                  0
+                          title: state.taskEntityServiceModel.result?[index].title,
+                          imagePath: state.taskEntityServiceModel.result?[index].images?.length == 0
                               ? kHomaaleImg
-                              : state.taskEntityServiceModel.result?[index]
-                                  .images?.first.media,
-                          rating: state
-                              .taskEntityServiceModel.result?[index].rating
-                              .toString(),
-                          isRange: state
-                              .taskEntityServiceModel.result?[index].isRange,
-                          rateTo: double.parse(state.taskEntityServiceModel
-                                      .result?[index].payableTo ??
-                                  "")
+                              : state.taskEntityServiceModel.result?[index].images?.first.media,
+                          rating: state.taskEntityServiceModel.result?[index].rating.toString(),
+                          isRange: state.taskEntityServiceModel.result?[index].isRange,
+                          rateTo: double.parse(state.taskEntityServiceModel.result?[index].payableTo ?? "")
                               .toInt()
                               .toString(),
-                          rateFrom: double.parse(state.taskEntityServiceModel
-                                      .result?[index].payableFrom ??
-                                  "")
+                          rateFrom: double.parse(state.taskEntityServiceModel.result?[index].payableFrom ?? "")
                               .toInt()
                               .toString(),
-                          isBookmarked: state.taskEntityServiceModel
-                              .result?[index].isBookmarked,
-                          isOwner: state.taskEntityServiceModel.result?[index]
-                                  .owner?.id ==
-                              context
-                                  .read<UserBloc>()
-                                  .state
-                                  .taskerProfile
-                                  ?.user
-                                  ?.id,
+                          isBookmarked: state.taskEntityServiceModel.result?[index].isBookmarked,
+                          isOwner: state.taskEntityServiceModel.result?[index].owner?.id ==
+                              context.read<UserBloc>().state.taskerProfile?.user?.id,
                           id: state.taskEntityServiceModel.result?[index].id,
                           editCallback: () {
                             showModalBottomSheet(
                               context: context,
                               isScrollControlled: true,
                               builder: (context) => Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.75,
+                                height: MediaQuery.of(context).size.height * 0.75,
                                 padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context)
-                                        .viewInsets
-                                        .bottom,
-                                    left: 8,
-                                    right: 8,
-                                    top: 8),
+                                    bottom: MediaQuery.of(context).viewInsets.bottom, left: 8, right: 8, top: 8),
                                 child: SingleChildScrollView(
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
                                     children: [
                                       EditTaskEntityServiceForm(
-                                        id: state.taskEntityServices?[index]
-                                                .id ??
-                                            "",
+                                        id: state.taskEntityServices?[index].id ?? "",
                                       ),
                                     ],
                                   ),

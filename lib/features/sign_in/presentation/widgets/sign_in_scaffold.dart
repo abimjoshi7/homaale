@@ -1,6 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -41,36 +42,35 @@ class SignInScaffold extends StatelessWidget {
                         children: <Widget>[
                           GestureDetector(
                             onTap: () {
+                              context.read<UserBloc>().add(UserCleared());
                               context
                                   .read<SignInBloc>()
                                   .add(SignInWithoutCredentials());
-                              Navigator.pushNamedAndRemoveUntil(
+
+                              Navigator.pushNamed(
                                 context,
                                 Root.routeName,
-                                (route) => false,
+                                // (route) => false,
                               );
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(
                                 horizontal: 8,
                               ),
-                              child: Visibility(
-                                visible: true,
-                                child: Row(
-                                  children: [
-                                    Text(
-                                      'Skip',
-                                      style: kSkipHelper.copyWith(
-                                          color: Colors.white),
-                                    ),
-                                    kWidth10,
-                                    Icon(
-                                      Icons.arrow_forward_ios_rounded,
-                                      size: 12,
-                                      color: Color(0xffdee2e6),
-                                    )
-                                  ],
-                                ),
+                              child: Row(
+                                children: [
+                                  Text(
+                                    'Skip',
+                                    style: kSkipHelper.copyWith(
+                                        color: Colors.white),
+                                  ),
+                                  kWidth10,
+                                  Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    size: 12,
+                                    color: Color(0xffdee2e6),
+                                  )
+                                ],
                               ),
                             ),
                           ),
@@ -98,8 +98,8 @@ class SignInScaffold extends StatelessWidget {
                     width: MediaQuery.of(context).size.width,
                     // height: MediaQuery.of(context).size.height * 0.8,
                     child: DecoratedBox(
-                      decoration:  BoxDecoration(
-                        color:Theme.of(context).appBarTheme.backgroundColor,
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).appBarTheme.backgroundColor,
                         borderRadius: BorderRadius.only(
                           topLeft: Radius.circular(100),
                         ),

@@ -3134,7 +3134,7 @@ CreatedByCity _$CreatedByCityFromJson(Map<String, dynamic> json) {
 mixin _$CreatedByCity {
   int? get id => throw _privateConstructorUsedError;
   String? get name => throw _privateConstructorUsedError;
-  @JsonKey()
+  @JsonKey(name: 'zip_code')
   String? get zipCode => throw _privateConstructorUsedError;
   double? get latitude => throw _privateConstructorUsedError;
   double? get longitude => throw _privateConstructorUsedError;
@@ -3155,7 +3155,7 @@ abstract class $CreatedByCityCopyWith<$Res> {
   $Res call(
       {int? id,
       String? name,
-      @JsonKey() String? zipCode,
+      @JsonKey(name: 'zip_code') String? zipCode,
       double? latitude,
       double? longitude,
       String? country});
@@ -3221,7 +3221,7 @@ abstract class _$$_CreatedByCityCopyWith<$Res>
   $Res call(
       {int? id,
       String? name,
-      @JsonKey() String? zipCode,
+      @JsonKey(name: 'zip_code') String? zipCode,
       double? latitude,
       double? longitude,
       String? country});
@@ -3280,7 +3280,7 @@ class _$_CreatedByCity implements _CreatedByCity {
   const _$_CreatedByCity(
       {this.id,
       this.name,
-      @JsonKey() this.zipCode,
+      @JsonKey(name: 'zip_code') this.zipCode,
       this.latitude,
       this.longitude,
       this.country});
@@ -3293,7 +3293,7 @@ class _$_CreatedByCity implements _CreatedByCity {
   @override
   final String? name;
   @override
-  @JsonKey()
+  @JsonKey(name: 'zip_code')
   final String? zipCode;
   @override
   final double? latitude;
@@ -3345,7 +3345,7 @@ abstract class _CreatedByCity implements CreatedByCity {
   const factory _CreatedByCity(
       {final int? id,
       final String? name,
-      @JsonKey() final String? zipCode,
+      @JsonKey(name: 'zip_code') final String? zipCode,
       final double? latitude,
       final double? longitude,
       final String? country}) = _$_CreatedByCity;
@@ -3358,7 +3358,7 @@ abstract class _CreatedByCity implements CreatedByCity {
   @override
   String? get name;
   @override
-  @JsonKey()
+  @JsonKey(name: 'zip_code')
   String? get zipCode;
   @override
   double? get latitude;

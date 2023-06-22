@@ -63,7 +63,7 @@ class _HistorySectionState extends State<HistorySection> {
       builder: (context, state) {
         var bookingList = state.result.map((e) => bookings.Result.fromJson(e as Map<String, dynamic>)).toList();
         return state.theState == TheStates.initial
-            ? SizedBox(child: Center(child: CircularProgressIndicator()))
+            ? SizedBox(child: Center(child: CardLoading(height: 500)))
             : bookingList.isEmpty
                 ? Center(
                     child: CommonErrorContainer(

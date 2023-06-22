@@ -26,8 +26,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-          appBarTitle: 'Privacy Policy', trailingWidget: SizedBox()),
+      appBar: CustomAppBar(appBarTitle: 'Privacy Policy', trailingWidget: SizedBox()),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -38,7 +37,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
             ),
             addVerticalSpace(16),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
+              padding: const EdgeInsets.symmetric(horizontal: 4.0),
               child: SizedBox(
                 height: MediaQuery.of(context).size.height * 0.88,
                 child: SingleChildScrollView(
@@ -51,8 +50,7 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                               context: context,
                               builder: (_) => CustomToast(
                                 heading: 'Failure',
-                                content:
-                                    'Failed to load updated privacy policy.',
+                                content: 'Failed to load updated privacy policy.',
                                 onTap: () => {},
                                 isSuccess: false,
                               ),
@@ -63,15 +61,13 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
                           if (state.theStates == TheStates.success) {
                             return ContentClientWidget(
                                 state: state,
-                                date: DateFormat.yMMMEd()
-                                    .format(state.contentClient!.createdAt!),
+                                date: DateFormat.yMMMEd().format(state.contentClient!.createdAt!),
                                 contentClientTitle: _contentClientTitle);
                           }
                           if (state.theStates == TheStates.failure) {
                             return ContentClientWidget(
                                 state: state,
-                                date: DateFormat.yMMMEd()
-                                    .format(state.contentClient!.createdAt!),
+                                date: DateFormat.yMMMEd().format(state.contentClient!.createdAt!),
                                 contentClientTitle: _contentClientTitle);
                           }
 

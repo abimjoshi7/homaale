@@ -40,6 +40,13 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
                             context.read<TaskBloc>().add(
                                   SingleEntityTaskLoadInitiated(
                                     id: e.data?.id.toString() ?? '',
+                                    userId: context
+                                            .read<UserBloc>()
+                                            .state
+                                            .taskerProfile
+                                            ?.user
+                                            ?.id ??
+                                        '',
                                   ),
                                 );
                             Navigator.pushNamed(
@@ -77,6 +84,13 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
                               context.read<TaskBloc>().add(
                                     SingleEntityTaskLoadInitiated(
                                       id: e.data?.id.toString() ?? '',
+                                      userId: context
+                                              .read<UserBloc>()
+                                              .state
+                                              .taskerProfile
+                                              ?.user
+                                              ?.id ??
+                                          '',
                                     ),
                                   );
                               Navigator.pushNamed(

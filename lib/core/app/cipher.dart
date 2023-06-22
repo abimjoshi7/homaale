@@ -31,6 +31,7 @@ import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_
 import 'package:cipher/features/redeem/presentation/bloc/redeem_bloc.dart';
 import 'package:cipher/features/redeem/statement/presentation/bloc/redeem_statement_bloc.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
+import 'package:cipher/features/security_question/presentation/bloc/security_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
@@ -54,6 +55,7 @@ import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/skills/skills_bloc.dart';
 import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/locator.dart';
+import 'package:cipher/main.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../features/booking_cancel/presentation/bloc/booking_cancel_bloc.dart';
@@ -149,6 +151,7 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => locator<SavedBloc>()),
           BlocProvider(create: (context) => locator<BookEventHandlerBloc>()),
           BlocProvider(create: (context) => WalletBloc()),
+          BlocProvider(create: (context) => SecurityBloc()),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {

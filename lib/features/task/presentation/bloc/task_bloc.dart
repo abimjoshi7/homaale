@@ -6,8 +6,7 @@ import 'package:cipher/features/billing_payment_page/presentation/bloc/bills_pay
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart'
-    as es;
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart' as es;
 import 'package:cipher/features/services/data/models/self_created_task_service.dart';
 import 'package:cipher/features/services/data/models/services_list.dart';
 import 'package:cipher/features/services/data/repositories/services_repositories.dart';
@@ -18,6 +17,7 @@ import 'package:cipher/features/task/data/repositories/task_repositories.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/applicant_model.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/task_entity_service/data/repositories/task_entity_services_repository.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 
 part 'task_event.dart';
@@ -48,19 +48,19 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             );
           if (state.theState == TheStates.initial) {
             var taskEntityServiceModel = await _repo.getTaskEntityServices(
-              isTask: true,
-              page: 1,
-              budgetFrom: event.budgetFrom,
-              budgetTo: event.budgetTo,
-              payableFrom: event.payableFrom,
-              payableTo: event.payableTo,
-              dateFrom: event.dateFrom,
-              dateTo: event.dateTo,
-              city: event.city,
-              category: event.category,
-              query: event.query,
-              serviceId: event.serviceId,
-            );
+                isTask: true,
+                page: 1,
+                budgetFrom: event.budgetFrom,
+                budgetTo: event.budgetTo,
+                payableFrom: event.payableFrom,
+                payableTo: event.payableTo,
+                dateFrom: event.dateFrom,
+                dateTo: event.dateTo,
+                city: event.city,
+                category: event.category,
+                query: event.query,
+                serviceId: event.serviceId,
+                order: [event.dateSort.toString(), event.budgetSort.toString()]);
             emit(
               state.copyWith(
                 theState: TheStates.success,
@@ -71,19 +71,19 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
             );
           } else {
             var taskEntityServiceModel = await _repo.getTaskEntityServices(
-              page: state.taskEntityServiceModel.current! + 1,
-              isTask: true,
-              budgetFrom: event.budgetFrom,
-              budgetTo: event.budgetTo,
-              payableFrom: event.payableFrom,
-              payableTo: event.payableTo,
-              dateFrom: event.dateFrom,
-              dateTo: event.dateTo,
-              city: event.city,
-              category: event.category,
-              query: event.query,
-              serviceId: event.serviceId,
-            );
+                page: state.taskEntityServiceModel.current! + 1,
+                isTask: true,
+                budgetFrom: event.budgetFrom,
+                budgetTo: event.budgetTo,
+                payableFrom: event.payableFrom,
+                payableTo: event.payableTo,
+                dateFrom: event.dateFrom,
+                dateTo: event.dateTo,
+                city: event.city,
+                category: event.category,
+                query: event.query,
+                serviceId: event.serviceId,
+                order: [event.dateSort.toString(), event.budgetSort.toString()]);
             if (taskEntityServiceModel.next == null) {
               emit(
                 state.copyWith(
@@ -124,17 +124,15 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         try {
           await tesRepo.getSingleTaskEntityService(event.id).then(
             (singleTask) async {
-              await repo
-                  .singleTaskAppliedCount(id: event.id)
-                  .then((count) async {
+              await repo.singleTaskAppliedCount(id: event.id).then((count) async {
                 if (CacheHelper.isLoggedIn) {
+                  // if (state.taskModel?.createdBy?.id == event.userId) {
                   await tesRepo.getApplicants(event.id).then((applicants) {
                     emit(
                       state.copyWith(
                         theState: TheStates.success,
                         taskModel: singleTask,
-                        taskApplyCountModel:
-                            TaskApplyCountModel.fromJson(count),
+                        taskApplyCountModel: TaskApplyCountModel.fromJson(count),
                         applicantModel: applicants,
                       ),
                     );
@@ -281,9 +279,8 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
                 (value) => emit(
                   state.copyWith(
                     servicesLoaded: true,
-                    serviceList:
-                        value.map((e) => ServiceList.fromJson(e)).toList()
-                          ..sort((a, b) => a.title!.compareTo(b.title!)),
+                    serviceList: value.map((e) => ServiceList.fromJson(e)).toList()
+                      ..sort((a, b) => a.title!.compareTo(b.title!)),
                   ),
                 ),
               );
@@ -310,5 +307,25 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
         );
       },
     );
+
+    on<ChangeTaskNegotiationStatus>((event, emit) async {
+      try {
+        await _repo
+            .changeNegotiationStatus(
+              id: event.id,
+            )
+            .then(
+              (value) => emit(
+                state.copyWith(
+                  isNegotiationStatusChanged: true,
+                ),
+              ),
+            );
+      } catch (e) {
+        emit(state.copyWith(
+          isNegotiationStatusChanged: false,
+        ));
+      }
+    });
   }
 }

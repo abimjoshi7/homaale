@@ -11,6 +11,7 @@ class ListTileComponent extends StatelessWidget {
   final DateTime? time;
   final Color bgColor;
   final DateTime? readDate;
+  final bool hasStatusBox;
 
   const ListTileComponent({
     Key? key,
@@ -21,12 +22,15 @@ class ListTileComponent extends StatelessWidget {
     required this.bgColor,
     this.time,
     this.readDate,
+    this.hasStatusBox = true,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ColoredBox(
-      color: readDate == null ? kColorBlue.withOpacity(0.2) :Theme.of(context).cardColor ,
+      color: readDate == null
+          ? kColorBlue.withOpacity(0.2)
+          : Theme.of(context).cardColor,
       child: ListTile(
         leading: Container(
           padding: const EdgeInsets.all(8),
@@ -70,17 +74,20 @@ class ListTileComponent extends StatelessWidget {
               const SizedBox(),
           ],
         ),
-        trailing: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            color: bgColor,
-          ),
-          child: Text(
-            statusTitle,
-            style: const TextStyle(color: Colors.white),
-          ),
-        ),
+        trailing: hasStatusBox
+            ? Container(
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: bgColor,
+                ),
+                child: Text(
+                  statusTitle,
+                  style: const TextStyle(color: Colors.white),
+                ),
+              )
+            : null,
       ),
     );
   }

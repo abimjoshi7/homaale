@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class AdditionalInfoSection extends StatelessWidget {
@@ -8,15 +9,19 @@ class AdditionalInfoSection extends StatelessWidget {
     this.date,
     this.location,
     this.views,
-    this.happyClients,
-    this.successRate,
+    this.startDate,
+    this.endDate,
+    this.startTime,
+    this.endTime,
   });
 
   final String? date;
+  final String? startDate;
+  final String? endDate;
+  final String? startTime;
+  final String? endTime;
   final String? location;
   final String? views;
-  final String? happyClients;
-  final String? successRate;
 
   @override
   Widget build(BuildContext context) {
@@ -41,17 +46,66 @@ class AdditionalInfoSection extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  IconText(
-                    label: 'Date & Time',
-                    iconData: Icons.calendar_today_rounded,
-                    color: Colors.orangeAccent,
-                  ),
-                  Text(date ?? '')
-                ],
-              ),
+              if (startDate != null) ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconText(
+                      label: 'Start Date',
+                      iconData: Icons.calendar_today_rounded,
+                      color: Colors.orangeAccent,
+                    ),
+                    Text(startDate ?? '')
+                  ],
+                ),
+              ],
+              if (endDate != null) ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconText(
+                      label: 'End Date',
+                      iconData: Icons.calendar_today_rounded,
+                      color: Colors.orangeAccent,
+                    ),
+                    Text(endDate ?? '')
+                  ],
+                ),
+              ],
+              if (startTime != null) ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconText(
+                      label: 'Start Time',
+                      iconData: Icons.timer_outlined,
+                      color: kColorPrimary,
+                    ),
+                    Text(
+                      DateFormat.jm().format(
+                        DateFormat('hh:mm:ss').parse(startTime!),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+              if (endTime != null) ...[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    IconText(
+                      label: 'End Time',
+                      iconData: Icons.timer_outlined,
+                      color: kColorPrimary,
+                    ),
+                    Text(
+                      DateFormat.jm().format(
+                        DateFormat('hh:mm:ss').parse(endTime!),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -73,28 +127,6 @@ class AdditionalInfoSection extends StatelessWidget {
                   Text(views ?? '')
                 ],
               ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     IconText(
-              //       label: 'Happy Clients',
-              //       iconData: Icons.emoji_emotions_outlined,
-              //       color: Colors.orange,
-              //     ),
-              //     Text(happyClients ?? '0')
-              //   ],
-              // ),
-              // Row(
-              //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              //   children: [
-              //     IconText(
-              //       label: 'Success Rate',
-              //       iconData: Icons.app_shortcut_sharp,
-              //       color: Colors.blue,
-              //     ),
-              //     Text(successRate ?? '0')
-              //   ],
-              // ),
             ],
           ),
         ),

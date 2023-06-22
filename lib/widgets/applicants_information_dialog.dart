@@ -7,6 +7,7 @@ showApplicantDetailsDialog({
   required String profileImage,
   bool? isProfileVerified = false,
   String? label,
+  bool isNegotiable = false,
   String? designation,
   String? distance,
   String? successRate,
@@ -16,6 +17,9 @@ showApplicantDetailsDialog({
   String? budget,
   String? description,
   String? status,
+  bool isAccepted = false,
+  required VoidCallback onNegotiatePressed,
+  // required VoidCallback onAcceptedCallback,
   required VoidCallback onApprovePressed,
   required VoidCallback onRejectPressed,
 }) {
@@ -23,7 +27,7 @@ showApplicantDetailsDialog({
     context: context,
     builder: (context) => Dialog(
       child: Container(
-        height: MediaQuery.of(context).size.height * 0.6,
+        height: MediaQuery.of(context).size.height * 0.88,
         width: MediaQuery.of(context).size.width * 0.8,
         padding: EdgeInsets.all(16.0),
         child: Column(
@@ -85,11 +89,11 @@ showApplicantDetailsDialog({
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                IconText(
-                  iconData: Icons.navigation_outlined,
-                  color: kColorSilver,
-                  label: distance ?? '0',
-                ),
+                // IconText(
+                //   iconData: Icons.navigation_outlined,
+                //   color: kColorSilver,
+                //   label: distance ?? '0',
+                // ),
                 IconText(
                   iconData: Icons.military_tech_rounded,
                   color: kColorSilver,
@@ -152,26 +156,60 @@ showApplicantDetailsDialog({
               ),
             ),
             if (status?.toLowerCase() == 'pending') ...[
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  CustomElevatedButton(
-                    theWidth: MediaQuery.of(context).size.width * 0.3,
-                    borderColor: kColorAmber,
-                    mainColor: Colors.white,
-                    label: 'Reject',
-                    textColor: kColorAmber,
-                    callback: onRejectPressed,
-                  ),
-                  CustomElevatedButton(
-                    theWidth: MediaQuery.of(context).size.width * 0.3,
-                    mainColor: kColorAmber,
-                    label: 'Approve',
-                    textColor: Colors.white,
-                    callback: onApprovePressed,
-                  ),
-                ],
-              )
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    CustomElevatedButton(
+                      theWidth: MediaQuery.of(context).size.width,
+                      borderColor:
+                          isNegotiable ? kColorPrimary : Colors.grey.shade500,
+                      mainColor: isNegotiable ? kColorPrimary : Colors.grey,
+                      label: 'Negotiate',
+                      textColor: Colors.white,
+                      callback: isNegotiable ? onNegotiatePressed : () {},
+                    ),
+                    addVerticalSpace(13.0),
+                    CustomElevatedButton(
+                      theWidth: MediaQuery.of(context).size.width,
+                      mainColor: kColorPrimary,
+                      label: 'Approve',
+                      textColor: Colors.white,
+                      callback: onApprovePressed,
+                    ),
+                    addVerticalSpace(13.0),
+                    CustomElevatedButton(
+                      theWidth: MediaQuery.of(context).size.width,
+                      borderColor: kColorPrimary,
+                      mainColor: Colors.white,
+                      label: 'Reject',
+                      textColor: kColorPrimary,
+                      callback: onRejectPressed,
+                    ),
+                  ],
+                ),
+              ),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              //   children: [
+              //     CustomElevatedButton(
+              //       theWidth: MediaQuery.of(context).size.width * 0.3,
+              //       borderColor: kColorAmber,
+              //       mainColor: Colors.white,
+              //       label: 'Reject',
+              //       textColor: kColorAmber,
+              //       callback: onRejectPressed,
+              //     ),
+              //     CustomElevatedButton(
+              //       theWidth: MediaQuery.of(context).size.width * 0.3,
+              //       mainColor: kColorAmber,
+              //       label: 'Approve',
+              //       textColor: Colors.white,
+              //       callback: onApprovePressed,
+              //     ),
+              //   ],
+              // )
             ] else if (status?.toLowerCase() == 'rejected')
               Center(
                 child: CustomElevatedButton(

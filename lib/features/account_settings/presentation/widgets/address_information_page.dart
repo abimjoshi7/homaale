@@ -1,4 +1,3 @@
-import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/data/models/models.dart';
@@ -28,24 +27,25 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
       listener: (context, state) {
-        if (state.theStates == TheStates.success) {
+        if (state.theStates == TheStates.success && state.isEdited == true) {
           showDialog(
             context: context,
             builder: (context) => CustomToast(
               heading: 'Success',
               content: 'Address information updated successfully',
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  Root.routeName,
-                  (route) => false,
-                );
+                Navigator.pop(context);
+                // Navigator.pushNamedAndRemoveUntil(
+                //   context,
+                //   Root.routeName,
+                //   (route) => false,
+                // );
               },
               isSuccess: true,
             ),
           );
         }
-        if (state.theStates == TheStates.failure) {
+        if (state.theStates == TheStates.failure && state.isEdited == false) {
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -58,6 +58,8 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
         }
       },
       builder: (context, state) {
+
+
         if (state.theStates == TheStates.success) {
           // user = state.taskerProfile?.user;
           return Padding(
@@ -65,6 +67,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
             child: ListView(children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
                 children: [
                   addVerticalSpace(10),
                   Text(
@@ -90,13 +93,11 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                                     'Australia',
                                     'Nepal',
                                   ],
-                              onChanged: (value) {
-                                setState(
-                                  () async {
-                                    countryName = value;
-                                  },
-                                );
-                              },
+                              onChanged: (value) => setState(
+                                () {
+                                  countryName = value;
+                                },
+                              ),
                             ),
                           );
                         },
@@ -105,8 +106,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                       CustomFormField(
                         label: 'Address Line 1',
                         child: CustomTextFormField(
-                          hintText:
-                              state.taskerProfile?.addressLine1 ?? 'Baneshwor',
+                          hintText: state.taskerProfile?.addressLine1 ?? '',
                           onChanged: (p0) => setState(
                             () {
                               addressLine1 = p0;
@@ -127,6 +127,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                         ),
                       ),
                       addVerticalSpace(10),
+
                       BlocBuilder<LanguageBloc, LanguageState>(
                         builder: (context, languageState) {
                           if (languageState is LanguageLoadSuccess) {
@@ -134,7 +135,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                           }
                           return CustomFormField(
                             label: 'Languages',
-                            child: CustomDropDownField(
+                            child: CustomDropdownSearch(
                               hintText: state.taskerProfile?.language?.name ??
                                   'Specify your language',
                               list: languageList?.map((e) => e.name).toList() ??
@@ -144,7 +145,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                                   ],
                               onChanged: (value) => setState(
                                 () {
-                                  languages = value;
+                                  languages == value;
                                 },
                               ),
                             ),
@@ -159,24 +160,44 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                             if (currencyState is CurrencyLoadSuccess) {
                               currencyList = currencyState.currencyListRes;
                             }
-                            return CustomDropDownField(
-                              hintText:
-                                  state.taskerProfile?.chargeCurrency?.name ??
-                                      'Choose suitable currency',
-                              list: currencyList?.map((e) => e.name).toList() ??
-                                  [
-                                    'NPR',
-                                    'AUD',
-                                  ],
-                              onChanged: (value) => setState(
-                                () {
-                                  currency = value;
-                                },
-                              ),
-                            );
+                            return CustomDropdownSearch(
+                              hintText: state.taskerProfile?.chargeCurrency?.name ??
+                                    'Choose suitable currency',
+                                list:  currencyList?.map((e) => e.name).toList() ??
+                                    [
+                                      'NPR',
+                                      'AUD',
+                                    ],
+                                onChanged: (value) => setState(
+                                      () {
+                                    currency == value;
+                                  },
+                                ),
+                              );
+
+
+                            //   CustomDropDownField(
+                            //   hintText:
+                            //       state.taskerProfile?.chargeCurrency?.name ??
+                            //           'Choose suitable currency',
+                            //   list: currencyList?.map((e) => e.name).toList() ??
+                            //       [
+                            //         'NPR',
+                            //         'AUD',
+                            //       ],
+                            //   onChanged: (value) => setState(
+                            //     () {
+                            //       currency = value;
+                            //     },
+                            //   ),
+                            // );
                           },
                         ),
                       ),
+
+
+
+
                       addVerticalSpace(10),
                     ],
                   ),
@@ -186,7 +207,8 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                 ],
               ),
               CustomElevatedButton(
-                callback: () async {
+                callback: ()  {
+
                   String? countryCode;
                   String? languageCode;
                   String? currencyCode;
@@ -212,12 +234,12 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                       });
                     }
                   }
-                  final map = {
+                  final Map<String,dynamic> map = {
                     "country": countryCode ?? state.taskerProfile?.country,
                     "address_line1":
-                        addressLine1 ?? state.taskerProfile?.addressLine1,
+                    addressLine1 ?? state.taskerProfile?.addressLine1,
                     "address_line2":
-                        addressLine2 ?? state.taskerProfile?.addressLine2,
+                    addressLine2 ?? state.taskerProfile?.addressLine2,
                     "language": languageCode ?? state.taskerProfile?.language,
                     "charge_currency": currencyCode ??
                         state.taskerProfile?.chargeCurrency?.code,
@@ -233,7 +255,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
               ),
               kHeight10,
               CustomElevatedButton(
-                callback: () async {
+                callback: () {
                   Navigator.pop(context);
                 },
                 label: 'Cancel',
@@ -297,4 +319,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
       },
     );
   }
+
+
+
 }

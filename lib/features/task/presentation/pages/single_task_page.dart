@@ -3,6 +3,8 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
+import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/support/presentation/widgets/report_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart'
@@ -10,6 +12,8 @@ import 'package:cipher/features/task_entity_service/data/models/task_entity_serv
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart'
     as tsk;
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/recommended_services.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/custom_favourite_icon.dart';
 import 'package:dependencies/dependencies.dart';
@@ -142,6 +146,13 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                         context.read<TaskBloc>().add(
                               SingleEntityTaskLoadInitiated(
                                 id: state.taskModel?.id ?? '',
+                                userId: context
+                                        .read<UserBloc>()
+                                        .state
+                                        .taskerProfile
+                                        ?.user
+                                        ?.id ??
+                                    '',
                               ),
                             );
                       },
@@ -533,50 +544,59 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                   ],
                                 ),
                                 addVerticalSpace(10),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.watch_later_outlined,
-                                          color: Colors.blue,
-                                          size: 18,
-                                        ),
-                                        kWidth5,
-                                        Text(
-                                          '${state.taskModel?.startTime ?? "N/A"}',
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.people_alt_outlined,
-                                          color: kColorPrimary,
-                                          size: 18,
-                                        ),
-                                        kWidth5,
-                                        Text(
-                                          '${state.taskApplyCountModel?.count?.first.taskerCount ?? 0} Applied',
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.remove_red_eye_outlined,
-                                          color: kColorPrimary,
-                                          size: 18,
-                                        ),
-                                        kWidth5,
-                                        Text(
-                                          "${state.taskModel?.count ?? 0} Views",
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                                Visibility(
+                                  visible: state.taskModel?.startTime != null,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.watch_later_outlined,
+                                            color: Colors.blue,
+                                            size: 18,
+                                          ),
+                                          kWidth5,
+                                          state.taskModel?.startTime == null
+                                              ? Text('00:00')
+                                              : Text(
+                                                  '${DateFormat.jm().format(
+                                                    DateFormat('hh:mm:ss')
+                                                        .parse(state.taskModel!
+                                                            .startTime!),
+                                                  )}',
+                                                ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.people_alt_outlined,
+                                            color: kColorPrimary,
+                                            size: 18,
+                                          ),
+                                          kWidth5,
+                                          Text(
+                                            '${state.taskApplyCountModel?.count?.first.taskerCount ?? 0} Applied',
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.remove_red_eye_outlined,
+                                            color: kColorPrimary,
+                                            size: 18,
+                                          ),
+                                          kWidth5,
+                                          Text(
+                                            "${state.taskModel?.count ?? 0} Views",
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                                 addVerticalSpace(24),
                                 Align(
@@ -631,6 +651,39 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                   itemCount:
                                       state.taskModel?.highlights?.length ?? 0,
                                 ),
+                                BlocBuilder<RatingReviewsBloc,
+                                    RatingReviewState>(
+                                  builder: (context, ratingBloc) {
+                                    switch (ratingBloc.status) {
+                                      case RatingStatus.success:
+                                        return RatingReviewSection(
+                                          reviews: ratingBloc.ratingResponseDto,
+                                        );
+                                      case RatingStatus.failure:
+                                        return SizedBox();
+                                      default:
+                                        return SizedBox();
+                                    }
+                                  },
+                                ),
+                                addVerticalSpace(16),
+                                RecommendedSimilarServices(
+                                  isRecommended: true,
+                                  recommend: context
+                                      .read<tsk.TaskEntityServiceBloc>()
+                                      .state
+                                      .recommendedSimilarDto
+                                      .recommend,
+                                ),
+                                kHeight15,
+                                RecommendedSimilarServices(
+                                  isRecommended: false,
+                                  recommend: context
+                                      .read<tsk.TaskEntityServiceBloc>()
+                                      .state
+                                      .recommendedSimilarDto
+                                      .similar,
+                                ),
                               ],
                             ),
                           ),
@@ -654,7 +707,11 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                 (index) => TaskerCard(
                                   onFavouriteTapped: () {},
                                   callback: () => showApplicantDetailsDialog(
+                                    description:
+                                        '${state.applicantModel?.result?[index].description}',
                                     context: context,
+                                    isNegotiable:
+                                        state.taskModel?.isNegotiable ?? false,
                                     profileImage: state
                                             .applicantModel
                                             ?.result?[index]
@@ -679,7 +736,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                         false,
                                     title: state.taskModel?.title ?? '',
                                     budget:
-                                        'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
+                                        '${state.applicantModel?.result?[index].currency ?? ''}. ${state.applicantModel?.result?[index].price ?? ''}',
                                     status: state
                                         .applicantModel?.result?[index].status,
                                     onRejectPressed: () {
@@ -704,6 +761,16 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                           );
                                       Navigator.pop(context);
                                     },
+                                    onNegotiatePressed: () {
+                                      context.read<TaskBloc>().add(
+                                            ChangeTaskNegotiationStatus(
+                                              id: state.applicantModel
+                                                      ?.result?[index].id ??
+                                                  0,
+                                            ),
+                                          );
+                                      //TODO: chat navigation
+                                    },
                                   ),
                                   buttonWidth:
                                       MediaQuery.of(context).size.width * 0.22,
@@ -723,14 +790,13 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                   designation: state.applicantModel
                                       ?.result?[index].createdBy?.designation,
                                   rate:
-                                      'Rs. ${state.applicantModel?.result?[index].budgetFrom ?? 0} - ${state.applicantModel?.result?[index].budgetTo ?? 0}',
+                                      'Rs. ${state.applicantModel?.result?[index].currency ?? ""} - ${state.applicantModel?.result?[index].price ?? ""}',
                                   ratings:
                                       '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
                                 ),
                               ),
                             ),
                           ],
-                          addVerticalSpace(16)
                         ],
                       ),
                     ),
@@ -738,6 +804,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                   Visibility(
                     visible: true,
                     child: PriceBookFooterSection(
+                      isNegotiable: state.taskModel?.isNegotiable ?? false,
                       isUser: state.taskModel?.createdBy?.id ==
                           context
                               .read<UserBloc>()
@@ -761,7 +828,15 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                         if (CacheHelper.isKycVerified == false) return;
                         context.read<TaskBloc>().add(
                               SingleEntityTaskLoadInitiated(
-                                  id: state.taskModel?.id ?? ''),
+                                id: state.taskModel?.id ?? '',
+                                userId: context
+                                        .read<UserBloc>()
+                                        .state
+                                        .taskerProfile
+                                        ?.user
+                                        ?.id ??
+                                    '',
+                              ),
                             );
                         Navigator.pushNamed(context, ApplyTaskPage.routeName);
                       },

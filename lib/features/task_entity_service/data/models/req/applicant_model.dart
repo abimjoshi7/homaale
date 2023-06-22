@@ -27,9 +27,10 @@ class Result with _$Result {
     @JsonKey(name: 'created_at') String? createdAt,
     String? status,
     String? currency,
-    @JsonKey(name: 'budget_from') String? budgetFrom,
-    @JsonKey(name: 'budget_to') String? budgetTo,
+    String? price,
+    String? earning,
     @JsonKey(name: 'budget_type') String? budgetType,
+    String? description,
     @JsonKey(name: 'created_by') CreatedBy? createdBy,
   }) = _Result;
 

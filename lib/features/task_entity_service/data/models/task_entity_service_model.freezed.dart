@@ -314,6 +314,8 @@ mixin _$TaskEntityService {
   num? get count => throw _privateConstructorUsedError;
   @JsonKey(name: "is_bookmarked")
   bool? get isBookmarked => throw _privateConstructorUsedError;
+  @JsonKey(name: "booked_count")
+  int? get bookedCount => throw _privateConstructorUsedError;
   List<Offer>? get offers => throw _privateConstructorUsedError;
   List<Badge>? get endorsements => throw _privateConstructorUsedError;
   @JsonKey(name: "is_redeemable")
@@ -409,6 +411,7 @@ abstract class $TaskEntityServiceCopyWith<$Res> {
       double? rating,
       num? count,
       @JsonKey(name: "is_bookmarked") bool? isBookmarked,
+      @JsonKey(name: "booked_count") int? bookedCount,
       List<Offer>? offers,
       List<Badge>? endorsements,
       @JsonKey(name: "is_redeemable") bool? isRedeemable,
@@ -483,6 +486,7 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
     Object? rating = freezed,
     Object? count = freezed,
     Object? isBookmarked = freezed,
+    Object? bookedCount = freezed,
     Object? offers = freezed,
     Object? endorsements = freezed,
     Object? isRedeemable = freezed,
@@ -566,6 +570,10 @@ class _$TaskEntityServiceCopyWithImpl<$Res, $Val extends TaskEntityService>
           ? _value.isBookmarked
           : isBookmarked // ignore: cast_nullable_to_non_nullable
               as bool?,
+      bookedCount: freezed == bookedCount
+          ? _value.bookedCount
+          : bookedCount // ignore: cast_nullable_to_non_nullable
+              as int?,
       offers: freezed == offers
           ? _value.offers
           : offers // ignore: cast_nullable_to_non_nullable
@@ -837,6 +845,7 @@ abstract class _$$_TaskEntityServiceCopyWith<$Res>
       double? rating,
       num? count,
       @JsonKey(name: "is_bookmarked") bool? isBookmarked,
+      @JsonKey(name: "booked_count") int? bookedCount,
       List<Offer>? offers,
       List<Badge>? endorsements,
       @JsonKey(name: "is_redeemable") bool? isRedeemable,
@@ -916,6 +925,7 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
     Object? rating = freezed,
     Object? count = freezed,
     Object? isBookmarked = freezed,
+    Object? bookedCount = freezed,
     Object? offers = freezed,
     Object? endorsements = freezed,
     Object? isRedeemable = freezed,
@@ -999,6 +1009,10 @@ class __$$_TaskEntityServiceCopyWithImpl<$Res>
           ? _value.isBookmarked
           : isBookmarked // ignore: cast_nullable_to_non_nullable
               as bool?,
+      bookedCount: freezed == bookedCount
+          ? _value.bookedCount
+          : bookedCount // ignore: cast_nullable_to_non_nullable
+              as int?,
       offers: freezed == offers
           ? _value._offers
           : offers // ignore: cast_nullable_to_non_nullable
@@ -1181,6 +1195,7 @@ class _$_TaskEntityService implements _TaskEntityService {
       this.rating,
       this.count,
       @JsonKey(name: "is_bookmarked") this.isBookmarked,
+      @JsonKey(name: "booked_count") this.bookedCount,
       final List<Offer>? offers,
       final List<Badge>? endorsements,
       @JsonKey(name: "is_redeemable") this.isRedeemable,
@@ -1269,6 +1284,9 @@ class _$_TaskEntityService implements _TaskEntityService {
   @override
   @JsonKey(name: "is_bookmarked")
   final bool? isBookmarked;
+  @override
+  @JsonKey(name: "booked_count")
+  final int? bookedCount;
   final List<Offer>? _offers;
   @override
   List<Offer>? get offers {
@@ -1408,7 +1426,7 @@ class _$_TaskEntityService implements _TaskEntityService {
 
   @override
   String toString() {
-    return 'TaskEntityService(id: $id, currency: $currency, city: $city, createdBy: $createdBy, service: $service, images: $images, videos: $videos, rating: $rating, count: $count, isBookmarked: $isBookmarked, offers: $offers, endorsements: $endorsements, isRedeemable: $isRedeemable, event: $event, ratingStats: $ratingStats, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, isRange: $isRange, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, viewsCount: $viewsCount, location: $location, isBooked: $isBooked, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, payableFrom: $payableFrom, payableTo: $payableTo, updatedBy: $updatedBy, ratingCount: $ratingCount, owner: $owner, merchant: $merchant, avatar: $avatar)';
+    return 'TaskEntityService(id: $id, currency: $currency, city: $city, createdBy: $createdBy, service: $service, images: $images, videos: $videos, rating: $rating, count: $count, isBookmarked: $isBookmarked, bookedCount: $bookedCount, offers: $offers, endorsements: $endorsements, isRedeemable: $isRedeemable, event: $event, ratingStats: $ratingStats, createdAt: $createdAt, updatedAt: $updatedAt, deletedAt: $deletedAt, title: $title, description: $description, highlights: $highlights, budgetType: $budgetType, isRange: $isRange, budgetFrom: $budgetFrom, budgetTo: $budgetTo, startDate: $startDate, endDate: $endDate, startTime: $startTime, endTime: $endTime, shareLocation: $shareLocation, isNegotiable: $isNegotiable, viewsCount: $viewsCount, location: $location, isBooked: $isBooked, isProfessional: $isProfessional, isOnline: $isOnline, isRequested: $isRequested, discountType: $discountType, discountValue: $discountValue, noOfReservation: $noOfReservation, slug: $slug, isActive: $isActive, needsApproval: $needsApproval, isEndorsed: $isEndorsed, payableFrom: $payableFrom, payableTo: $payableTo, updatedBy: $updatedBy, ratingCount: $ratingCount, owner: $owner, merchant: $merchant, avatar: $avatar)';
   }
 
   @override
@@ -1429,6 +1447,8 @@ class _$_TaskEntityService implements _TaskEntityService {
             (identical(other.count, count) || other.count == count) &&
             (identical(other.isBookmarked, isBookmarked) ||
                 other.isBookmarked == isBookmarked) &&
+            (identical(other.bookedCount, bookedCount) ||
+                other.bookedCount == bookedCount) &&
             const DeepCollectionEquality().equals(other._offers, _offers) &&
             const DeepCollectionEquality()
                 .equals(other._endorsements, _endorsements) &&
@@ -1517,6 +1537,7 @@ class _$_TaskEntityService implements _TaskEntityService {
         rating,
         count,
         isBookmarked,
+        bookedCount,
         const DeepCollectionEquality().hash(_offers),
         const DeepCollectionEquality().hash(_endorsements),
         isRedeemable,
@@ -1587,6 +1608,7 @@ abstract class _TaskEntityService implements TaskEntityService {
       final double? rating,
       final num? count,
       @JsonKey(name: "is_bookmarked") final bool? isBookmarked,
+      @JsonKey(name: "booked_count") final int? bookedCount,
       final List<Offer>? offers,
       final List<Badge>? endorsements,
       @JsonKey(name: "is_redeemable") final bool? isRedeemable,
@@ -1654,6 +1676,9 @@ abstract class _TaskEntityService implements TaskEntityService {
   @override
   @JsonKey(name: "is_bookmarked")
   bool? get isBookmarked;
+  @override
+  @JsonKey(name: "booked_count")
+  int? get bookedCount;
   @override
   List<Offer>? get offers;
   @override
