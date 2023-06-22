@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/error_pages/no_internet_page.dart';
 import 'package:cipher/features/profile/presentation/widgets/widgets.dart';
 import 'package:cipher/features/transaction/data/models/transactions_res.dart';
 import 'package:cipher/features/transaction/presentation/bloc/transaction_bloc.dart';
@@ -103,13 +104,14 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
         trailingWidget:
             // *** To be implemented ***
             IconButton(
+          tooltip: 'Download Transactions',
           onPressed: () async {
             _transactionBloc.add(
               TransactionDownloaded(),
             );
           },
           icon: Icon(
-            Icons.file_present_outlined,
+            Icons.arrow_circle_down_outlined,
           ),
         ),
       ),
@@ -168,10 +170,13 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                "03 Dec 2022, Sunday",
-                                style: kHelper13,
-                              ),
+                              if (state.transactions.length == 0)
+                                CommonErrorContainer(
+                                  assetsPath: 'assets/no_data_found.png',
+                                  errorTile: 'Item not available.',
+                                  errorDes:
+                                      'We’re sorry, the data your transactions could not found.',
+                                ),
                               Expanded(
                                 child: ListView.builder(
                                   controller: _controller,

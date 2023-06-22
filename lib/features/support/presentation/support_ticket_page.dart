@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/date_time_representation.dart';
+import 'package:cipher/features/error_pages/no_internet_page.dart';
 import 'package:cipher/features/support/presentation/bloc/support_ticket_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -38,25 +39,17 @@ class _SupportTicketPageState extends State<SupportTicketPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'Support Ticket',trailingWidget: SizedBox()),
+      appBar: CustomAppBar(
+          appBarTitle: 'Support Ticket', trailingWidget: SizedBox()),
       body: BlocBuilder<SupportTicketBloc, GetSupportTicketState>(
           builder: (context, state) {
         return (TheStates.initial == state.theStates)
             ? CardLoading(height: 100)
-            : state.supportTicketList?.result == null &&
+            : state.supportTicketList?.result?.length == 0 &&
                     TheStates.success == state.theStates
-                ? Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          "assets/support/support_img.png",
-                          fit: BoxFit.contain,
-                        ),
-                        Text('No support Ticket Found.'),
-                      ],
-                    ),
-                  )
+                ? CommonErrorContainer(
+                    assetsPath: "assets/no_data_found.png",
+                    errorDes: 'No support Ticket Found.')
                 : ListView.builder(
                     shrinkWrap: true,
                     // physics: NeverScrollableScrollPhysics(),

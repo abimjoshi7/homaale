@@ -104,7 +104,7 @@ class _BookingSectionState extends State<BookingSection> {
                                     return todoList.isEmpty
                                         ? CommonErrorContainer(
                                             assetsPath: 'assets/no_data_found.png',
-                                            errorTile: 'Payment Item not available right Now.',
+                                            errorTile: 'Item not available right Now.',
                                             errorDes: 'We’re sorry, the data you search could not found. '
                                                 'Please go back.',
                                           )
@@ -138,7 +138,7 @@ class _BookingSectionState extends State<BookingSection> {
                                     return myBookingList.isEmpty
                                         ? CommonErrorContainer(
                                             assetsPath: 'assets/no_data_found.png',
-                                            errorTile: 'Payment Item not available right Now.',
+                                            errorTile: 'Item not available right Now.',
                                             errorDes: 'We’re sorry, the data you search could not found. '
                                                 'Please go back.',
                                           )
