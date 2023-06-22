@@ -138,7 +138,7 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => locator<TaskerCubit>()),
           BlocProvider(create: (context) => locator<NotificationBloc>()),
           BlocProvider(create: (context) => EventBloc()),
-          BlocProvider(create: (context) => ScheduleBloc()),
+          BlocProvider(create: (context) => locator<ScheduleBloc>()),
           BlocProvider(create: (context) => locator<PaymentBloc>()),
           BlocProvider(create: (context) => locator<PaymentTypeBloc>()),
           BlocProvider(create: (context) => OrderItemListBloc()),

@@ -8,6 +8,7 @@ class ScheduleState extends Equatable {
   final String? repeatType;
   final CreateScheduleRes? createScheduleRes;
   final TheStates? theState;
+  final SingleScheduleRes? singleSchedule;
   final bool? isCreated;
 
   ScheduleState({
@@ -18,6 +19,7 @@ class ScheduleState extends Equatable {
     this.repeatType,
     this.createScheduleRes,
     this.theState = TheStates.initial,
+    this.singleSchedule,
     this.isCreated = false,
   });
   @override
@@ -30,6 +32,7 @@ class ScheduleState extends Equatable {
       repeatType,
       createScheduleRes,
       theState,
+      singleSchedule,
       isCreated,
     ];
   }
@@ -42,6 +45,7 @@ class ScheduleState extends Equatable {
     String? repeatType,
     CreateScheduleRes? createScheduleRes,
     TheStates? theState,
+    SingleScheduleRes? singleSchedule,
     bool? isCreated,
   }) {
     return ScheduleState(
@@ -52,6 +56,7 @@ class ScheduleState extends Equatable {
       repeatType: repeatType ?? this.repeatType,
       createScheduleRes: createScheduleRes ?? this.createScheduleRes,
       theState: theState ?? this.theState,
+      singleSchedule: singleSchedule ?? this.singleSchedule,
       isCreated: isCreated ?? this.isCreated,
     );
   }

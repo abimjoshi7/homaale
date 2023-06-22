@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,11 @@ import 'package:cipher/widgets/widgets.dart';
 
 class ScheduleForm extends StatefulWidget {
   final AttachType attachType;
+  final String? scheduleId;
   const ScheduleForm({
     Key? key,
     required this.attachType,
+    this.scheduleId,
   }) : super(key: key);
 
   @override
@@ -28,37 +31,82 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   DateTime? startDate;
   DateTime? endDate;
   int? repeatType;
-  List<TextEditingController> startDateControllers = [];
-  List<TextEditingController> endDateControllers = [];
-  List<DateTime?> startSelectedDates = [];
-  List<DateTime?> endSelectedDates = [];
+  List<TextEditingController> startTimeControllers = [];
+  List<TextEditingController> endTimeControllers = [];
+  // List<DateTime?> startSelectedDates = [];
+  // List<DateTime?> endSelectedDates = [];
   TextEditingController itemController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final GlobalKey<FormState> _repeatkey = GlobalKey<FormState>();
+  late final ScheduleBloc scheduleBloc;
+
+  String getRepeatType(int value) {
+    switch (value) {
+      case 0:
+        return "None";
+      case 1:
+        return "Daily";
+      case 2:
+        return "Weekly";
+      case 3:
+        return "Custom";
+      default:
+        return "";
+    }
+  }
 
   @override
   void initState() {
     super.initState();
     if (widget.attachType == AttachType.Edit) {
-      // context.read<EventBloc>().add(event)
+      scheduleBloc = context.read<ScheduleBloc>()
+        ..add(
+          SingleScheduleLoaded(
+            scheduleId: widget.scheduleId ?? "",
+          ),
+        );
+
+      print(scheduleBloc.state.singleSchedule?.toJson());
+      setState(() {
+        repeatType = scheduleBloc.state.singleSchedule?.repeatType;
+        startTimeControllers.addAll(scheduleBloc.state.singleSchedule!.slots!
+            .map(
+              (e) => TextEditingController(
+                text: e.start,
+              ),
+            )
+            .toList());
+        endTimeControllers.addAll(scheduleBloc.state.singleSchedule!.slots!
+            .map(
+              (e) => TextEditingController(
+                text: e.end,
+              ),
+            )
+            .toList());
+      });
     }
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 
   void addItem() {
     setState(() {
-      startDateControllers.add(TextEditingController());
-      endDateControllers.add(TextEditingController());
-      startSelectedDates.add(null);
-      endSelectedDates.add(null);
+      startTimeControllers.add(TextEditingController());
+      endTimeControllers.add(TextEditingController());
+      // startSelectedDates.add(null);
+      // endSelectedDates.add(null);
     });
   }
 
   void deleteItem(int index) {
     setState(() {
-      startDateControllers.removeAt(index);
-      endDateControllers.removeAt(index);
-      startSelectedDates.removeAt(index);
-      endSelectedDates.removeAt(index);
+      startTimeControllers.removeAt(index);
+      endTimeControllers.removeAt(index);
+      // startSelectedDates.removeAt(index);
+      // endSelectedDates.removeAt(index);
     });
   }
 
@@ -93,12 +141,13 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
     );
   }
 
-  CustomFormField _buildRepeatType() {
+  Widget _buildRepeatType() {
     return CustomFormField(
       label: "Repeat",
       child: Form(
         key: _repeatkey,
         child: CustomDropDownField(
+          initialValue: repeatType == null ? null : getRepeatType(repeatType!),
           validator: (p0) => repeatType == null ? "Required Field" : null,
           list: [
             "None",
@@ -159,7 +208,9 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
                 ),
                 child: ListView.builder(
                   shrinkWrap: true,
-                  itemCount: startDateControllers.length,
+                  itemCount: widget.attachType == AttachType.Edit
+                      ? scheduleBloc.state.singleSchedule?.slots?.length
+                      : startTimeControllers.length,
                   itemBuilder: (BuildContext context, int index) {
                     return ListTile(
                       contentPadding: EdgeInsets.zero,
@@ -168,13 +219,13 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
                           Flexible(
                             child: CustomTextFormField(
                               validator: (p0) =>
-                                  startDateControllers[index].text.isEmpty
+                                  startTimeControllers[index].text.isEmpty
                                       ? "Required Field"
                                       : null,
                               hintText: "Start Time",
                               hintStyle: Theme.of(context).textTheme.bodyMedium,
                               readOnly: true,
-                              controller: startDateControllers[index],
+                              controller: startTimeControllers[index],
                               onTap: () async {
                                 DateTime? selectedDate;
                                 await showCustomBottomSheet(
@@ -194,8 +245,8 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
 
                                 if (selectedDate != null) {
                                   setState(() {
-                                    startSelectedDates[index] = selectedDate;
-                                    startDateControllers[index].text =
+                                    // startSelectedDates[index] = selectedDate;
+                                    startTimeControllers[index].text =
                                         DateFormat.Hms().format(selectedDate!);
                                   });
                                 }
@@ -208,13 +259,13 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
                           Flexible(
                             child: CustomTextFormField(
                               validator: (p0) =>
-                                  endDateControllers[index].text.isEmpty
+                                  endTimeControllers[index].text.isEmpty
                                       ? "Required Field"
                                       : null,
                               hintText: "End Time",
                               hintStyle: Theme.of(context).textTheme.bodyMedium,
                               readOnly: true,
-                              controller: endDateControllers[index],
+                              controller: endTimeControllers[index],
                               onTap: () async {
                                 DateTime? selectedDate;
                                 await showCustomBottomSheet(
@@ -234,8 +285,8 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
 
                                 if (selectedDate != null) {
                                   setState(() {
-                                    endSelectedDates[index] = selectedDate;
-                                    endDateControllers[index].text =
+                                    // endSelectedDates[index] = selectedDate;
+                                    endTimeControllers[index].text =
                                         DateFormat.Hms().format(selectedDate!);
                                   });
                                 }
@@ -268,6 +319,11 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
 
   Widget _buildButton(TaskEntityServiceState state) {
     return BlocListener<ScheduleBloc, ScheduleState>(
+      listenWhen: (previous, current) {
+        if (previous.isCreated != true && current.isCreated == true)
+          return true;
+        return false;
+      },
       listener: (context, scheduleState) {
         if (scheduleState.isCreated == true &&
             scheduleState.createScheduleRes != null) {
@@ -306,10 +362,12 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
           if (_key.currentState!.validate() &&
               _repeatkey.currentState!.validate()) {
             final List<Slot> slots = List.generate(
-              startSelectedDates.length,
+              startTimeControllers.length,
               (index) => Slot(
-                start: DateFormat.Hms().format(startSelectedDates[index]!),
-                end: DateFormat.Hms().format(endSelectedDates[index]!),
+                start: startTimeControllers[index].text,
+                end: endTimeControllers[index].text,
+                // start: DateFormat.Hms().format(startTimeControllers[index].text),
+                // end: DateFormat.Hms().format(endSelectedDates[index]!),
               ),
             );
             final req = CreateScheduleReq(
@@ -326,11 +384,11 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
             );
             print(slots);
             print(req);
-            context.read<ScheduleBloc>().add(
-                  ScheduleEventPosted(
-                    createScheduleReq: req,
-                  ),
-                );
+            // context.read<ScheduleBloc>().add(
+            //       ScheduleEventPosted(
+            //         createScheduleReq: req,
+            //       ),
+            //     );
           }
         },
       ),

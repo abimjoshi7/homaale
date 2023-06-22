@@ -12,6 +12,7 @@ import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/box/presentation/bloc/order_id_create_bloc.dart';
 import 'package:cipher/features/chat/bloc/chat_bloc.dart';
 import 'package:cipher/features/chat/repository/chat_repository.dart';
+import 'package:cipher/features/event/presentation/bloc/schedule/schedule_bloc.dart';
 import 'package:cipher/features/notification/data/repositories/notification_repositories.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_bloc.dart';
@@ -91,6 +92,7 @@ void init() {
   locator.registerFactory<RedeemBloc>(() => RedeemBloc(locator()));
   locator.registerFactory<ScrollBloc>(() => ScrollBloc());
   locator.registerFactory<BookEventHandlerBloc>(() => BookEventHandlerBloc());
+  locator.registerFactory<ScheduleBloc>(() => ScheduleBloc());
 
   //other
   var firebaseInstance = FirebaseFirestore.instance;

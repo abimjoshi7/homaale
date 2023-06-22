@@ -1,4 +1,6 @@
+import 'package:cipher/features/event/presentation/bloc/schedule/schedule_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -34,11 +36,11 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
       ),
       body: BlocConsumer<EventBloc, EventState>(
         listenWhen: (previous, current) {
-          if (previous.isScheduleDeleted == true &&
-              current.isScheduleDeleted == true) return false;
-          if (previous.isScheduleDeleted == false &&
-              current.isScheduleDeleted == false) return false;
-          return true;
+          if (previous.isScheduleDeleted != true &&
+              current.isScheduleDeleted == true) return true;
+          if (previous.isDeleted != true && current.isDeleted == true)
+            return true;
+          return false;
         },
         listener: (context, state) {
           if (state.isDeleted == true) {
@@ -138,184 +140,178 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
         child: ListView.builder(
           padding: EdgeInsets.zero,
           itemCount: state.event?.schedules?.length ?? 0,
-          itemBuilder: (context, index) => Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Container(
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: kColorGrey,
-                ),
-                borderRadius: BorderRadius.circular(
-                  8,
-                ),
-              ),
-              height: 90,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                children: [
-                  Icon(
-                    Icons.calendar_today_outlined,
+          itemBuilder: (context, index) {
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Container(
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: kColorGrey,
                   ),
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            state.event?.schedules?[index].title ?? "",
-                            style: kPurpleText16,
-                          ),
-                          Flexible(
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                // InkWell(
-                                //   onTap: () {
-                                //     print(123);
-                                //     print(state.event);
-                                //   },
-                                //   child: Text(
-                                //     "asd",
-                                //     // "${state.event?.allShifts?.first.slots?[index].start} - ${state.event?.allShifts?.first.slots?[index].end}",
-                                //     // "${state.event?.allShifts?.first.slots?[index].start?.substring(0, 5) ?? ""} - ${state.event?.allShifts?.first.slots?[index].end?.substring(0, 5) ?? ""}",
-                                //     style: kHelper13,
-                                //   ),
-                                // ),
-                                Text.rich(
-                                  TextSpan(
-                                    text: "Start: ",
-                                    style: TextStyle(
-                                      color: Colors.green,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: DateFormat.yMMMMd().format(
-                                          state.event!.start!,
-                                        ),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                Text.rich(
-                                  TextSpan(
-                                    text: "End:   ",
-                                    style: TextStyle(
-                                      color: Colors.red,
-                                    ),
-                                    children: [
-                                      TextSpan(
-                                        text: DateFormat.yMMMMd().format(
-                                          state.event!.end!,
-                                        ),
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodySmall,
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                  borderRadius: BorderRadius.circular(
+                    8,
+                  ),
+                ),
+                height: 90,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    Icon(
+                      Icons.calendar_today_outlined,
                     ),
-                  ),
-                  Flexible(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        GestureDetector(
-                          onTap: () {
-                            showCustomBottomSheet(
-                              context: context,
-                              widget: Column(
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              state.event?.schedules?[index].title ?? "",
+                              style: kPurpleText16,
+                            ),
+                            Flexible(
+                              child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  ListTile(
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                      showCustomBottomSheet(
-                                        context: context,
-                                        widget: ScheduleForm(
-                                          attachType: AttachType.Edit,
+                                  Text.rich(
+                                    TextSpan(
+                                      text: "Start: ",
+                                      style: TextStyle(
+                                        color: Colors.green,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: DateFormat.yMMMMd().format(
+                                            state.event!.start!,
+                                          ),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
                                         ),
-                                      );
-                                    },
-                                    leading: Icon(
-                                      Icons.update_outlined,
+                                      ],
                                     ),
-                                    title: Text("Edit"),
                                   ),
-                                  // Divider(),
-                                  // ListTile(
-                                  //   onTap: () {},
-                                  //   leading: Icon(
-                                  //     Icons.filter_none_rounded,
-                                  //   ),
-                                  //   title: Text("Duplicate"),
-                                  // ),
-                                  Divider(),
-                                  ListTile(
-                                    onTap: () {
-                                      context.read<EventBloc>().add(
-                                            ScheduleDeleted(
-                                              id: state.event?.schedules?[index]
-                                                      .id ??
-                                                  "",
-                                            ),
-                                          );
-                                    },
-                                    leading: Icon(
-                                      Icons.delete_outline_rounded,
+                                  Text.rich(
+                                    TextSpan(
+                                      text: "End:   ",
+                                      style: TextStyle(
+                                        color: Colors.red,
+                                      ),
+                                      children: [
+                                        TextSpan(
+                                          text: DateFormat.yMMMMd().format(
+                                            state.event!.end!,
+                                          ),
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
+                                        ),
+                                      ],
                                     ),
-                                    title: Text("Remove"),
                                   ),
                                 ],
                               ),
-                            );
-                          },
-                          child: Icon(
-                            Icons.more_vert_outlined,
-                          ),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          height: 30,
-                          width: 30,
-                          child: BlocBuilder<EventBloc, EventState>(
-                            builder: (context, state) {
-                              return Switch(
-                                value: state.event?.isActive ?? false,
-                                onChanged: (value) {
-                                  context.read<EventBloc>().add(
-                                        EventEdited(
-                                          id: state.event?.id ?? "",
-                                          data: {
-                                            "is_active":
-                                                !state.event!.isActive!,
-                                          },
-                                        ),
-                                      );
-
-                                  print(state.event);
-                                  print(state.event?.allShifts?.length);
-                                },
+                      ),
+                    ),
+                    Flexible(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          GestureDetector(
+                            onTap: () {
+                              showCustomBottomSheet(
+                                context: context,
+                                widget: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    ListTile(
+                                      onTap: () async {
+                                        Navigator.pop(context);
+                                        showCustomBottomSheet(
+                                          context: context,
+                                          widget: ScheduleForm(
+                                            attachType: AttachType.Edit,
+                                            scheduleId: state
+                                                .event?.schedules?[index].id,
+                                          ),
+                                        );
+                                      },
+                                      leading: Icon(
+                                        Icons.update_outlined,
+                                      ),
+                                      title: Text("Edit"),
+                                    ),
+                                    // Divider(),
+                                    // ListTile(
+                                    //   onTap: () {},
+                                    //   leading: Icon(
+                                    //     Icons.filter_none_rounded,
+                                    //   ),
+                                    //   title: Text("Duplicate"),
+                                    // ),
+                                    Divider(),
+                                    ListTile(
+                                      onTap: () {
+                                        context.read<EventBloc>().add(
+                                              ScheduleDeleted(
+                                                id: state
+                                                        .event
+                                                        ?.schedules?[index]
+                                                        .id ??
+                                                    "",
+                                              ),
+                                            );
+                                      },
+                                      leading: Icon(
+                                        Icons.delete_outline_rounded,
+                                      ),
+                                      title: Text("Remove"),
+                                    ),
+                                  ],
+                                ),
                               );
                             },
+                            child: Icon(
+                              Icons.more_vert_outlined,
+                            ),
                           ),
-                        )
-                      ],
-                    ),
-                  )
-                ],
+                          SizedBox(
+                            height: 30,
+                            width: 30,
+                            child: BlocBuilder<EventBloc, EventState>(
+                              builder: (context, state) {
+                                return Switch(
+                                  value: state.event?.isActive ?? false,
+                                  onChanged: (value) {
+                                    context.read<EventBloc>().add(
+                                          EventEdited(
+                                            id: state.event?.id ?? "",
+                                            data: {
+                                              "is_active":
+                                                  !state.event!.isActive!,
+                                            },
+                                          ),
+                                        );
+
+                                    print(state.event);
+                                    print(state.event?.allShifts?.length);
+                                  },
+                                );
+                              },
+                            ),
+                          )
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
-            ),
-          ),
+            );
+          },
         ),
       ),
     );
