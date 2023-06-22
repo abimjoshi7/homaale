@@ -131,23 +131,39 @@ class _PostServicePageState extends State<PostServicePage> {
                 slivers: [
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 16.0,
+                      ),
                       child: Column(
                         children: [
+                          addVerticalSpace(10.0),
                           _buildTitle(),
+                          addVerticalSpace(10.0),
                           _buildCategory(),
+                          addVerticalSpace(10.0),
                           _buildHighlights(),
+                          addVerticalSpace(10.0),
                           _buildServiceType(),
+                          addVerticalSpace(10.0),
                           _buildAddress(),
+                          addVerticalSpace(10.0),
                           _buildCity(),
+                          addVerticalSpace(10.0),
                           _buildDescription(),
+                          addVerticalSpace(10.0),
                           _buildCurrency(),
+                          // addVerticalSpace(10.0),
                           _buildIsNegotiable(),
+                          // addVerticalSpace(10.0),
                           _buildDialog(),
+                          addVerticalSpace(10.0),
                           CustomMultimedia(
                             bloc: uploadBloc,
                           ),
+                          addVerticalSpace(10.0),
                           _buildTerms(context),
+                          addVerticalSpace(10.0),
                           _buildButton(),
                         ],
                       ),
@@ -181,6 +197,7 @@ class _PostServicePageState extends State<PostServicePage> {
       listener: (context, state) {
         if (state.theStates == TheStates.success && state.isCreated == true) {
           showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (context) => CustomToast(
               heading: 'Success',
@@ -198,6 +215,7 @@ class _PostServicePageState extends State<PostServicePage> {
         }
         if (state.theStates == TheStates.failure && state.isCreated == false) {
           showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failure',
@@ -449,6 +467,7 @@ class _PostServicePageState extends State<PostServicePage> {
             },
           ),
         ),
+        addVerticalSpace(10.0),
         CustomFormField(
           label: 'Price',
           isRequired: true,
@@ -486,6 +505,7 @@ class _PostServicePageState extends State<PostServicePage> {
             ],
           ),
         ),
+        addVerticalSpace(10.0),
         Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.center,

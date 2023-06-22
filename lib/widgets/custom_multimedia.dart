@@ -32,6 +32,7 @@ class CustomMultimedia extends StatelessWidget {
         return Column(
           children: [
             _buildImages(state, context),
+            addVerticalSpace(10.0),
             _buildVideos(state, context),
           ],
         );
@@ -58,6 +59,7 @@ class CustomMultimedia extends StatelessWidget {
       rightSection: state.imageFileList.isEmpty ? null : _buildAddNew(context),
       child: Column(
         children: [
+          addVerticalSpace(5.0),
           Row(
             children: [
               const Icon(
@@ -70,7 +72,7 @@ class CustomMultimedia extends StatelessWidget {
               ),
             ],
           ),
-          addVerticalSpace(5),
+          addVerticalSpace(10),
           state.imageFileList.isNotEmpty
               ? Container(
                   width: double.infinity,
@@ -226,6 +228,7 @@ class CustomMultimedia extends StatelessWidget {
             ),
       child: Column(
         children: [
+          addVerticalSpace(5.0),
           Row(
             children: [
               const Icon(
@@ -238,7 +241,7 @@ class CustomMultimedia extends StatelessWidget {
               ),
             ],
           ),
-          addVerticalSpace(5),
+          addVerticalSpace(10),
           state.videoFileList.isEmpty
               ? InkWell(
                   onTap: () {

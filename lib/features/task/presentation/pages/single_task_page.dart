@@ -544,56 +544,59 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                   ],
                                 ),
                                 addVerticalSpace(10),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.watch_later_outlined,
-                                          color: Colors.blue,
-                                          size: 18,
-                                        ),
-                                        kWidth5,
-                                        state.taskModel?.startTime == null
-                                            ? Text('00:00')
-                                            : Text(
-                                                '${DateFormat.jm().format(
-                                                  DateFormat('hh:mm:ss').parse(
-                                                      state.taskModel!
-                                                          .startTime!),
-                                                )}',
-                                              ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.people_alt_outlined,
-                                          color: kColorPrimary,
-                                          size: 18,
-                                        ),
-                                        kWidth5,
-                                        Text(
-                                          '${state.taskApplyCountModel?.count?.first.taskerCount ?? 0} Applied',
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        const Icon(
-                                          Icons.remove_red_eye_outlined,
-                                          color: kColorPrimary,
-                                          size: 18,
-                                        ),
-                                        kWidth5,
-                                        Text(
-                                          "${state.taskModel?.count ?? 0} Views",
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                                Visibility(
+                                  visible: state.taskModel?.startTime != null,
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.watch_later_outlined,
+                                            color: Colors.blue,
+                                            size: 18,
+                                          ),
+                                          kWidth5,
+                                          state.taskModel?.startTime == null
+                                              ? Text('00:00')
+                                              : Text(
+                                                  '${DateFormat.jm().format(
+                                                    DateFormat('hh:mm:ss')
+                                                        .parse(state.taskModel!
+                                                            .startTime!),
+                                                  )}',
+                                                ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.people_alt_outlined,
+                                            color: kColorPrimary,
+                                            size: 18,
+                                          ),
+                                          kWidth5,
+                                          Text(
+                                            '${state.taskApplyCountModel?.count?.first.taskerCount ?? 0} Applied',
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          const Icon(
+                                            Icons.remove_red_eye_outlined,
+                                            color: kColorPrimary,
+                                            size: 18,
+                                          ),
+                                          kWidth5,
+                                          Text(
+                                            "${state.taskModel?.count ?? 0} Views",
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                                 addVerticalSpace(24),
                                 Align(

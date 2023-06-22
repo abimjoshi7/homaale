@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cipher/core/helpers/upload_helper.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
@@ -7,7 +5,6 @@ import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
@@ -108,22 +105,39 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 slivers: [
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 16.0,
+                      ),
                       child: Column(
                         children: [
+                          addVerticalSpace(10.0),
                           _buildTitle(),
+                          addVerticalSpace(10.0),
                           _buildCategory(),
+                          addVerticalSpace(10.0),
                           _buildRequirements(),
+                          addVerticalSpace(10.0),
                           _buildTaskType(),
+                          addVerticalSpace(10.0),
                           _buildAddress(),
+                          addVerticalSpace(10.0),
                           _buildDescription(),
+                          addVerticalSpace(10.0),
                           _buildCity(),
+                          addVerticalSpace(10.0),
                           _buildDate(context),
+                          addVerticalSpace(10.0),
                           _buildTime(context),
+                          addVerticalSpace(10.0),
                           _buildCurrency(),
+                          addVerticalSpace(10.0),
                           _buildBudget(),
+                          // addVerticalSpace(10.0),
                           _buildIsNegotiable(),
+                          // addVerticalSpace(10.0),
                           _buildDialog(),
+                          addVerticalSpace(10.0),
                           //* Paused as discussed
                           // Row(
                           //   children: [
@@ -142,7 +156,9 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           CustomMultimedia(
                             bloc: uploadBloc,
                           ),
+                          addVerticalSpace(10.0),
                           _buildTermsConditions(context),
+                          addVerticalSpace(10.0),
                           _buildButton(),
                         ],
                       ),
@@ -176,6 +192,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
       listener: (context, state) {
         if (state.theStates == TheStates.success && state.isCreated == true) {
           showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (context) => CustomToast(
               heading: 'Success',
@@ -193,6 +210,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
         }
         if (state.theStates == TheStates.failure && state.isCreated == false) {
           showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failure',
@@ -461,7 +479,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
 
   CustomFormField _buildBudget() {
     return CustomFormField(
-      label: 'Budget(Mininum Rs.10)',
+      label: 'Budget',
       isRequired: true,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -494,6 +512,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
               const Text('Variable'),
             ],
           ),
+          addVerticalSpace(10.0),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.center,
@@ -837,7 +856,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
     return CustomFormField(
       label: "Select Time",
       child: Row(
-        // mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Flexible(

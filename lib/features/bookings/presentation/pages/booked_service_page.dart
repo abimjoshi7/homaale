@@ -158,7 +158,7 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                                   //Todo: Need to send client and merchant on the basics of task and service
                                                   // if TASK send ->Client or Service ->Send merchant
                                                   arguments: {
-                                                    'client': isTask == true
+                                                    'client': isTask == false
                                                         ? 'client'
                                                         : 'merchant',
                                                   });
