@@ -22,6 +22,7 @@ class DescriptionView extends StatelessWidget {
               Text(
                 state.taskerProfile?.bio ?? '',
               ),
+              addVerticalSpace(5),
               Wrap(
                 direction: Axis.vertical,
                 runSpacing: 4,
@@ -35,6 +36,8 @@ class DescriptionView extends StatelessWidget {
                     ),
                     label: state.taskerProfile?.user?.phone ?? state.taskerProfile?.user?.email ?? '',
                   ),
+                  addVerticalSpace(5),
+
                   state.taskerProfile?.activeHourStart != null && state.taskerProfile?.activeHourEnd != null
                       ? WidgetText(
                           widget: const Icon(
@@ -49,6 +52,8 @@ class DescriptionView extends StatelessWidget {
                           )}",
                         )
                       : SizedBox(),
+                  addVerticalSpace(5),
+
                   WidgetText(
                     widget: const Icon(
                       Icons.outlined_flag_rounded,
@@ -57,6 +62,8 @@ class DescriptionView extends StatelessWidget {
                     ),
                     label: skills.map((e) => e.name).toList().join(', '),
                   ),
+                  addVerticalSpace(5),
+
                   WidgetText(
                     widget: const Icon(
                       Icons.location_on_outlined,
@@ -67,6 +74,8 @@ class DescriptionView extends StatelessWidget {
                   ),
                 ],
               ),
+              addVerticalSpace(5),
+
             ],
           );
         }

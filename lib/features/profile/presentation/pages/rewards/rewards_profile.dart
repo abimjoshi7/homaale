@@ -43,7 +43,7 @@ class _RewardsListState extends State<RewardsList> {
           switch (state.rewardsStatus) {
             case RewardsStatus.initial:
               return Center(
-                child: CircularProgressIndicator(),
+                child:  CardLoading(height: 400),
               );
 
             case RewardsStatus.success:
@@ -206,7 +206,7 @@ class _RewardsListState extends State<RewardsList> {
 
             default:
               return Center(
-                child: CircularProgressIndicator(),
+                child:  CardLoading(height: 400),
               );
           }
         },

@@ -40,6 +40,7 @@ class _SkillsViewState extends State<SkillsView> {
                     'Skills',
                     style: widget.style ?? null,
                   ),
+                  addVerticalSpace(10),
                   Visibility(
                     visible: widget.isForm,
                     child: IconButton(

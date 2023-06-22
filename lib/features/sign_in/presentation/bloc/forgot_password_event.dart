@@ -12,6 +12,14 @@ class ForgotPasswordEmailInitiated extends ForgotPasswordEvent {
   @override
   List<Object?> get props => [email];
 }
+class changeEmailInitiated extends ForgotPasswordEvent {
+  final String email;
+  final String password;
+
+  const changeEmailInitiated(this.email, this.password);
+  @override
+  List<Object?> get props => [email,password];
+}
 
 class ForgotPasswordPhoneInitiated extends ForgotPasswordEvent {
   final String phone;
@@ -19,6 +27,14 @@ class ForgotPasswordPhoneInitiated extends ForgotPasswordEvent {
   const ForgotPasswordPhoneInitiated(this.phone);
   @override
   List<Object?> get props => [phone];
+}
+class changePhoneInitiated extends ForgotPasswordEvent {
+  final String phone;
+  final String password;
+
+  const changePhoneInitiated(this.phone, this.password);
+  @override
+  List<Object?> get props => [phone,password];
 }
 
 class ForgotPasswordPhoneResetInitiated extends ForgotPasswordEvent {
