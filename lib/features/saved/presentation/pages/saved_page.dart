@@ -95,7 +95,7 @@ class _SavedPageState extends State<SavedPage> {
                               ),
                             );
                     }
-                    return Center(child: CircularProgressIndicator(color: kColorAmber));
+                    return Center(child: CardLoading(height: 200));
                   },
                 ),
               ),

@@ -48,15 +48,15 @@ class OfferCard extends StatelessWidget {
                     overflow: TextOverflow.ellipsis,
                   ),
                   Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      InkWell(
-                        onTap: () {},
-                        child: Text(
-                          "View Details>",
-                          style: kLightBlueText12,
-                        ),
-                      ),
+                      // InkWell(
+                      //   onTap: () {},
+                      //   child: Text(
+                      //     "View Details>",
+                      //     style: kLightBlueText12,
+                      //   ),
+                      // ),
                       InkWell(
                         onTap: () {
                           Clipboard.setData(
@@ -64,6 +64,10 @@ class OfferCard extends StatelessWidget {
                               text: state.offerModel?.result?[index].code ?? "",
                             ),
                           );
+                          final snackBar = SnackBar(
+                            content: Text('Copied to Clipboard'),
+                          );
+                          ScaffoldMessenger.of(context).showSnackBar(snackBar);
                         },
                         child: Container(
                           decoration: BoxDecoration(
