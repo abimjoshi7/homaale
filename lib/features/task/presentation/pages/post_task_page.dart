@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/helpers/upload_helper.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
@@ -117,6 +119,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           _buildDescription(),
                           _buildCity(),
                           _buildDate(context),
+                          _buildTime(context),
                           _buildCurrency(),
                           _buildBudget(),
                           _buildIsNegotiable(),
@@ -268,9 +271,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
             callback: () async {
               if (context.read<CategoriesBloc>().state.serviceId != null) {
                 if (isTermsAccepted) {
-                  if (_key.currentState!.validate() &&
-                      endPriceController.text.isNotEmpty &&
-                      endDate != null) {
+                  if (_key.currentState!.validate()) {
                     if (endDate!.isBefore(
                       startDate ??
                           endDate!.subtract(
@@ -347,6 +348,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                               ),
                             );
                       }
+                      // }
                     }
                   } else {
                     showDialog(
@@ -503,42 +505,44 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                   child: CustomTextFormField(
                     textInputType:
                         TextInputType.numberWithOptions(decimal: true),
+                    controller: startPriceController,
                     validator: (p0) {
-                      if (!isBudgetVariable) return null;
-                      if (p0 == null || p0.isEmpty) {
-                        return "Required Field";
-                      }
-                      if (p0.isEmpty) return null;
-                      if (int.parse(p0) < 10) {
-                        return "Budget Cannot Be Less Than 10";
-                      }
-                      if (p0 == endPriceController.text) {
-                        return "Invalid Range";
-                      }
-                      if (endPriceController.text.isNotEmpty) {
-                        if (int.parse(p0) >
-                            int.parse(endPriceController.text)) {
-                          return "Cannot be more than End budget";
+                      if (isBudgetVariable) {
+                        if (startPriceController.text.length == 0) {
+                          return "Required Field";
+                        }
+
+                        if (int.parse(p0 ?? '0') < 10) {
+                          return "Budget Cannot Be Less Than 10";
+                        }
+
+                        if (p0 == endPriceController.text) {
+                          return "Invalid Range";
+                        }
+                        if (endPriceController.text.isNotEmpty) {
+                          if (int.parse(p0 ?? '0') >
+                              int.parse(endPriceController.text)) {
+                            return "Cannot be more than End budget";
+                          }
                         }
                       }
+
                       return null;
                     },
                     inputFormatters: [
                       FilteringTextInputFormatter.digitsOnly,
                     ],
-                    controller: startPriceController,
                     style: Theme.of(context).textTheme.displayLarge,
                     onChanged: (value) => setState(
                       () {
                         if (startPriceController.text.isNotEmpty)
                           budgetFrom = getRecievableAmount(
-                            int.parse(startPriceController.text).toDouble(),
-                            int.parse(context
-                                        .read<CategoriesBloc>()
-                                        .state
-                                        .commission ??
-                                    "0")
-                                .toDouble(),
+                            double.parse(startPriceController.text),
+                            double.parse(context
+                                    .read<CategoriesBloc>()
+                                    .state
+                                    .commission ??
+                                "0.0"),
                           );
                       },
                     ),
@@ -564,12 +568,12 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                   errorMaxLines: 3,
                   errorStyle: TextStyle(),
                   textInputType: TextInputType.numberWithOptions(decimal: true),
+                  controller: endPriceController,
                   validator: (p0) {
-                    if (p0 == null || p0.isEmpty) {
+                    if (endPriceController.text.length == 0) {
                       return "Required Field";
                     }
-                    if (p0.isEmpty) ;
-                    if (int.parse(p0) < 10) {
+                    if (int.parse(p0 ?? '0') < 10) {
                       return "Budget Cannot Be Less Than 10";
                     }
                     if (isBudgetVariable &&
@@ -577,31 +581,28 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                       if (p0 == startPriceController.text) {
                         return "Invalid Range";
                       }
-                      if (int.parse(p0) <
+                      if (int.parse(p0 ?? '0') <
                           int.parse(startPriceController.text)) {
                         return "Cannot be less than Start budget";
                       }
                     }
-
                     return null;
                   },
                   inputFormatters: [
                     FilteringTextInputFormatter.digitsOnly,
                   ],
-                  controller: endPriceController,
                   style: Theme.of(context).textTheme.displayLarge,
                   onChanged: (p0) {
                     setState(
                       () {
                         if (endPriceController.text.isNotEmpty)
                           budgetTo = getRecievableAmount(
-                            int.parse(endPriceController.text).toDouble(),
-                            int.parse(context
-                                        .read<CategoriesBloc>()
-                                        .state
-                                        .commission ??
-                                    "0")
-                                .toDouble(),
+                            double.parse(endPriceController.text),
+                            double.parse(context
+                                    .read<CategoriesBloc>()
+                                    .state
+                                    .commission ??
+                                "0.0"),
                           );
                       },
                     );
@@ -827,111 +828,112 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
           //     const Text('Set specific time'),
           //   ],
           // ),
-          CustomFormField(
-            label: "Select Time",
-            child: Row(
-              // mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Flexible(
-                  child: CustomTextFormField(
-                    readOnly: true,
-                    validator: (p0) {
-                      if (startTime == null) {
-                        return ("Required Field");
-                      }
-                      if (startTime == null || endTime == null) ;
-                      if (startTime!.isAtSameMomentAs(endTime!)) {
-                        return ("Both Times Cannot be same.");
-                      }
-                      if (startTime!.isAfter(endTime!)) {
-                        return ("Start time cannot be after End time.");
-                      }
-                      return null;
-                    },
-                    onTap: () async {
-                      await showCustomBottomSheet(
-                        context: context,
-                        widget: SizedBox.fromSize(
-                          size: Size.fromHeight(250),
-                          child: CupertinoDatePicker(
-                            initialDateTime:
-                                startTime != null ? startTime : DateTime.now(),
-                            mode: CupertinoDatePickerMode.time,
-                            onDateTimeChanged: (value) => setState(
-                              () => startTime = value,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    hintText: startTime != null
-                        ? DateFormat.jm().format(startTime!)
-                        : 'hh:mm:ss',
-                    hintStyle: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(color: Colors.grey.shade700),
+        ],
+      ),
+    );
+  }
+
+  CustomFormField _buildTime(BuildContext context) {
+    return CustomFormField(
+      label: "Select Time",
+      child: Row(
+        // mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Flexible(
+            child: CustomTextFormField(
+              readOnly: true,
+              validator: (p0) {
+                // if (startTime != null && endTime != null) {
+                //   if (startTime!.isAtSameMomentAs(endTime!)) {
+                //     return ("Both Times Cannot be same.");
+                //   }
+                //   if (startTime!.isAfter(endTime!)) {
+                //     return ("Start time cannot be after End time.");
+                //   }
+                // }
+                // return null;
+              },
+              onTap: () async {
+                await showCustomBottomSheet(
+                  context: context,
+                  widget: SizedBox.fromSize(
+                    size: Size.fromHeight(250),
+                    child: CupertinoDatePicker(
+                      initialDateTime:
+                          startTime != null ? startTime : DateTime.now(),
+                      mode: CupertinoDatePickerMode.time,
+                      onDateTimeChanged: (value) => setState(
+                        () => startTime = value,
+                      ),
+                    ),
                   ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10.0),
-                  child: const Text(' - '),
-                ),
-                Flexible(
-                  child: CustomTextFormField(
-                    readOnly: true,
-                    autoValidateMode: AutovalidateMode.onUserInteraction,
-                    validator: (p0) {
-                      if (endTime == null) {
-                        return ("Required Field");
-                      }
-                      if (startTime == null || endTime == null) ;
-                      if (endTime!.isAtSameMomentAs(startTime!)) {
-                        return ("Both times cannot be same.");
-                      }
-                      if (endTime!.isBefore(endTime!)) {
-                        return ("End time cannot be before Start time.");
-                      }
-                      return null;
-                    },
-                    onTap: () async {
-                      await showCustomBottomSheet(
-                        context: context,
-                        widget: SizedBox.fromSize(
-                          size: Size.fromHeight(250),
-                          child: CupertinoDatePicker(
-                            initialDateTime: endTime ?? DateTime.now(),
-                            mode: CupertinoDatePickerMode.time,
-                            onDateTimeChanged: (value) => setState(
-                              () => endTime = value,
-                            ),
-                          ),
-                        ),
-                      );
-                    },
-                    hintText: endTime != null
-                        ? DateFormat.jm().format(endTime!)
-                        : 'hh:mm:ss',
-                    hintStyle: Theme.of(context)
-                        .textTheme
-                        .bodyMedium
-                        ?.copyWith(color: Colors.grey.shade700),
+                );
+              },
+              hintText: startTime != null
+                  ? DateFormat.jm().format(startTime!)
+                  : 'hh:mm:ss',
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.grey.shade700),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: const Text(' - '),
+          ),
+          Flexible(
+            child: CustomTextFormField(
+              readOnly: true,
+              autoValidateMode: AutovalidateMode.onUserInteraction,
+              validator: (p0) {
+                // if (endTime == null) {
+                //   return ("Required Field");
+                // }
+                // if (startTime == null || endTime == null) ;
+                // if (endTime!.isAtSameMomentAs(startTime!)) {
+                //   return ("Both times cannot be same.");
+                // }
+                // if (endTime!.isBefore(endTime!)) {
+                //   return ("End time cannot be before Start time.");
+                // }
+                // return null;
+              },
+              onTap: () async {
+                await showCustomBottomSheet(
+                  context: context,
+                  widget: SizedBox.fromSize(
+                    size: Size.fromHeight(250),
+                    child: CupertinoDatePicker(
+                      initialDateTime: endTime ?? DateTime.now(),
+                      mode: CupertinoDatePickerMode.time,
+                      onDateTimeChanged: (value) => setState(
+                        () => endTime = value,
+                      ),
+                    ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      startTime = null;
-                      endTime = null;
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.delete_outline_rounded,
-                    color: kColorSecondary,
-                  ),
-                ),
-              ],
+                );
+              },
+              hintText: endTime != null
+                  ? DateFormat.jm().format(endTime!)
+                  : 'hh:mm:ss',
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.grey.shade700),
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                startTime = null;
+                endTime = null;
+              });
+            },
+            icon: const Icon(
+              Icons.delete_outline_rounded,
+              color: kColorSecondary,
             ),
           ),
         ],
