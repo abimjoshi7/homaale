@@ -1,6 +1,7 @@
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/event/data/models/req/create_schedule_req.dart';
 import 'package:cipher/features/event/data/models/res/create_schedule_res.dart';
+import 'package:cipher/features/event/data/models/res/single_schedule_res.dart';
 import 'package:cipher/features/event/data/repositories/event_repository.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +66,24 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
               isCreated: false,
             ),
           );
+        }
+      },
+    );
+    on<SingleScheduleLoaded>(
+      (event, emit) async {
+        try {
+          await repo.fetchSingleSchedule(id: event.scheduleId).then(
+            (value) {
+              emit(state.copyWith(
+                theState: TheStates.success,
+                singleSchedule: value,
+              ));
+            },
+          );
+        } catch (e) {
+          emit(state.copyWith(
+            theState: TheStates.failure,
+          ));
         }
       },
     );

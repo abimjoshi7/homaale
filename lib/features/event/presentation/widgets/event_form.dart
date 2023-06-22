@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+
+import 'package:cipher/features/event/presentation/pages/event_details_page.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -39,17 +41,47 @@ class _EventFormState extends State<EventForm> {
   String? formattedDuration;
   final _key = GlobalKey<FormState>();
   bool isAutoValidate = true;
+  Map<String, dynamic> editedValues = {};
+  late final EventBloc eventBloc;
+
+  TimeOfDay timeConvert(String normTime) {
+    int hour;
+    int minute;
+    String ampm = normTime.substring(normTime.length - 2);
+    String result = normTime.substring(0, normTime.indexOf(' '));
+    if (ampm == 'AM' && int.parse(result.split(":")[1]) != 12) {
+      hour = int.parse(result.split(':')[0]);
+      if (hour == 12) hour = 0;
+      minute = int.parse(result.split(":")[1]);
+    } else {
+      hour = int.parse(result.split(':')[0]) - 12;
+      if (hour <= 0) {
+        hour = 24 + hour;
+      }
+      minute = int.parse(result.split(":")[1]);
+    }
+    return TimeOfDay(hour: hour, minute: minute);
+  }
 
   @override
   void initState() {
     super.initState();
 
     if (widget.type == AttachType.Edit) {
-      // context.read<EventBloc>().add(
-      //       EventLoaded(
-      //         id: widget.id,
-      //       ),
-      //     );
+      eventBloc = context.read<EventBloc>();
+      startDate = eventBloc.state.event?.start;
+      endDate = eventBloc.state.event?.end;
+      guestController.text =
+          eventBloc.state.event?.guestLimit?.toString() ?? "";
+      _duration = Duration(
+        hours: int.parse(eventBloc.state.event!.duration!.split(":")[0]),
+        minutes: int.parse(eventBloc.state.event!.duration!.split(":")[1]),
+        seconds: int.parse(eventBloc.state.event!.duration!.split(":")[2]),
+      );
+      durationController.text = _duration!.inMinutes.toString();
+      setState(() {
+        isFlexible = eventBloc.state.event!.isFlexible!;
+      });
     }
   }
 
@@ -73,9 +105,8 @@ class _EventFormState extends State<EventForm> {
             ),
           );
         }
-        if (state.theStates == TheStates.success &&
-            state.taskEntityService != null) {
-          var service = state.taskEntityService!;
+        if (state.theStates == TheStates.success) {
+          var service = state.taskEntityService;
           titleController.text = service.title ?? '';
           return Form(
             autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -99,6 +130,11 @@ class _EventFormState extends State<EventForm> {
                       child: CustomTextFormField(
                         controller: titleController,
                         validator: validateNotEmpty,
+                        onChanged: (p0) {
+                          editedValues.addAll({
+                            "title": titleController.text,
+                          });
+                        },
                       ),
                     ),
                     Row(
@@ -114,7 +150,7 @@ class _EventFormState extends State<EventForm> {
                                 color: kColorPrimary,
                               ),
                               hintText: startDate != null
-                                  ? DateFormat.yMMMEd().format(startDate!)
+                                  ? DateFormat.yMMMd().format(startDate!)
                                   : "",
                               callback: () => showDatePicker(
                                 context: context,
@@ -145,7 +181,7 @@ class _EventFormState extends State<EventForm> {
                                 color: kColorPrimary,
                               ),
                               hintText: endDate != null
-                                  ? DateFormat.yMMMEd().format(endDate!)
+                                  ? DateFormat.yMMMd().format(endDate!)
                                   : "",
                               callback: () => showDatePicker(
                                 context: context,
@@ -277,16 +313,19 @@ class _EventFormState extends State<EventForm> {
                   ],
                 ),
                 BlocListener<EventBloc, EventState>(
+                  listenWhen: (previous, current) {
+                    if (previous.isCreated != true && current.isCreated == true)
+                      return true;
+                    return false;
+                  },
                   listener: (context, eventState) async {
-                    if (eventState.theStates == TheStates.success &&
-                        eventState.isCreated == true &&
+                    if (eventState.isCreated == true &&
                         eventState.createdEventRes?.id != null) {
                       await showDialog(
                         context: context,
                         builder: (context) => CustomToast(
                           heading: 'Success',
-                          content:
-                              "Event ${widget.type == AttachType.Create ? "created" : "edited"} successfully",
+                          content: "Event created successfully",
                           onTap: () {
                             Navigator.pushNamedAndRemoveUntil(
                               context,
@@ -298,14 +337,13 @@ class _EventFormState extends State<EventForm> {
                         ),
                       );
                     }
-                    if (eventState.theStates == TheStates.failure &&
-                        eventState.isCreated == false) {
+                    if (eventState.isCreated == false) {
                       await showDialog(
                         context: context,
                         builder: (context) => CustomToast(
                           heading: 'Error',
-                          content: eventState.errMsg ??
-                              "Event cannot be ${widget.type == AttachType.Create ? "created" : "edited"}.",
+                          content:
+                              eventState.errMsg ?? "Event cannot be created",
                           onTap: () => Navigator.pop(context),
                           isSuccess: false,
                         ),
@@ -367,9 +405,78 @@ class _EventFormState extends State<EventForm> {
                           },
                           label: "Save",
                         )
-                      : CustomElevatedButton(
-                          callback: () {},
-                          label: "Save",
+                      : BlocListener<EventBloc, EventState>(
+                          listenWhen: (previous, current) {
+                            if (previous.isEdited != true &&
+                                current.isEdited == true) return true;
+                            return false;
+                          },
+                          listener: (context, state) async {
+                            if (state.isEdited == true) {
+                              await showDialog(
+                                context: context,
+                                builder: (context) => CustomToast(
+                                  heading: 'Success',
+                                  content: "Event edited successfully",
+                                  onTap: () {
+                                    Navigator.popUntil(context, (route) {
+                                      if (route.settings.name ==
+                                          EventDetailsPage.routeName)
+                                        return true;
+                                      return false;
+                                    });
+                                  },
+                                  isSuccess: true,
+                                ),
+                              );
+                            } else {
+                              await showDialog(
+                                context: context,
+                                builder: (context) => CustomToast(
+                                  heading: 'Error',
+                                  content:
+                                      "Something went wrong. Please try again.",
+                                  onTap: () {},
+                                  isSuccess: false,
+                                ),
+                              );
+                            }
+                          },
+                          child: CustomElevatedButton(
+                            callback: () {
+                              if (durationTypeController.text == "Minutes") {
+                                _duration = Duration(
+                                  minutes: int.parse(
+                                    durationController.text,
+                                  ),
+                                );
+                              } else {
+                                _duration = Duration(
+                                  hours: int.parse(
+                                    durationController.text,
+                                  ),
+                                );
+                              }
+                              if (_duration != null) {
+                                formattedDuration = formatDuration(_duration!);
+                              }
+                              editedValues.addAll({
+                                "start": startDate!.toString(),
+                                "end": endDate!.toString(),
+                                "guest_limit": int.parse(guestController.text),
+                                "duration": formattedDuration,
+                                "is_flexible": isFlexible,
+                              });
+
+                              eventBloc.add(
+                                EventEdited(
+                                  id: eventBloc.state.event!.id!,
+                                  data: editedValues,
+                                ),
+                              );
+                            },
+                            label: "Save",
+                          ),
                         ),
                 ),
                 addVerticalSpace(10),
