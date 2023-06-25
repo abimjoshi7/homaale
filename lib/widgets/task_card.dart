@@ -27,6 +27,8 @@ class TaskCard extends StatelessWidget {
     this.isBookmarked = false,
     this.isOwner,
     this.createdByName,
+    this.isFromProfile,
+    this.shareLinked,
   }) : super(key: key);
 
   final String? id;
@@ -39,6 +41,7 @@ class TaskCard extends StatelessWidget {
   final String? location;
   final String? startRate;
   final String? endRate;
+  final String? shareLinked;
   final String? count;
   final String? buttonLabel;
   final VoidCallback? callback;
@@ -47,6 +50,7 @@ class TaskCard extends StatelessWidget {
   final bool isRange;
   final bool? isOwner;
   final bool? isBookmarked;
+  final bool? isFromProfile;
 
   @override
   Widget build(BuildContext context) {
@@ -54,21 +58,64 @@ class TaskCard extends StatelessWidget {
       color: Theme.of(context).cardColor,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
       child: Container(
-        height: 203,
+        height: 250,
         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
+            addVerticalSpace(5),
+            ListTile(
+              title: Text(
+                StringUtils.capitalize(
+                  taskName ?? '',
+                ),
+                style: Theme.of(context).textTheme.titleMedium,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  isOwner ?? false
+                      ? IconButton(
+                          padding: EdgeInsets.zero,
+                          onPressed: editCallback,
+                          icon: Icon(
+                            Icons.edit,
+                            color: kColorAmber,
+                          ),
+                        )
+                      : CustomFavoriteIcon(
+                          typeID: '$id',
+                          type: ServiceType.entityservice,
+                          isBookmarked: isBookmarked ?? false,
+                        ),
+                  InkWell(
+                      onTap: () {
+                        final box = context.findRenderObject() as RenderBox?;
+                        Share.share(
+                          shareLinked!,
+                          sharePositionOrigin:
+                              box!.localToGlobal(Offset.zero) & box.size,
+                        );
+                      },
+                      child: Icon(Icons.redo_sharp, color: kColorBlue)),
+                ],
+              ),
+            ),
+            addHorizontalSpace(10),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
                 Row(
                   children: <Widget>[
+                    // addHorizontalSpace(10),
                     Container(
-                      height: 50,
-                      width: 50,
+                      height: 30,
+                      width: 30,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(
@@ -81,48 +128,23 @@ class TaskCard extends StatelessWidget {
                     ),
                     addHorizontalSpace(10),
                     SizedBox(
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            StringUtils.capitalize(
-                              taskName ?? '',
-                            ),
-                            style: Theme.of(context).textTheme.titleMedium,
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                          Text(
-                            StringUtils.capitalize(
-                              createdByName ?? '',
-                            ),
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleSmall
-                                ?.copyWith(color: kColorLightGrey),
-                            maxLines: 2,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ],
+                      width: isFromProfile == true
+                          ? MediaQuery.of(context).size.width * 0.6
+                          : MediaQuery.of(context).size.width * 0.3,
+                      child: Text(
+                        StringUtils.capitalize(
+                          createdByName ?? '',
+                        ),
+                        style: Theme.of(context)
+                            .textTheme
+                            .titleSmall
+                            ?.copyWith(color: kColorLightGrey),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ],
                 ),
-                isOwner ?? false
-                    ? IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: editCallback,
-                        icon: Icon(
-                          Icons.edit,
-                          color: kColorAmber,
-                        ),
-                      )
-                    : CustomFavoriteIcon(
-                        typeID: '$id',
-                        type: ServiceType.entityservice,
-                        isBookmarked: isBookmarked ?? false,
-                      )
               ],
             ),
             addVerticalSpace(5),
@@ -180,10 +202,6 @@ class TaskCard extends StatelessWidget {
                             '/ ${budgetType?.toLowerCase()}',
                           ),
                         ],
-                      ),
-                      IconText(
-                        label: count ?? '0',
-                        iconData: Icons.visibility_outlined,
                       ),
                     ],
                   ),

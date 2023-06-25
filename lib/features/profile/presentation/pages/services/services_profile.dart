@@ -139,6 +139,7 @@ class _ServicesProfileState extends State<ServicesProfile> {
                               : data[index].images?.first.media.toString(),
                           createdBy:
                               "${data[index].createdBy?.firstName} ${data[index].createdBy?.lastName}",
+                          createdByProfileImg: "${data[index].createdBy?.profileImage}",
                           description: data[index].description,
                           location: data[index].location == ''
                               ? "Remote"

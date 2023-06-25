@@ -43,7 +43,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                   showCaseDec: 'See All Trending Service from here.',
                 ),
                 SizedBox(
-                  height: 250,
+                  height: 300,
                   width: double.infinity,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -77,8 +77,10 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                           location: state.taskEntityServiceModel.result?[index].location == ""
                               ? "Remote"
                               : state.taskEntityServiceModel.result?[index].location,
+                          bookedCount:'${state.taskEntityServiceModel.result?[index].bookedCount}' ,
                           createdBy:
                               "${state.taskEntityServiceModel.result?[index].createdBy?.firstName} ${state.taskEntityServiceModel.result?[index].createdBy?.lastName}",
+                          createdByProfileImg:"${state.taskEntityServiceModel.result?[index].createdBy?.profileImage}",
                           title: state.taskEntityServiceModel.result?[index].title,
                           imagePath: state.taskEntityServiceModel.result?[index].images?.length == 0
                               ? kHomaaleImg

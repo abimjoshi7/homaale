@@ -143,11 +143,9 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                               );
                                             },
                                             title: Text("Share",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall),
+                                            ),
                                             leading: const Icon(
-                                              Icons.redo_sharp,
+                                              Icons.redo_sharp,color: kColorBlue,
                                             ),
                                           ),
                                           ListTile(
@@ -155,19 +153,15 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                               Navigator.pop(context);
                                               Navigator.pushNamed(context,
                                                   BookingCancelPage.routeName,
-                                                  //Todo: Need to send client and merchant on the basics of task and service
-                                                  // if TASK send ->Client or Service ->Send merchant
                                                   arguments: {
                                                     'client': isTask == false
                                                         ? 'client'
                                                         : 'merchant',
                                                   });
                                             },
-                                            leading: Icon(Icons.block_flipped),
+                                            leading: Icon(Icons.block_flipped,color: kColorPink),
                                             title: Text('Cancel',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodySmall),
+                                               ),
                                           ),
                                         ],
                                       ),
@@ -241,13 +235,13 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                     style: TextStyle(color: Colors.grey)),
                               ],
                             ),
-                            Row(
-                              children: [
-                                Text('Task Days : ',
-                                    style: TextStyle(color: Colors.grey)),
-                                // Text(booking.""),
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //     Text('Task Days : ',
+                            //         style: TextStyle(color: Colors.grey)),
+                            //     // Text(booking.""),
+                            //   ],
+                            // ),
                             // Padding(
                             //   padding:
                             //       const EdgeInsets.symmetric(horizontal: 8.0),

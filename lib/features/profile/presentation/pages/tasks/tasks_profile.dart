@@ -95,6 +95,8 @@ class _TasksProfileState extends State<TasksProfile> {
                       return SizedBox(
                         width: MediaQuery.of(context).size.width * 0.7,
                         child: TaskCard(
+                          shareLinked: '$kShareLinks/tasks/${data[index].id}',
+                          isFromProfile: true,
                           isRange: data[index].isRange ?? false,
                           id: data[index].id,
                           buttonLabel: 'View Details',
@@ -168,7 +170,7 @@ class _TasksProfileState extends State<TasksProfile> {
           );
         }
         return const Center(
-          child:  CardLoading(height: 400),
+          child: CardLoading(height: 400),
         );
       },
     );
