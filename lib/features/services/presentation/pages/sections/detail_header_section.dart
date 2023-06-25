@@ -30,7 +30,7 @@ class DetailHeaderSection extends StatelessWidget {
                     ),
                     Text(
                       // state.taskEntityService?.service?.title ??
-                      state.taskEntityService?.title ?? "Title goes here",
+                      state.taskEntityService.title ?? "Title goes here",
                     )
                   ],
                 ),
@@ -43,7 +43,7 @@ class DetailHeaderSection extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      state.taskEntityService?.service?.title ?? "Test",
+                      state.taskEntityService.service?.title ?? "Test",
                     )
                   ],
                 ),
@@ -56,8 +56,7 @@ class DetailHeaderSection extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      state.taskEntityService?.service?.category?.name ??
-                          '',
+                      state.taskEntityService.service?.category?.name ?? '',
                     )
                   ],
                 ),
@@ -72,13 +71,13 @@ class DetailHeaderSection extends StatelessWidget {
                     Row(
                       children: [
                         Visibility(
-                          visible: state.taskEntityService?.isRange ?? false,
+                          visible: state.taskEntityService.isRange ?? false,
                           child: Text(
-                            "Rs. ${state.taskEntityService?.payableFrom ?? '0'} - ",
+                            "Rs. ${double.parse(state.taskEntityService.payableFrom ?? "0").toInt()} - ",
                           ),
                         ),
                         Text(
-                            "Rs. ${double.parse(state.taskEntityService?.payableTo ?? "0").toInt()}"),
+                            "Rs. ${double.parse(state.taskEntityService.payableTo ?? "0").toInt()}"),
                       ],
                     )
                   ],
@@ -92,10 +91,10 @@ class DetailHeaderSection extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      state.taskEntityService?.event == null
+                      state.taskEntityService.event == null
                           ? "N/A"
                           : DateFormat.yMMMEd().format(
-                              state.taskEntityService?.event?.start ??
+                              state.taskEntityService.event?.start ??
                                   DateTime.now(),
                             ),
                     ),
@@ -110,10 +109,10 @@ class DetailHeaderSection extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      state.taskEntityService?.event == null
+                      state.taskEntityService.event == null
                           ? "N/A"
                           : DateFormat.yMMMEd().format(
-                              state.taskEntityService?.event?.end ??
+                              state.taskEntityService.event?.end ??
                                   DateTime.now(),
                             ),
                     ),
@@ -140,7 +139,7 @@ class DetailHeaderSection extends StatelessWidget {
                       ),
                     ),
                     Text(
-                      state.taskEntityService?.city?.name ??
+                      state.taskEntityService.city?.name ??
                           "Buddhanagar, Kathmandu",
                     )
                   ],
