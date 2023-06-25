@@ -1,3 +1,4 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 part of 'schedule_bloc.dart';
 
 class ScheduleState extends Equatable {
@@ -10,6 +11,7 @@ class ScheduleState extends Equatable {
   final TheStates? theState;
   final SingleScheduleRes? singleSchedule;
   final bool? isCreated;
+  final bool? isEdited;
 
   ScheduleState({
     this.startDate,
@@ -21,6 +23,7 @@ class ScheduleState extends Equatable {
     this.theState = TheStates.initial,
     this.singleSchedule,
     this.isCreated = false,
+    this.isEdited = false,
   });
   @override
   List<Object?> get props {
@@ -34,6 +37,7 @@ class ScheduleState extends Equatable {
       theState,
       singleSchedule,
       isCreated,
+      isEdited,
     ];
   }
 
@@ -47,6 +51,7 @@ class ScheduleState extends Equatable {
     TheStates? theState,
     SingleScheduleRes? singleSchedule,
     bool? isCreated,
+    bool? isEdited,
   }) {
     return ScheduleState(
       startDate: startDate ?? this.startDate,
@@ -58,6 +63,7 @@ class ScheduleState extends Equatable {
       theState: theState ?? this.theState,
       singleSchedule: singleSchedule ?? this.singleSchedule,
       isCreated: isCreated ?? this.isCreated,
+      isEdited: isEdited ?? this.isEdited,
     );
   }
 }

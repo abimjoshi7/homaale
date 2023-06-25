@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:cipher/features/event/presentation/pages/event_details_page.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -116,379 +117,15 @@ class _EventFormState extends State<EventForm> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "${widget.type == AttachType.Create ? "Create" : "Edit"} event",
-                        style: kPurpleText16,
-                      ),
-                    ),
-                    CustomFormField(
-                      label: "Title",
-                      isRequired:
-                          widget.type == AttachType.Create ? true : false,
-                      child: CustomTextFormField(
-                        controller: titleController,
-                        validator: validateNotEmpty,
-                        onChanged: (p0) {
-                          editedValues.addAll({
-                            "title": titleController.text,
-                          });
-                        },
-                      ),
-                    ),
-                    Row(
-                      children: [
-                        Flexible(
-                          child: CustomFormField(
-                            label: "Start Date",
-                            isRequired:
-                                widget.type == AttachType.Create ? true : false,
-                            child: CustomFormContainer(
-                              leadingWidget: Icon(
-                                Icons.calendar_today_outlined,
-                                color: kColorPrimary,
-                              ),
-                              hintText: startDate != null
-                                  ? DateFormat.yMMMd().format(startDate!)
-                                  : "",
-                              callback: () => showDatePicker(
-                                context: context,
-                                initialDate: DateTime.now(),
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime.now().add(
-                                  Duration(
-                                    days: 90,
-                                  ),
-                                ),
-                              ).then(
-                                (value) => setState(
-                                  () => startDate = value,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                        addHorizontalSpace(20),
-                        Flexible(
-                          child: CustomFormField(
-                            label: "End Date",
-                            isRequired:
-                                widget.type == AttachType.Create ? true : false,
-                            child: CustomFormContainer(
-                              leadingWidget: Icon(
-                                Icons.calendar_today_outlined,
-                                color: kColorPrimary,
-                              ),
-                              hintText: endDate != null
-                                  ? DateFormat.yMMMd().format(endDate!)
-                                  : "",
-                              callback: () => showDatePicker(
-                                context: context,
-                                initialDate: startDate?.add(
-                                      Duration(days: 1),
-                                    ) ??
-                                    DateTime.now().add(
-                                      Duration(
-                                        days: 1,
-                                      ),
-                                    ),
-                                firstDate: startDate?.add(
-                                      Duration(days: 1),
-                                    ) ??
-                                    DateTime.now().add(
-                                      Duration(
-                                        days: 1,
-                                      ),
-                                    ),
-                                lastDate: startDate?.add(
-                                      Duration(days: 91),
-                                    ) ??
-                                    DateTime.now().add(
-                                      Duration(
-                                        days: 91,
-                                      ),
-                                    ),
-                              ).then(
-                                (value) => setState(
-                                  () => endDate = value,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    CustomFormField(
-                      label: "Max No. of Guest",
-                      isRequired:
-                          widget.type == AttachType.Create ? true : false,
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          NumberIncDecField(
-                            controller: guestController,
-                            width: MediaQuery.of(context).size.width * 0.46,
-                            onChanged: (value) {
-                              if (guestController.text != "0" ||
-                                  guestController.text.isNotEmpty)
-                                setState(() {
-                                  isUnlimitedGuests = false;
-                                });
-                            },
-                          ),
-                          Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Text(
-                                "Unlimited Guests ?",
-                                style: Theme.of(context).textTheme.displaySmall,
-                              ),
-                              Checkbox(
-                                value: isUnlimitedGuests,
-                                onChanged: (value) {
-                                  setState(() {
-                                    isUnlimitedGuests = !isUnlimitedGuests;
-                                  });
-                                  if (isUnlimitedGuests)
-                                    guestController.clear();
-                                },
-                              ),
-                            ],
-                          ),
-                        ],
-                      ),
-                    ),
-                    CustomFormField(
-                      label: "Duration of the event",
-                      isRequired:
-                          widget.type == AttachType.Create ? true : false,
-                      child: Row(
-                        children: [
-                          Flexible(
-                            child: NumberIncDecField(
-                              width: MediaQuery.of(context).size.width * 0.5,
-                              controller: durationController,
-                              validator: widget.type == AttachType.Edit
-                                  ? null
-                                  : validateNotEmpty,
-                            ),
-                          ),
-                          addHorizontalSpace(20),
-                          Flexible(
-                            child: CustomDropDownField(
-                              initialValue: "Minutes",
-                              list: [
-                                "Hours",
-                                "Minutes",
-                              ],
-                              onChanged: (value) => setState(
-                                () {
-                                  durationTypeController.text = value!;
-                                },
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 10.0,
-                      ),
-                      child: Divider(),
-                    ),
-                    WidgetText(
-                      label: 'This event is flexible',
-                      widget: CustomCheckBox(
-                        isChecked: isFlexible,
-                        onTap: () => setState(
-                          () {
-                            isFlexible = !isFlexible;
-                          },
-                        ),
-                      ),
-                    ),
-                    addVerticalSpace(10.0),
+                    _buildHeader(),
+                    _buildTitle(),
+                    _buildDate(context),
+                    _buildGuest(context),
+                    _buildDuration(context),
+                    _buildEventFlexibity(),
                   ],
                 ),
-                BlocListener<EventBloc, EventState>(
-                  listenWhen: (previous, current) {
-                    if (previous.isCreated != true && current.isCreated == true)
-                      return true;
-                    return false;
-                  },
-                  listener: (context, eventState) async {
-                    if (eventState.isCreated == true &&
-                        eventState.createdEventRes?.id != null) {
-                      await showDialog(
-                        context: context,
-                        builder: (context) => CustomToast(
-                          heading: 'Success',
-                          content: "Event created successfully",
-                          onTap: () {
-                            Navigator.pushNamedAndRemoveUntil(
-                              context,
-                              Root.routeName,
-                              (route) => false,
-                            );
-                          },
-                          isSuccess: true,
-                        ),
-                      );
-                    }
-                    if (eventState.isCreated == false) {
-                      await showDialog(
-                        context: context,
-                        builder: (context) => CustomToast(
-                          heading: 'Error',
-                          content:
-                              eventState.errMsg ?? "Event cannot be created",
-                          onTap: () => Navigator.pop(context),
-                          isSuccess: false,
-                        ),
-                      );
-                    }
-                  },
-                  child: widget.type == AttachType.Create
-                      ? CustomElevatedButton(
-                          callback: () {
-                            if (durationTypeController.text == "Minutes") {
-                              _duration = Duration(
-                                minutes: int.parse(
-                                  durationController.text,
-                                ),
-                              );
-                            } else {
-                              _duration = Duration(
-                                hours: int.parse(
-                                  durationController.text,
-                                ),
-                              );
-                            }
-                            if (_duration != null) {
-                              formattedDuration = formatDuration(_duration!);
-                            }
-                            if (_key.currentState!.validate()) {
-                              if (startDate != null && endDate != null) {
-                                final req = CreateEventReq(
-                                  title: titleController.text,
-                                  start: startDate,
-                                  end: endDate,
-                                  guestLimit: isUnlimitedGuests
-                                      ? 0
-                                      : int.parse(guestController.text),
-                                  duration: formattedDuration,
-                                  isFlexible: isFlexible,
-                                  entityService: service.id,
-                                  isActive: true,
-                                );
-                                context.read<EventBloc>().add(
-                                      EventCreated(
-                                        req,
-                                      ),
-                                    );
-                              } else {
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => CustomToast(
-                                    heading: 'Error',
-                                    content: "Please verify dates",
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    isSuccess: false,
-                                  ),
-                                );
-                              }
-                            }
-                          },
-                          label: "Save",
-                        )
-                      : BlocListener<EventBloc, EventState>(
-                          listenWhen: (previous, current) {
-                            if (previous.isEdited != true &&
-                                current.isEdited == true) return true;
-                            return false;
-                          },
-                          listener: (context, state) async {
-                            if (state.isEdited == true) {
-                              await showDialog(
-                                context: context,
-                                builder: (context) => CustomToast(
-                                  heading: 'Success',
-                                  content: "Event edited successfully",
-                                  onTap: () {
-                                    Navigator.popUntil(context, (route) {
-                                      if (route.settings.name ==
-                                          EventDetailsPage.routeName)
-                                        return true;
-                                      return false;
-                                    });
-                                  },
-                                  isSuccess: true,
-                                ),
-                              );
-                            } else {
-                              await showDialog(
-                                context: context,
-                                builder: (context) => CustomToast(
-                                  heading: 'Error',
-                                  content:
-                                      "Something went wrong. Please try again.",
-                                  onTap: () {},
-                                  isSuccess: false,
-                                ),
-                              );
-                            }
-                          },
-                          child: CustomElevatedButton(
-                            callback: () {
-                              if (durationTypeController.text == "Minutes") {
-                                _duration = Duration(
-                                  minutes: int.parse(
-                                    durationController.text,
-                                  ),
-                                );
-                              } else {
-                                _duration = Duration(
-                                  hours: int.parse(
-                                    durationController.text,
-                                  ),
-                                );
-                              }
-                              if (_duration != null) {
-                                formattedDuration = formatDuration(_duration!);
-                              }
-                              editedValues.addAll({
-                                "start": startDate!.toString(),
-                                "end": endDate!.toString(),
-                                "guest_limit": int.parse(guestController.text),
-                                "duration": formattedDuration,
-                                "is_flexible": isFlexible,
-                              });
-
-                              eventBloc.add(
-                                EventEdited(
-                                  id: eventBloc.state.event!.id!,
-                                  data: editedValues,
-                                ),
-                              );
-                            },
-                            label: "Save",
-                          ),
-                        ),
-                ),
-                addVerticalSpace(10),
-                // CustomElevatedButton(
-                //   callback: () {
-                //     Navigator.pop(context);
-                //   },
-                //   label: "Cancel",
-                //   mainColor: Colors.white,
-                //   borderColor: kColorPrimary,
-                //   textColor: kColorPrimary,
-                // ),
+                _buildButton(service, context),
               ],
             ),
           );
@@ -497,6 +134,386 @@ class _EventFormState extends State<EventForm> {
           Exception(),
         );
       },
+    );
+  }
+
+  Widget _buildButton(TaskEntityService service, BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: 10,
+      ),
+      child: BlocListener<EventBloc, EventState>(
+        listenWhen: (previous, current) {
+          if (previous.isCreated != true && current.isCreated == true)
+            return true;
+          return false;
+        },
+        listener: (context, eventState) async {
+          if (eventState.isCreated == true &&
+              eventState.createdEventRes?.id != null) {
+            await showDialog(
+              context: context,
+              builder: (context) => CustomToast(
+                heading: 'Success',
+                content: "Event created successfully",
+                onTap: () {
+                  Navigator.pushNamedAndRemoveUntil(
+                    context,
+                    Root.routeName,
+                    (route) => false,
+                  );
+                },
+                isSuccess: true,
+              ),
+            );
+          }
+          if (eventState.isCreated == false) {
+            await showDialog(
+              context: context,
+              builder: (context) => CustomToast(
+                heading: 'Error',
+                content: eventState.errMsg ?? "Event cannot be created",
+                onTap: () => Navigator.pop(context),
+                isSuccess: false,
+              ),
+            );
+          }
+        },
+        child: widget.type == AttachType.Create
+            ? CustomElevatedButton(
+                callback: () {
+                  if (durationTypeController.text == "Minutes") {
+                    _duration = Duration(
+                      minutes: int.parse(
+                        durationController.text,
+                      ),
+                    );
+                  } else {
+                    _duration = Duration(
+                      hours: int.parse(
+                        durationController.text,
+                      ),
+                    );
+                  }
+                  if (_duration != null) {
+                    formattedDuration = formatDuration(_duration!);
+                  }
+                  if (_key.currentState!.validate()) {
+                    if (startDate != null && endDate != null) {
+                      final req = CreateEventReq(
+                        title: titleController.text,
+                        start: startDate,
+                        end: endDate,
+                        guestLimit: isUnlimitedGuests
+                            ? 0
+                            : int.parse(guestController.text),
+                        duration: formattedDuration,
+                        isFlexible: isFlexible,
+                        entityService: service.id,
+                        isActive: true,
+                      );
+                      context.read<EventBloc>().add(
+                            EventCreated(
+                              req,
+                            ),
+                          );
+                    } else {
+                      showDialog(
+                        context: context,
+                        builder: (context) => CustomToast(
+                          heading: 'Error',
+                          content: "Please verify dates",
+                          onTap: () {
+                            Navigator.pop(context);
+                          },
+                          isSuccess: false,
+                        ),
+                      );
+                    }
+                  }
+                },
+                label: "Save",
+              )
+            : BlocListener<EventBloc, EventState>(
+                listenWhen: (previous, current) {
+                  if (previous.isEdited != true && current.isEdited == true)
+                    return true;
+                  return false;
+                },
+                listener: (context, state) async {
+                  if (state.isEdited == true) {
+                    await showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: 'Success',
+                        content: "Event edited successfully",
+                        onTap: () {
+                          Navigator.popUntil(context, (route) {
+                            if (route.settings.name ==
+                                EventDetailsPage.routeName) return true;
+                            return false;
+                          });
+                        },
+                        isSuccess: true,
+                      ),
+                    );
+                  } else {
+                    await showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: 'Error',
+                        content: "Something went wrong. Please try again.",
+                        onTap: () {},
+                        isSuccess: false,
+                      ),
+                    );
+                  }
+                },
+                child: CustomElevatedButton(
+                  callback: () {
+                    if (durationTypeController.text == "Minutes") {
+                      _duration = Duration(
+                        minutes: int.parse(
+                          durationController.text,
+                        ),
+                      );
+                    } else {
+                      _duration = Duration(
+                        hours: int.parse(
+                          durationController.text,
+                        ),
+                      );
+                    }
+                    if (_duration != null) {
+                      formattedDuration = formatDuration(_duration!);
+                    }
+                    editedValues.addAll({
+                      "start": startDate!.toString(),
+                      "end": endDate!.toString(),
+                      "guest_limit": int.parse(guestController.text),
+                      "duration": formattedDuration,
+                      "is_flexible": isFlexible,
+                    });
+
+                    eventBloc.add(
+                      EventEdited(
+                        id: eventBloc.state.event!.id!,
+                        data: editedValues,
+                      ),
+                    );
+                  },
+                  label: "Save",
+                ),
+              ),
+      ),
+    );
+  }
+
+  Column _buildEventFlexibity() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            vertical: 10.0,
+          ),
+          child: Divider(),
+        ),
+        WidgetText(
+          label: 'This event is flexible',
+          widget: CustomCheckBox(
+            isChecked: isFlexible,
+            onTap: () => setState(
+              () {
+                isFlexible = !isFlexible;
+              },
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  CustomFormField _buildDuration(BuildContext context) {
+    return CustomFormField(
+      label: "Duration of the event",
+      isRequired: widget.type == AttachType.Create ? true : false,
+      child: Row(
+        children: [
+          Flexible(
+            child: NumberIncDecField(
+              width: MediaQuery.of(context).size.width * 0.5,
+              controller: durationController,
+              validator:
+                  widget.type == AttachType.Edit ? null : validateNotEmpty,
+            ),
+          ),
+          addHorizontalSpace(20),
+          Flexible(
+            child: CustomDropDownField(
+              initialValue: "Minutes",
+              list: [
+                "Hours",
+                "Minutes",
+              ],
+              onChanged: (value) => setState(
+                () {
+                  durationTypeController.text = value!;
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  CustomFormField _buildGuest(BuildContext context) {
+    return CustomFormField(
+      label: "Max No. of Guest",
+      isRequired: widget.type == AttachType.Create ? true : false,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          NumberIncDecField(
+            controller: guestController,
+            width: MediaQuery.of(context).size.width * 0.46,
+            onChanged: (value) {
+              if (guestController.text != "0" ||
+                  guestController.text.isNotEmpty)
+                setState(() {
+                  isUnlimitedGuests = false;
+                });
+            },
+          ),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Text(
+                "Unlimited Guests ?",
+                style: Theme.of(context).textTheme.displaySmall,
+              ),
+              Checkbox(
+                value: isUnlimitedGuests,
+                onChanged: (value) {
+                  setState(() {
+                    isUnlimitedGuests = !isUnlimitedGuests;
+                  });
+                  if (isUnlimitedGuests) guestController.clear();
+                },
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Row _buildDate(BuildContext context) {
+    return Row(
+      children: [
+        Flexible(
+          child: CustomFormField(
+            label: "Start Date",
+            isRequired: widget.type == AttachType.Create ? true : false,
+            child: CustomFormContainer(
+              leadingWidget: Icon(
+                Icons.calendar_today_outlined,
+                color: kColorPrimary,
+              ),
+              hintText: startDate != null
+                  ? DateFormat.yMMMd().format(startDate!)
+                  : "",
+              callback: () => showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime.now(),
+                lastDate: DateTime.now().add(
+                  Duration(
+                    days: 90,
+                  ),
+                ),
+              ).then(
+                (value) => setState(
+                  () => startDate = value,
+                ),
+              ),
+            ),
+          ),
+        ),
+        addHorizontalSpace(20),
+        Flexible(
+          child: CustomFormField(
+            label: "End Date",
+            isRequired: widget.type == AttachType.Create ? true : false,
+            child: CustomFormContainer(
+              leadingWidget: Icon(
+                Icons.calendar_today_outlined,
+                color: kColorPrimary,
+              ),
+              hintText:
+                  endDate != null ? DateFormat.yMMMd().format(endDate!) : "",
+              callback: () => showDatePicker(
+                context: context,
+                initialDate: startDate?.add(
+                      Duration(days: 1),
+                    ) ??
+                    DateTime.now().add(
+                      Duration(
+                        days: 1,
+                      ),
+                    ),
+                firstDate: startDate?.add(
+                      Duration(days: 1),
+                    ) ??
+                    DateTime.now().add(
+                      Duration(
+                        days: 1,
+                      ),
+                    ),
+                lastDate: startDate?.add(
+                      Duration(days: 91),
+                    ) ??
+                    DateTime.now().add(
+                      Duration(
+                        days: 91,
+                      ),
+                    ),
+              ).then(
+                (value) => setState(
+                  () => endDate = value,
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  CustomFormField _buildTitle() {
+    return CustomFormField(
+      label: "Title",
+      isRequired: widget.type == AttachType.Create ? true : false,
+      child: CustomTextFormField(
+        controller: titleController,
+        validator: validateNotEmpty,
+        onChanged: (p0) {
+          editedValues.addAll({
+            "title": titleController.text,
+          });
+        },
+      ),
+    );
+  }
+
+  Align _buildHeader() {
+    return Align(
+      alignment: Alignment.center,
+      child: Text(
+        "${widget.type == AttachType.Create ? "Create" : "Edit"} event",
+        style: kPurpleText16,
+      ),
     );
   }
 }

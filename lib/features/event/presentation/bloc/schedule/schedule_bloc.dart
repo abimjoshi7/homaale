@@ -87,5 +87,35 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
         }
       },
     );
+
+    on<ScheduleEventEdited>(
+      (event, emit) async {
+        try {
+          emit(
+            state.copyWith(
+              isEdited: false,
+            ),
+          );
+          await repo.editSchedule(event.data, event.id).then(
+                (value) => emit(
+                  state.copyWith(
+                    isEdited: true,
+                  ),
+                ),
+              );
+          add(
+            SingleScheduleLoaded(
+              scheduleId: event.id,
+            ),
+          );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              isEdited: false,
+            ),
+          );
+        }
+      },
+    );
   }
 }

@@ -111,7 +111,7 @@ class EventRepository {
   Future<SingleScheduleRes> fetchSingleSchedule({required String id}) async {
     try {
       final res = await _dio.getDatawithCredential(
-        url: "event/schedule/$id",
+        url: "event/schedule/$id/",
         token: CacheHelper.accessToken,
       );
       return SingleScheduleRes.fromJson(res as Map<String, dynamic>);
@@ -119,6 +119,18 @@ class EventRepository {
       throw Exception(
         e.toString(),
       );
+    }
+  }
+
+  Future<void> editSchedule(Map<String, dynamic> data, String id) async {
+    try {
+      await _dio.patchDataWithCredential(
+        data: data,
+        url: "event/schedule/$id/",
+        token: CacheHelper.accessToken,
+      );
+    } catch (e) {
+      throw Exception("Edit Schedule Error: $e");
     }
   }
 }

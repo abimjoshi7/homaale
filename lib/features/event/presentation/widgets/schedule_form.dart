@@ -58,38 +58,16 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   @override
   void initState() {
     super.initState();
+    scheduleBloc = context.read<ScheduleBloc>();
     if (widget.attachType == AttachType.Edit) {
-      scheduleBloc = context.read<ScheduleBloc>()
-        ..add(
-          SingleScheduleLoaded(
-            scheduleId: widget.scheduleId ?? "",
-          ),
-        );
+      scheduleBloc.add(
+        SingleScheduleLoaded(
+          scheduleId: widget.scheduleId ?? "",
+        ),
+      );
 
       print(scheduleBloc.state.singleSchedule?.toJson());
-      setState(() {
-        repeatType = scheduleBloc.state.singleSchedule?.repeatType;
-        startTimeControllers.addAll(scheduleBloc.state.singleSchedule!.slots!
-            .map(
-              (e) => TextEditingController(
-                text: e.start,
-              ),
-            )
-            .toList());
-        endTimeControllers.addAll(scheduleBloc.state.singleSchedule!.slots!
-            .map(
-              (e) => TextEditingController(
-                text: e.end,
-              ),
-            )
-            .toList());
-      });
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   void addItem() {
@@ -179,138 +157,165 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   }
 
   Widget _buildShifts() {
-    return Form(
-      key: _key,
-      child: ConstrainedBox(
-        constraints: BoxConstraints.loose(
-          Size(
-            double.maxFinite,
-            600,
-          ),
-        ),
-        child: CustomFormField(
-          label: "Shifts",
-          rightSection: InkWell(
-            onTap: addItem,
-            child: Text(
-              "+Add",
-              style: kLightBlueText14,
+    return BlocConsumer<ScheduleBloc, ScheduleState>(
+      bloc: scheduleBloc,
+      listener: (context, state) {
+        // TODO: implement listener
+        setState(() {
+          repeatType = state.singleSchedule?.repeatType;
+          startTimeControllers.addAll(state.singleSchedule!.slots!
+              .map(
+                (e) => TextEditingController(
+                  text: e.start,
+                ),
+              )
+              .toList());
+          endTimeControllers.addAll(state.singleSchedule!.slots!
+              .map(
+                (e) => TextEditingController(
+                  text: e.end,
+                ),
+              )
+              .toList());
+        });
+      },
+      builder: (context, state) => Form(
+        key: _key,
+        child: ConstrainedBox(
+          constraints: BoxConstraints.loose(
+            Size(
+              double.maxFinite,
+              600,
             ),
           ),
-          child: Column(
-            children: <Widget>[
-              ConstrainedBox(
-                constraints: BoxConstraints.loose(
-                  Size(
-                    double.maxFinite,
-                    600,
+          child: CustomFormField(
+            label: "Shifts",
+            rightSection: InkWell(
+              onTap: addItem,
+              child: Text(
+                "+Add",
+                style: kLightBlueText14,
+              ),
+            ),
+            child: Column(
+              children: <Widget>[
+                ConstrainedBox(
+                  constraints: BoxConstraints.loose(
+                    Size(
+                      double.maxFinite,
+                      600,
+                    ),
+                  ),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: startTimeControllers.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (startTimeControllers.isNotEmpty)
+                        return ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Row(
+                            children: [
+                              Flexible(
+                                child: CustomTextFormField(
+                                  validator: (p0) =>
+                                      startTimeControllers[index].text.isEmpty
+                                          ? "Required Field"
+                                          : null,
+                                  hintText: "Start Time",
+                                  hintStyle:
+                                      Theme.of(context).textTheme.bodyMedium,
+                                  readOnly: true,
+                                  controller: startTimeControllers[index],
+                                  onTap: () async {
+                                    DateTime? selectedDate;
+                                    await showCustomBottomSheet(
+                                      context: context,
+                                      widget: SizedBox(
+                                        height: 200,
+                                        child: CupertinoDatePicker(
+                                          mode: CupertinoDatePickerMode.time,
+                                          onDateTimeChanged: (value) {
+                                            setState(() {
+                                              selectedDate = value;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    );
+
+                                    if (selectedDate != null) {
+                                      setState(() {
+                                        // startSelectedDates[index] = selectedDate;
+                                        startTimeControllers[index].text =
+                                            DateFormat.Hms()
+                                                .format(selectedDate!);
+                                      });
+                                    }
+                                  },
+                                ),
+                              ),
+                              addHorizontalSpace(
+                                8,
+                              ),
+                              Flexible(
+                                child: CustomTextFormField(
+                                  validator: (p0) =>
+                                      endTimeControllers[index].text.isEmpty
+                                          ? "Required Field"
+                                          : null,
+                                  hintText: "End Time",
+                                  hintStyle:
+                                      Theme.of(context).textTheme.bodyMedium,
+                                  readOnly: true,
+                                  controller: endTimeControllers[index],
+                                  onTap: () async {
+                                    DateTime? selectedDate;
+                                    await showCustomBottomSheet(
+                                      context: context,
+                                      widget: SizedBox(
+                                        height: 200,
+                                        child: CupertinoDatePicker(
+                                          mode: CupertinoDatePickerMode.time,
+                                          onDateTimeChanged: (value) {
+                                            setState(() {
+                                              selectedDate = value;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    );
+
+                                    if (selectedDate != null) {
+                                      setState(() {
+                                        // endSelectedDates[index] = selectedDate;
+                                        endTimeControllers[index].text =
+                                            DateFormat.Hms()
+                                                .format(selectedDate!);
+                                      });
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  deleteItem(index);
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      return SizedBox.shrink();
+                    },
                   ),
                 ),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: widget.attachType == AttachType.Edit
-                      ? scheduleBloc.state.singleSchedule?.slots?.length
-                      : startTimeControllers.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Row(
-                        children: [
-                          Flexible(
-                            child: CustomTextFormField(
-                              validator: (p0) =>
-                                  startTimeControllers[index].text.isEmpty
-                                      ? "Required Field"
-                                      : null,
-                              hintText: "Start Time",
-                              hintStyle: Theme.of(context).textTheme.bodyMedium,
-                              readOnly: true,
-                              controller: startTimeControllers[index],
-                              onTap: () async {
-                                DateTime? selectedDate;
-                                await showCustomBottomSheet(
-                                  context: context,
-                                  widget: SizedBox(
-                                    height: 200,
-                                    child: CupertinoDatePicker(
-                                      mode: CupertinoDatePickerMode.time,
-                                      onDateTimeChanged: (value) {
-                                        setState(() {
-                                          selectedDate = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                );
-
-                                if (selectedDate != null) {
-                                  setState(() {
-                                    // startSelectedDates[index] = selectedDate;
-                                    startTimeControllers[index].text =
-                                        DateFormat.Hms().format(selectedDate!);
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                          addHorizontalSpace(
-                            8,
-                          ),
-                          Flexible(
-                            child: CustomTextFormField(
-                              validator: (p0) =>
-                                  endTimeControllers[index].text.isEmpty
-                                      ? "Required Field"
-                                      : null,
-                              hintText: "End Time",
-                              hintStyle: Theme.of(context).textTheme.bodyMedium,
-                              readOnly: true,
-                              controller: endTimeControllers[index],
-                              onTap: () async {
-                                DateTime? selectedDate;
-                                await showCustomBottomSheet(
-                                  context: context,
-                                  widget: SizedBox(
-                                    height: 200,
-                                    child: CupertinoDatePicker(
-                                      mode: CupertinoDatePickerMode.time,
-                                      onDateTimeChanged: (value) {
-                                        setState(() {
-                                          selectedDate = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                );
-
-                                if (selectedDate != null) {
-                                  setState(() {
-                                    // endSelectedDates[index] = selectedDate;
-                                    endTimeControllers[index].text =
-                                        DateFormat.Hms().format(selectedDate!);
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.delete),
-                            onPressed: () {
-                              deleteItem(index);
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),
@@ -319,9 +324,11 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
 
   Widget _buildButton(TaskEntityServiceState state) {
     return BlocListener<ScheduleBloc, ScheduleState>(
+      bloc: scheduleBloc,
       listenWhen: (previous, current) {
         if (previous.isCreated != true && current.isCreated == true)
           return true;
+        if (previous.isEdited != true && current.isEdited == true) return true;
         return false;
       },
       listener: (context, scheduleState) {
@@ -332,6 +339,23 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
             builder: (context) => CustomToast(
               heading: "Success",
               content: "Schedule created successfully",
+              onTap: () {
+                Navigator.pushNamedAndRemoveUntil(
+                  context,
+                  Root.routeName,
+                  (route) => false,
+                );
+              },
+              isSuccess: true,
+            ),
+          );
+        }
+        if (scheduleState.isEdited == true) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: "Success",
+              content: "Schedule edited successfully",
               onTap: () {
                 Navigator.pushNamedAndRemoveUntil(
                   context,
@@ -370,25 +394,46 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
                 // end: DateFormat.Hms().format(endSelectedDates[index]!),
               ),
             );
-            final req = CreateScheduleReq(
-              // id: state.taskEntityService.id,
-              event: state.taskEntityService.event?.id,
-              startDate: DateFormat("yyyy-MM-dd")
-                  .format(state.taskEntityService.event!.start!),
-              endDate: DateFormat("yyyy-MM-dd")
-                  .format(state.taskEntityService.event!.end!),
-              repeatType: repeatType,
-              slots: slots,
-              guestLimit: context.read<EventBloc>().state.event?.guestLimit,
-              isActive: context.read<EventBloc>().state.event?.isActive,
-            );
-            print(slots);
-            print(req);
-            // context.read<ScheduleBloc>().add(
-            //       ScheduleEventPosted(
-            //         createScheduleReq: req,
-            //       ),
-            //     );
+            if (widget.attachType == AttachType.Edit) {
+              final map = {
+                "event": state.taskEntityService.event?.id,
+                "repeat_type": repeatType,
+                "start_date": DateFormat("yyyy-MM-dd").format(
+                  startDate ?? state.taskEntityService.event!.start!,
+                ),
+                "end_date": DateFormat("yyyy-MM-dd").format(
+                  endDate ?? state.taskEntityService.event!.end!,
+                ),
+                "slots": slots,
+              };
+              print(map);
+              context.read<ScheduleBloc>().add(
+                    ScheduleEventEdited(
+                      map,
+                      widget.scheduleId ?? "",
+                    ),
+                  );
+            } else {
+              final req = CreateScheduleReq(
+                // id: state.taskEntityService.id,
+                event: state.taskEntityService.event?.id,
+                startDate: DateFormat("yyyy-MM-dd")
+                    .format(state.taskEntityService.event!.start!),
+                endDate: DateFormat("yyyy-MM-dd")
+                    .format(state.taskEntityService.event!.end!),
+                repeatType: repeatType,
+                slots: slots,
+                guestLimit: context.read<EventBloc>().state.event?.guestLimit,
+                isActive: context.read<EventBloc>().state.event?.isActive,
+              );
+              print(slots);
+              print(req);
+              context.read<ScheduleBloc>().add(
+                    ScheduleEventPosted(
+                      createScheduleReq: req,
+                    ),
+                  );
+            }
           }
         },
       ),
@@ -443,8 +488,9 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
               callback: () {
                 showDatePicker(
                   context: context,
-                  initialDate: startDate ?? state.taskEntityService.event!.end!,
-                  firstDate: startDate ?? state.taskEntityService.event!.end!,
+                  initialDate:
+                      startDate ?? state.taskEntityService.event!.start!,
+                  firstDate: startDate ?? state.taskEntityService.event!.start!,
                   lastDate: state.taskEntityService.event!.end!,
                 ).then(
                   (value) {
