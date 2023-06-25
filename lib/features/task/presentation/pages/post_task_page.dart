@@ -156,7 +156,6 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           // ),
                           CustomMultimedia(
                             bloc: uploadBloc,
-                            imagePage: ImagePage.Form,
                           ),
                           addVerticalSpace(10.0),
                           _buildTermsConditions(context),
@@ -228,8 +227,10 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
         return BlocListener<UploadBloc, UploadState>(
           bloc: uploadBloc,
           listenWhen: (previous, current) {
-            if (previous.isImageUploaded != true && current.isImageUploaded == true) return true;
-            if (previous.isVideoUploaded != true && current.isVideoUploaded == true) return true;
+            if (previous.isImageUploaded != true &&
+                current.isImageUploaded == true) return true;
+            if (previous.isVideoUploaded != true &&
+                current.isVideoUploaded == true) return true;
             return false;
           },
           listener: (context, state) {
@@ -247,10 +248,15 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 budgetTo: double.parse(
                   endPriceController.text,
                 ),
-                startDate: DateFormat("yyyy-MM-dd").format(startDate ?? DateTime.now()),
-                endDate: DateFormat("yyyy-MM-dd").format(endDate ?? DateTime.now()),
-                startTime: startTime != null ? DateFormat.jms().format(startTime!) : null,
-                endTime: endTime != null ? DateFormat.jms().format(endTime!) : null,
+                startDate: DateFormat("yyyy-MM-dd")
+                    .format(startDate ?? DateTime.now()),
+                endDate:
+                    DateFormat("yyyy-MM-dd").format(endDate ?? DateTime.now()),
+                startTime: startTime != null
+                    ? DateFormat.jms().format(startTime!)
+                    : null,
+                endTime:
+                    endTime != null ? DateFormat.jms().format(endTime!) : null,
                 shareLocation: true,
                 isNegotiable: isNegotiable,
                 location: addressController.text,
@@ -303,7 +309,8 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                         ),
                       );
                     } else {
-                      if (uploadBloc.state.imageFileList.length != 0 || uploadBloc.state.videoFileList.length != 0) {
+                      if (uploadBloc.state.imageFileList.length != 0 ||
+                          uploadBloc.state.videoFileList.length != 0) {
                         await upload
                           ..uploadImage()
                           ..uploadVideo();
@@ -321,10 +328,16 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           budgetTo: double.parse(
                             endPriceController.text,
                           ),
-                          startDate: DateFormat("yyyy-MM-dd").format(startDate ?? DateTime.now()),
-                          endDate: DateFormat("yyyy-MM-dd").format(endDate ?? DateTime.now()),
-                          startTime: startTime != null ? DateFormat.jms().format(startTime!) : null,
-                          endTime: endTime != null ? DateFormat.jms().format(endTime!) : null,
+                          startDate: DateFormat("yyyy-MM-dd")
+                              .format(startDate ?? DateTime.now()),
+                          endDate: DateFormat("yyyy-MM-dd")
+                              .format(endDate ?? DateTime.now()),
+                          startTime: startTime != null
+                              ? DateFormat.jms().format(startTime!)
+                              : null,
+                          endTime: endTime != null
+                              ? DateFormat.jms().format(endTime!)
+                              : null,
                           shareLocation: true,
                           isNegotiable: true,
                           location: addressController.text,
@@ -339,7 +352,8 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           isActive: true,
                           needsApproval: true,
                           isEndorsed: true,
-                          service: context.read<CategoriesBloc>().state.serviceId,
+                          service:
+                              context.read<CategoriesBloc>().state.serviceId,
                           event: "",
                           city: cityCode ?? int.parse(kCityCode),
                           currency: currencyCode ?? kCurrencyCode,
@@ -360,7 +374,8 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                       context: context,
                       builder: (context) => CustomToast(
                         heading: 'Error',
-                        content: 'Error validating form. Please verify the data and try again.',
+                        content:
+                            'Error validating form. Please verify the data and try again.',
                         onTap: () {},
                         isSuccess: false,
                       ),
@@ -508,7 +523,8 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 child: Expanded(
                   flex: isBudgetVariable ? 1 : 2,
                   child: CustomTextFormField(
-                    textInputType: TextInputType.numberWithOptions(decimal: true),
+                    textInputType:
+                        TextInputType.numberWithOptions(decimal: true),
                     controller: startPriceController,
                     validator: (p0) {
                       if (isBudgetVariable) {
@@ -524,7 +540,8 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           return "Invalid Range";
                         }
                         if (endPriceController.text.isNotEmpty) {
-                          if (int.parse(p0 ?? '0') > int.parse(endPriceController.text)) {
+                          if (int.parse(p0 ?? '0') >
+                              int.parse(endPriceController.text)) {
                             return "Cannot be more than End budget";
                           }
                         }
@@ -541,7 +558,11 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                         if (startPriceController.text.isNotEmpty)
                           budgetFrom = getRecievableAmount(
                             double.parse(startPriceController.text),
-                            double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
+                            double.parse(context
+                                    .read<CategoriesBloc>()
+                                    .state
+                                    .commission ??
+                                "0.0"),
                           );
                       },
                     ),
@@ -575,11 +596,13 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                     if (int.parse(p0 ?? '0') < 10) {
                       return "Budget Cannot Be Less Than 10";
                     }
-                    if (isBudgetVariable && startPriceController.text.isNotEmpty) {
+                    if (isBudgetVariable &&
+                        startPriceController.text.isNotEmpty) {
                       if (p0 == startPriceController.text) {
                         return "Invalid Range";
                       }
-                      if (int.parse(p0 ?? '0') < int.parse(startPriceController.text)) {
+                      if (int.parse(p0 ?? '0') <
+                          int.parse(startPriceController.text)) {
                         return "Cannot be less than Start budget";
                       }
                     }
@@ -595,7 +618,11 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                         if (endPriceController.text.isNotEmpty)
                           budgetTo = getRecievableAmount(
                             double.parse(endPriceController.text),
-                            double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
+                            double.parse(context
+                                    .read<CategoriesBloc>()
+                                    .state
+                                    .commission ??
+                                "0.0"),
                           );
                       },
                     );
@@ -651,7 +678,8 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
               setState(
                 () {
                   currentValue++;
-                  controller.setText((currentValue).toString()); // incrementing value
+                  controller
+                      .setText((currentValue).toString()); // incrementing value
                 },
               );
             },
@@ -669,7 +697,8 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
               setState(
                 () {
                   currentValue--;
-                  controller.setText((currentValue > 0 ? currentValue : 0).toString()); // decrementing value
+                  controller.setText((currentValue > 0 ? currentValue : 0)
+                      .toString()); // decrementing value
                 },
               );
             },
@@ -750,7 +779,10 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                               10,
                             ) ??
                         'yy/mm/dd',
-                    hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade900),
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Colors.grey.shade900),
                   ),
                 ),
               ),
@@ -761,7 +793,8 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                   isRequired: true,
                   child: CustomTextFormField(
                     readOnly: true,
-                    validator: (value) => endDate == null ? "Required Field" : null,
+                    validator: (value) =>
+                        endDate == null ? "Required Field" : null,
                     onTap: () async {
                       await showDatePicker(
                         context: context,
@@ -789,7 +822,10 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                       Icons.calendar_today_rounded,
                       color: Colors.grey.shade800,
                     ),
-                    hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade900),
+                    hintStyle: Theme.of(context)
+                        .textTheme
+                        .bodyMedium
+                        ?.copyWith(color: Colors.grey.shade900),
                   ),
                 ),
               ),
@@ -844,7 +880,8 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                   widget: SizedBox.fromSize(
                     size: Size.fromHeight(250),
                     child: CupertinoDatePicker(
-                      initialDateTime: startTime != null ? startTime : DateTime.now(),
+                      initialDateTime:
+                          startTime != null ? startTime : DateTime.now(),
                       mode: CupertinoDatePickerMode.time,
                       onDateTimeChanged: (value) => setState(
                         () => startTime = value,
@@ -853,8 +890,13 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                   ),
                 );
               },
-              hintText: startTime != null ? DateFormat.jm().format(startTime!) : 'hh:mm:ss',
-              hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade700),
+              hintText: startTime != null
+                  ? DateFormat.jm().format(startTime!)
+                  : 'hh:mm:ss',
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.grey.shade700),
             ),
           ),
           Padding(
@@ -893,8 +935,13 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                   ),
                 );
               },
-              hintText: endTime != null ? DateFormat.jm().format(endTime!) : 'hh:mm:ss',
-              hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.grey.shade700),
+              hintText: endTime != null
+                  ? DateFormat.jm().format(endTime!)
+                  : 'hh:mm:ss',
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.grey.shade700),
             ),
           ),
           IconButton(
@@ -1051,7 +1098,9 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
           CustomTextFormField(
             controller: requirementController,
             hintText: 'Add Highlight',
-            validator: (value) => requirementList.length == 0 ? "Atleast 1 Highlight Required" : null,
+            validator: (value) => requirementList.length == 0
+                ? "Atleast 1 Highlight Required"
+                : null,
             suffixWidget: IconButton(
               icon: Icon(
                 Icons.add_box_outlined,
@@ -1187,7 +1236,9 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                                   children: [
                                     TextSpan(
                                       text: " to ",
-                                      style: Theme.of(context).textTheme.displayMedium,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium,
                                       children: [
                                         TextSpan(
                                           text: "Rs $budgetTo",

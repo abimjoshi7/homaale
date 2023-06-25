@@ -376,7 +376,6 @@ class _DetailsViewState extends State<DetailsView> {
         padding: const EdgeInsets.only(bottom: 8.0),
         child: CustomMultimedia(
           bloc: widget.uploadBloc,
-          imagePage: ImagePage.Form,
         ),
       ),
     );

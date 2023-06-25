@@ -88,7 +88,6 @@ class _SandboxPageState extends State<SandboxPage> {
             kHeight20,
             CustomMultimedia(
               bloc: bloc,
-              imagePage: ImagePage.Form,
             ),
             // Center(
             //   child: CustomElevatedButton(

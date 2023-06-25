@@ -13,11 +13,9 @@ import 'package:cipher/widgets/widgets.dart';
 
 class CustomMultimedia extends StatelessWidget {
   final UploadBloc bloc;
-  final ImagePage imagePage;
   const CustomMultimedia({
     Key? key,
     required this.bloc,
-    required this.imagePage,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
@@ -153,7 +151,6 @@ class CustomMultimedia extends StatelessWidget {
                           context: context,
                           builder: (context) => ImagePickerDialog(
                             bloc: bloc,
-                            imagePage: imagePage,
                           ),
                         );
                       },
@@ -175,7 +172,6 @@ class CustomMultimedia extends StatelessWidget {
           context: context,
           builder: (context) => ImagePickerDialog(
             bloc: bloc,
-            imagePage: imagePage,
           ),
         );
       },

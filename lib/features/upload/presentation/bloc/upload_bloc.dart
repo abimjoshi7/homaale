@@ -198,7 +198,6 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             await MultimediaPickHelper.captureAssets(
               event.context,
               RequestType.video,
-              ImagePage.Form,
             ).then(
               (value) async {
                 if (value != null) {

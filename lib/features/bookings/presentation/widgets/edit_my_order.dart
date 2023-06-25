@@ -327,7 +327,6 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                 ),
                 CustomMultimedia(
                   bloc: uploadBloc,
-                  imagePage: ImagePage.Form,
                 ),
                 Row(
                   children: [

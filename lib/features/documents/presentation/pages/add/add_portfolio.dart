@@ -263,7 +263,6 @@ class _AddPortfolioState extends State<AddPortfolio> {
                                 context: context,
                                 builder: (context) => ImagePickerDialog(
                                   bloc: uploadBloc,
-                                  imagePage: ImagePage.Form,
                                 ),
                               );
                             },

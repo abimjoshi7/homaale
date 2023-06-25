@@ -160,7 +160,6 @@ class _PostServicePageState extends State<PostServicePage> {
                           addVerticalSpace(10.0),
                           CustomMultimedia(
                             bloc: uploadBloc,
-                            imagePage: ImagePage.Form,
                           ),
                           addVerticalSpace(10.0),
                           _buildTerms(context),

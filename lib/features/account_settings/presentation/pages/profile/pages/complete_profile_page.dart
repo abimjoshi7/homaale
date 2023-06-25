@@ -96,7 +96,6 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm>
                       context: context,
                       builder: (context) => ImagePickerDialog(
                         bloc: uploadBloc,
-                        imagePage: ImagePage.Profile,
                       ),
                     );
                   },
