@@ -90,17 +90,17 @@ class _SandboxPageState extends State<SandboxPage> {
               bloc: bloc,
               imagePage: ImagePage.Form,
             ),
-            Center(
-              child: CustomElevatedButton(
-                callback: () async {
-                  final image = await CompressHelper().compressFileAsync(
-                    bloc.state.imageFileList.last,
-                  );
-                  print(image.lengthSync());
-                },
-                label: 'Compress Image',
-              ),
-            ),
+            // Center(
+            //   child: CustomElevatedButton(
+            //     callback: () async {
+            //       final image = await CompressHelper().compressFileAsync(
+            //         bloc.state.imageFileList.last,
+            //       );
+            //       print(image.lengthSync());
+            //     },
+            //     label: 'Compress Image',
+            //   ),
+            // ),
             kHeight20,
             Center(
               child: CustomElevatedButton(

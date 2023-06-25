@@ -1,49 +1,36 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'dart:developer';
+import 'dart:async';
 import 'dart:io';
 
 import 'package:dependencies/dependencies.dart';
 
 class CompressHelper {
-  final _config = Configuration(
-    pngCompression: PngCompression.bestCompression,
-    jpgQuality: 15,
-    outputType: OutputType.jpg,
-  );
-
-  // compress file asynchronously
-  Future<File> compressFileAsync(String path) async {
-    final inputFile = File(path);
-
+  Future<File> compressFileAsync(File file) async {
+    File newFile;
     // Get the application directory path
     Directory appDir = await getApplicationDocumentsDirectory();
     String appDirPath = appDir.path;
 
     // Create a new file name and path
-    String fileName = path.hashCode.toString();
+    String fileName = DateTime.now().millisecondsSinceEpoch.toString();
     String filePath = '$appDirPath/$fileName.jpeg';
 
-    final input = ImageFile(
-      rawBytes: inputFile.readAsBytesSync(),
-      filePath: inputFile.path,
-    );
-    final output = await compressInQueue(
-      ImageFileConfiguration(
-        input: input,
-        config: _config,
-      ),
+    var result = await FlutterImageCompress.compressAndGetFile(
+      file.absolute.path,
+      filePath,
+      quality: 20,
     );
 
-    File file = await File(filePath);
-    await file.writeAsBytes(
-      output.rawBytes,
-    );
+    if (result != null) {
+      newFile = File(result.path);
+      print('Input size = ${file.lengthSync()}');
+      print('Input File Path = ${file.path}');
+      print('Output size = ${newFile.lengthSync()}');
+      print('Output File Path = ${newFile.path}');
 
-    print('Input size = ${inputFile.lengthSync()}');
-    print('Output size = ${output.sizeInBytes}');
-    print('File = ${file.path}');
-    print('File size = ${file.lengthSync()}');
-
-    return file;
+      return newFile;
+    } else {
+      throw Exception("Compression Error");
+    }
   }
 }
