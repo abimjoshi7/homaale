@@ -191,6 +191,11 @@ class EventBloc extends Bloc<EventEvent, EventState> {
     on<ScheduleDeleted>(
       (event, emit) async {
         try {
+          emit(
+            state.copyWith(
+              isScheduleDeleted: false,
+            ),
+          );
           await repo.deleteSchedule(id: event.id).then(
                 (value) => emit(
                   state.copyWith(

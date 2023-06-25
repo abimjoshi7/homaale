@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/features/event/presentation/pages/event_details_page.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
@@ -155,16 +156,70 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   Widget _buildShifts() {
     return BlocConsumer<ScheduleBloc, ScheduleState>(
       bloc: scheduleBloc,
-      // listenWhen: (previous, current) {
-      //   if (previous.isCreated != true && current.isCreated == true)
-      //     return true;
-      //   if (previous.isEdited != true && current.isEdited == true) return true;
-      //   return false;
-      // },
+      listenWhen: (previous, current) {
+        if (previous.isEdited == true && current.isEdited == true) return false;
+        return true;
+      },
       listener: (context, state) {
+        if (state.isCreated == true && state.createScheduleRes != null) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: "Success",
+              content: "Schedule created successfully",
+              onTap: () {
+                context.read<EventBloc>().add(
+                      EventLoaded(
+                        id: state.createScheduleRes!.event!,
+                      ),
+                    );
+                Navigator.popUntil(
+                  context,
+                  (route) => route.settings.name == EventDetailsPage.routeName,
+                );
+              },
+              isSuccess: true,
+            ),
+          );
+        }
+        if (state.theState == TheStates.failure && state.isCreated == false) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: "Failure",
+              content: "Schedule cannot be created",
+              onTap: () {},
+              isSuccess: false,
+            ),
+          );
+        }
+        if (state.isEdited == true) {
+          Navigator.pop(context);
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: "Success",
+              content: "Schedule edited successfully",
+              onTap: () {
+                context.read<EventBloc>().add(
+                      EventLoaded(
+                        id: state.singleSchedule!.event!,
+                      ),
+                    );
+                Navigator.popUntil(
+                  context,
+                  (route) => route.settings.name == EventDetailsPage.routeName,
+                );
+              },
+              isSuccess: true,
+            ),
+          );
+        }
         if (state.singleSchedule != null)
           setState(() {
             repeatType = state.singleSchedule?.repeatType;
+            startDate = state.singleSchedule?.startDate;
+            endDate = state.singleSchedule?.endDate;
             startTimeControllers.addAll(state.singleSchedule!.slots!
                 .map(
                   (e) => TextEditingController(
@@ -351,13 +406,13 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
               ),
               "slots": slots,
             };
-            print(map);
-            context.read<ScheduleBloc>().add(
-                  ScheduleEventEdited(
-                    map,
-                    widget.scheduleId ?? "",
-                  ),
-                );
+            scheduleBloc.add(
+              ScheduleEventEdited(
+                map,
+                widget.scheduleId ?? "",
+              ),
+            );
+            // Navigator.pop(context);
           } else {
             final req = CreateScheduleReq(
               // id: state.taskEntityService.id,
@@ -373,11 +428,11 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
             );
             print(slots);
             print(req);
-            context.read<ScheduleBloc>().add(
-                  ScheduleEventPosted(
-                    createScheduleReq: req,
-                  ),
-                );
+            scheduleBloc.add(
+              ScheduleEventPosted(
+                createScheduleReq: req,
+              ),
+            );
           }
         }
       },
