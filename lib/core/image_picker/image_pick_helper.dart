@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+enum ImagePage { Profile, Form }
+
 class MultimediaPickHelper {
   static Future<File?> captureMultimedia(
     BuildContext context,
@@ -19,6 +21,8 @@ class MultimediaPickHelper {
           enableTapRecording: isVideo,
           enableAudio: isVideo,
           textDelegate: EnglishCameraPickerTextDelegate(),
+          imageFormatGroup: ImageFormatGroup.jpeg,
+          resolutionPreset: ResolutionPreset.low,
         ),
       ).then(
         (value) => value?.file,

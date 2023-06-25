@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/features/event/presentation/pages/event_details_page.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
@@ -33,8 +34,6 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   int? repeatType;
   List<TextEditingController> startTimeControllers = [];
   List<TextEditingController> endTimeControllers = [];
-  // List<DateTime?> startSelectedDates = [];
-  // List<DateTime?> endSelectedDates = [];
   TextEditingController itemController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final GlobalKey<FormState> _repeatkey = GlobalKey<FormState>();
@@ -58,46 +57,20 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   @override
   void initState() {
     super.initState();
+    scheduleBloc = locator<ScheduleBloc>();
     if (widget.attachType == AttachType.Edit) {
-      scheduleBloc = context.read<ScheduleBloc>()
-        ..add(
-          SingleScheduleLoaded(
-            scheduleId: widget.scheduleId ?? "",
-          ),
-        );
-
-      print(scheduleBloc.state.singleSchedule?.toJson());
-      setState(() {
-        repeatType = scheduleBloc.state.singleSchedule?.repeatType;
-        startTimeControllers.addAll(scheduleBloc.state.singleSchedule!.slots!
-            .map(
-              (e) => TextEditingController(
-                text: e.start,
-              ),
-            )
-            .toList());
-        endTimeControllers.addAll(scheduleBloc.state.singleSchedule!.slots!
-            .map(
-              (e) => TextEditingController(
-                text: e.end,
-              ),
-            )
-            .toList());
-      });
+      scheduleBloc.add(
+        SingleScheduleLoaded(
+          scheduleId: widget.scheduleId ?? "",
+        ),
+      );
     }
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 
   void addItem() {
     setState(() {
       startTimeControllers.add(TextEditingController());
       endTimeControllers.add(TextEditingController());
-      // startSelectedDates.add(null);
-      // endSelectedDates.add(null);
     });
   }
 
@@ -105,8 +78,6 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
     setState(() {
       startTimeControllers.removeAt(index);
       endTimeControllers.removeAt(index);
-      // startSelectedDates.removeAt(index);
-      // endSelectedDates.removeAt(index);
     });
   }
 
@@ -116,13 +87,7 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
       builder: (context, state) {
         return Column(
           children: [
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                "${widget.attachType == AttachType.Create ? "New" : "Edit"} Schedule",
-                style: kPurpleText17,
-              ),
-            ),
+            _buildHeader(),
             addVerticalSpace(
               8,
             ),
@@ -138,6 +103,16 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
           ],
         );
       },
+    );
+  }
+
+  Align _buildHeader() {
+    return Align(
+      alignment: Alignment.center,
+      child: Text(
+        "${widget.attachType == AttachType.Create ? "New" : "Edit"} Schedule",
+        style: kPurpleText17,
+      ),
     );
   }
 
@@ -179,172 +154,35 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   }
 
   Widget _buildShifts() {
-    return Form(
-      key: _key,
-      child: ConstrainedBox(
-        constraints: BoxConstraints.loose(
-          Size(
-            double.maxFinite,
-            600,
-          ),
-        ),
-        child: CustomFormField(
-          label: "Shifts",
-          rightSection: InkWell(
-            onTap: addItem,
-            child: Text(
-              "+Add",
-              style: kLightBlueText14,
-            ),
-          ),
-          child: Column(
-            children: <Widget>[
-              ConstrainedBox(
-                constraints: BoxConstraints.loose(
-                  Size(
-                    double.maxFinite,
-                    600,
-                  ),
-                ),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: widget.attachType == AttachType.Edit
-                      ? scheduleBloc.state.singleSchedule?.slots?.length
-                      : startTimeControllers.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return ListTile(
-                      contentPadding: EdgeInsets.zero,
-                      title: Row(
-                        children: [
-                          Flexible(
-                            child: CustomTextFormField(
-                              validator: (p0) =>
-                                  startTimeControllers[index].text.isEmpty
-                                      ? "Required Field"
-                                      : null,
-                              hintText: "Start Time",
-                              hintStyle: Theme.of(context).textTheme.bodyMedium,
-                              readOnly: true,
-                              controller: startTimeControllers[index],
-                              onTap: () async {
-                                DateTime? selectedDate;
-                                await showCustomBottomSheet(
-                                  context: context,
-                                  widget: SizedBox(
-                                    height: 200,
-                                    child: CupertinoDatePicker(
-                                      mode: CupertinoDatePickerMode.time,
-                                      onDateTimeChanged: (value) {
-                                        setState(() {
-                                          selectedDate = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                );
-
-                                if (selectedDate != null) {
-                                  setState(() {
-                                    // startSelectedDates[index] = selectedDate;
-                                    startTimeControllers[index].text =
-                                        DateFormat.Hms().format(selectedDate!);
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                          addHorizontalSpace(
-                            8,
-                          ),
-                          Flexible(
-                            child: CustomTextFormField(
-                              validator: (p0) =>
-                                  endTimeControllers[index].text.isEmpty
-                                      ? "Required Field"
-                                      : null,
-                              hintText: "End Time",
-                              hintStyle: Theme.of(context).textTheme.bodyMedium,
-                              readOnly: true,
-                              controller: endTimeControllers[index],
-                              onTap: () async {
-                                DateTime? selectedDate;
-                                await showCustomBottomSheet(
-                                  context: context,
-                                  widget: SizedBox(
-                                    height: 200,
-                                    child: CupertinoDatePicker(
-                                      mode: CupertinoDatePickerMode.time,
-                                      onDateTimeChanged: (value) {
-                                        setState(() {
-                                          selectedDate = value;
-                                        });
-                                      },
-                                    ),
-                                  ),
-                                );
-
-                                if (selectedDate != null) {
-                                  setState(() {
-                                    // endSelectedDates[index] = selectedDate;
-                                    endTimeControllers[index].text =
-                                        DateFormat.Hms().format(selectedDate!);
-                                  });
-                                }
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                      trailing: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.delete),
-                            onPressed: () {
-                              deleteItem(index);
-                            },
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildButton(TaskEntityServiceState state) {
-    return BlocListener<ScheduleBloc, ScheduleState>(
+    return BlocConsumer<ScheduleBloc, ScheduleState>(
+      bloc: scheduleBloc,
       listenWhen: (previous, current) {
-        if (previous.isCreated != true && current.isCreated == true)
-          return true;
-        return false;
+        if (previous.isEdited == true && current.isEdited == true) return false;
+        return true;
       },
-      listener: (context, scheduleState) {
-        if (scheduleState.isCreated == true &&
-            scheduleState.createScheduleRes != null) {
+      listener: (context, state) {
+        if (state.isCreated == true && state.createScheduleRes != null) {
           showDialog(
             context: context,
             builder: (context) => CustomToast(
               heading: "Success",
               content: "Schedule created successfully",
               onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
+                context.read<EventBloc>().add(
+                      EventLoaded(
+                        id: state.createScheduleRes!.event!,
+                      ),
+                    );
+                Navigator.popUntil(
                   context,
-                  Root.routeName,
-                  (route) => false,
+                  (route) => route.settings.name == EventDetailsPage.routeName,
                 );
               },
               isSuccess: true,
             ),
           );
         }
-        if (scheduleState.theState == TheStates.failure &&
-            scheduleState.isCreated == false) {
+        if (state.theState == TheStates.failure && state.isCreated == false) {
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -355,21 +193,227 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
             ),
           );
         }
+        if (state.isEdited == true) {
+          Navigator.pop(context);
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: "Success",
+              content: "Schedule edited successfully",
+              onTap: () {
+                context.read<EventBloc>().add(
+                      EventLoaded(
+                        id: state.singleSchedule!.event!,
+                      ),
+                    );
+                Navigator.popUntil(
+                  context,
+                  (route) => route.settings.name == EventDetailsPage.routeName,
+                );
+              },
+              isSuccess: true,
+            ),
+          );
+        }
+        if (state.singleSchedule != null)
+          setState(() {
+            repeatType = state.singleSchedule?.repeatType;
+            startDate = state.singleSchedule?.startDate;
+            endDate = state.singleSchedule?.endDate;
+            startTimeControllers.addAll(state.singleSchedule!.slots!
+                .map(
+                  (e) => TextEditingController(
+                    text: e.start,
+                  ),
+                )
+                .toList());
+            endTimeControllers.addAll(state.singleSchedule!.slots!
+                .map(
+                  (e) => TextEditingController(
+                    text: e.end,
+                  ),
+                )
+                .toList());
+          });
       },
-      child: CustomElevatedButton(
-        label: "Save",
-        callback: () {
-          if (_key.currentState!.validate() &&
-              _repeatkey.currentState!.validate()) {
-            final List<Slot> slots = List.generate(
-              startTimeControllers.length,
-              (index) => Slot(
-                start: startTimeControllers[index].text,
-                end: endTimeControllers[index].text,
-                // start: DateFormat.Hms().format(startTimeControllers[index].text),
-                // end: DateFormat.Hms().format(endSelectedDates[index]!),
+      builder: (context, state) => Form(
+        key: _key,
+        child: ConstrainedBox(
+          constraints: BoxConstraints.loose(
+            Size(
+              double.maxFinite,
+              600,
+            ),
+          ),
+          child: CustomFormField(
+            label: "Shifts",
+            rightSection: InkWell(
+              onTap: addItem,
+              child: Text(
+                "+Add",
+                style: kLightBlueText14,
+              ),
+            ),
+            child: Column(
+              children: <Widget>[
+                ConstrainedBox(
+                  constraints: BoxConstraints.loose(
+                    Size(
+                      double.maxFinite,
+                      600,
+                    ),
+                  ),
+                  child: ListView.builder(
+                    shrinkWrap: true,
+                    itemCount: startTimeControllers.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      if (startTimeControllers.isNotEmpty)
+                        return ListTile(
+                          contentPadding: EdgeInsets.zero,
+                          title: Row(
+                            children: [
+                              Flexible(
+                                child: CustomTextFormField(
+                                  validator: (p0) =>
+                                      startTimeControllers[index].text.isEmpty
+                                          ? "Required Field"
+                                          : null,
+                                  hintText: "Start Time",
+                                  hintStyle:
+                                      Theme.of(context).textTheme.bodyMedium,
+                                  readOnly: true,
+                                  controller: startTimeControllers[index],
+                                  onTap: () async {
+                                    DateTime? selectedDate;
+                                    await showCustomBottomSheet(
+                                      context: context,
+                                      widget: SizedBox(
+                                        height: 200,
+                                        child: CupertinoDatePicker(
+                                          mode: CupertinoDatePickerMode.time,
+                                          onDateTimeChanged: (value) {
+                                            setState(() {
+                                              selectedDate = value;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    );
+
+                                    if (selectedDate != null) {
+                                      setState(() {
+                                        // startSelectedDates[index] = selectedDate;
+                                        startTimeControllers[index].text =
+                                            DateFormat.Hms()
+                                                .format(selectedDate!);
+                                      });
+                                    }
+                                  },
+                                ),
+                              ),
+                              addHorizontalSpace(
+                                8,
+                              ),
+                              Flexible(
+                                child: CustomTextFormField(
+                                  validator: (p0) =>
+                                      endTimeControllers[index].text.isEmpty
+                                          ? "Required Field"
+                                          : null,
+                                  hintText: "End Time",
+                                  hintStyle:
+                                      Theme.of(context).textTheme.bodyMedium,
+                                  readOnly: true,
+                                  controller: endTimeControllers[index],
+                                  onTap: () async {
+                                    DateTime? selectedDate;
+                                    await showCustomBottomSheet(
+                                      context: context,
+                                      widget: SizedBox(
+                                        height: 200,
+                                        child: CupertinoDatePicker(
+                                          mode: CupertinoDatePickerMode.time,
+                                          onDateTimeChanged: (value) {
+                                            setState(() {
+                                              selectedDate = value;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    );
+
+                                    if (selectedDate != null) {
+                                      setState(() {
+                                        // endSelectedDates[index] = selectedDate;
+                                        endTimeControllers[index].text =
+                                            DateFormat.Hms()
+                                                .format(selectedDate!);
+                                      });
+                                    }
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                          trailing: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              IconButton(
+                                icon: Icon(Icons.delete),
+                                onPressed: () {
+                                  deleteItem(index);
+                                },
+                              ),
+                            ],
+                          ),
+                        );
+                      return SizedBox.shrink();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildButton(TaskEntityServiceState state) {
+    return CustomElevatedButton(
+      label: "Save",
+      callback: () {
+        if (_key.currentState!.validate() &&
+            _repeatkey.currentState!.validate()) {
+          final List<Slot> slots = List.generate(
+            startTimeControllers.length,
+            (index) => Slot(
+              start: startTimeControllers[index].text,
+              end: endTimeControllers[index].text,
+              // start: DateFormat.Hms().format(startTimeControllers[index].text),
+              // end: DateFormat.Hms().format(endSelectedDates[index]!),
+            ),
+          );
+          if (widget.attachType == AttachType.Edit) {
+            final map = {
+              "event": state.taskEntityService.event?.id,
+              "repeat_type": repeatType,
+              "start_date": DateFormat("yyyy-MM-dd").format(
+                startDate ?? state.taskEntityService.event!.start!,
+              ),
+              "end_date": DateFormat("yyyy-MM-dd").format(
+                endDate ?? state.taskEntityService.event!.end!,
+              ),
+              "slots": slots,
+            };
+            scheduleBloc.add(
+              ScheduleEventEdited(
+                map,
+                widget.scheduleId ?? "",
               ),
             );
+            // Navigator.pop(context);
+          } else {
             final req = CreateScheduleReq(
               // id: state.taskEntityService.id,
               event: state.taskEntityService.event?.id,
@@ -384,14 +428,14 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
             );
             print(slots);
             print(req);
-            // context.read<ScheduleBloc>().add(
-            //       ScheduleEventPosted(
-            //         createScheduleReq: req,
-            //       ),
-            //     );
+            scheduleBloc.add(
+              ScheduleEventPosted(
+                createScheduleReq: req,
+              ),
+            );
           }
-        },
-      ),
+        }
+      },
     );
   }
 
@@ -443,8 +487,9 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
               callback: () {
                 showDatePicker(
                   context: context,
-                  initialDate: startDate ?? state.taskEntityService.event!.end!,
-                  firstDate: startDate ?? state.taskEntityService.event!.end!,
+                  initialDate:
+                      startDate ?? state.taskEntityService.event!.start!,
+                  firstDate: startDate ?? state.taskEntityService.event!.start!,
                   lastDate: state.taskEntityService.event!.end!,
                 ).then(
                   (value) {

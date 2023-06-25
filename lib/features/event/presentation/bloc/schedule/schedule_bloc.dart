@@ -72,6 +72,11 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     on<SingleScheduleLoaded>(
       (event, emit) async {
         try {
+          emit(
+            state.copyWith(
+              theState: TheStates.loading,
+            ),
+          );
           await repo.fetchSingleSchedule(id: event.scheduleId).then(
             (value) {
               emit(state.copyWith(
@@ -84,6 +89,36 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
           emit(state.copyWith(
             theState: TheStates.failure,
           ));
+        }
+      },
+    );
+
+    on<ScheduleEventEdited>(
+      (event, emit) async {
+        try {
+          emit(
+            state.copyWith(
+              isEdited: false,
+            ),
+          );
+          await repo.editSchedule(event.data, event.id).then(
+                (value) => emit(
+                  state.copyWith(
+                    isEdited: true,
+                  ),
+                ),
+              );
+          add(
+            SingleScheduleLoaded(
+              scheduleId: event.id,
+            ),
+          );
+        } catch (e) {
+          emit(
+            state.copyWith(
+              isEdited: false,
+            ),
+          );
         }
       },
     );

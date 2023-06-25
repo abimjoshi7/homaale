@@ -1,3 +1,4 @@
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/locator.dart';
@@ -25,10 +26,12 @@ class EditTaskEntityServiceForm extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  State<EditTaskEntityServiceForm> createState() => _EditTaskEntityServiceFormState();
+  State<EditTaskEntityServiceForm> createState() =>
+      _EditTaskEntityServiceFormState();
 }
 
-class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> with TheModalBottomSheet {
+class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm>
+    with TheModalBottomSheet {
   final _key = GlobalKey<FormState>();
   final uploadBloc = locator<UploadBloc>();
 
@@ -495,11 +498,19 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
                         budgetFrom = widget.isRequested
                             ? getRecievableAmount(
                                 double.parse(startPriceController.text),
-                                double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
+                                double.parse(context
+                                        .read<CategoriesBloc>()
+                                        .state
+                                        .commission ??
+                                    "0.0"),
                               )
                             : getPayableAmount(
                                 double.parse(startPriceController.text),
-                                double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
+                                double.parse(context
+                                        .read<CategoriesBloc>()
+                                        .state
+                                        .commission ??
+                                    "0.0"),
                               );
                     },
                   ),
@@ -519,11 +530,19 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
                       budgetTo = widget.isRequested
                           ? getRecievableAmount(
                               double.parse(endPriceController.text),
-                              double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
+                              double.parse(context
+                                      .read<CategoriesBloc>()
+                                      .state
+                                      .commission ??
+                                  "0.0"),
                             )
                           : getPayableAmount(
                               double.parse(endPriceController.text),
-                              double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
+                              double.parse(context
+                                      .read<CategoriesBloc>()
+                                      .state
+                                      .commission ??
+                                  "0.0"),
                             );
                   },
                 ),
@@ -847,7 +866,9 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
                                   children: [
                                     TextSpan(
                                       text: " to ",
-                                      style: Theme.of(context).textTheme.displayMedium,
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displayMedium,
                                       children: [
                                         TextSpan(
                                           text: "Rs $budgetTo",
@@ -922,8 +943,10 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
                     onTap: () async {
                       await showDatePicker(
                         context: context,
-                        initialDate: startDate?.add(Duration(days: 1)) ?? DateTime.now(),
-                        firstDate: startDate?.add(Duration(days: 1)) ?? DateTime.now(),
+                        initialDate:
+                            startDate?.add(Duration(days: 1)) ?? DateTime.now(),
+                        firstDate:
+                            startDate?.add(Duration(days: 1)) ?? DateTime.now(),
                         lastDate: DateTime(2050),
                       ).then(
                         (value) => setState(

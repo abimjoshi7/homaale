@@ -1,8 +1,11 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:io';
+
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 
 class ImagePickerDialog extends StatelessWidget {
