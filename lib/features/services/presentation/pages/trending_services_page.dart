@@ -255,10 +255,11 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               onChanged: (value) {
                 setState(() {
                   location = value as String;
+                  isFilteredSort = true;
                 });
                 entityServiceBloc.add(TaskEntityServiceInitiated(
                   newFetch: true,
-                  payableFrom: payableFrom.text,
+                  payableFrom: payableFrom.text.isEmpty ? null : payableFrom.text,
                   payableTo: payableTo.length == 0 ? null : payableTo.text,
                   dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
                   dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
