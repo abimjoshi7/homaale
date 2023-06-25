@@ -31,7 +31,6 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
   final _categoryKey = GlobalKey<FormFieldState>();
   final _locationKey = GlobalKey<FormFieldState>();
 
-  bool isFilteredSort = false;
   String? sortBudget;
   String? sortDate;
   String? selectedCategoryId;
@@ -228,7 +227,16 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               addHorizontalSpace(8),
               _buildDateSort(),
               addHorizontalSpace(8),
-              isFilteredSort ? _buildClearFilters(context) : SizedBox.shrink(),
+              dateFrom != null ||
+                      dateTo != null ||
+                      payableFrom.text.length != 0 ||
+                      payableTo.text.length != 0 ||
+                      category != null ||
+                      location != null ||
+                      sortBudget != null ||
+                      sortDate != null
+                  ? _buildClearFilters(context)
+                  : SizedBox.shrink(),
             ],
           )
         ],
@@ -246,8 +254,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
             return CustomDropdownSearch(
               key: _locationKey,
               selectedItem: location,
-              hintText: "Location",
               serviceId: location,
+              hintText: "Location",
               list: List.generate(
                 state.list.length,
                 (index) => state.list[index].name,
@@ -255,7 +263,6 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               onChanged: (value) {
                 setState(() {
                   location = value as String;
-                  isFilteredSort = true;
                 });
                 entityServiceBloc.add(TaskEntityServiceInitiated(
                   newFetch: true,
@@ -263,8 +270,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                   payableTo: payableTo.length == 0 ? null : payableTo.text,
                   dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
                   dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                  serviceId: serviceId,
                   city: location,
-                  category: category,
                   dateSort: sortDate,
                   budgetSort: sortBudget,
                 ));
@@ -272,7 +279,6 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               onRemovePressed: () {
                 setState(() {
                   location = null;
-                  isFilteredSort = false;
                 });
                 entityServiceBloc.add(TaskEntityServiceInitiated(
                   newFetch: true,
@@ -281,7 +287,6 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                   dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
                   dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
                   city: location,
-                  category: category,
                   serviceId: serviceId,
                   dateSort: sortDate,
                   budgetSort: sortBudget,
@@ -316,7 +321,6 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                     setState(() {
                       category = value as String;
                       serviceId = element.id.toString();
-                      isFilteredSort = true;
                     });
                 }
                 entityServiceBloc.add(
@@ -337,7 +341,6 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                 setState(() {
                   category = null;
                   serviceId = null;
-                  isFilteredSort = false;
                 });
                 entityServiceBloc.add(TaskEntityServiceInitiated(
                   newFetch: true,
@@ -346,7 +349,6 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                   dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
                   dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
                   city: location,
-                  category: category,
                   serviceId: serviceId,
                   dateSort: sortDate,
                   budgetSort: sortBudget,
@@ -360,10 +362,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
   }
 
   Widget _buildPayableFrom(BuildContext context) {
-    return CustomFilterChip(
-      iconData: Icons.attach_money_sharp,
-      label: payableFrom.text.length == 0 ? "From" : payableFrom.text,
-      callback: (value) {
+    return GestureDetector(
+      onTap: () {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(content: Text("Enter Amount:"), actions: [
@@ -376,7 +376,6 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               onFieldSubmitted: (p0) {
                 setState(() {
                   payableFrom.text = p0!;
-                  isFilteredSort = true;
                 });
                 entityServiceBloc.add(
                   TaskEntityServiceInitiated(
@@ -397,14 +396,54 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
           ]),
         );
       },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Icon(
+                Icons.attach_money_sharp,
+              ),
+              addHorizontalSpace(4.0),
+              Text("${payableFrom.text.length == 0 ? "From" : payableFrom.text}"),
+              addHorizontalSpace(8.0),
+              payableFrom.length != 0
+                  ? InkWell(
+                      onTap: () {
+                        setState(() {
+                          payableFrom.clear();
+                        });
+
+                        entityServiceBloc.add(
+                          TaskEntityServiceInitiated(
+                            newFetch: true,
+                            isTask: false,
+                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            payableTo: payableTo.length == 0 ? null : payableTo.text,
+                            payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
+                            serviceId: serviceId,
+                            city: location,
+                            dateSort: sortDate,
+                            budgetSort: sortBudget,
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.clear))
+                  : SizedBox.shrink(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildPayableTo(BuildContext context) {
-    return CustomFilterChip(
-      iconData: Icons.attach_money_sharp,
-      label: payableTo.text.length == 0 ? "To" : payableTo.text,
-      callback: (value) {
+    return GestureDetector(
+      onTap: () {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(content: Text("Enter Amount:"), actions: [
@@ -417,7 +456,6 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               onFieldSubmitted: (p0) {
                 setState(() {
                   payableTo.text = p0!;
-                  isFilteredSort = true;
                 });
                 entityServiceBloc.add(
                   TaskEntityServiceInitiated(
@@ -438,29 +476,65 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
           ]),
         );
       },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Icon(
+                Icons.attach_money_sharp,
+              ),
+              addHorizontalSpace(4.0),
+              Text("${payableTo.text.length == 0 ? "To" : payableTo.text}"),
+              addHorizontalSpace(8.0),
+              payableTo.length != 0
+                  ? InkWell(
+                      onTap: () {
+                        setState(() {
+                          payableTo.clear();
+                        });
+
+                        entityServiceBloc.add(
+                          TaskEntityServiceInitiated(
+                            newFetch: true,
+                            isTask: false,
+                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            payableTo: payableTo.length == 0 ? null : payableTo.text,
+                            payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
+                            serviceId: serviceId,
+                            city: location,
+                            dateSort: sortDate,
+                            budgetSort: sortBudget,
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.clear))
+                  : SizedBox.shrink(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildFromDate(BuildContext context) {
-    return CustomFilterChip(
-      label: dateFrom != null ? DateFormat.MMMd().format(dateFrom!) : "From",
-      iconData: Icons.calendar_today_outlined,
-      callback: (value) {
+    return GestureDetector(
+      onTap: () {
         showDatePicker(
           context: context,
           initialDate: DateTime.now(),
-          firstDate: DateTime(
-            2000,
-          ),
-          lastDate: DateTime(
-            2050,
-          ),
+          firstDate: dateFrom ?? DateTime(2000),
+          lastDate: DateTime(2050),
         ).then(
           (value) {
             setState(() {
               dateFrom = value;
-              isFilteredSort = true;
             });
+
             entityServiceBloc.add(
               TaskEntityServiceInitiated(
                 newFetch: true,
@@ -473,6 +547,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                     : DateFormat("yyyy-MM-dd").format(
                         dateTo!,
                       ),
+                payableTo: payableTo.length == 0 ? null : payableTo.text,
+                payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
                 serviceId: serviceId,
                 city: location,
                 dateSort: sortDate,
@@ -482,28 +558,63 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
           },
         );
       },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Icon(
+                Icons.calendar_today_outlined,
+              ),
+              addHorizontalSpace(4.0),
+              Text("${dateFrom != null ? DateFormat.MMMd().format(dateFrom!) : "From"}"),
+              addHorizontalSpace(8.0),
+              dateFrom != null
+                  ? InkWell(
+                      onTap: () {
+                        setState(() {
+                          dateFrom = null;
+                        });
+
+                        entityServiceBloc.add(
+                          TaskEntityServiceInitiated(
+                            newFetch: true,
+                            isTask: false,
+                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            payableTo: payableTo.length == 0 ? null : payableTo.text,
+                            payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
+                            serviceId: serviceId,
+                            city: location,
+                            dateSort: sortDate,
+                            budgetSort: sortBudget,
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.clear))
+                  : SizedBox.shrink(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildToDate(BuildContext context) {
-    return CustomFilterChip(
-      label: dateTo != null ? DateFormat.MMMd().format(dateTo!) : "To",
-      iconData: Icons.calendar_today_outlined,
-      callback: (value) {
+    return GestureDetector(
+      onTap: () {
         showDatePicker(
           context: context,
           initialDate: DateTime.now(),
-          firstDate: DateTime(
-            2000,
-          ),
-          lastDate: DateTime(
-            2050,
-          ),
+          firstDate: dateFrom ?? DateTime(2000),
+          lastDate: DateTime(2050),
         ).then(
           (value) {
             setState(() {
               dateTo = value;
-              isFilteredSort = true;
             });
 
             entityServiceBloc.add(
@@ -518,6 +629,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                     : DateFormat("yyyy-MM-dd").format(
                         dateFrom!,
                       ),
+                payableTo: payableTo.length == 0 ? null : payableTo.text,
+                payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
                 serviceId: serviceId,
                 city: location,
                 dateSort: sortDate,
@@ -527,25 +640,60 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
           },
         );
       },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Icon(
+                Icons.calendar_today_outlined,
+              ),
+              addHorizontalSpace(4.0),
+              Text("${dateTo != null ? DateFormat.MMMd().format(dateTo!) : "To"}"),
+              addHorizontalSpace(8.0),
+              dateTo != null
+                  ? InkWell(
+                      onTap: () {
+                        setState(() {
+                          dateTo = null;
+                        });
+
+                        entityServiceBloc.add(
+                          TaskEntityServiceInitiated(
+                            newFetch: true,
+                            isTask: false,
+                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            payableTo: payableTo.length == 0 ? null : payableTo.text,
+                            payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
+                            serviceId: serviceId,
+                            city: location,
+                            dateSort: sortDate,
+                            budgetSort: sortBudget,
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.clear))
+                  : SizedBox.shrink(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildBudgetSort() {
-    return CustomFilterChip(
-      iconData: Icons.attach_money,
-      label: sortBudget != null
-          ? sortBudget == '-budget_to'
-              ? 'Budget Desc'
-              : 'Budget Asec'
-          : 'Sort Budget',
-      callback: (value) {
+    return GestureDetector(
+      onTap: () {
         setState(() {
           sortBudget = sortBudget == null
               ? '-budget_to'
               : sortBudget == '-budget_to'
                   ? 'budget_to'
                   : '-budget_to';
-          isFilteredSort = true;
         });
 
         entityServiceBloc.add(
@@ -571,25 +719,59 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
           ),
         );
       },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Icon(Icons.attach_money),
+              addHorizontalSpace(4.0),
+              Text(
+                  "${sortBudget != null ? sortBudget == '-budget_to' ? 'Budget Desc' : 'Budget Asec' : 'Sort Budget'}"),
+              addHorizontalSpace(8.0),
+              sortBudget != null
+                  ? InkWell(
+                      onTap: () {
+                        setState(() {
+                          sortBudget = null;
+                        });
+
+                        entityServiceBloc.add(
+                          TaskEntityServiceInitiated(
+                            newFetch: true,
+                            isTask: false,
+                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            payableTo: payableTo.length == 0 ? null : payableTo.text,
+                            payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
+                            serviceId: serviceId,
+                            city: location,
+                            dateSort: sortDate,
+                            budgetSort: sortBudget,
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.clear))
+                  : SizedBox.shrink(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildDateSort() {
-    return CustomFilterChip(
-      iconData: Icons.date_range,
-      label: sortDate != null
-          ? sortDate == '-created_at'
-              ? 'Date Desc'
-              : 'Date Asec'
-          : 'Sort Date',
-      callback: (value) {
+    return GestureDetector(
+      onTap: () {
         setState(() {
           sortDate = sortDate == null
               ? '-created_at'
               : sortDate == '-created_at'
                   ? 'created_at'
                   : '-created_at';
-          isFilteredSort = true;
         });
         entityServiceBloc.add(
           TaskEntityServiceInitiated(
@@ -614,12 +796,50 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
           ),
         );
       },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Icon(Icons.date_range),
+              addHorizontalSpace(4.0),
+              Text("${sortDate != null ? sortDate == '-created_at' ? 'Date Desc' : 'Date Asec' : 'Sort Date'}"),
+              addHorizontalSpace(8.0),
+              sortDate != null
+                  ? InkWell(
+                      onTap: () {
+                        setState(() {
+                          sortDate = null;
+                        });
+
+                        entityServiceBloc.add(
+                          TaskEntityServiceInitiated(
+                            newFetch: true,
+                            isTask: false,
+                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            payableTo: payableTo.length == 0 ? null : payableTo.text,
+                            payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
+                            serviceId: serviceId,
+                            city: location,
+                            dateSort: sortDate,
+                            budgetSort: sortBudget,
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.clear))
+                  : SizedBox.shrink(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
-  Widget _buildClearFilters(
-    BuildContext context,
-  ) {
+  Widget _buildClearFilters(BuildContext context) {
     return IconButton(
       onPressed: () {
         setState(() {
@@ -631,7 +851,6 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
           location = null;
           sortBudget = null;
           sortDate = null;
-          isFilteredSort = false;
         });
         entityServiceBloc.add(
           TaskEntityServiceInitiated(newFetch: true),

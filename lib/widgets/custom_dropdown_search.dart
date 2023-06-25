@@ -60,7 +60,7 @@ class CustomDropdownSearch<T> extends StatelessWidget {
         iconSize: 16,
         visualDensity: VisualDensity.compact,
         alignment: Alignment.centerRight,
-        isVisible: true,
+        isVisible: serviceId != null && serviceId != '',
         color: serviceId == null ? Colors.white : Colors.black,
         onPressed: onRemovePressed,
       ),
