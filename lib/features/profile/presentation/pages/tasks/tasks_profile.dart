@@ -170,7 +170,7 @@ class _TasksProfileState extends State<TasksProfile> {
           );
         }
         return const Center(
-          child: CardLoading(height: 400),
+          child:  CardLoading(height: 400),
         );
       },
     );

@@ -1,4 +1,5 @@
 import 'package:cipher/core/helpers/upload_helper.dart';
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/locator.dart';
@@ -797,8 +798,8 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                     onTap: () async {
                       await showDatePicker(
                         context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime(2022),
+                        initialDate: startDate ?? DateTime.now(),
+                        firstDate: startDate ?? DateTime.now(),
                         lastDate: DateTime(
                           2050,
                         ),
@@ -1047,7 +1048,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
 
   CustomFormField _buildRequirements() {
     return CustomFormField(
-      label: 'Requirements',
+      label: 'Highlights',
       child: Column(
         children: [
           Column(
@@ -1096,9 +1097,9 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
           addVerticalSpace(5),
           CustomTextFormField(
             controller: requirementController,
-            hintText: 'Add requirements',
+            hintText: 'Add Highlight',
             validator: (value) => requirementList.length == 0
-                ? "Atleast 1 Requirement Required"
+                ? "Atleast 1 Highlight Required"
                 : null,
             suffixWidget: IconButton(
               icon: Icon(

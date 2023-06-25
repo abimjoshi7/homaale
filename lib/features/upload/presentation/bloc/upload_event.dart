@@ -21,13 +21,13 @@ class ImageUploaded extends UploadEvent {
 
 class MultipleImageUploaded extends UploadEvent {
   final BuildContext context;
+  final bool? isProfile;
   MultipleImageUploaded({
     required this.context,
+    this.isProfile,
   });
   @override
-  List<Object?> get props => [
-        context,
-      ];
+  List<Object?> get props => [context, isProfile];
 }
 
 class VideoUploaded extends UploadEvent {

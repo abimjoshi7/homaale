@@ -3,7 +3,6 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
-import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/support/presentation/widgets/report_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
@@ -146,13 +145,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                         context.read<TaskBloc>().add(
                               SingleEntityTaskLoadInitiated(
                                 id: state.taskModel?.id ?? '',
-                                userId: context
-                                        .read<UserBloc>()
-                                        .state
-                                        .taskerProfile
-                                        ?.user
-                                        ?.id ??
-                                    '',
+                                userId: context.read<UserBloc>().state.taskerProfile?.user?.id ?? '',
                               ),
                             );
                       },
@@ -616,10 +609,8 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                 Align(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
-                                    'Requirements',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
+                                    'Highlights',
+                                    style: Theme.of(context).textTheme.headlineSmall,
                                   ),
                                 ),
                                 kHeight10,
@@ -707,17 +698,11 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                 (index) => TaskerCard(
                                   onFavouriteTapped: () {},
                                   callback: () => showApplicantDetailsDialog(
-                                    description:
-                                        '${state.applicantModel?.result?[index].description}',
+                                    description: '${state.applicantModel?.result?[index].description}',
                                     context: context,
-                                    isNegotiable:
-                                        state.taskModel?.isNegotiable ?? false,
-                                    profileImage: state
-                                            .applicantModel
-                                            ?.result?[index]
-                                            .createdBy
-                                            ?.profileImage ??
-                                        kHomaaleImg,
+                                    isNegotiable: state.taskModel?.isNegotiable ?? false,
+                                    profileImage:
+                                        state.applicantModel?.result?[index].createdBy?.profileImage ?? kHomaaleImg,
                                     label:
                                         '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? 'Harry'} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? 'Smith'}',
                                     happyClients:
@@ -737,8 +722,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                     title: state.taskModel?.title ?? '',
                                     budget:
                                         '${state.applicantModel?.result?[index].currency ?? ''}. ${state.applicantModel?.result?[index].price ?? ''}',
-                                    status: state
-                                        .applicantModel?.result?[index].status,
+                                    status: state.applicantModel?.result?[index].status,
                                     onRejectPressed: () {
                                       context.read<TaskBloc>().add(
                                             TaskRejectPeople(
@@ -764,9 +748,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                     onNegotiatePressed: () {
                                       context.read<TaskBloc>().add(
                                             ChangeTaskNegotiationStatus(
-                                              id: state.applicantModel
-                                                      ?.result?[index].id ??
-                                                  0,
+                                              id: state.applicantModel?.result?[index].id ?? 0,
                                             ),
                                           );
                                       //TODO: chat navigation
@@ -805,13 +787,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                     visible: true,
                     child: PriceBookFooterSection(
                       isNegotiable: state.taskModel?.isNegotiable ?? false,
-                      isUser: state.taskModel?.createdBy?.id ==
-                          context
-                              .read<UserBloc>()
-                              .state
-                              .taskerProfile
-                              ?.user
-                              ?.id,
+                      isUser: state.taskModel?.createdBy?.id == context.read<UserBloc>().state.taskerProfile?.user?.id,
                       buttonLabel: getStatus('')["status"] as String,
                       buttonColor: getStatus('')["color"] as Color,
                       // buttonColor: getStatus('')["color"] as Color,
@@ -829,13 +805,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                         context.read<TaskBloc>().add(
                               SingleEntityTaskLoadInitiated(
                                 id: state.taskModel?.id ?? '',
-                                userId: context
-                                        .read<UserBloc>()
-                                        .state
-                                        .taskerProfile
-                                        ?.user
-                                        ?.id ??
-                                    '',
+                                userId: context.read<UserBloc>().state.taskerProfile?.user?.id ?? '',
                               ),
                             );
                         Navigator.pushNamed(context, ApplyTaskPage.routeName);

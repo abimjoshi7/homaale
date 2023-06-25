@@ -72,10 +72,14 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       budgetTo: json['budget_to'] as String?,
       payableFrom: json['payable_from'] as String?,
       payableTo: json['payable_to'] as String?,
-      startDate: json['start_date'],
-      endDate: json['end_date'],
-      startTime: json['start_time'],
-      endTime: json['end_time'],
+      startDate: json['start_date'] == null
+          ? null
+          : DateTime.parse(json['start_date'] as String),
+      endDate: json['end_date'] == null
+          ? null
+          : DateTime.parse(json['end_date'] as String),
+      startTime: json['start_time'] as String?,
+      endTime: json['end_time'] as String?,
       shareLocation: json['share_location'] as bool?,
       isNegotiable: json['is_negotiable'] as bool?,
       revisions: json['revisions'] as int?,
@@ -115,8 +119,8 @@ Map<String, dynamic> _$$_ResultToJson(_$_Result instance) => <String, dynamic>{
       'budget_to': instance.budgetTo,
       'payable_from': instance.payableFrom,
       'payable_to': instance.payableTo,
-      'start_date': instance.startDate,
-      'end_date': instance.endDate,
+      'start_date': instance.startDate?.toIso8601String(),
+      'end_date': instance.endDate?.toIso8601String(),
       'start_time': instance.startTime,
       'end_time': instance.endTime,
       'share_location': instance.shareLocation,

@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/documents/data/models/tasker_portfolio_req.dart';

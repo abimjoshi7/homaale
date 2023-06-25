@@ -196,7 +196,11 @@ class _KycProfileState extends State<KycProfile> {
                                         .then(
                                       (value) async {
                                         final file = await CompressHelper()
-                                            .compressFileAsync(value!.path);
+                                            .compressFileAsync(
+                                          File(
+                                            value!.path,
+                                          ),
+                                        );
                                         if (file.lengthSync() > 5093309) {
                                           await showDialog(
                                             context: context,

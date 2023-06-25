@@ -85,7 +85,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                           imagePath: state.taskEntityServiceModel.result?[index].images?.length == 0
                               ? kHomaaleImg
                               : state.taskEntityServiceModel.result?[index].images?.first.media,
-                          rating: state.taskEntityServiceModel.result?[index].rating.toString(),
+                          rating: state.taskEntityServiceModel.result?[index].rating?.toString() ?? '0.0',
                           isRange: state.taskEntityServiceModel.result?[index].isRange,
                           rateTo: double.parse(state.taskEntityServiceModel.result?[index].payableTo ?? "")
                               .toInt()
@@ -136,7 +136,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: CustomFormField(
-            label: "Trending Services",
+            label: "Trending services",
             child: CardLoading(
               height: 230,
             ),
