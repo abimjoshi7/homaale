@@ -72,6 +72,11 @@ class ScheduleBloc extends Bloc<ScheduleEvent, ScheduleState> {
     on<SingleScheduleLoaded>(
       (event, emit) async {
         try {
+          emit(
+            state.copyWith(
+              theState: TheStates.loading,
+            ),
+          );
           await repo.fetchSingleSchedule(id: event.scheduleId).then(
             (value) {
               emit(state.copyWith(

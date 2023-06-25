@@ -33,8 +33,6 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   int? repeatType;
   List<TextEditingController> startTimeControllers = [];
   List<TextEditingController> endTimeControllers = [];
-  // List<DateTime?> startSelectedDates = [];
-  // List<DateTime?> endSelectedDates = [];
   TextEditingController itemController = TextEditingController();
   final GlobalKey<FormState> _key = GlobalKey<FormState>();
   final GlobalKey<FormState> _repeatkey = GlobalKey<FormState>();
@@ -58,15 +56,13 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   @override
   void initState() {
     super.initState();
-    scheduleBloc = context.read<ScheduleBloc>();
+    scheduleBloc = locator<ScheduleBloc>();
     if (widget.attachType == AttachType.Edit) {
       scheduleBloc.add(
         SingleScheduleLoaded(
           scheduleId: widget.scheduleId ?? "",
         ),
       );
-
-      print(scheduleBloc.state.singleSchedule?.toJson());
     }
   }
 
@@ -74,8 +70,6 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
     setState(() {
       startTimeControllers.add(TextEditingController());
       endTimeControllers.add(TextEditingController());
-      // startSelectedDates.add(null);
-      // endSelectedDates.add(null);
     });
   }
 
@@ -83,8 +77,6 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
     setState(() {
       startTimeControllers.removeAt(index);
       endTimeControllers.removeAt(index);
-      // startSelectedDates.removeAt(index);
-      // endSelectedDates.removeAt(index);
     });
   }
 
@@ -94,13 +86,7 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
       builder: (context, state) {
         return Column(
           children: [
-            Align(
-              alignment: Alignment.center,
-              child: Text(
-                "${widget.attachType == AttachType.Create ? "New" : "Edit"} Schedule",
-                style: kPurpleText17,
-              ),
-            ),
+            _buildHeader(),
             addVerticalSpace(
               8,
             ),
@@ -116,6 +102,16 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
           ],
         );
       },
+    );
+  }
+
+  Align _buildHeader() {
+    return Align(
+      alignment: Alignment.center,
+      child: Text(
+        "${widget.attachType == AttachType.Create ? "New" : "Edit"} Schedule",
+        style: kPurpleText17,
+      ),
     );
   }
 
@@ -159,25 +155,31 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   Widget _buildShifts() {
     return BlocConsumer<ScheduleBloc, ScheduleState>(
       bloc: scheduleBloc,
+      // listenWhen: (previous, current) {
+      //   if (previous.isCreated != true && current.isCreated == true)
+      //     return true;
+      //   if (previous.isEdited != true && current.isEdited == true) return true;
+      //   return false;
+      // },
       listener: (context, state) {
-        // TODO: implement listener
-        setState(() {
-          repeatType = state.singleSchedule?.repeatType;
-          startTimeControllers.addAll(state.singleSchedule!.slots!
-              .map(
-                (e) => TextEditingController(
-                  text: e.start,
-                ),
-              )
-              .toList());
-          endTimeControllers.addAll(state.singleSchedule!.slots!
-              .map(
-                (e) => TextEditingController(
-                  text: e.end,
-                ),
-              )
-              .toList());
-        });
+        if (state.singleSchedule != null)
+          setState(() {
+            repeatType = state.singleSchedule?.repeatType;
+            startTimeControllers.addAll(state.singleSchedule!.slots!
+                .map(
+                  (e) => TextEditingController(
+                    text: e.start,
+                  ),
+                )
+                .toList());
+            endTimeControllers.addAll(state.singleSchedule!.slots!
+                .map(
+                  (e) => TextEditingController(
+                    text: e.end,
+                  ),
+                )
+                .toList());
+          });
       },
       builder: (context, state) => Form(
         key: _key,
@@ -323,120 +325,62 @@ class _ScheduleFormState extends State<ScheduleForm> with TheModalBottomSheet {
   }
 
   Widget _buildButton(TaskEntityServiceState state) {
-    return BlocListener<ScheduleBloc, ScheduleState>(
-      bloc: scheduleBloc,
-      listenWhen: (previous, current) {
-        if (previous.isCreated != true && current.isCreated == true)
-          return true;
-        if (previous.isEdited != true && current.isEdited == true) return true;
-        return false;
-      },
-      listener: (context, scheduleState) {
-        if (scheduleState.isCreated == true &&
-            scheduleState.createScheduleRes != null) {
-          showDialog(
-            context: context,
-            builder: (context) => CustomToast(
-              heading: "Success",
-              content: "Schedule created successfully",
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  Root.routeName,
-                  (route) => false,
-                );
-              },
-              isSuccess: true,
+    return CustomElevatedButton(
+      label: "Save",
+      callback: () {
+        if (_key.currentState!.validate() &&
+            _repeatkey.currentState!.validate()) {
+          final List<Slot> slots = List.generate(
+            startTimeControllers.length,
+            (index) => Slot(
+              start: startTimeControllers[index].text,
+              end: endTimeControllers[index].text,
+              // start: DateFormat.Hms().format(startTimeControllers[index].text),
+              // end: DateFormat.Hms().format(endSelectedDates[index]!),
             ),
           );
-        }
-        if (scheduleState.isEdited == true) {
-          showDialog(
-            context: context,
-            builder: (context) => CustomToast(
-              heading: "Success",
-              content: "Schedule edited successfully",
-              onTap: () {
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  Root.routeName,
-                  (route) => false,
-                );
-              },
-              isSuccess: true,
-            ),
-          );
-        }
-        if (scheduleState.theState == TheStates.failure &&
-            scheduleState.isCreated == false) {
-          showDialog(
-            context: context,
-            builder: (context) => CustomToast(
-              heading: "Failure",
-              content: "Schedule cannot be created",
-              onTap: () {},
-              isSuccess: false,
-            ),
-          );
-        }
-      },
-      child: CustomElevatedButton(
-        label: "Save",
-        callback: () {
-          if (_key.currentState!.validate() &&
-              _repeatkey.currentState!.validate()) {
-            final List<Slot> slots = List.generate(
-              startTimeControllers.length,
-              (index) => Slot(
-                start: startTimeControllers[index].text,
-                end: endTimeControllers[index].text,
-                // start: DateFormat.Hms().format(startTimeControllers[index].text),
-                // end: DateFormat.Hms().format(endSelectedDates[index]!),
+          if (widget.attachType == AttachType.Edit) {
+            final map = {
+              "event": state.taskEntityService.event?.id,
+              "repeat_type": repeatType,
+              "start_date": DateFormat("yyyy-MM-dd").format(
+                startDate ?? state.taskEntityService.event!.start!,
               ),
+              "end_date": DateFormat("yyyy-MM-dd").format(
+                endDate ?? state.taskEntityService.event!.end!,
+              ),
+              "slots": slots,
+            };
+            print(map);
+            context.read<ScheduleBloc>().add(
+                  ScheduleEventEdited(
+                    map,
+                    widget.scheduleId ?? "",
+                  ),
+                );
+          } else {
+            final req = CreateScheduleReq(
+              // id: state.taskEntityService.id,
+              event: state.taskEntityService.event?.id,
+              startDate: DateFormat("yyyy-MM-dd")
+                  .format(state.taskEntityService.event!.start!),
+              endDate: DateFormat("yyyy-MM-dd")
+                  .format(state.taskEntityService.event!.end!),
+              repeatType: repeatType,
+              slots: slots,
+              guestLimit: context.read<EventBloc>().state.event?.guestLimit,
+              isActive: context.read<EventBloc>().state.event?.isActive,
             );
-            if (widget.attachType == AttachType.Edit) {
-              final map = {
-                "event": state.taskEntityService.event?.id,
-                "repeat_type": repeatType,
-                "start_date": DateFormat("yyyy-MM-dd").format(
-                  startDate ?? state.taskEntityService.event!.start!,
-                ),
-                "end_date": DateFormat("yyyy-MM-dd").format(
-                  endDate ?? state.taskEntityService.event!.end!,
-                ),
-                "slots": slots,
-              };
-              print(map);
-              context.read<ScheduleBloc>().add(
-                    ScheduleEventEdited(
-                      map,
-                      widget.scheduleId ?? "",
-                    ),
-                  );
-            } else {
-              final req = CreateScheduleReq(
-                // id: state.taskEntityService.id,
-                event: state.taskEntityService.event?.id,
-                startDate: DateFormat("yyyy-MM-dd")
-                    .format(state.taskEntityService.event!.start!),
-                endDate: DateFormat("yyyy-MM-dd")
-                    .format(state.taskEntityService.event!.end!),
-                repeatType: repeatType,
-                slots: slots,
-                guestLimit: context.read<EventBloc>().state.event?.guestLimit,
-                isActive: context.read<EventBloc>().state.event?.isActive,
-              );
-              print(slots);
-              print(req);
-              context.read<ScheduleBloc>().add(
-                    ScheduleEventPosted(
-                      createScheduleReq: req,
-                    ),
-                  );
-            }
+            print(slots);
+            print(req);
+            context.read<ScheduleBloc>().add(
+                  ScheduleEventPosted(
+                    createScheduleReq: req,
+                  ),
+                );
           }
-        },
-      ),
+        }
+      },
     );
   }
 
