@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/helpers/helpers.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
@@ -623,6 +622,8 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm>
                     builder: (context, state) {
                       if (state is CityLoadSuccess) {
                         return DropdownSearch(
+                          validator: (value) =>
+                              cityCode == null ? 'Required Field' : null,
                           selectedItem: state.list
                               .firstWhere(
                                 (element) =>

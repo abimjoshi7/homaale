@@ -33,6 +33,7 @@ class NearbyTaskEntityServiceBloc
                   activeList: List<TaskEntityService>.from(activeList),
                 ),
               );
+              
             }
           });
         }

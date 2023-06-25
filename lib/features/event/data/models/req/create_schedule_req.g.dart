@@ -8,7 +8,6 @@ part of 'create_schedule_req.dart';
 
 _$_CreateScheduleReq _$$_CreateScheduleReqFromJson(Map<String, dynamic> json) =>
     _$_CreateScheduleReq(
-      id: json['id'] as String?,
       event: json['event'] as String?,
       repeatType: json['repeat_type'] as int?,
       startDate: json['start_date'] as String?,
@@ -23,7 +22,6 @@ _$_CreateScheduleReq _$$_CreateScheduleReqFromJson(Map<String, dynamic> json) =>
 Map<String, dynamic> _$$_CreateScheduleReqToJson(
         _$_CreateScheduleReq instance) =>
     <String, dynamic>{
-      'id': instance.id,
       'event': instance.event,
       'repeat_type': instance.repeatType,
       'start_date': instance.startDate,

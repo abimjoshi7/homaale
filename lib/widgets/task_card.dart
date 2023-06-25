@@ -67,7 +67,7 @@ class TaskCard extends StatelessWidget {
                 Row(
                   children: <Widget>[
                     Container(
-                      height: 49,
+                      height: 50,
                       width: 50,
                       decoration: BoxDecoration(
                         image: DecorationImage(
@@ -96,7 +96,11 @@ class TaskCard extends StatelessWidget {
                             StringUtils.capitalize(
                               createdByName ?? '',
                             ),
-                            style: Theme.of(context).textTheme.titleSmall?.copyWith(color: kColorLightGrey),
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleSmall
+                                ?.copyWith(color: kColorLightGrey),
+                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                         ],

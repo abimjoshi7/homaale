@@ -57,6 +57,43 @@ class ForgotPasswordBloc
         }
       },
     );
+    on<changeEmailInitiated>(
+      (event, emit) async {
+        try {
+          emit(
+            changePhoneInitial(),
+          );
+          final x = await repository.changeEmail(
+              email: event.email, password: event.password);
+          if (x['email'] == event.email) {
+            emit(
+              changeEmailSuccess(),
+            );
+          }
+        } catch (e) {
+          changeEmailFailure();
+        }
+      },
+    );
+    on<changePhoneInitiated>(
+      (event, emit) async {
+        try {
+          emit(
+            changePhoneInitial(),
+          );
+          final x =
+          await repository.changePhone(
+              phone: event.phone, password: event.password);
+          if (x['phone'] == event.phone) {
+            emit(
+              changePhoneSuccess(),
+            );
+          }
+        } catch (e) {
+          emit(changePhoneFailure());
+        }
+      },
+    );
 
     on<ForgotPasswordPhoneResetInitiated>((event, emit) async {
       try {

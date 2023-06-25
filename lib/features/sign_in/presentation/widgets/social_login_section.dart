@@ -77,7 +77,6 @@ class SocialLoginSection extends StatelessWidget {
                   child: buildLogo(),
                 ),
                 kWidth20,
-                //TODO:implement google sign in and apple sign in
                 GestureDetector(
                   onTap: () => Navigator.pushNamed(
                     context,
@@ -89,7 +88,6 @@ class SocialLoginSection extends StatelessWidget {
                   ),
                 ),
                 kWidth20,
-                //TODO:implement facebook sign in
                 GestureDetector(
                   onTap: () => Navigator.pushNamed(
                     context,

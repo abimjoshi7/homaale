@@ -156,7 +156,7 @@ class _TasksProfileState extends State<TasksProfile> {
           );
         }
         return const Center(
-          child: CircularProgressIndicator(),
+          child:  CardLoading(height: 400),
         );
       },
     );

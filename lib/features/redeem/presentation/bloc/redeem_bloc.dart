@@ -7,7 +7,6 @@ import 'package:cipher/features/redeem/presentation/bloc/redeem.state.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:stream_transform/stream_transform.dart';
 
-import '../../data/models/redeem_items_detail.dart';
 
 const throttleDuration = Duration(milliseconds: 100);
 

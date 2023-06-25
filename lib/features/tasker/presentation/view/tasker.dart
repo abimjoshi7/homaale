@@ -354,9 +354,6 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                       ),
                     ),
                     Divider(),
-                    CacheHelper.isLoggedIn
-                        ? const ProfileKycVerifySection()
-                        : SizedBox.shrink(),
                     TabBar(
                       controller: tabController,
                       indicatorColor: kColorSecondary,

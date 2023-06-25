@@ -188,7 +188,7 @@ class _ServicesProfileState extends State<ServicesProfile> {
           );
         }
         return const Center(
-          child: CircularProgressIndicator(),
+          child: CardLoading(height: 400),
         );
       },
     );

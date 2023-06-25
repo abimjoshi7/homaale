@@ -7,6 +7,8 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../error_pages/no_internet_page.dart';
+
 class WalletPage extends StatelessWidget {
   static const String routeName = '/wallet-page';
   const WalletPage({super.key});
@@ -198,13 +200,12 @@ class _WalletMainViewState extends State<WalletMainView> {
                     ),
 
 										state.walletHistoryList.length == 0
-                        ? SizedBox(
-                            width: 200,
-                            height: 200,
-                            child: Center(
-                              child: Text('No Earning History'),
-                            ),
-                          )
+                        ? Center(
+                          child: CommonErrorContainer(
+                              assetsPath: "assets/no_data_found.png",
+                              errorDes: 'No Earning History')
+                          // Text(''),
+                        )
                         : ListView.builder(
                             shrinkWrap: true,
                             itemCount: state.hasReachedMax

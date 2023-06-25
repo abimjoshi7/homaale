@@ -46,8 +46,6 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        print('Leaving');
-        context.read<UserLocationCubit>().removeTempLocation();
         Navigator.popUntil(
           context,
           (route) => route.settings.name == Root.routeName,
@@ -66,7 +64,6 @@ class _ChooseLocationPageState extends State<ChooseLocationPage> {
             trailingWidget: SizedBox.shrink(),
             leadingWidget: IconButton(
               onPressed: () {
-                context.read<UserLocationCubit>().removeTempLocation();
                 Navigator.popUntil(
                   context,
                   (route) => route.settings.name == Root.routeName,

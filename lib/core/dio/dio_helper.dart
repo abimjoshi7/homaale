@@ -159,7 +159,39 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            } else if (responseData is Map<String, dynamic> && responseData.containsKey('budget_type')) {
+            }
+            else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('phone')) {
+              final phoneErrors = responseData['phone'];
+              if (phoneErrors is List<dynamic> &&
+                  phoneErrors.isNotEmpty) {
+                final errorMessage = phoneErrors.join('.');
+                Fluttertoast.showToast(
+                    msg: "Phone number Error: ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Phone number Error: ${phoneErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            }
+
+            else if (responseData is Map<String, dynamic> &&
+                responseData.containsKey('budget_type')) {
               final budgetTypeErrors = responseData['budget_type'];
               if (budgetTypeErrors is List<dynamic> && budgetTypeErrors.isNotEmpty) {
                 final errorMessage = budgetTypeErrors.join('.');

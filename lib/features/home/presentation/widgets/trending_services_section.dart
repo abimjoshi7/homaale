@@ -31,7 +31,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
             child: Column(
               children: <Widget>[
                 SectionHeading(
-                  labelName: 'Trending services',
+                  labelName: 'Trending Services',
                   onTap: () async {
                     Navigator.pushNamed(
                       context,

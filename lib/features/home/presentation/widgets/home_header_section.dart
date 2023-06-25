@@ -79,6 +79,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       if (value == LocationPermission.always ||
                           value == LocationPermission.whileInUse) {
                         if (!mounted) return;
+                        context.read<UserLocationCubit>().removeTempLocation();
                         Navigator.push(
                             context,
                             MaterialPageRoute(
@@ -100,8 +101,11 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                     ),
                     BlocBuilder<UserLocationCubit, UserLocationState>(
                       builder: (_, state) {
-                        return SizedBox(
-                          // width: MediaQuery.of(context).size.width * 0.55,
+                        return ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: 20.0,
+                            maxWidth: MediaQuery.of(context).size.width * 0.55,
+                          ),
                           child: AutoSizeText(
                             state.address ?? 'Click to access location',
                             overflow: TextOverflow.ellipsis,

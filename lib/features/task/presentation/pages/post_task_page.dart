@@ -5,7 +5,6 @@ import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
@@ -15,6 +14,7 @@ import 'package:cipher/features/task_entity_service/presentation/bloc/task_entit
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:flutter/services.dart';
 
 class PostTaskPage extends StatefulWidget {
   static const routeName = '/post-task-page';
@@ -105,21 +105,39 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 slivers: [
                   SliverToBoxAdapter(
                     child: Padding(
-                      padding: const EdgeInsets.all(10),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 10,
+                        horizontal: 16.0,
+                      ),
                       child: Column(
                         children: [
+                          addVerticalSpace(10.0),
                           _buildTitle(),
+                          addVerticalSpace(10.0),
                           _buildCategory(),
+                          addVerticalSpace(10.0),
                           _buildRequirements(),
+                          addVerticalSpace(10.0),
                           _buildTaskType(),
+                          addVerticalSpace(10.0),
                           _buildAddress(),
+                          addVerticalSpace(10.0),
                           _buildDescription(),
+                          addVerticalSpace(10.0),
                           _buildCity(),
+                          addVerticalSpace(10.0),
                           _buildDate(context),
+                          addVerticalSpace(10.0),
+                          _buildTime(context),
+                          addVerticalSpace(10.0),
                           _buildCurrency(),
+                          addVerticalSpace(10.0),
                           _buildBudget(),
+                          // addVerticalSpace(10.0),
                           _buildIsNegotiable(),
+                          // addVerticalSpace(10.0),
                           _buildDialog(),
+                          addVerticalSpace(10.0),
                           //* Paused as discussed
                           // Row(
                           //   children: [
@@ -138,7 +156,9 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           CustomMultimedia(
                             bloc: uploadBloc,
                           ),
+                          addVerticalSpace(10.0),
                           _buildTermsConditions(context),
+                          addVerticalSpace(10.0),
                           _buildButton(),
                         ],
                       ),
@@ -172,6 +192,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
       listener: (context, state) {
         if (state.theStates == TheStates.success && state.isCreated == true) {
           showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (context) => CustomToast(
               heading: 'Success',
@@ -189,6 +210,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
         }
         if (state.theStates == TheStates.failure && state.isCreated == false) {
           showDialog(
+            barrierDismissible: false,
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failure',
@@ -267,9 +289,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
             callback: () async {
               if (context.read<CategoriesBloc>().state.serviceId != null) {
                 if (isTermsAccepted) {
-                  if (_key.currentState!.validate() &&
-                      endPriceController.text.isNotEmpty &&
-                      endDate != null) {
+                  if (_key.currentState!.validate()) {
                     if (endDate!.isBefore(
                       startDate ??
                           endDate!.subtract(
@@ -346,6 +366,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                               ),
                             );
                       }
+                      // }
                     }
                   } else {
                     showDialog(
@@ -458,7 +479,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
 
   CustomFormField _buildBudget() {
     return CustomFormField(
-      label: 'Budget(Mininum Rs.10)',
+      label: 'Budget',
       isRequired: true,
       child: Column(
         mainAxisSize: MainAxisSize.min,
@@ -491,22 +512,46 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
               const Text('Variable'),
             ],
           ),
+          addVerticalSpace(10.0),
           Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Visibility(
                 visible: isBudgetVariable,
                 child: Expanded(
-                  flex: 2,
-                  child: NumberIncDecField(
+                  flex: isBudgetVariable ? 1 : 2,
+                  child: CustomTextFormField(
+                    textInputType:
+                        TextInputType.numberWithOptions(decimal: true),
                     controller: startPriceController,
                     validator: (p0) {
                       if (isBudgetVariable) {
-                        return p0 == null || p0.isEmpty
-                            ? "Required Field"
-                            : null;
+                        if (startPriceController.text.length == 0) {
+                          return "Required Field";
+                        }
+
+                        if (int.parse(p0 ?? '0') < 10) {
+                          return "Budget Cannot Be Less Than 10";
+                        }
+
+                        if (p0 == endPriceController.text) {
+                          return "Invalid Range";
+                        }
+                        if (endPriceController.text.isNotEmpty) {
+                          if (int.parse(p0 ?? '0') >
+                              int.parse(endPriceController.text)) {
+                            return "Cannot be more than End budget";
+                          }
+                        }
                       }
+
                       return null;
                     },
+                    inputFormatters: [
+                      FilteringTextInputFormatter.digitsOnly,
+                    ],
+                    style: Theme.of(context).textTheme.displayLarge,
                     onChanged: (value) => setState(
                       () {
                         if (startPriceController.text.isNotEmpty)
@@ -520,6 +565,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           );
                       },
                     ),
+                    suffixWidget: budgetIncrementIcon(startPriceController),
                   ),
                 ),
               ),
@@ -528,29 +574,59 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
+                    vertical: 10.0,
                   ),
                   child: const Text(
-                    "-",
+                    "To",
                   ),
                 ),
               ),
               Expanded(
-                flex: 2,
-                child: NumberIncDecField(
-                  validator: (p0) =>
-                      p0 == null || p0.isEmpty ? "Required" : null,
+                flex: isBudgetVariable ? 1 : 2,
+                child: CustomTextFormField(
+                  errorMaxLines: 3,
+                  errorStyle: TextStyle(),
+                  textInputType: TextInputType.numberWithOptions(decimal: true),
                   controller: endPriceController,
-                  onChanged: (value) => setState(
-                    () {
-                      if (endPriceController.text.isNotEmpty)
-                        budgetTo = getRecievableAmount(
-                          double.parse(endPriceController.text),
-                          double.parse(
-                              context.read<CategoriesBloc>().state.commission ??
-                                  "0.0"),
-                        );
-                    },
-                  ),
+                  validator: (p0) {
+                    if (endPriceController.text.length == 0) {
+                      return "Required Field";
+                    }
+                    if (int.parse(p0 ?? '0') < 10) {
+                      return "Budget Cannot Be Less Than 10";
+                    }
+                    if (isBudgetVariable &&
+                        startPriceController.text.isNotEmpty) {
+                      if (p0 == startPriceController.text) {
+                        return "Invalid Range";
+                      }
+                      if (int.parse(p0 ?? '0') <
+                          int.parse(startPriceController.text)) {
+                        return "Cannot be less than Start budget";
+                      }
+                    }
+                    return null;
+                  },
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  style: Theme.of(context).textTheme.displayLarge,
+                  onChanged: (p0) {
+                    setState(
+                      () {
+                        if (endPriceController.text.isNotEmpty)
+                          budgetTo = getRecievableAmount(
+                            double.parse(endPriceController.text),
+                            double.parse(context
+                                    .read<CategoriesBloc>()
+                                    .state
+                                    .commission ??
+                                "0.0"),
+                          );
+                      },
+                    );
+                  },
+                  suffixWidget: budgetIncrementIcon(endPriceController),
                 ),
               ),
               Flexible(
@@ -577,6 +653,54 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 ),
               ),
             ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Padding budgetIncrementIcon(TextEditingController controller) {
+    return Padding(
+      padding: const EdgeInsets.only(right: 5.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.end,
+        children: <Widget>[
+          InkWell(
+            child: const Icon(
+              Icons.keyboard_arrow_up_rounded,
+              size: 18,
+              color: kColorGrey,
+            ),
+            onTap: () {
+              int currentValue = int.parse(controller.text);
+              setState(
+                () {
+                  currentValue++;
+                  controller
+                      .setText((currentValue).toString()); // incrementing value
+                },
+              );
+            },
+          ),
+          InkWell(
+            child: const Icon(
+              Icons.keyboard_arrow_down_rounded,
+              size: 18,
+              color: kColorGrey,
+            ),
+            onTap: () {
+              int currentValue = int.parse(
+                controller.text,
+              );
+              setState(
+                () {
+                  currentValue--;
+                  controller.setText((currentValue > 0 ? currentValue : 0)
+                      .toString()); // decrementing value
+                },
+              );
+            },
           ),
         ],
       ),
@@ -723,95 +847,112 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
           //     const Text('Set specific time'),
           //   ],
           // ),
-          CustomFormField(
-            label: "Select Time",
-            child: Row(
-              children: [
-                Flexible(
-                  child: InkWell(
-                    onTap: () async {
-                      await showCustomBottomSheet(
-                        context: context,
-                        widget: SizedBox.fromSize(
-                          size: Size.fromHeight(250),
-                          child: CupertinoDatePicker(
-                            mode: CupertinoDatePickerMode.time,
-                            onDateTimeChanged: (value) => setState(
-                              () {
-                                startTime = value;
-                              },
-                            ),
-                          ),
-                        ),
-                      );
-                      // await showTimePicker(
-                      //   context: context,
-                      //   initialTime: TimeOfDay.now(),
-                      // ).then(
-                      //   (value) => setState(
-                      //     () {
-                      //       startTime = value;
-                      //     },
-                      //   ),
-                      // );
-                    },
-                    child: CustomFormContainer(
-                      hintText: startTime != null
-                          ? DateFormat.jm().format(startTime!)
-                          : 'hh:mm:ss',
-                    ),
-                  ),
-                ),
-                const Text(' - '),
-                Flexible(
-                  child: InkWell(
-                    onTap: () async {
-                      await showCustomBottomSheet(
-                        context: context,
-                        widget: SizedBox.fromSize(
-                          size: Size.fromHeight(250),
-                          child: CupertinoDatePicker(
-                            mode: CupertinoDatePickerMode.time,
-                            onDateTimeChanged: (value) => setState(
-                              () {
-                                endTime = value;
-                              },
-                            ),
-                          ),
-                        ),
-                      );
+        ],
+      ),
+    );
+  }
 
-                      // await showTimePicker(
-                      //   context: context,
-                      //   initialTime: TimeOfDay.now(),
-                      // ).then(
-                      //   (value) => setState(
-                      //     () {
-                      //       endTime = value;
-                      //     },
-                      //   ),
-                      // );
-                    },
-                    child: CustomFormContainer(
-                      hintText: endTime != null
-                          ? DateFormat.jm().format(endTime!)
-                          : 'hh:mm:ss',
+  CustomFormField _buildTime(BuildContext context) {
+    return CustomFormField(
+      label: "Select Time",
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Flexible(
+            child: CustomTextFormField(
+              readOnly: true,
+              validator: (p0) {
+                // if (startTime != null && endTime != null) {
+                //   if (startTime!.isAtSameMomentAs(endTime!)) {
+                //     return ("Both Times Cannot be same.");
+                //   }
+                //   if (startTime!.isAfter(endTime!)) {
+                //     return ("Start time cannot be after End time.");
+                //   }
+                // }
+                // return null;
+              },
+              onTap: () async {
+                await showCustomBottomSheet(
+                  context: context,
+                  widget: SizedBox.fromSize(
+                    size: Size.fromHeight(250),
+                    child: CupertinoDatePicker(
+                      initialDateTime:
+                          startTime != null ? startTime : DateTime.now(),
+                      mode: CupertinoDatePickerMode.time,
+                      onDateTimeChanged: (value) => setState(
+                        () => startTime = value,
+                      ),
                     ),
                   ),
-                ),
-                IconButton(
-                  onPressed: () {
-                    setState(() {
-                      startTime = null;
-                      endTime = null;
-                    });
-                  },
-                  icon: const Icon(
-                    Icons.delete_outline_rounded,
-                    color: kColorSecondary,
+                );
+              },
+              hintText: startTime != null
+                  ? DateFormat.jm().format(startTime!)
+                  : 'hh:mm:ss',
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.grey.shade700),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 10.0),
+            child: const Text(' - '),
+          ),
+          Flexible(
+            child: CustomTextFormField(
+              readOnly: true,
+              autoValidateMode: AutovalidateMode.onUserInteraction,
+              validator: (p0) {
+                // if (endTime == null) {
+                //   return ("Required Field");
+                // }
+                // if (startTime == null || endTime == null) ;
+                // if (endTime!.isAtSameMomentAs(startTime!)) {
+                //   return ("Both times cannot be same.");
+                // }
+                // if (endTime!.isBefore(endTime!)) {
+                //   return ("End time cannot be before Start time.");
+                // }
+                // return null;
+              },
+              onTap: () async {
+                await showCustomBottomSheet(
+                  context: context,
+                  widget: SizedBox.fromSize(
+                    size: Size.fromHeight(250),
+                    child: CupertinoDatePicker(
+                      initialDateTime: endTime ?? DateTime.now(),
+                      mode: CupertinoDatePickerMode.time,
+                      onDateTimeChanged: (value) => setState(
+                        () => endTime = value,
+                      ),
+                    ),
                   ),
-                ),
-              ],
+                );
+              },
+              hintText: endTime != null
+                  ? DateFormat.jm().format(endTime!)
+                  : 'hh:mm:ss',
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.grey.shade700),
+            ),
+          ),
+          IconButton(
+            onPressed: () {
+              setState(() {
+                startTime = null;
+                endTime = null;
+              });
+            },
+            icon: const Icon(
+              Icons.delete_outline_rounded,
+              color: kColorSecondary,
             ),
           ),
         ],
