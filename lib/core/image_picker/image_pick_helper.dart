@@ -29,15 +29,16 @@ class MultimediaPickHelper {
     }
   }
 
-  static Future<List<AssetEntity>?> captureAssets(
-    BuildContext context,
-    RequestType type,
-  ) async {
+  static Future<List<AssetEntity>?> captureAssets(BuildContext context, RequestType type, {bool? isProfile}) async {
     try {
       return await AssetPicker.pickAssets(
         context,
         pickerConfig: AssetPickerConfig(
-          maxAssets: type == RequestType.image ? 5 : 2,
+          maxAssets: isProfile ?? false
+              ? 1
+              : type == RequestType.image
+                  ? 5
+                  : 2,
           textDelegate: EnglishAssetPickerTextDelegate(),
           requestType: type,
         ),

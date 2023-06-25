@@ -102,6 +102,7 @@ class TaskEntityServiceReq {
     };
 
     map.removeWhere((key, value) => value == null || value == '' || (value is List && value.isEmpty));
+    map.update('budget_from', (value) => null);
 
     return map;
   }

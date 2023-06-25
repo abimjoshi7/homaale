@@ -159,12 +159,9 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            }
-            else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('phone')) {
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('phone')) {
               final phoneErrors = responseData['phone'];
-              if (phoneErrors is List<dynamic> &&
-                  phoneErrors.isNotEmpty) {
+              if (phoneErrors is List<dynamic> && phoneErrors.isNotEmpty) {
                 final errorMessage = phoneErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Phone number Error: ${errorMessage}",
@@ -188,10 +185,7 @@ class DioHelper {
 
                 return handler.next(err);
               }
-            }
-
-            else if (responseData is Map<String, dynamic> &&
-                responseData.containsKey('budget_type')) {
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('budget_type')) {
               final budgetTypeErrors = responseData['budget_type'];
               if (budgetTypeErrors is List<dynamic> && budgetTypeErrors.isNotEmpty) {
                 final errorMessage = budgetTypeErrors.join('.');
@@ -338,6 +332,58 @@ class DioHelper {
               } else {
                 Fluttertoast.showToast(
                     msg: "End Time: ${endTimeErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('start_date')) {
+              final startDateErrors = responseData['start_date'];
+              if (startDateErrors is List<dynamic> && startDateErrors.isNotEmpty) {
+                final errorMessage = startDateErrors.join('.');
+                Fluttertoast.showToast(
+                    msg: "Start Date : ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Start Date: ${startDateErrors}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              }
+            } else if (responseData is Map<String, dynamic> && responseData.containsKey('requirements')) {
+              final highlightsError = responseData['requirements'];
+              if (highlightsError is List<dynamic> && highlightsError.isNotEmpty) {
+                final errorMessage = highlightsError.join('.');
+                Fluttertoast.showToast(
+                    msg: "Highlights : ${errorMessage}",
+                    toastLength: Toast.LENGTH_LONG,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: kColorLightGrey,
+                    textColor: Colors.white,
+                    fontSize: 16.0);
+
+                return handler.next(err);
+              } else {
+                Fluttertoast.showToast(
+                    msg: "Highlights: ${highlightsError}",
                     toastLength: Toast.LENGTH_LONG,
                     gravity: ToastGravity.BOTTOM,
                     timeInSecForIosWeb: 1,

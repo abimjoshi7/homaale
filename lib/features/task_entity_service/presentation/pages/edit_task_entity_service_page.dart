@@ -1,6 +1,7 @@
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/locator.dart';
+import 'package:cipher/widgets/loading_widget.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -49,11 +50,15 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
   String? category;
   String? subCategory;
 
+  List<int> images = [];
+  List<int> videos = [];
+
   bool isTermsAccepted = false;
   bool isBudgetVariable = false;
   bool isAddressVisible = false;
   bool informationLoaded = false;
   bool isNegotiable = false;
+  bool isLoading = false;
 
   int? cityCode;
   int? budgetTo;
@@ -79,8 +84,14 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
       requirementList = context.read<TaskEntityServiceBloc>().state.taskEntityService.highlights ?? [];
       descriptionController.text = context.read<TaskEntityServiceBloc>().state.taskEntityService.description ?? '';
       addressController.text = context.read<TaskEntityServiceBloc>().state.taskEntityService.location ?? '';
-      startPriceController.text = context.read<TaskEntityServiceBloc>().state.taskEntityService.budgetFrom ?? '';
-      endPriceController.text = context.read<TaskEntityServiceBloc>().state.taskEntityService.budgetTo ?? '';
+      startPriceController.text = widget.isRequested
+          ? Decimal.parse(context.read<TaskEntityServiceBloc>().state.taskEntityService.payableFrom.toString())
+              .toString()
+          : Decimal.parse(context.read<TaskEntityServiceBloc>().state.taskEntityService.budgetFrom.toString())
+              .toString();
+      endPriceController.text = widget.isRequested
+          ? Decimal.parse(context.read<TaskEntityServiceBloc>().state.taskEntityService.payableTo.toString()).toString()
+          : Decimal.parse(context.read<TaskEntityServiceBloc>().state.taskEntityService.budgetTo.toString()).toString();
       cityCode = context.read<TaskEntityServiceBloc>().state.taskEntityService.city?.id?.toInt();
       currencyCode = context.read<TaskEntityServiceBloc>().state.taskEntityService.currency?.code;
       isBudgetVariable = context.read<TaskEntityServiceBloc>().state.taskEntityService.isRange ?? false;
@@ -96,6 +107,21 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
       isNegotiable = context.read<TaskEntityServiceBloc>().state.taskEntityService.isNegotiable ?? false;
       serviceType = 'Remote';
 
+      context.read<TaskEntityServiceBloc>().state.taskEntityService.images?.forEach(
+        (element) {
+          setState(() {
+            images.add(element.id!.toInt());
+          });
+        },
+      );
+
+      context.read<TaskEntityServiceBloc>().state.taskEntityService.videos?.forEach(
+        (element) {
+          setState(() {
+            videos.add(element.id!.toInt());
+          });
+        },
+      );
       setState(() {
         informationLoaded = true;
       });
@@ -112,7 +138,7 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
           case TheStates.loading:
             return CardLoading(height: 200);
           case TheStates.success:
-            return informationLoaded
+            return informationLoaded || isLoading
                 ? Form(
                     key: _key,
                     child: Column(
@@ -138,7 +164,7 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
                   )
                 : CardLoading(height: 200);
           case TheStates.failure:
-            return informationLoaded
+            return informationLoaded || isLoading
                 ? Form(
                     key: _key,
                     child: Column(
@@ -172,6 +198,9 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
     return BlocConsumer<TaskEntityServiceBloc, TaskEntityServiceState>(
       listener: (context, state) {
         if (state.theStates == TheStates.success && state.isEdited == true) {
+          setState(() {
+            isLoading = false;
+          });
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -187,6 +216,9 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
           );
         }
         if (state.theStates == TheStates.failure && state.isEdited == false) {
+          setState(() {
+            isLoading = false;
+          });
           showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -202,96 +234,112 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
         }
       },
       builder: (context, state) {
-        return CustomElevatedButton(
-          callback: () async {
-            if (isTermsAccepted) {
-              if (_key.currentState!.validate() && endPriceController.text.isNotEmpty) {
-                await uploadBloc
-                  ..add(
-                    ImageToFilestoreUploaded(
-                      list: uploadBloc.state.imageFileList,
-                    ),
-                  )
-                  ..add(
-                    VideoToFilestoreUploaded(
-                      list: uploadBloc.state.videoFileList,
-                    ),
-                  );
-                if (uploadBloc.state.theStates != TheStates.loading) {
-                  final req = TaskEntityServiceReq(
-                    title: titleController.text,
-                    description: descriptionController.text,
-                    highlights: requirementList,
-                    budgetType: budgetType,
-                    budgetFrom: priceType == 'Variable' ? double.parse(startPriceController.text) : null,
-                    budgetTo: double.parse(endPriceController.text),
-                    startDate: DateFormat("yyyy-MM-dd").format(startDate ?? DateTime.now()),
-                    endDate: DateFormat("yyyy-MM-dd").format(endDate ?? DateTime.now()),
-                    startTime: startTimeNew != null
-                        ? DateFormat.jm().format(DateTime.parse(startTimeNew!))
-                        : startTime != null
-                            ? startTime
-                            : null,
-                    endTime: endTimeNew != null
-                        ? DateFormat.jm().format(DateTime.parse(endTimeNew!))
-                        : endTime != null
-                            ? endTime
-                            : null,
-                    shareLocation: true,
-                    isNegotiable: isNegotiable,
-                    location: addressController.text,
-                    revisions: 0,
-                    avatar: 2,
-                    isProfessional: true,
-                    isOnline: true,
-                    isRequested: widget.isRequested,
-                    discountType: "Percentage",
-                    discountValue: discountController.text.isNotEmpty ? discountController.text : '0.0',
-                    noOfReservation: 0,
-                    isActive: true,
-                    needsApproval: true,
-                    isEndorsed: true,
-                    service: context.read<CategoriesBloc>().state.serviceId?.isEmpty ?? true
-                        ? serviceId
-                        : context.read<CategoriesBloc>().state.serviceId,
-                    event: "",
-                    city: cityCode ?? int.parse(kCityCode),
-                    currency: currencyCode ?? kCurrencyCode,
-                    images: uploadBloc.state.uploadedImageList,
-                    videos: uploadBloc.state.uploadedVideoList,
-                  );
-
-                  context.read<TaskEntityServiceBloc>().add(
-                        TaskEntityServiceEdited(
-                          id: widget.id,
-                          taskEntityServiceReq: req,
-                        ),
-                      );
-                }
-              } else {
-                showDialog(
-                  context: context,
-                  builder: (context) => CustomToast(
-                    heading: 'Error',
-                    content: 'Please provide necessary details.',
-                    onTap: () {},
-                    isSuccess: false,
-                  ),
-                );
-              }
-            } else {
-              showDialog(
-                context: context,
-                builder: (context) => CustomToast(
-                  heading: "Failure",
-                  content: "Please accept the terms and condititons",
-                  onTap: () {},
-                  isSuccess: false,
-                ),
+        return BlocConsumer<UploadBloc, UploadState>(
+          bloc: uploadBloc,
+          listener: (context, state) {
+            if (state.theStates == TheStates.success) {
+              final req = TaskEntityServiceReq(
+                title: titleController.text,
+                description: descriptionController.text,
+                highlights: requirementList,
+                budgetType: budgetType,
+                budgetFrom: priceType == 'Variable' ? double.parse(startPriceController.text) : 0,
+                budgetTo: double.parse(endPriceController.text),
+                startDate: DateFormat("yyyy-MM-dd").format(startDate ?? DateTime.now()),
+                endDate: DateFormat("yyyy-MM-dd").format(endDate ?? DateTime.now()),
+                startTime: startTimeNew != null
+                    ? DateFormat.jm().format(DateTime.parse(startTimeNew!))
+                    : startTime != null
+                        ? startTime
+                        : null,
+                endTime: endTimeNew != null
+                    ? DateFormat.jm().format(DateTime.parse(endTimeNew!))
+                    : endTime != null
+                        ? endTime
+                        : null,
+                shareLocation: true,
+                isNegotiable: isNegotiable,
+                location: addressController.text,
+                revisions: 0,
+                avatar: 2,
+                isProfessional: true,
+                isOnline: true,
+                isRequested: widget.isRequested,
+                discountType: "Percentage",
+                discountValue: discountController.text.isNotEmpty ? discountController.text : '0.0',
+                noOfReservation: 0,
+                isActive: true,
+                needsApproval: true,
+                isEndorsed: true,
+                service: context.read<CategoriesBloc>().state.serviceId?.isEmpty ?? true
+                    ? serviceId
+                    : context.read<CategoriesBloc>().state.serviceId,
+                event: "",
+                city: cityCode ?? int.parse(kCityCode),
+                currency: currencyCode ?? kCurrencyCode,
+                images: uploadBloc.state.uploadedImageList.isNotEmpty
+                    ? [...images, ...uploadBloc.state.uploadedImageList]
+                    : null,
+                videos: uploadBloc.state.uploadedVideoList.isNotEmpty
+                    ? [...videos, ...uploadBloc.state.uploadedVideoList]
+                    : null,
               );
+
+              context.read<TaskEntityServiceBloc>().add(
+                    TaskEntityServiceEdited(
+                      id: widget.id,
+                      taskEntityServiceReq: req,
+                    ),
+                  );
             }
           },
-          label: 'Next',
+          builder: (context, state) {
+            return CustomElevatedButton(
+              callback: () async {
+                if (isTermsAccepted) {
+                  if (_key.currentState!.validate() && endPriceController.text.isNotEmpty) {
+                    setState(() {
+                      isLoading = true;
+                    });
+                    await uploadBloc
+                      ..add(
+                        ImageToFilestoreUploaded(
+                          list: uploadBloc.state.imageFileList,
+                        ),
+                      )
+                      ..add(
+                        VideoToFilestoreUploaded(
+                          list: uploadBloc.state.videoFileList,
+                        ),
+                      );
+
+                    /// If problem add the code in the upload bloc listener here
+                  } else {
+                    showDialog(
+                      context: context,
+                      builder: (context) => CustomToast(
+                        heading: 'Error',
+                        content: 'Please provide necessary details.',
+                        onTap: () {},
+                        isSuccess: false,
+                      ),
+                    );
+                  }
+                } else {
+                  showDialog(
+                    context: context,
+                    builder: (context) => CustomToast(
+                      heading: "Failure",
+                      content: "Please accept the terms and condititons",
+                      onTap: () {},
+                      isSuccess: false,
+                    ),
+                  );
+                }
+              },
+              label: 'Next',
+            );
+          },
         );
       },
     );
@@ -662,7 +710,7 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
             ),
           ),
           CustomTextFormField(
-            hintText: 'Add highlights',
+            hintText: 'Add Highlight',
             inputAction: TextInputAction.next,
             suffixWidget: IconButton(
               onPressed: () {
