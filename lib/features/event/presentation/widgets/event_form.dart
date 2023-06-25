@@ -12,6 +12,7 @@ import 'package:cipher/features/event/data/models/req/create_event_req.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:flutter/services.dart';
 
 enum AttachType {
   Create,
@@ -33,13 +34,11 @@ class _EventFormState extends State<EventForm> {
   final titleController = TextEditingController();
   final guestController = TextEditingController(text: "1");
   final durationController = TextEditingController();
-  final durationTypeController = TextEditingController(text: "Minutes");
+  final durationTypeController = TextEditingController();
   bool isFlexible = false;
   DateTime? startDate;
   DateTime? endDate;
   bool isUnlimitedGuests = false;
-  Duration? _duration;
-  String? formattedDuration;
   final _key = GlobalKey<FormState>();
   bool isAutoValidate = true;
   Map<String, dynamic> editedValues = {};
@@ -70,17 +69,17 @@ class _EventFormState extends State<EventForm> {
 
     if (widget.type == AttachType.Edit) {
       eventBloc = context.read<EventBloc>();
-      startDate = eventBloc.state.event?.start;
-      endDate = eventBloc.state.event?.end;
-      guestController.text =
-          eventBloc.state.event?.guestLimit?.toString() ?? "";
-      _duration = Duration(
-        hours: int.parse(eventBloc.state.event!.duration!.split(":")[0]),
-        minutes: int.parse(eventBloc.state.event!.duration!.split(":")[1]),
-        seconds: int.parse(eventBloc.state.event!.duration!.split(":")[2]),
-      );
-      durationController.text = _duration!.inMinutes.toString();
       setState(() {
+        titleController.text = eventBloc.state.event?.title ?? "qwe";
+        startDate = eventBloc.state.event?.start;
+        endDate = eventBloc.state.event?.end;
+        guestController.text =
+            eventBloc.state.event?.guestLimit?.toString() ?? "";
+
+        durationController.text =
+            eventBloc.state.event!.duration!.split(":")[0];
+        durationTypeController.text =
+            eventBloc.state.event!.duration!.split(":")[1];
         isFlexible = eventBloc.state.event!.isFlexible!;
       });
     }
@@ -108,7 +107,7 @@ class _EventFormState extends State<EventForm> {
         }
         if (state.theStates == TheStates.success) {
           var service = state.taskEntityService;
-          titleController.text = service.title ?? '';
+          // titleController.text = service.title ?? '';
           return Form(
             autovalidateMode: AutovalidateMode.onUserInteraction,
             key: _key,
@@ -182,22 +181,6 @@ class _EventFormState extends State<EventForm> {
         child: widget.type == AttachType.Create
             ? CustomElevatedButton(
                 callback: () {
-                  if (durationTypeController.text == "Minutes") {
-                    _duration = Duration(
-                      minutes: int.parse(
-                        durationController.text,
-                      ),
-                    );
-                  } else {
-                    _duration = Duration(
-                      hours: int.parse(
-                        durationController.text,
-                      ),
-                    );
-                  }
-                  if (_duration != null) {
-                    formattedDuration = formatDuration(_duration!);
-                  }
                   if (_key.currentState!.validate()) {
                     if (startDate != null && endDate != null) {
                       final req = CreateEventReq(
@@ -207,7 +190,8 @@ class _EventFormState extends State<EventForm> {
                         guestLimit: isUnlimitedGuests
                             ? 0
                             : int.parse(guestController.text),
-                        duration: formattedDuration,
+                        duration:
+                            "${durationController.text}:${durationTypeController.text.trim()}:00",
                         isFlexible: isFlexible,
                         entityService: service.id,
                         isActive: true,
@@ -271,27 +255,12 @@ class _EventFormState extends State<EventForm> {
                 },
                 child: CustomElevatedButton(
                   callback: () {
-                    if (durationTypeController.text == "Minutes") {
-                      _duration = Duration(
-                        minutes: int.parse(
-                          durationController.text,
-                        ),
-                      );
-                    } else {
-                      _duration = Duration(
-                        hours: int.parse(
-                          durationController.text,
-                        ),
-                      );
-                    }
-                    if (_duration != null) {
-                      formattedDuration = formatDuration(_duration!);
-                    }
                     editedValues.addAll({
                       "start": startDate!.toString(),
                       "end": endDate!.toString(),
                       "guest_limit": int.parse(guestController.text),
-                      "duration": formattedDuration,
+                      "duration":
+                          "${durationController.text}:${durationTypeController.text}:00",
                       "is_flexible": isFlexible,
                     });
 
@@ -341,26 +310,57 @@ class _EventFormState extends State<EventForm> {
       child: Row(
         children: [
           Flexible(
-            child: NumberIncDecField(
-              width: MediaQuery.of(context).size.width * 0.5,
+            child: CustomTextFormField(
+              suffixWidget: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    "Hours",
+                    style: Theme.of(context).textTheme.displaySmall,
+                  ),
+                ],
+              ),
+              textInputType: TextInputType.number,
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+              ],
               controller: durationController,
-              validator:
-                  widget.type == AttachType.Edit ? null : validateNotEmpty,
+              validator: (p0) {
+                if (widget.type == AttachType.Create) {
+                  if (startDate == null) return "Provide Start Date";
+                  if (endDate == null) return "Provide End Date";
+                  if (p0?.length == 0) return "Required Field";
+                }
+                final d = endDate!.difference(startDate!).inHours - 1;
+                if (int.parse(durationController.text) > d)
+                  return "Duration cannot be more than given dates";
+                return null;
+              },
             ),
           ),
           addHorizontalSpace(20),
           Flexible(
             child: CustomDropDownField(
-              initialValue: "Minutes",
+              hintText: "minutes",
               list: [
-                "Hours",
-                "Minutes",
+                "00 minute",
+                "15 Minutes",
+                "30 Minutes",
+                "45 Minutes",
               ],
               onChanged: (value) => setState(
                 () {
-                  durationTypeController.text = value!;
+                  setState(() {
+                    final num1 = value!.substring(0, 2);
+                    durationTypeController.text = num1;
+                  });
                 },
               ),
+              validator: (p0) {
+                if (startDate == null) return "Provide Start Date";
+                if (endDate == null) return "Provide End Date";
+                return null;
+              },
             ),
           ),
         ],
