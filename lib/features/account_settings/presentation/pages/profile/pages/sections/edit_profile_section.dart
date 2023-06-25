@@ -82,8 +82,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
               // ),
             ),
           );
-        } else if (state.theStates == TheStates.failure &&
-            state.isEdited == false) {
+        } else if (state.theStates == TheStates.failure && state.isEdited == false) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -101,12 +100,12 @@ class _EditProfileSectionState extends State<EditProfileSection> {
         }
       },
       builder: (context, state) {
-        // firstName = state.taskerProfile?.user?.firstName;
-        // middleName = state.taskerProfile?.user?.middleName;
-        // lastName = state.taskerProfile?.user?.lastName;
-        // designation = state.taskerProfile?.designation;
-        // profilePicture = state.taskerProfile?.profileImage;
-        // bio = state.taskerProfile?.bio;
+        firstName = state.taskerProfile?.user?.firstName;
+        middleName = state.taskerProfile?.user?.middleName;
+        lastName = state.taskerProfile?.user?.lastName;
+        designation = state.taskerProfile?.designation;
+        profilePicture = state.taskerProfile?.profileImage;
+        bio = state.taskerProfile?.bio;
         if (state.theStates == TheStates.success) {
           return Padding(
             padding: const EdgeInsets.only(left: 8.0),
@@ -161,7 +160,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                                   context: context,
                                   builder: (context) => ImagePickerDialog(
                                     bloc: uploadBloc,
-                                    imagePage: ImagePage.Profile,
+                                    isProfile: true,
                                   ),
                                 );
                               },
@@ -193,9 +192,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                                   children: [
                                     Text(
                                       'First name',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall,
+                                      style: Theme.of(context).textTheme.headlineSmall,
                                     ),
                                     kWidth5,
                                     Text(
@@ -206,9 +203,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                                 ),
                                 kHeight5,
                                 CustomTextFormField(
-                                  hintText:
-                                      state.taskerProfile?.user?.firstName ??
-                                          '',
+                                  hintText: state.taskerProfile?.user?.firstName ?? '',
                                   onSaved: (p0) => setState(
                                     () {
                                       firstName = p0;
@@ -225,14 +220,11 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                               children: [
                                 Text(
                                   'Middle name',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
+                                  style: Theme.of(context).textTheme.headlineSmall,
                                 ),
                                 kHeight5,
                                 CustomTextFormField(
-                                  hintText:
-                                      state.taskerProfile?.user?.middleName ??
-                                          '',
+                                  hintText: state.taskerProfile?.user?.middleName ?? '',
                                   onSaved: (p0) => setState(
                                     () {
                                       middleName = p0;
@@ -251,9 +243,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                                   children: [
                                     Text(
                                       'Last name',
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .headlineSmall,
+                                      style: Theme.of(context).textTheme.headlineSmall,
                                     ),
                                     kWidth5,
                                     Text(
@@ -264,8 +254,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                                 ),
                                 kHeight5,
                                 CustomTextFormField(
-                                  hintText:
-                                      state.taskerProfile?.user?.lastName ?? '',
+                                  hintText: state.taskerProfile?.user?.lastName ?? '',
                                   onSaved: (p0) => setState(
                                     () {
                                       lastName = p0;
@@ -334,9 +323,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                           child: CustomFormContainer(
                             leadingWidget: const Icon(Icons.calendar_month),
                             hintText: DateFormat('yyyy-MM-dd').format(
-                              dob ??
-                                  state.taskerProfile?.dateOfBirth ??
-                                  DateTime.now(),
+                              dob ?? state.taskerProfile?.dateOfBirth ?? DateTime.now(),
                             ),
                           ),
                         ),
@@ -488,27 +475,17 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                         callback: () async {
                           _key.currentState?.save();
                           final Map<String, dynamic> user = {
-                            "first_name": firstName!.isEmpty
-                                ? state.taskerProfile?.user!.firstName
-                                : firstName,
-                            "middle_name": middleName!.isEmpty
-                                ? state.taskerProfile?.user!.middleName
-                                : middleName,
-                            "last_name": lastName!.isEmpty
-                                ? state.taskerProfile?.user!.lastName
-                                : lastName,
+                            "first_name": firstName!.isEmpty ? state.taskerProfile?.user!.firstName : firstName,
+                            "middle_name": middleName!.isEmpty ? state.taskerProfile?.user!.middleName : middleName,
+                            "last_name": lastName!.isEmpty ? state.taskerProfile?.user!.lastName : lastName,
                             // "designation": designation!.isEmpty
                             //     ? state.taskerProfile?.designation
                             //     : designation,
                             "date_of_birth": DateFormat("yyyy-MM-dd").format(
-                              dob ??
-                                  state.taskerProfile?.dateOfBirth ??
-                                  DateTime.now(),
+                              dob ?? state.taskerProfile?.dateOfBirth ?? DateTime.now(),
                             ),
                             "bio": bio ?? state.taskerProfile?.bio,
-                            "gender": _gender ??
-                                state.taskerProfile?.gender ??
-                                "Male",
+                            "gender": _gender ?? state.taskerProfile?.gender ?? "Male",
                             // "profile_image": state.taskerProfile?.profileImage
                             // uploadBloc.state.imageFileList.length == 0
                             //     ? state.taskerProfile?.profileImage
@@ -518,8 +495,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                           };
 
                           if (uploadBloc.state.imageFileList.length != 0) {
-                            final file = await MultipartFile.fromFile(
-                                uploadBloc.state.imageFileList.last);
+                            final file = await MultipartFile.fromFile(uploadBloc.state.imageFileList.last);
                             user.addAll({
                               "profile_image": file,
                             });

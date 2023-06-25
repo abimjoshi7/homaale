@@ -121,8 +121,7 @@ class _PostServicePageState extends State<PostServicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-          appBarTitle: "Post a service", trailingWidget: SizedBox()),
+      appBar: CustomAppBar(appBarTitle: "Post a service", trailingWidget: SizedBox()),
       body: Column(
         children: [
           Expanded(
@@ -234,10 +233,8 @@ class _PostServicePageState extends State<PostServicePage> {
         return BlocListener<UploadBloc, UploadState>(
           bloc: uploadBloc,
           listenWhen: (previous, current) {
-            if (previous.isImageUploaded != true &&
-                current.isImageUploaded == true) return true;
-            if (previous.isVideoUploaded != true &&
-                current.isVideoUploaded == true) return true;
+            if (previous.isImageUploaded != true && current.isImageUploaded == true) return true;
+            if (previous.isVideoUploaded != true && current.isVideoUploaded == true) return true;
             return false;
           },
           listener: (context, state) {
@@ -270,9 +267,7 @@ class _PostServicePageState extends State<PostServicePage> {
                 isOnline: !isAddressVisibile,
                 isRequested: false,
                 discountType: "Percentage",
-                discountValue: discountController.text.isNotEmpty
-                    ? discountController.text
-                    : '0.0',
+                discountValue: discountController.text.isNotEmpty ? discountController.text : '0.0',
                 noOfReservation: 0,
                 isActive: true,
                 needsApproval: true,
@@ -296,10 +291,8 @@ class _PostServicePageState extends State<PostServicePage> {
             callback: () async {
               if (context.read<CategoriesBloc>().state.serviceId != null) {
                 if (isTermsAccepted) {
-                  if (_key.currentState!.validate() &&
-                      endPriceController.text.isNotEmpty) {
-                    if (uploadBloc.state.imageFileList.length != 0 ||
-                        uploadBloc.state.videoFileList.length != 0) {
+                  if (_key.currentState!.validate() && endPriceController.text.isNotEmpty) {
+                    if (uploadBloc.state.imageFileList.length != 0 || uploadBloc.state.videoFileList.length != 0) {
                       await upload
                         ..uploadImage()
                         ..uploadVideo();
@@ -332,9 +325,7 @@ class _PostServicePageState extends State<PostServicePage> {
                         isOnline: !isAddressVisibile,
                         isRequested: false,
                         discountType: "Percentage",
-                        discountValue: discountController.text.isNotEmpty
-                            ? discountController.text
-                            : '0.0',
+                        discountValue: discountController.text.isNotEmpty ? discountController.text : '0.0',
                         noOfReservation: 0,
                         isActive: true,
                         needsApproval: true,
@@ -547,9 +538,7 @@ class _PostServicePageState extends State<PostServicePage> {
                       if (startPriceController.text.isNotEmpty)
                         budgetFrom = getPayableAmount(
                           double.parse(startPriceController.text),
-                          double.parse(
-                              context.read<CategoriesBloc>().state.commission ??
-                                  "0.0"),
+                          double.parse(context.read<CategoriesBloc>().state.commission ?? "0.0"),
                         );
                     },
                   ),
@@ -583,8 +572,7 @@ class _PostServicePageState extends State<PostServicePage> {
                   if (int.parse(p0) < 10) {
                     return "Budget Cannot Be Less Than 10";
                   }
-                  if (isBudgetVariable &&
-                      startPriceController.text.isNotEmpty) {
+                  if (isBudgetVariable && startPriceController.text.isNotEmpty) {
                     if (p0 == startPriceController.text) {
                       return "Invalid Range";
                     }
@@ -605,12 +593,7 @@ class _PostServicePageState extends State<PostServicePage> {
                     if (endPriceController.text.isNotEmpty)
                       budgetTo = getPayableAmount(
                         int.parse(endPriceController.text).toDouble(),
-                        int.parse(context
-                                    .read<CategoriesBloc>()
-                                    .state
-                                    .commission ??
-                                "0")
-                            .toDouble(),
+                        int.parse(context.read<CategoriesBloc>().state.commission ?? "0").toDouble(),
                       );
                   },
                 ),
@@ -729,8 +712,7 @@ class _PostServicePageState extends State<PostServicePage> {
               setState(
                 () {
                   currentValue++;
-                  controller
-                      .setText((currentValue).toString()); // incrementing value
+                  controller.setText((currentValue).toString()); // incrementing value
                 },
               );
             },
@@ -748,8 +730,7 @@ class _PostServicePageState extends State<PostServicePage> {
               setState(
                 () {
                   currentValue--;
-                  controller.setText((currentValue > 0 ? currentValue : 0)
-                      .toString()); // decrementing value
+                  controller.setText((currentValue > 0 ? currentValue : 0).toString()); // decrementing value
                 },
               );
             },
@@ -854,7 +835,7 @@ class _PostServicePageState extends State<PostServicePage> {
 
   CustomFormField _buildHighlights() {
     return CustomFormField(
-      label: 'Requirements',
+      label: 'Highlights',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -902,11 +883,9 @@ class _PostServicePageState extends State<PostServicePage> {
             ),
           ),
           CustomTextFormField(
-            hintText: 'Add Requirements',
+            hintText: 'Add Highlights',
             inputAction: TextInputAction.next,
-            validator: (value) => requirementList.length == 0
-                ? "Atleast 1 Highlight Required"
-                : null,
+            validator: (value) => requirementList.length == 0 ? "Atleast 1 Highlight Required" : null,
             suffixWidget: IconButton(
               onPressed: () {
                 if (requirementController.text.isNotEmpty)
@@ -1074,9 +1053,7 @@ class _PostServicePageState extends State<PostServicePage> {
                                   children: [
                                     TextSpan(
                                       text: " to ",
-                                      style: Theme.of(context)
-                                          .textTheme
-                                          .displayMedium,
+                                      style: Theme.of(context).textTheme.displayMedium,
                                       children: [
                                         TextSpan(
                                           text: "Rs $budgetTo",

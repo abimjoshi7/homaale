@@ -75,7 +75,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           await MultimediaPickHelper.captureAssets(
             event.context,
             RequestType.image,
-            event.imagePage,
+            isProfile: event.isProfile,
           ).then(
             (value) async {
               if (value != null) {
@@ -264,6 +264,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             emit(
               state.copyWith(
                 isImageUploaded: true,
+                theStates: TheStates.success,
               ),
             );
           else {
@@ -315,6 +316,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             emit(
               state.copyWith(
                 isVideoUploaded: true,
+                theStates: TheStates.success,
               ),
             );
           else {

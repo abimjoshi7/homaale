@@ -44,13 +44,7 @@ class _DetailsViewState extends State<DetailsView> {
   void initState() {
     super.initState();
     budgetController.setText(
-      double.parse(context
-              .read<TaskEntityServiceBloc>()
-              .state
-              .taskEntityService!
-              .payableTo!)
-          .toInt()
-          .toString(),
+      double.parse(context.read<TaskEntityServiceBloc>().state.taskEntityService!.payableTo!).toInt().toString(),
     );
   }
 
@@ -91,19 +85,15 @@ class _DetailsViewState extends State<DetailsView> {
         label: "Your Budget",
         child: BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
           builder: (context, state) {
-            if (state.taskEntityService?.isRange == true &&
-                state.taskEntityService?.isNegotiable == false)
+            if (state.taskEntityService?.isRange == true && state.taskEntityService?.isNegotiable == false)
               return SizedBox(
                 width: 100,
                 child: CustomTextFormField(
                   textInputType: TextInputType.number,
                   controller: budgetController,
                   onChanged: (p0) {
-                    if (double.parse(budgetController.text) >
-                            double.parse(state.taskEntityService!.payableTo!) ||
-                        double.parse(budgetController.text) <
-                            double.parse(
-                                state.taskEntityService!.payableFrom!)) {
+                    if (double.parse(budgetController.text) > double.parse(state.taskEntityService!.payableTo!) ||
+                        double.parse(budgetController.text) < double.parse(state.taskEntityService!.payableFrom!)) {
                       ScaffoldMessenger.of(context)
                         ..clearSnackBars()
                         ..showSnackBar(
@@ -121,10 +111,7 @@ class _DetailsViewState extends State<DetailsView> {
                             budgetTo: double.parse(
                               p0!,
                             ),
-                            endDate: DateTime.parse(context
-                                .read<BookEventHandlerBloc>()
-                                .state
-                                .endDate!),
+                            endDate: DateTime.parse(context.read<BookEventHandlerBloc>().state.endDate!),
                           ),
                         ),
                       );
@@ -140,8 +127,7 @@ class _DetailsViewState extends State<DetailsView> {
                       budgetTo: double.parse(
                         budgetController.text,
                       ),
-                      endDate: DateTime.parse(
-                          widget.bookEventHandlerBloc.state.endDate!),
+                      endDate: DateTime.parse(widget.bookEventHandlerBloc.state.endDate!),
                     ),
                   ),
                 ),
@@ -162,7 +148,8 @@ class _DetailsViewState extends State<DetailsView> {
   SliverToBoxAdapter _buildRequirements(BuildContext context) {
     return SliverToBoxAdapter(
       child: CustomFormField(
-        label: 'Requirements',
+        label: 'Highlights',
+        isRequired: true,
         child: Column(
           children: [
             Column(
@@ -211,10 +198,8 @@ class _DetailsViewState extends State<DetailsView> {
             addVerticalSpace(5),
             CustomTextFormField(
               controller: requirementController,
-              hintText: 'Add requirements',
-              validator: (value) => requirementList.length == 0
-                  ? "Atleast 1 Requirement Required"
-                  : null,
+              hintText: 'Add Highlight',
+              validator: (value) => requirementList.length == 0 ? "Atleast 1 Highlight Required" : null,
               suffixWidget: IconButton(
                 icon: Icon(
                   Icons.add_box_outlined,

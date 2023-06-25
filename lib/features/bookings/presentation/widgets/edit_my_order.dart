@@ -57,9 +57,15 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
 
   @override
   void initState() {
+    bookingsBloc = widget.bookingsBloc;
     result = widget.result;
     isTask = widget.isTask;
-    bookingsBloc = widget.bookingsBloc;
+    problemDescController.text = result.description ?? '';
+    requirementList = result.requirements ?? [];
+    cityCode = result.city ?? 0;
+    locationController.text = result.location ?? '';
+    startDate = result.startDate;
+    endDate = result.endDate;
     super.initState();
   }
 
@@ -91,11 +97,11 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                   child: CustomTextFormField(
                     controller: problemDescController,
                     validator: validateNotEmpty,
-                    hintText: result.description ?? '',
+                    hintText: '',
                   ),
                 ),
                 CustomFormField(
-                  label: 'Requirements',
+                  label: 'Highlights',
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -148,7 +154,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                       addVerticalSpace(5),
                       CustomTextFormField(
                         controller: requirementController,
-                        hintText: result.requirements!.join(', '),
+                        hintText: '',
                         onFieldSubmitted: (p0) {
                           setState(() {
                             requirementList.add(p0!);
@@ -270,9 +276,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                                   },
                                   child: CustomFormContainer(
                                     hintText: DateFormat.yMMMMd().format(
-                                      startDate ??
-                                          result.startDate ??
-                                          DateTime.now(),
+                                      startDate ?? result.startDate ?? DateTime.now(),
                                     ),
                                   ),
                                 ),
@@ -309,9 +313,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                                   },
                                   child: CustomFormContainer(
                                     hintText: DateFormat.yMMMMd().format(
-                                      endDate ??
-                                          result.endDate ??
-                                          DateTime.now(),
+                                      endDate ?? result.endDate ?? DateTime.now(),
                                     ),
                                   ),
                                 ),
@@ -352,8 +354,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                           child: CustomFormField(
                             label: 'Start Time',
                             child: CustomFormContainer(
-                              hintText: startTime?.format(context) ??
-                                  result.startTime.toString(),
+                              hintText: startTime?.format(context) ?? result.startTime.toString(),
                               callback: () async {
                                 await showTimePicker(
                                   context: context,
@@ -372,8 +373,7 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                           child: CustomFormField(
                             label: 'End Time',
                             child: CustomFormContainer(
-                              hintText: endTime?.format(context) ??
-                                  result.endTime.toString(),
+                              hintText: endTime?.format(context) ?? result.endTime.toString(),
                               callback: () async {
                                 await showTimePicker(
                                   context: context,
@@ -400,34 +400,24 @@ class _EditMyOrdersFormState extends State<EditMyOrdersForm> {
                     callback: () {
                       if (_formKey.currentState!.validate()) {
                         final req = EditBookingReq(
-                          description: problemDescController.text.isNotEmpty
-                              ? problemDescController.text
-                              : result.description,
-                          requirements: requirementList.isNotEmpty
-                              ? requirementList
-                              : result.requirements,
+                          description:
+                              problemDescController.text.isNotEmpty ? problemDescController.text : result.description,
+                          requirements: requirementList.isNotEmpty ? requirementList : result.requirements,
                           city: cityCode ?? result.city?.toInt(),
-                          location: locationController.text.isNotEmpty
-                              ? locationController.text
-                              : result.location,
+                          location: locationController.text.isNotEmpty ? locationController.text : result.location,
                           budgetTo: endBudgetController.text.isNotEmpty
                               ? double.parse(endBudgetController.text)
-                              : double.parse(
-                                  result.entityService?.budgetTo ?? '0.0'),
+                              : double.parse(result.entityService?.budgetTo ?? '0.0'),
                           budgetFrom: startBudgetController.text.isNotEmpty
                               ? double.parse(startBudgetController.text)
-                              : double.parse(
-                                  result.entityService?.budgetFrom ?? '0.0'),
+                              : double.parse(result.entityService?.budgetFrom ?? '0.0'),
                           images: imageList ??
-                              List.generate(result.images?.length ?? 0,
-                                  (index) => result.images?[index].id),
+                              List.generate(result.images?.length ?? 0, (index) => result.images?[index]['id']),
                           videos: fileList ??
-                              List.generate(result.videos?.length ?? 0,
-                                  (index) => result.videos?[index].id),
+                              List.generate(result.videos?.length ?? 0, (index) => result.videos?[index]['id']),
                           startDate: startDate ?? result.startDate,
                           endDate: endDate ?? result.endDate,
-                          startTime:
-                              startTime?.format(context) ?? result.startTime,
+                          startTime: startTime?.format(context) ?? result.startTime,
                           endTime: endTime?.format(context) ?? result.endTime,
                           createdBy: result.createdBy?.user?.id ?? '',
                           entityService: result.entityService?.id ?? '',

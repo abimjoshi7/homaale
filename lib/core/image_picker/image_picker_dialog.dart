@@ -10,11 +10,11 @@ import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 
 class ImagePickerDialog extends StatelessWidget {
   final UploadBloc bloc;
-  final ImagePage imagePage;
+  final bool? isProfile;
   const ImagePickerDialog({
     Key? key,
     required this.bloc,
-    required this.imagePage,
+    this.isProfile,
   }) : super(key: key);
 
   @override
@@ -74,7 +74,7 @@ class ImagePickerDialog extends StatelessWidget {
                       () => bloc.add(
                         MultipleImageUploaded(
                           context: context,
-                          imagePage: imagePage,
+                          isProfile: isProfile,
                         ),
                       ),
                     ).whenComplete(
