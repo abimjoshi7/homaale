@@ -81,8 +81,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
     context.read<TaskBloc>().add(
           SingleEntityTaskLoadInitiated(
             id: state.taskEntityServiceModel.result![index].id!,
-            userId:
-                context.read<UserBloc>().state.taskerProfile?.user?.id ?? '',
+            userId: context.read<UserBloc>().state.taskerProfile?.user?.id ?? '',
           ),
         );
     if (isApply) {
@@ -102,7 +101,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(
-        appBarTitle: " All Task Page",
+        appBarTitle: "All Task Page",
         trailingWidget: IconButton(
           onPressed: () {
             Navigator.pushNamed(context, SearchPage.routeName);
@@ -137,30 +136,31 @@ class _AllTaskPageState extends State<AllTaskPage> {
                             ),
                             addHorizontalSpace(5),
                             _buildCategory(),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildLocation(),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildFromDate(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildToDate(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildBudgetFrom(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
+                            addHorizontalSpace(8),
                             _buildBudgetTo(context),
-                            addHorizontalSpace(
-                              8,
-                            ),
-                            _buildClearFilters(context),
+                            addHorizontalSpace(8),
+                            _buildBudgetSort(),
+                            addHorizontalSpace(8),
+                            _buildDateSort(),
+                            addHorizontalSpace(8),
+                            dateFrom != null ||
+                                    dateTo != null ||
+                                    budgetFrom.text.length != 0 ||
+                                    budgetTo.text.length != 0 ||
+                                    category != null ||
+                                    location != null ||
+                                    sortBudget != null ||
+                                    sortDate != null
+                                ? _buildClearFilters(context)
+                                : SizedBox.shrink(),
                           ],
                         )
                       ],
@@ -328,6 +328,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
                     dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
                     serviceId: serviceId,
                     city: location,
+                    dateSort: sortDate,
+                    budgetSort: sortBudget,
                   ),
                 );
               },
@@ -339,10 +341,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
   }
 
   Widget _buildBudgetFrom(BuildContext context) {
-    return CustomFilterChip(
-      iconData: Icons.attach_money_sharp,
-      label: budgetFrom.text.length == 0 ? "From" : budgetFrom.text,
-      callback: (value) {
+    return GestureDetector(
+      onTap: () {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(content: Text("Enter Amount:"), actions: [
@@ -358,13 +358,15 @@ class _AllTaskPageState extends State<AllTaskPage> {
                 });
                 taskBloc.add(
                   AllTaskLoadInitiated(
-                    isTask: true,
                     newFetch: true,
                     budgetFrom: budgetFrom.text,
                     budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
                     dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
                     dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    serviceId: serviceId,
                     city: location,
+                    dateSort: sortDate,
+                    budgetSort: sortBudget,
                   ),
                 );
                 Navigator.pop(context);
@@ -373,14 +375,54 @@ class _AllTaskPageState extends State<AllTaskPage> {
           ]),
         );
       },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Icon(
+                Icons.attach_money_sharp,
+              ),
+              addHorizontalSpace(4.0),
+              Text("${budgetFrom.text.length == 0 ? "From" : budgetFrom.text}"),
+              addHorizontalSpace(8.0),
+              budgetFrom.length != 0
+                  ? InkWell(
+                      onTap: () {
+                        setState(() {
+                          budgetFrom.clear();
+                        });
+
+                        taskBloc.add(
+                          AllTaskLoadInitiated(
+                            newFetch: true,
+                            isTask: false,
+                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+                            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                            serviceId: serviceId,
+                            city: location,
+                            dateSort: sortDate,
+                            budgetSort: sortBudget,
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.clear))
+                  : SizedBox.shrink(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildBudgetTo(BuildContext context) {
-    return CustomFilterChip(
-      iconData: Icons.attach_money_sharp,
-      label: budgetTo.text.length == 0 ? "To" : budgetTo.text,
-      callback: (value) {
+    return GestureDetector(
+      onTap: () {
         showDialog(
           context: context,
           builder: (context) => AlertDialog(content: Text("Enter Amount:"), actions: [
@@ -396,13 +438,15 @@ class _AllTaskPageState extends State<AllTaskPage> {
                 });
                 taskBloc.add(
                   AllTaskLoadInitiated(
-                    isTask: true,
                     newFetch: true,
                     budgetTo: budgetTo.text,
                     budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
                     dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
                     dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    serviceId: serviceId,
                     city: location,
+                    dateSort: sortDate,
+                    budgetSort: sortBudget,
                   ),
                 );
                 Navigator.pop(context);
@@ -411,34 +455,69 @@ class _AllTaskPageState extends State<AllTaskPage> {
           ]),
         );
       },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Icon(
+                Icons.attach_money_sharp,
+              ),
+              addHorizontalSpace(4.0),
+              Text("${budgetTo.text.length == 0 ? "To" : budgetTo.text}"),
+              addHorizontalSpace(8.0),
+              budgetTo.length != 0
+                  ? InkWell(
+                      onTap: () {
+                        setState(() {
+                          budgetTo.clear();
+                        });
+
+                        taskBloc.add(
+                          AllTaskLoadInitiated(
+                            newFetch: true,
+                            isTask: false,
+                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+                            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                            serviceId: serviceId,
+                            city: location,
+                            dateSort: sortDate,
+                            budgetSort: sortBudget,
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.clear))
+                  : SizedBox.shrink(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildFromDate(BuildContext context) {
-    return CustomFilterChip(
-      label: dateFrom != null ? DateFormat.MMMd().format(dateFrom!) : "From",
-      iconData: Icons.calendar_today_outlined,
-      callback: (value) {
+    return GestureDetector(
+      onTap: () {
         showDatePicker(
           context: context,
           initialDate: DateTime.now(),
-          firstDate: DateTime(
-            2000,
-          ),
-          lastDate: DateTime(
-            2050,
-          ),
+          firstDate: dateFrom ?? DateTime(2000),
+          lastDate: DateTime(2050),
         ).then(
           (value) {
             setState(() {
               dateFrom = value;
             });
+
             taskBloc.add(
               AllTaskLoadInitiated(
-                isTask: true,
                 newFetch: true,
-                budgetTo: budgetTo.text,
-                budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                isTask: false,
                 dateFrom: DateFormat("yyyy-MM-dd").format(
                   dateFrom!,
                 ),
@@ -447,29 +526,70 @@ class _AllTaskPageState extends State<AllTaskPage> {
                     : DateFormat("yyyy-MM-dd").format(
                         dateTo!,
                       ),
+                budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+                budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                serviceId: serviceId,
                 city: location,
+                dateSort: sortDate,
+                budgetSort: sortBudget,
               ),
             );
           },
         );
       },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Icon(
+                Icons.calendar_today_outlined,
+              ),
+              addHorizontalSpace(4.0),
+              Text("${dateFrom != null ? DateFormat.MMMd().format(dateFrom!) : "From"}"),
+              addHorizontalSpace(8.0),
+              dateFrom != null
+                  ? InkWell(
+                      onTap: () {
+                        setState(() {
+                          dateFrom = null;
+                        });
+
+                        taskBloc.add(
+                          AllTaskLoadInitiated(
+                            newFetch: true,
+                            isTask: false,
+                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+                            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                            serviceId: serviceId,
+                            city: location,
+                            dateSort: sortDate,
+                            budgetSort: sortBudget,
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.clear))
+                  : SizedBox.shrink(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
   Widget _buildToDate(BuildContext context) {
-    return CustomFilterChip(
-      label: dateTo != null ? DateFormat.MMMd().format(dateTo!) : "To",
-      iconData: Icons.calendar_today_outlined,
-      callback: (value) {
+    return GestureDetector(
+      onTap: () {
         showDatePicker(
           context: context,
           initialDate: DateTime.now(),
-          firstDate: DateTime(
-            2000,
-          ),
-          lastDate: DateTime(
-            2050,
-          ),
+          firstDate: dateFrom ?? DateTime(2000),
+          lastDate: DateTime(2050),
         ).then(
           (value) {
             setState(() {
@@ -478,10 +598,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
 
             taskBloc.add(
               AllTaskLoadInitiated(
-                isTask: true,
                 newFetch: true,
-                budgetTo: budgetTo.text,
-                budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                isTask: false,
                 dateTo: DateFormat("yyyy-MM-dd").format(
                   dateTo!,
                 ),
@@ -490,12 +608,213 @@ class _AllTaskPageState extends State<AllTaskPage> {
                     : DateFormat("yyyy-MM-dd").format(
                         dateFrom!,
                       ),
+                budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+                budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                serviceId: serviceId,
                 city: location,
+                dateSort: sortDate,
+                budgetSort: sortBudget,
               ),
             );
           },
         );
       },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Icon(
+                Icons.calendar_today_outlined,
+              ),
+              addHorizontalSpace(4.0),
+              Text("${dateTo != null ? DateFormat.MMMd().format(dateTo!) : "To"}"),
+              addHorizontalSpace(8.0),
+              dateTo != null
+                  ? InkWell(
+                      onTap: () {
+                        setState(() {
+                          dateTo = null;
+                        });
+
+                        taskBloc.add(
+                          AllTaskLoadInitiated(
+                            newFetch: true,
+                            isTask: false,
+                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+                            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                            serviceId: serviceId,
+                            city: location,
+                            dateSort: sortDate,
+                            budgetSort: sortBudget,
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.clear))
+                  : SizedBox.shrink(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBudgetSort() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          sortBudget = sortBudget == null
+              ? '-budget_to'
+              : sortBudget == '-budget_to'
+                  ? 'budget_to'
+                  : '-budget_to';
+        });
+
+        taskBloc.add(
+          AllTaskLoadInitiated(
+            newFetch: true,
+            isTask: false,
+            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+            dateTo: dateTo == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateTo!,
+                  ),
+            dateFrom: dateFrom == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateFrom!,
+                  ),
+            serviceId: serviceId,
+            city: location,
+            dateSort: sortDate,
+            budgetSort: sortBudget,
+          ),
+        );
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Icon(Icons.attach_money),
+              addHorizontalSpace(4.0),
+              Text(
+                  "${sortBudget != null ? sortBudget == '-budget_to' ? 'Budget Desc' : 'Budget Asec' : 'Sort Budget'}"),
+              addHorizontalSpace(8.0),
+              sortBudget != null
+                  ? InkWell(
+                      onTap: () {
+                        setState(() {
+                          sortBudget = null;
+                        });
+
+                        taskBloc.add(
+                          AllTaskLoadInitiated(
+                            newFetch: true,
+                            isTask: false,
+                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+                            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                            serviceId: serviceId,
+                            city: location,
+                            dateSort: sortDate,
+                            budgetSort: sortBudget,
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.clear))
+                  : SizedBox.shrink(),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildDateSort() {
+    return GestureDetector(
+      onTap: () {
+        setState(() {
+          sortDate = sortDate == null
+              ? '-created_at'
+              : sortDate == '-created_at'
+                  ? 'created_at'
+                  : '-created_at';
+        });
+        taskBloc.add(
+          AllTaskLoadInitiated(
+            newFetch: true,
+            isTask: false,
+            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+            dateTo: dateTo == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateTo!,
+                  ),
+            dateFrom: dateFrom == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(
+                    dateFrom!,
+                  ),
+            serviceId: serviceId,
+            city: location,
+            dateSort: sortDate,
+            budgetSort: sortBudget,
+          ),
+        );
+      },
+      child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+          child: Row(
+            children: [
+              Icon(Icons.date_range),
+              addHorizontalSpace(4.0),
+              Text("${sortDate != null ? sortDate == '-created_at' ? 'Date Desc' : 'Date Asec' : 'Sort Date'}"),
+              addHorizontalSpace(8.0),
+              sortDate != null
+                  ? InkWell(
+                      onTap: () {
+                        setState(() {
+                          sortDate = null;
+                        });
+
+                        taskBloc.add(
+                          AllTaskLoadInitiated(
+                            newFetch: true,
+                            isTask: false,
+                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
+                            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                            serviceId: serviceId,
+                            city: location,
+                            dateSort: sortDate,
+                            budgetSort: sortBudget,
+                          ),
+                        );
+                      },
+                      child: Icon(Icons.clear))
+                  : SizedBox.shrink(),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -511,6 +830,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
           budgetTo.clear();
           category = null;
           location = null;
+          sortBudget = null;
+          sortDate = null;
         });
         taskBloc.add(
           AllTaskLoadInitiated(

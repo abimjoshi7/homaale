@@ -101,7 +101,11 @@ class CertificationView extends StatelessWidget {
                               ],
                             ),
                             Text(
-                              state.taskerCertificationRes[index].description ?? '',
+                              state.taskerCertificationRes[index].issuingOrganization ?? '',
+                              style: kText15,
+                            ),
+                            Text(
+                              state.taskerCertificationRes[index].credentialId ?? '',
                               style: kText15,
                             ),
                             if (state.taskerCertificationRes.isEmpty)

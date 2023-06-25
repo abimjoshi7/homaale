@@ -161,7 +161,7 @@ class _DetailsViewState extends State<DetailsView> {
   SliverToBoxAdapter _buildRequirements(BuildContext context) {
     return SliverToBoxAdapter(
       child: CustomFormField(
-        label: 'Requirements',
+        label: 'Highlights',
         child: Column(
           children: [
             Column(

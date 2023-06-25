@@ -90,7 +90,6 @@ class TaskCard extends StatelessWidget {
                               taskName ?? '',
                             ),
                             style: Theme.of(context).textTheme.titleMedium,
-                            maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                           Text(
@@ -183,7 +182,8 @@ class TaskCard extends StatelessWidget {
                       ),
                       IconText(
                         label: count ?? '0',
-                        iconData: Icons.visibility_outlined,
+                        iconData: Icons.people,
+                        color: kColorPrimary,
                       ),
                     ],
                   ),

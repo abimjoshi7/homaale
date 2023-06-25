@@ -5,7 +5,6 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/content_client/presentation/pages/pages.dart';
 import 'package:cipher/features/task_entity_service/data/models/req/task_entity_service_req.dart';
@@ -18,7 +17,11 @@ class EditTaskEntityServiceForm extends StatefulWidget {
   final String? id;
   final bool isRequested;
 
-  const EditTaskEntityServiceForm({Key? key, this.id, this.isRequested = false}) : super(key: key);
+  const EditTaskEntityServiceForm({
+    Key? key,
+    this.id,
+    this.isRequested = false,
+  }) : super(key: key);
 
   @override
   State<EditTaskEntityServiceForm> createState() => _EditTaskEntityServiceFormState();
@@ -26,6 +29,8 @@ class EditTaskEntityServiceForm extends StatefulWidget {
 
 class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> with TheModalBottomSheet {
   final _key = GlobalKey<FormState>();
+  final uploadBloc = locator<UploadBloc>();
+
   TextEditingController titleController = TextEditingController();
   TextEditingController requirementController = TextEditingController();
   TextEditingController descriptionController = TextEditingController();
@@ -34,38 +39,67 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
   TextEditingController startPriceController = TextEditingController();
   TextEditingController endPriceController = TextEditingController();
 
-  final List<String> requirementList = [];
+  List<String> requirementList = [];
 
   String? budgetType;
   String? serviceId;
   String? priceType;
   String? currencyCode;
   String? serviceType;
+  String? category;
+  String? subCategory;
 
   bool isTermsAccepted = false;
-  bool isDiscounted = false;
   bool isBudgetVariable = false;
   bool isAddressVisible = false;
+  bool informationLoaded = false;
+  bool isNegotiable = false;
 
   int? cityCode;
   int? budgetTo;
   int? budgetFrom;
 
-  final uploadBloc = locator<UploadBloc>();
-
   DateTime? startDate;
   DateTime? endDate;
-  DateTime? startTime;
-  DateTime? endTime;
+  String? startTime;
+  String? startTimeNew;
+  String? endTimeNew;
+  String? endTime;
 
   @override
   void initState() {
     super.initState();
-    context.read<TaskEntityServiceBloc>().add(
-          TaskEntityServiceSingleLoaded(
-            id: widget.id ?? "",
-          ),
-        );
+    context.read<TaskEntityServiceBloc>().add(TaskEntityServiceSingleLoaded(id: widget.id ?? "", isEdit: true));
+
+    Future.delayed(Duration(seconds: 2), () {
+      context.read<CategoriesBloc>().add(CategoriesChanged(
+          name: context.read<TaskEntityServiceBloc>().state.taskEntityService.service?.category?.name ?? ''));
+
+      titleController.text = context.read<TaskEntityServiceBloc>().state.taskEntityService.title ?? '';
+      requirementList = context.read<TaskEntityServiceBloc>().state.taskEntityService.highlights ?? [];
+      descriptionController.text = context.read<TaskEntityServiceBloc>().state.taskEntityService.description ?? '';
+      addressController.text = context.read<TaskEntityServiceBloc>().state.taskEntityService.location ?? '';
+      startPriceController.text = context.read<TaskEntityServiceBloc>().state.taskEntityService.budgetFrom ?? '';
+      endPriceController.text = context.read<TaskEntityServiceBloc>().state.taskEntityService.budgetTo ?? '';
+      cityCode = context.read<TaskEntityServiceBloc>().state.taskEntityService.city?.id?.toInt();
+      currencyCode = context.read<TaskEntityServiceBloc>().state.taskEntityService.currency?.code;
+      isBudgetVariable = context.read<TaskEntityServiceBloc>().state.taskEntityService.isRange ?? false;
+      priceType = context.read<TaskEntityServiceBloc>().state.taskEntityService.isRange ?? false ? 'Variable' : 'Fixed';
+      category = context.read<TaskEntityServiceBloc>().state.taskEntityService.service?.category?.name ?? '';
+      subCategory = context.read<TaskEntityServiceBloc>().state.taskEntityService.service?.title ?? '';
+      serviceId = context.read<TaskEntityServiceBloc>().state.taskEntityService.service?.id ?? '';
+      budgetType = context.read<TaskEntityServiceBloc>().state.taskEntityService.budgetType ?? '';
+      startDate = context.read<TaskEntityServiceBloc>().state.taskEntityService.startDate;
+      endDate = context.read<TaskEntityServiceBloc>().state.taskEntityService.endDate;
+      startTime = context.read<TaskEntityServiceBloc>().state.taskEntityService.startTime;
+      endTime = context.read<TaskEntityServiceBloc>().state.taskEntityService.endTime;
+      isNegotiable = context.read<TaskEntityServiceBloc>().state.taskEntityService.isNegotiable ?? false;
+      serviceType = 'Remote';
+
+      setState(() {
+        informationLoaded = true;
+      });
+    });
   }
 
   @override
@@ -78,51 +112,57 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
           case TheStates.loading:
             return CardLoading(height: 200);
           case TheStates.success:
-            return Form(
-              key: _key,
-              child: Column(
-                children: [
-                  _buildTitle(),
-                  _buildCategory(),
-                  _buildSubCategory(),
-                  _buildHighlights(),
-                  _buildServiceType(),
-                  _buildCity(),
-                  widget.isRequested ? _buildDate(context) : SizedBox(),
-                  _buildDescription(),
-                  _buildCurrency(),
-                  _buildDialog(),
-                  CustomMultimedia(
-                    bloc: uploadBloc,
-                  ),
-                  _buildTerms(context),
-                  _buildButton(),
-                ],
-              ),
-            );
+            return informationLoaded
+                ? Form(
+                    key: _key,
+                    child: Column(
+                      children: [
+                        _buildTitle(),
+                        _buildCategory(),
+                        _buildSubCategory(),
+                        _buildHighlights(),
+                        _buildServiceType(),
+                        _buildCity(),
+                        widget.isRequested ? _buildDate(context) : SizedBox(),
+                        _buildDescription(),
+                        _buildCurrency(),
+                        _buildDialog(),
+                        _buildIsNegotiable(),
+                        CustomMultimedia(
+                          bloc: uploadBloc,
+                        ),
+                        _buildTerms(context),
+                        _buildButton(),
+                      ],
+                    ),
+                  )
+                : CardLoading(height: 200);
           case TheStates.failure:
-            return Form(
-              key: _key,
-              child: Column(
-                children: [
-                  _buildTitle(),
-                  _buildCategory(),
-                  _buildSubCategory(),
-                  _buildHighlights(),
-                  _buildServiceType(),
-                  _buildCity(),
-                  widget.isRequested ? _buildDate(context) : SizedBox(),
-                  _buildDescription(),
-                  _buildCurrency(),
-                  _buildDialog(),
-                  CustomMultimedia(
-                    bloc: uploadBloc,
-                  ),
-                  _buildTerms(context),
-                  _buildButton(),
-                ],
-              ),
-            );
+            return informationLoaded
+                ? Form(
+                    key: _key,
+                    child: Column(
+                      children: [
+                        _buildTitle(),
+                        _buildCategory(),
+                        _buildSubCategory(),
+                        _buildHighlights(),
+                        _buildServiceType(),
+                        _buildCity(),
+                        widget.isRequested ? _buildDate(context) : SizedBox(),
+                        _buildDescription(),
+                        _buildCurrency(),
+                        _buildDialog(),
+                        _buildIsNegotiable(),
+                        CustomMultimedia(
+                          bloc: uploadBloc,
+                        ),
+                        _buildTerms(context),
+                        _buildButton(),
+                      ],
+                    ),
+                  )
+                : CardLoading(height: 200);
         }
       },
     );
@@ -139,11 +179,8 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
               content: 'Information updated successfully!',
               onTap: () {
                 context.read<TaskEntityServiceBloc>().add(ResetTESEditStatus());
-                Navigator.pushNamedAndRemoveUntil(
-                  context,
-                  Root.routeName,
-                  (route) => false,
-                );
+                Navigator.pop(context);
+                Navigator.pop(context);
               },
               isSuccess: true,
             ),
@@ -169,18 +206,6 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
           callback: () async {
             if (isTermsAccepted) {
               if (_key.currentState!.validate() && endPriceController.text.isNotEmpty) {
-                // if (cityCode == null &&
-                //     currencyCode == null) {
-                //   showDialog(
-                //     context: context,
-                //     builder: (context) => CustomToast(
-                //       heading: 'Error',
-                //       content: 'Select city or currency',
-                //       onTap: () {},
-                //       isSuccess: false,
-                //     ),
-                //   );
-                // }
                 await uploadBloc
                   ..add(
                     ImageToFilestoreUploaded(
@@ -198,20 +223,23 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
                     description: descriptionController.text,
                     highlights: requirementList,
                     budgetType: budgetType,
-                    budgetFrom: double.parse(
-                      startPriceController.text.isEmpty ? '0' : startPriceController.text,
-                    ),
-                    budgetTo: double.parse(
-                      endPriceController.text,
-                    ),
+                    budgetFrom: priceType == 'Variable' ? double.parse(startPriceController.text) : null,
+                    budgetTo: double.parse(endPriceController.text),
                     startDate: DateFormat("yyyy-MM-dd").format(startDate ?? DateTime.now()),
                     endDate: DateFormat("yyyy-MM-dd").format(endDate ?? DateTime.now()),
-                    startTime: startTime != null ? DateFormat.jms().format(startTime!) : null,
-                    endTime: endTime != null ? DateFormat.jms().format(endTime!) : null,
+                    startTime: startTimeNew != null
+                        ? DateFormat.jm().format(DateTime.parse(startTimeNew!))
+                        : startTime != null
+                            ? startTime
+                            : null,
+                    endTime: endTimeNew != null
+                        ? DateFormat.jm().format(DateTime.parse(endTimeNew!))
+                        : endTime != null
+                            ? endTime
+                            : null,
                     shareLocation: true,
-                    isNegotiable: isDiscounted,
-                    location:
-                        addressController.text.isEmpty ? state.taskEntityService?.location : addressController.text,
+                    isNegotiable: isNegotiable,
+                    location: addressController.text,
                     revisions: 0,
                     avatar: 2,
                     isProfessional: true,
@@ -224,7 +252,7 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
                     needsApproval: true,
                     isEndorsed: true,
                     service: context.read<CategoriesBloc>().state.serviceId?.isEmpty ?? true
-                        ? state.taskEntityService?.service?.id
+                        ? serviceId
                         : context.read<CategoriesBloc>().state.serviceId,
                     event: "",
                     city: cityCode ?? int.parse(kCityCode),
@@ -235,7 +263,7 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
 
                   context.read<TaskEntityServiceBloc>().add(
                         TaskEntityServiceEdited(
-                          id: state.taskEntityService?.id,
+                          id: widget.id,
                           taskEntityServiceReq: req,
                         ),
                       );
@@ -308,6 +336,31 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
           ),
         ),
       ],
+    );
+  }
+
+  Padding _buildIsNegotiable() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10.0),
+      child: Row(
+        children: <Widget>[
+          CustomCheckBox(
+            isChecked: isNegotiable,
+            onTap: () async {
+              setState(
+                () {
+                  isNegotiable = !isNegotiable;
+                },
+              );
+            },
+          ),
+          addHorizontalSpace(10),
+          Text(
+            "Do you want to negotiate the price?",
+            style: TextStyle(fontSize: 12.0),
+          )
+        ],
+      ),
     );
   }
 
@@ -435,6 +488,7 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
                   horizontal: 10,
                 ),
                 child: CustomDropDownField(
+                  initialValue: budgetType,
                   list: const [
                     'Project',
                     'Hourly',
@@ -454,70 +508,6 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
             ),
           ],
         ),
-        //* Paused as discussed
-        // addVerticalSpace(10),
-        // Row(
-        //   children: [
-        //     CustomCheckBox(
-        //       isChecked: isDiscounted,
-        //       onTap: () => setState(
-        //         () {
-        //           isDiscounted = !isDiscounted;
-        //         },
-        //       ),
-        //     ),
-        //     addHorizontalSpace(10),
-        //     const Text('Add Discount'),
-        //   ],
-        // ),
-        Visibility(
-          visible: isDiscounted,
-          child: Column(
-            children: [
-              addVerticalSpace(8),
-              Row(
-                children: [
-                  Flexible(
-                    child: NumberIncDecField(
-                      controller: discountController,
-                    ),
-                  ),
-                  addHorizontalSpace(10),
-                  Flexible(
-                    child: CustomDropDownField(
-                      list: const [
-                        'Project',
-                        'Hourly',
-                        'Daily',
-                        'Monthly',
-                      ],
-                      hintText: 'Specify',
-                      onChanged: (value) {},
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        //* Paused as discussed
-        // Row(
-        //   children: [
-        //     const Icon(
-        //       Icons.info_outline_rounded,
-        //       color: kColorSecondary,
-        //     ),
-        //     addHorizontalSpace(10),
-        //     const Flexible(
-        //       child: Text(
-        //         'After 20% discount on the budget i.e. Rs 240, new budget will be Rs 960',
-        //         style: TextStyle(
-        //           fontSize: 12,
-        //         ),
-        //       ),
-        //     ),
-        //   ],
-        // ),
       ],
     );
   }
@@ -612,8 +602,9 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
           addVerticalSpace(5),
           Visibility(
             visible: isAddressVisible,
-            child: const CustomTextFormField(
+            child: CustomTextFormField(
               hintText: 'Default Address',
+              controller: addressController,
             ),
           ),
         ],
@@ -703,12 +694,16 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
         builder: (context, state) {
           if (state.theStates == TheStates.success) {
             return CustomDropdownSearch(
+              selectedItem: category,
               list: List.generate(
                 state.categoryList?.length ?? 0,
                 (index) => state.categoryList?[index].name ?? "",
               ),
               onChanged: (value) {
                 context.read<CategoriesBloc>().add(CategoriesChanged(name: (value as String?) ?? ""));
+                setState(() {
+                  subCategory = null;
+                });
               },
             );
           }
@@ -723,23 +718,30 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
           if (state.serviceList?.isNotEmpty ?? false)
-            return CustomFormField(
-              label: 'Service',
-              isRequired: true,
-              child: CustomDropdownSearch(
-                list: List.generate(
-                  state.serviceList?.length ?? 0,
-                  (index) => state.serviceList?[index].title ?? "",
-                ),
-                onChanged: (value) {
-                  context.read<CategoriesBloc>().add(SubCategoriesChanged(name: (value as String?) ?? ""));
-                },
-                onRemovePressed: () {
-                  context.read<CategoriesBloc>().add(CategoriesLoadInitiated());
-                },
-                serviceId: context.read<CategoriesBloc>().state.serviceId,
+            context.read<CategoriesBloc>().add(SubCategoriesChanged(
+                name: context.read<TaskEntityServiceBloc>().state.taskEntityService.service?.title ?? ''));
+          return CustomFormField(
+            label: 'Service',
+            isRequired: true,
+            child: CustomDropdownSearch(
+              selectedItem: subCategory,
+              list: List.generate(
+                state.serviceList?.length ?? 0,
+                (index) => state.serviceList?[index].title ?? "",
               ),
-            );
+              onChanged: (value) {
+                context.read<CategoriesBloc>().add(SubCategoriesChanged(name: (value as String?) ?? ""));
+              },
+              onRemovePressed: () {
+                context.read<CategoriesBloc>().add(CategoriesLoadInitiated());
+                setState(() {
+                  category = null;
+                  subCategory = null;
+                });
+              },
+              serviceId: context.read<CategoriesBloc>().state.serviceId,
+            ),
+          );
         }
         return const SizedBox.shrink();
       },
@@ -911,27 +913,21 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
                           size: Size.fromHeight(250),
                           child: CupertinoDatePicker(
                             mode: CupertinoDatePickerMode.time,
-                            onDateTimeChanged: (value) => setState(
-                              () {
-                                startTime = value;
-                              },
-                            ),
+                            onDateTimeChanged: (value) {
+                              setState(() {
+                                startTimeNew = value.toString();
+                              });
+                            },
                           ),
                         ),
                       );
-                      // await showTimePicker(
-                      //   context: context,
-                      //   initialTime: TimeOfDay.now(),
-                      // ).then(
-                      //   (value) => setState(
-                      //     () {
-                      //       startTime = value;
-                      //     },
-                      //   ),
-                      // );
                     },
                     child: CustomFormContainer(
-                      hintText: startTime != null ? DateFormat.jm().format(startTime!) : 'hh:mm:ss',
+                      hintText: startTimeNew != null
+                          ? DateFormat.jm().format(DateTime.parse(startTimeNew!))
+                          : startTime != null
+                              ? DateFormat.jm().format(DateFormat('hh:mm:ss').parse(startTime!))
+                              : 'hh:mm:ss',
                     ),
                   ),
                 ),
@@ -945,28 +941,21 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
                           size: Size.fromHeight(250),
                           child: CupertinoDatePicker(
                             mode: CupertinoDatePickerMode.time,
-                            onDateTimeChanged: (value) => setState(
-                              () {
-                                endTime = value;
-                              },
-                            ),
+                            onDateTimeChanged: (value) {
+                              setState(() {
+                                endTimeNew = value.toString();
+                              });
+                            },
                           ),
                         ),
                       );
-
-                      // await showTimePicker(
-                      //   context: context,
-                      //   initialTime: TimeOfDay.now(),
-                      // ).then(
-                      //   (value) => setState(
-                      //     () {
-                      //       endTime = value;
-                      //     },
-                      //   ),
-                      // );
                     },
                     child: CustomFormContainer(
-                      hintText: endTime != null ? DateFormat.jm().format(endTime!) : 'hh:mm:ss',
+                      hintText: endTimeNew != null
+                          ? DateFormat.jm().format(DateTime.parse(endTimeNew!))
+                          : endTime != null
+                              ? DateFormat.jm().format(DateFormat('hh:mm:ss').parse(endTime!))
+                              : 'hh:mm:ss',
                     ),
                   ),
                 ),
@@ -974,6 +963,8 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
                   onPressed: () {
                     setState(() {
                       startTime = null;
+                      startTimeNew = null;
+                      endTimeNew = null;
                       endTime = null;
                     });
                   },
@@ -996,7 +987,7 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm> w
       isRequired: true,
       child: CustomTextFormField(
         controller: titleController,
-        hintText: context.read<TaskEntityServiceBloc>().state.taskEntityService?.title ?? 'Enter your service name',
+        hintText: 'Enter your service name',
         validator: validateNotEmpty,
       ),
     );

@@ -50,14 +50,14 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
   Widget build(BuildContext context) {
     return BlocConsumer<SignInBloc, SignInState>(
       listener: (context, state) async {
-        final error = await CacheHelper.getCachedString(kErrorLog);
-
         if (state.theStates == TheStates.success) {
           CacheHelper.hasProfile = state.userLoginRes?.hasProfile;
           CacheHelper.accessToken = state.userLoginRes?.access;
           CacheHelper.refreshToken = state.userLoginRes?.refresh;
 
           if (!mounted) return;
+
+          initialFetch(context);
 
           // fetch user details
           if (CacheHelper.hasProfile ?? false) {
@@ -83,24 +83,6 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               : context.read<SignInBloc>().add(
                     SignInWithEmailSelected(),
                   );
-          // if (!mounted) return;
-          // await showDialog(
-          //   context: context,
-          //   builder: (context) => CustomToast(
-          //     heading: 'Failure',
-          //     content: error ?? "Please try again.",
-          //     onTap: () {},
-          //     isSuccess: false,
-          //   ),
-          // ).then(
-          //   (value) => (state.isPhoneNumber)
-          //       ? context.read<SignInBloc>().add(
-          //             SignInWithPhoneSelected(),
-          //           )
-          //       : context.read<SignInBloc>().add(
-          //             SignInWithEmailSelected(),
-          //           ),
-          // );
         }
       },
       builder: (context, state) {
@@ -350,7 +332,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                       CacheHelper.clearCachedData(kRememberCreds);
                     }
 
-                    if (state.theStates == TheStates.initial) {
+                  if (state.theStates == TheStates.initial) {
                       if (state.isPhoneNumber) {
                         context.read<SignInBloc>().add(
                               SignInWithPhoneInitiated(

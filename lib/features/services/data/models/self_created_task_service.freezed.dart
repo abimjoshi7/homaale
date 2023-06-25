@@ -331,13 +331,13 @@ mixin _$Result {
   @JsonKey(name: 'payable_to')
   String? get payableTo => throw _privateConstructorUsedError;
   @JsonKey(name: 'start_date')
-  dynamic? get startDate => throw _privateConstructorUsedError;
+  DateTime? get startDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'end_date')
-  dynamic? get endDate => throw _privateConstructorUsedError;
+  DateTime? get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'start_time')
-  dynamic? get startTime => throw _privateConstructorUsedError;
+  String? get startTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'end_time')
-  dynamic? get endTime => throw _privateConstructorUsedError;
+  String? get endTime => throw _privateConstructorUsedError;
   @JsonKey(name: 'share_location')
   bool? get shareLocation => throw _privateConstructorUsedError;
   @JsonKey(name: 'is_negotiable')
@@ -399,10 +399,10 @@ abstract class $ResultCopyWith<$Res> {
       @JsonKey(name: 'budget_to') String? budgetTo,
       @JsonKey(name: 'payable_from') String? payableFrom,
       @JsonKey(name: 'payable_to') String? payableTo,
-      @JsonKey(name: 'start_date') dynamic? startDate,
-      @JsonKey(name: 'end_date') dynamic? endDate,
-      @JsonKey(name: 'start_time') dynamic? startTime,
-      @JsonKey(name: 'end_time') dynamic? endTime,
+      @JsonKey(name: 'start_date') DateTime? startDate,
+      @JsonKey(name: 'end_date') DateTime? endDate,
+      @JsonKey(name: 'start_time') String? startTime,
+      @JsonKey(name: 'end_time') String? endTime,
       @JsonKey(name: 'share_location') bool? shareLocation,
       @JsonKey(name: 'is_negotiable') bool? isNegotiable,
       int? revisions,
@@ -562,19 +562,19 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as DateTime?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as DateTime?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as String?,
       endTime: freezed == endTime
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as String?,
       shareLocation: freezed == shareLocation
           ? _value.shareLocation
           : shareLocation // ignore: cast_nullable_to_non_nullable
@@ -733,10 +733,10 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       @JsonKey(name: 'budget_to') String? budgetTo,
       @JsonKey(name: 'payable_from') String? payableFrom,
       @JsonKey(name: 'payable_to') String? payableTo,
-      @JsonKey(name: 'start_date') dynamic? startDate,
-      @JsonKey(name: 'end_date') dynamic? endDate,
-      @JsonKey(name: 'start_time') dynamic? startTime,
-      @JsonKey(name: 'end_time') dynamic? endTime,
+      @JsonKey(name: 'start_date') DateTime? startDate,
+      @JsonKey(name: 'end_date') DateTime? endDate,
+      @JsonKey(name: 'start_time') String? startTime,
+      @JsonKey(name: 'end_time') String? endTime,
       @JsonKey(name: 'share_location') bool? shareLocation,
       @JsonKey(name: 'is_negotiable') bool? isNegotiable,
       int? revisions,
@@ -898,19 +898,19 @@ class __$$_ResultCopyWithImpl<$Res>
       startDate: freezed == startDate
           ? _value.startDate
           : startDate // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as DateTime?,
       endDate: freezed == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as DateTime?,
       startTime: freezed == startTime
           ? _value.startTime
           : startTime // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as String?,
       endTime: freezed == endTime
           ? _value.endTime
           : endTime // ignore: cast_nullable_to_non_nullable
-              as dynamic?,
+              as String?,
       shareLocation: freezed == shareLocation
           ? _value.shareLocation
           : shareLocation // ignore: cast_nullable_to_non_nullable
@@ -1107,16 +1107,16 @@ class _$_Result implements _Result {
   final String? payableTo;
   @override
   @JsonKey(name: 'start_date')
-  final dynamic? startDate;
+  final DateTime? startDate;
   @override
   @JsonKey(name: 'end_date')
-  final dynamic? endDate;
+  final DateTime? endDate;
   @override
   @JsonKey(name: 'start_time')
-  final dynamic? startTime;
+  final String? startTime;
   @override
   @JsonKey(name: 'end_time')
-  final dynamic? endTime;
+  final String? endTime;
   @override
   @JsonKey(name: 'share_location')
   final bool? shareLocation;
@@ -1205,10 +1205,12 @@ class _$_Result implements _Result {
                 other.payableFrom == payableFrom) &&
             (identical(other.payableTo, payableTo) ||
                 other.payableTo == payableTo) &&
-            const DeepCollectionEquality().equals(other.startDate, startDate) &&
-            const DeepCollectionEquality().equals(other.endDate, endDate) &&
-            const DeepCollectionEquality().equals(other.startTime, startTime) &&
-            const DeepCollectionEquality().equals(other.endTime, endTime) &&
+            (identical(other.startDate, startDate) ||
+                other.startDate == startDate) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate) &&
+            (identical(other.startTime, startTime) ||
+                other.startTime == startTime) &&
+            (identical(other.endTime, endTime) || other.endTime == endTime) &&
             (identical(other.shareLocation, shareLocation) ||
                 other.shareLocation == shareLocation) &&
             (identical(other.isNegotiable, isNegotiable) ||
@@ -1265,10 +1267,10 @@ class _$_Result implements _Result {
         budgetTo,
         payableFrom,
         payableTo,
-        const DeepCollectionEquality().hash(startDate),
-        const DeepCollectionEquality().hash(endDate),
-        const DeepCollectionEquality().hash(startTime),
-        const DeepCollectionEquality().hash(endTime),
+        startDate,
+        endDate,
+        startTime,
+        endTime,
         shareLocation,
         isNegotiable,
         revisions,
@@ -1323,10 +1325,10 @@ abstract class _Result implements Result {
       @JsonKey(name: 'budget_to') final String? budgetTo,
       @JsonKey(name: 'payable_from') final String? payableFrom,
       @JsonKey(name: 'payable_to') final String? payableTo,
-      @JsonKey(name: 'start_date') final dynamic? startDate,
-      @JsonKey(name: 'end_date') final dynamic? endDate,
-      @JsonKey(name: 'start_time') final dynamic? startTime,
-      @JsonKey(name: 'end_time') final dynamic? endTime,
+      @JsonKey(name: 'start_date') final DateTime? startDate,
+      @JsonKey(name: 'end_date') final DateTime? endDate,
+      @JsonKey(name: 'start_time') final String? startTime,
+      @JsonKey(name: 'end_time') final String? endTime,
       @JsonKey(name: 'share_location') final bool? shareLocation,
       @JsonKey(name: 'is_negotiable') final bool? isNegotiable,
       final int? revisions,
@@ -1396,16 +1398,16 @@ abstract class _Result implements Result {
   String? get payableTo;
   @override
   @JsonKey(name: 'start_date')
-  dynamic? get startDate;
+  DateTime? get startDate;
   @override
   @JsonKey(name: 'end_date')
-  dynamic? get endDate;
+  DateTime? get endDate;
   @override
   @JsonKey(name: 'start_time')
-  dynamic? get startTime;
+  String? get startTime;
   @override
   @JsonKey(name: 'end_time')
-  dynamic? get endTime;
+  String? get endTime;
   @override
   @JsonKey(name: 'share_location')
   bool? get shareLocation;

@@ -852,7 +852,7 @@ class _PostServicePageState extends State<PostServicePage> {
 
   CustomFormField _buildHighlights() {
     return CustomFormField(
-      label: 'Requirements',
+      label: 'Highlights',
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

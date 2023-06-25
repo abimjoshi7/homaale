@@ -45,7 +45,12 @@ class TaskerCertificateSection extends StatelessWidget {
                         ),
                         kHeight8,
                         Text(
-                          certificate[index].description.toString(),
+                          certificate[index].issuingOrganization.toString(),
+                          style: kSubHeading,
+                        ),
+                        kHeight8,
+                        Text(
+                          certificate[index].credentialId.toString(),
                           style: kSubHeading,
                         ),
                         kHeight8,
