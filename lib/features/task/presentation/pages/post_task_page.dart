@@ -1,4 +1,5 @@
 import 'package:cipher/core/helpers/upload_helper.dart';
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/locator.dart';
@@ -155,6 +156,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           // ),
                           CustomMultimedia(
                             bloc: uploadBloc,
+                            imagePage: ImagePage.Form,
                           ),
                           addVerticalSpace(10.0),
                           _buildTermsConditions(context),

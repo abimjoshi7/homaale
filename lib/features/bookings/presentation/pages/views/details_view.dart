@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -390,6 +391,7 @@ class _DetailsViewState extends State<DetailsView> {
         padding: const EdgeInsets.only(bottom: 8.0),
         child: CustomMultimedia(
           bloc: widget.uploadBloc,
+          imagePage: ImagePage.Form,
         ),
       ),
     );

@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
@@ -160,6 +161,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                                   context: context,
                                   builder: (context) => ImagePickerDialog(
                                     bloc: uploadBloc,
+                                    imagePage: ImagePage.Profile,
                                   ),
                                 );
                               },

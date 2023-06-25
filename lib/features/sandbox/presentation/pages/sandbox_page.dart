@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/compress_helper.dart';
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
@@ -85,7 +86,10 @@ class _SandboxPageState extends State<SandboxPage> {
               ),
             ),
             kHeight20,
-            CustomMultimedia(bloc: bloc),
+            CustomMultimedia(
+              bloc: bloc,
+              imagePage: ImagePage.Form,
+            ),
             Center(
               child: CustomElevatedButton(
                 callback: () async {

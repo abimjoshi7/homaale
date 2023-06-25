@@ -7,28 +7,9 @@ import 'package:dependencies/dependencies.dart';
 class CompressHelper {
   final _config = Configuration(
     pngCompression: PngCompression.bestCompression,
-    jpgQuality: 30,
+    jpgQuality: 15,
     outputType: OutputType.jpg,
   );
-
-  // compress file synchronously
-  void compressFileSync(String path) {
-    final file = File(path);
-
-    final input = ImageFile(
-      rawBytes: file.readAsBytesSync(),
-      filePath: file.path,
-    );
-    final output = compress(
-      ImageFileConfiguration(
-        input: input,
-        config: _config,
-      ),
-    );
-
-    log('Input size = ${file.lengthSync()}');
-    log('Output size = ${output.sizeInBytes}');
-  }
 
   // compress file asynchronously
   Future<File> compressFileAsync(String path) async {

@@ -21,8 +21,10 @@ class ImageUploaded extends UploadEvent {
 
 class MultipleImageUploaded extends UploadEvent {
   final BuildContext context;
+  final ImagePage imagePage;
   MultipleImageUploaded({
     required this.context,
+    required this.imagePage,
   });
   @override
   List<Object?> get props => [
