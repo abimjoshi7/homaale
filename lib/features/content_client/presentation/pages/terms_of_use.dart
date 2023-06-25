@@ -24,7 +24,7 @@ class _TermsOfUsePageState extends State<TermsOfUsePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'Terms Of Use',trailingWidget: SizedBox()),
+      appBar: CustomAppBar(appBarTitle: 'Terms Of Use', trailingWidget: SizedBox()),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -35,55 +35,44 @@ class _TermsOfUsePageState extends State<TermsOfUsePage> {
             ),
             addVerticalSpace(16),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24.0),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.88,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      BlocConsumer<TermsOfUseCubit, TermsOfUseState>(
-                        listener: (_, state) async {
-                          if (state.theStates == TheStates.failure) {
-                            showDialog(
-                              context: context,
-                              builder: (_) => CustomToast(
-                                heading: 'Failure',
-                                content: 'Failed to load updated terms.',
-                                onTap: () => {},
-                                isSuccess: false,
-                              ),
-                            );
-                          }
-                        },
-                        builder: (_, state) {
-                          if (state.theStates == TheStates.success) {
-                            return ContentClientWidget(
-                                state: state,
-                                date: DateFormat.yMMMEd()
-                                    .format(state.contentClient!.createdAt!),
-                                contentClientTitle: _contentClientTitle);
-                          }
-                          if (state.theStates == TheStates.failure) {
-                            return ContentClientWidget(
-                                state: state,
-                                date: DateFormat.yMMMEd()
-                                    .format(state.contentClient!.createdAt!),
-                                contentClientTitle: _contentClientTitle);
-                          }
-
-                          if (state.theStates == TheStates.initial) {
-                            return const Center(
-                              child: CardLoading(
-                                height: 200,
-                              ),
-                            );
-                          }
-                          return const SizedBox();
-                        },
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: BlocConsumer<TermsOfUseCubit, TermsOfUseState>(
+                listener: (_, state) async {
+                  if (state.theStates == TheStates.failure) {
+                    showDialog(
+                      context: context,
+                      builder: (_) => CustomToast(
+                        heading: 'Failure',
+                        content: 'Failed to load updated terms.',
+                        onTap: () => {},
+                        isSuccess: false,
                       ),
-                    ],
-                  ),
-                ),
+                    );
+                  }
+                },
+                builder: (_, state) {
+                  if (state.theStates == TheStates.success) {
+                    return ContentClientWidget(
+                        state: state,
+                        date: DateFormat.yMMMEd().format(state.contentClient!.createdAt!),
+                        contentClientTitle: _contentClientTitle);
+                  }
+                  if (state.theStates == TheStates.failure) {
+                    return ContentClientWidget(
+                        state: state,
+                        date: DateFormat.yMMMEd().format(state.contentClient!.createdAt!),
+                        contentClientTitle: _contentClientTitle);
+                  }
+
+                  if (state.theStates == TheStates.initial) {
+                    return const Center(
+                      child: CardLoading(
+                        height: 200,
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                },
               ),
             )
           ],
