@@ -140,7 +140,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                           imagePath: state.taskEntityServices?[index].images?.length == 0
                               ? kHomaaleImg
                               : state.taskEntityServices?[index].images?.first.media,
-                          rating: state.taskEntityServiceModel.result?[index].rating?.toString() ?? '0.0',
+                          rating: state.taskEntityServices?[index].rating?.toString() ?? '0.0',
                           createdBy:
                               "${state.taskEntityServices?[index].createdBy?.firstName} ${state.taskEntityServices?[index].createdBy?.lastName}",
                           description: state.taskEntityServices?[index].description,
@@ -310,7 +310,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
               key: _categoryKey,
               selectedItem: category,
               hintText: "Category",
-              serviceId: '',
+              serviceId: serviceId,
               list: List.generate(
                 state.serviceList!.length,
                 (index) => state.serviceList?[index].title ?? "",

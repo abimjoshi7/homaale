@@ -269,7 +269,9 @@ class _AllTaskPageState extends State<AllTaskPage> {
           if (state is CityLoadSuccess)
             return CustomDropdownSearch(
               key: _locationKey,
-              hintText: location ?? "Location",
+              selectedItem: location,
+              serviceId: location,
+              hintText: "Location",
               list: List.generate(
                 state.list.length,
                 (index) => state.list[index].name,
@@ -289,6 +291,22 @@ class _AllTaskPageState extends State<AllTaskPage> {
                   category: category,
                 ));
               },
+              onRemovePressed: () {
+                setState(() {
+                  location = null;
+                });
+                taskBloc.add(AllTaskLoadInitiated(
+                  newFetch: true,
+                  budgetFrom: budgetFrom.text.isEmpty ? null : budgetFrom.text,
+                  budgetTo: budgetTo.text.isEmpty ? null : budgetTo.text,
+                  dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                  dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                  city: location,
+                  serviceId: serviceId,
+                  dateSort: sortDate,
+                  budgetSort: sortBudget,
+                ));
+              },
             );
           return SizedBox.shrink();
         },
@@ -305,7 +323,9 @@ class _AllTaskPageState extends State<AllTaskPage> {
           if (state.theStates == TheStates.success)
             return CustomDropdownSearch(
               key: _categoryKey,
-              hintText: category ?? "Category",
+              selectedItem: category,
+              hintText: "Category",
+              serviceId: serviceId,
               list: List.generate(
                 state.serviceList!.length,
                 (index) => state.serviceList?[index].title ?? "",
@@ -332,6 +352,23 @@ class _AllTaskPageState extends State<AllTaskPage> {
                     budgetSort: sortBudget,
                   ),
                 );
+              },
+              onRemovePressed: () {
+                setState(() {
+                  category = null;
+                  serviceId = null;
+                });
+                taskBloc.add(AllTaskLoadInitiated(
+                  newFetch: true,
+                  budgetFrom: budgetFrom.text.isEmpty ? null : budgetFrom.text,
+                  budgetTo: budgetTo.text.isEmpty ? null : budgetTo.text,
+                  dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                  dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                  city: location,
+                  serviceId: serviceId,
+                  dateSort: sortDate,
+                  budgetSort: sortBudget,
+                ));
               },
             );
           return SizedBox.shrink();
