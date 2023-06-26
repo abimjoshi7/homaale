@@ -1,5 +1,5 @@
-import 'package:cipher/core/carousel_slider/carousel_slider_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/marketing/presentation/marketing_ads.dart';
 import 'package:flutter/material.dart';
 
 class HeaderOfferSection extends StatelessWidget {
@@ -7,10 +7,8 @@ class HeaderOfferSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CarouselSliderHelper(
-      list: offerBanner,
-      aspectRatio: 5,
-      viewport: 1,
+    return MarketingAds(
+      defaultList: offerBanner,
     );
   }
 }

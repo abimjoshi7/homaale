@@ -218,11 +218,7 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
       ),
       (event, emit) async {
         try {
-          emit(
-            state.copyWith(
-              theStates: TheStates.loading,
-            ),
-          );
+          emit(state.copyWith(theStates: TheStates.loading));
           await repo
               .postTaskEntityService(event.req)
               .then(
