@@ -436,7 +436,9 @@ _$_Event _$$_EventFromJson(Map<String, dynamic> json) => _$_Event(
       duration: json['duration'] as String?,
       isFlexible: json['is_flexible'] as bool?,
       isActive: json['is_active'] as bool?,
-      activeDates: json['active_dates'] as String?,
+      activeDates: (json['active_dates'] as List<dynamic>?)
+          ?.map((e) => e as String)
+          .toList(),
       guestLimit: (json['guest_limit'] as num?)?.toDouble(),
     );
 

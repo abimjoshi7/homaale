@@ -2,6 +2,8 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/scroll_helper.dart';
+import 'package:cipher/features/marketing/data/models/marketing_ads_dto.dart';
+import 'package:cipher/features/marketing/presentation/bloc/marketing_ads_bloc.dart';
 import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
@@ -174,7 +176,23 @@ class _AllTaskPageState extends State<AllTaskPage> {
                       padding: EdgeInsets.symmetric(horizontal: 8),
                       itemCount:
                           state.isLastPage ? state.taskEntityServices!.length : state.taskEntityServices!.length + 1,
-                      separatorBuilder: (context, index) => addVerticalSpace(8),
+                      separatorBuilder: (context, index) {
+                        if (index % 5 == 0) {
+                          List<Ads>? ads = [...?context.read<MarketingAdsBloc>().state.marketingAdsDto.result];
+                          if (ads.isNotEmpty) {
+                            ads.shuffle();
+                            return CachedNetworkImage(
+                              imageUrl: ads.first.image!,
+                              height: 100,
+                              fit: BoxFit.fitWidth,
+                            );
+                          } else {
+                            return addVerticalSpace(8);
+                          }
+                        } else {
+                          return addVerticalSpace(8);
+                        }
+                      },
                       itemBuilder: (BuildContext context, int index) {
                         if (index >= state.taskEntityServices!.length) {
                           return Center(child: const BottomLoader());

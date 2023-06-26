@@ -4850,7 +4850,7 @@ mixin _$Event {
   @JsonKey(name: 'is_active')
   bool? get isActive => throw _privateConstructorUsedError;
   @JsonKey(name: 'active_dates')
-  String? get activeDates => throw _privateConstructorUsedError;
+  List<String>? get activeDates => throw _privateConstructorUsedError;
   @JsonKey(name: 'guest_limit')
   double? get guestLimit => throw _privateConstructorUsedError;
 
@@ -4872,7 +4872,7 @@ abstract class $EventCopyWith<$Res> {
       String? duration,
       @JsonKey(name: 'is_flexible') bool? isFlexible,
       @JsonKey(name: 'is_active') bool? isActive,
-      @JsonKey(name: 'active_dates') String? activeDates,
+      @JsonKey(name: 'active_dates') List<String>? activeDates,
       @JsonKey(name: 'guest_limit') double? guestLimit});
 }
 
@@ -4931,7 +4931,7 @@ class _$EventCopyWithImpl<$Res, $Val extends Event>
       activeDates: freezed == activeDates
           ? _value.activeDates
           : activeDates // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<String>?,
       guestLimit: freezed == guestLimit
           ? _value.guestLimit
           : guestLimit // ignore: cast_nullable_to_non_nullable
@@ -4954,7 +4954,7 @@ abstract class _$$_EventCopyWith<$Res> implements $EventCopyWith<$Res> {
       String? duration,
       @JsonKey(name: 'is_flexible') bool? isFlexible,
       @JsonKey(name: 'is_active') bool? isActive,
-      @JsonKey(name: 'active_dates') String? activeDates,
+      @JsonKey(name: 'active_dates') List<String>? activeDates,
       @JsonKey(name: 'guest_limit') double? guestLimit});
 }
 
@@ -5007,9 +5007,9 @@ class __$$_EventCopyWithImpl<$Res> extends _$EventCopyWithImpl<$Res, _$_Event>
           : isActive // ignore: cast_nullable_to_non_nullable
               as bool?,
       activeDates: freezed == activeDates
-          ? _value.activeDates
+          ? _value._activeDates
           : activeDates // ignore: cast_nullable_to_non_nullable
-              as String?,
+              as List<String>?,
       guestLimit: freezed == guestLimit
           ? _value.guestLimit
           : guestLimit // ignore: cast_nullable_to_non_nullable
@@ -5029,8 +5029,9 @@ class _$_Event implements _Event {
       this.duration,
       @JsonKey(name: 'is_flexible') this.isFlexible,
       @JsonKey(name: 'is_active') this.isActive,
-      @JsonKey(name: 'active_dates') this.activeDates,
-      @JsonKey(name: 'guest_limit') this.guestLimit});
+      @JsonKey(name: 'active_dates') final List<String>? activeDates,
+      @JsonKey(name: 'guest_limit') this.guestLimit})
+      : _activeDates = activeDates;
 
   factory _$_Event.fromJson(Map<String, dynamic> json) =>
       _$$_EventFromJson(json);
@@ -5051,9 +5052,17 @@ class _$_Event implements _Event {
   @override
   @JsonKey(name: 'is_active')
   final bool? isActive;
+  final List<String>? _activeDates;
   @override
   @JsonKey(name: 'active_dates')
-  final String? activeDates;
+  List<String>? get activeDates {
+    final value = _activeDates;
+    if (value == null) return null;
+    if (_activeDates is EqualUnmodifiableListView) return _activeDates;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(value);
+  }
+
   @override
   @JsonKey(name: 'guest_limit')
   final double? guestLimit;
@@ -5078,16 +5087,25 @@ class _$_Event implements _Event {
                 other.isFlexible == isFlexible) &&
             (identical(other.isActive, isActive) ||
                 other.isActive == isActive) &&
-            (identical(other.activeDates, activeDates) ||
-                other.activeDates == activeDates) &&
+            const DeepCollectionEquality()
+                .equals(other._activeDates, _activeDates) &&
             (identical(other.guestLimit, guestLimit) ||
                 other.guestLimit == guestLimit));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(runtimeType, id, title, start, end, duration,
-      isFlexible, isActive, activeDates, guestLimit);
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      title,
+      start,
+      end,
+      duration,
+      isFlexible,
+      isActive,
+      const DeepCollectionEquality().hash(_activeDates),
+      guestLimit);
 
   @JsonKey(ignore: true)
   @override
@@ -5112,7 +5130,7 @@ abstract class _Event implements Event {
       final String? duration,
       @JsonKey(name: 'is_flexible') final bool? isFlexible,
       @JsonKey(name: 'is_active') final bool? isActive,
-      @JsonKey(name: 'active_dates') final String? activeDates,
+      @JsonKey(name: 'active_dates') final List<String>? activeDates,
       @JsonKey(name: 'guest_limit') final double? guestLimit}) = _$_Event;
 
   factory _Event.fromJson(Map<String, dynamic> json) = _$_Event.fromJson;
@@ -5135,7 +5153,7 @@ abstract class _Event implements Event {
   bool? get isActive;
   @override
   @JsonKey(name: 'active_dates')
-  String? get activeDates;
+  List<String>? get activeDates;
   @override
   @JsonKey(name: 'guest_limit')
   double? get guestLimit;
