@@ -1,5 +1,8 @@
 import 'package:cipher/core/carousel_slider/carousel_slider_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/marketing/presentation/bloc/marketing_ads_bloc.dart';
+import 'package:cipher/features/marketing/presentation/marketing_ads.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 class NotableBannerSection extends StatelessWidget {
@@ -19,8 +22,8 @@ class NotableBannerSection extends StatelessWidget {
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
-        CarouselSliderHelper(
-          list: kNotableBannerList,
+        MarketingAds(
+          defaultList: kNotableBannerList,
         ),
       ],
     );

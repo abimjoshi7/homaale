@@ -54,3 +54,4 @@ export 'package:open_filex/open_filex.dart';
 export 'package:device_info_plus/device_info_plus.dart';
 export 'package:flutter_image_compress/flutter_image_compress.dart';
 // export 'package:video_compress/video_compress.dart';
+export 'package:cached_network_image/cached_network_image.dart';

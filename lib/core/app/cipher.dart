@@ -24,6 +24,7 @@ import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/event/presentation/bloc/schedule/schedule_bloc.dart';
 import 'package:cipher/features/google_maps/presentation/bloc/nearby_task_entity_service_bloc/nearby_task_entity_service_bloc.dart';
 import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
+import 'package:cipher/features/marketing/presentation/bloc/marketing_ads_bloc.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_verify_bloc.dart';
@@ -92,9 +93,7 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => FeedbackPostBloc()),
           BlocProvider(create: (context) => UserSuspendBloc()),
           BlocProvider(create: (context) => BookingCancelBloc()),
-          BlocProvider(
-              create: (context) =>
-                  ResendVerificationBloc(SignUpRepositories())),
+          BlocProvider(create: (context) => ResendVerificationBloc(SignUpRepositories())),
           BlocProvider(create: (context) => NearbyTaskEntityServiceBloc()),
           BlocProvider(create: (context) => locator<UserBloc>()),
           BlocProvider(create: (context) => UserLocationCubit()),
@@ -107,15 +106,10 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => locator<KycBloc>()),
           BlocProvider(create: (context) => locator<ImageUploadCubit>()),
           BlocProvider(create: (context) => locator<UploadBloc>()),
-          BlocProvider(
-              create: (context) => SupportHelpBloc(SupportHelpRepositories())),
-          BlocProvider(
-              create: (context) =>
-                  PasswordSecurityBloc(PasswordSecurityRepositories())),
-          BlocProvider(
-              create: (context) => ForgotPasswordBloc(SignInRepository())),
-          BlocProvider(
-              create: (context) => OtpResetVerifyBloc(SignUpRepositories())),
+          BlocProvider(create: (context) => SupportHelpBloc(SupportHelpRepositories())),
+          BlocProvider(create: (context) => PasswordSecurityBloc(PasswordSecurityRepositories())),
+          BlocProvider(create: (context) => ForgotPasswordBloc(SignInRepository())),
+          BlocProvider(create: (context) => OtpResetVerifyBloc(SignUpRepositories())),
           BlocProvider(create: (context) => UserDeactiveBloc()),
           BlocProvider(create: (context) => InterestsBloc()),
           BlocProvider(create: (context) => CountryBloc()),
@@ -152,6 +146,7 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => locator<BookEventHandlerBloc>()),
           BlocProvider(create: (context) => WalletBloc()),
           BlocProvider(create: (context) => SecurityBloc()),
+          BlocProvider(create: (context) => locator<MarketingAdsBloc>()),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {
