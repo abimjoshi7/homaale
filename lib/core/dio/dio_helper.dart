@@ -60,7 +60,7 @@ class DioHelper {
               if (nonFieldErrors is List<dynamic> && nonFieldErrors.isNotEmpty) {
                 final errorMessage = nonFieldErrors.join('.');
                 Fluttertoast.showToast(
-                    msg: "Password Error: ${errorMessage}",
+                    msg: "Error: ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
                     gravity: ToastGravity.BOTTOM,
                     timeInSecForIosWeb: 1,
@@ -71,7 +71,7 @@ class DioHelper {
                 return handler.next(err);
               } else {
                 Fluttertoast.showToast(
-                    msg: "Password Error: ${nonFieldErrors}",
+                    msg: "Error: ${nonFieldErrors}",
                     toastLength: Toast.LENGTH_LONG,
                     gravity: ToastGravity.BOTTOM,
                     timeInSecForIosWeb: 1,

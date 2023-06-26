@@ -12,13 +12,16 @@ import 'package:flutter/material.dart';
 class RecommendedSimilarServices extends StatefulWidget {
   final List<Recommend>? recommend;
   final bool isRecommended;
-  const RecommendedSimilarServices({super.key, this.recommend, required this.isRecommended});
+  const RecommendedSimilarServices(
+      {super.key, this.recommend, required this.isRecommended});
 
   @override
-  State<RecommendedSimilarServices> createState() => _RecommendedSimilarServicesState();
+  State<RecommendedSimilarServices> createState() =>
+      _RecommendedSimilarServicesState();
 }
 
-class _RecommendedSimilarServicesState extends State<RecommendedSimilarServices> {
+class _RecommendedSimilarServicesState
+    extends State<RecommendedSimilarServices> {
   @override
   Widget build(BuildContext context) {
     return Visibility(
@@ -60,20 +63,32 @@ class _RecommendedSimilarServicesState extends State<RecommendedSimilarServices>
                 child: SizedBox(
                   width: MediaQuery.of(context).size.width * 0.48,
                   child: ServiceCard(
-                    location: widget.recommend?[index].location == "" ? "Remote" : widget.recommend?[index].location,
+                    createdByProfileImg:
+                        '${widget.recommend?[index].createdBy?.profileImage}',
+                    location: widget.recommend?[index].location == ""
+                        ? "Remote"
+                        : widget.recommend?[index].location,
                     createdBy:
                         "${widget.recommend?[index].createdBy?.firstName} ${widget.recommend?[index].createdBy?.lastName}",
                     title: widget.recommend?[index].title,
                     imagePath: widget.recommend?[index].images?.length == 0
                         ? kHomaaleImg
                         : widget.recommend?[index].images?.first.media,
-                    rating: widget.recommend?[index].rating.toString(),
+                    rating: widget.recommend?[index].rating.toString() == 'null'
+                        ? '0'
+                        : widget.recommend?[index].rating.toString() ?? "0",
                     isRange: widget.recommend?[index].isRange,
-                    rateTo: double.parse(widget.recommend?[index].payableTo ?? "").toInt().toString(),
-                    rateFrom: double.parse(widget.recommend?[index].payableFrom ?? "").toInt().toString(),
+                    rateTo:
+                        double.parse(widget.recommend?[index].payableTo ?? "")
+                            .toInt()
+                            .toString(),
+                    rateFrom:
+                        double.parse(widget.recommend?[index].payableFrom ?? "")
+                            .toInt()
+                            .toString(),
                     isBookmarked: widget.recommend?[index].isBookmarked,
-                    isOwner:
-                        widget.recommend?[index].owner?.id == context.read<UserBloc>().state.taskerProfile?.user?.id,
+                    isOwner: widget.recommend?[index].owner?.id ==
+                        context.read<UserBloc>().state.taskerProfile?.user?.id,
                     id: widget.recommend?[index].id,
                     editCallback: () {
                       showModalBottomSheet(
@@ -82,7 +97,10 @@ class _RecommendedSimilarServicesState extends State<RecommendedSimilarServices>
                         builder: (context) => Container(
                           height: MediaQuery.of(context).size.height * 0.75,
                           padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom, left: 8, right: 8, top: 8),
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                              left: 8,
+                              right: 8,
+                              top: 8),
                           child: SingleChildScrollView(
                             child: Column(
                               mainAxisSize: MainAxisSize.min,

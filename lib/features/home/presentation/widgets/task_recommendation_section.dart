@@ -114,6 +114,8 @@ class _TasksRecommendationSectionState
                         child: SizedBox(
                           width: MediaQuery.of(context).size.width * 0.7,
                           child: TaskCard(
+                            shareLinked:
+                                '$kShareLinks/tasks/${state.taskEntityServiceModel.result?[index].id}',
                             isRange: state.taskEntityServiceModel.result?[index]
                                     .isRange ??
                                 false,
@@ -244,10 +246,8 @@ class _TasksRecommendationSectionState
                   child: Text('Please try again'),
                 );
               } else {
-                return const Center(
-                  child: CardLoading(
-                    height: 200,
-                  ),
+                return CardLoading(
+                  height: 200,
                 );
               }
             },

@@ -59,11 +59,8 @@ class TaskerProfile with _$TaskerProfile {
 class Badge with _$Badge {
   const factory Badge({
     int? id,
-    dynamic next,
     String? image,
     String? title,
-    @JsonKey(name: "progress_level_start") int? progressLevelStart,
-    @JsonKey(name: "progress_level_end") int? progressLevelEnd,
   }) = _Badge;
 
   factory Badge.fromJson(Map<String, dynamic> json) => _$BadgeFromJson(json);

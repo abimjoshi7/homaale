@@ -73,6 +73,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           kHeight10,
           const ProfileHeaderSection(),
           kHeight10,
+          kHeight10,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: Row(

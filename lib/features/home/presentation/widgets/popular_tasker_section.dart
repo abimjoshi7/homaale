@@ -50,7 +50,9 @@ class PopularTaskerSection extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) => InkWell(
                       onTap: () {
-                        context.read<TaskerCubit>().loadSingleTasker(data?[index].user?.id ?? '');
+                        context
+                            .read<TaskerCubit>()
+                            .loadSingleTasker(data?[index].user?.id ?? '');
 
                         Navigator.pushNamed(
                           context,
@@ -58,14 +60,21 @@ class PopularTaskerSection extends StatelessWidget {
                         );
                       },
                       child: TaskerCard(
+                        badgeImage: data?[index].badge?.image,
+                        shareLinked: '$kShareLinks/tasker/${state.singleTasker.user?.id}',
+                        rewardPercentage: data?[index].stats?.successRate?.toInt().toString() ??'0',
                         id: data?[index].user?.id,
                         networkImageUrl: data?[index].profileImage,
-                        label: "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
+                        label:
+                            "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
                         designation: data?[index].designation,
-                        happyClients: data?[index].stats?.happyClients.toString(),
-                        ratings:
-                            "${data?[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'} (${data?[index].rating?.userRatingCount ?? '0'})",
-                        callbackLabel: data?[index].isFollowed ?? false ? 'Following' : 'Follow',
+                        happyClients:
+                            data?[index].stats?.happyClients.toString(),
+                        ratings:'${data?[index].rating?.userRatingCount?.toStringAsFixed(1) ?? '0'}',
+                            // ${data?[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'}
+                        callbackLabel: data?[index].isFollowed ?? false
+                            ? 'Following'
+                            : 'Follow',
                         isFollowed: data?[index].isFollowed ?? false,
                         buttonWidth: MediaQuery.of(context).size.width,
                         callback: () {
@@ -73,13 +82,13 @@ class PopularTaskerSection extends StatelessWidget {
                             notLoggedInPopUp(context);
                           } else {
                             if (data?[index].isFollowed ?? false) {
-                              context
-                                  .read<TaskerCubit>()
-                                  .handleFollowUnFollow(id: data?[index].user?.id ?? '', follow: false);
+                              context.read<TaskerCubit>().handleFollowUnFollow(
+                                  id: data?[index].user?.id ?? '',
+                                  follow: false);
                             } else {
-                              context
-                                  .read<TaskerCubit>()
-                                  .handleFollowUnFollow(id: data?[index].user?.id ?? '', follow: true);
+                              context.read<TaskerCubit>().handleFollowUnFollow(
+                                  id: data?[index].user?.id ?? '',
+                                  follow: true);
                             }
                           }
                         },

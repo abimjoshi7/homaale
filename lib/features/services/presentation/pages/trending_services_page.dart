@@ -113,6 +113,14 @@ class _TrendingServicesPageState extends State<TrendingServicesPage> with TheMod
                           return Center(child: const BottomLoader());
                         }
                         return ServiceCard(
+                          shareCallback: () {
+                            Share.share(
+                              "$kShareLinks/tasks/${state.taskEntityServices?[index].id}",
+                              subject: state.taskEntityServices?[index].title,
+                            );
+                          },
+                          createdByProfileImg:"${state.taskEntityServices?[index].createdBy?.profileImage}",
+
                           callback: () {
                             context.read<TaskEntityServiceBloc>().add(
                                   TaskEntityServiceSingleLoaded(
