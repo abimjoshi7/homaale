@@ -5,6 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 
+import '../../../../widgets/icon_text.dart';
+
 class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
   final String? serviceName;
   final String? providerName;
@@ -12,6 +14,10 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
   final Widget? secondWidget;
   final Widget? thirdWidget;
   final String? status;
+  final DateTime? createdAt;
+  final String? startTime;
+  final String? endTime;
+  final String? location;
   final Widget? bottomLeftWidget;
   final Widget? bottomRightWidget;
   final Widget? mainContentWidget;
@@ -46,8 +52,11 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
     this.hidePopupButton = false,
     this.isTask,
     this.hideImage,
+    this.location,
+    this.createdAt,
+    this.startTime,
+    this.endTime,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -94,35 +103,10 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                           hideImage != null
                               ? Column(
                                   children: [
-                                    isTask != null
-                                        ? Container(
-                                            padding: const EdgeInsets.all(6.0),
-                                            height: 25.0,
-                                            width: 65.0,
-                                            decoration: BoxDecoration(
-                                              color: Color(0xffEDF4FF),
-                                              borderRadius:
-                                                  BorderRadius.circular(4.0),
-                                            ),
-                                            child: Center(
-                                              child: Text(
-                                                isTask == true
-                                                    ? 'Task'
-                                                    : 'Service',
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .titleSmall
-                                                    ?.copyWith(
-                                                        fontSize: 10.0,
-                                                        color: kColorPrimary),
-                                              ),
-                                            ),
-                                          )
-                                        : SizedBox.shrink(),
-                                    addVerticalSpace(4.0),
+                                    // addVerticalSpace(4.0),
                                     Container(
-                                      height: 65,
-                                      width: 65,
+                                      height: 76,
+                                      width: 70,
                                       decoration: BoxDecoration(
                                         borderRadius:
                                             BorderRadius.circular(16.0),
@@ -135,24 +119,58 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                                   ],
                                 )
                               : const SizedBox.shrink(),
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              SizedBox(
-                                width: hideImage != null
-                                    ? MediaQuery.of(context).size.width * 0.55
-                                    : MediaQuery.of(context).size.width * 0.7,
-                                child: AutoSizeText(
-                                  serviceName ?? '',
-                                  style:
-                                      Theme.of(context).textTheme.headlineSmall,
+                          Padding(
+                            padding: const EdgeInsets.all(3.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  width: hideImage != null
+                                      ? MediaQuery.of(context).size.width * 0.55
+                                      : MediaQuery.of(context).size.width * 0.7,
+                                  child: AutoSizeText(
+                                    serviceName ?? '',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                  ),
                                 ),
-                              ),
-                              AutoSizeText(
-                                providerName ?? '',
-                                style: kLightBlueText14,
-                              ),
-                            ],
+                                // AutoSizeText(
+                                //   providerName ?? '',
+                                //   style: kLightBlueText14,
+                                // ),
+                                IconText(
+                                  iconData: Icons.location_on_outlined,
+                                  label: location ?? 'No address found',
+                                  color: Colors.red,
+                                ),
+                                Row(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.all(3),
+                                      child: IconText(
+                                        iconData: Icons.calendar_today_rounded,
+                                        label: DateFormat.yMMMEd().format(
+                                          createdAt ?? DateTime.now(),
+                                        ),
+                                        color: kColorBlue,
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(3),
+                                      child: IconText(
+                                        iconData: Icons.watch_later_outlined,
+                                        label: "${DateFormat.jm().format(
+                                          DateFormat('hh:mm:ss')
+                                              .parse(endTime ?? '00:00:00'),
+                                        )}",
+                                        color: kColorGreen,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ],
+                            ),
                           ),
                           hidePopupButton ?? false
                               ? SizedBox()
@@ -227,10 +245,32 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        mainContentWidget ?? const SizedBox.shrink(),
+                        // mainContentWidget ?? const SizedBox.shrink(),
+                        isTask != null
+                            ? Container(
+                                padding: const EdgeInsets.all(6.0),
+                                height: 25.0,
+                                width: 65.0,
+                                decoration: BoxDecoration(
+                                  color: Color(0xffEDF4FF),
+                                  borderRadius: BorderRadius.circular(4.0),
+                                ),
+                                child: Center(
+                                  child: Text(
+                                    isTask == true ? 'Task' : 'Service',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleSmall
+                                        ?.copyWith(
+                                            fontSize: 10.0,
+                                            color: kColorPrimary),
+                                  ),
+                                ),
+                              )
+                            : SizedBox.shrink(),
+                        thirdWidget ?? const SizedBox.shrink(),
                       ],
                     ),
-                    thirdWidget ?? const SizedBox.shrink(),
                     const Divider(
                       thickness: 1.5,
                     ),

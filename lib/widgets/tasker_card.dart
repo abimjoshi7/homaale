@@ -21,7 +21,9 @@ class TaskerCard extends StatelessWidget {
     this.buttonWidth,
     required this.onFavouriteTapped,
     this.id,
-    this.isFollowed, this.shareLinked,
+    this.isFollowed,
+    this.shareLinked,
+    this.badgeImage,
   });
 
   final String? label;
@@ -35,6 +37,7 @@ class TaskerCard extends StatelessWidget {
   final String? shareLinked;
   final String? callbackLabel;
   final String? networkImageUrl;
+  final String? badgeImage;
   final double? buttonWidth;
   final VoidCallback callback;
   final VoidCallback onFavouriteTapped;
@@ -55,19 +58,35 @@ class TaskerCard extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.07,
-                  width: MediaQuery.of(context).size.width * 0.3,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    image: DecorationImage(
-                      fit: BoxFit.cover,
-                      image: NetworkImage(
-                        networkImageUrl ?? kHomaaleImg,
+                Stack(
+                  clipBehavior: Clip.none,
+                  children:[ Container(
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    width: MediaQuery.of(context).size.width * 0.3,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      image: DecorationImage(
+                        fit: BoxFit.cover,
+                        image: NetworkImage(
+                          networkImageUrl ?? kHomaaleImg,
+                        ),
                       ),
                     ),
                   ),
-                ),
+                    Positioned(
+                      bottom: -15,
+                      left: 40,
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.transparent,
+                        child: Center(
+                          child: Image.network(
+                             badgeImage ??
+                                  ""),
+                        ),
+                      ),
+                    ),
+               ] ),
                 addHorizontalSpace(20),
                 InkWell(
                     onTap: () {
@@ -123,14 +142,14 @@ class TaskerCard extends StatelessWidget {
                           // size: 16,
                         ),
                       ),
-                      addHorizontalSpace(20),
+                      addHorizontalSpace(10),
                       IconText(
                         label: ratings ?? '',
                         iconData: Icons.star_rate_rounded,
                         size: 25,
                         color: kColorAmber,
                       ),
-                      addHorizontalSpace(20),
+                      addHorizontalSpace(10),
                       WidgetText(
                         label: '${rewardPercentage} % ',
                         widget:

@@ -246,10 +246,8 @@ class _TasksRecommendationSectionState
                   child: Text('Please try again'),
                 );
               } else {
-                return const Center(
-                  child: CardLoading(
-                    height: 200,
-                  ),
+                return CardLoading(
+                  height: 200,
                 );
               }
             },

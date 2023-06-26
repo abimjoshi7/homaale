@@ -134,7 +134,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
 
             return Scaffold(
               appBar: CustomAppBar(
-                appBarTitle: state.taskModel?.service?.category?.name ?? '',
+                appBarTitle: state.taskModel?.service?.title ?? '',
                 trailingWidget: SizedBox(),
               ),
               body: Column(
@@ -786,6 +786,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                   Visibility(
                     visible: true,
                     child: PriceBookFooterSection(
+                      bgColor: Colors.blue.shade50,
                       isNegotiable: state.taskModel?.isNegotiable ?? false,
                       isUser: state.taskModel?.createdBy?.id == context.read<UserBloc>().state.taskerProfile?.user?.id,
                       buttonLabel: getStatus('')["status"] as String,
@@ -816,8 +817,10 @@ class _SingleTaskPageState extends State<SingleTaskPage>
               ),
             );
           } else {
-            return CardLoading(
-              height: 200,
+            return Center(
+              child: CardLoading(
+                height: 700,
+              ),
             );
           }
         },

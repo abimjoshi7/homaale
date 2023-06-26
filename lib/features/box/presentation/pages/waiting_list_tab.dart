@@ -200,9 +200,20 @@ class _WaitingListTabState extends State<WaitingListTab> {
                           serviceName: data[index].entityService?.title,
                           providerName:
                               "${data[index].entityService?.createdBy?.firstName} ${data[index].entityService?.createdBy?.lastName}",
-                          mainContentWidget: showBookingDetail(data[index]),
+                          location: data[index].location,
+                          startTime: data[index].startTime,
+                          endTime: data[index].endTime,
+                          createdAt: data[index].createdAt,
+                          // mainContentWidget: showBookingDetail(data[index]),
                           status: data[index].status,
-                          bottomRightWidget: displayPrice(data[index]),
+                          thirdWidget: displayPrice(data[index]),
+                          bottomRightWidget: const Text(
+                            'Booking Details',
+                            style: TextStyle(
+                              color: kColorSecondary,
+                              decoration: TextDecoration.underline,
+                            ),
+                          ),
                         ),
                       );
                     },
@@ -218,16 +229,15 @@ class _WaitingListTabState extends State<WaitingListTab> {
     );
   }
 
-  Column displayPrice(Result result) {
-    print("Result booking: $result");
-    return Column(
+  Widget displayPrice(Result result) {
+    return Row(
       children: [
         Text(
           "${result.entityService?.currency?.symbol ?? "Rs."} ${Decimal.parse(result.entityService?.isRequested == true ? result.earning ?? '0.0' : result.price ?? '0.0')}",
           // style: kText17,
         ),
         Text(
-          '/ ${result.entityService?.budgetType}',
+          '/ ${result.entityService?.budgetType}     ',
           // style: kHelper13,
         ),
       ],

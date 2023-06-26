@@ -103,8 +103,8 @@ class ServiceCard extends StatelessWidget {
                           IconText(
                             label: rating ?? '0.0',
                             iconData: Icons.star_rate_rounded,
-                            color: kColorAmber,
                             size: 13,
+                            color: kColorAmber,
                           ),
                         ],
                       ),

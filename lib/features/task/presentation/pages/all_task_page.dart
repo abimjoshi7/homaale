@@ -114,7 +114,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
         builder: (context, state) {
           switch (state.theState) {
             case TheStates.initial:
-              return const Center(child: LinearProgressIndicator());
+              return const Center(child: CardLoading(height: 800));
             case TheStates.success:
               return Column(
                 children: <Widget>[
@@ -188,6 +188,9 @@ class _AllTaskPageState extends State<AllTaskPage> {
                           child: SizedBox(
                             height: MediaQuery.of(context).size.height * 0.3,
                             child: TaskCard(
+                              shareLinked:
+                              '$kShareLinks/tasks/${state.taskEntityServices?[index].id}',
+
                               isRange: state.taskEntityServices![index].isRange ?? false,
                               buttonLabel: state.taskEntityServices![index].createdBy?.id ==
                                       context.read<UserBloc>().state.taskerProfile?.user?.id
