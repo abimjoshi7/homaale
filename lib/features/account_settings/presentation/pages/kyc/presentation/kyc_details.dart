@@ -34,6 +34,10 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
   final issuedFromController = TextEditingController();
   DateTime? issuedDate;
   DateTime? expiryDate;
+  //validation controller
+  final _issuedDateController = TextEditingController();
+  final _expiryDateController = TextEditingController();
+
   File? file;
   final _key = GlobalKey<FormState>();
   void setInitialValues(KycState state) {
@@ -81,6 +85,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
     identityTypeController.dispose();
     identityNumberController.dispose();
     issuedFromController.dispose();
+    _issuedDateController.dispose();
+    _expiryDateController.dispose();
     file?.delete();
     super.dispose();
   }
@@ -205,7 +211,7 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                           children: <Widget>[
                             buildIdentityTypeDropdown(state),
                             CustomFormField(
-                              label: 'Identity number',
+                              label: 'Identity Number',
                               isRequired: true,
                               child: CustomTextFormField(
                                 validator: validateNotEmpty,
@@ -228,14 +234,22 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                     isRequired: true,
                                     child: CustomTextFormField(
                                       readOnly: true,
-                                      validator: (p0) => (issuedDate == null)
-                                          ? "Required Field"
-                                          : null,
-                                      hintText: issuedDate != null
-                                          ? DateFormat("yyyy-MM-dd").format(
-                                              issuedDate!,
-                                            )
-                                          : "yyyy-mm-dd",
+                                      controller: _issuedDateController,
+                                      validator: (p0) {
+                                        if (issuedDate == null) {
+                                          return "Required Field";
+                                        }
+                                        if (issuedDate != null &&
+                                            expiryDate != null) {
+                                          if (issuedDate!
+                                              .isAfter(expiryDate!)) {
+                                            return "Cannot be greater than expiry date";
+                                          }
+                                          return null;
+                                        }
+                                        return null;
+                                      },
+                                      hintText: "yyyy-mm-dd",
                                       prefixWidget: Icon(
                                         Icons.calendar_month_rounded,
                                         color: Theme.of(context).indicatorColor,
@@ -252,6 +266,13 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                           (value) => setState(
                                             () {
                                               issuedDate = value;
+                                              _issuedDateController.text =
+                                                  issuedDate != null
+                                                      ? DateFormat("yyyy-MM-dd")
+                                                          .format(
+                                                          issuedDate!,
+                                                        )
+                                                      : "";
                                             },
                                           ),
                                         );
@@ -269,16 +290,24 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                     isRequired: hasDocExpiryDate,
                                     child: CustomTextFormField(
                                       readOnly: true,
-                                      validator: (p0) => (expiryDate == null)
-                                          ? hasDocExpiryDate
-                                              ? "Required Field"
-                                              : null
-                                          : null,
-                                      hintText: expiryDate != null
-                                          ? DateFormat("yyyy-MM-dd").format(
-                                              expiryDate!,
-                                            )
-                                          : "yyyy-mm-dd",
+                                      controller: _expiryDateController,
+                                      validator: (p0) {
+                                        if (hasDocExpiryDate) {
+                                          if (expiryDate == null) {
+                                            return "Required Field";
+                                          }
+                                          if (issuedDate != null &&
+                                              expiryDate != null) {
+                                            if (expiryDate!
+                                                .isBefore(issuedDate!)) {
+                                              return "Cannot be less than issued date";
+                                            }
+                                            return null;
+                                          }
+                                        }
+                                        return null;
+                                      },
+                                      hintText: "yyyy-mm-dd",
                                       prefixWidget: Icon(
                                         Icons.calendar_month_rounded,
                                         color: Theme.of(context).indicatorColor,
@@ -297,6 +326,15 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                                 (value) => setState(
                                                   () {
                                                     expiryDate = value;
+                                                    _expiryDateController
+                                                        .text = expiryDate !=
+                                                            null
+                                                        ? DateFormat(
+                                                                "yyyy-MM-dd")
+                                                            .format(
+                                                            expiryDate!,
+                                                          )
+                                                        : "";
                                                   },
                                                 ),
                                               );
