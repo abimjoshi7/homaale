@@ -29,7 +29,7 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
   int selectedIndex = 0;
   late PageController _pageController;
   final List<Widget> widgetList = [];
-
+  final _formKey = GlobalKey<FormState>();
   @override
   void initState() {
     super.initState();
@@ -38,9 +38,12 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
         ScheduleView(
           bookEventHandlerBloc: bookEventHandlerBloc,
         ),
-        DetailsView(
-          uploadBloc: uploadBloc,
-          bookEventHandlerBloc: bookEventHandlerBloc,
+        Form(
+          key: _formKey,
+          child: DetailsView(
+            uploadBloc: uploadBloc,
+            bookEventHandlerBloc: bookEventHandlerBloc,
+          ),
         ),
       ],
     );
@@ -241,50 +244,53 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
             );
             _pageController.jumpToPage(1);
           } else {
-            if (bookEventHandlerBloc.state.isTermAccepted) {
-              if (uploadBloc.state.imageFileList.isEmpty &&
-                  uploadBloc.state.videoFileList.isEmpty) {
-                final req = BookEntityServiceReq(
-                  location: bookEventHandlerBloc.state.address,
-                  entityService: state.taskEntityService?.id,
-                  price: bookEventHandlerBloc.state.budget,
-                  budgetTo: bookEventHandlerBloc.state.budget,
-                  requirements: context
-                              .read<BookEventHandlerBloc>()
-                              .state
-                              .requirements
-                              ?.length ==
-                          0
-                      ? []
-                      : bookEventHandlerBloc.state.requirements,
-                  startDate:
-                      DateTime.parse(bookEventHandlerBloc.state.startDate!),
-                  endDate: DateTime.parse(bookEventHandlerBloc.state.endDate!),
-                  startTime: bookEventHandlerBloc.state.startTime,
-                  endTime: bookEventHandlerBloc.state.endTime,
-                  description: bookEventHandlerBloc.state.description,
-                  city: int.parse(
-                    bookEventHandlerBloc.state.city,
-                  ),
-                  images: [],
-                  videos: [],
-                );
-                context.read<BookingsBloc>().add(
-                      BookingCreated(req),
-                    );
+            if (_formKey.currentState!.validate()) {
+              if (bookEventHandlerBloc.state.isTermAccepted) {
+                if (uploadBloc.state.imageFileList.isEmpty &&
+                    uploadBloc.state.videoFileList.isEmpty) {
+                  final req = BookEntityServiceReq(
+                    location: bookEventHandlerBloc.state.address,
+                    entityService: state.taskEntityService?.id,
+                    price: bookEventHandlerBloc.state.budget,
+                    budgetTo: bookEventHandlerBloc.state.budget,
+                    requirements: context
+                                .read<BookEventHandlerBloc>()
+                                .state
+                                .requirements
+                                ?.length ==
+                            0
+                        ? []
+                        : bookEventHandlerBloc.state.requirements,
+                    startDate:
+                        DateTime.parse(bookEventHandlerBloc.state.startDate!),
+                    endDate:
+                        DateTime.parse(bookEventHandlerBloc.state.endDate!),
+                    startTime: bookEventHandlerBloc.state.startTime,
+                    endTime: bookEventHandlerBloc.state.endTime,
+                    description: bookEventHandlerBloc.state.description,
+                    city: int.parse(
+                      bookEventHandlerBloc.state.city,
+                    ),
+                    images: [],
+                    videos: [],
+                  );
+                  context.read<BookingsBloc>().add(
+                        BookingCreated(req),
+                      );
+                } else {
+                  await upload
+                    ..uploadImage()
+                    ..uploadVideo();
+                }
               } else {
-                await upload
-                  ..uploadImage()
-                  ..uploadVideo();
-              }
-            } else {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(
-                    "Please accept terms and conditions.",
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      "Please accept terms and conditions.",
+                    ),
                   ),
-                ),
-              );
+                );
+              }
             }
 
             // if (state.taskEntityService?.event == null) {
