@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:cipher/core/app/initial_data_fetch.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
@@ -15,7 +13,6 @@ import 'package:cipher/features/task_entity_service/data/models/req/task_entity_
 import 'package:cipher/features/task_entity_service/data/models/res/recommended_similar_dto.dart';
 import 'package:cipher/features/task_entity_service/data/models/res/task_entity_service_res.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
-
 import 'package:cipher/features/task_entity_service/data/repositories/task_entity_services_repository.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -26,7 +23,8 @@ const kThrottleDuration = Duration(
   milliseconds: 100,
 );
 
-class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
+class TaskEntityServiceBloc
+    extends Bloc<TaskEntityServiceEvent, TaskEntityServiceState> {
   final TaskEntityServiceRepository repo;
   final bookingRepo = BookingRepositories();
   final serviceRepo = ServicesRepositories();
@@ -376,8 +374,9 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
                 (value) => emit(
                   state.copyWith(
                     serviceLoaded: true,
-                    serviceList: value.map((e) => ServiceList.fromJson(e)).toList()
-                      ..sort((a, b) => a.title!.compareTo(b.title!)),
+                    serviceList:
+                        value.map((e) => ServiceList.fromJson(e)).toList()
+                          ..sort((a, b) => a.title!.compareTo(b.title!)),
                   ),
                 ),
               );
@@ -399,6 +398,7 @@ class TaskEntityServiceBloc extends Bloc<TaskEntityServiceEvent, TaskEntityServi
       },
     );
 
-    on<ResetTESEditStatus>((event, emit) => emit(state.copyWith(isEdited: false)));
+    on<ResetTESEditStatus>(
+        (event, emit) => emit(state.copyWith(isEdited: false)));
   }
 }

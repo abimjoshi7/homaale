@@ -32,6 +32,10 @@ class _PostServicePageState extends State<PostServicePage> {
   final requirementController = TextEditingController();
   final addressController = TextEditingController();
   final discountController = TextEditingController();
+  //validation controllers
+  final _startDateController = TextEditingController();
+  final _endDateController = TextEditingController();
+  //
   String? dateType = 'Fixed';
   String? priceType = 'Fixed';
   String? serviceType = 'On Premise';
@@ -80,6 +84,8 @@ class _PostServicePageState extends State<PostServicePage> {
     requirementController.dispose();
     addressController.dispose();
     discountController.dispose();
+    _startDateController.dispose();
+    _endDateController.dispose();
     super.dispose();
   }
 
