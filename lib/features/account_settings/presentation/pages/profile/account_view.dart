@@ -20,6 +20,7 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import '../../../../../core/app/cipher.dart';
 import '../../../../../core/cache/cache_helper.dart';
 import '../../../../redeem/presentation/bloc/redeem.event.dart';
 import '../../../../redeem/presentation/pages/redeem_page.dart';
@@ -42,7 +43,7 @@ class AccountView extends StatefulWidget {
 }
 
 class _AccountViewState extends State<AccountView> {
-  bool isDark = false;
+  bool? isDark ;
 
   void checkAppMode() async {
     final theme = await CacheHelper.getCachedString(kAppThemeMode) ?? 'light';
@@ -59,6 +60,12 @@ class _AccountViewState extends State<AccountView> {
         });
       }
     });
+  }
+
+  @override
+  void initState() {
+    context.read<ThemeBloc>().state.themeData;
+    super.initState();
   }
 
   @override
@@ -106,9 +113,8 @@ class _AccountViewState extends State<AccountView> {
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Stack(
-                              clipBehavior: Clip.none,
-                              children: [Container(
+                          Stack(clipBehavior: Clip.none, children: [
+                            Container(
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 image: DecorationImage(
@@ -122,18 +128,18 @@ class _AccountViewState extends State<AccountView> {
                               width: 100,
                               height: 70,
                             ),
-                              Positioned(
-                                bottom: -18,
-                                left: 25,
-                                child: CircleAvatar(
-                                  radius: 25,
-                                  backgroundColor: Colors.transparent,
-                                  child: Center(
-                                    child: Image.network(
-                                        state.taskerProfile?.badge?.image ?? ""),
-                                  ),
+                            Positioned(
+                              bottom: -18,
+                              left: 25,
+                              child: CircleAvatar(
+                                radius: 25,
+                                backgroundColor: Colors.transparent,
+                                child: Center(
+                                  child: Image.network(
+                                      state.taskerProfile?.badge?.image ?? ""),
                                 ),
                               ),
+                            ),
                           ]),
                           kWidth20,
                           AccountUserInfoSection(
@@ -352,24 +358,37 @@ class _AccountViewState extends State<AccountView> {
                   ),
                 ),
                 AccountListTileSection(
-                  onTap: () {},
+                  onTap: () {
+                    setState(
+                      () {
+                        context.read<ThemeBloc>().add(
+                              ThemeChangeChanged(isDark: isDark??false),
+                            );
+                        // isDark = !isDark;
+                        checkAppMode();
+                      },
+                    );
+                  },
                   icon: const Icon(
                     Icons.dark_mode_outlined,
                   ),
                   label: 'Dark Mode',
+                  // trailingWidget: SizedBox(),
                   trailingWidget: SizedBox(
                     height: 30,
                     width: 40,
                     child: CupertinoSwitch(
+                      applyTheme: true,
                       activeColor: kColorSecondary,
                       trackColor: Colors.grey.shade300,
-                      value: isDark,
+                      value: isDark ?? false,
                       onChanged: (value) {
                         setState(
                           () {
                             context.read<ThemeBloc>().add(
-                                  ThemeChangeChanged(),
+                                  ThemeChangeChanged(isDark: value),
                                 );
+                            // isDark = !value;
                             checkAppMode();
                           },
                         );

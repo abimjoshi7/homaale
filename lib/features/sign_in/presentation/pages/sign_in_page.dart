@@ -80,6 +80,7 @@ class _SignInPageState extends State<SignInPage> {
       create: (context) => NetworkBloc()..add(NetworkObserve()),
       child: SignInScaffold(
         child: CustomScrollView(
+          physics: NeverScrollableScrollPhysics(),
           slivers: [
             SliverToBoxAdapter(
               child: Column(

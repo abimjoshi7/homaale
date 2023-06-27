@@ -96,7 +96,7 @@ class ServiceCard extends StatelessWidget {
                             child: AutoSizeText(
                               createdBy ?? '',
                               style: Theme.of(context).textTheme.displaySmall,
-                              overflow: TextOverflow.visible,
+                              overflow: TextOverflow.ellipsis,
                             ),
                           ),
                           addHorizontalSpace(5),
