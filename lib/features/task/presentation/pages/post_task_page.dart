@@ -863,9 +863,6 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
             child: CustomTextFormField(
               readOnly: true,
               validator: (p0) {
-                // if (endTime != null && startTime == null) {
-                //   return "Start Time Required";
-                // }
                 if (startTime != null && endTime != null) {
                   if (startTime!.isAtSameMomentAs(endTime!)) {
                     return ("Both Times Cannot be same.");
@@ -910,9 +907,9 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
               readOnly: true,
               autoValidateMode: AutovalidateMode.onUserInteraction,
               validator: (p0) {
-                // if (endTime == null && startTime != null) {
-                //   return "End Time Required";
-                // }
+                if (startTime != null && endTime == null) {
+                  return "End Time Required";
+                }
                 if (startTime != null && endTime != null) {
                   if (endTime!.isAtSameMomentAs(startTime!)) {
                     return ("Both times cannot be same.");
