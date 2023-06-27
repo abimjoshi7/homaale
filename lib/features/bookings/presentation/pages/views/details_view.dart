@@ -46,7 +46,7 @@ class _DetailsViewState extends State<DetailsView> {
       double.parse(context
               .read<TaskEntityServiceBloc>()
               .state
-              .taskEntityService!
+              .taskEntityService
               .payableTo!)
           .toInt()
           .toString(),

@@ -163,21 +163,24 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter your price';
                                       }
-                                      if (double.parse(value) >
-                                          double.parse(
-                                            state.taskModel?.budgetTo
-                                                    .toString() ??
-                                                '0',
-                                          )) {
-                                        return 'Price cannot be greater than given budget';
-                                      }
-                                      if (double.parse(value) <
-                                          double.parse(
-                                            state.taskModel?.budgetFrom
-                                                    .toString() ??
-                                                '0',
-                                          )) {
-                                        return 'Price cannot be less than given budget';
+                                      if (state.taskModel?.isNegotiable ==
+                                          false) {
+                                        if (double.parse(value) >
+                                            double.parse(
+                                              state.taskModel?.budgetTo
+                                                      .toString() ??
+                                                  '0',
+                                            )) {
+                                          return 'Price cannot be greater than given budget';
+                                        }
+                                        if (double.parse(value) <
+                                            double.parse(
+                                              state.taskModel?.budgetFrom
+                                                      .toString() ??
+                                                  '0',
+                                            )) {
+                                          return 'Price cannot be less than given budget';
+                                        }
                                       }
                                       return null;
                                     },

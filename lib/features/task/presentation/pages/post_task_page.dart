@@ -338,7 +338,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                               ? DateFormat.jms().format(endTime!)
                               : null,
                           shareLocation: true,
-                          isNegotiable: true,
+                          isNegotiable: isNegotiable,
                           location: addressController.text,
                           revisions: 0,
                           avatar: 2,
@@ -863,15 +863,18 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
             child: CustomTextFormField(
               readOnly: true,
               validator: (p0) {
-                // if (startTime != null && endTime != null) {
-                //   if (startTime!.isAtSameMomentAs(endTime!)) {
-                //     return ("Both Times Cannot be same.");
-                //   }
-                //   if (startTime!.isAfter(endTime!)) {
-                //     return ("Start time cannot be after End time.");
-                //   }
+                // if (endTime != null && startTime == null) {
+                //   return "Start Time Required";
                 // }
-                // return null;
+                if (startTime != null && endTime != null) {
+                  if (startTime!.isAtSameMomentAs(endTime!)) {
+                    return ("Both Times Cannot be same.");
+                  }
+                  if (startTime!.isAfter(endTime!)) {
+                    return ("Start time cannot be after End time.");
+                  }
+                  return null;
+                }
               },
               onTap: () async {
                 await showCustomBottomSheet(
@@ -907,33 +910,32 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
               readOnly: true,
               autoValidateMode: AutovalidateMode.onUserInteraction,
               validator: (p0) {
-                // if (endTime == null) {
-                //   return ("Required Field");
+                // if (endTime == null && startTime != null) {
+                //   return "End Time Required";
                 // }
-                // if (startTime == null || endTime == null) ;
-                // if (endTime!.isAtSameMomentAs(startTime!)) {
-                //   return ("Both times cannot be same.");
-                // }
-                // if (endTime!.isBefore(endTime!)) {
-                //   return ("End time cannot be before Start time.");
-                // }
-                // return null;
+                if (startTime != null && endTime != null) {
+                  if (endTime!.isAtSameMomentAs(startTime!)) {
+                    return ("Both times cannot be same.");
+                  }
+                  if (endTime!.isBefore(endTime!)) {
+                    return ("End time cannot be before Start time.");
+                  }
+                  return null;
+                }
               },
-              onTap: () async {
-                await showCustomBottomSheet(
-                  context: context,
-                  widget: SizedBox.fromSize(
-                    size: Size.fromHeight(250),
-                    child: CupertinoDatePicker(
-                      initialDateTime: endTime ?? DateTime.now(),
-                      mode: CupertinoDatePickerMode.time,
-                      onDateTimeChanged: (value) => setState(
-                        () => endTime = value,
-                      ),
+              onTap: () async => await showCustomBottomSheet(
+                context: context,
+                widget: SizedBox.fromSize(
+                  size: Size.fromHeight(250),
+                  child: CupertinoDatePicker(
+                    initialDateTime: endTime ?? DateTime.now(),
+                    mode: CupertinoDatePickerMode.time,
+                    onDateTimeChanged: (value) => setState(
+                      () => endTime = value,
                     ),
                   ),
-                );
-              },
+                ),
+              ),
               hintText: endTime != null
                   ? DateFormat.jm().format(endTime!)
                   : 'hh:mm:ss',

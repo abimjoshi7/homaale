@@ -7,8 +7,6 @@ import 'package:cipher/features/bookings/presentation/bloc/book_event_handler_bl
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/views/views.dart';
 import 'package:cipher/features/chat/bloc/chat_bloc.dart';
-import 'package:cipher/features/event/data/models/event_availability.dart';
-import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/sections/service_detail_header_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
