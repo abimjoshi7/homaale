@@ -82,7 +82,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
   }) {
     context.read<TaskBloc>().add(
           SingleEntityTaskLoadInitiated(
-            id: state.taskEntityServiceModel.result![index].id!,
+            id: state.taskEntityServices![index].id!,
             userId: context.read<UserBloc>().state.taskerProfile?.user?.id ?? '',
           ),
         );
@@ -170,103 +170,108 @@ class _AllTaskPageState extends State<AllTaskPage> {
                   ),
                   kHeight8,
                   Expanded(
-                    child: ListView.separated(
-                      shrinkWrap: true,
-                      controller: _controller,
-                      padding: EdgeInsets.symmetric(horizontal: 8),
-                      itemCount:
-                          state.isLastPage ? state.taskEntityServices!.length : state.taskEntityServices!.length + 1,
-                      separatorBuilder: (context, index) {
-                        if (index % 5 == 0) {
-                          List<Ads>? ads = [...?context.read<MarketingAdsBloc>().state.marketingAdsDto.result];
-                          if (ads.isNotEmpty) {
-                            ads.shuffle();
-                            return CachedNetworkImage(
-                              imageUrl: ads.first.image!,
-                              height: 100,
-                              fit: BoxFit.fitWidth,
-                            );
+                    child: RefreshIndicator(
+                      onRefresh: () async {
+                        taskBloc.add(AllTaskLoadInitiated(isTask: true, newFetch: true));
+                      },
+                      child: ListView.separated(
+                        shrinkWrap: true,
+                        controller: _controller,
+                        padding: EdgeInsets.symmetric(horizontal: 8),
+                        itemCount:
+                            state.isLastPage ? state.taskEntityServices!.length : state.taskEntityServices!.length + 1,
+                        separatorBuilder: (context, index) {
+                          if (index % 5 == 0) {
+                            List<Ads>? ads = [...?context.read<MarketingAdsBloc>().state.marketingAdsDto.result];
+                            if (ads.isNotEmpty) {
+                              ads.shuffle();
+                              return CachedNetworkImage(
+                                imageUrl: ads.first.image!,
+                                height: 100,
+                                fit: BoxFit.fitWidth,
+                              );
+                            } else {
+                              return addVerticalSpace(8);
+                            }
                           } else {
                             return addVerticalSpace(8);
                           }
-                        } else {
-                          return addVerticalSpace(8);
-                        }
-                      },
-                      itemBuilder: (BuildContext context, int index) {
-                        if (index >= state.taskEntityServices!.length) {
-                          return Center(child: const BottomLoader());
-                        }
-                        return InkWell(
-                          onTap: () => onTaskPressed(
-                            state: state,
-                            index: index,
-                            isApply: false,
-                          ),
-                          child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            child: TaskCard(
-                              shareLinked:
-                              '$kShareLinks/tasks/${state.taskEntityServices?[index].id}',
-
-                              isRange: state.taskEntityServices![index].isRange ?? false,
-                              buttonLabel: state.taskEntityServices![index].createdBy?.id ==
-                                      context.read<UserBloc>().state.taskerProfile?.user?.id
-                                  ? 'View Details'
-                                  : 'Apply Now',
-                              startRate: '${state.taskEntityServices![index].budgetFrom ?? 0}',
-                              createdByName: '${state.taskEntityServices![index].createdBy?.fullName}',
-                              endRate: '${state.taskEntityServices![index].budgetTo ?? 0}',
-                              budgetType: '${state.taskEntityServices![index].budgetType ?? 'budgetType'}',
-                              count: state.taskEntityServices![index].count?.toString() ?? '0',
-                              imageUrl: state.taskEntityServices![index].createdBy?.profileImage ?? kHomaaleImg,
-                              location: state.taskEntityServices![index].location ?? 'remote',
-                              endHour: Jiffy(
-                                state.taskEntityServices![index].createdAt?.toString() ?? DateTime.now().toString(),
-                              ).jm,
-                              endDate: Jiffy(
-                                state.taskEntityServices![index].endDate?.toString() ?? DateTime.now().toString(),
-                              ).yMMMMd,
-                              taskName: state.taskEntityServices![index].title ?? 'task title',
-                              isOwner: state.taskEntityServices![index].createdBy?.id ==
-                                  context.read<UserBloc>().state.taskerProfile?.user?.id,
-                              editCallback: () {
-                                showModalBottomSheet(
-                                  context: context,
-                                  isScrollControlled: true,
-                                  builder: (context) => Container(
-                                    height: MediaQuery.of(context).size.height * 0.75,
-                                    padding: EdgeInsets.only(
-                                        bottom: MediaQuery.of(context).viewInsets.bottom, left: 8, right: 8, top: 8),
-                                    child: SingleChildScrollView(
-                                      child: Column(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          EditTaskEntityServiceForm(
-                                            id: state.taskEntityServices?[index].id ?? "",
-                                          ),
-                                        ],
+                        },
+                        itemBuilder: (BuildContext context, int index) {
+                          if (index >= state.taskEntityServices!.length) {
+                            return Center(child: const BottomLoader());
+                          }
+                          return InkWell(
+                            onTap: () => onTaskPressed(
+                              state: state,
+                              index: index,
+                              isApply: false,
+                            ),
+                            child: SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.3,
+                              child: TaskCard(
+                                id: state.taskEntityServices![index].id,
+                                isBookmarked: state.taskEntityServices![index].isBookmarked,
+                                shareLinked: '$kShareLinks/tasks/${state.taskEntityServices?[index].id}',
+                                isRange: state.taskEntityServices![index].isRange ?? false,
+                                buttonLabel: state.taskEntityServices![index].createdBy?.id ==
+                                        context.read<UserBloc>().state.taskerProfile?.user?.id
+                                    ? 'View Details'
+                                    : 'Apply Now',
+                                startRate: '${state.taskEntityServices![index].budgetFrom ?? 0}',
+                                createdByName: '${state.taskEntityServices![index].createdBy?.fullName}',
+                                endRate: '${state.taskEntityServices![index].budgetTo ?? 0}',
+                                budgetType: '${state.taskEntityServices![index].budgetType ?? 'budgetType'}',
+                                count: state.taskEntityServices![index].count?.toString() ?? '0',
+                                imageUrl: state.taskEntityServices![index].createdBy?.profileImage ?? kHomaaleImg,
+                                location: state.taskEntityServices![index].location ?? 'remote',
+                                endHour: Jiffy(
+                                  state.taskEntityServices![index].createdAt?.toString() ?? DateTime.now().toString(),
+                                ).jm,
+                                endDate: Jiffy(
+                                  state.taskEntityServices![index].endDate?.toString() ?? DateTime.now().toString(),
+                                ).yMMMMd,
+                                taskName: state.taskEntityServices![index].title ?? 'task title',
+                                isOwner: state.taskEntityServices![index].createdBy?.id ==
+                                    context.read<UserBloc>().state.taskerProfile?.user?.id,
+                                editCallback: () {
+                                  showModalBottomSheet(
+                                    context: context,
+                                    isScrollControlled: true,
+                                    builder: (context) => Container(
+                                      height: MediaQuery.of(context).size.height * 0.75,
+                                      padding: EdgeInsets.only(
+                                          bottom: MediaQuery.of(context).viewInsets.bottom, left: 8, right: 8, top: 8),
+                                      child: SingleChildScrollView(
+                                        child: Column(
+                                          mainAxisSize: MainAxisSize.min,
+                                          children: [
+                                            EditTaskEntityServiceForm(
+                                              id: state.taskEntityServices?[index].id ?? "",
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                );
-                              },
-                              callback: () => onTaskPressed(
-                                state: state,
-                                index: index,
-                                isApply: state.taskEntityServices![index].createdBy?.id !=
-                                    context.read<UserBloc>().state.taskerProfile?.user?.id,
+                                  );
+                                },
+                                callback: () => onTaskPressed(
+                                  state: state,
+                                  index: index,
+                                  isApply: state.taskEntityServices![index].createdBy?.id !=
+                                      context.read<UserBloc>().state.taskerProfile?.user?.id,
+                                ),
+                                onTapCallback: () {
+                                  if (!CacheHelper.isLoggedIn) {
+                                    notLoggedInPopUp(context);
+                                  }
+                                  if (!CacheHelper.isLoggedIn) return;
+                                },
                               ),
-                              onTapCallback: () {
-                                if (!CacheHelper.isLoggedIn) {
-                                  notLoggedInPopUp(context);
-                                }
-                                if (!CacheHelper.isLoggedIn) return;
-                              },
                             ),
-                          ),
-                        );
-                      },
+                          );
+                        },
+                      ),
                     ),
                   ),
                 ],
