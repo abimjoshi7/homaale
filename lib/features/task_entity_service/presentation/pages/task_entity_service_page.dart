@@ -445,6 +445,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                   visible: state.taskEntityService.createdBy?.id !=
                       context.read<UserBloc>().state.taskerProfile?.user?.id,
                   child: PriceBookFooterSection(
+                    bgColor: Colors.blue.shade50,
                     isNegotiable: state.taskEntityService.isNegotiable ?? false,
                     buttonLabel:
                         getStatus('', isService: true)["status"] as String,

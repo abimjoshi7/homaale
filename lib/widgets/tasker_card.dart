@@ -56,23 +56,27 @@ class TaskerCard extends StatelessWidget {
             addVerticalSpace(10),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Stack(
+                  alignment: Alignment.topCenter,
                   clipBehavior: Clip.none,
-                  children:[ Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(
-                        fit: BoxFit.cover,
-                        image: NetworkImage(
-                          networkImageUrl ?? kHomaaleImg,
+                  children:[
+                    Center(
+                      child: Container(
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                            networkImageUrl ?? kHomaaleImg,
+                          ),
                         ),
                       ),
-                    ),
                   ),
+                    ),
                     Positioned(
                       bottom: -15,
                       left: 40,
@@ -87,7 +91,7 @@ class TaskerCard extends StatelessWidget {
                       ),
                     ),
                ] ),
-                addHorizontalSpace(20),
+                // addHorizontalSpace(10),
                 InkWell(
                     onTap: () {
                       final box =

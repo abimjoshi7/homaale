@@ -139,7 +139,7 @@ class TaskCard extends StatelessWidget {
                             .textTheme
                             .titleSmall
                             ?.copyWith(color: kColorLightGrey),
-                        maxLines: 2,
+                        // maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
