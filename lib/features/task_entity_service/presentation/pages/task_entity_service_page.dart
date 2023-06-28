@@ -10,8 +10,7 @@ import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart' as tb;
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart'
-    as tes;
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart' as tes;
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/recommended_services.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/event_section.dart';
@@ -185,8 +184,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                               itemCount: mediaList.length,
                               itemBuilder: (context, index, realIndex) {
                                 return Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.21,
+                                  height: MediaQuery.of(context).size.height * 0.21,
                                   margin: EdgeInsets.only(right: 32),
                                   child: mediaList[index]
                                               .mediaType
@@ -447,6 +445,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                   visible: state.taskEntityService.createdBy?.id !=
                       context.read<UserBloc>().state.taskerProfile?.user?.id,
                   child: PriceBookFooterSection(
+                    bgColor: Colors.blue.shade50,
                     isNegotiable: state.taskEntityService.isNegotiable ?? false,
                     buttonLabel:
                         getStatus('', isService: true)["status"] as String,

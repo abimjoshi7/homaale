@@ -8,6 +8,7 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/api_constants.dart';
 import '../../../tasker/presentation/bloc/tasker_bloc.dart';
 
 class PopularTaskerNew extends StatelessWidget {
@@ -72,63 +73,63 @@ class _TaskerListState extends State<TaskerList> {
               itemBuilder: (context, index) {
                 return index >= state.tasker.length
                     ? const BottomLoader()
-                    : Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: InkWell(
-                          onTap: () {
-                            context.read<TaskerCubit>().loadSingleTasker(
-                                  state.tasker[index].user?.id ?? '',
-                                );
-                            context.read<TaskerCubit>().loadSingleTaskerServices(
-                                  state.tasker[index].user?.id ?? '',
-                                );
-                            context.read<TaskerCubit>().loadSingleTaskerTask(
-                                  state.tasker[index].user?.id ?? '',
-                                );
-                            context.read<TaskerCubit>().loadSingleTaskerReviews(
-                                  state.tasker[index].user?.id ?? '',
-                                );
-                            Navigator.pushNamed(
-                              context,
-                              TaskerProfileView.routeName,
+                    : InkWell(
+                      onTap: () {
+                        context.read<TaskerCubit>().loadSingleTasker(
+                              state.tasker[index].user?.id ?? '',
                             );
-                          },
-                          child: TaskerCard(
-                            id: state.tasker[index].user?.id.toString() ?? '',
-                            networkImageUrl: state.tasker[index].profileImage,
-                            label: "${state.tasker[index].user?.firstName} ${state.tasker[index].user?.lastName}",
-                            designation: state.tasker[index].designation,
-                            happyClients: state.tasker[index].stats?.happyClients.toString(),
-                            ratings:
-                                "${state.tasker[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'} (${state.tasker[index].rating?.userRatingCount ?? '0'})",
-                            rate: "Rs. ${state.tasker[index].hourlyRate}",
-                            callbackLabel: state.tasker[index].isFollowed ?? false ? 'Following' : 'Follow',
-                            isFollowed: state.tasker[index].isFollowed ?? false,
-                            buttonWidth: MediaQuery.of(context).size.width,
-                            callback: () {
-                              if (CacheHelper.isLoggedIn == false) {
-                                notLoggedInPopUp(context);
-                              } else {
-                                if (state.tasker[index].isFollowed ?? false) {
-                                  context
-                                      .read<TaskerCubit>()
-                                      .handleFollowUnFollow(id: state.tasker[index].user?.id ?? '', follow: false);
-                                } else {
-                                  context
-                                      .read<TaskerCubit>()
-                                      .handleFollowUnFollow(id: state.tasker[index].user?.id ?? '', follow: true);
-                                }
-                                context.read<TaskerBloc>().add(SetInitial());
-                              }
-                            },
-                            onFavouriteTapped: () {},
-                          ),
-                        ),
-                      );
+                        context.read<TaskerCubit>().loadSingleTaskerServices(
+                              state.tasker[index].user?.id ?? '',
+                            );
+                        context.read<TaskerCubit>().loadSingleTaskerTask(
+                              state.tasker[index].user?.id ?? '',
+                            );
+                        context.read<TaskerCubit>().loadSingleTaskerReviews(
+                              state.tasker[index].user?.id ?? '',
+                            );
+                        Navigator.pushNamed(
+                          context,
+                          TaskerProfileView.routeName,
+                        );
+                      },
+                      child: TaskerCard(
+                        rewardPercentage: state.tasker[index].stats?.successRate?.toInt().toString() ??'0',
+                        shareLinked: '$kShareLinks/tasker/${state.tasker[index].user?.id}',
+                        id: state.tasker[index].user?.id.toString() ?? '',
+                        networkImageUrl: state.tasker[index].profileImage,
+                        label: "${state.tasker[index].user?.firstName} ${state.tasker[index].user?.lastName}",
+                        designation: state.tasker[index].designation,
+                        happyClients: state.tasker[index].stats?.happyClients.toString(),
+                        ratings:
+                            // "${state.tasker[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'} "
+                                "${state.tasker[index].rating?.userRatingCount?.toStringAsFixed(1) ?? '0'}",
+                        rate: "Rs. ${state.tasker[index].hourlyRate}",
+                        callbackLabel: state.tasker[index].isFollowed ?? false ? 'Following' : 'Follow',
+                        isFollowed: state.tasker[index].isFollowed ?? false,
+                        buttonWidth: MediaQuery.of(context).size.width,
+                        callback: () {
+                          if (CacheHelper.isLoggedIn == false) {
+                            notLoggedInPopUp(context);
+                          } else {
+                            if (state.tasker[index].isFollowed ?? false) {
+                              context
+                                  .read<TaskerCubit>()
+                                  .handleFollowUnFollow(id: state.tasker[index].user?.id ?? '', follow: false);
+                            } else {
+                              context
+                                  .read<TaskerCubit>()
+                                  .handleFollowUnFollow(id: state.tasker[index].user?.id ?? '', follow: true);
+                            }
+                            context.read<TaskerBloc>().add(SetInitial());
+                          }
+                        },
+                        onFavouriteTapped: () {},
+                      ),
+                    );
               },
             );
           case TaskerStatus.initial:
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CardLoading(height: 400));
         }
       },
     );

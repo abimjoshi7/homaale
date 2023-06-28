@@ -21,8 +21,10 @@ import 'package:cipher/features/content_client/presentation/cubit/privacy_policy
 import 'package:cipher/features/content_client/presentation/cubit/terms_of_use/terms_of_use_cubit.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
+import 'package:cipher/features/event/presentation/bloc/schedule/schedule_bloc.dart';
 import 'package:cipher/features/google_maps/presentation/bloc/nearby_task_entity_service_bloc/nearby_task_entity_service_bloc.dart';
 import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
+import 'package:cipher/features/marketing/presentation/bloc/marketing_ads_bloc.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_type_bloc.dart';
 import 'package:cipher/features/payment/presentation/bloc/payment_verify_bloc.dart';
@@ -54,7 +56,6 @@ import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/skills/skills_bloc.dart';
 import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/locator.dart';
-import 'package:cipher/main.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import '../../features/booking_cancel/presentation/bloc/booking_cancel_bloc.dart';
@@ -91,9 +92,7 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => FeedbackPostBloc()),
           BlocProvider(create: (context) => UserSuspendBloc()),
           BlocProvider(create: (context) => BookingCancelBloc()),
-          BlocProvider(
-              create: (context) =>
-                  ResendVerificationBloc(SignUpRepositories())),
+          BlocProvider(create: (context) => ResendVerificationBloc(SignUpRepositories())),
           BlocProvider(create: (context) => NearbyTaskEntityServiceBloc()),
           BlocProvider(create: (context) => locator<UserBloc>()),
           BlocProvider(create: (context) => UserLocationCubit()),
@@ -106,15 +105,10 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => locator<KycBloc>()),
           BlocProvider(create: (context) => locator<ImageUploadCubit>()),
           BlocProvider(create: (context) => locator<UploadBloc>()),
-          BlocProvider(
-              create: (context) => SupportHelpBloc(SupportHelpRepositories())),
-          BlocProvider(
-              create: (context) =>
-                  PasswordSecurityBloc(PasswordSecurityRepositories())),
-          BlocProvider(
-              create: (context) => ForgotPasswordBloc(SignInRepository())),
-          BlocProvider(
-              create: (context) => OtpResetVerifyBloc(SignUpRepositories())),
+          BlocProvider(create: (context) => SupportHelpBloc(SupportHelpRepositories())),
+          BlocProvider(create: (context) => PasswordSecurityBloc(PasswordSecurityRepositories())),
+          BlocProvider(create: (context) => ForgotPasswordBloc(SignInRepository())),
+          BlocProvider(create: (context) => OtpResetVerifyBloc(SignUpRepositories())),
           BlocProvider(create: (context) => UserDeactiveBloc()),
           BlocProvider(create: (context) => InterestsBloc()),
           BlocProvider(create: (context) => CountryBloc()),
@@ -139,6 +133,7 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => locator<TaskerCubit>()),
           BlocProvider(create: (context) => locator<NotificationBloc>()),
           BlocProvider(create: (context) => EventBloc()),
+          BlocProvider(create: (context) => locator<ScheduleBloc>()),
           BlocProvider(create: (context) => locator<PaymentBloc>()),
           BlocProvider(create: (context) => locator<PaymentTypeBloc>()),
           BlocProvider(create: (context) => OrderItemListBloc()),
@@ -150,6 +145,7 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => locator<BookEventHandlerBloc>()),
           BlocProvider(create: (context) => WalletBloc()),
           BlocProvider(create: (context) => SecurityBloc()),
+          BlocProvider(create: (context) => locator<MarketingAdsBloc>()),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(
           builder: (context, state) {

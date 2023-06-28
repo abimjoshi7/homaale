@@ -5,6 +5,8 @@ import 'dart:io';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+enum ImagePage { Profile, Form }
+
 class MultimediaPickHelper {
   static Future<File?> captureMultimedia(
     BuildContext context,
@@ -19,6 +21,8 @@ class MultimediaPickHelper {
           enableTapRecording: isVideo,
           enableAudio: isVideo,
           textDelegate: EnglishCameraPickerTextDelegate(),
+          imageFormatGroup: ImageFormatGroup.jpeg,
+          resolutionPreset: ResolutionPreset.low,
         ),
       ).then(
         (value) => value?.file,
@@ -29,15 +33,16 @@ class MultimediaPickHelper {
     }
   }
 
-  static Future<List<AssetEntity>?> captureAssets(
-    BuildContext context,
-    RequestType type,
-  ) async {
+  static Future<List<AssetEntity>?> captureAssets(BuildContext context, RequestType type, {bool? isProfile}) async {
     try {
       return await AssetPicker.pickAssets(
         context,
         pickerConfig: AssetPickerConfig(
-          maxAssets: type == RequestType.image ? 5 : 2,
+          maxAssets: isProfile ?? false
+              ? 1
+              : type == RequestType.image
+                  ? 5
+                  : 2,
           textDelegate: EnglishAssetPickerTextDelegate(),
           requestType: type,
         ),

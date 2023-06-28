@@ -22,6 +22,8 @@ class TaskerCard extends StatelessWidget {
     required this.onFavouriteTapped,
     this.id,
     this.isFollowed,
+    this.shareLinked,
+    this.badgeImage,
   });
 
   final String? label;
@@ -32,8 +34,10 @@ class TaskerCard extends StatelessWidget {
   final String? distance;
   final String? ratings;
   final String? rate;
+  final String? shareLinked;
   final String? callbackLabel;
   final String? networkImageUrl;
+  final String? badgeImage;
   final double? buttonWidth;
   final VoidCallback callback;
   final VoidCallback onFavouriteTapped;
@@ -42,113 +46,138 @@ class TaskerCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: MediaQuery.of(context).size.height * 0.95,
-      width: MediaQuery.of(context).size.width * 0.6,
+      // height: MediaQuery.of(context).size.height * 0.9,
+      width: MediaQuery.of(context).size.width * 0.55,
       child: Card(
         color: Theme.of(context).cardColor,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: <Widget>[
-            addVerticalSpace(5),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.06,
-              width: MediaQuery.of(context).size.width * 0.3,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    networkImageUrl ?? kHomaaleImg,
+            addVerticalSpace(10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Stack(
+                  alignment: Alignment.topCenter,
+                  clipBehavior: Clip.none,
+                  children:[
+                    Center(
+                      child: Container(
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.3,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        image: DecorationImage(
+                          fit: BoxFit.cover,
+                          image: NetworkImage(
+                            networkImageUrl ?? kHomaaleImg,
+                          ),
+                        ),
+                      ),
+                  ),
+                    ),
+                    Positioned(
+                      bottom: -15,
+                      left: 40,
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.transparent,
+                        child: Center(
+                          child: Image.network(
+                             badgeImage ??
+                                  ""),
+                        ),
+                      ),
+                    ),
+               ] ),
+                // addHorizontalSpace(10),
+                InkWell(
+                    onTap: () {
+                      final box =
+                      context.findRenderObject()
+                      as RenderBox?;
+                      Share.share(
+                        shareLinked!,
+                        sharePositionOrigin: box!
+                            .localToGlobal(
+                            Offset.zero) &
+                        box.size,
+                      );
+                    },
+                    child: Icon(Icons.redo_sharp, color: kColorBlue)),
+              ],
+            ),
+            addVerticalSpace(10),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Flexible(
+                  child: AutoSizeText(
+                    label ?? '',
+                    style: Theme.of(context).textTheme.titleMedium,
+                    overflow: TextOverflow.ellipsis,
                   ),
                 ),
-              ),
+                kWidth5,
+                const Icon(
+                  Icons.verified,
+                  color: Color(0xff3EAEFF),
+                ),
+              ],
+            ),
+            Text(
+              designation ?? 'Homaale User',
+              textAlign: TextAlign.center,
+              style: kLightBlueText14,
             ),
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: <Widget>[
-                  Column(
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          Flexible(
-                            child: AutoSizeText(
-                              label ?? '',
-                              style: Theme.of(context).textTheme.titleMedium,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          kWidth5,
-                          const Icon(
-                            Icons.verified,
-                            color: Color(0xff3EAEFF),
-                          ),
-                        ],
+                      WidgetText(
+                        label: happyClients ?? '0',
+                        widget: const Icon(
+                          Icons.emoji_emotions_outlined,
+                          color: Color(0xffF98900),
+                          // size: 16,
+                        ),
                       ),
-                      Text(
-                        designation ?? 'Homaale User',
-                        textAlign: TextAlign.center,
-                        style: kLightBlueText14,
+                      addHorizontalSpace(10),
+                      IconText(
+                        label: ratings ?? '',
+                        iconData: Icons.star_rate_rounded,
+                        size: 25,
+                        color: kColorAmber,
+                      ),
+                      addHorizontalSpace(10),
+                      WidgetText(
+                        label: '${rewardPercentage} % ',
+                        widget:
+                            Image.asset("assets/reward.png", color: kColorBlue),
                       ),
                     ],
                   ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        WidgetText(
-                          label: happyClients ?? '0',
-                          widget: const Icon(
-                            Icons.emoji_emotions_outlined,
-                            color: Color(0xffF98900),
-                            // size: 16,
-                          ),
-                        ),
-                        WidgetText(
-                          label: rewardPercentage ?? '0',
-                          widget: const Icon(
-                            Icons.military_tech_rounded,
-                            color: Color(0xff0693E3),
-                            // size: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        IconText(
-                          label: ratings ?? '',
-                          iconData: Icons.star_rate_rounded,
-                          size: 15,
-                          color: kColorAmber,
-                        ),
-                        WidgetText(
-                          label: distance ?? '0',
-                          widget: const Icon(
-                            Icons.airline_stops_sharp,
-                            color: Color(0xffF98900),
-                            // size: 16,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                    child: _buildButton(context),
-                  ),
-                  SizedBox(
-                    height: 2,
-                  ),
+
+                  // WidgetText(
+                  //   label: distance ?? '0',
+                  //   widget: const Icon(
+                  //     Icons.airline_stops_sharp,
+                  //     color: Color(0xffF98900),
+                  //     // size: 16,
+                  //   ),
+                  // ),
                 ],
               ),
             ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+              child: _buildButton(context),
+            ),
+            addVerticalSpace(10),
           ],
         ),
       ),
@@ -157,7 +186,7 @@ class TaskerCard extends StatelessWidget {
 
   SizedBox _buildButton(BuildContext context) {
     return SizedBox(
-      height: 30,
+      height: 35,
       width: buttonWidth ?? 80,
       child: CustomElevatedButton(
         borderColor: kColorPrimary,

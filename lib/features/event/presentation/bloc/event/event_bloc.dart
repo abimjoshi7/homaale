@@ -132,19 +132,24 @@ class EventBloc extends Bloc<EventEvent, EventState> {
           );
           await repo
               .editEvent(
-                event.id,
-                event.data,
-              )
+            event.id,
+            event.data,
+          )
               .then(
-                (value) => emit(
-                  state.copyWith(
-                    theStates: TheStates.success,
-                    isEdited: true,
-                    // event: Event(),
-                    // createdEventRes: CreateEventRes(),
-                  ),
+            (value) {
+              emit(
+                state.copyWith(
+                  theStates: TheStates.success,
+                  isEdited: true,
                 ),
               );
+              add(
+                EventLoaded(
+                  id: event.id,
+                ),
+              );
+            },
+          );
         } catch (e) {
           emit(
             state.copyWith(
@@ -169,8 +174,6 @@ class EventBloc extends Bloc<EventEvent, EventState> {
                   state.copyWith(
                     theStates: TheStates.success,
                     isDeleted: true,
-                    event: Event(),
-                    createdEventRes: CreateEventRes(),
                   ),
                 ),
               );
@@ -188,6 +191,11 @@ class EventBloc extends Bloc<EventEvent, EventState> {
     on<ScheduleDeleted>(
       (event, emit) async {
         try {
+          emit(
+            state.copyWith(
+              isScheduleDeleted: false,
+            ),
+          );
           await repo.deleteSchedule(id: event.id).then(
                 (value) => emit(
                   state.copyWith(

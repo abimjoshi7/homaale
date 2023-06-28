@@ -38,3 +38,25 @@ class ScheduleEventPosted extends ScheduleEvent {
         createScheduleReq,
       ];
 }
+
+class SingleScheduleLoaded extends ScheduleEvent {
+  final String scheduleId;
+  SingleScheduleLoaded({required this.scheduleId});
+  @override
+  List<Object?> get props => [scheduleId];
+}
+
+class ScheduleEventEdited extends ScheduleEvent {
+  final Map<String, dynamic> data;
+  final String id;
+
+  ScheduleEventEdited(
+    this.data,
+    this.id,
+  );
+  @override
+  List<Object?> get props => [
+        data,
+        id,
+      ];
+}

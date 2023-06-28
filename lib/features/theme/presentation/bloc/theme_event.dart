@@ -12,6 +12,9 @@ class ThemeChangeInitiated extends ThemeEvent {
 }
 
 class ThemeChangeChanged extends ThemeEvent {
+  final bool isDark;
+
+  ThemeChangeChanged({required this.isDark});
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [isDark];
 }

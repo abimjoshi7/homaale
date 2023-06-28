@@ -37,53 +37,44 @@ class _PrivacyPolicyPageState extends State<PrivacyPolicyPage> {
             ),
             addVerticalSpace(16),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 4.0),
-              child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.88,
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: <Widget>[
-                      BlocConsumer<PrivacyPolicyCubit, PrivacyPolicyState>(
-                        listener: (_, state) async {
-                          if (state.theStates == TheStates.failure) {
-                            showDialog(
-                              context: context,
-                              builder: (_) => CustomToast(
-                                heading: 'Failure',
-                                content: 'Failed to load updated privacy policy.',
-                                onTap: () => {},
-                                isSuccess: false,
-                              ),
-                            );
-                          }
-                        },
-                        builder: (_, state) {
-                          if (state.theStates == TheStates.success) {
-                            return ContentClientWidget(
-                                state: state,
-                                date: DateFormat.yMMMEd().format(state.contentClient!.createdAt!),
-                                contentClientTitle: _contentClientTitle);
-                          }
-                          if (state.theStates == TheStates.failure) {
-                            return ContentClientWidget(
-                                state: state,
-                                date: DateFormat.yMMMEd().format(state.contentClient!.createdAt!),
-                                contentClientTitle: _contentClientTitle);
-                          }
-
-                          if (state.theStates == TheStates.initial) {
-                            return const Center(
-                              child: CardLoading(
-                                height: 200,
-                              ),
-                            );
-                          }
-                          return const SizedBox();
-                        },
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: BlocConsumer<PrivacyPolicyCubit, PrivacyPolicyState>(
+                listener: (_, state) async {
+                  if (state.theStates == TheStates.failure) {
+                    showDialog(
+                      context: context,
+                      builder: (_) => CustomToast(
+                        heading: 'Failure',
+                        content: 'Failed to load updated privacy policy.',
+                        onTap: () => {},
+                        isSuccess: false,
                       ),
-                    ],
-                  ),
-                ),
+                    );
+                  }
+                },
+                builder: (_, state) {
+                  if (state.theStates == TheStates.success) {
+                    return ContentClientWidget(
+                        state: state,
+                        date: DateFormat.yMMMEd().format(state.contentClient!.createdAt!),
+                        contentClientTitle: _contentClientTitle);
+                  }
+                  if (state.theStates == TheStates.failure) {
+                    return ContentClientWidget(
+                        state: state,
+                        date: DateFormat.yMMMEd().format(state.contentClient!.createdAt!),
+                        contentClientTitle: _contentClientTitle);
+                  }
+
+                  if (state.theStates == TheStates.initial) {
+                    return const Center(
+                      child: CardLoading(
+                        height: 200,
+                      ),
+                    );
+                  }
+                  return const SizedBox();
+                },
               ),
             )
           ],

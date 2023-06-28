@@ -82,18 +82,37 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                           children: [
                             Row(
                               children: [
-                                Container(
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                      fit: BoxFit.cover,
-                                      image: NetworkImage(
-                                        profilePicUrl(),
+                                Stack(
+                                  clipBehavior: Clip.none,
+                                  children: [
+                                    addVerticalSpace(8),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        shape: BoxShape.circle,
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                            profilePicUrl(),
+                                          ),
+                                        ),
+                                      ),
+                                      width: 80,
+                                      height: 80,
+                                    ),
+                                    Positioned(
+                                      bottom: -15,
+                                      left: 10,
+                                      child: CircleAvatar(
+                                        radius: 25,
+                                        backgroundColor: Colors.transparent,
+                                        child: Center(
+                                          child: Image.network(
+                                              state.singleTasker.badge?.image ??
+                                                  ""),
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  width: 80,
-                                  height: 80,
+                                  ],
                                 ),
                                 addHorizontalSpace(8),
                                 Column(

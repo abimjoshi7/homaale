@@ -12,7 +12,7 @@ part 'create_schedule_req.g.dart';
 @freezed
 class CreateScheduleReq with _$CreateScheduleReq {
   const factory CreateScheduleReq({
-    String? id,
+    // String? id,
     String? event,
     @JsonKey(name: "repeat_type") int? repeatType,
     @JsonKey(name: "start_date") String? startDate,

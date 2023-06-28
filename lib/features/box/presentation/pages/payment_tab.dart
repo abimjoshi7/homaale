@@ -34,7 +34,9 @@ class _PaymentTabState extends State<PaymentTab> {
     if (selectedItems.isNotEmpty) {
       sum = 0.0;
       for (var items in selectedItems) {
-        sum = sum + double.parse(state.orderItemList?.result?[items].price.toString() ?? "0.0");
+        sum = sum +
+            double.parse(
+                state.orderItemList?.result?[items].price.toString() ?? "0.0");
       }
       return double.parse(sum.toStringAsFixed(2)).toString();
     }
@@ -79,38 +81,65 @@ class _PaymentTabState extends State<PaymentTab> {
 
                                     for (var items in selectedItems) {
                                       setState(() {
-                                        selectedUuid.add(state.orderItemList?.result?[items].id ?? "");
+                                        selectedUuid.add(state.orderItemList
+                                                ?.result?[items].id ??
+                                            "");
                                       });
                                     }
 
-                                    orderIdCreateBloc.add(OrderIdCreateInitiated(uuid: selectedUuid));
+                                    orderIdCreateBloc.add(
+                                        OrderIdCreateInitiated(
+                                            uuid: selectedUuid));
 
                                     Future.delayed(
                                       const Duration(seconds: 1),
                                       () {
-                                        if (orderIdCreateBloc.state.orderIdCreate?.order != null ||
-                                            (orderIdCreateBloc.state.orderIdCreate?.order?.isNotEmpty ?? false)) {
-                                          context.read<UserSuspendBloc>().state.userAccountSuspension?.isSuspended ==
+                                        if (orderIdCreateBloc.state
+                                                    .orderIdCreate?.order !=
+                                                null ||
+                                            (orderIdCreateBloc
+                                                    .state
+                                                    .orderIdCreate
+                                                    ?.order
+                                                    ?.isNotEmpty ??
+                                                false)) {
+                                          context
+                                                      .read<UserSuspendBloc>()
+                                                      .state
+                                                      .userAccountSuspension
+                                                      ?.isSuspended ==
                                                   true
                                               ? showDialog(
                                                   context: context,
-                                                  builder: (context) => AccountSuspendCustomToast(
-                                                    heading: 'ACCOUNT SUSPENDED',
-                                                    content: 'User is suspended',
+                                                  builder: (context) =>
+                                                      AccountSuspendCustomToast(
+                                                    heading:
+                                                        'ACCOUNT SUSPENDED',
+                                                    content:
+                                                        'User is suspended',
                                                   ),
                                                 )
-                                              : Navigator.pushNamed(context, CheckoutPage.routeName, arguments:
-                                                  // orderIdCreateBloc
-                                                  //     .state
-                                                  //     .orderIdCreate
-                                                  //     ?.order
-                                                  {'orderId': orderIdCreateBloc.state.orderIdCreate?.order});
+                                              : Navigator.pushNamed(context,
+                                                  CheckoutPage.routeName,
+                                                  arguments:
+                                                      // orderIdCreateBloc
+                                                      //     .state
+                                                      //     .orderIdCreate
+                                                      //     ?.order
+                                                      {
+                                                      'orderId':
+                                                          orderIdCreateBloc
+                                                              .state
+                                                              .orderIdCreate
+                                                              ?.order
+                                                    });
                                         } else {
                                           showDialog(
                                             context: context,
                                             builder: (context) => CustomToast(
                                               heading: 'Failed',
-                                              content: 'Payment failed, please try again!',
+                                              content:
+                                                  'Payment failed, please try again!',
                                               onTap: () {
                                                 Navigator.pop(context);
                                               },
@@ -122,13 +151,17 @@ class _PaymentTabState extends State<PaymentTab> {
                                     );
                                   },
                                   child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
                                     children: [
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 20.0),
+                                        padding:
+                                            const EdgeInsets.only(left: 20.0),
                                         child: Column(
-                                          mainAxisAlignment: MainAxisAlignment.start,
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Text(
                                               'Total Price',
@@ -139,7 +172,9 @@ class _PaymentTabState extends State<PaymentTab> {
                                             Text(
                                               '${state.orderItemList?.result?[currentIndex].currency?.symbol} ' +
                                                   getTotalPrice(state),
-                                              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 16),
                                             ),
                                           ],
                                         ),
@@ -149,12 +184,15 @@ class _PaymentTabState extends State<PaymentTab> {
                                         padding: EdgeInsets.all(12),
                                         decoration: BoxDecoration(
                                           color: Color(0Xff00D084),
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                         child: Text(
                                           'Proceed to Payment ',
                                           style: TextStyle(
-                                              color: Colors.white, fontWeight: FontWeight.bold, letterSpacing: 1),
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 1),
                                         ),
                                       ),
                                     ],
@@ -163,7 +201,8 @@ class _PaymentTabState extends State<PaymentTab> {
                               },
                             ),
                             Padding(
-                              padding: const EdgeInsets.only(left: 10, bottom: 10),
+                              padding:
+                                  const EdgeInsets.only(left: 10, bottom: 10),
                               child: Row(
                                 children: [
                                   Icon(
@@ -174,7 +213,10 @@ class _PaymentTabState extends State<PaymentTab> {
                                   Expanded(
                                     child: Text(
                                       ' For bulk payment, please choose items with same currency.',
-                                      style: Theme.of(context).textTheme.displaySmall?.copyWith(fontSize: 12),
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .displaySmall
+                                          ?.copyWith(fontSize: 12),
                                     ),
                                   ),
                                 ],
@@ -207,23 +249,31 @@ class _PaymentTabState extends State<PaymentTab> {
                             child: Container(
                               decoration: BoxDecoration(
                                 border: Border.all(
-                                  color: selectedItems.contains(index) ? Color(0xffDEB988) : Colors.grey.shade300,
+                                  color: selectedItems.contains(index)
+                                      ? Color(0xffDEB988)
+                                      : Colors.grey.shade300,
                                   width: 1,
                                 ),
                                 borderRadius: BorderRadius.circular(20),
                               ),
-                              margin: EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                              padding: EdgeInsets.symmetric(vertical: 8,horizontal: 4),
+                              margin: EdgeInsets.symmetric(
+                                  horizontal: 16, vertical: 10),
+                              padding: EdgeInsets.symmetric(
+                                  vertical: 8, horizontal: 4),
                               child: Column(
                                 children: [
                                   Padding(
-                                    padding: const EdgeInsets.symmetric(vertical: 14.0,horizontal: 10),
+                                    padding: const EdgeInsets.symmetric(
+                                        vertical: 14.0, horizontal: 10),
                                     child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
                                       children: [
                                         Row(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
-                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceBetween,
                                           children: [
                                             Stack(
                                               children: [
@@ -231,14 +281,27 @@ class _PaymentTabState extends State<PaymentTab> {
                                                   height: 72,
                                                   width: 72,
                                                   decoration: BoxDecoration(
-                                                    borderRadius: BorderRadius.circular(16.0),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            16.0),
                                                     image: DecorationImage(
-                                                      image: NetworkImage((state.orderItemList?.result?[index]
-                                                                  .entityService?.images?.length ==
+                                                      image: NetworkImage((state
+                                                                  .orderItemList
+                                                                  ?.result?[
+                                                                      index]
+                                                                  .entityService
+                                                                  ?.images
+                                                                  ?.length ==
                                                               0)
                                                           ? kHomaaleImg
-                                                          : state.orderItemList?.result![index].entityService?.images
-                                                                  ?.last.media ??
+                                                          : state
+                                                                  .orderItemList
+                                                                  ?.result![
+                                                                      index]
+                                                                  .entityService
+                                                                  ?.images
+                                                                  ?.last
+                                                                  .media ??
                                                               kHomaaleImg),
                                                       fit: BoxFit.cover,
                                                     ),
@@ -247,10 +310,13 @@ class _PaymentTabState extends State<PaymentTab> {
                                                 Positioned(
                                                   left: 5,
                                                   top: 5,
-                                                  child: selectedItems.contains(index)
+                                                  child: selectedItems
+                                                          .contains(index)
                                                       ? Icon(
-                                                          Icons.check_circle_outline,
-                                                          color: kColorSecondary,
+                                                          Icons
+                                                              .check_circle_outline,
+                                                          color:
+                                                              kColorSecondary,
                                                         )
                                                       : SizedBox(),
                                                 ),
@@ -258,65 +324,94 @@ class _PaymentTabState extends State<PaymentTab> {
                                             ),
                                             addHorizontalSpace(8),
                                             SizedBox(
-                                              width: MediaQuery.of(context).size.width * 0.64,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.64,
                                               child: Column(
                                                 children: [
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: [
-                                                      Text(
-                                                          state.orderItemList?.result![index].entityService!.title ?? ""
+                                                      Text(state
+                                                                  .orderItemList
+                                                                  ?.result![
+                                                                      index]
+                                                                  .entityService!
+                                                                  .title ??
+                                                              ""
                                                           // 'Trimming & Cutting',
                                                           ),
                                                     ],
                                                   ),
                                                   addVerticalSpace(8),
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: [
                                                       Row(
                                                         children: [
                                                           Icon(
-                                                            Icons.location_on_outlined,
+                                                            Icons
+                                                                .location_on_outlined,
                                                             size: 16,
                                                             color: Colors.red,
                                                           ),
                                                           SizedBox(
-                                                            width: MediaQuery.of(context).size.width * 0.3,
+                                                            width: MediaQuery.of(
+                                                                        context)
+                                                                    .size
+                                                                    .width *
+                                                                0.3,
                                                             child: Text(
-                                                              state.orderItemList?.result?[index].entityService?.city
+                                                              state
+                                                                      .orderItemList
+                                                                      ?.result?[
+                                                                          index]
+                                                                      .entityService
+                                                                      ?.city
                                                                       ?.name ??
                                                                   "",
-                                                              style: Theme.of(context).textTheme.bodySmall,
+                                                              style: Theme.of(
+                                                                      context)
+                                                                  .textTheme
+                                                                  .bodySmall,
                                                               maxLines: 2,
-                                                              overflow: TextOverflow.ellipsis,
+                                                              overflow:
+                                                                  TextOverflow
+                                                                      .ellipsis,
                                                             ),
                                                           ),
                                                         ],
-                                                      ),
-                                                      Text(
-                                                        '${state.orderItemList?.result?[index].currency?.symbol}'
-                                                        '${Decimal.parse(state.orderItemList?.result?[index].price.toString() ?? "0").toStringAsFixed(2)}',
-                                                        style: Theme.of(context).textTheme.bodySmall,
                                                       ),
                                                     ],
                                                   ),
                                                   addVerticalSpace(8),
                                                   Row(
-                                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                    mainAxisAlignment:
+                                                        MainAxisAlignment
+                                                            .spaceBetween,
                                                     children: [
                                                       Row(
                                                         children: [
                                                           Row(
                                                             children: [
                                                               const Icon(
-                                                                Icons.calendar_month,
+                                                                Icons
+                                                                    .calendar_month,
                                                                 size: 20,
-                                                                color: Colors.red,
+                                                                color:
+                                                                    Colors.red,
                                                               ),
                                                               Text(
                                                                 '${state.orderItemList?.result![index].startDate ?? ""}',
-                                                                style: Theme.of(context).textTheme.bodySmall,
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodySmall,
                                                               ),
                                                             ],
                                                           ),
@@ -326,28 +421,78 @@ class _PaymentTabState extends State<PaymentTab> {
                                                           Row(
                                                             children: [
                                                               const Icon(
-                                                                Icons.watch_later_outlined,
+                                                                Icons
+                                                                    .watch_later_outlined,
                                                                 size: 20,
-                                                                color: Colors.blue,
+                                                                color:
+                                                                    Colors.blue,
                                                               ),
                                                               Text(
                                                                 '${state.orderItemList!.result![index].startTime ?? '00:00:00'}',
-                                                                style: Theme.of(context).textTheme.bodySmall,
+                                                                style: Theme.of(
+                                                                        context)
+                                                                    .textTheme
+                                                                    .bodySmall,
                                                               ),
                                                             ],
                                                           ),
                                                         ],
                                                       ),
-                                                      const Text(
-                                                        '/project',
-                                                        style: TextStyle(
-                                                          fontSize: 10,
-                                                          fontStyle: FontStyle.italic,
-                                                        ),
-                                                      ),
                                                     ],
                                                   ),
                                                 ],
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              padding:
+                                                  const EdgeInsets.all(6.0),
+                                              margin: const EdgeInsets.all(6.0),
+                                              height: 25.0,
+                                              width: 65.0,
+                                              decoration: BoxDecoration(
+                                                color: Color(0xffEDF4FF),
+                                                borderRadius:
+                                                    BorderRadius.circular(4.0),
+                                              ),
+                                              child: Center(
+                                                child: Text(
+                                                  state
+                                                              .orderItemList!
+                                                              .result?[index]
+                                                              .entityService
+                                                              ?.isRequested ==
+                                                          true
+                                                      ? 'Task'
+                                                      : 'Service',
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .titleSmall
+                                                      ?.copyWith(
+                                                          fontSize: 10.0,
+                                                          color: kColorPrimary),
+                                                ),
+                                              ),
+                                            ),
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 16.0, right: 10),
+                                              child: Text(
+                                                '${state.orderItemList?.result?[index].currency?.symbol}'
+                                                '${Decimal.parse(state.orderItemList?.result?[index].price.toString() ?? "0").toStringAsFixed(2)}',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodySmall,
+                                              ),
+                                            ),
+                                            const Text(
+                                              '/project',
+                                              style: TextStyle(
+                                                fontSize: 10,
+                                                fontStyle: FontStyle.italic,
                                               ),
                                             ),
                                           ],
@@ -359,19 +504,21 @@ class _PaymentTabState extends State<PaymentTab> {
                                   Padding(
                                     padding: const EdgeInsets.all(8.0),
                                     child: Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           children: [
-                                            Text(
-                                              'Booking:',
-                                              style: Theme.of(context).textTheme.bodySmall,
-                                            ),
+                                            // Text(
+                                            //   'Booking:',
+                                            //   style: Theme.of(context).textTheme.bodySmall,
+                                            // ),
                                             addHorizontalSpace(5),
                                             SizedBox(
                                               height: 30,
                                               child: Chip(
-                                                backgroundColor: Colors.lightBlue.shade50,
+                                                backgroundColor:
+                                                    Colors.lightBlue.shade50,
                                                 label: Text(
                                                   'Approved',
                                                   style: TextStyle(
@@ -386,8 +533,9 @@ class _PaymentTabState extends State<PaymentTab> {
                                         const Text(
                                           'Booking Details',
                                           style: TextStyle(
-                                            // color: kColorSilver,
-                                            decoration: TextDecoration.underline,
+                                            color: kColorSecondary,
+                                            decoration:
+                                                TextDecoration.underline,
                                           ),
                                         ),
                                       ],
@@ -402,7 +550,8 @@ class _PaymentTabState extends State<PaymentTab> {
                     ),
                     selectedItems.isNotEmpty
                         ? SizedBox.shrink()
-                        : SizedBox(height: MediaQuery.of(context).size.height * 0.12),
+                        : SizedBox(
+                            height: MediaQuery.of(context).size.height * 0.12),
                   ],
                 ),
               );

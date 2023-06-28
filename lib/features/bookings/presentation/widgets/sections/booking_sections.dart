@@ -71,7 +71,7 @@ class _BookingSectionState extends State<BookingSection> {
             .toList();
 
         return state.theState == TheStates.initial
-            ? SizedBox(child: Center(child: CircularProgressIndicator()))
+            ? SizedBox(child: Center(child: CardLoading(height: 500)))
             : bookingList.isEmpty
                 ? Center(
                     child: CommonErrorContainer(

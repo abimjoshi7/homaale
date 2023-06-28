@@ -79,7 +79,7 @@ _$_Data _$$_DataFromJson(Map<String, dynamic> json) => _$_Data(
       stats: json['stats'] == null
           ? null
           : Stats.fromJson(json['stats'] as Map<String, dynamic>),
-      rating: (json['rating'] as num?)?.toDouble(),
+      rating: json['rating'],
       country: json['country'] == null
           ? null
           : CountryClass.fromJson(json['country'] as Map<String, dynamic>),

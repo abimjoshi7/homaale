@@ -87,7 +87,7 @@ class _FeedbackPageState extends State<FeedbackPage> {
                     if (_formKey.currentState!.validate()) {
                       _formKey.currentState!.save();
                       context.read<FeedbackPostBloc>().add(FeedbackPost(
-                          subject: subjectController.text ?? "",
+                          subject: subjectController.text,
                           description: feedbackController.text));
                       Future.delayed(const Duration(seconds: 2), () {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(

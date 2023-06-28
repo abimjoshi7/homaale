@@ -112,16 +112,14 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Text('Title :'),
                                         Text('${state.taskModel?.title}'),
                                       ],
                                     ),
                                     Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Text('Budget :'),
                                         Row(
@@ -130,9 +128,7 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                               'Rs ${Decimal.parse(state.taskModel?.budgetFrom ?? '0.0')}',
                                             ),
                                             Visibility(
-                                              visible:
-                                                  state.taskModel?.isRange ??
-                                                      false,
+                                              visible: state.taskModel?.isRange ?? false,
                                               child: Text(
                                                 " to Rs ${Decimal.parse(state.taskModel?.budgetTo ?? '0.0')} ",
                                               ),
@@ -150,8 +146,7 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                   ],
                                 ),
                               ),
-                              if (state.taskModel?.budgetFrom != null ||
-                                  state.taskModel?.budgetTo != null) ...[
+                              if (state.taskModel?.budgetFrom != null || state.taskModel?.budgetTo != null) ...[
                                 CustomFormField(
                                   label: 'Your Price',
                                   isRequired: true,
@@ -261,7 +256,7 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                               //         style: kHelper13,
                               //       ),
                               //       CustomTextFormField(
-                              //         hintText: 'Add requirements',
+                              //         hintText: 'Add Highlight',
                               //         controller: requirementsController,
                               //         onFieldSubmitted: (p0) {
                               //           if (p0 != "") {

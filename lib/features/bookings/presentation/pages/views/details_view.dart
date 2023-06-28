@@ -90,8 +90,8 @@ class _DetailsViewState extends State<DetailsView> {
         label: "Your Budget",
         child: BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
           builder: (context, state) {
-            if (state.taskEntityService?.isRange == true &&
-                state.taskEntityService?.isNegotiable == false)
+            if (state.taskEntityService.isRange == true &&
+                state.taskEntityService.isNegotiable == false)
               return SizedBox(
                 width: 100,
                 child: CustomTextFormField(
@@ -99,10 +99,10 @@ class _DetailsViewState extends State<DetailsView> {
                   controller: budgetController,
                   onChanged: (p0) {
                     if (double.parse(budgetController.text) >
-                            double.parse(state.taskEntityService!.payableTo!) ||
+                            double.parse(state.taskEntityService.payableTo!) ||
                         double.parse(budgetController.text) <
                             double.parse(
-                                state.taskEntityService!.payableFrom!)) {
+                                state.taskEntityService.payableFrom!)) {
                       ScaffoldMessenger.of(context)
                         ..clearSnackBars()
                         ..showSnackBar(
@@ -130,7 +130,7 @@ class _DetailsViewState extends State<DetailsView> {
                   },
                 ),
               );
-            if (state.taskEntityService?.isNegotiable == true)
+            if (state.taskEntityService.isNegotiable == true)
               return NumberIncDecField(
                 controller: budgetController,
                 onSubmit: (value) => widget.bookEventHandlerBloc.add(
@@ -161,7 +161,8 @@ class _DetailsViewState extends State<DetailsView> {
   SliverToBoxAdapter _buildRequirements(BuildContext context) {
     return SliverToBoxAdapter(
       child: CustomFormField(
-        label: 'Requirements',
+        label: 'Highlights',
+        isRequired: true,
         child: Column(
           children: [
             Column(
@@ -210,9 +211,9 @@ class _DetailsViewState extends State<DetailsView> {
             addVerticalSpace(5),
             CustomTextFormField(
               controller: requirementController,
-              hintText: 'Add requirements',
+              hintText: 'Add Highlight',
               validator: (value) => requirementList.length == 0
-                  ? "Atleast 1 Requirement Required"
+                  ? "Atleast 1 Highlight Required"
                   : null,
               suffixWidget: IconButton(
                 icon: Icon(

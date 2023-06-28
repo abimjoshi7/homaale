@@ -75,6 +75,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
           await MultimediaPickHelper.captureAssets(
             event.context,
             RequestType.image,
+            isProfile: event.isProfile,
           ).then(
             (value) async {
               if (value != null) {
@@ -91,11 +92,11 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                         if (value != null) {
                           if (value.lengthSync() < 5093309) {
                             final imageFile =
-                                await compressor.compressFileAsync(value.path);
+                                await compressor.compressFileAsync(value);
                             list.add(imageFile.path);
                           } else {
                             final imageFile =
-                                await compressor.compressFileAsync(value.path);
+                                await compressor.compressFileAsync(value);
                             if (imageFile.lengthSync() < 5093309) {
                               list.add(
                                 imageFile.path,
@@ -122,7 +123,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
                             list.add(value.path);
                           } else {
                             final imageFile =
-                                await compressor.compressFileAsync(value.path);
+                                await compressor.compressFileAsync(value);
                             if (imageFile.lengthSync() < 5093309) {
                               list.add(
                                 imageFile.path,
@@ -201,6 +202,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
               (value) async {
                 if (value != null) {
                   List<String> list = [];
+
                   if (state.videoFileList.length == 0) {
                     for (final AssetEntity element in value) {
                       await element.file.then(
@@ -261,6 +263,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             emit(
               state.copyWith(
                 isImageUploaded: true,
+                theStates: TheStates.success,
               ),
             );
           else {
@@ -312,6 +315,7 @@ class UploadBloc extends Bloc<UploadEvent, UploadState> {
             emit(
               state.copyWith(
                 isVideoUploaded: true,
+                theStates: TheStates.success,
               ),
             );
           else {

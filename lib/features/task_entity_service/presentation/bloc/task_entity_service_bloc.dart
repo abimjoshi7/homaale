@@ -35,13 +35,16 @@ class TaskEntityServiceBloc
       (event, emit) async {
         if (!event.newFetch && state.isLastPage) return;
         try {
-          if (event.newFetch)
-            emit(
-              state.copyWith(
-                theStates: TheStates.initial,
-              ),
-            );
+          if (event.newFetch) emit(state.copyWith(theStates: TheStates.initial));
           if (state.theStates == TheStates.initial) {
+            var orderList = <String>[];
+            if (event.budgetSort != null) {
+              orderList.add(event.budgetSort.toString());
+            }
+            if (event.dateSort != null) {
+              orderList.add(event.dateSort.toString());
+            }
+
             var taskEntityServiceModel = await repo.getTaskEntityServices(
               isTask: event.isTask,
               page: 1,
@@ -55,7 +58,7 @@ class TaskEntityServiceBloc
               category: event.category,
               query: event.query,
               serviceId: event.serviceId,
-              order: [event.budgetSort.toString(), event.dateSort.toString()],
+              order: orderList,
             );
 
             emit(
@@ -67,6 +70,13 @@ class TaskEntityServiceBloc
               ),
             );
           } else {
+            var orderList = <String>[];
+            if (event.budgetSort != null) {
+              orderList.add(event.budgetSort.toString());
+            }
+            if (event.dateSort != null) {
+              orderList.add(event.dateSort.toString());
+            }
             var taskEntityServiceModel = await repo.getTaskEntityServices(
               page: state.taskEntityServiceModel.current! + 1,
               isTask: event.isTask,
@@ -80,7 +90,7 @@ class TaskEntityServiceBloc
               category: event.category,
               query: event.query,
               serviceId: event.serviceId,
-              order: [event.budgetSort.toString(), event.dateSort.toString()],
+              order: orderList,
             );
             if (taskEntityServiceModel.next == null) {
               emit(state.copyWith(isLastPage: true));
@@ -118,15 +128,24 @@ class TaskEntityServiceBloc
           await repo.getSingleTaskEntityService(event.id).then(
             (value) async {
               if (CacheHelper.isLoggedIn) {
-                await repo.getApplicants(event.id).then(
-                      (applicants) => emit(
-                        state.copyWith(
-                          theStates: TheStates.success,
-                          taskEntityService: value,
-                          applicantModel: applicants,
+                if (event.isEdit == null) {
+                  await repo.getApplicants(event.id).then(
+                        (applicants) => emit(
+                          state.copyWith(
+                            theStates: TheStates.success,
+                            taskEntityService: value,
+                            applicantModel: applicants,
+                          ),
                         ),
-                      ),
-                    );
+                      );
+                } else {
+                  emit(
+                    state.copyWith(
+                      theStates: TheStates.success,
+                      taskEntityService: value,
+                    ),
+                  );
+                }
               } else {
                 emit(
                   state.copyWith(
@@ -198,11 +217,7 @@ class TaskEntityServiceBloc
       ),
       (event, emit) async {
         try {
-          emit(
-            state.copyWith(
-              theStates: TheStates.loading,
-            ),
-          );
+          emit(state.copyWith(theStates: TheStates.loading));
           await repo
               .postTaskEntityService(event.req)
               .then(

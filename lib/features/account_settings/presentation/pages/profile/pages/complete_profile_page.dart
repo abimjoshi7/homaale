@@ -141,7 +141,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm>
                         label: 'First Name',
                         isRequired: true,
                         child: CustomTextFormField(
-                          hintText: 'Harry',
+                          hintText: 'first name',
                           onSaved: (p0) => setState(
                             () {
                               firstNameController.text = p0!;
@@ -156,7 +156,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm>
                       child: CustomFormField(
                         label: 'Middle Name',
                         child: CustomTextFormField(
-                          hintText: 'Prasad',
+                          hintText: 'middle name',
                           onSaved: (p0) => setState(
                             () {
                               middleNameController.text = p0!;
@@ -171,7 +171,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm>
                         label: 'Last Name',
                         isRequired: true,
                         child: CustomTextFormField(
-                          hintText: 'Smith',
+                          hintText: 'last name',
                           onSaved: (p0) => setState(
                             () {
                               lastNameController.text = p0!;
@@ -635,7 +635,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm>
                             (index) => state.list[index].name,
                           ),
                           onChanged: (p0) => setState(
-                            () async {
+                            ()  {
                               final x = state.list.firstWhere(
                                 (element) => p0 == element.name,
                               );
@@ -1034,16 +1034,16 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm>
                                   ),
                                 );
                           } else {
-                            if (!mounted) return;
-                            showDialog(
-                              context: context,
-                              builder: (context) => CustomToast(
-                                heading: 'Error',
-                                content: 'Something went wrong.',
-                                onTap: () {},
-                                isSuccess: false,
-                              ),
-                            );
+                            // if (!mounted) return;
+                            // showDialog(
+                            //   context: context,
+                            //   builder: (context) => CustomToast(
+                            //     heading: 'Error',
+                            //     content: 'Something went wrong.',
+                            //     onTap: () {},
+                            //     isSuccess: false,
+                            //   ),
+                            // );
                           }
                         },
                         label: 'Save',

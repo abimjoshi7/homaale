@@ -43,7 +43,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                   showCaseDec: 'See All Trending Service from here.',
                 ),
                 SizedBox(
-                  height: 250,
+                  height: 300,
                   width: double.infinity,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,
@@ -77,13 +77,15 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                           location: state.taskEntityServiceModel.result?[index].location == ""
                               ? "Remote"
                               : state.taskEntityServiceModel.result?[index].location,
+                          bookedCount:'${state.taskEntityServiceModel.result?[index].bookedCount}' ,
                           createdBy:
                               "${state.taskEntityServiceModel.result?[index].createdBy?.firstName} ${state.taskEntityServiceModel.result?[index].createdBy?.lastName}",
+                          createdByProfileImg:"${state.taskEntityServiceModel.result?[index].createdBy?.profileImage}",
                           title: state.taskEntityServiceModel.result?[index].title,
                           imagePath: state.taskEntityServiceModel.result?[index].images?.length == 0
                               ? kHomaaleImg
                               : state.taskEntityServiceModel.result?[index].images?.first.media,
-                          rating: state.taskEntityServiceModel.result?[index].rating.toString(),
+                          rating: state.taskEntityServiceModel.result?[index].rating?.toString() ?? '0.0',
                           isRange: state.taskEntityServiceModel.result?[index].isRange,
                           rateTo: double.parse(state.taskEntityServiceModel.result?[index].payableTo ?? "")
                               .toInt()
@@ -134,7 +136,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: CustomFormField(
-            label: "Trending Services",
+            label: "Trending services",
             child: CardLoading(
               height: 230,
             ),

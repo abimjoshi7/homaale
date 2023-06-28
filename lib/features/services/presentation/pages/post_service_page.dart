@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:cipher/core/helpers/upload_helper.dart';
+import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -608,13 +609,10 @@ class _PostServicePageState extends State<PostServicePage> {
                   () {
                     if (endPriceController.text.isNotEmpty)
                       budgetTo = getPayableAmount(
-                        int.parse(endPriceController.text).toDouble(),
-                        int.parse(context
-                                    .read<CategoriesBloc>()
-                                    .state
-                                    .commission ??
-                                "0")
-                            .toDouble(),
+                        double.parse(endPriceController.text),
+                        double.parse(
+                            context.read<CategoriesBloc>().state.commission ??
+                                "0"),
                       );
                   },
                 ),
@@ -858,7 +856,8 @@ class _PostServicePageState extends State<PostServicePage> {
 
   CustomFormField _buildHighlights() {
     return CustomFormField(
-      label: 'Requirements',
+      label: 'Highlights',
+      isRequired: true,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -906,7 +905,7 @@ class _PostServicePageState extends State<PostServicePage> {
             ),
           ),
           CustomTextFormField(
-            hintText: 'Add Requirements',
+            hintText: 'Add Highlights',
             inputAction: TextInputAction.next,
             validator: (value) => requirementList.length == 0
                 ? "Atleast 1 Highlight Required"

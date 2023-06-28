@@ -124,20 +124,14 @@ Map<String, dynamic> _$$_TaskerProfileToJson(_$_TaskerProfile instance) =>
 
 _$_Badge _$$_BadgeFromJson(Map<String, dynamic> json) => _$_Badge(
       id: json['id'] as int?,
-      next: json['next'],
       image: json['image'] as String?,
       title: json['title'] as String?,
-      progressLevelStart: json['progress_level_start'] as int?,
-      progressLevelEnd: json['progress_level_end'] as int?,
     );
 
 Map<String, dynamic> _$$_BadgeToJson(_$_Badge instance) => <String, dynamic>{
       'id': instance.id,
-      'next': instance.next,
       'image': instance.image,
       'title': instance.title,
-      'progress_level_start': instance.progressLevelStart,
-      'progress_level_end': instance.progressLevelEnd,
     };
 
 _$_Language _$$_LanguageFromJson(Map<String, dynamic> json) => _$_Language(

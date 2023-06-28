@@ -25,12 +25,16 @@ class ServiceCard extends StatelessWidget {
     this.isRange = false,
     this.isBookmarked = false,
     this.isOwner = false,
+    this.createdByProfileImg,
+    this.bookedCount,
   }) : super(key: key);
 
   final String? title;
   final String? id;
   final String? imagePath;
   final String? createdBy;
+  final String? bookedCount;
+  final String? createdByProfileImg;
   final String? description;
   final String? rating;
   final String? location;
@@ -71,7 +75,7 @@ class ServiceCard extends StatelessWidget {
               ),
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(5.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -81,16 +85,35 @@ class ServiceCard extends StatelessWidget {
                         style: Theme.of(context).textTheme.titleMedium,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      AutoSizeText(
-                        createdBy ?? '',
-                        style: kLightBlueText14,
-                        overflow: TextOverflow.ellipsis,
+                      Row(
+                        children: [
+                          CircleAvatar(
+                            backgroundImage: NetworkImage(createdByProfileImg ?? kHomaaleImg),
+                            radius: 15,
+                          ),
+                          addHorizontalSpace(5),
+                          Expanded(
+                            child: AutoSizeText(
+                              createdBy ?? '',
+                              style: Theme.of(context).textTheme.displaySmall,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                          addHorizontalSpace(5),
+                          IconText(
+                            label: rating ?? '0.0',
+                            iconData: Icons.star_rate_rounded,
+                            size: 13,
+                            color: kColorAmber,
+                          ),
+                        ],
                       ),
                       // * No description field on response
                       // AutoSizeText(
                       //   description ?? '',
                       //   overflow: TextOverflow.ellipsis,
                       // ),
+                      addVerticalSpace(5),
                       ConstrainedBox(
                         constraints: BoxConstraints(
                           minWidth: 120,
@@ -99,17 +122,30 @@ class ServiceCard extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            IconText(
-                              label: rating ?? '0.0',
-                              iconData: Icons.star_rate_rounded,
-                              color: kColorAmber,
-                              size: 13,
-                            ),
                             Flexible(
                               child: IconText(
                                 label: location ?? 'Remote',
                                 iconData: Icons.location_on_outlined,
                                 color: kColorPink,
+                                size: 13,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                      ConstrainedBox(
+                        constraints: BoxConstraints(
+                          minWidth: 120,
+                          maxWidth: double.infinity,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if(bookedCount != null)
+                            Flexible(
+                              child: IconText(
+                                label: '$bookedCount Booked',
+                                iconData: Icons.people,
                                 size: 13,
                               ),
                             ),
@@ -155,7 +191,7 @@ class ServiceCard extends StatelessWidget {
                                       padding: EdgeInsets.zero,
                                       onPressed: shareCallback,
                                       icon: Icon(
-                                        Icons.share,
+                                        Icons.redo_sharp,
                                         color: kColorBlue,
                                       ),
                                     ),

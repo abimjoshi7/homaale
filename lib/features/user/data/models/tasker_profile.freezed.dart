@@ -1237,13 +1237,8 @@ Badge _$BadgeFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Badge {
   int? get id => throw _privateConstructorUsedError;
-  dynamic get next => throw _privateConstructorUsedError;
   String? get image => throw _privateConstructorUsedError;
   String? get title => throw _privateConstructorUsedError;
-  @JsonKey(name: "progress_level_start")
-  int? get progressLevelStart => throw _privateConstructorUsedError;
-  @JsonKey(name: "progress_level_end")
-  int? get progressLevelEnd => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -1255,13 +1250,7 @@ abstract class $BadgeCopyWith<$Res> {
   factory $BadgeCopyWith(Badge value, $Res Function(Badge) then) =
       _$BadgeCopyWithImpl<$Res, Badge>;
   @useResult
-  $Res call(
-      {int? id,
-      dynamic next,
-      String? image,
-      String? title,
-      @JsonKey(name: "progress_level_start") int? progressLevelStart,
-      @JsonKey(name: "progress_level_end") int? progressLevelEnd});
+  $Res call({int? id, String? image, String? title});
 }
 
 /// @nodoc
@@ -1278,21 +1267,14 @@ class _$BadgeCopyWithImpl<$Res, $Val extends Badge>
   @override
   $Res call({
     Object? id = freezed,
-    Object? next = freezed,
     Object? image = freezed,
     Object? title = freezed,
-    Object? progressLevelStart = freezed,
-    Object? progressLevelEnd = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      next: freezed == next
-          ? _value.next
-          : next // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -1301,14 +1283,6 @@ class _$BadgeCopyWithImpl<$Res, $Val extends Badge>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      progressLevelStart: freezed == progressLevelStart
-          ? _value.progressLevelStart
-          : progressLevelStart // ignore: cast_nullable_to_non_nullable
-              as int?,
-      progressLevelEnd: freezed == progressLevelEnd
-          ? _value.progressLevelEnd
-          : progressLevelEnd // ignore: cast_nullable_to_non_nullable
-              as int?,
     ) as $Val);
   }
 }
@@ -1319,13 +1293,7 @@ abstract class _$$_BadgeCopyWith<$Res> implements $BadgeCopyWith<$Res> {
       __$$_BadgeCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {int? id,
-      dynamic next,
-      String? image,
-      String? title,
-      @JsonKey(name: "progress_level_start") int? progressLevelStart,
-      @JsonKey(name: "progress_level_end") int? progressLevelEnd});
+  $Res call({int? id, String? image, String? title});
 }
 
 /// @nodoc
@@ -1338,21 +1306,14 @@ class __$$_BadgeCopyWithImpl<$Res> extends _$BadgeCopyWithImpl<$Res, _$_Badge>
   @override
   $Res call({
     Object? id = freezed,
-    Object? next = freezed,
     Object? image = freezed,
     Object? title = freezed,
-    Object? progressLevelStart = freezed,
-    Object? progressLevelEnd = freezed,
   }) {
     return _then(_$_Badge(
       id: freezed == id
           ? _value.id
           : id // ignore: cast_nullable_to_non_nullable
               as int?,
-      next: freezed == next
-          ? _value.next
-          : next // ignore: cast_nullable_to_non_nullable
-              as dynamic,
       image: freezed == image
           ? _value.image
           : image // ignore: cast_nullable_to_non_nullable
@@ -1361,14 +1322,6 @@ class __$$_BadgeCopyWithImpl<$Res> extends _$BadgeCopyWithImpl<$Res, _$_Badge>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String?,
-      progressLevelStart: freezed == progressLevelStart
-          ? _value.progressLevelStart
-          : progressLevelStart // ignore: cast_nullable_to_non_nullable
-              as int?,
-      progressLevelEnd: freezed == progressLevelEnd
-          ? _value.progressLevelEnd
-          : progressLevelEnd // ignore: cast_nullable_to_non_nullable
-              as int?,
     ));
   }
 }
@@ -1376,13 +1329,7 @@ class __$$_BadgeCopyWithImpl<$Res> extends _$BadgeCopyWithImpl<$Res, _$_Badge>
 /// @nodoc
 @JsonSerializable()
 class _$_Badge implements _Badge {
-  const _$_Badge(
-      {this.id,
-      this.next,
-      this.image,
-      this.title,
-      @JsonKey(name: "progress_level_start") this.progressLevelStart,
-      @JsonKey(name: "progress_level_end") this.progressLevelEnd});
+  const _$_Badge({this.id, this.image, this.title});
 
   factory _$_Badge.fromJson(Map<String, dynamic> json) =>
       _$$_BadgeFromJson(json);
@@ -1390,21 +1337,13 @@ class _$_Badge implements _Badge {
   @override
   final int? id;
   @override
-  final dynamic next;
-  @override
   final String? image;
   @override
   final String? title;
-  @override
-  @JsonKey(name: "progress_level_start")
-  final int? progressLevelStart;
-  @override
-  @JsonKey(name: "progress_level_end")
-  final int? progressLevelEnd;
 
   @override
   String toString() {
-    return 'Badge(id: $id, next: $next, image: $image, title: $title, progressLevelStart: $progressLevelStart, progressLevelEnd: $progressLevelEnd)';
+    return 'Badge(id: $id, image: $image, title: $title)';
   }
 
   @override
@@ -1413,25 +1352,13 @@ class _$_Badge implements _Badge {
         (other.runtimeType == runtimeType &&
             other is _$_Badge &&
             (identical(other.id, id) || other.id == id) &&
-            const DeepCollectionEquality().equals(other.next, next) &&
             (identical(other.image, image) || other.image == image) &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.progressLevelStart, progressLevelStart) ||
-                other.progressLevelStart == progressLevelStart) &&
-            (identical(other.progressLevelEnd, progressLevelEnd) ||
-                other.progressLevelEnd == progressLevelEnd));
+            (identical(other.title, title) || other.title == title));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      id,
-      const DeepCollectionEquality().hash(next),
-      image,
-      title,
-      progressLevelStart,
-      progressLevelEnd);
+  int get hashCode => Object.hash(runtimeType, id, image, title);
 
   @JsonKey(ignore: true)
   @override
@@ -1449,30 +1376,16 @@ class _$_Badge implements _Badge {
 
 abstract class _Badge implements Badge {
   const factory _Badge(
-          {final int? id,
-          final dynamic next,
-          final String? image,
-          final String? title,
-          @JsonKey(name: "progress_level_start") final int? progressLevelStart,
-          @JsonKey(name: "progress_level_end") final int? progressLevelEnd}) =
-      _$_Badge;
+      {final int? id, final String? image, final String? title}) = _$_Badge;
 
   factory _Badge.fromJson(Map<String, dynamic> json) = _$_Badge.fromJson;
 
   @override
   int? get id;
   @override
-  dynamic get next;
-  @override
   String? get image;
   @override
   String? get title;
-  @override
-  @JsonKey(name: "progress_level_start")
-  int? get progressLevelStart;
-  @override
-  @JsonKey(name: "progress_level_end")
-  int? get progressLevelEnd;
   @override
   @JsonKey(ignore: true)
   _$$_BadgeCopyWith<_$_Badge> get copyWith =>

@@ -60,18 +60,36 @@ class ProfileHeaderSection extends StatelessWidget {
       builder: (context, state2) {
         if (state2.theStates == TheStates.success) {
           return ListTile(
-            leading: Container(
-              height: 70,
-              width: 70,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                  fit: BoxFit.cover,
-                  image: NetworkImage(
-                    state2.taskerProfile?.profileImage ?? kHomaaleImg,
+            leading: Stack(
+              clipBehavior: Clip.none,
+              children: [
+                Container(
+                  height: 70,
+                  width: 70,
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    image: DecorationImage(
+                      fit: BoxFit.cover,
+                      image: NetworkImage(
+                        state2.taskerProfile?.profileImage ?? kHomaaleImg,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+                Positioned(
+                  bottom: -12,
+                  left: 15,
+                  child: Container(
+                    height: 40,
+                    width: 40,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                    ),
+                    child:
+                        Image.network(state2.taskerProfile?.badge?.image ?? "",scale: 3),
+                  ),
+                ),
+              ],
             ),
             title: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
