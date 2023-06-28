@@ -1,8 +1,9 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/core/helpers/search_helper.dart';
+import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-
-import 'package:cipher/features/search/presentation/pages/search_page.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String appBarTitle;
@@ -40,9 +41,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         trailingWidget ??
             IconButton(
-              onPressed: () => Navigator.pushNamed(
-                context,
-                SearchPage.routeName,
+              onPressed: () async => showSearch(
+                context: context,
+                delegate: SearchHelper(
+                  context: context,
+                  searchBloc: locator<SearchBloc>(),
+                ),
               ),
               icon: Icon(
                 Icons.search_rounded,

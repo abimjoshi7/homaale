@@ -1,4 +1,9 @@
-import 'dart:developer';
+// ignore_for_file: public_member_api_docs, sort_constructors_first
+
+import 'package:cipher/core/helpers/search_helper.dart';
+import 'package:cipher/locator.dart';
+import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
@@ -7,13 +12,11 @@ import 'package:cipher/features/google_maps/presentation/cubit/user_location_cub
 import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/notification/presentation/pages/notification_home.dart';
-import 'package:cipher/features/search/presentation/pages/search_page.dart';
+import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/user_location/presentation/choose_location_page.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
-import 'package:flutter/material.dart';
 
 import '../../../wallet/presentation/bloc/wallet_bloc.dart';
 
@@ -100,14 +103,15 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       size: 14,
                     ),
                     BlocBuilder<UserLocationCubit, UserLocationState>(
-                      builder: (_, state) {
+                      builder: (_, userLocationState) {
                         return ConstrainedBox(
                           constraints: BoxConstraints(
                             minWidth: 20.0,
                             maxWidth: MediaQuery.of(context).size.width * 0.55,
                           ),
                           child: AutoSizeText(
-                            state.address ?? 'Click to access location',
+                            userLocationState.address ??
+                                'Click to access location',
                             overflow: TextOverflow.ellipsis,
                             minFontSize: 12.0,
                             style: const TextStyle(
@@ -136,8 +140,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
             children: <Widget>[
               kHeight50,
               BlocBuilder<UserBloc, UserState>(
-                builder: (context, state) {
-                  if (state.theStates == TheStates.success) {
+                builder: (context, userState) {
+                  if (userState.theStates == TheStates.success) {
                     child = Container(
                       height: 40,
                       width: 40,
@@ -147,7 +151,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           fit: BoxFit.cover,
                           image: (CacheHelper.isLoggedIn)
                               ? NetworkImage(
-                                  state.taskerProfile?.profileImage ??
+                                  userState.taskerProfile?.profileImage ??
                                       kDefaultAvatarNImg,
                                 )
                               : NetworkImage(
@@ -163,132 +167,139 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                   }
                   return ListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 10),
-                    leading: InkWell(
-                      onTap: () {
-                        if (CacheHelper.isLoggedIn) {
-                          context.read<WalletBloc>().add(WalletLoaded());
-                          Navigator.pushNamed(
-                            context,
-                            AccountView.routeName,
-                          );
-                        } else {
-                          return;
-                        }
-                      },
-                      child: child,
-                    ),
+                    leading: _buildAccountAvatar(context),
                     title: displayUserInfo(),
-                    trailing: BlocBuilder<NotificationBloc, NotificationState>(
-                      builder: (context, state) {
-                        if (state.notificationStatus ==
-                            NotificationStatus.success) {
-                          return SizedBox(
-                            width: 50,
-                            height: 40,
-                            child: Stack(
-                              children: <Widget>[
-                                Positioned(
-                                  top: 5,
-                                  child: InkWell(
-                                    onTap: () {
-                                      (CacheHelper.isLoggedIn)
-                                          ? Navigator.pushNamed(
-                                              context,
-                                              NotificationFromHome.routeName,
-                                            )
-                                          : null;
-                                    },
-                                    child: CommonShowCase(
-                                      position: TooltipPosition.bottom,
-                                      showKey: Home.notificationKey,
-                                      showCaseTitle: 'Notifications',
-                                      showCaseDec:
-                                          'See all notifications from here.',
-                                      child: Icon(
-                                        (CacheHelper.isLoggedIn)
-                                            ? Icons.notifications_none
-                                            : Icons.notifications_off_outlined,
-                                        color: Colors.white,
-                                        size: 30,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                if (CacheHelper.isLoggedIn)
-                                  state.allNotificationList.unreadCount !=
-                                              null &&
-                                          state.allNotificationList
-                                                  .unreadCount !=
-                                              0
-                                      ? Positioned(
-                                          right: 13,
-                                          child: Container(
-                                            height: 20,
-                                            width: 20,
-                                            decoration: BoxDecoration(
-                                                shape: BoxShape.circle,
-                                                color: Colors.red),
-                                            child: Center(
-                                              child: Text(
-                                                state.allNotificationList
-                                                    .unreadCount
-                                                    .toString(),
-                                                style: const TextStyle(
-                                                  color: Colors.white,
-                                                  fontSize: 14,
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        )
-                                      : SizedBox()
-                              ],
-                            ),
-                          );
-                        }
-                        return SizedBox(
-                          width: 50,
-                          height: 40,
-                          child: Icon(
-                            Icons.notifications_none,
-                            color: Colors.white,
-                            size: 30,
-                          ),
-                        );
-                      },
-                    ),
+                    trailing: _buildNotificationIcon(),
                   );
                 },
               ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: DecoratedBox(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(
-                      8,
-                    ),
-                  ),
-                  child: CustomTextFormField(
-                    readOnly: true,
-                    prefixWidget: Icon(
-                      Icons.search,
-                      color: Colors.black45,
-                    ),
-                    hintText: 'Search here',
-                    hintStyle: TextStyle(color: Colors.black45),
-                    // Theme.of(context).textTheme.bodySmall,
-                    onTap: () => Navigator.pushNamed(
-                      context,
-                      SearchPage.routeName,
-                    ),
-                  ),
-                ),
-              ),
+              _buildSearchBox(),
             ],
           ),
         );
       },
+    );
+  }
+
+  InkWell _buildAccountAvatar(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        if (CacheHelper.isLoggedIn) {
+          context.read<WalletBloc>().add(WalletLoaded());
+          Navigator.pushNamed(
+            context,
+            AccountView.routeName,
+          );
+        } else {
+          return;
+        }
+      },
+      child: child,
+    );
+  }
+
+  BlocBuilder<NotificationBloc, NotificationState> _buildNotificationIcon() {
+    return BlocBuilder<NotificationBloc, NotificationState>(
+      builder: (context, state) {
+        if (state.notificationStatus == NotificationStatus.success) {
+          return SizedBox(
+            width: 50,
+            height: 40,
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  top: 5,
+                  child: InkWell(
+                    onTap: () {
+                      (CacheHelper.isLoggedIn)
+                          ? Navigator.pushNamed(
+                              context,
+                              NotificationFromHome.routeName,
+                            )
+                          : null;
+                    },
+                    child: CommonShowCase(
+                      position: TooltipPosition.bottom,
+                      showKey: Home.notificationKey,
+                      showCaseTitle: 'Notifications',
+                      showCaseDec: 'See all notifications from here.',
+                      child: Icon(
+                        (CacheHelper.isLoggedIn)
+                            ? Icons.notifications_none
+                            : Icons.notifications_off_outlined,
+                        color: Colors.white,
+                        size: 30,
+                      ),
+                    ),
+                  ),
+                ),
+                if (CacheHelper.isLoggedIn)
+                  state.allNotificationList.unreadCount != null &&
+                          state.allNotificationList.unreadCount != 0
+                      ? Positioned(
+                          right: 13,
+                          child: Container(
+                            height: 20,
+                            width: 20,
+                            decoration: BoxDecoration(
+                                shape: BoxShape.circle, color: Colors.red),
+                            child: Center(
+                              child: Text(
+                                state.allNotificationList.unreadCount
+                                    .toString(),
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 14,
+                                ),
+                              ),
+                            ),
+                          ),
+                        )
+                      : SizedBox()
+              ],
+            ),
+          );
+        }
+        return SizedBox(
+          width: 50,
+          height: 40,
+          child: Icon(
+            Icons.notifications_none,
+            color: Colors.white,
+            size: 30,
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildSearchBox() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: DecoratedBox(
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(
+            8,
+          ),
+        ),
+        child: CustomTextFormField(
+          readOnly: true,
+          prefixWidget: Icon(
+            Icons.search,
+            color: Colors.black45,
+          ),
+          hintText: 'Search here',
+          hintStyle: TextStyle(color: Colors.black45),
+          onTap: () async => await showSearch(
+            context: context,
+            delegate: SearchHelper(
+              context: context,
+              searchBloc: locator<SearchBloc>(),
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -21,7 +21,6 @@ class TaskerSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        height: 150,
         width: double.maxFinite,
         child: CustomFormField(
           label: "Taskers",
@@ -36,7 +35,8 @@ class TaskerSection extends StatelessWidget {
               "See all >",
             ),
           ),
-          child: Expanded(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.15,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: taskers?.length,
