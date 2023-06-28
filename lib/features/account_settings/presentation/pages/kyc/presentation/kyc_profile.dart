@@ -1,12 +1,11 @@
 import 'dart:developer';
 import 'dart:io';
-
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/compress_helper.dart';
-import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/create_kyc_req.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_details.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_view.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/account_view.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -132,10 +131,18 @@ class _KycProfileState extends State<KycProfile> {
         }
         return WillPopScope(
           onWillPop: () async {
-            Navigator.popUntil(
-              context,
-              (route) => route.settings.name == AccountView.routeName,
-            );
+            if (state.kycModel == null) {
+              Navigator.pushNamed(
+                context,
+                AccountView.routeName,
+              );
+            }
+            if (state.kycModel != null) {
+              Navigator.pushNamed(
+                context,
+                KycView.routeName,
+              );
+            }
             return false;
           },
           child: Scaffold(
@@ -145,10 +152,20 @@ class _KycProfileState extends State<KycProfile> {
               appBarTitle:
                   state.kycModel != null ? 'Edit KYC Details' : 'KYC Details',
               leadingWidget: IconButton(
-                onPressed: () => Navigator.popUntil(
-                  context,
-                  (route) => route.settings.name == AccountView.routeName,
-                ),
+                onPressed: () {
+                  if (state.kycModel == null) {
+                    Navigator.pushNamed(
+                      context,
+                      AccountView.routeName,
+                    );
+                  }
+                  if (state.kycModel != null) {
+                    Navigator.pushNamed(
+                      context,
+                      KycView.routeName,
+                    );
+                  }
+                },
                 icon: Icon(
                   Icons.arrow_back_rounded,
                 ),
@@ -177,7 +194,7 @@ class _KycProfileState extends State<KycProfile> {
                               isRequired: true,
                               child: InkWell(
                                 onTap: () async {
-                                  showDialog(
+                                  await showDialog(
                                     context: context,
                                     builder: (context) => AlertDialog(
                                       content: WidgetText(

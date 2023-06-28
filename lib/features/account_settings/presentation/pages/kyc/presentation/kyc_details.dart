@@ -1,9 +1,10 @@
 import 'dart:io';
-import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/file_picker/file_pick_helper.dart';
+import 'package:cipher/core/helpers/compress_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_doc_type.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_view.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/account_view.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -114,13 +115,18 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
             builder: (context) => CustomToast(
               heading: "Success",
               content: "Kyc document uploaded successfully",
-              onTap: () {
+              onTap: () async {
                 // context.read<KycBloc>().add(KycModelLoaded());
                 context.read<KycBloc>().add(KycDocumentLoaded());
                 context.read<KycBloc>().add(KycProfileInitiated());
-                Navigator.popUntil(
-                  context,
-                  (route) => route.settings.name == Root.routeName,
+                Future.delayed(
+                  Duration(
+                    milliseconds: 300,
+                  ),
+                  () async => await Navigator.pushNamed(
+                    context,
+                    KycView.routeName,
+                  ),
                 );
               },
               isSuccess: true,
@@ -136,9 +142,9 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
               heading: "Success",
               content: "Identity Document Edited Successfully.",
               onTap: () {
-                Navigator.popUntil(
+                Navigator.pushNamed(
                   context,
-                  (route) => route.settings.name == AccountView.routeName,
+                  KycView.routeName,
                 );
               },
               isSuccess: true,
@@ -150,10 +156,19 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
         if (state.theStates == TheStates.loading)
           return WillPopScope(
             onWillPop: () async {
-              Navigator.popUntil(
-                context,
-                (route) => route.settings.name == AccountView.routeName,
-              );
+              if (state.isNewDoc == true) {
+                Navigator.pushNamed(
+                  context,
+                  AccountView.routeName,
+                );
+              }
+              if (state.isNewDoc == false) {
+                Navigator.pushNamed(
+                  context,
+                  KycView.routeName,
+                );
+              }
+
               return false;
             },
             child: Scaffold(
@@ -165,10 +180,18 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
 
         return WillPopScope(
           onWillPop: () async {
-            Navigator.popUntil(
-              context,
-              (route) => route.settings.name == AccountView.routeName,
-            );
+            if (state.isNewDoc == true) {
+              Navigator.pushNamed(
+                context,
+                AccountView.routeName,
+              );
+            }
+            if (state.isNewDoc == false) {
+              Navigator.pushNamed(
+                context,
+                KycView.routeName,
+              );
+            }
             return false;
           },
           child: Scaffold(
@@ -180,10 +203,22 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                   ? "Edit KYC Details"
                   : "Add KYC Details",
               leadingWidget: IconButton(
-                onPressed: () => Navigator.popUntil(
-                  context,
-                  (route) => route.settings.name == AccountView.routeName,
-                ),
+                onPressed: () {
+                  if (state.isNewDoc == true) {
+                    Navigator.pushNamed(
+                      context,
+                      AccountView.routeName,
+                    );
+                  }
+                  if ((state.isNewDoc == true &&
+                          (state.list?.length != 0 && state.list != null)) ||
+                      state.isNewDoc == false) {
+                    Navigator.pushNamed(
+                      context,
+                      KycView.routeName,
+                    );
+                  }
+                },
                 icon: Icon(
                   Icons.arrow_back_rounded,
                 ),
@@ -249,7 +284,11 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                         }
                                         return null;
                                       },
-                                      hintText: "yyyy-mm-dd",
+                                      hintText: issuedDate != null
+                                          ? DateFormat("yyyy-MM-dd").format(
+                                              issuedDate!,
+                                            )
+                                          : "yyyy-mm-dd",
                                       prefixWidget: Icon(
                                         Icons.calendar_month_rounded,
                                         color: Theme.of(context).indicatorColor,
@@ -307,7 +346,11 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                         }
                                         return null;
                                       },
-                                      hintText: "yyyy-mm-dd",
+                                      hintText: expiryDate != null
+                                          ? DateFormat("yyyy-MM-dd").format(
+                                              expiryDate!,
+                                            )
+                                          : "yyyy-mm-dd",
                                       prefixWidget: Icon(
                                         Icons.calendar_month_rounded,
                                         color: Theme.of(context).indicatorColor,
@@ -393,15 +436,35 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                     ],
                                   ),
                                   InkWell(
-                                    onTap: () async {
-                                      await FilePickHelper.filePicker().then(
-                                        (value) => setState(
+                                    onTap: () async => await ImagePicker()
+                                        .pickImage(source: ImageSource.gallery)
+                                        .then(
+                                      (value) async {
+                                        final selectedFile =
+                                            await CompressHelper()
+                                                .compressFileAsync(value!.path);
+                                        if (selectedFile.lengthSync() >
+                                            5093309) {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (_) => CustomToast(
+                                              heading: "Failure",
+                                              content:
+                                                  "File Size Must Be Less Than 5MB.",
+                                              onTap: () {},
+                                              isSuccess: false,
+                                            ),
+                                          );
+                                        }
+                                        if (selectedFile.lengthSync() > 5093309)
+                                          return;
+                                        setState(
                                           () {
-                                            file = value;
+                                            file = selectedFile;
                                           },
-                                        ),
-                                      );
-                                    },
+                                        );
+                                      },
+                                    ),
                                     child: file == null
                                         ? state.list?.length != 0 &&
                                                 state.isNewDoc == false
@@ -564,15 +627,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
           list: state.docTypeList?.map((e) => e.name!).toList() ?? [],
           selectedIndex: (state.list?.length != 0 && state.list != null) &&
                   state.isNewDoc == false
-              ? state.docTypeList!.indexWhere(
-                  (e) => e.name!.contains(
-                    state.list!
-                        .where((e) => e.id == state.kycId)
-                        .first
-                        .documentType!
-                        .name
-                        .toString(),
-                  ),
+              ? state.docTypeList?.indexWhere(
+                  (e) => e.id == int.parse(identityTypeController.text),
                 )
               : null,
           onChanged: (value) {
