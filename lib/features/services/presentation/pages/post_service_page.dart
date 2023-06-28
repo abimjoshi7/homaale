@@ -603,13 +603,10 @@ class _PostServicePageState extends State<PostServicePage> {
                   () {
                     if (endPriceController.text.isNotEmpty)
                       budgetTo = getPayableAmount(
-                        int.parse(endPriceController.text).toDouble(),
-                        int.parse(context
-                                    .read<CategoriesBloc>()
-                                    .state
-                                    .commission ??
-                                "0")
-                            .toDouble(),
+                        double.parse(endPriceController.text),
+                        double.parse(
+                            context.read<CategoriesBloc>().state.commission ??
+                                "0"),
                       );
                   },
                 ),
