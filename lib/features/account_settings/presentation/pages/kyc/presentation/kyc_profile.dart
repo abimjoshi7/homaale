@@ -70,12 +70,13 @@ class _KycProfileState extends State<KycProfile> {
             builder: (_) => CustomToast(
               heading: "Success",
               content: "Tasker Profile Filled Successfully.",
-              onTap: () async {
-                await Navigator.pushNamed(
+              onTap: () async => Future.delayed(
+                Duration(milliseconds: 250),
+                () async => await Navigator.pushNamed(
                   context,
                   KycDetails.routeName,
-                );
-              },
+                ),
+              ),
               isSuccess: true,
             ),
           );
@@ -88,12 +89,13 @@ class _KycProfileState extends State<KycProfile> {
             builder: (_) => CustomToast(
               heading: "Success",
               content: "Tasker Profile Edited Successfully.",
-              onTap: () {
-                Navigator.popUntil(
+              onTap: () async => Future.delayed(
+                Duration(milliseconds: 250),
+                () async => await Navigator.pushNamed(
                   context,
-                  (route) => route.settings.name == AccountView.routeName,
-                );
-              },
+                  KycView.routeName,
+                ),
+              ),
               isSuccess: true,
             ),
           );
@@ -212,30 +214,33 @@ class _KycProfileState extends State<KycProfile> {
                                         .pickImage(source: ImageSource.gallery)
                                         .then(
                                       (value) async {
-                                        final file = await CompressHelper()
-                                            .compressFileAsync(
-                                          File(
-                                            value!.path,
-                                          ),
-                                        );
-                                        if (file.lengthSync() > 5093309) {
-                                          await showDialog(
-                                            context: context,
-                                            builder: (_) => CustomToast(
-                                              heading: "Failure",
-                                              content:
-                                                  "File Size Must Be Less Than 5MB.",
-                                              onTap: () {},
-                                              isSuccess: false,
+                                        if (value != null) {
+                                          final file = await CompressHelper()
+                                              .compressFileAsync(
+                                            File(
+                                              value.path,
                                             ),
                                           );
+                                          if (file.lengthSync() > 5093309) {
+                                            await showDialog(
+                                              context: context,
+                                              builder: (_) => CustomToast(
+                                                heading: "Failure",
+                                                content:
+                                                    "File Size Must Be Less Than 5MB.",
+                                                onTap: () {},
+                                                isSuccess: false,
+                                              ),
+                                            );
+                                          }
+                                          if (file.lengthSync() > 5093309)
+                                            return;
+                                          setState(
+                                            () {
+                                              selectedImage = file;
+                                            },
+                                          );
                                         }
-                                        if (file.lengthSync() > 5093309) return;
-                                        setState(
-                                          () {
-                                            selectedImage = file;
-                                          },
-                                        );
                                       },
                                     ),
                                   );

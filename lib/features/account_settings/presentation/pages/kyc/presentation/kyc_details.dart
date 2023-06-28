@@ -3,7 +3,6 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/compress_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
-import 'package:cipher/features/account_settings/presentation/pages/kyc/models/kyc_doc_type.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_view.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/account_view.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -141,10 +140,16 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
             builder: (_) => CustomToast(
               heading: "Success",
               content: "Identity Document Edited Successfully.",
-              onTap: () {
-                Navigator.pushNamed(
-                  context,
-                  KycView.routeName,
+              onTap: () async {
+                context.read<KycBloc>().add(KycDocumentLoaded());
+                Future.delayed(
+                  Duration(
+                    milliseconds: 300,
+                  ),
+                  () async => await Navigator.pushNamed(
+                    context,
+                    KycView.routeName,
+                  ),
                 );
               },
               isSuccess: true,
@@ -508,7 +513,6 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: CustomElevatedButton(
                                     callback: () async {
-                                      fieldValidations(state);
                                       if ((state.list?.length != 0 &&
                                               state.list != null) &&
                                           state.isNewDoc == false) {
@@ -539,23 +543,25 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                         if (_key.currentState!.validate()) {
                                           context.read<KycBloc>().add(
                                                 KycDocEditLoaded(
-                                                  id: int.parse(
-                                                    state.list
-                                                        ?.where((e) =>
-                                                            e.id == state.kycId)
-                                                        .first
-                                                        .documentId as String,
-                                                  ),
+                                                  id: state.list
+                                                          ?.where((e) =>
+                                                              e.id ==
+                                                              state.kycId)
+                                                          .first
+                                                          .id ??
+                                                      0,
                                                   editDocReq: editReq,
                                                 ),
                                               );
                                         }
                                       }
-
                                       if ((state.list?.length == 0 ||
                                               state.list == null) ||
                                           state.isNewDoc == true) {
+                                        fieldValidations(state);
                                         if (_key.currentState!.validate()) {
+                                          //image validations
+                                          //
                                           // _key.currentState!.save();
                                           final AddKycReq x = AddKycReq(
                                             kyc: int.parse(
