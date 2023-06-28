@@ -1,9 +1,11 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
-import 'package:cipher/features/search/presentation/pages/search_page.dart';
+import 'package:cipher/core/helpers/search_helper.dart';
+import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/tasker/data/repositories/tasker_repositories.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -21,14 +23,19 @@ class PopularTaskerNew extends StatelessWidget {
       appBar: CustomAppBar(
         appBarTitle: 'Tasker',
         trailingWidget: IconButton(
-          onPressed: () {
-            Navigator.pushNamed(context, SearchPage.routeName);
-          },
+          onPressed: () async => showSearch(
+            context: context,
+            delegate: SearchHelper(
+              context: context,
+              searchBloc: locator<SearchBloc>(),
+            ),
+          ),
           icon: Icon(Icons.search),
         ),
       ),
       body: BlocProvider(
-        create: (_) => TaskerBloc(taskerRepositories: TaskerRepositories())..add(TaskerFetched()),
+        create: (_) => TaskerBloc(taskerRepositories: TaskerRepositories())
+          ..add(TaskerFetched()),
         child: const TaskerList(),
       ),
     );
@@ -68,64 +75,79 @@ class _TaskerListState extends State<TaskerList> {
                 crossAxisCount: 2,
                 childAspectRatio: 0.8,
               ),
-              itemCount: state.hasReachedMax ? state.tasker.length : state.tasker.length + 1,
+              itemCount: state.hasReachedMax
+                  ? state.tasker.length
+                  : state.tasker.length + 1,
               controller: _scrollController,
               itemBuilder: (context, index) {
                 return index >= state.tasker.length
                     ? const BottomLoader()
                     : InkWell(
-                      onTap: () {
-                        context.read<TaskerCubit>().loadSingleTasker(
-                              state.tasker[index].user?.id ?? '',
-                            );
-                        context.read<TaskerCubit>().loadSingleTaskerServices(
-                              state.tasker[index].user?.id ?? '',
-                            );
-                        context.read<TaskerCubit>().loadSingleTaskerTask(
-                              state.tasker[index].user?.id ?? '',
-                            );
-                        context.read<TaskerCubit>().loadSingleTaskerReviews(
-                              state.tasker[index].user?.id ?? '',
-                            );
-                        Navigator.pushNamed(
-                          context,
-                          TaskerProfileView.routeName,
-                        );
-                      },
-                      child: TaskerCard(
-                        rewardPercentage: state.tasker[index].stats?.successRate?.toInt().toString() ??'0',
-                        shareLinked: '$kShareLinks/tasker/${state.tasker[index].user?.id}',
-                        id: state.tasker[index].user?.id.toString() ?? '',
-                        networkImageUrl: state.tasker[index].profileImage,
-                        label: "${state.tasker[index].user?.firstName} ${state.tasker[index].user?.lastName}",
-                        designation: state.tasker[index].designation,
-                        happyClients: state.tasker[index].stats?.happyClients.toString(),
-                        ratings:
-                            // "${state.tasker[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'} "
-                                "${state.tasker[index].rating?.userRatingCount?.toStringAsFixed(1) ?? '0'}",
-                        rate: "Rs. ${state.tasker[index].hourlyRate}",
-                        callbackLabel: state.tasker[index].isFollowed ?? false ? 'Following' : 'Follow',
-                        isFollowed: state.tasker[index].isFollowed ?? false,
-                        buttonWidth: MediaQuery.of(context).size.width,
-                        callback: () {
-                          if (CacheHelper.isLoggedIn == false) {
-                            notLoggedInPopUp(context);
-                          } else {
-                            if (state.tasker[index].isFollowed ?? false) {
-                              context
-                                  .read<TaskerCubit>()
-                                  .handleFollowUnFollow(id: state.tasker[index].user?.id ?? '', follow: false);
-                            } else {
-                              context
-                                  .read<TaskerCubit>()
-                                  .handleFollowUnFollow(id: state.tasker[index].user?.id ?? '', follow: true);
-                            }
-                            context.read<TaskerBloc>().add(SetInitial());
-                          }
+                        onTap: () {
+                          context.read<TaskerCubit>().loadSingleTasker(
+                                state.tasker[index].user?.id ?? '',
+                              );
+                          context.read<TaskerCubit>().loadSingleTaskerServices(
+                                state.tasker[index].user?.id ?? '',
+                              );
+                          context.read<TaskerCubit>().loadSingleTaskerTask(
+                                state.tasker[index].user?.id ?? '',
+                              );
+                          context.read<TaskerCubit>().loadSingleTaskerReviews(
+                                state.tasker[index].user?.id ?? '',
+                              );
+                          Navigator.pushNamed(
+                            context,
+                            TaskerProfileView.routeName,
+                          );
                         },
-                        onFavouriteTapped: () {},
-                      ),
-                    );
+                        child: TaskerCard(
+                          rewardPercentage: state
+                                  .tasker[index].stats?.successRate
+                                  ?.toInt()
+                                  .toString() ??
+                              '0',
+                          shareLinked:
+                              '$kShareLinks/tasker/${state.tasker[index].user?.id}',
+                          id: state.tasker[index].user?.id.toString() ?? '',
+                          networkImageUrl: state.tasker[index].profileImage,
+                          label:
+                              "${state.tasker[index].user?.firstName} ${state.tasker[index].user?.lastName}",
+                          designation: state.tasker[index].designation,
+                          happyClients: state.tasker[index].stats?.happyClients
+                              .toString(),
+                          ratings:
+                              // "${state.tasker[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'} "
+                              "${state.tasker[index].rating?.userRatingCount?.toStringAsFixed(1) ?? '0'}",
+                          rate: "Rs. ${state.tasker[index].hourlyRate}",
+                          callbackLabel: state.tasker[index].isFollowed ?? false
+                              ? 'Following'
+                              : 'Follow',
+                          isFollowed: state.tasker[index].isFollowed ?? false,
+                          buttonWidth: MediaQuery.of(context).size.width,
+                          callback: () {
+                            if (CacheHelper.isLoggedIn == false) {
+                              notLoggedInPopUp(context);
+                            } else {
+                              if (state.tasker[index].isFollowed ?? false) {
+                                context
+                                    .read<TaskerCubit>()
+                                    .handleFollowUnFollow(
+                                        id: state.tasker[index].user?.id ?? '',
+                                        follow: false);
+                              } else {
+                                context
+                                    .read<TaskerCubit>()
+                                    .handleFollowUnFollow(
+                                        id: state.tasker[index].user?.id ?? '',
+                                        follow: true);
+                              }
+                              context.read<TaskerBloc>().add(SetInitial());
+                            }
+                          },
+                          onFavouriteTapped: () {},
+                        ),
+                      );
               },
             );
           case TaskerStatus.initial:

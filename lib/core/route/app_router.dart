@@ -45,7 +45,6 @@ import 'package:cipher/features/rating_reviews/presentation/rating_reviews.dart'
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/features/saved/presentation/pages/saved_collection_page.dart';
 import 'package:cipher/features/saved/presentation/pages/saved_page.dart';
-import 'package:cipher/features/search/presentation/pages/search_page.dart';
 import 'package:cipher/features/services/presentation/pages/post_service_page.dart';
 import 'package:cipher/features/categories/presentation/pages/category_professional_service_section.dart';
 import 'package:cipher/features/services/presentation/pages/trending_services_page.dart';
@@ -190,10 +189,7 @@ class AppRouter {
         return MaterialPageRoute(
           builder: (context) => const Home(),
         );
-      case SearchPage.routeName:
-        return MaterialPageRoute(
-          builder: (context) => const SearchPage(),
-        );
+
       case ProfileSettings.routeName:
         return MaterialPageRoute(
           builder: (context) => const ProfileSettings(),
