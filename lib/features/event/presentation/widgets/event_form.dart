@@ -334,6 +334,7 @@ class _EventFormState extends State<EventForm> {
                 final d = endDate!.difference(startDate!).inHours - 1;
                 if (int.parse(durationController.text) > d)
                   return "Duration cannot be more than given dates";
+                if (p0 == null) return "Please provide minutes";
                 return null;
               },
             ),
