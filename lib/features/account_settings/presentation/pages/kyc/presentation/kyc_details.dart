@@ -442,7 +442,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                       (value) async {
                                         final selectedFile =
                                             await CompressHelper()
-                                                .compressFileAsync(value!.path);
+                                                .compressFileAsync(
+                                                    File(value!.path));
                                         if (selectedFile.lengthSync() >
                                             5093309) {
                                           await showDialog(
