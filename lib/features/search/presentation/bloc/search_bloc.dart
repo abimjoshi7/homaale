@@ -23,12 +23,12 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         try {
           //get cached recent search queries
           var _recentSearchQueriesList = await _searchRepository
-              .getCachedRecentSearchQueries(key: _key) as List?;
+              .getCachedRecentSearchQueries(key: _key) as List<String>;
 
           emit(
             state.copyWith(
               theStates: TheStates.initial,
-              recentSearchQueriesList: _recentSearchQueriesList ?? [],
+              recentSearchQueriesList: _recentSearchQueriesList,
             ),
           );
         } catch (e) {
@@ -53,7 +53,8 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
             emit(
               state.copyWith(
                 theStates: TheStates.initial,
-                recentSearchQueriesList: _recentSearchQueriesList as List,
+                recentSearchQueriesList:
+                    _recentSearchQueriesList as List<String>,
               ),
             );
           }
@@ -106,7 +107,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
           recentSearchQueriesList: List.empty(),
         );
         var _recentSearchQueriesList = await _searchRepository
-            .getCachedRecentSearchQueries(key: _key) as List?;
+            .getCachedRecentSearchQueries(key: _key) as List<String>;
         emit(state.copyWith(
           theStates: TheStates.initial,
           recentSearchQueriesList: _recentSearchQueriesList,
@@ -125,7 +126,7 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
         try {
           //get cached recent search queries
           var _recentSearchQueriesList = await _searchRepository
-              .getCachedRecentSearchQueries(key: _key) as List;
+              .getCachedRecentSearchQueries(key: _key) as List<String>;
 
           _recentSearchQueriesList.removeAt(event.index);
           //cache recent search queries
@@ -161,15 +162,46 @@ class SearchBloc extends Bloc<SearchEvent, SearchState> {
     try {
       final searchResults =
           await _searchRepository.getSearchResults(event.searchQuery);
-      print(searchResults);
       emit(
         state.copyWith(
           theStates: TheStates.success,
           result: searchResults,
+          recentSearchQueriesList: [
+            event.searchQuery,
+            ...state.recentSearchQueriesList,
+          ],
         ),
       );
     } catch (e) {
       log("Search Event Error: $e");
+      emit(
+        state.copyWith(
+          theStates: TheStates.failure,
+          result: SearchRes(),
+          recentSearchQueriesList: [
+            ...state.recentSearchQueriesList,
+          ],
+        ),
+      );
+    }
+  }
+
+  Future<void> _onSearchCleared(
+      SearchQueryCleared event, Emitter<SearchState> emit) async {
+    emit(
+      state.copyWith(
+        theStates: TheStates.loading,
+      ),
+    );
+    try {
+      emit(
+        state.copyWith(
+          theStates: TheStates.success,
+          result: SearchRes(),
+        ),
+      );
+    } catch (e) {
+      log("Search Clear Event Error: $e");
       emit(
         state.copyWith(
           theStates: TheStates.failure,

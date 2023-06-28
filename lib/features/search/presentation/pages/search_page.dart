@@ -17,12 +17,7 @@ class SearchPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => SearchBloc(
-        SearchRepository(),
-      ),
-      child: SearchPageMainView(),
-    );
+    return SearchPageMainView();
   }
 }
 

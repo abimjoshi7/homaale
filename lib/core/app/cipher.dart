@@ -32,6 +32,9 @@ import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_
 import 'package:cipher/features/redeem/presentation/bloc/redeem_bloc.dart';
 import 'package:cipher/features/redeem/statement/presentation/bloc/redeem_statement_bloc.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
+import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
+import 'package:cipher/features/search/presentation/cubit/recent_search_cubit.dart';
+import 'package:cipher/features/search/repositories/search_repository.dart';
 import 'package:cipher/features/security_question/presentation/bloc/security_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
@@ -80,6 +83,7 @@ class Cipher extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(create: (context) => SignupBloc(SignUpRepositories())),
+          BlocProvider(create: (context) => locator<SearchBloc>()),
           BlocProvider(create: (context) => PrivacyPolicyCubit()),
           BlocProvider(create: (context) => TermsOfUseCubit()),
           BlocProvider(create: (context) => SupportTicketBloc()),
@@ -92,7 +96,9 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => FeedbackPostBloc()),
           BlocProvider(create: (context) => UserSuspendBloc()),
           BlocProvider(create: (context) => BookingCancelBloc()),
-          BlocProvider(create: (context) => ResendVerificationBloc(SignUpRepositories())),
+          BlocProvider(
+              create: (context) =>
+                  ResendVerificationBloc(SignUpRepositories())),
           BlocProvider(create: (context) => NearbyTaskEntityServiceBloc()),
           BlocProvider(create: (context) => locator<UserBloc>()),
           BlocProvider(create: (context) => UserLocationCubit()),
@@ -105,16 +111,23 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => locator<KycBloc>()),
           BlocProvider(create: (context) => locator<ImageUploadCubit>()),
           BlocProvider(create: (context) => locator<UploadBloc>()),
-          BlocProvider(create: (context) => SupportHelpBloc(SupportHelpRepositories())),
-          BlocProvider(create: (context) => PasswordSecurityBloc(PasswordSecurityRepositories())),
-          BlocProvider(create: (context) => ForgotPasswordBloc(SignInRepository())),
-          BlocProvider(create: (context) => OtpResetVerifyBloc(SignUpRepositories())),
+          BlocProvider(
+              create: (context) => SupportHelpBloc(SupportHelpRepositories())),
+          BlocProvider(
+              create: (context) =>
+                  PasswordSecurityBloc(PasswordSecurityRepositories())),
+          BlocProvider(
+              create: (context) => ForgotPasswordBloc(SignInRepository())),
+          BlocProvider(
+              create: (context) => OtpResetVerifyBloc(SignUpRepositories())),
           BlocProvider(create: (context) => UserDeactiveBloc()),
           BlocProvider(create: (context) => InterestsBloc()),
           BlocProvider(create: (context) => CountryBloc()),
           BlocProvider(create: (context) => CityBloc()),
           BlocProvider(create: (context) => CurrencyBloc()),
           BlocProvider(create: (context) => SkillsBloc()),
+          BlocProvider(
+              create: (context) => RecentSearchCubit()..loadPersistedState()),
           BlocProvider(create: (context) => LanguageBloc()),
           BlocProvider(create: (context) => ThemeBloc()),
           BlocProvider(create: (context) => ActivitiesTimelineBloc()),
