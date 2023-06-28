@@ -22,7 +22,6 @@ class ServicesSection extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: SizedBox(
-        height: 200,
         width: double.maxFinite,
         child: CustomFormField(
           label: "Services",
@@ -37,8 +36,10 @@ class ServicesSection extends StatelessWidget {
               "See all >",
             ),
           ),
-          child: Expanded(
+          child: SizedBox(
+            height: MediaQuery.of(context).size.height * 0.2,
             child: ListView.builder(
+              shrinkWrap: true,
               scrollDirection: Axis.horizontal,
               itemCount: service?.length,
               itemBuilder: (context, index) => SizedBox(

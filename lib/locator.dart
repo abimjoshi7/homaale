@@ -24,6 +24,8 @@ import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_
 import 'package:cipher/features/redeem/presentation/bloc/redeem_bloc.dart';
 import 'package:cipher/features/saved/data/repositories/saved_repository.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
+import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
+import 'package:cipher/features/search/repositories/search_repository.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/repositories/task_entity_services_repository.dart';
@@ -46,20 +48,28 @@ void init() {
     () => TaskEntityServiceRepository(),
   );
   locator.registerLazySingleton<KycRepositories>(() => KycRepositories());
-  locator.registerLazySingleton<CategoriesRepositories>(() => CategoriesRepositories());
+  locator.registerLazySingleton<CategoriesRepositories>(
+      () => CategoriesRepositories());
   locator.registerLazySingleton<ChatRepository>(() => ChatRepository());
   locator.registerLazySingleton<SavedRepository>(() => SavedRepository());
-  locator.registerLazySingleton<NotificationRepositories>(() => NotificationRepositories());
+  locator.registerLazySingleton<NotificationRepositories>(
+      () => NotificationRepositories());
   locator.registerLazySingleton<UploadRepository>(() => UploadRepository());
-  locator.registerLazySingleton<RatingReviewsRepositroy>(() => RatingReviewsRepositroy());
-  locator.registerLazySingleton<TransactionRepository>(() => TransactionRepository());
+  locator.registerLazySingleton<RatingReviewsRepositroy>(
+      () => RatingReviewsRepositroy());
+  locator.registerLazySingleton<TransactionRepository>(
+      () => TransactionRepository());
   locator.registerLazySingleton<BankRepository>(() => BankRepository());
   locator.registerLazySingleton<RedeemRepositories>(() => RedeemRepositories());
-  locator.registerLazySingleton<MarketingRepository>(() => MarketingRepository());
+  locator
+      .registerLazySingleton<MarketingRepository>(() => MarketingRepository());
+  locator.registerLazySingleton<SearchRepository>(() => SearchRepository());
 
   //bloc
-  locator.registerFactory<TaskEntityServiceBloc>(() => TaskEntityServiceBloc(locator()));
-  locator.registerFactory<TaskBloc>(() => TaskBloc(TaskEntityServiceRepository()));
+  locator.registerFactory<TaskEntityServiceBloc>(
+      () => TaskEntityServiceBloc(locator()));
+  locator
+      .registerFactory<TaskBloc>(() => TaskBloc(TaskEntityServiceRepository()));
   locator.registerFactory<ServicesBloc>(() => ServicesBloc());
   locator.registerFactory<TaskerCubit>(() => TaskerCubit());
   locator.registerFactory<UserBloc>(() => UserBloc());
@@ -71,19 +81,24 @@ void init() {
   locator.registerFactory<ChatBloc>(() => ChatBloc(chatRepository: locator()));
   locator.registerFactory<KycBloc>(() => KycBloc(locator()));
   locator.registerFactory<CategoriesBloc>(() => CategoriesBloc(locator()));
-  locator.registerFactory<SavedBloc>(() => SavedBloc(savedRepository: locator()));
+  locator
+      .registerFactory<SavedBloc>(() => SavedBloc(savedRepository: locator()));
   locator.registerFactory<OrderItemRetriveBloc>(() => OrderItemRetriveBloc());
   locator.registerFactory<ImageUploadCubit>(() => ImageUploadCubit());
-  locator.registerFactory<NotificationBloc>(() => NotificationBloc(repo: locator()));
+  locator.registerFactory<NotificationBloc>(
+      () => NotificationBloc(repo: locator()));
   locator.registerFactory<UploadBloc>(() => UploadBloc(locator()));
-  locator.registerFactory<RatingReviewsBloc>(() => RatingReviewsBloc(locator()));
+  locator
+      .registerFactory<RatingReviewsBloc>(() => RatingReviewsBloc(locator()));
   locator.registerFactory<TransactionBloc>(() => TransactionBloc(locator()));
-  locator.registerFactory<BillsPaymentBloc>(() => BillsPaymentBloc(bankRepository: locator()));
+  locator.registerFactory<BillsPaymentBloc>(
+      () => BillsPaymentBloc(bankRepository: locator()));
   locator.registerFactory<RedeemBloc>(() => RedeemBloc(locator()));
   locator.registerFactory<ScrollBloc>(() => ScrollBloc());
   locator.registerFactory<BookEventHandlerBloc>(() => BookEventHandlerBloc());
   locator.registerFactory<ScheduleBloc>(() => ScheduleBloc());
   locator.registerFactory<MarketingAdsBloc>(() => MarketingAdsBloc(locator()));
+  locator.registerFactory<SearchBloc>(() => SearchBloc(locator()));
 
   //other
   var firebaseInstance = FirebaseFirestore.instance;

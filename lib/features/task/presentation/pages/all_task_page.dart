@@ -2,9 +2,10 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/scroll_helper.dart';
+import 'package:cipher/core/helpers/search_helper.dart';
 import 'package:cipher/features/marketing/data/models/marketing_ads_dto.dart';
 import 'package:cipher/features/marketing/presentation/bloc/marketing_ads_bloc.dart';
-import 'package:cipher/features/search/presentation/pages/search_page.dart';
+import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
@@ -55,8 +56,12 @@ class _AllTaskPageState extends State<AllTaskPage> {
           taskBloc.add(AllTaskLoadInitiated(
             newFetch: false,
             isTask: true,
-            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
-            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+            dateFrom: dateFrom == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(dateFrom!),
+            dateTo: dateTo == null
+                ? null
+                : DateFormat("yyyy-MM-dd").format(dateTo!),
             budgetFrom: budgetFrom.text.length == 0 ? null : budgetFrom.text,
             budgetTo: budgetTo.text.length == 0 ? null : budgetTo.text,
             serviceId: category,
@@ -83,7 +88,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
     context.read<TaskBloc>().add(
           SingleEntityTaskLoadInitiated(
             id: state.taskEntityServices![index].id!,
-            userId: context.read<UserBloc>().state.taskerProfile?.user?.id ?? '',
+            userId:
+                context.read<UserBloc>().state.taskerProfile?.user?.id ?? '',
           ),
         );
     if (isApply) {
@@ -105,9 +111,13 @@ class _AllTaskPageState extends State<AllTaskPage> {
       appBar: CustomAppBar(
         appBarTitle: "All Task Page",
         trailingWidget: IconButton(
-          onPressed: () {
-            Navigator.pushNamed(context, SearchPage.routeName);
-          },
+          onPressed: () async => showSearch(
+            context: context,
+            delegate: SearchHelper(
+              context: context,
+              searchBloc: locator<SearchBloc>(),
+            ),
+          ),
           icon: Icon(Icons.search),
         ),
       ),
@@ -172,17 +182,25 @@ class _AllTaskPageState extends State<AllTaskPage> {
                   Expanded(
                     child: RefreshIndicator(
                       onRefresh: () async {
-                        taskBloc.add(AllTaskLoadInitiated(isTask: true, newFetch: true));
+                        taskBloc.add(
+                            AllTaskLoadInitiated(isTask: true, newFetch: true));
                       },
                       child: ListView.separated(
                         shrinkWrap: true,
                         controller: _controller,
                         padding: EdgeInsets.symmetric(horizontal: 8),
-                        itemCount:
-                            state.isLastPage ? state.taskEntityServices!.length : state.taskEntityServices!.length + 1,
+                        itemCount: state.isLastPage
+                            ? state.taskEntityServices!.length
+                            : state.taskEntityServices!.length + 1,
                         separatorBuilder: (context, index) {
                           if (index % 5 == 0) {
-                            List<Ads>? ads = [...?context.read<MarketingAdsBloc>().state.marketingAdsDto.result];
+                            List<Ads>? ads = [
+                              ...?context
+                                  .read<MarketingAdsBloc>()
+                                  .state
+                                  .marketingAdsDto
+                                  .result
+                            ];
                             if (ads.isNotEmpty) {
                               ads.shuffle();
                               return CachedNetworkImage(
@@ -211,43 +229,86 @@ class _AllTaskPageState extends State<AllTaskPage> {
                               height: MediaQuery.of(context).size.height * 0.3,
                               child: TaskCard(
                                 id: state.taskEntityServices![index].id,
-                                isBookmarked: state.taskEntityServices![index].isBookmarked,
-                                shareLinked: '$kShareLinks/tasks/${state.taskEntityServices?[index].id}',
-                                isRange: state.taskEntityServices![index].isRange ?? false,
-                                buttonLabel: state.taskEntityServices![index].createdBy?.id ==
-                                        context.read<UserBloc>().state.taskerProfile?.user?.id
+                                isBookmarked: state
+                                    .taskEntityServices![index].isBookmarked,
+                                shareLinked:
+                                    '$kShareLinks/tasks/${state.taskEntityServices?[index].id}',
+                                isRange:
+                                    state.taskEntityServices![index].isRange ??
+                                        false,
+                                buttonLabel: state.taskEntityServices![index]
+                                            .createdBy?.id ==
+                                        context
+                                            .read<UserBloc>()
+                                            .state
+                                            .taskerProfile
+                                            ?.user
+                                            ?.id
                                     ? 'View Details'
                                     : 'Apply Now',
-                                startRate: '${state.taskEntityServices![index].budgetFrom ?? 0}',
-                                createdByName: '${state.taskEntityServices![index].createdBy?.fullName}',
-                                endRate: '${state.taskEntityServices![index].budgetTo ?? 0}',
-                                budgetType: '${state.taskEntityServices![index].budgetType ?? 'budgetType'}',
-                                count: state.taskEntityServices![index].count?.toString() ?? '0',
-                                imageUrl: state.taskEntityServices![index].createdBy?.profileImage ?? kHomaaleImg,
-                                location: state.taskEntityServices![index].location ?? 'remote',
+                                startRate:
+                                    '${state.taskEntityServices![index].budgetFrom ?? 0}',
+                                createdByName:
+                                    '${state.taskEntityServices![index].createdBy?.fullName}',
+                                endRate:
+                                    '${state.taskEntityServices![index].budgetTo ?? 0}',
+                                budgetType:
+                                    '${state.taskEntityServices![index].budgetType ?? 'budgetType'}',
+                                count: state.taskEntityServices![index].count
+                                        ?.toString() ??
+                                    '0',
+                                imageUrl: state.taskEntityServices![index]
+                                        .createdBy?.profileImage ??
+                                    kHomaaleImg,
+                                location:
+                                    state.taskEntityServices![index].location ??
+                                        'remote',
                                 endHour: Jiffy(
-                                  state.taskEntityServices![index].createdAt?.toString() ?? DateTime.now().toString(),
+                                  state.taskEntityServices![index].createdAt
+                                          ?.toString() ??
+                                      DateTime.now().toString(),
                                 ).jm,
                                 endDate: Jiffy(
-                                  state.taskEntityServices![index].endDate?.toString() ?? DateTime.now().toString(),
+                                  state.taskEntityServices![index].endDate
+                                          ?.toString() ??
+                                      DateTime.now().toString(),
                                 ).yMMMMd,
-                                taskName: state.taskEntityServices![index].title ?? 'task title',
-                                isOwner: state.taskEntityServices![index].createdBy?.id ==
-                                    context.read<UserBloc>().state.taskerProfile?.user?.id,
+                                taskName:
+                                    state.taskEntityServices![index].title ??
+                                        'task title',
+                                isOwner: state.taskEntityServices![index]
+                                        .createdBy?.id ==
+                                    context
+                                        .read<UserBloc>()
+                                        .state
+                                        .taskerProfile
+                                        ?.user
+                                        ?.id,
                                 editCallback: () {
                                   showModalBottomSheet(
                                     context: context,
                                     isScrollControlled: true,
                                     builder: (context) => Container(
-                                      height: MediaQuery.of(context).size.height * 0.75,
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.75,
                                       padding: EdgeInsets.only(
-                                          bottom: MediaQuery.of(context).viewInsets.bottom, left: 8, right: 8, top: 8),
+                                          bottom: MediaQuery.of(context)
+                                              .viewInsets
+                                              .bottom,
+                                          left: 8,
+                                          right: 8,
+                                          top: 8),
                                       child: SingleChildScrollView(
                                         child: Column(
                                           mainAxisSize: MainAxisSize.min,
                                           children: [
                                             EditTaskEntityServiceForm(
-                                              id: state.taskEntityServices?[index].id ?? "",
+                                              id: state
+                                                      .taskEntityServices?[
+                                                          index]
+                                                      .id ??
+                                                  "",
                                             ),
                                           ],
                                         ),
@@ -258,8 +319,14 @@ class _AllTaskPageState extends State<AllTaskPage> {
                                 callback: () => onTaskPressed(
                                   state: state,
                                   index: index,
-                                  isApply: state.taskEntityServices![index].createdBy?.id !=
-                                      context.read<UserBloc>().state.taskerProfile?.user?.id,
+                                  isApply: state.taskEntityServices![index]
+                                          .createdBy?.id !=
+                                      context
+                                          .read<UserBloc>()
+                                          .state
+                                          .taskerProfile
+                                          ?.user
+                                          ?.id,
                                 ),
                                 onTapCallback: () {
                                   if (!CacheHelper.isLoggedIn) {
@@ -311,8 +378,12 @@ class _AllTaskPageState extends State<AllTaskPage> {
                   newFetch: true,
                   budgetFrom: budgetFrom.text,
                   budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
-                  dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                  dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                  dateFrom: dateFrom == null
+                      ? null
+                      : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                  dateTo: dateTo == null
+                      ? null
+                      : DateFormat("yyyy-MM-dd").format(dateTo!),
                   city: location,
                   category: category,
                 ));
@@ -325,8 +396,12 @@ class _AllTaskPageState extends State<AllTaskPage> {
                   newFetch: true,
                   budgetFrom: budgetFrom.text.isEmpty ? null : budgetFrom.text,
                   budgetTo: budgetTo.text.isEmpty ? null : budgetTo.text,
-                  dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                  dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                  dateFrom: dateFrom == null
+                      ? null
+                      : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                  dateTo: dateTo == null
+                      ? null
+                      : DateFormat("yyyy-MM-dd").format(dateTo!),
                   city: location,
                   serviceId: serviceId,
                   dateSort: sortDate,
@@ -370,8 +445,12 @@ class _AllTaskPageState extends State<AllTaskPage> {
                     newFetch: true,
                     budgetFrom: budgetFrom.text,
                     budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
-                    dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                    dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    dateFrom: dateFrom == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                    dateTo: dateTo == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateTo!),
                     serviceId: serviceId,
                     city: location,
                     dateSort: sortDate,
@@ -388,8 +467,12 @@ class _AllTaskPageState extends State<AllTaskPage> {
                   newFetch: true,
                   budgetFrom: budgetFrom.text.isEmpty ? null : budgetFrom.text,
                   budgetTo: budgetTo.text.isEmpty ? null : budgetTo.text,
-                  dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                  dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                  dateFrom: dateFrom == null
+                      ? null
+                      : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                  dateTo: dateTo == null
+                      ? null
+                      : DateFormat("yyyy-MM-dd").format(dateTo!),
                   city: location,
                   serviceId: serviceId,
                   dateSort: sortDate,
@@ -408,7 +491,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
       onTap: () {
         showDialog(
           context: context,
-          builder: (context) => AlertDialog(content: Text("Enter Amount:"), actions: [
+          builder: (context) =>
+              AlertDialog(content: Text("Enter Amount:"), actions: [
             CustomTextFormField(
               autofocus: true,
               controller: budgetFrom,
@@ -424,8 +508,12 @@ class _AllTaskPageState extends State<AllTaskPage> {
                     newFetch: true,
                     budgetFrom: budgetFrom.text,
                     budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
-                    dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                    dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    dateFrom: dateFrom == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                    dateTo: dateTo == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateTo!),
                     serviceId: serviceId,
                     city: location,
                     dateSort: sortDate,
@@ -463,10 +551,16 @@ class _AllTaskPageState extends State<AllTaskPage> {
                           AllTaskLoadInitiated(
                             newFetch: true,
                             isTask: false,
-                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
-                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
-                            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                            dateTo: dateTo == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            budgetTo:
+                                budgetTo.length == 0 ? null : budgetTo.text,
+                            budgetFrom:
+                                budgetFrom.length == 0 ? null : budgetFrom.text,
                             serviceId: serviceId,
                             city: location,
                             dateSort: sortDate,
@@ -488,7 +582,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
       onTap: () {
         showDialog(
           context: context,
-          builder: (context) => AlertDialog(content: Text("Enter Amount:"), actions: [
+          builder: (context) =>
+              AlertDialog(content: Text("Enter Amount:"), actions: [
             CustomTextFormField(
               autofocus: true,
               controller: budgetTo,
@@ -504,8 +599,12 @@ class _AllTaskPageState extends State<AllTaskPage> {
                     newFetch: true,
                     budgetTo: budgetTo.text,
                     budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
-                    dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                    dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    dateFrom: dateFrom == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                    dateTo: dateTo == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(dateTo!),
                     serviceId: serviceId,
                     city: location,
                     dateSort: sortDate,
@@ -543,10 +642,16 @@ class _AllTaskPageState extends State<AllTaskPage> {
                           AllTaskLoadInitiated(
                             newFetch: true,
                             isTask: false,
-                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
-                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
-                            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                            dateTo: dateTo == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            budgetTo:
+                                budgetTo.length == 0 ? null : budgetTo.text,
+                            budgetFrom:
+                                budgetFrom.length == 0 ? null : budgetFrom.text,
                             serviceId: serviceId,
                             city: location,
                             dateSort: sortDate,
@@ -612,7 +717,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
                 Icons.calendar_today_outlined,
               ),
               addHorizontalSpace(4.0),
-              Text("${dateFrom != null ? DateFormat.MMMd().format(dateFrom!) : "From"}"),
+              Text(
+                  "${dateFrom != null ? DateFormat.MMMd().format(dateFrom!) : "From"}"),
               addHorizontalSpace(8.0),
               dateFrom != null
                   ? InkWell(
@@ -625,10 +731,16 @@ class _AllTaskPageState extends State<AllTaskPage> {
                           AllTaskLoadInitiated(
                             newFetch: true,
                             isTask: false,
-                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
-                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
-                            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                            dateTo: dateTo == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            budgetTo:
+                                budgetTo.length == 0 ? null : budgetTo.text,
+                            budgetFrom:
+                                budgetFrom.length == 0 ? null : budgetFrom.text,
                             serviceId: serviceId,
                             city: location,
                             dateSort: sortDate,
@@ -694,7 +806,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
                 Icons.calendar_today_outlined,
               ),
               addHorizontalSpace(4.0),
-              Text("${dateTo != null ? DateFormat.MMMd().format(dateTo!) : "To"}"),
+              Text(
+                  "${dateTo != null ? DateFormat.MMMd().format(dateTo!) : "To"}"),
               addHorizontalSpace(8.0),
               dateTo != null
                   ? InkWell(
@@ -707,10 +820,16 @@ class _AllTaskPageState extends State<AllTaskPage> {
                           AllTaskLoadInitiated(
                             newFetch: true,
                             isTask: false,
-                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
-                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
-                            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                            dateTo: dateTo == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            budgetTo:
+                                budgetTo.length == 0 ? null : budgetTo.text,
+                            budgetFrom:
+                                budgetFrom.length == 0 ? null : budgetFrom.text,
                             serviceId: serviceId,
                             city: location,
                             dateSort: sortDate,
@@ -785,10 +904,16 @@ class _AllTaskPageState extends State<AllTaskPage> {
                           AllTaskLoadInitiated(
                             newFetch: true,
                             isTask: false,
-                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
-                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
-                            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                            dateTo: dateTo == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            budgetTo:
+                                budgetTo.length == 0 ? null : budgetTo.text,
+                            budgetFrom:
+                                budgetFrom.length == 0 ? null : budgetFrom.text,
                             serviceId: serviceId,
                             city: location,
                             dateSort: sortDate,
@@ -848,7 +973,8 @@ class _AllTaskPageState extends State<AllTaskPage> {
             children: [
               Icon(Icons.date_range),
               addHorizontalSpace(4.0),
-              Text("${sortDate != null ? sortDate == '-created_at' ? 'Date Desc' : 'Date Asec' : 'Sort Date'}"),
+              Text(
+                  "${sortDate != null ? sortDate == '-created_at' ? 'Date Desc' : 'Date Asec' : 'Sort Date'}"),
               addHorizontalSpace(8.0),
               sortDate != null
                   ? InkWell(
@@ -861,10 +987,16 @@ class _AllTaskPageState extends State<AllTaskPage> {
                           AllTaskLoadInitiated(
                             newFetch: true,
                             isTask: false,
-                            dateTo: dateTo == null ? null : DateFormat("yyyy-MM-dd").format(dateTo!),
-                            dateFrom: dateFrom == null ? null : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                            budgetTo: budgetTo.length == 0 ? null : budgetTo.text,
-                            budgetFrom: budgetFrom.length == 0 ? null : budgetFrom.text,
+                            dateTo: dateTo == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            dateFrom: dateFrom == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            budgetTo:
+                                budgetTo.length == 0 ? null : budgetTo.text,
+                            budgetFrom:
+                                budgetFrom.length == 0 ? null : budgetFrom.text,
                             serviceId: serviceId,
                             city: location,
                             dateSort: sortDate,
