@@ -65,46 +65,46 @@ class TaskCard extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           mainAxisSize: MainAxisSize.min,
           children: [
-            addVerticalSpace(5),
-            ListTile(
-              title: Text(
-                StringUtils.capitalize(
-                  taskName ?? '',
+            addVerticalSpace(10),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 200,
+                  child: Text(
+                    StringUtils.capitalize(
+                      taskName ?? '',
+                    ),
+                    style: Theme.of(context).textTheme.titleMedium,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 1,
+                  ),
                 ),
-                style: Theme.of(context).textTheme.titleMedium,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  isOwner ?? false
-                      ? IconButton(
-                          padding: EdgeInsets.zero,
-                          onPressed: editCallback,
-                          icon: Icon(
-                            Icons.edit,
-                            color: kColorAmber,
-                          ),
-                        )
-                      : CustomFavoriteIcon(
-                          typeID: '$id',
-                          type: ServiceType.entityservice,
-                          isBookmarked: isBookmarked ?? false,
+                isOwner ?? false
+                    ? IconButton(
+                        padding: EdgeInsets.zero,
+                        onPressed: editCallback,
+                        icon: Icon(
+                          Icons.edit,
+                          color: kColorAmber,
                         ),
-                  InkWell(
-                      onTap: () {
-                        final box = context.findRenderObject() as RenderBox?;
-                        Share.share(
-                          shareLinked!,
-                          sharePositionOrigin:
-                              box!.localToGlobal(Offset.zero) & box.size,
-                        );
-                      },
-                      child: Icon(Icons.redo_sharp, color: kColorBlue)),
-                ],
-              ),
+                      )
+                    : CustomFavoriteIcon(
+                        typeID: '$id',
+                        type: ServiceType.entityservice,
+                        isBookmarked: isBookmarked ?? false,
+                      ),
+                InkWell(
+                    onTap: () {
+                      final box = context.findRenderObject() as RenderBox?;
+                      Share.share(
+                        shareLinked!,
+                        sharePositionOrigin:
+                            box!.localToGlobal(Offset.zero) & box.size,
+                      );
+                    },
+                    child: Icon(Icons.redo_sharp, color: kColorBlue)),
+              ],
             ),
             addHorizontalSpace(10),
             Row(
@@ -135,9 +135,7 @@ class TaskCard extends StatelessWidget {
                         StringUtils.capitalize(
                           createdByName ?? '',
                         ),
-                        style: Theme.of(context)
-                            .textTheme
-                            .bodySmall,
+                        style: Theme.of(context).textTheme.bodySmall,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
