@@ -137,9 +137,7 @@ class TaskCard extends StatelessWidget {
                         ),
                         style: Theme.of(context)
                             .textTheme
-                            .titleSmall
-                            ?.copyWith(color: kColorLightGrey),
-                        // maxLines: 2,
+                            .bodySmall,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),

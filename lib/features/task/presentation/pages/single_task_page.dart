@@ -123,10 +123,8 @@ class _SingleTaskPageState extends State<SingleTaskPage>
       child: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
           if (state.theState == TheStates.success && state.taskModel != null) {
-            final documentDescription = Bidi.stripHtmlIfNeeded(
-              state.taskModel?.description ??
-                  'Root canal treatment (endodontics) is a dental procedure used to treat infection at the centre of a tooth. Root canal treatment is not painful and can save a tooth that might otherwise have to be removed completely.',
-            );
+            final documentDescription =
+                Bidi.stripHtmlIfNeeded(state.taskModel?.description ?? "");
             final List<tes.Image> taskMedia = [
               ...state.taskModel?.images ?? [],
               ...state.taskModel?.videos ?? [],
@@ -145,86 +143,44 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                         context.read<TaskBloc>().add(
                               SingleEntityTaskLoadInitiated(
                                 id: state.taskModel?.id ?? '',
-                                userId: context.read<UserBloc>().state.taskerProfile?.user?.id ?? '',
+                                userId: context
+                                        .read<UserBloc>()
+                                        .state
+                                        .taskerProfile
+                                        ?.user
+                                        ?.id ??
+                                    '',
                               ),
                             );
                       },
                       child: ListView(
                         padding: EdgeInsets.zero,
                         children: <Widget>[
-                          if (taskMedia.isNotEmpty)
-                            CarouselSlider.builder(
-                              itemCount: taskMedia.length,
-                              itemBuilder: (context, index, realIndex) {
-                                return SizedBox(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.2,
-                                  child: Stack(
-                                    children: [
-                                      if (taskMedia[index]
-                                              .mediaType
-                                              ?.toLowerCase() ==
-                                          'mp4')
-                                        VideoPlayerWidget(
-                                          videoURL: taskMedia[index].media ??
-                                              'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
-                                        )
-                                      else
-                                        Image.network(
-                                          taskMedia[index].media.toString(),
-                                          errorBuilder:
-                                              (context, error, stackTrace) =>
-                                                  Image.network(kHomaaleImg),
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          fit: BoxFit.cover,
-                                        ),
-                                      Positioned(
-                                        bottom: 10,
-                                        child: SizedBox(
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          child: Center(
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: List.generate(
-                                                taskMedia.length,
-                                                (ind) => Container(
-                                                  height: 10,
-                                                  margin:
-                                                      const EdgeInsets.all(2),
-                                                  width: index == ind ? 20 : 10,
-                                                  decoration: BoxDecoration(
-                                                    color: index == ind
-                                                        ? kColorGrey
-                                                        : Colors.grey,
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            10),
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      )
-                                    ],
+                          if (state.applicantModel?.result?.length != 0)
+                            Container(
+                              margin: EdgeInsets.all(10),
+                              padding: EdgeInsets.all(5),
+                              color: Colors.blue.shade50,
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceEvenly,
+                                children: [
+                                  Icon(
+                                    Icons.info_outline,
+                                    color: kColorBlue,
+                                    size: 20,
                                   ),
-                                );
-                              },
-                              options: CarouselOptions(
-                                viewportFraction: 1,
-                                enableInfiniteScroll: false,
-                              ),
-                            )
-                          else
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.2,
-                              child: Image.network(
-                                kHomaaleImg,
-                                width: MediaQuery.of(context).size.width,
-                                fit: BoxFit.cover,
+                                  addHorizontalSpace(5),
+                                  Expanded(
+                                    child: Text(
+                                      'Taskers have applied for your tasks. You can select best candidate for your task.',
+                                      style: TextStyle(
+                                          color: kColorBlue,
+                                          fontWeight: FontWeight.bold),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
                           Padding(
@@ -283,6 +239,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                       ],
                                     ),
                                     Row(
+                                      mainAxisSize: MainAxisSize.min,
                                       children: <Widget>[
                                         state.taskModel?.createdBy?.id ==
                                                 context
@@ -302,6 +259,32 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                               ),
                                         // kWidth10,
                                         GestureDetector(
+                                          onTap: () async {
+                                            if (CacheHelper.isLoggedIn ==
+                                                false) {
+                                              await notLoggedInPopUp(context);
+                                            }
+                                            if (CacheHelper.isLoggedIn ==
+                                                true) {
+                                              final box =
+                                                  context.findRenderObject()
+                                                      as RenderBox?;
+                                              Share.share(
+                                                "$kShareLinks/tasks/${state.taskModel?.id}",
+                                                subject: state.taskModel?.title,
+                                                sharePositionOrigin: box!
+                                                        .localToGlobal(
+                                                            Offset.zero) &
+                                                    box.size,
+                                              );
+                                            }
+                                          },
+                                          child: Icon(
+                                            Icons.redo_sharp,
+                                            color: Colors.blue,
+                                          ),
+                                        ),
+                                        GestureDetector(
                                           onTap: () {
                                             if (!CacheHelper.isLoggedIn) {
                                               notLoggedInPopUp(context);
@@ -313,40 +296,6 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                                   mainAxisSize:
                                                       MainAxisSize.min,
                                                   children: <Widget>[
-                                                    GestureDetector(
-                                                      onTap: () async {
-                                                        Navigator.pop(context);
-                                                        if (CacheHelper
-                                                                .isLoggedIn ==
-                                                            false) {
-                                                          await notLoggedInPopUp(
-                                                              context);
-                                                        }
-                                                        if (CacheHelper
-                                                                .isLoggedIn ==
-                                                            true) {
-                                                          final box = context
-                                                                  .findRenderObject()
-                                                              as RenderBox?;
-                                                          Share.share(
-                                                            "$kShareLinks/tasks/${state.taskModel?.id}",
-                                                            subject: state
-                                                                .taskModel
-                                                                ?.title,
-                                                            sharePositionOrigin:
-                                                                box!.localToGlobal(
-                                                                        Offset
-                                                                            .zero) &
-                                                                    box.size,
-                                                          );
-                                                        }
-                                                      },
-                                                      child: const ListTile(
-                                                        leading:
-                                                            Icon(Icons.share),
-                                                        title: Text('Share'),
-                                                      ),
-                                                    ),
                                                     Visibility(
                                                       visible: context
                                                               .read<UserBloc>()
@@ -501,23 +450,6 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                 Row(
                                   children: <Widget>[
                                     Row(
-                                      children: <Widget>[
-                                        const Icon(
-                                          Icons.calendar_today,
-                                          color: Colors.red,
-                                          size: 18,
-                                        ),
-                                        kWidth5,
-                                        Text(
-                                          Jiffy(
-                                            state.taskModel?.startDate ??
-                                                DateTime.now().toString(),
-                                          ).yMMMMd,
-                                        ),
-                                      ],
-                                    ),
-                                    addHorizontalSpace(20),
-                                    Row(
                                       children: [
                                         const Icon(
                                           Icons.location_on_outlined,
@@ -533,69 +465,109 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                           ),
                                         ),
                                       ],
-                                    )
+                                    ),
+                                    Row(
+                                      children: [
+                                        const Icon(
+                                          Icons.people_alt_outlined,
+                                          color: kColorPrimary,
+                                          size: 18,
+                                        ),
+                                        kWidth5,
+                                        Text(
+                                          '${state.taskApplyCountModel?.count?.first.taskerCount ?? 0} Applied',
+                                        ),
+                                      ],
+                                    ),
+                                    // addHorizontalSpace(20),
                                   ],
                                 ),
                                 addVerticalSpace(10),
-                                Visibility(
-                                  visible: state.taskModel?.startTime != null,
-                                  child: Row(
-                                    mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
-                                    children: [
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.watch_later_outlined,
-                                            color: Colors.blue,
-                                            size: 18,
-                                          ),
-                                          kWidth5,
-                                          state.taskModel?.startTime == null
-                                              ? Text('00:00')
-                                              : Text(
-                                                  '${DateFormat.jm().format(
-                                                    DateFormat('hh:mm:ss')
-                                                        .parse(state.taskModel!
-                                                            .startTime!),
-                                                  )}',
-                                                ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.people_alt_outlined,
-                                            color: kColorPrimary,
-                                            size: 18,
-                                          ),
-                                          kWidth5,
-                                          Text(
-                                            '${state.taskApplyCountModel?.count?.first.taskerCount ?? 0} Applied',
-                                          ),
-                                        ],
-                                      ),
-                                      Row(
-                                        children: [
-                                          const Icon(
-                                            Icons.remove_red_eye_outlined,
-                                            color: kColorPrimary,
-                                            size: 18,
-                                          ),
-                                          kWidth5,
-                                          Text(
-                                            "${state.taskModel?.count ?? 0} Views",
-                                          ),
-                                        ],
-                                      )
-                                    ],
-                                  ),
+                                Text(
+                                  "Date & Time",
+                                  style:
+                                      Theme.of(context).textTheme.headlineSmall,
                                 ),
-                                addVerticalSpace(24),
+                                addVerticalSpace(10),
+                                Row(
+                                  children: <Widget>[
+                                    Text('Start Date : ',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displaySmall),
+                                    Text(
+                                        Jiffy(
+                                          state.taskModel?.startDate ??
+                                              DateTime.now().toString(),
+                                        ).yMMMMd,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displaySmall),
+                                  ],
+                                ),
+                                Row(
+                                  children: <Widget>[
+                                    Text('End Date : ',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displaySmall),
+                                    Text(
+                                        Jiffy(
+                                          state.taskModel?.endDate ??
+                                              DateTime.now().toString(),
+                                        ).yMMMMd,
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displaySmall),
+                                  ],
+                                ),
+                                // addVerticalSpace(10),
+                                // Visibility(
+                                //   visible: state.taskModel?.startTime != null,
+                                //   child: Row(
+                                //     mainAxisAlignment:
+                                //         MainAxisAlignment.spaceBetween,
+                                //     children: [
+                                //       Row(
+                                //         children: [
+                                //           const Icon(
+                                //             Icons.watch_later_outlined,
+                                //             color: Colors.blue,
+                                //             size: 18,
+                                //           ),
+                                //           kWidth5,
+                                //           state.taskModel?.startTime == null
+                                //               ? Text('00:00')
+                                //               : Text(
+                                //                   '${DateFormat.jm().format(
+                                //                     DateFormat('hh:mm:ss')
+                                //                         .parse(state.taskModel!
+                                //                             .startTime!),
+                                //                   )}',
+                                //                 ),
+                                //         ],
+                                //       ),
+                                //       Row(
+                                //         children: [
+                                //           const Icon(
+                                //             Icons.remove_red_eye_outlined,
+                                //             color: kColorPrimary,
+                                //             size: 18,
+                                //           ),
+                                //           kWidth5,
+                                //           Text(
+                                //             "${state.taskModel?.count ?? 0} Views",
+                                //           ),
+                                //         ],
+                                //       )
+                                //     ],
+                                //   ),
+                                // ),
+                                addVerticalSpace(10),
                                 Align(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
-                                    'Description',
+                                    'Problem Description',
                                     style: Theme.of(context)
                                         .textTheme
                                         .headlineSmall,
@@ -609,8 +581,10 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                 Align(
                                   alignment: Alignment.bottomLeft,
                                   child: Text(
-                                    'Highlights',
-                                    style: Theme.of(context).textTheme.headlineSmall,
+                                    'Requirements',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
                                   ),
                                 ),
                                 kHeight10,
@@ -658,6 +632,197 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                   },
                                 ),
                                 addVerticalSpace(16),
+                                if (taskMedia.isNotEmpty)
+                                  CarouselSlider.builder(
+                                    itemCount: taskMedia.length,
+                                    itemBuilder: (context, index, realIndex) {
+                                      return SizedBox(
+                                        height:
+                                        MediaQuery.of(context).size.height * 0.2,
+                                        child: Stack(
+                                          children: [
+                                            Text('Images',
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .headlineSmall),
+                                            if (taskMedia[index]
+                                                .mediaType
+                                                ?.toLowerCase() ==
+                                                'mp4')
+                                              VideoPlayerWidget(
+                                                videoURL: taskMedia[index].media ??
+                                                    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                                              )
+                                            else
+                                              Image.network(
+                                                taskMedia[index].media.toString(),
+                                                errorBuilder:
+                                                    (context, error, stackTrace) =>
+                                                    Image.network(kHomaaleImg),
+                                                width:
+                                                MediaQuery.of(context).size.width,
+                                                fit: BoxFit.cover,
+                                              ),
+                                            Positioned(
+                                              bottom: 10,
+                                              child: SizedBox(
+                                                width:
+                                                MediaQuery.of(context).size.width,
+                                                child: Center(
+                                                  child: Row(
+                                                    mainAxisAlignment:
+                                                    MainAxisAlignment.center,
+                                                    children: List.generate(
+                                                      taskMedia.length,
+                                                          (ind) => Container(
+                                                        height: 10,
+                                                        margin:
+                                                        const EdgeInsets.all(2),
+                                                        width: index == ind ? 20 : 10,
+                                                        decoration: BoxDecoration(
+                                                          color: index == ind
+                                                              ? kColorGrey
+                                                              : Colors.grey,
+                                                          borderRadius:
+                                                          BorderRadius.circular(
+                                                              10),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                      );
+                                    },
+                                    options: CarouselOptions(
+                                      viewportFraction: 1,
+                                      enableInfiniteScroll: false,
+                                    ),
+                                  )
+                                else
+                                  SizedBox(),
+                                // SizedBox(
+                                // height: MediaQuery.of(context).size.height * 0.2,
+                                // child: Image.network(
+                                //   kHomaaleImg,
+                                //   width: MediaQuery.of(context).size.width,
+                                //   fit: BoxFit.cover,
+                                // ),
+                                // ),
+                                if (state.applicantModel?.result?.length != 0) ...[
+                                  Padding(
+                                    padding:
+                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                    child: Text(
+                                      'Taskers',
+                                      style: kPurpleText16,
+                                    ),
+                                  ),
+                                  GridView.count(
+                                    crossAxisCount: 2,
+                                    shrinkWrap: true,
+                                    padding: EdgeInsets.symmetric(horizontal: 8),
+                                    childAspectRatio: 0.9,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    children: List.generate(
+                                      state.applicantModel?.result?.length ?? 0,
+                                          (index) => TaskerCard(
+                                        onFavouriteTapped: () {},
+                                        callback: () => showApplicantDetailsDialog(
+                                          description:
+                                          '${state.applicantModel?.result?[index].description}',
+                                          context: context,
+                                          isNegotiable:
+                                          state.taskModel?.isNegotiable ?? false,
+                                          profileImage: state
+                                              .applicantModel
+                                              ?.result?[index]
+                                              .createdBy
+                                              ?.profileImage ??
+                                              kHomaaleImg,
+                                          label:
+                                          '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? 'Harry'} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? 'Smith'}',
+                                          happyClients:
+                                          '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
+                                          successRate:
+                                          '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
+                                          rating:
+                                          '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
+                                          designation: state.applicantModel
+                                              ?.result?[index].createdBy?.designation,
+                                          isProfileVerified: state
+                                              .applicantModel
+                                              ?.result?[index]
+                                              .createdBy
+                                              ?.isProfileVerified ??
+                                              false,
+                                          title: state.taskModel?.title ?? '',
+                                          budget:
+                                          '${state.applicantModel?.result?[index].currency ?? ''}. ${state.applicantModel?.result?[index].price ?? ''}',
+                                          status: state
+                                              .applicantModel?.result?[index].status,
+                                          onRejectPressed: () {
+                                            context.read<TaskBloc>().add(
+                                              TaskRejectPeople(
+                                                rejectReq: RejectReq(
+                                                    booking: state.applicantModel
+                                                        ?.result?[index].id ??
+                                                        0),
+                                              ),
+                                            );
+                                            Navigator.pop(context);
+                                          },
+                                          onApprovePressed: () {
+                                            context.read<TaskBloc>().add(
+                                              TaskApprovePeople(
+                                                approveReq: ApproveReq(
+                                                    booking: state.applicantModel
+                                                        ?.result?[index].id ??
+                                                        0),
+                                              ),
+                                            );
+                                            Navigator.pop(context);
+                                          },
+                                          onNegotiatePressed: () {
+                                            context.read<TaskBloc>().add(
+                                              ChangeTaskNegotiationStatus(
+                                                id: state.applicantModel
+                                                    ?.result?[index].id ??
+                                                    0,
+                                              ),
+                                            );
+                                            //TODO: chat navigation
+                                          },
+                                        ),
+                                        buttonWidth:
+                                        MediaQuery.of(context).size.width * 0.22,
+                                        callbackLabel: 'View detail',
+                                        networkImageUrl: state
+                                            .applicantModel
+                                            ?.result?[index]
+                                            .createdBy
+                                            ?.profileImage ??
+                                            kHomaaleImg,
+                                        happyClients:
+                                        '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
+                                        rewardPercentage:
+                                        '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
+                                        label:
+                                        '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''}',
+                                        designation: state.applicantModel
+                                            ?.result?[index].createdBy?.designation,
+                                        rate:
+                                        'Rs. ${state.applicantModel?.result?[index].currency ?? ""} - ${state.applicantModel?.result?[index].price ?? ""}',
+                                        ratings:
+                                        '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
+                                      ),
+                                    ),
+                                  ),
+                                ],
+
                                 RecommendedSimilarServices(
                                   isRecommended: true,
                                   recommend: context
@@ -678,107 +843,6 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                               ],
                             ),
                           ),
-                          if (state.applicantModel?.result?.length != 0) ...[
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 8.0),
-                              child: Text(
-                                'Taskers',
-                                style: kPurpleText16,
-                              ),
-                            ),
-                            GridView.count(
-                              crossAxisCount: 2,
-                              shrinkWrap: true,
-                              padding: EdgeInsets.symmetric(horizontal: 8),
-                              childAspectRatio: 0.9,
-                              physics: NeverScrollableScrollPhysics(),
-                              children: List.generate(
-                                state.applicantModel?.result?.length ?? 0,
-                                (index) => TaskerCard(
-                                  onFavouriteTapped: () {},
-                                  callback: () => showApplicantDetailsDialog(
-                                    description: '${state.applicantModel?.result?[index].description}',
-                                    context: context,
-                                    isNegotiable: state.taskModel?.isNegotiable ?? false,
-                                    profileImage:
-                                        state.applicantModel?.result?[index].createdBy?.profileImage ?? kHomaaleImg,
-                                    label:
-                                        '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? 'Harry'} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? 'Smith'}',
-                                    happyClients:
-                                        '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
-                                    successRate:
-                                        '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
-                                    rating:
-                                        '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
-                                    designation: state.applicantModel
-                                        ?.result?[index].createdBy?.designation,
-                                    isProfileVerified: state
-                                            .applicantModel
-                                            ?.result?[index]
-                                            .createdBy
-                                            ?.isProfileVerified ??
-                                        false,
-                                    title: state.taskModel?.title ?? '',
-                                    budget:
-                                        '${state.applicantModel?.result?[index].currency ?? ''}. ${state.applicantModel?.result?[index].price ?? ''}',
-                                    status: state.applicantModel?.result?[index].status,
-                                    onRejectPressed: () {
-                                      context.read<TaskBloc>().add(
-                                            TaskRejectPeople(
-                                              rejectReq: RejectReq(
-                                                  booking: state.applicantModel
-                                                          ?.result?[index].id ??
-                                                      0),
-                                            ),
-                                          );
-                                      Navigator.pop(context);
-                                    },
-                                    onApprovePressed: () {
-                                      context.read<TaskBloc>().add(
-                                            TaskApprovePeople(
-                                              approveReq: ApproveReq(
-                                                  booking: state.applicantModel
-                                                          ?.result?[index].id ??
-                                                      0),
-                                            ),
-                                          );
-                                      Navigator.pop(context);
-                                    },
-                                    onNegotiatePressed: () {
-                                      context.read<TaskBloc>().add(
-                                            ChangeTaskNegotiationStatus(
-                                              id: state.applicantModel?.result?[index].id ?? 0,
-                                            ),
-                                          );
-                                      //TODO: chat navigation
-                                    },
-                                  ),
-                                  buttonWidth:
-                                      MediaQuery.of(context).size.width * 0.22,
-                                  callbackLabel: 'View detail',
-                                  networkImageUrl: state
-                                          .applicantModel
-                                          ?.result?[index]
-                                          .createdBy
-                                          ?.profileImage ??
-                                      kHomaaleImg,
-                                  happyClients:
-                                      '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
-                                  rewardPercentage:
-                                      '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
-                                  label:
-                                      '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''}',
-                                  designation: state.applicantModel
-                                      ?.result?[index].createdBy?.designation,
-                                  rate:
-                                      'Rs. ${state.applicantModel?.result?[index].currency ?? ""} - ${state.applicantModel?.result?[index].price ?? ""}',
-                                  ratings:
-                                      '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
-                                ),
-                              ),
-                            ),
-                          ],
                         ],
                       ),
                     ),
@@ -788,7 +852,13 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                     child: PriceBookFooterSection(
                       bgColor: Colors.blue.shade50,
                       isNegotiable: state.taskModel?.isNegotiable ?? false,
-                      isUser: state.taskModel?.createdBy?.id == context.read<UserBloc>().state.taskerProfile?.user?.id,
+                      isUser: state.taskModel?.createdBy?.id ==
+                          context
+                              .read<UserBloc>()
+                              .state
+                              .taskerProfile
+                              ?.user
+                              ?.id,
                       buttonLabel: getStatus('')["status"] as String,
                       buttonColor: getStatus('')["color"] as Color,
                       // buttonColor: getStatus('')["color"] as Color,
@@ -806,7 +876,13 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                         context.read<TaskBloc>().add(
                               SingleEntityTaskLoadInitiated(
                                 id: state.taskModel?.id ?? '',
-                                userId: context.read<UserBloc>().state.taskerProfile?.user?.id ?? '',
+                                userId: context
+                                        .read<UserBloc>()
+                                        .state
+                                        .taskerProfile
+                                        ?.user
+                                        ?.id ??
+                                    '',
                               ),
                             );
                         Navigator.pushNamed(context, ApplyTaskPage.routeName);

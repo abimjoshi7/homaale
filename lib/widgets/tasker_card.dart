@@ -77,6 +77,7 @@ class TaskerCard extends StatelessWidget {
                       ),
                   ),
                     ),
+                    if(badgeImage !=null)
                     Positioned(
                       bottom: -15,
                       left: 40,
@@ -92,6 +93,7 @@ class TaskerCard extends StatelessWidget {
                     ),
                ] ),
                 // addHorizontalSpace(10),
+                if(shareLinked !=null)
                 InkWell(
                     onTap: () {
                       final box =
@@ -173,11 +175,12 @@ class TaskerCard extends StatelessWidget {
                 ],
               ),
             ),
+            kHeight5,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 8.0),
               child: _buildButton(context),
             ),
-            addVerticalSpace(10),
+            addVerticalSpace(5),
           ],
         ),
       ),

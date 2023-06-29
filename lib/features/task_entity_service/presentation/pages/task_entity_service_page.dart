@@ -10,7 +10,8 @@ import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart' as tb;
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart' as tes;
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart'
+    as tes;
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/recommended_services.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/event_section.dart';
@@ -134,7 +135,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                       children: [
                         ProfileDetailSection(state: state),
                         EventSection(
-                          taskEntityService: state.taskEntityService ,
+                          taskEntityService: state.taskEntityService,
                         ),
                         if (state.taskEntityService.highlights?.isNotEmpty ??
                             false) ...[
@@ -184,7 +185,8 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                               itemCount: mediaList.length,
                               itemBuilder: (context, index, realIndex) {
                                 return Container(
-                                  height: MediaQuery.of(context).size.height * 0.21,
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.21,
                                   margin: EdgeInsets.only(right: 32),
                                   child: mediaList[index]
                                               .mediaType
@@ -291,8 +293,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                     .then((value) {
                                   value.data()?.forEach((key, value) {
                                     if (value['userInfo']['uid'] ==
-                                        state
-                                            .taskEntityService.createdBy?.id) {
+                                        state.taskEntityService.createdBy?.id) {
                                       Navigator.pushNamed(
                                         context,
                                         ChatPage.routeName,
@@ -359,7 +360,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                   successRate:
                                       '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
                                   rating:
-                                      '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
+                                      '${state.applicantModel?.result?[index].createdBy?.stats?.userReviews}',
                                   designation: state.applicantModel
                                       ?.result?[index].createdBy?.designation,
                                   isProfileVerified: state
@@ -422,7 +423,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                 rate:
                                     '${state.applicantModel?.result?[index].currency}. ${state.applicantModel?.result?[index].price}',
                                 ratings:
-                                    '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
+                                    '${state.applicantModel?.result?[index].createdBy?.stats?.userReviews}',
                                 buttonWidth: 100,
                               ),
                             ),
