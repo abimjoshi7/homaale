@@ -70,7 +70,8 @@ class _CheckoutPageState extends State<CheckoutPage> {
                         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                           content: BlocBuilder<PaymentBloc, PaymentIntentState>(
                               builder: (context, stateM) {
-                            return Text(stateM.paymentZero?.message ?? "");
+                            return Text(stateM.paymentZero?.message ??
+                                "Payment Successful.");
                           }),
                           duration: const Duration(seconds: 1),
                         ));
