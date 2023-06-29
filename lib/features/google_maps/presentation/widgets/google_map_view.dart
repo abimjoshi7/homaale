@@ -3,6 +3,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/google_maps_constants.dart';
 import 'package:cipher/features/google_maps/presentation/bloc/nearby_task_entity_service_bloc/nearby_task_entity_service_bloc.dart';
+import 'package:cipher/features/google_maps/presentation/cubit/user_location_cubit.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -64,7 +65,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
         if (state.theStates == TheStates.success) {
           _markers = addTaskEntityServiceMarkers(
             state.activeList!,
-            _location ?? _center,
+            context.read<UserLocationCubit>().state.location ?? _center,
           );
         }
       },
@@ -77,7 +78,7 @@ class _GoogleMapsViewState extends State<GoogleMapsView> {
           zoomControlsEnabled: false,
           // myLocationButtonEnabled: true,
           initialCameraPosition: CameraPosition(
-            target: _location ?? _center,
+            target: context.read<UserLocationCubit>().state.location ?? _center,
             zoom: 11.8,
           ),
           markers: _markers.values.toSet(),

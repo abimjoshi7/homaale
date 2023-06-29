@@ -27,9 +27,9 @@ class KycView extends StatelessWidget {
           appBarTitle: "View KYC Details",
           trailingWidget: SizedBox(),
           leadingWidget: IconButton(
-            onPressed: () => Navigator.popUntil(
+            onPressed: () => Navigator.pushNamed(
               context,
-              (route) => route.settings.name == AccountView.routeName,
+              AccountView.routeName,
             ),
             icon: Icon(
               Icons.arrow_back_rounded,
@@ -210,7 +210,8 @@ class KycView extends StatelessWidget {
                     ListView.builder(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: state.list!.length,
+                      itemCount:
+                          state.list?.length == 0 ? 0 : state.list?.length ?? 0,
                       itemBuilder: (BuildContext context, int index) {
                         return CustomKycExpansionTile(
                           kycDoc: state.list![index],

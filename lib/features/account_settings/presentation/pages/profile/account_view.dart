@@ -43,7 +43,7 @@ class AccountView extends StatefulWidget {
 }
 
 class _AccountViewState extends State<AccountView> {
-  bool? isDark ;
+  bool? isDark;
 
   void checkAppMode() async {
     final theme = await CacheHelper.getCachedString(kAppThemeMode) ?? 'light';
@@ -78,7 +78,10 @@ class _AccountViewState extends State<AccountView> {
             size: 25.0,
             color: Theme.of(context).appBarTheme.iconTheme?.color,
           ),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => Navigator.popUntil(
+            context,
+            (route) => route.settings.name == Root.routeName,
+          ),
         ),
         appBarTitle: "Profile",
         trailingWidget: SizedBox.shrink(),
@@ -362,7 +365,7 @@ class _AccountViewState extends State<AccountView> {
                     setState(
                       () {
                         context.read<ThemeBloc>().add(
-                              ThemeChangeChanged(isDark: isDark??false),
+                              ThemeChangeChanged(isDark: isDark ?? false),
                             );
                         // isDark = !isDark;
                         checkAppMode();

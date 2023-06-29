@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:cipher/core/helpers/upload_helper.dart';
 import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
@@ -32,6 +34,12 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
   final startPriceController = TextEditingController();
   final endPriceController = TextEditingController();
   final addressController = TextEditingController();
+  //validation controllers
+  final _startDateController = TextEditingController();
+  final _endDateController = TextEditingController();
+  final _startTimeController = TextEditingController();
+  final _endTimeController = TextEditingController();
+  //
   String? priceType = 'Fixed';
   String? taskType = 'On premise';
   String? budgetType = 'Project';
@@ -51,6 +59,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
   List<int>? imageList;
   List<int>? fileList;
   DateTime? startDate;
+
   DateTime? endDate;
   int? cityCode;
   int? budgetTo;
@@ -78,6 +87,10 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
     descriptionController.dispose();
     requirementController.dispose();
     addressController.dispose();
+    _startDateController.dispose();
+    _endDateController.dispose();
+    _startTimeController.dispose();
+    _endTimeController.dispose();
     super.dispose();
   }
 
@@ -215,7 +228,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
             context: context,
             builder: (context) => CustomToast(
               heading: 'Failure',
-              content: 'Post cannot be posted. Please try again.',
+              content: 'Task cannot be posted. Please try again.',
               onTap: () {},
               isSuccess: false,
             ),
@@ -223,6 +236,9 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
         }
       },
       builder: (context, state) {
+        if (state.theStates == TheStates.loading) {
+          return CircularProgressIndicator();
+        }
         final upload = UploadHelper(bloc: uploadBloc, context: context);
         return BlocListener<UploadBloc, UploadState>(
           bloc: uploadBloc,
@@ -339,7 +355,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                               ? DateFormat.jms().format(endTime!)
                               : null,
                           shareLocation: true,
-                          isNegotiable: true,
+                          isNegotiable: isNegotiable,
                           location: addressController.text,
                           revisions: 0,
                           avatar: 2,
@@ -742,6 +758,8 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
   }
 
   CustomFormField _buildDate(BuildContext context) {
+    final _currentDate = DateTime.now();
+
     return CustomFormField(
       label: 'When do you want the task to be completed?',
       child: Column(
@@ -754,18 +772,35 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                   label: 'Start Date',
                   child: CustomTextFormField(
                     readOnly: true,
+                    controller: _startDateController,
+                    validator: (p0) {
+                      if (startDate != null && endDate != null) {
+                        if (startDate!.isAfter(
+                          endDate!,
+                        )) {
+                          return "Cannot be greater than end date";
+                        }
+                        return null;
+                      }
+                    },
                     onTap: () async {
                       await showDatePicker(
                         context: context,
-                        initialDate: DateTime.now(),
-                        firstDate: DateTime.now(),
+                        initialDate: _currentDate,
+                        firstDate: _currentDate,
                         lastDate: DateTime(
-                          2050,
+                          _currentDate.year + 2,
                         ),
                       ).then(
                         (value) => setState(
                           () {
                             startDate = value;
+                            _startDateController.text =
+                                value?.toIso8601String().substring(
+                                          0,
+                                          10,
+                                        ) ??
+                                    '';
                           },
                         ),
                       );
@@ -774,11 +809,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                       Icons.calendar_today_rounded,
                       color: Colors.grey.shade800,
                     ),
-                    hintText: startDate?.toIso8601String().substring(
-                              0,
-                              10,
-                            ) ??
-                        'yy/mm/dd',
+                    hintText: 'yy/mm/dd',
                     hintStyle: Theme.of(context)
                         .textTheme
                         .bodyMedium
@@ -793,29 +824,42 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                   isRequired: true,
                   child: CustomTextFormField(
                     readOnly: true,
-                    validator: (value) =>
-                        endDate == null ? "Required Field" : null,
+                    controller: _endDateController,
+                    validator: (value) {
+                      if (endDate == null) {
+                        return "Required Field";
+                      }
+                      if (startDate != null && endDate != null) {
+                        if (endDate!.isBefore(startDate!)) {
+                          return "Cannot be lesser than present date";
+                        }
+                        return null;
+                      }
+                      return null;
+                    },
                     onTap: () async {
                       await showDatePicker(
                         context: context,
-                        initialDate: startDate ?? DateTime.now(),
-                        firstDate: startDate ?? DateTime.now(),
+                        initialDate: startDate ?? _currentDate,
+                        firstDate: startDate ?? _currentDate,
                         lastDate: DateTime(
-                          2050,
+                          _currentDate.year + 2,
                         ),
                       ).then(
                         (value) => setState(
                           () {
                             endDate = value;
+                            _endDateController.text =
+                                value?.toIso8601String().substring(
+                                          0,
+                                          10,
+                                        ) ??
+                                    '';
                           },
                         ),
                       );
                     },
-                    hintText: endDate?.toIso8601String().substring(
-                              0,
-                              10,
-                            ) ??
-                        'yy/mm/dd',
+                    hintText: 'yy/mm/dd',
                     theHeight: 48.0,
                     theWidth: double.infinity,
                     prefixWidget: Icon(
@@ -863,16 +907,18 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
           Flexible(
             child: CustomTextFormField(
               readOnly: true,
+              controller: _startTimeController,
               validator: (p0) {
-                // if (startTime != null && endTime != null) {
-                //   if (startTime!.isAtSameMomentAs(endTime!)) {
-                //     return ("Both Times Cannot be same.");
-                //   }
-                //   if (startTime!.isAfter(endTime!)) {
-                //     return ("Start time cannot be after End time.");
-                //   }
-                // }
-                // return null;
+                if (startTime != null && endTime != null) {
+                  if (startTime!.isAtSameMomentAs(endTime!)) {
+                    return ("Both Times Cannot be same.");
+                  }
+                  if (startTime!.isAfter(endTime!)) {
+                    return ("Start time cannot be after End time.");
+                  }
+                  return null;
+                }
+                return null;
               },
               onTap: () async {
                 await showCustomBottomSheet(
@@ -884,7 +930,12 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           startTime != null ? startTime : DateTime.now(),
                       mode: CupertinoDatePickerMode.time,
                       onDateTimeChanged: (value) => setState(
-                        () => startTime = value,
+                        () {
+                          startTime = value;
+                          _startTimeController.text = startTime != null
+                              ? DateFormat.jm().format(startTime!)
+                              : '';
+                        },
                       ),
                     ),
                   ),
@@ -907,34 +958,40 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
             child: CustomTextFormField(
               readOnly: true,
               autoValidateMode: AutovalidateMode.onUserInteraction,
+              controller: _endTimeController,
               validator: (p0) {
-                // if (endTime == null) {
-                //   return ("Required Field");
-                // }
-                // if (startTime == null || endTime == null) ;
-                // if (endTime!.isAtSameMomentAs(startTime!)) {
-                //   return ("Both times cannot be same.");
-                // }
-                // if (endTime!.isBefore(endTime!)) {
-                //   return ("End time cannot be before Start time.");
-                // }
-                // return null;
+                if (startTime != null && endTime == null) {
+                  return "End Time Required";
+                }
+                if (startTime != null && endTime != null) {
+                  if (endTime!.isAtSameMomentAs(startTime!)) {
+                    return ("Both times cannot be same.");
+                  }
+                  if (endTime!.isBefore(startTime!)) {
+                    return ("End time cannot be before Start time.");
+                  }
+                  return null;
+                }
+                return null;
               },
-              onTap: () async {
-                await showCustomBottomSheet(
-                  context: context,
-                  widget: SizedBox.fromSize(
-                    size: Size.fromHeight(250),
-                    child: CupertinoDatePicker(
-                      initialDateTime: endTime ?? DateTime.now(),
-                      mode: CupertinoDatePickerMode.time,
-                      onDateTimeChanged: (value) => setState(
-                        () => endTime = value,
-                      ),
+              onTap: () async => await showCustomBottomSheet(
+                context: context,
+                widget: SizedBox.fromSize(
+                  size: Size.fromHeight(250),
+                  child: CupertinoDatePicker(
+                    initialDateTime: endTime ?? DateTime.now(),
+                    mode: CupertinoDatePickerMode.time,
+                    onDateTimeChanged: (value) => setState(
+                      () {
+                        endTime = value;
+                        _endTimeController.text = endTime != null
+                            ? DateFormat.jm().format(endTime!)
+                            : '';
+                      },
                     ),
                   ),
-                );
-              },
+                ),
+              ),
               hintText: endTime != null
                   ? DateFormat.jm().format(endTime!)
                   : 'hh:mm:ss',

@@ -42,6 +42,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
             state.copyWith(
               // theStates: TheStates.initial,
               isNewDoc: false,
+              isProfileCreated: false,
+              isDocCreated: false,
               docTypeList: _docTypeList,
               country: _countries,
             ),
@@ -49,6 +51,8 @@ class KycBloc extends Bloc<KycEvent, KycState> {
       } catch (e) {
         emit(state.copyWith(
           theStates: TheStates.failure,
+          isProfileCreated: false,
+          isDocCreated: false,
           docTypeList: [],
           country: [],
         ));
@@ -174,6 +178,7 @@ class KycBloc extends Bloc<KycEvent, KycState> {
                       .toList(),
                   isDocCreated: false,
                   isDocEdited: false,
+                  isProfileCreated: false,
                 ),
               );
             },

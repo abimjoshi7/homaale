@@ -1,9 +1,9 @@
 import 'dart:io';
-import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/file_picker/file_pick_helper.dart';
+import 'package:cipher/core/helpers/compress_helper.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/models/add_kyc_req.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/presentation/kyc_view.dart';
 import 'package:cipher/features/account_settings/presentation/pages/profile/account_view.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -34,6 +34,10 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
   final issuedFromController = TextEditingController();
   DateTime? issuedDate;
   DateTime? expiryDate;
+  //validation controller
+  final _issuedDateController = TextEditingController();
+  final _expiryDateController = TextEditingController();
+
   File? file;
   final _key = GlobalKey<FormState>();
   void setInitialValues(KycState state) {
@@ -81,6 +85,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
     identityTypeController.dispose();
     identityNumberController.dispose();
     issuedFromController.dispose();
+    _issuedDateController.dispose();
+    _expiryDateController.dispose();
     file?.delete();
     super.dispose();
   }
@@ -108,13 +114,18 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
             builder: (context) => CustomToast(
               heading: "Success",
               content: "Kyc document uploaded successfully",
-              onTap: () {
+              onTap: () async {
                 // context.read<KycBloc>().add(KycModelLoaded());
                 context.read<KycBloc>().add(KycDocumentLoaded());
                 context.read<KycBloc>().add(KycProfileInitiated());
-                Navigator.popUntil(
-                  context,
-                  (route) => route.settings.name == Root.routeName,
+                Future.delayed(
+                  Duration(
+                    milliseconds: 300,
+                  ),
+                  () async => await Navigator.pushNamed(
+                    context,
+                    KycView.routeName,
+                  ),
                 );
               },
               isSuccess: true,
@@ -129,10 +140,16 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
             builder: (_) => CustomToast(
               heading: "Success",
               content: "Identity Document Edited Successfully.",
-              onTap: () {
-                Navigator.popUntil(
-                  context,
-                  (route) => route.settings.name == AccountView.routeName,
+              onTap: () async {
+                context.read<KycBloc>().add(KycDocumentLoaded());
+                Future.delayed(
+                  Duration(
+                    milliseconds: 300,
+                  ),
+                  () async => await Navigator.pushNamed(
+                    context,
+                    KycView.routeName,
+                  ),
                 );
               },
               isSuccess: true,
@@ -144,10 +161,19 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
         if (state.theStates == TheStates.loading)
           return WillPopScope(
             onWillPop: () async {
-              Navigator.popUntil(
-                context,
-                (route) => route.settings.name == AccountView.routeName,
-              );
+              if (state.isNewDoc == true) {
+                Navigator.pushNamed(
+                  context,
+                  AccountView.routeName,
+                );
+              }
+              if (state.isNewDoc == false) {
+                Navigator.pushNamed(
+                  context,
+                  KycView.routeName,
+                );
+              }
+
               return false;
             },
             child: Scaffold(
@@ -159,10 +185,18 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
 
         return WillPopScope(
           onWillPop: () async {
-            Navigator.popUntil(
-              context,
-              (route) => route.settings.name == AccountView.routeName,
-            );
+            if (state.isNewDoc == true) {
+              Navigator.pushNamed(
+                context,
+                AccountView.routeName,
+              );
+            }
+            if (state.isNewDoc == false) {
+              Navigator.pushNamed(
+                context,
+                KycView.routeName,
+              );
+            }
             return false;
           },
           child: Scaffold(
@@ -174,10 +208,22 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                   ? "Edit KYC Details"
                   : "Add KYC Details",
               leadingWidget: IconButton(
-                onPressed: () => Navigator.popUntil(
-                  context,
-                  (route) => route.settings.name == AccountView.routeName,
-                ),
+                onPressed: () {
+                  if (state.isNewDoc == true) {
+                    Navigator.pushNamed(
+                      context,
+                      AccountView.routeName,
+                    );
+                  }
+                  if ((state.isNewDoc == true &&
+                          (state.list?.length != 0 && state.list != null)) ||
+                      state.isNewDoc == false) {
+                    Navigator.pushNamed(
+                      context,
+                      KycView.routeName,
+                    );
+                  }
+                },
                 icon: Icon(
                   Icons.arrow_back_rounded,
                 ),
@@ -205,7 +251,7 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                           children: <Widget>[
                             buildIdentityTypeDropdown(state),
                             CustomFormField(
-                              label: 'Identity number',
+                              label: 'Identity Number',
                               isRequired: true,
                               child: CustomTextFormField(
                                 validator: validateNotEmpty,
@@ -228,9 +274,21 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                     isRequired: true,
                                     child: CustomTextFormField(
                                       readOnly: true,
-                                      validator: (p0) => (issuedDate == null)
-                                          ? "Required Field"
-                                          : null,
+                                      controller: _issuedDateController,
+                                      validator: (p0) {
+                                        if (issuedDate == null) {
+                                          return "Required Field";
+                                        }
+                                        if (issuedDate != null &&
+                                            expiryDate != null) {
+                                          if (issuedDate!
+                                              .isAfter(expiryDate!)) {
+                                            return "Cannot be greater than expiry date";
+                                          }
+                                          return null;
+                                        }
+                                        return null;
+                                      },
                                       hintText: issuedDate != null
                                           ? DateFormat("yyyy-MM-dd").format(
                                               issuedDate!,
@@ -252,6 +310,13 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                           (value) => setState(
                                             () {
                                               issuedDate = value;
+                                              _issuedDateController.text =
+                                                  issuedDate != null
+                                                      ? DateFormat("yyyy-MM-dd")
+                                                          .format(
+                                                          issuedDate!,
+                                                        )
+                                                      : "";
                                             },
                                           ),
                                         );
@@ -269,11 +334,23 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                     isRequired: hasDocExpiryDate,
                                     child: CustomTextFormField(
                                       readOnly: true,
-                                      validator: (p0) => (expiryDate == null)
-                                          ? hasDocExpiryDate
-                                              ? "Required Field"
-                                              : null
-                                          : null,
+                                      controller: _expiryDateController,
+                                      validator: (p0) {
+                                        if (hasDocExpiryDate) {
+                                          if (expiryDate == null) {
+                                            return "Required Field";
+                                          }
+                                          if (issuedDate != null &&
+                                              expiryDate != null) {
+                                            if (expiryDate!
+                                                .isBefore(issuedDate!)) {
+                                              return "Cannot be less than issued date";
+                                            }
+                                            return null;
+                                          }
+                                        }
+                                        return null;
+                                      },
                                       hintText: expiryDate != null
                                           ? DateFormat("yyyy-MM-dd").format(
                                               expiryDate!,
@@ -297,6 +374,15 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                                 (value) => setState(
                                                   () {
                                                     expiryDate = value;
+                                                    _expiryDateController
+                                                        .text = expiryDate !=
+                                                            null
+                                                        ? DateFormat(
+                                                                "yyyy-MM-dd")
+                                                            .format(
+                                                            expiryDate!,
+                                                          )
+                                                        : "";
                                                   },
                                                 ),
                                               );
@@ -355,15 +441,36 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                     ],
                                   ),
                                   InkWell(
-                                    onTap: () async {
-                                      await FilePickHelper.filePicker().then(
-                                        (value) => setState(
+                                    onTap: () async => await ImagePicker()
+                                        .pickImage(source: ImageSource.gallery)
+                                        .then(
+                                      (value) async {
+                                        final selectedFile =
+                                            await CompressHelper()
+                                                .compressFileAsync(
+                                                    File(value!.path));
+                                        if (selectedFile.lengthSync() >
+                                            5093309) {
+                                          await showDialog(
+                                            context: context,
+                                            builder: (_) => CustomToast(
+                                              heading: "Failure",
+                                              content:
+                                                  "File Size Must Be Less Than 5MB.",
+                                              onTap: () {},
+                                              isSuccess: false,
+                                            ),
+                                          );
+                                        }
+                                        if (selectedFile.lengthSync() > 5093309)
+                                          return;
+                                        setState(
                                           () {
-                                            file = value;
+                                            file = selectedFile;
                                           },
-                                        ),
-                                      );
-                                    },
+                                        );
+                                      },
+                                    ),
                                     child: file == null
                                         ? state.list?.length != 0 &&
                                                 state.isNewDoc == false
@@ -406,7 +513,6 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                   padding: const EdgeInsets.all(8.0),
                                   child: CustomElevatedButton(
                                     callback: () async {
-                                      fieldValidations(state);
                                       if ((state.list?.length != 0 &&
                                               state.list != null) &&
                                           state.isNewDoc == false) {
@@ -437,23 +543,25 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
                                         if (_key.currentState!.validate()) {
                                           context.read<KycBloc>().add(
                                                 KycDocEditLoaded(
-                                                  id: int.parse(
-                                                    state.list
-                                                        ?.where((e) =>
-                                                            e.id == state.kycId)
-                                                        .first
-                                                        .documentId as String,
-                                                  ),
+                                                  id: state.list
+                                                          ?.where((e) =>
+                                                              e.id ==
+                                                              state.kycId)
+                                                          .first
+                                                          .id ??
+                                                      0,
                                                   editDocReq: editReq,
                                                 ),
                                               );
                                         }
                                       }
-
                                       if ((state.list?.length == 0 ||
                                               state.list == null) ||
                                           state.isNewDoc == true) {
+                                        fieldValidations(state);
                                         if (_key.currentState!.validate()) {
+                                          //image validations
+                                          //
                                           // _key.currentState!.save();
                                           final AddKycReq x = AddKycReq(
                                             kyc: int.parse(
@@ -526,15 +634,8 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
           list: state.docTypeList?.map((e) => e.name!).toList() ?? [],
           selectedIndex: (state.list?.length != 0 && state.list != null) &&
                   state.isNewDoc == false
-              ? state.docTypeList!.indexWhere(
-                  (e) => e.name!.contains(
-                    state.list!
-                        .where((e) => e.id == state.kycId)
-                        .first
-                        .documentType!
-                        .name
-                        .toString(),
-                  ),
+              ? state.docTypeList?.indexWhere(
+                  (e) => e.id == int.parse(identityTypeController.text),
                 )
               : null,
           onChanged: (value) {
