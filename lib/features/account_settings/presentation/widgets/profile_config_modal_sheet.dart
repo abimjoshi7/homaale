@@ -18,7 +18,21 @@ class _ProfileConfigModalSheetState extends State<ProfileConfigModalSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<UserBloc, UserState>(
+    return BlocConsumer<UserBloc, UserState>(
+      listener: (context, state) {
+        if (state.theStates == TheStates.success && state.isEdited == true) {
+          showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+                heading: "Success",
+                content: "Configuration edited successfully.",
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                isSuccess: true),
+          );
+        }
+      },
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
           return Padding(
