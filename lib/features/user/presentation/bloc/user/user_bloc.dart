@@ -76,6 +76,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
     on<UserEdited>(
       (event, emit) async {
         try {
+          emit(
+            state.copyWith(
+              theStates: TheStates.loading,
+            ),
+          );
           await respositories
               .edituser(event.req)
               .then(
@@ -86,7 +91,11 @@ class UserBloc extends Bloc<UserEvent, UserState> {
                   ),
                 ),
               )
-              .whenComplete(() => add(UserLoaded()));
+              .whenComplete(
+                () => add(
+                  UserLoaded(),
+                ),
+              );
         } catch (e) {
           emit(
             state.copyWith(

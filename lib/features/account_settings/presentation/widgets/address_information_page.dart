@@ -58,8 +58,6 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
         }
       },
       builder: (context, state) {
-
-
         if (state.theStates == TheStates.success) {
           // user = state.taskerProfile?.user;
           return Padding(
@@ -127,7 +125,6 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                         ),
                       ),
                       addVerticalSpace(10),
-
                       BlocBuilder<LanguageBloc, LanguageState>(
                         builder: (context, languageState) {
                           if (languageState is LanguageLoadSuccess) {
@@ -143,11 +140,13 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                                     'English',
                                     'Nepali',
                                   ],
-                              onChanged: (value) => setState(
-                                () {
-                                  languages == value;
-                                },
-                              ),
+                              onChanged: (value) {
+                                setState(
+                                  () {
+                                    languages = value.toString();
+                                  },
+                                );
+                              },
                             ),
                           );
                         },
@@ -161,44 +160,23 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                               currencyList = currencyState.currencyListRes;
                             }
                             return CustomDropdownSearch(
-                              hintText: state.taskerProfile?.chargeCurrency?.name ??
-                                    'Choose suitable currency',
-                                list:  currencyList?.map((e) => e.name).toList() ??
-                                    [
-                                      'NPR',
-                                      'AUD',
-                                    ],
-                                onChanged: (value) => setState(
-                                      () {
-                                    currency == value;
-                                  },
-                                ),
-                              );
-
-
-                            //   CustomDropDownField(
-                            //   hintText:
-                            //       state.taskerProfile?.chargeCurrency?.name ??
-                            //           'Choose suitable currency',
-                            //   list: currencyList?.map((e) => e.name).toList() ??
-                            //       [
-                            //         'NPR',
-                            //         'AUD',
-                            //       ],
-                            //   onChanged: (value) => setState(
-                            //     () {
-                            //       currency = value;
-                            //     },
-                            //   ),
-                            // );
+                              hintText:
+                                  state.taskerProfile?.chargeCurrency?.name ??
+                                      'Choose suitable currency',
+                              list: currencyList?.map((e) => e.name).toList() ??
+                                  [
+                                    'NPR',
+                                    'AUD',
+                                  ],
+                              onChanged: (value) => setState(
+                                () {
+                                  currency = value.toString();
+                                },
+                              ),
+                            );
                           },
                         ),
                       ),
-
-
-
-
-                      addVerticalSpace(10),
                     ],
                   ),
                   addVerticalSpace(
@@ -207,8 +185,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                 ],
               ),
               CustomElevatedButton(
-                callback: ()  {
-
+                callback: () {
                   String? countryCode;
                   String? languageCode;
                   String? currencyCode;
@@ -234,16 +211,19 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                       });
                     }
                   }
-                  final Map<String,dynamic> map = {
-                    "country": countryCode ?? state.taskerProfile?.country,
+                  final Map<String, dynamic> map = {
+                    "country":
+                        countryCode ?? state.taskerProfile?.country?.code,
                     "address_line1":
-                    addressLine1 ?? state.taskerProfile?.addressLine1,
+                        addressLine1 ?? state.taskerProfile?.addressLine1,
                     "address_line2":
-                    addressLine2 ?? state.taskerProfile?.addressLine2,
-                    "language": languageCode ?? state.taskerProfile?.language,
+                        addressLine2 ?? state.taskerProfile?.addressLine2,
+                    "language":
+                        languageCode ?? state.taskerProfile?.language?.code,
                     "charge_currency": currencyCode ??
                         state.taskerProfile?.chargeCurrency?.code,
                   };
+                  print(map);
 
                   context.read<UserBloc>().add(
                         UserEdited(
@@ -319,7 +299,4 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
       },
     );
   }
-
-
-
 }
