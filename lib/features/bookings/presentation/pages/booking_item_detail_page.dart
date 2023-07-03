@@ -509,10 +509,6 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> with TheM
                                         padding: EdgeInsets.all(5),
                                         decoration: BoxDecoration(
                                           color: BookingTimelineStatus('${booking.status}')["color"] as Color,
-                                          // color: (booking.status == 'Closed' ||
-                                          //         booking.status == 'Cancelled')
-                                          //     ? Colors.red.shade50
-                                          //     : Colors.green.shade50,
                                           borderRadius: BorderRadius.circular(5),
                                           shape: BoxShape.rectangle,
                                         ),

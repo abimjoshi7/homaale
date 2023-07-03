@@ -238,7 +238,7 @@ Map<String, dynamic> statusToUpdate(String status, bool isAssignee) {
         "color": isAssignee ? kColorAmber : kColorGrey,
         "status": "on_progress",
       };
-    case "on progress":
+    case "on_progress":
       return {
         "buttonLabel":
             isAssignee ? "Mark as Completed" : "Your task is in progress",
@@ -250,19 +250,19 @@ Map<String, dynamic> statusToUpdate(String status, bool isAssignee) {
         "buttonLabel":
             isAssignee ? "Waiting for the client to approve" : "Close task",
         "color": isAssignee ? kColorGrey : kColorAmber,
+        "status": "Closed",
+      };
+    case "closed":
+      return {
+        "buttonLabel": isAssignee ? "Close task" : "Close task",
+        "color": kColorPink50,
         "status": "closed",
       };
     case "cancelled":
       return {
-        "buttonLabel": isAssignee ? "Cancelled" : "Cancelled",
-        "color": kColorPink50,
-        "status": "cancelled",
-      };
-    case "closed":
-      return {
-        "buttonLabel": "Close task",
+        "buttonLabel": "Cancelled",
         "color": isAssignee ? kColorGrey : kColorAmber,
-        "status": "closed",
+        "status": "cancelled",
       };
 
     default:
