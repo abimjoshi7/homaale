@@ -59,9 +59,8 @@ class DioHelper {
             if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('non_field_errors')) {
               final nonFieldErrors = responseData['non_field_errors'];
-              if (nonFieldErrors is List<dynamic> &&
-                  nonFieldErrors.isNotEmpty) {
-                final errorMessage = nonFieldErrors.first.join('.');
+              if (nonFieldErrors is List<dynamic> && nonFieldErrors.isNotEmpty) {
+                final errorMessage = nonFieldErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Error: ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -114,9 +113,8 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('issued_date')) {
               final issuedDateError = responseData['issued_date'];
-              if (issuedDateError is List<dynamic> &&
-                  issuedDateError.isNotEmpty) {
-                final errorMessage = issuedDateError.first.join('.');
+              if (issuedDateError is List<dynamic> && issuedDateError.isNotEmpty) {
+                final errorMessage = issuedDateError.join('.');
                 Fluttertoast.showToast(
                     msg: "Issued Date Error: ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -142,9 +140,8 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('old_password')) {
               final oldPasswordError = responseData['old_password'];
-              if (oldPasswordError is List<dynamic> &&
-                  oldPasswordError.isNotEmpty) {
-                final errorMessage = oldPasswordError.first.join('.');
+              if (oldPasswordError is List<dynamic> && oldPasswordError.isNotEmpty) {
+                final errorMessage = oldPasswordError.join('.');
                 Fluttertoast.showToast(
                     msg: "Password Error: ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -170,9 +167,8 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('password')) {
               final passswordErrors = responseData['password'];
-              if (passswordErrors is List<dynamic> &&
-                  passswordErrors.isNotEmpty) {
-                final errorMessage = passswordErrors.first.join('.');
+              if (passswordErrors is List<dynamic> && passswordErrors.isNotEmpty) {
+                final errorMessage = passswordErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Password Error: ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -199,7 +195,7 @@ class DioHelper {
                 responseData.containsKey('phone')) {
               final phoneErrors = responseData['phone'];
               if (phoneErrors is List<dynamic> && phoneErrors.isNotEmpty) {
-                final errorMessage = phoneErrors.first.join('.');
+                final errorMessage = phoneErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Phone number Error: ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -225,9 +221,8 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('budget_type')) {
               final budgetTypeErrors = responseData['budget_type'];
-              if (budgetTypeErrors is List<dynamic> &&
-                  budgetTypeErrors.isNotEmpty) {
-                final errorMessage = budgetTypeErrors.first.join('.');
+              if (budgetTypeErrors is List<dynamic> && budgetTypeErrors.isNotEmpty) {
+                final errorMessage = budgetTypeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Budget type: ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -253,9 +248,8 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('username')) {
               final usernameErrors = responseData['username'];
-              if (usernameErrors is List<dynamic> &&
-                  usernameErrors.isNotEmpty) {
-                final errorMessage = usernameErrors.first.join('.');
+              if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {
+                final errorMessage = usernameErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Username: ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -281,9 +275,8 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('detail')) {
               final detailstTypeErrors = responseData['detail'];
-              if (detailstTypeErrors is List<dynamic> &&
-                  detailstTypeErrors.isNotEmpty) {
-                final errorMessage = detailstTypeErrors.first.join('.');
+              if (detailstTypeErrors is List<dynamic> && detailstTypeErrors.isNotEmpty) {
+                final errorMessage = detailstTypeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Detail : ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -309,9 +302,8 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('merchant')) {
               final detailstTypeErrors = responseData['merchant']['amount'];
-              if (detailstTypeErrors is List<dynamic> &&
-                  detailstTypeErrors.isNotEmpty) {
-                final errorMessage = detailstTypeErrors.first.join('.');
+              if (detailstTypeErrors is List<dynamic> && detailstTypeErrors.isNotEmpty) {
+                final errorMessage = detailstTypeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "amount : ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -337,9 +329,8 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('order')) {
               final detailstTypeErrors = responseData['order'];
-              if (detailstTypeErrors is List<dynamic> &&
-                  detailstTypeErrors.isNotEmpty) {
-                final errorMessage = detailstTypeErrors.first.join('.');
+              if (detailstTypeErrors is List<dynamic> && detailstTypeErrors.isNotEmpty) {
+                final errorMessage = detailstTypeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "order : ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -366,7 +357,7 @@ class DioHelper {
                 responseData.containsKey('end_time')) {
               final endTimeErrors = responseData['end_time'];
               if (endTimeErrors is List<dynamic> && endTimeErrors.isNotEmpty) {
-                final errorMessage = endTimeErrors.first.join('.');
+                final errorMessage = endTimeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "End Time : ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -392,9 +383,8 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('start_date')) {
               final startDateErrors = responseData['start_date'];
-              if (startDateErrors is List<dynamic> &&
-                  startDateErrors.isNotEmpty) {
-                final errorMessage = startDateErrors.first.join('.');
+              if (startDateErrors is List<dynamic> && startDateErrors.isNotEmpty) {
+                final errorMessage = startDateErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Start Date : ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -420,9 +410,8 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('requirements')) {
               final highlightsError = responseData['requirements'];
-              if (highlightsError is List<dynamic> &&
-                  highlightsError.isNotEmpty) {
-                final errorMessage = highlightsError.first.join('.');
+              if (highlightsError is List<dynamic> && highlightsError.isNotEmpty) {
+                final errorMessage = highlightsError.join('.');
                 Fluttertoast.showToast(
                     msg: "Highlights : ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -448,9 +437,8 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('tasks')) {
               final taskExpiredDateErrors = responseData['tasks'];
-              if (taskExpiredDateErrors is List<dynamic> &&
-                  taskExpiredDateErrors.isNotEmpty) {
-                final errorMessage = taskExpiredDateErrors.first.join('.');
+              if (taskExpiredDateErrors is List<dynamic> && taskExpiredDateErrors.isNotEmpty) {
+                final errorMessage = taskExpiredDateErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "Tasks : ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -476,9 +464,8 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('city')) {
               final cityTypeErrors = responseData['city'];
-              if (cityTypeErrors is List<dynamic> &&
-                  cityTypeErrors.isNotEmpty) {
-                final errorMessage = cityTypeErrors.first.join('.');
+              if (cityTypeErrors is List<dynamic> && cityTypeErrors.isNotEmpty) {
+                final errorMessage = cityTypeErrors.join('.');
                 Fluttertoast.showToast(
                     msg: "city : ${errorMessage}",
                     toastLength: Toast.LENGTH_LONG,
@@ -504,9 +491,8 @@ class DioHelper {
             } else if (responseData is Map<String, dynamic> &&
                 responseData.containsKey('username')) {
               final usernameErrors = responseData['username'];
-              if (usernameErrors is List<dynamic> &&
-                  usernameErrors.isNotEmpty) {
-                final errorMessage = usernameErrors.first.join('.');
+              if (usernameErrors is List<dynamic> && usernameErrors.isNotEmpty) {
+                final errorMessage = usernameErrors.join('.');
                 // Remove existing cache and add new error msg in cache
                 await CacheHelper.clearCachedData(kErrorLog).whenComplete(
                   () async => CacheHelper.setCachedString(
