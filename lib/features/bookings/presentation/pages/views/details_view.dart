@@ -131,9 +131,20 @@ class _DetailsViewState extends State<DetailsView> {
                 ),
               );
             if (state.taskEntityService.isNegotiable == true)
-              return NumberIncDecField(
+              return CustomTextFormField(
+                theWidth: 106.0,
+                errorMaxLines: 2,
+                validator: (p0) {
+                  if (budgetController.text.isEmpty) {
+                    return 'Required Field';
+                  }
+                  if (double.parse(budgetController.text) < 10.0) {
+                    return "Cannot be less than 10";
+                  }
+                  return null;
+                },
                 controller: budgetController,
-                onSubmit: (value) => widget.bookEventHandlerBloc.add(
+                onSaved: (value) => widget.bookEventHandlerBloc.add(
                   BookEventPicked(
                     req: BookEntityServiceReq(
                       budgetTo: double.parse(
