@@ -1,7 +1,10 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
+import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class EarningFilterWidget extends StatelessWidget {
+class EarningFilterWidget extends StatefulWidget {
   final String? fromText;
   final String? toText;
   final VoidCallback? onFromTap;
@@ -18,6 +21,20 @@ class EarningFilterWidget extends StatelessWidget {
   });
 
   @override
+  State<EarningFilterWidget> createState() => _EarningFilterWidgetState();
+}
+
+class _EarningFilterWidgetState extends State<EarningFilterWidget> {
+  bool readOnly = true;
+  final searchController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    searchController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
@@ -31,7 +48,47 @@ class EarningFilterWidget extends StatelessWidget {
             ),
             addHorizontalSpace(8),
             InkWell(
-              onTap: onFromTap,
+              onTap: widget.onToTap,
+              child: SizedBox(
+                width: 200,
+                height: 40,
+                child: CustomTextFormField(
+                  hintText: "Search",
+                  controller: searchController,
+                  inputAction: TextInputAction.done,
+                  onFieldSubmitted: (p0) {
+                    if (p0!.length >= 3) {
+                      context.read<WalletBloc>().add(
+                            WalletHistoryLoaded(
+                              searchQuery: p0,
+                              isNewFetch: true,
+                            ),
+                          );
+                    }
+                  },
+                ),
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Text(
+              //         toText ?? "To",
+              //         overflow: TextOverflow.ellipsis,
+              //       ),
+              //       addHorizontalSpace(8),
+              //       Icon(
+              //         Icons.calendar_today_outlined,
+              //         color: kColorSilver,
+              //       ),
+              //     ],
+              //   ),
+              // ),
+            ),
+            addHorizontalSpace(8),
+            InkWell(
+              onTap: widget.onFromTap,
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: kColorGrey),
@@ -43,7 +100,7 @@ class EarningFilterWidget extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Text(fromText ?? "From"),
+                      Text(widget.fromText ?? "From"),
                       addHorizontalSpace(8),
                       Icon(
                         Icons.calendar_today_outlined,
@@ -56,7 +113,7 @@ class EarningFilterWidget extends StatelessWidget {
             ),
             addHorizontalSpace(8),
             InkWell(
-              onTap: onToTap,
+              onTap: widget.onToTap,
               child: Container(
                 decoration: BoxDecoration(
                   border: Border.all(color: kColorGrey),
@@ -69,7 +126,7 @@ class EarningFilterWidget extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        toText ?? "To",
+                        widget.toText ?? "To",
                         overflow: TextOverflow.ellipsis,
                       ),
                       addHorizontalSpace(8),
@@ -82,8 +139,12 @@ class EarningFilterWidget extends StatelessWidget {
                 ),
               ),
             ),
-            fromText != null || toText != null
-                ? TextButton(onPressed: onClearFilterTap, child: Text('Clear Fitlers'))
+            widget.fromText != null ||
+                    widget.toText != null ||
+                    searchController.text.isNotEmpty
+                ? TextButton(
+                    onPressed: widget.onClearFilterTap,
+                    child: Text('Clear Fitlers'))
                 : SizedBox.shrink(),
           ],
         ),

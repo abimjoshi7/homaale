@@ -38,6 +38,7 @@ class _WalletMainViewState extends State<WalletMainView> {
   String lastDate = '';
   String fromText = '';
   String toText = '';
+  String? searchQuery;
 
   @override
   void initState() {
@@ -88,7 +89,7 @@ class _WalletMainViewState extends State<WalletMainView> {
     return Scaffold(
       appBar: CustomAppBar(
         appBarTitle: 'My Earnings',
-        trailingWidget: SizedBox.fromSize(),
+        trailingWidget: SizedBox.shrink(),
       ),
       body: BlocBuilder<WalletBloc, WalletState>(
         builder: (context, state) {
@@ -117,8 +118,10 @@ class _WalletMainViewState extends State<WalletMainView> {
                         4,
                         (index) => ProfileStatsCard(
                           imagePath: 'assets/wallet.png',
-                          label: getValuesFromIndex(state, index)['label'] as String,
-                          value: getValuesFromIndex(state, index)['value'] as String,
+                          label: getValuesFromIndex(state, index)['label']
+                              as String,
+                          value: getValuesFromIndex(state, index)['value']
+                              as String,
                         ),
                       ),
                     ),
@@ -129,8 +132,10 @@ class _WalletMainViewState extends State<WalletMainView> {
                       callback: () {
                         if (state.walletModel.length == 0) {
                           return;
-                        } else if
-                        (Decimal.parse(state.walletModel.first.availableBalance.toString()) != 0.0) {
+                        } else if (Decimal.parse(state
+                                .walletModel.first.availableBalance
+                                .toString()) !=
+                            0.0) {
                           Navigator.pushNamed(
                             context,
                             WithdrawPage.routeName,
@@ -140,8 +145,12 @@ class _WalletMainViewState extends State<WalletMainView> {
                     ),
                     addVerticalSpace(8),
                     EarningFilterWidget(
-                      fromText: fromText.isEmpty || fromText == 'null' ? null : Jiffy(fromText).MMMd,
-                      toText: toText.isEmpty || toText == 'null' ? null : Jiffy(toText).MMMd,
+                      fromText: fromText.isEmpty || fromText == 'null'
+                          ? null
+                          : Jiffy(fromText).MMMd,
+                      toText: toText.isEmpty || toText == 'null'
+                          ? null
+                          : Jiffy(toText).MMMd,
                       onFromTap: () {
                         showDatePicker(
                           context: context,
@@ -161,7 +170,9 @@ class _WalletMainViewState extends State<WalletMainView> {
                             context.read<WalletBloc>().add(WalletHistoryLoaded(
                                 isNewFetch: true,
                                 startDate: DateTime.parse(startDate),
-                                endDate: lastDate.isEmpty || lastDate == 'null' ? null : DateTime.parse(lastDate)));
+                                endDate: lastDate.isEmpty || lastDate == 'null'
+                                    ? null
+                                    : DateTime.parse(lastDate)));
                           },
                         );
                       },
@@ -183,7 +194,10 @@ class _WalletMainViewState extends State<WalletMainView> {
                             });
                             context.read<WalletBloc>().add(WalletHistoryLoaded(
                                 isNewFetch: true,
-                                startDate: startDate.isEmpty || startDate == 'null' ? null : DateTime.parse(startDate),
+                                startDate:
+                                    startDate.isEmpty || startDate == 'null'
+                                        ? null
+                                        : DateTime.parse(startDate),
                                 endDate: DateTime.parse(lastDate)));
                           },
                         );
@@ -195,17 +209,18 @@ class _WalletMainViewState extends State<WalletMainView> {
                           fromText = '';
                           toText = '';
                         });
-                        context.read<WalletBloc>().add(WalletHistoryLoaded(isNewFetch: true));
+                        context
+                            .read<WalletBloc>()
+                            .add(WalletHistoryLoaded(isNewFetch: true));
                       },
                     ),
-
-										state.walletHistoryList.length == 0
+                    state.walletHistoryList.length == 0
                         ? Center(
-                          child: CommonErrorContainer(
-                              assetsPath: "assets/no_data_found.png",
-                              errorDes: 'No Earning History')
-                          // Text(''),
-                        )
+                            child: CommonErrorContainer(
+                                assetsPath: "assets/no_data_found.png",
+                                errorDes: 'No Earning History')
+                            // Text(''),
+                            )
                         : ListView.builder(
                             shrinkWrap: true,
                             itemCount: state.hasReachedMax
@@ -219,22 +234,34 @@ class _WalletMainViewState extends State<WalletMainView> {
                                       child: Container(
                                         padding: EdgeInsets.all(16),
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
                                           children: [
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
                                                   'Transaction id: ${state.walletHistoryList[index].id.toString()}',
-                                                  style: textTheme.titleSmall?.copyWith(color: kColorPrimary),
+                                                  style: textTheme.titleSmall
+                                                      ?.copyWith(
+                                                          color: kColorPrimary),
                                                 ),
                                                 Container(
-                                                  padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                                                  color: kColorGreen.withOpacity(0.5),
+                                                  padding: EdgeInsets.symmetric(
+                                                      vertical: 4,
+                                                      horizontal: 8),
+                                                  color: kColorGreen
+                                                      .withOpacity(0.5),
                                                   child: Center(
                                                     child: Text(
                                                       'Recieved',
-                                                      style: textTheme.titleSmall?.copyWith(color: Colors.green[900]),
+                                                      style: textTheme
+                                                          .titleSmall
+                                                          ?.copyWith(
+                                                              color: Colors
+                                                                  .green[900]),
                                                     ),
                                                   ),
                                                 )
@@ -249,11 +276,15 @@ class _WalletMainViewState extends State<WalletMainView> {
                                               style: textTheme.titleSmall,
                                             ),
                                             Row(
-                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
                                               children: [
                                                 Text(
                                                   'Amount: ${Decimal.parse(state.walletHistoryList[index].amount.toString())}',
-                                                  style: textTheme.titleSmall?.copyWith(color: kColorPrimary),
+                                                  style: textTheme.titleSmall
+                                                      ?.copyWith(
+                                                          color: kColorPrimary),
                                                 ),
                                                 Text(
                                                   '${Jiffy(state.walletHistoryList[index].createdAt.toString()).yMMMMd}',
@@ -297,5 +328,186 @@ class _WalletMainViewState extends State<WalletMainView> {
     final maxScroll = _controller.position.maxScrollExtent;
     final currentScroll = _controller.offset;
     return currentScroll >= (maxScroll * 0.9);
+  }
+}
+
+class EarningSearchDelegate extends SearchDelegate {
+  @override
+  List<Widget>? buildActions(BuildContext context) {
+    return [IconButton(icon: Icon(Icons.clear), onPressed: () => query = "")];
+  }
+
+  @override
+  Widget? buildLeading(BuildContext context) {
+    return IconButton(
+      icon: AnimatedIcon(
+        icon: AnimatedIcons.menu_arrow,
+        progress: transitionAnimation,
+      ),
+      onPressed: () {
+        close(context, null);
+      },
+    );
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // return SizedBox.shrink();
+    if (query.length > 3) {
+      context.read<WalletBloc>().add(
+            WalletHistoryLoaded(
+              searchQuery: query,
+            ),
+          );
+    }
+    return BlocBuilder<WalletBloc, WalletState>(
+      builder: (context, state) {
+        return Column(
+          children: List.generate(
+            state.walletHistoryList.length,
+            (index) => Card(
+              child: Container(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Transaction id: ${state.walletHistoryList[index].id.toString()}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(color: kColorPrimary),
+                        ),
+                        Container(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                          color: kColorGreen.withOpacity(0.5),
+                          child: Center(
+                            child: Text(
+                              'Recieved',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(color: Colors.green[900]),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Text(
+                      'Paid by: ${state.walletHistoryList[index].sender}',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    Text(
+                      'Paid for: ${state.walletHistoryList[index].taskTitle?.length == 0 ? 'N/A' : state.walletHistoryList[index].taskTitle?.join(',')}',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Amount: ${Decimal.parse(state.walletHistoryList[index].amount.toString())}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(color: kColorPrimary),
+                        ),
+                        Text(
+                          '${Jiffy(state.walletHistoryList[index].createdAt.toString()).yMMMMd}',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    if (query.length > 3) {
+      context.read<WalletBloc>().add(
+            WalletHistoryLoaded(
+              searchQuery: query,
+            ),
+          );
+    }
+    return BlocBuilder<WalletBloc, WalletState>(
+      builder: (context, state) {
+        return Column(
+          children: List.generate(
+            state.walletHistoryList.length,
+            (index) => Card(
+              child: Container(
+                padding: EdgeInsets.all(16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Transaction id: ${state.walletHistoryList[index].id.toString()}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(color: kColorPrimary),
+                        ),
+                        Container(
+                          padding:
+                              EdgeInsets.symmetric(vertical: 4, horizontal: 8),
+                          color: kColorGreen.withOpacity(0.5),
+                          child: Center(
+                            child: Text(
+                              'Recieved',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleSmall
+                                  ?.copyWith(color: Colors.green[900]),
+                            ),
+                          ),
+                        )
+                      ],
+                    ),
+                    Text(
+                      'Paid by: ${state.walletHistoryList[index].sender}',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    Text(
+                      'Paid for: ${state.walletHistoryList[index].taskTitle?.length == 0 ? 'N/A' : state.walletHistoryList[index].taskTitle?.join(',')}',
+                      style: Theme.of(context).textTheme.titleSmall,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Amount: ${Decimal.parse(state.walletHistoryList[index].amount.toString())}',
+                          style: Theme.of(context)
+                              .textTheme
+                              .titleSmall
+                              ?.copyWith(color: kColorPrimary),
+                        ),
+                        Text(
+                          '${Jiffy(state.walletHistoryList[index].createdAt.toString()).yMMMMd}',
+                          style: Theme.of(context).textTheme.titleSmall,
+                        ),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }
