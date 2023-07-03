@@ -1,8 +1,10 @@
 import 'package:cipher/core/constants/colors.dart';
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/date_time_representation.dart';
 import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/constants/strings.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -17,12 +19,16 @@ class RatingReviewsPage extends StatefulWidget {
 
 class _RatingReviewsPageState extends State<RatingReviewsPage> {
   final _scrollController = ScrollController();
+  bool replyPressed = false;
+  int toReplyId = 0;
+
+  final replyController = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
-    context.read<RatingReviewsBloc>().add(FetchRatingsReviews(
-        id: context.read<RatingReviewsBloc>().state.taskId));
+    context.read<RatingReviewsBloc>().add(FetchRatingsReviews(id: context.read<RatingReviewsBloc>().state.taskId));
     _scrollController.addListener(_onScroll);
   }
 
@@ -30,8 +36,7 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
     return Scaffold(
-      appBar: CustomAppBar(
-          appBarTitle: 'Rating & Reviews', trailingWidget: SizedBox()),
+      appBar: CustomAppBar(appBarTitle: 'Rating & Reviews', trailingWidget: SizedBox()),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: BlocBuilder<RatingReviewsBloc, RatingReviewState>(
@@ -41,8 +46,6 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
                 return Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    // TODO: update with ratings from entity service
-                    // Text('Success'),
                     addVerticalSpace(16),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -59,87 +62,172 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
                             ],
                           ),
                         ),
-                        // TODO: update with drop down to filter/sort reviews
-                        // Text('Success'),
                       ],
                     ),
                     addVerticalSpace(16),
                     Expanded(
                       child: ListView.separated(
-                        itemCount: state.hasReachedMax
-                            ? state.review.length
-                            : state.review.length + 1,
+                        itemCount: state.hasReachedMax ? state.review.length : state.review.length + 1,
                         controller: _scrollController,
-                        separatorBuilder: (context, index) =>
-                            addVerticalSpace(16),
+                        separatorBuilder: (context, index) => addVerticalSpace(16),
                         physics: AlwaysScrollableScrollPhysics(),
                         itemBuilder: (BuildContext context, int index) {
                           return index >= state.review.length
                               ? const BottomLoader()
-                              : ListTile(
-                                  contentPadding: EdgeInsets.zero,
-                                  horizontalTitleGap: 4,
-                                  leading: Container(
-                                    height: 80,
-                                    width: 80,
-                                    decoration: BoxDecoration(
-                                      shape: BoxShape.circle,
-                                      image: DecorationImage(
-                                          image: NetworkImage(
-                                            state.review[index].ratedBy
-                                                    ?.profileImage ??
-                                                kHomaaleImg,
-                                          ),
-                                          fit: BoxFit.fill),
-                                    ),
-                                  ),
-                                  title: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Row(
+                              : Column(
+                                  children: [
+                                    ListTile(
+                                      contentPadding: EdgeInsets.zero,
+                                      horizontalTitleGap: 4,
+                                      leading: Container(
+                                        height: 80,
+                                        width: 80,
+                                        decoration: BoxDecoration(
+                                          shape: BoxShape.circle,
+                                          image: DecorationImage(
+                                              image: NetworkImage(
+                                                state.review[index].ratedBy?.profileImage ?? kHomaaleImg,
+                                              ),
+                                              fit: BoxFit.fill),
+                                        ),
+                                      ),
+                                      title: Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          SizedBox(
-                                            width: MediaQuery.of(context)
-                                                    .size
-                                                    .width *
-                                                0.3,
-                                            child: Text(
-                                              '${state.review[index].ratedBy?.firstName ?? 'Firstname'} ${state.review[index].ratedBy?.lastName ?? 'Lastname'} ',
-                                              style: textTheme.bodyMedium
-                                                  ?.copyWith(
-                                                      fontWeight:
-                                                          FontWeight.bold),
-                                              maxLines: 1,
-                                              overflow: TextOverflow.ellipsis,
-                                            ),
+                                          Row(
+                                            children: [
+                                              SizedBox(
+                                                width: MediaQuery.of(context).size.width * 0.3,
+                                                child: Text(
+                                                  '${StringUtils.capitalize(state.review[index].ratedBy?.fullName ?? '')} ',
+                                                  maxLines: 1,
+                                                  overflow: TextOverflow.ellipsis,
+                                                ),
+                                              ),
+                                              addHorizontalSpace(8),
+                                              WidgetText(
+                                                label: '${state.review[index].rating}',
+                                                widget: Icon(
+                                                  Icons.star_rounded,
+                                                  color: kColorAmber,
+                                                  size: 16,
+                                                ),
+                                              ),
+                                            ],
                                           ),
-                                          addHorizontalSpace(8),
-                                          WidgetText(
-                                            label:
-                                                '${state.review[index].rating}',
-                                            widget: Icon(
-                                              Icons.star_rounded,
-                                              color: kColorAmber,
-                                              size: 16,
-                                            ),
+                                          Text(
+                                            '${state.review[index].review ?? 'review'}',
+                                            style: textTheme.bodyMedium,
                                           ),
                                         ],
                                       ),
-                                      Text(
-                                        '${state.review[index].review ?? 'review'}',
-                                        style: textTheme.bodyMedium,
+                                      trailing: Text(
+                                        getVerboseDateTimeRepresentation(
+                                            DateTime.parse(state.review[index].createdAt ?? DateTime.now().toString())),
+                                        style: textTheme.bodySmall?.copyWith(fontSize: 12),
                                       ),
-                                    ],
-                                  ),
-                                  trailing: Text(
-                                    getVerboseDateTimeRepresentation(
-                                        DateTime.parse(
-                                            state.review[index].createdAt ??
-                                                DateTime.now().toString())),
-                                    style: textTheme.bodySmall
-                                        ?.copyWith(fontSize: 12),
-                                  ),
+                                    ),
+                                    replyPressed && toReplyId == state.review[index].id
+                                        ? ListTile(
+                                            contentPadding: EdgeInsets.zero,
+                                            horizontalTitleGap: 0,
+                                            leading: Container(
+                                              height: 30,
+                                              width: 30,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                image: DecorationImage(
+                                                  image: NetworkImage(
+                                                      context.read<UserBloc>().state.taskerProfile?.profileImage ??
+                                                          kHomaaleImg),
+                                                  fit: BoxFit.fill,
+                                                ),
+                                              ),
+                                            ),
+                                            title: SizedBox(
+                                              child: Form(
+                                                key: _formKey,
+                                                child: TextFormField(
+                                                  controller: replyController,
+                                                  style: textTheme.displaySmall,
+                                                  validator: (value) {
+                                                    if (value == '') {
+                                                      return 'Required field.';
+                                                    } else {
+                                                      return null;
+                                                    }
+                                                  },
+                                                  decoration: InputDecoration(
+                                                    hintText: 'Write a reply',
+                                                    border: OutlineInputBorder(),
+                                                    suffixIcon: IconButton(
+                                                      onPressed: () {
+                                                        if (_formKey.currentState!.validate()) {
+                                                          context.read<RatingReviewsBloc>().add(PatchReplyReviewEvent(
+                                                              id: state.review[index].id ?? 0,
+                                                              reply: replyController.text.trim()));
+                                                          setState(() {
+                                                            replyPressed = false;
+                                                            replyController.clear();
+                                                          });
+                                                        }
+                                                      },
+                                                      icon: Icon(Icons.send),
+                                                      iconSize: 16,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          )
+                                        : state.review[index].reply == null || state.review[index].reply == ''
+                                            ? Align(
+                                                alignment: Alignment.centerRight,
+                                                child: TextButton(
+                                                  onPressed: () => setState(() {
+                                                    replyPressed = true;
+                                                    toReplyId = state.review[index].id ?? 0;
+                                                  }),
+                                                  child: Text('Reply'),
+                                                ),
+                                              )
+                                            : ListTile(
+                                                contentPadding: EdgeInsets.only(left: 30),
+                                                horizontalTitleGap: 0,
+                                                leading: Container(
+                                                  height: 30,
+                                                  width: 30,
+                                                  decoration: BoxDecoration(
+                                                    shape: BoxShape.circle,
+                                                    image: DecorationImage(
+                                                      image: NetworkImage(
+                                                          context.read<UserBloc>().state.taskerProfile?.profileImage ??
+                                                              kHomaaleImg),
+                                                      fit: BoxFit.fill,
+                                                    ),
+                                                  ),
+                                                ),
+                                                title: Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    Text(
+                                                      '${StringUtils.capitalize(context.read<UserBloc>().state.taskerProfile?.user?.fullName ?? '')}',
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                    Text(
+                                                      '${state.review[index].reply}',
+                                                      style: textTheme.displaySmall,
+                                                      overflow: TextOverflow.ellipsis,
+                                                    ),
+                                                  ],
+                                                ),
+                                                trailing: Text(
+                                                  getVerboseDateTimeRepresentation(DateTime.parse(
+                                                      state.review[index].repliedDate ?? DateTime.now().toString())),
+                                                  style: kHelper13,
+                                                ),
+                                              )
+                                  ],
                                 );
                         },
                       ),
@@ -165,8 +253,7 @@ class _RatingReviewsPageState extends State<RatingReviewsPage> {
 
   void _onScroll() {
     if (_isBottom)
-      context.read<RatingReviewsBloc>().add(FetchRatingsReviews(
-          id: context.read<RatingReviewsBloc>().state.taskId));
+      context.read<RatingReviewsBloc>().add(FetchRatingsReviews(id: context.read<RatingReviewsBloc>().state.taskId));
   }
 
   bool get _isBottom {

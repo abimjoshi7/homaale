@@ -9,8 +9,7 @@ import 'package:cipher/features/rating_reviews/data/models/rating_submit_respons
 class RatingReviewsRepositroy {
   final _dio = DioHelper();
 
-  Future<RatingResponseDto> fetchRatingReviews(String? serviceID,
-      [int startIndex = 1]) async {
+  Future<RatingResponseDto> fetchRatingReviews(String? serviceID, [int startIndex = 1]) async {
     try {
       final response = await _dio.getDatawithCredential(
         url: '/task/rating/service/$serviceID/?page=$startIndex',
@@ -44,6 +43,27 @@ class RatingReviewsRepositroy {
       final ratingSubmitResponseDto = RatingSubmitResponseDto.fromJson(res);
 
       return ratingSubmitResponseDto;
+    } catch (e) {
+      log('error submiting ratings: $e');
+      throw Exception('error submiting ratings');
+    }
+  }
+
+  Future<bool> patchReplyReviews(int id, String reply) async {
+    try {
+      final response = await _dio.patchDataWithCredential(
+        url: '/task/rating/$id/',
+        data: {'reply': reply},
+        token: CacheHelper.accessToken,
+      );
+
+      final res = response as Map<String, dynamic>;
+
+      if (res['status'] == 'success') {
+        return true;
+      } else {
+        return false;
+      }
     } catch (e) {
       log('error submiting ratings: $e');
       throw Exception('error submiting ratings');
