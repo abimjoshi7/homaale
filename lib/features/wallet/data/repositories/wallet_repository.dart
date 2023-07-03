@@ -28,6 +28,7 @@ class WalletRepository {
     DateTime? endDate,
     DateTime? startDate,
     required int page,
+    String? searchQuery,
   }) async {
     try {
       final res = await _dio.getDatawithCredential(
@@ -38,6 +39,7 @@ class WalletRepository {
           "end_date": endDate,
           "start_date": startDate,
           "page": page,
+          "search": searchQuery,
         },
       );
       return res as Map<String, dynamic>;
@@ -79,13 +81,15 @@ class WalletRepository {
     return wallList;
   }
 
-  Future<WalletHistoryRes> getWalletHistory(DateTime? createdAt, DateTime? endDate, DateTime? startDate,
+  Future<WalletHistoryRes> getWalletHistory(DateTime? createdAt,
+          DateTime? endDate, DateTime? startDate, String? searchQuery,
           [int startIndex = 1]) async =>
       await fetchWalletHistory(
         createdAt: createdAt,
         endDate: endDate,
         startDate: startDate,
         page: startIndex,
+        searchQuery: searchQuery,
       ).then(
         (value) => WalletHistoryRes.fromJson(value),
       );

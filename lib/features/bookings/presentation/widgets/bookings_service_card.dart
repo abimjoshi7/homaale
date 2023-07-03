@@ -64,7 +64,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
       child: Stack(
         children: [
           Container(
-            height: 210,
+            height: theHeight ?? 170,
             width: double.infinity,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(20),
@@ -75,7 +75,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
             left: 5,
             right: 0,
             child: Container(
-              height: 208,
+              height:theHeight ?? 170,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(15),
                 color: Theme.of(context).cardColor,
@@ -133,6 +133,8 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                                     style: Theme.of(context)
                                         .textTheme
                                         .headlineSmall,
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
                                 // AutoSizeText(
@@ -141,7 +143,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                                 // ),
                                 IconText(
                                   iconData: Icons.location_on_outlined,
-                                  label: location ?? 'No address found',
+                                  label: location?.length !=null ? location  ??"Remote":  'Remote',
                                   color: Colors.red,
                                 ),
                                 Row(

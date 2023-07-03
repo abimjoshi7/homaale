@@ -95,6 +95,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
                       return Container(
                         margin: EdgeInsets.symmetric(vertical: 8),
                         child: BookingsServiceCard(
+                          theHeight: 200,
                           // "isTask" is only passed in waiting list box feature
                           isTask: data[index].entityService?.isRequested == true,
                           hideImage: false,
@@ -179,7 +180,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
                           serviceName: data[index].entityService?.title,
                           providerName:
                               "${data[index].entityService?.createdBy?.firstName} ${data[index].entityService?.createdBy?.lastName}",
-                          location: data[index].location,
+                          location: data[index].location?.length ==0 ?"Remote" : data[index].location,
                           startTime: data[index].startTime,
                           endTime: data[index].endTime,
                           createdAt: data[index].createdAt,

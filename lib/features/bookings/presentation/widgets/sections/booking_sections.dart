@@ -155,6 +155,7 @@ class _BookingSectionState extends State<BookingSection> {
                                                   },
                                                   serviceName:
                                                       bookingList[index].title,
+                                                  cardColor: kColorBlue,
                                                   providerName:
                                                       "${bookingList[index].assigner?.firstName} ${bookingList[index].assigner?.lastName}",
                                                   mainContentWidget:
@@ -162,6 +163,11 @@ class _BookingSectionState extends State<BookingSection> {
                                                           bookingList[index]),
                                                   status:
                                                       bookingList[index].status,
+                                                  location: bookingList[index]
+                                                      .entityService
+                                                      ?.location?.length ==0 ?"Remote":bookingList[index]
+                                                      .entityService
+                                                      ?.location,
                                                   hidePopupButton: true,
                                                   bottomRightWidget:
                                                       displayPrice(

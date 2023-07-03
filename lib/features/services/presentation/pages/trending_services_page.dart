@@ -113,6 +113,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                 children: [
                   addVerticalSpace(8),
                   _buildFilters(context),
+                  addVerticalSpace(8),
                   Expanded(
                     child: GridView.builder(
                       controller: _controller,
