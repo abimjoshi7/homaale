@@ -134,8 +134,15 @@ class _DetailsViewState extends State<DetailsView> {
               return CustomTextFormField(
                 theWidth: 106.0,
                 errorMaxLines: 2,
-                validator: (p0) =>
-                    budgetController.text.isEmpty ? 'Required Field' : null,
+                validator: (p0) {
+                  if (budgetController.text.isEmpty) {
+                    return 'Required Field';
+                  }
+                  if (double.parse(budgetController.text) < 10.0) {
+                    return "Cannot be less than 10";
+                  }
+                  return null;
+                },
                 controller: budgetController,
                 onSaved: (value) => widget.bookEventHandlerBloc.add(
                   BookEventPicked(
