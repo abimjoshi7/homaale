@@ -44,7 +44,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                   showCaseDec: 'See All Trending Service from here.',
                 ),
                 SizedBox(
-                  height: 300,
+                  height: 250,
                   width: double.infinity,
                   child: ListView.separated(
                     scrollDirection: Axis.horizontal,

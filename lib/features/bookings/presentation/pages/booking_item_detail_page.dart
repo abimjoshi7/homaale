@@ -100,8 +100,8 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> with TheM
                           label: 'No',
                         ),
                         CustomElevatedButton(
-                          theWidth: MediaQuery.of(context).size.width * 0.2,
-                          theHeight: 30,
+                          // theWidth: MediaQuery.of(context).size.width * 0.2,
+                          // theHeight: 30,
                           callback: () {
                             Navigator.pop(context);
                             showCustomBottomSheet(
@@ -560,11 +560,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> with TheM
                                         Text('Your task is completed'),
                                         GestureDetector(
                                           onTap: () {
-                                            showModalBottomSheet(
-                                              context: context,
-                                              isDismissible: false,
-                                              builder: (context) => RatingReviewsForm(),
-                                            );
+                                            showCustomBottomSheet(context: context, widget: RatingReviewsForm());
                                           },
                                           child: Container(
                                             padding: EdgeInsets.all(8),

@@ -52,7 +52,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<TaskBloc, TaskState>(
+    return BlocConsumer<TaskBloc, TaskState>(
       listener: (context, state) async {
         final error = await CacheHelper.getCachedString(kErrorLog);
         if (state.approveFail ?? false) {
@@ -115,7 +115,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
           );
         }
       },
-      child: BlocBuilder<TaskBloc, TaskState>(
+      // builder: BlocBuilder<TaskBloc, TaskState>(
         builder: (context, state) {
           if (state.theState == TheStates.success && state.taskModel != null) {
             final documentDescription = Bidi.stripHtmlIfNeeded(state.taskModel?.description ?? "");
@@ -525,7 +525,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                             if (taskMedia[index].mediaType?.toLowerCase() == 'mp4')
                                               VideoPlayerWidget(
                                                 videoURL: taskMedia[index].media ??
-                                                    'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                                                    '',
                                               )
                                             else
                                               Image.network(
@@ -577,6 +577,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                 //   fit: BoxFit.cover,
                                 // ),
                                 // ),
+
                                 if (state.applicantModel?.result?.length != 0) ...[
                                   Padding(
                                     padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -663,18 +664,17 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                     ),
                                   ),
                                 ],
-
-                                RecommendedSimilarServices(
-                                  isRecommended: true,
-                                  recommend:
-                                      context.read<tsk.TaskEntityServiceBloc>().state.recommendedSimilarDto.recommend,
-                                ),
-                                kHeight15,
-                                RecommendedSimilarServices(
-                                  isRecommended: false,
-                                  recommend:
-                                      context.read<tsk.TaskEntityServiceBloc>().state.recommendedSimilarDto.similar,
-                                ),
+                                // RecommendedSimilarServices(
+                                //   isRecommended: true,
+                                //   recommend:
+                                //       context.read<tsk.TaskEntityServiceBloc>().state.recommendedSimilarDto.recommend,
+                                // ),
+                                // kHeight15,
+                                // RecommendedSimilarServices(
+                                //   isRecommended: false,
+                                //   recommend:
+                                //       context.read<tsk.TaskEntityServiceBloc>().state.recommendedSimilarDto.similar,
+                                // ),
                               ],
                             ),
                           ),
@@ -722,7 +722,7 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
             );
           }
         },
-      ),
+      // ),
     );
   }
 }

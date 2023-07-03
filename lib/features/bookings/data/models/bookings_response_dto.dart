@@ -113,6 +113,7 @@ class EntityService with _$EntityService {
     @JsonKey(name: 'created_by') Assignee? createdBy,
     List<String>? highlights,
     String? location,
+  @JsonKey(name: 'is_requested')  bool? isRequested ,
   }) = _EntityService;
 
   factory EntityService.fromJson(Map<String, dynamic> json) => _$EntityServiceFromJson(json);

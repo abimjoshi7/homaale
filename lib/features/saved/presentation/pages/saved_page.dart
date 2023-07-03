@@ -1,3 +1,4 @@
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/error_pages/no_internet_page.dart';
 import 'package:cipher/features/saved/data/models/res/saved_model_res.dart';
@@ -64,36 +65,35 @@ class _SavedPageState extends State<SavedPage> {
                               errorDes: 'We’re sorry, the data you search could not found. '
                                   'Please go back.',
                             ))
-                          : Expanded(
-                              child: RefreshIndicator(
-                                onRefresh: () async {
-                                  savedBloc.add(SavedListLoaded());
-                                },
-                                child: GridView.count(
-                                  crossAxisCount: 2,
-                                  crossAxisSpacing: 10,
-                                  childAspectRatio: 0.8,
-                                  children: loopList
-                                      .map((e) => InkWell(
-                                            onTap: () {
-                                              Navigator.pushNamed(
-                                                context,
-                                                SavedCollectionPage.routeName,
-                                                arguments: {
-                                                  'heading': e['label'].toString(),
-                                                  'data': e['data'] as List<Result>,
-                                                },
-                                              );
+                          : RefreshIndicator(
+                            onRefresh: () async {
+                              savedBloc.add(SavedListLoaded());
+                            },
+                            child: GridView.count(
+                              shrinkWrap: true,
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 8,
+                              childAspectRatio: 0.8,
+                              children: loopList
+                                  .map((e) => InkWell(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                            context,
+                                            SavedCollectionPage.routeName,
+                                            arguments: {
+                                              'heading': e['label'].toString(),
+                                              'data': e['data'] as List<Result>,
                                             },
-                                            child: SavedCard(
-                                              label: e['label'].toString(),
-                                              child: e['data'] as List<Result>,
-                                            ),
-                                          ))
-                                      .toList(),
-                                ),
-                              ),
-                            );
+                                          );
+                                        },
+                                        child: SavedCard(
+                                          label: e['label'].toString(),
+                                          child: e['data'] as List<Result>,
+                                        ),
+                                      ))
+                                  .toList(),
+                            ),
+                          );
                     }
                     return Center(child: CardLoading(height: 200));
                   },

@@ -61,15 +61,14 @@ class ServiceCard extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        imagePath ?? kHomaaleImg,
-                      ),
-                      fit: BoxFit.cover,
+              Container(
+                height: 80,
+                decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: NetworkImage(
+                      imagePath ?? kHomaaleImg,
                     ),
+                    fit: BoxFit.cover,
                   ),
                 ),
               ),
@@ -203,7 +202,7 @@ class ServiceCard extends StatelessWidget {
                               16,
                             ),
                             Flexible(
-                              flex: 3,
+                              flex: 2,
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
@@ -246,7 +245,7 @@ class ServiceCard extends StatelessWidget {
                   ),
                 ),
               ),
-              addVerticalSpace(8),
+              // addVerticalSpace(8),
             ],
           ),
         ),

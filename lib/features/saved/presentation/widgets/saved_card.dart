@@ -27,7 +27,7 @@ class SavedCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           child: Container(
             decoration: BoxDecoration(color: Colors.grey.shade100),
-            height: 200,
+            height: 190,
             child: GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
