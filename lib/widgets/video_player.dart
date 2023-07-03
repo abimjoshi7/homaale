@@ -33,7 +33,7 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
           videoPlayerController: videoPlayerController,
           aspectRatio: 1,
           autoInitialize: true,
-          autoPlay: true,
+          autoPlay: false,
           allowFullScreen: false,
         );
       });

@@ -12,6 +12,12 @@ class MarketingAds extends StatelessWidget {
     return BlocBuilder<MarketingAdsBloc, MarketingAdsState>(
       builder: (context, state) {
         switch (state.adsState) {
+          case AdsState.initial:
+            return CarouselSliderHelper(
+              list: defaultList,
+              aspectRatio: 5,
+              viewport: 1,
+            );
           case AdsState.success:
             return CarouselSliderHelper(
               list: state.marketingAdsDto.result!
