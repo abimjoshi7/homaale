@@ -196,7 +196,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                           'mp4'
                                       ? VideoPlayerWidget(
                                           videoURL: (mediaList[index].media) ??
-                                              'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
+                                              '',
                                         )
                                       : Column(
                                           mainAxisSize: MainAxisSize.min,

@@ -241,11 +241,12 @@ class ServiceCard extends StatelessWidget {
                             ),
                           ],
                         ),
-                      )
+                      ),
                     ],
                   ),
                 ),
               ),
+              addVerticalSpace(8),
             ],
           ),
         ),
