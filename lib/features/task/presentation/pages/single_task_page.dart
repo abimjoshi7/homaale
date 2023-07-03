@@ -638,7 +638,8 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                     itemBuilder: (context, index, realIndex) {
                                       return SizedBox(
                                         height:
-                                        MediaQuery.of(context).size.height * 0.2,
+                                            MediaQuery.of(context).size.height *
+                                                0.2,
                                         child: Stack(
                                           children: [
                                             Text('Images',
@@ -646,46 +647,55 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                                     .textTheme
                                                     .headlineSmall),
                                             if (taskMedia[index]
-                                                .mediaType
-                                                ?.toLowerCase() ==
+                                                    .mediaType
+                                                    ?.toLowerCase() ==
                                                 'mp4')
                                               VideoPlayerWidget(
-                                                videoURL: taskMedia[index].media ??
+                                                videoURL: taskMedia[index]
+                                                        .media ??
                                                     'https://flutter.github.io/assets-for-api-docs/assets/videos/bee.mp4',
                                               )
                                             else
                                               Image.network(
-                                                taskMedia[index].media.toString(),
-                                                errorBuilder:
-                                                    (context, error, stackTrace) =>
+                                                taskMedia[index]
+                                                    .media
+                                                    .toString(),
+                                                errorBuilder: (context, error,
+                                                        stackTrace) =>
                                                     Image.network(kHomaaleImg),
-                                                width:
-                                                MediaQuery.of(context).size.width,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
                                                 fit: BoxFit.cover,
                                               ),
                                             Positioned(
                                               bottom: 10,
                                               child: SizedBox(
-                                                width:
-                                                MediaQuery.of(context).size.width,
+                                                width: MediaQuery.of(context)
+                                                    .size
+                                                    .width,
                                                 child: Center(
                                                   child: Row(
                                                     mainAxisAlignment:
-                                                    MainAxisAlignment.center,
+                                                        MainAxisAlignment
+                                                            .center,
                                                     children: List.generate(
                                                       taskMedia.length,
-                                                          (ind) => Container(
+                                                      (ind) => Container(
                                                         height: 10,
-                                                        margin:
-                                                        const EdgeInsets.all(2),
-                                                        width: index == ind ? 20 : 10,
-                                                        decoration: BoxDecoration(
+                                                        margin: const EdgeInsets
+                                                            .all(2),
+                                                        width: index == ind
+                                                            ? 20
+                                                            : 10,
+                                                        decoration:
+                                                            BoxDecoration(
                                                           color: index == ind
                                                               ? kColorGrey
                                                               : Colors.grey,
                                                           borderRadius:
-                                                          BorderRadius.circular(
-                                                              10),
+                                                              BorderRadius
+                                                                  .circular(10),
                                                         ),
                                                       ),
                                                     ),
@@ -712,10 +722,11 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                 //   fit: BoxFit.cover,
                                 // ),
                                 // ),
-                                if (state.applicantModel?.result?.length != 0) ...[
+                                if (state.applicantModel?.result?.length !=
+                                    0) ...[
                                   Padding(
-                                    padding:
-                                    const EdgeInsets.symmetric(horizontal: 8.0),
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
                                     child: Text(
                                       'Taskers',
                                       style: kPurpleText16,
@@ -724,100 +735,116 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                   GridView.count(
                                     crossAxisCount: 2,
                                     shrinkWrap: true,
-                                    padding: EdgeInsets.symmetric(horizontal: 8),
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 8),
                                     childAspectRatio: 0.9,
                                     physics: NeverScrollableScrollPhysics(),
                                     children: List.generate(
                                       state.applicantModel?.result?.length ?? 0,
-                                          (index) => TaskerCard(
+                                      (index) => TaskerCard(
                                         onFavouriteTapped: () {},
-                                        callback: () => showApplicantDetailsDialog(
+                                        callback: () =>
+                                            showApplicantDetailsDialog(
                                           description:
-                                          '${state.applicantModel?.result?[index].description}',
+                                              '${state.applicantModel?.result?[index].description}',
                                           context: context,
                                           isNegotiable:
-                                          state.taskModel?.isNegotiable ?? false,
+                                              state.taskModel?.isNegotiable ??
+                                                  false,
                                           profileImage: state
-                                              .applicantModel
-                                              ?.result?[index]
-                                              .createdBy
-                                              ?.profileImage ??
+                                                  .applicantModel
+                                                  ?.result?[index]
+                                                  .createdBy
+                                                  ?.profileImage ??
                                               kHomaaleImg,
                                           label:
-                                          '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? 'Harry'} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? 'Smith'}',
+                                              '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''}',
                                           happyClients:
-                                          '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
+                                              '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
                                           successRate:
-                                          '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
+                                              '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
                                           rating:
-                                          '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
-                                          designation: state.applicantModel
-                                              ?.result?[index].createdBy?.designation,
-                                          isProfileVerified: state
+                                              '${state.applicantModel?.result?[index].createdBy?.stats?.userReviews}',
+                                          designation: state
                                               .applicantModel
                                               ?.result?[index]
                                               .createdBy
-                                              ?.isProfileVerified ??
+                                              ?.designation,
+                                          isProfileVerified: state
+                                                  .applicantModel
+                                                  ?.result?[index]
+                                                  .createdBy
+                                                  ?.isProfileVerified ??
                                               false,
                                           title: state.taskModel?.title ?? '',
                                           budget:
-                                          '${state.applicantModel?.result?[index].currency ?? ''}. ${state.applicantModel?.result?[index].price ?? ''}',
-                                          status: state
-                                              .applicantModel?.result?[index].status,
+                                              '${state.applicantModel?.result?[index].currency ?? ''}. ${state.applicantModel?.result?[index].price ?? ''}',
+                                          status: state.applicantModel
+                                              ?.result?[index].status,
                                           onRejectPressed: () {
                                             context.read<TaskBloc>().add(
-                                              TaskRejectPeople(
-                                                rejectReq: RejectReq(
-                                                    booking: state.applicantModel
-                                                        ?.result?[index].id ??
-                                                        0),
-                                              ),
-                                            );
+                                                  TaskRejectPeople(
+                                                    rejectReq: RejectReq(
+                                                        booking: state
+                                                                .applicantModel
+                                                                ?.result?[index]
+                                                                .id ??
+                                                            0),
+                                                  ),
+                                                );
                                             Navigator.pop(context);
                                           },
                                           onApprovePressed: () {
                                             context.read<TaskBloc>().add(
-                                              TaskApprovePeople(
-                                                approveReq: ApproveReq(
-                                                    booking: state.applicantModel
-                                                        ?.result?[index].id ??
-                                                        0),
-                                              ),
-                                            );
+                                                  TaskApprovePeople(
+                                                    approveReq: ApproveReq(
+                                                        booking: state
+                                                                .applicantModel
+                                                                ?.result?[index]
+                                                                .id ??
+                                                            0),
+                                                  ),
+                                                );
                                             Navigator.pop(context);
                                           },
                                           onNegotiatePressed: () {
                                             context.read<TaskBloc>().add(
-                                              ChangeTaskNegotiationStatus(
-                                                id: state.applicantModel
-                                                    ?.result?[index].id ??
-                                                    0,
-                                              ),
-                                            );
+                                                  ChangeTaskNegotiationStatus(
+                                                    id: state
+                                                            .applicantModel
+                                                            ?.result?[index]
+                                                            .id ??
+                                                        0,
+                                                  ),
+                                                );
                                             //TODO: chat navigation
                                           },
                                         ),
                                         buttonWidth:
-                                        MediaQuery.of(context).size.width * 0.22,
+                                            MediaQuery.of(context).size.width *
+                                                0.22,
                                         callbackLabel: 'View detail',
                                         networkImageUrl: state
+                                                .applicantModel
+                                                ?.result?[index]
+                                                .createdBy
+                                                ?.profileImage ??
+                                            kHomaaleImg,
+                                        happyClients:
+                                            '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
+                                        rewardPercentage:
+                                            '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
+                                        label:
+                                            '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''}',
+                                        designation: state
                                             .applicantModel
                                             ?.result?[index]
                                             .createdBy
-                                            ?.profileImage ??
-                                            kHomaaleImg,
-                                        happyClients:
-                                        '${state.applicantModel?.result?[index].createdBy?.stats?.happyClients?.toInt() ?? '0'}',
-                                        rewardPercentage:
-                                        '${state.applicantModel?.result?[index].createdBy?.stats?.successRate?.toInt() ?? '0'}',
-                                        label:
-                                        '${state.applicantModel?.result?[index].createdBy?.user?.firstName ?? ''} ${state.applicantModel?.result?[index].createdBy?.user?.lastName ?? ''}',
-                                        designation: state.applicantModel
-                                            ?.result?[index].createdBy?.designation,
+                                            ?.designation,
                                         rate:
-                                        'Rs. ${state.applicantModel?.result?[index].currency ?? ""} - ${state.applicantModel?.result?[index].price ?? ""}',
+                                            'Rs. ${state.applicantModel?.result?[index].currency ?? ""} - ${state.applicantModel?.result?[index].price ?? ""}',
                                         ratings:
-                                        '${state.applicantModel?.result?[index].createdBy?.stats?.avgRating?.toStringAsFixed(2) ?? '0'} (${state.applicantModel?.result?[index].createdBy?.stats?.userReviews})',
+                                            '${state.applicantModel?.result?[index].createdBy?.stats?.userReviews?.toInt()}',
                                       ),
                                     ),
                                   ),

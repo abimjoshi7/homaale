@@ -31,39 +31,36 @@ class _BookedServicePageState extends State<BookedServicePage> {
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     final bool? isTask = routeData?["is_task"] as bool?;
 
-    return Scaffold(
-      body: BlocConsumer<BookingsBloc, BookingsState>(
-        listener: (context, state) {
-          budgetController.text = (double.parse(
-                  state.result.entityService?.isRequested ?? false
-                      ? state.result.earning ?? '0.0'
-                      : state.result.price ?? '0.0')
-              .toInt()
-              .toString());
-        },
-        builder: (context, state) {
-          if (state.states == TheStates.initial) {
-            return const Center(
+    return BlocConsumer<BookingsBloc, BookingsState>(
+      listener: (context, state) {
+        budgetController.text = (double.parse(
+                state.result.entityService?.isRequested ?? false
+                    ? state.result.earning ?? '0.0'
+                    : state.result.price ?? '0.0')
+            .toInt()
+            .toString());
+      },
+      builder: (context, state) {
+        if (state.states == TheStates.initial) {
+          return Scaffold(
+            body: const Center(
               child: CardLoading(
                 height: 200,
               ),
-            );
-          } else if (state.states == TheStates.success) {
-            final booking = state.result;
-            final mediaList = [
-              ...?booking.entityService?.images,
-              ...?booking.entityService?.videos
-            ];
+            ),
+          );
+        } else if (state.states == TheStates.success) {
+          final booking = state.result;
+          final mediaList = [
+            ...?booking.entityService?.images,
+            ...?booking.entityService?.videos
+          ];
 
-            return Column(
+          return Scaffold(
+            appBar:
+                CustomAppBar(appBarTitle: "${booking.entityService?.title}"),
+            body: Column(
               children: [
-                addVerticalSpace(
-                  50,
-                ),
-                CustomHeader(
-                  label: booking.entityService?.title,
-                ),
-                Divider(),
                 Expanded(
                   child: ListView(
                     padding: EdgeInsets.zero,
@@ -142,10 +139,12 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                                     box.size,
                                               );
                                             },
-                                            title: Text("Share",
+                                            title: Text(
+                                              "Share",
                                             ),
                                             leading: const Icon(
-                                              Icons.redo_sharp,color: kColorBlue,
+                                              Icons.redo_sharp,
+                                              color: kColorBlue,
                                             ),
                                           ),
                                           ListTile(
@@ -159,9 +158,11 @@ class _BookedServicePageState extends State<BookedServicePage> {
                                                         : 'merchant',
                                                   });
                                             },
-                                            leading: Icon(Icons.block_flipped,color: kColorPink),
-                                            title: Text('Cancel',
-                                               ),
+                                            leading: Icon(Icons.block_flipped,
+                                                color: kColorPink),
+                                            title: Text(
+                                              'Cancel',
+                                            ),
                                           ),
                                         ],
                                       ),
@@ -514,11 +515,11 @@ class _BookedServicePageState extends State<BookedServicePage> {
                   ),
                 ),
               ],
-            );
-          }
-          return ErrorPage();
-        },
-      ),
+            ),
+          );
+        }
+        return ErrorPage();
+      },
     );
   }
 }

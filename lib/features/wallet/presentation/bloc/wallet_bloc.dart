@@ -54,7 +54,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     });
   }
 
-  Future<void> _onWalletLoaded(WalletLoaded event, Emitter<WalletState> emit) async {
+  Future<void> _onWalletLoaded(
+      WalletLoaded event, Emitter<WalletState> emit) async {
     try {
       emit(
         state.copyWith(
@@ -84,7 +85,8 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
     ;
   }
 
-  Future<void> _onWalletHistoryLoaded(WalletHistoryLoaded event, Emitter<WalletState> emit) async {
+  Future<void> _onWalletHistoryLoaded(
+      WalletHistoryLoaded event, Emitter<WalletState> emit) async {
     if (!event.isNewFetch && state.hasReachedMax) return;
     try {
       if (event.isNewFetch) {
@@ -96,6 +98,7 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
           event.createdAt,
           event.endDate,
           event.startDate,
+          event.searchQuery,
         );
 
         final walletHistoryList = walletHistoryRes.result;
@@ -103,21 +106,30 @@ class WalletBloc extends Bloc<WalletEvent, WalletState> {
           theStates: TheStates.success,
           walletHistoryRes: walletHistoryRes,
           walletHistoryList: walletHistoryList,
-          hasReachedMax: walletHistoryRes.totalPages == walletHistoryRes.current,
+          hasReachedMax:
+              walletHistoryRes.totalPages == walletHistoryRes.current,
         ));
       }
 
       if (state.walletHistoryRes.current != state.walletHistoryRes.totalPages) {
         final walletHistoryRes = await repo.getWalletHistory(
-            event.createdAt, event.endDate, event.startDate, state.walletHistoryRes.current! + 1);
-        emit(walletHistoryRes.result!.isEmpty
-            ? state.copyWith(hasReachedMax: true)
-            : state.copyWith(
-                theStates: TheStates.success,
-                walletHistoryRes: walletHistoryRes,
-                walletHistoryList: List.of(state.walletHistoryList)..addAll(walletHistoryRes.result!),
-                hasReachedMax: false,
-              ));
+          event.createdAt,
+          event.endDate,
+          event.startDate,
+          event.searchQuery,
+          state.walletHistoryRes.current! + 1,
+        );
+        emit(
+          walletHistoryRes.result!.isEmpty
+              ? state.copyWith(hasReachedMax: true)
+              : state.copyWith(
+                  theStates: TheStates.success,
+                  walletHistoryRes: walletHistoryRes,
+                  walletHistoryList: List.of(state.walletHistoryList)
+                    ..addAll(walletHistoryRes.result!),
+                  hasReachedMax: false,
+                ),
+        );
       } else {
         emit(state.copyWith(hasReachedMax: true));
       }
