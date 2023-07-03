@@ -38,7 +38,7 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
           : RatedBy.fromJson(json['rated_by'] as Map<String, dynamic>),
       rating: json['rating'] as int?,
       review: json['review'] as String?,
-      reply: json['reply'],
+      reply: json['reply'] as String?,
       isVerified: json['is_verified'] as bool?,
       createdAt: json['created_at'] as String?,
       repliedDate: json['replied_date'] as String?,
