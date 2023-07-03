@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/widgets/custom_favourite_icon.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -88,7 +89,8 @@ class ServiceCard extends StatelessWidget {
                       Row(
                         children: [
                           CircleAvatar(
-                            backgroundImage: NetworkImage(createdByProfileImg ?? kHomaaleImg),
+                            backgroundImage: NetworkImage(
+                                createdByProfileImg ?? kHomaaleImg),
                             radius: 15,
                           ),
                           addHorizontalSpace(5),
@@ -141,14 +143,14 @@ class ServiceCard extends StatelessWidget {
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            if(bookedCount != null)
-                            Flexible(
-                              child: IconText(
-                                label: '$bookedCount Booked',
-                                iconData: Icons.people,
-                                size: 13,
+                            if (bookedCount != null)
+                              Flexible(
+                                child: IconText(
+                                  label: '$bookedCount Booked',
+                                  iconData: Icons.people,
+                                  size: 13,
+                                ),
                               ),
-                            ),
                           ],
                         ),
                       ),
@@ -173,7 +175,9 @@ class ServiceCard extends StatelessWidget {
                                               typeID: '$id',
                                               type: ServiceType.entityservice,
                                               isBookmarked:
-                                                  isBookmarked ?? false,
+                                                  CacheHelper.isLoggedIn
+                                                      ? isBookmarked ?? false
+                                                      : false,
                                             )
 
                                       // IconButton(

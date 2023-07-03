@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -92,7 +93,9 @@ class TaskCard extends StatelessWidget {
                     : CustomFavoriteIcon(
                         typeID: '$id',
                         type: ServiceType.entityservice,
-                        isBookmarked: isBookmarked ?? false,
+                        isBookmarked: CacheHelper.isLoggedIn
+                            ? isBookmarked ?? false
+                            : false,
                       ),
                 InkWell(
                     onTap: () {

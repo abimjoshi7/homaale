@@ -61,8 +61,14 @@ class PopularTaskerSection extends StatelessWidget {
                       },
                       child: TaskerCard(
                         badgeImage: data?[index].badge?.image,
-                        shareLinked: '$kShareLinks/tasker/${state.singleTasker.user?.id}',
-                        rewardPercentage: data?[index].stats?.successRate?.toInt().toString() ??'0',
+                        shareLinked:
+                            '$kShareLinks/tasker/${state.singleTasker.user?.id}',
+                        rewardPercentage: data?[index]
+                                .stats
+                                ?.successRate
+                                ?.toInt()
+                                .toString() ??
+                            '0',
                         id: data?[index].user?.id,
                         networkImageUrl: data?[index].profileImage,
                         label:
@@ -70,9 +76,11 @@ class PopularTaskerSection extends StatelessWidget {
                         designation: data?[index].designation,
                         happyClients:
                             data?[index].stats?.happyClients.toString(),
-                        ratings:'${data?[index].rating?.userRatingCount?.toStringAsFixed(1) ?? '0'}',
-                            // ${data?[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'}
-                        callbackLabel: data?[index].isFollowed ?? false
+                        ratings:
+                            '${data?[index].rating?.userRatingCount?.toStringAsFixed(1) ?? '0'}',
+                        // ${data?[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'}
+                        callbackLabel: CacheHelper.isLoggedIn &&
+                                data?[index].isFollowed == true
                             ? 'Following'
                             : 'Follow',
                         isFollowed: data?[index].isFollowed ?? false,
