@@ -165,6 +165,8 @@ class _BookingSectionState extends State<BookingSection> {
                                                       bookingList[index].status,
                                                   location: bookingList[index]
                                                       .entityService
+                                                      ?.location?.length ==0 ?"Remote":bookingList[index]
+                                                      .entityService
                                                       ?.location,
                                                   hidePopupButton: true,
                                                   bottomRightWidget:
