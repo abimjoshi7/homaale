@@ -145,33 +145,35 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                 state.taskEntityService.highlights ?? [],
                           ),
                         ],
-                        addVerticalSpace(16),
-                        AdditionalInfoSection(
-                          location: state.taskEntityService.location,
-                          startDate: state.taskEntityService.startDate == null
-                              ? null
-                              : '${DateFormat('MMMM dd, y').format(state.taskEntityService.startDate!)}',
-                          startTime: state.taskEntityService.startTime,
-                          endDate: state.taskEntityService.endDate == null
-                              ? null
-                              : '${DateFormat('MMMM dd, y').format(state.taskEntityService.endDate!)}',
-                          endTime: state.taskEntityService.endTime,
-                          views: state.taskEntityService.viewsCount.toString(),
-                        ),
-                        BlocBuilder<RatingReviewsBloc, RatingReviewState>(
-                          builder: (context, ratingBloc) {
-                            switch (ratingBloc.status) {
-                              case RatingStatus.success:
-                                return RatingReviewSection(
-                                  reviews: ratingBloc.ratingResponseDto,
-                                );
-                              case RatingStatus.failure:
-                                return SizedBox();
-                              default:
-                                return SizedBox();
-                            }
-                          },
-                        ),
+
+                        //! PAUSED AS SUGGESTED
+                        // addVerticalSpace(16),
+                        // AdditionalInfoSection(
+                        //   location: state.taskEntityService.location,
+                        //   startDate: state.taskEntityService.startDate == null
+                        //       ? null
+                        //       : '${DateFormat('MMMM dd, y').format(state.taskEntityService.startDate!)}',
+                        //   startTime: state.taskEntityService.startTime,
+                        //   endDate: state.taskEntityService.endDate == null
+                        //       ? null
+                        //       : '${DateFormat('MMMM dd, y').format(state.taskEntityService.endDate!)}',
+                        //   endTime: state.taskEntityService.endTime,
+                        //   views: state.taskEntityService.viewsCount.toString(),
+                        // ),
+                        // BlocBuilder<RatingReviewsBloc, RatingReviewState>(
+                        //   builder: (context, ratingBloc) {
+                        //     switch (ratingBloc.status) {
+                        //       case RatingStatus.success:
+                        //         return RatingReviewSection(
+                        //           reviews: ratingBloc.ratingResponseDto,
+                        //         );
+                        //       case RatingStatus.failure:
+                        //         return SizedBox();
+                        //       default:
+                        //         return SizedBox();
+                        //     }
+                        //   },
+                        // ),
                         if (mediaList.isNotEmpty) ...[
                           addVerticalSpace(10),
                           Text(
@@ -387,11 +389,14 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                   },
                                   onApprovePressed: () {
                                     context.read<TaskEntityServiceBloc>().add(
-                                        TaskEntityServiceApprovePeople(
+                                          TaskEntityServiceApprovePeople(
                                             approveReq: ApproveReq(
-                                                booking: state.applicantModel
-                                                        ?.result?[index].id ??
-                                                    0)));
+                                              booking: state.applicantModel
+                                                      ?.result?[index].id ??
+                                                  0,
+                                            ),
+                                          ),
+                                        );
                                     Navigator.pop(context);
                                   },
                                   onNegotiatePressed: () {
