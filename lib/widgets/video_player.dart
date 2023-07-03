@@ -49,12 +49,13 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
 
   @override
   Widget build(BuildContext context) {
+    if (!mounted) ;
     return videoPlayerInitialized
         ? chewieController.videoPlayerController.value.isInitialized
             ? Chewie(
                 controller: chewieController,
               )
-            : const Center(
+            : const Center( 
                 child: CardLoading(
                 height: 200,
               ))

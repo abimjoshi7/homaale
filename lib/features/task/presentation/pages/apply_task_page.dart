@@ -5,6 +5,7 @@ import 'package:cipher/widgets/loading_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class ApplyTaskPage extends StatefulWidget {
   static const routeName = '/apply-task-page';
@@ -112,14 +113,16 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Text('Title :'),
                                         Text('${state.taskModel?.title}'),
                                       ],
                                     ),
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         const Text('Budget :'),
                                         Row(
@@ -128,7 +131,9 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                               'Rs ${Decimal.parse(state.taskModel?.budgetFrom ?? '0.0')}',
                                             ),
                                             Visibility(
-                                              visible: state.taskModel?.isRange ?? false,
+                                              visible:
+                                                  state.taskModel?.isRange ??
+                                                      false,
                                               child: Text(
                                                 " to Rs ${Decimal.parse(state.taskModel?.budgetTo ?? '0.0')} ",
                                               ),
@@ -146,7 +151,8 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                   ],
                                 ),
                               ),
-                              if (state.taskModel?.budgetFrom != null || state.taskModel?.budgetTo != null) ...[
+                              if (state.taskModel?.budgetFrom != null ||
+                                  state.taskModel?.budgetTo != null) ...[
                                 CustomFormField(
                                   label: 'Your Price',
                                   isRequired: true,
@@ -154,6 +160,9 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                     hintText: 'Rs 1,000',
                                     controller: offerController,
                                     textInputType: TextInputType.number,
+                                    inputFormatters: [
+                                      FilteringTextInputFormatter.digitsOnly,
+                                    ],
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter your price';

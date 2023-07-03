@@ -91,5 +91,21 @@ class RatingReviewsBloc extends Bloc<RatingReviewEvent, RatingReviewState> {
         ));
       }
     });
+
+    on<PatchReplyReviewEvent>((event, emit) async {
+      try {
+        final res = await repositories.patchReplyReviews(event.id, event.reply);
+
+        if (res) {
+          Fluttertoast.showToast(msg: 'Reply submitted successfully!');
+          add(SetToInitial(id: state.taskId));
+        } else {
+          Fluttertoast.showToast(msg: 'Failed to submit reply!');
+        }
+      } catch (e) {
+        log(e.toString());
+        Fluttertoast.showToast(msg: 'Error submitting reply!');
+      }
+    });
   }
 }

@@ -24,3 +24,11 @@ class SubmitRatingReviewEvent extends RatingReviewEvent {
   @override
   List<Object?> get props => [ratingRequestDto];
 }
+
+class PatchReplyReviewEvent extends RatingReviewEvent {
+  final int id;
+  final String reply;
+  const PatchReplyReviewEvent({required this.id, required this.reply});
+  @override
+  List<Object?> get props => [id, reply];
+}
