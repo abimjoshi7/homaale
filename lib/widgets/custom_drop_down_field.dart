@@ -57,6 +57,14 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
         contentPadding: const EdgeInsets.all(5),
         hintText: widget.hintText,
         hintStyle: Theme.of(context).textTheme.bodySmall,
+        focusedErrorBorder: OutlineInputBorder(
+          borderSide: BorderSide(
+            color: Colors.red.shade900,
+          ),
+          borderRadius: BorderRadius.circular(
+            widget.borderRadius ?? 8,
+          ),
+        ),
         errorBorder: OutlineInputBorder(
           borderSide: BorderSide(
             color: Colors.red.shade900,

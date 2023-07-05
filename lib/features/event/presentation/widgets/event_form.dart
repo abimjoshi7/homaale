@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/date_time_representation.dart';
 import 'package:cipher/features/event/data/models/req/create_event_req.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -35,6 +34,8 @@ class _EventFormState extends State<EventForm> {
   final guestController = TextEditingController(text: "1");
   final durationController = TextEditingController();
   final durationTypeController = TextEditingController();
+  final _startDateController = TextEditingController();
+  final _endDateController = TextEditingController();
   bool isFlexible = false;
   DateTime? startDate;
   DateTime? endDate;
@@ -92,6 +93,8 @@ class _EventFormState extends State<EventForm> {
     guestController.dispose();
     durationController.dispose();
     durationTypeController.dispose();
+    _startDateController.dispose();
+    _endDateController.dispose();
   }
 
   @override
@@ -327,8 +330,6 @@ class _EventFormState extends State<EventForm> {
               controller: durationController,
               validator: (p0) {
                 if (widget.type == AttachType.Create) {
-                  if (startDate == null) return "Provide Start Date";
-                  if (endDate == null) return "Provide End Date";
                   if (p0?.length == 0) return "Required Field";
                 }
                 final d = endDate!.difference(startDate!).inHours - 1;
@@ -350,16 +351,14 @@ class _EventFormState extends State<EventForm> {
                 "45 Minutes",
               ],
               onChanged: (value) => setState(
-                () {
-                  setState(() {
-                    final num1 = value!.substring(0, 2);
-                    durationTypeController.text = num1;
-                  });
-                },
+                () => setState(() {
+                  final num1 = value!.substring(0, 2);
+                  durationTypeController.text = num1;
+                }),
               ),
               validator: (p0) {
-                if (startDate == null) return "Provide Start Date";
-                if (endDate == null) return "Provide End Date";
+                if (durationTypeController.text.isEmpty)
+                  return "Provide Minute Duration";
                 return null;
               },
             ),
@@ -376,9 +375,24 @@ class _EventFormState extends State<EventForm> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          NumberIncDecField(
+          CustomTextFormField(
             controller: guestController,
-            width: MediaQuery.of(context).size.width * 0.46,
+            theWidth: MediaQuery.of(context).size.width * 0.46,
+            textInputType: TextInputType.number,
+            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
+            validator: (p0) {
+              if (!isUnlimitedGuests && p0!.isEmpty) {
+                return "Required Field";
+              }
+              if (p0!.isNotEmpty) {
+                if (int.parse(p0) <= 0) {
+                  return "Cannot be less than 1";
+                }
+                return null;
+              }
+              return null;
+            },
+            readOnly: isUnlimitedGuests,
             onChanged: (value) {
               if (guestController.text != "0" ||
                   guestController.text.isNotEmpty)
@@ -411,80 +425,117 @@ class _EventFormState extends State<EventForm> {
   }
 
   Row _buildDate(BuildContext context) {
+    final _currentDate = DateTime.now();
+
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Flexible(
           child: CustomFormField(
-            label: "Start Date",
-            isRequired: widget.type == AttachType.Create ? true : false,
-            child: CustomFormContainer(
-              leadingWidget: Icon(
-                Icons.calendar_today_outlined,
-                color: kColorPrimary,
-              ),
-              hintText: startDate != null
-                  ? DateFormat.yMMMd().format(startDate!)
-                  : "",
-              callback: () => showDatePicker(
-                context: context,
-                initialDate: DateTime.now(),
-                firstDate: DateTime.now(),
-                lastDate: DateTime.now().add(
-                  Duration(
-                    days: 90,
+            label: 'Start Date',
+            isRequired: true,
+            child: CustomTextFormField(
+              readOnly: true,
+              controller: _startDateController,
+              validator: (p0) {
+                if (startDate == null) return "Required Field";
+                if (startDate != null && endDate != null) {
+                  if (startDate!.isAfter(
+                    endDate!,
+                  )) {
+                    return "Cannot be greater than end date";
+                  }
+                  return null;
+                }
+                return null;
+              },
+              onTap: () async {
+                await showDatePicker(
+                  context: context,
+                  initialDate: _currentDate,
+                  firstDate: _currentDate,
+                  lastDate: DateTime(
+                    _currentDate.year + 2,
                   ),
-                ),
-              ).then(
-                (value) => setState(
-                  () => startDate = value,
-                ),
+                ).then(
+                  (value) => setState(
+                    () {
+                      startDate = value;
+                      _startDateController.text =
+                          value?.toIso8601String().substring(
+                                    0,
+                                    10,
+                                  ) ??
+                              '';
+                    },
+                  ),
+                );
+              },
+              prefixWidget: Icon(
+                Icons.calendar_today_rounded,
+                color: Colors.grey.shade800,
               ),
+              hintText: 'yy/mm/dd',
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.grey.shade900),
             ),
           ),
         ),
-        addHorizontalSpace(20),
+        addHorizontalSpace(10),
         Flexible(
           child: CustomFormField(
-            label: "End Date",
-            isRequired: widget.type == AttachType.Create ? true : false,
-            child: CustomFormContainer(
-              leadingWidget: Icon(
-                Icons.calendar_today_outlined,
-                color: kColorPrimary,
+            label: 'End Date',
+            isRequired: true,
+            child: CustomTextFormField(
+              readOnly: true,
+              controller: _endDateController,
+              validator: (value) {
+                if (endDate == null) {
+                  return "Required Field";
+                }
+                if (startDate != null && endDate != null) {
+                  if (endDate!.isBefore(startDate!)) {
+                    return "Cannot be lesser than present date";
+                  }
+                  return null;
+                }
+                return null;
+              },
+              onTap: () async {
+                await showDatePicker(
+                  context: context,
+                  initialDate: startDate ?? _currentDate,
+                  firstDate: startDate ?? _currentDate,
+                  lastDate: DateTime(
+                    _currentDate.year + 2,
+                  ),
+                ).then(
+                  (value) => setState(
+                    () {
+                      endDate = value;
+                      _endDateController.text =
+                          value?.toIso8601String().substring(
+                                    0,
+                                    10,
+                                  ) ??
+                              '';
+                    },
+                  ),
+                );
+              },
+              hintText: 'yy/mm/dd',
+              theHeight: 48.0,
+              theWidth: double.infinity,
+              prefixWidget: Icon(
+                Icons.calendar_today_rounded,
+                color: Colors.grey.shade800,
               ),
-              hintText:
-                  endDate != null ? DateFormat.yMMMd().format(endDate!) : "",
-              callback: () => showDatePicker(
-                context: context,
-                initialDate: startDate?.add(
-                      Duration(days: 1),
-                    ) ??
-                    DateTime.now().add(
-                      Duration(
-                        days: 1,
-                      ),
-                    ),
-                firstDate: startDate?.add(
-                      Duration(days: 1),
-                    ) ??
-                    DateTime.now().add(
-                      Duration(
-                        days: 1,
-                      ),
-                    ),
-                lastDate: startDate?.add(
-                      Duration(days: 91),
-                    ) ??
-                    DateTime.now().add(
-                      Duration(
-                        days: 91,
-                      ),
-                    ),
-              ).then(
-                (value) => setState(
-                  () => endDate = value,
-                ),
-              ),
+              hintStyle: Theme.of(context)
+                  .textTheme
+                  .bodyMedium
+                  ?.copyWith(color: Colors.grey.shade900),
             ),
           ),
         ),
