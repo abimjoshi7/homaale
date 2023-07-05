@@ -2030,6 +2030,8 @@ mixin _$EntityService {
   Assignee? get createdBy => throw _privateConstructorUsedError;
   List<String>? get highlights => throw _privateConstructorUsedError;
   String? get location => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_requested')
+  bool? get isRequested => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -2052,7 +2054,8 @@ abstract class $EntityServiceCopyWith<$Res> {
       List<Image>? videos,
       @JsonKey(name: 'created_by') Assignee? createdBy,
       List<String>? highlights,
-      String? location});
+      String? location,
+      @JsonKey(name: 'is_requested') bool? isRequested});
 
   $AssigneeCopyWith<$Res>? get createdBy;
 }
@@ -2079,6 +2082,7 @@ class _$EntityServiceCopyWithImpl<$Res, $Val extends EntityService>
     Object? createdBy = freezed,
     Object? highlights = freezed,
     Object? location = freezed,
+    Object? isRequested = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -2117,6 +2121,10 @@ class _$EntityServiceCopyWithImpl<$Res, $Val extends EntityService>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as String?,
+      isRequested: freezed == isRequested
+          ? _value.isRequested
+          : isRequested // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ) as $Val);
   }
 
@@ -2150,7 +2158,8 @@ abstract class _$$_EntityServiceCopyWith<$Res>
       List<Image>? videos,
       @JsonKey(name: 'created_by') Assignee? createdBy,
       List<String>? highlights,
-      String? location});
+      String? location,
+      @JsonKey(name: 'is_requested') bool? isRequested});
 
   @override
   $AssigneeCopyWith<$Res>? get createdBy;
@@ -2176,6 +2185,7 @@ class __$$_EntityServiceCopyWithImpl<$Res>
     Object? createdBy = freezed,
     Object? highlights = freezed,
     Object? location = freezed,
+    Object? isRequested = freezed,
   }) {
     return _then(_$_EntityService(
       id: freezed == id
@@ -2214,6 +2224,10 @@ class __$$_EntityServiceCopyWithImpl<$Res>
           ? _value.location
           : location // ignore: cast_nullable_to_non_nullable
               as String?,
+      isRequested: freezed == isRequested
+          ? _value.isRequested
+          : isRequested // ignore: cast_nullable_to_non_nullable
+              as bool?,
     ));
   }
 }
@@ -2230,7 +2244,8 @@ class _$_EntityService implements _EntityService {
       final List<Image>? videos,
       @JsonKey(name: 'created_by') this.createdBy,
       final List<String>? highlights,
-      this.location})
+      this.location,
+      @JsonKey(name: 'is_requested') this.isRequested})
       : _images = images,
         _videos = videos,
         _highlights = highlights;
@@ -2284,10 +2299,13 @@ class _$_EntityService implements _EntityService {
 
   @override
   final String? location;
+  @override
+  @JsonKey(name: 'is_requested')
+  final bool? isRequested;
 
   @override
   String toString() {
-    return 'EntityService(id: $id, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, images: $images, videos: $videos, createdBy: $createdBy, highlights: $highlights, location: $location)';
+    return 'EntityService(id: $id, budgetType: $budgetType, budgetFrom: $budgetFrom, budgetTo: $budgetTo, images: $images, videos: $videos, createdBy: $createdBy, highlights: $highlights, location: $location, isRequested: $isRequested)';
   }
 
   @override
@@ -2309,7 +2327,9 @@ class _$_EntityService implements _EntityService {
             const DeepCollectionEquality()
                 .equals(other._highlights, _highlights) &&
             (identical(other.location, location) ||
-                other.location == location));
+                other.location == location) &&
+            (identical(other.isRequested, isRequested) ||
+                other.isRequested == isRequested));
   }
 
   @JsonKey(ignore: true)
@@ -2324,7 +2344,8 @@ class _$_EntityService implements _EntityService {
       const DeepCollectionEquality().hash(_videos),
       createdBy,
       const DeepCollectionEquality().hash(_highlights),
-      location);
+      location,
+      isRequested);
 
   @JsonKey(ignore: true)
   @override
@@ -2342,15 +2363,17 @@ class _$_EntityService implements _EntityService {
 
 abstract class _EntityService implements EntityService {
   const factory _EntityService(
-      {final String? id,
-      @JsonKey(name: 'budget_type') final String? budgetType,
-      @JsonKey(name: 'budget_from') final String? budgetFrom,
-      @JsonKey(name: 'budget_to') final String? budgetTo,
-      final List<Image>? images,
-      final List<Image>? videos,
-      @JsonKey(name: 'created_by') final Assignee? createdBy,
-      final List<String>? highlights,
-      final String? location}) = _$_EntityService;
+          {final String? id,
+          @JsonKey(name: 'budget_type') final String? budgetType,
+          @JsonKey(name: 'budget_from') final String? budgetFrom,
+          @JsonKey(name: 'budget_to') final String? budgetTo,
+          final List<Image>? images,
+          final List<Image>? videos,
+          @JsonKey(name: 'created_by') final Assignee? createdBy,
+          final List<String>? highlights,
+          final String? location,
+          @JsonKey(name: 'is_requested') final bool? isRequested}) =
+      _$_EntityService;
 
   factory _EntityService.fromJson(Map<String, dynamic> json) =
       _$_EntityService.fromJson;
@@ -2377,6 +2400,9 @@ abstract class _EntityService implements EntityService {
   List<String>? get highlights;
   @override
   String? get location;
+  @override
+  @JsonKey(name: 'is_requested')
+  bool? get isRequested;
   @override
   @JsonKey(ignore: true)
   _$$_EntityServiceCopyWith<_$_EntityService> get copyWith =>

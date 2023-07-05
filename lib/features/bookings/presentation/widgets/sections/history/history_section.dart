@@ -101,7 +101,7 @@ class _HistorySectionState extends State<HistorySection> {
                                   return Container(
                                     margin: EdgeInsets.only(bottom: 16),
                                     child: BookingsServiceCard(
-                                      // cardColor: bookingList[index].entityService,
+                                      cardColor: bookingList[index].entityService?.isRequested ==true ? kColorBlue: kColorOrange,
                                       callback: () {
                                         BlocProvider.of<BookingsBloc>(context)
                                             .add(

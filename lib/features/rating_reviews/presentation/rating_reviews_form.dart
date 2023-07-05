@@ -13,7 +13,7 @@ class RatingReviewsForm extends StatefulWidget {
   State<RatingReviewsForm> createState() => _RatingReviewsFormState();
 }
 
-class _RatingReviewsFormState extends State<RatingReviewsForm> {
+class _RatingReviewsFormState extends State<RatingReviewsForm>  {
   bool rating_one_selected = false;
   bool rating_two_selected = false;
   bool rating_three_selected = false;

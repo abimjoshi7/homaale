@@ -200,6 +200,7 @@ _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>
           ?.map((e) => e as String)
           .toList(),
       location: json['location'] as String?,
+      isRequested: json['is_requested'] as bool?,
     );
 
 Map<String, dynamic> _$$_EntityServiceToJson(_$_EntityService instance) =>
@@ -213,6 +214,7 @@ Map<String, dynamic> _$$_EntityServiceToJson(_$_EntityService instance) =>
       'created_by': instance.createdBy,
       'highlights': instance.highlights,
       'location': instance.location,
+      'is_requested': instance.isRequested,
     };
 
 _$_Image _$$_ImageFromJson(Map<String, dynamic> json) => _$_Image(

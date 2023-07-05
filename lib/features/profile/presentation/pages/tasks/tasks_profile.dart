@@ -2,10 +2,11 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/scroll_helper.dart';
 import 'package:cipher/features/bloc/scroll_bloc.dart';
 import 'package:cipher/features/error_pages/no_internet_page.dart';
+import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
-import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart'
-    as task;
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart' as task;
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
@@ -65,14 +66,12 @@ class _TasksProfileState extends State<TasksProfile> {
                 ? CommonErrorContainer(
                     assetsPath: 'assets/no_data_found.png',
                     errorTile: 'No tasks found.',
-                    errorDes:
-                        'We’re sorry, the data you search could not found. '
+                    errorDes: 'We’re sorry, the data you search could not found. '
                         'Please post a task.',
                   )
                 : ListView.builder(
                     padding: EdgeInsets.zero,
-                    itemCount:
-                        state.hasReachedMax ? data.length : data.length + 1,
+                    itemCount: state.hasReachedMax ? data.length : data.length + 1,
                     itemBuilder: (context, index) {
                       if (index >= data.length) {
                         _scrollBloc.add(
@@ -80,12 +79,7 @@ class _TasksProfileState extends State<TasksProfile> {
                             url: kTaskEntityService,
                             data: {
                               "is_requested": true,
-                              "created_by": context
-                                  .read<UserBloc>()
-                                  .state
-                                  .taskerProfile
-                                  ?.user
-                                  ?.id,
+                              "created_by": context.read<UserBloc>().state.taskerProfile?.user?.id,
                             },
                             newFetch: false,
                           ),
@@ -105,11 +99,8 @@ class _TasksProfileState extends State<TasksProfile> {
                           endRate: '${data[index].budgetTo ?? 0}',
                           budgetType: '${data[index].budgetType}',
                           count: data[index].count.toString(),
-                          imageUrl: data[index].createdBy?.profileImage ??
-                              kHomaaleImg,
-                          location: data[index].location == ''
-                              ? 'Remote'
-                              : data[index].location,
+                          imageUrl: data[index].createdBy?.profileImage ?? kHomaaleImg,
+                          location: data[index].location == '' ? 'Remote' : data[index].location,
                           endHour: Jiffy(
                             data[index].createdAt.toString(),
                           ).jm,
@@ -123,15 +114,9 @@ class _TasksProfileState extends State<TasksProfile> {
                               context: context,
                               isScrollControlled: true,
                               builder: (context) => Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.75,
+                                height: MediaQuery.of(context).size.height * 0.75,
                                 padding: EdgeInsets.only(
-                                    bottom: MediaQuery.of(context)
-                                        .viewInsets
-                                        .bottom,
-                                    left: 8,
-                                    right: 8,
-                                    top: 8),
+                                    bottom: MediaQuery.of(context).viewInsets.bottom, left: 8, right: 8, top: 8),
                                 child: SingleChildScrollView(
                                   child: Column(
                                     mainAxisSize: MainAxisSize.min,
@@ -147,20 +132,22 @@ class _TasksProfileState extends State<TasksProfile> {
                             );
                           },
                           callback: () {
-                            context
-                                .read<TaskBloc>()
-                                .add(SingleEntityTaskLoadInitiated(
+                            context.read<TaskBloc>().add(SingleEntityTaskLoadInitiated(
                                   id: data[index].id ?? '',
-                                  userId: context
-                                          .read<UserBloc>()
-                                          .state
-                                          .taskerProfile
-                                          ?.user
-                                          ?.id ??
-                                      '',
+                                  userId: context.read<UserBloc>().state.taskerProfile?.user?.id ?? '',
                                 ));
-                            Navigator.pushNamed(
-                                context, SingleTaskPage.routeName);
+
+                            context.read<TaskEntityServiceBloc>().add(
+                                  FetchRecommendedSimilar(
+                                    id: data[index].id ?? '',
+                                  ),
+                                );
+                            context.read<RatingReviewsBloc>().add(
+                                  SetToInitial(
+                                    id: data[index].id ?? '',
+                                  ),
+                                );
+                            Navigator.pushNamed(context, SingleTaskPage.routeName);
                           },
                           onTapCallback: () {},
                         ),
@@ -170,7 +157,7 @@ class _TasksProfileState extends State<TasksProfile> {
           );
         }
         return const Center(
-          child:  CardLoading(height: 400),
+          child: CardLoading(height: 400),
         );
       },
     );

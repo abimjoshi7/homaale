@@ -100,8 +100,8 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> with TheM
                           label: 'No',
                         ),
                         CustomElevatedButton(
-                          theWidth: MediaQuery.of(context).size.width * 0.2,
-                          theHeight: 30,
+                          // theWidth: MediaQuery.of(context).size.width * 0.2,
+                          // theHeight: 30,
                           callback: () {
                             Navigator.pop(context);
                             showCustomBottomSheet(
@@ -509,10 +509,6 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> with TheM
                                         padding: EdgeInsets.all(5),
                                         decoration: BoxDecoration(
                                           color: BookingTimelineStatus('${booking.status}')["color"] as Color,
-                                          // color: (booking.status == 'Closed' ||
-                                          //         booking.status == 'Cancelled')
-                                          //     ? Colors.red.shade50
-                                          //     : Colors.green.shade50,
                                           borderRadius: BorderRadius.circular(5),
                                           shape: BoxShape.rectangle,
                                         ),
@@ -564,11 +560,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage> with TheM
                                         Text('Your task is completed'),
                                         GestureDetector(
                                           onTap: () {
-                                            showModalBottomSheet(
-                                              context: context,
-                                              isDismissible: false,
-                                              builder: (context) => RatingReviewsForm(),
-                                            );
+                                            showCustomBottomSheet(context: context, widget: RatingReviewsForm());
                                           },
                                           child: Container(
                                             padding: EdgeInsets.all(8),

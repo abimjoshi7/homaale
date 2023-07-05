@@ -55,6 +55,8 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
                             Navigator.pushNamed(context, SingleTaskPage.routeName);
                           },
                           child: TaskCard(
+                            shareLinked:
+                            "$kShareLinks/tasks/${e.data?.id}",
                             id: e.data?.id.toString(),
                             isRange: e.data?.isRange ?? false,
                             isBookmarked: e.data?.isBookmarked,

@@ -27,7 +27,7 @@ class Result with _$Result {
     @JsonKey(name: 'rated_by') RatedBy? ratedBy,
     int? rating,
     String? review,
-    dynamic reply,
+    String? reply,
     @JsonKey(name: 'is_verified') bool? isVerified,
     @JsonKey(name: 'created_at') String? createdAt,
     @JsonKey(name: 'replied_date') String? repliedDate,

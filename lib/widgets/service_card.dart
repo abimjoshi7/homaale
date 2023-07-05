@@ -1,19 +1,20 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cipher/core/cache/cache_helper.dart';
-import 'package:cipher/widgets/custom_favourite_icon.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/widgets/custom_favourite_icon.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 class ServiceCard extends StatelessWidget {
   const ServiceCard({
     Key? key,
-    this.id,
     this.title,
+    this.id,
     this.imagePath,
     this.createdBy,
+    this.bookedCount,
+    this.createdByProfileImg,
     this.description,
     this.rating,
     this.location,
@@ -26,8 +27,7 @@ class ServiceCard extends StatelessWidget {
     this.isRange = false,
     this.isBookmarked = false,
     this.isOwner = false,
-    this.createdByProfileImg,
-    this.bookedCount,
+    this.theHeight = 250,
   }) : super(key: key);
 
   final String? title;
@@ -48,6 +48,7 @@ class ServiceCard extends StatelessWidget {
   final bool? isRange;
   final bool? isBookmarked;
   final bool isOwner;
+  final double theHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -57,201 +58,202 @@ class ServiceCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(
           20,
         ),
-        child: Card(
-          color: Theme.of(context).cardColor,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    image: DecorationImage(
-                      image: NetworkImage(
-                        imagePath ?? kHomaaleImg,
+        child: SizedBox(
+          height: theHeight,
+          child: Card(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Container(
+                    decoration: BoxDecoration(
+                      image: DecorationImage(
+                        image: NetworkImage(
+                          imagePath ?? kHomaaleImg,
+                        ),
+                        fit: BoxFit.fitHeight,
                       ),
-                      fit: BoxFit.cover,
                     ),
                   ),
                 ),
-              ),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(5.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      AutoSizeText(
-                        title ?? '',
-                        style: Theme.of(context).textTheme.titleMedium,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      Row(
-                        children: [
-                          CircleAvatar(
-                            backgroundImage: NetworkImage(
-                                createdByProfileImg ?? kHomaaleImg),
-                            radius: 15,
-                          ),
-                          addHorizontalSpace(5),
-                          Expanded(
-                            child: AutoSizeText(
-                              createdBy ?? '',
-                              style: Theme.of(context).textTheme.bodySmall,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                          addHorizontalSpace(5),
-                          IconText(
-                            label: rating ?? '0.0',
-                            iconData: Icons.star_rate_rounded,
-                            size: 13,
-                            color: kColorAmber,
-                          ),
-                        ],
-                      ),
-                      // * No description field on response
-                      // AutoSizeText(
-                      //   description ?? '',
-                      //   overflow: TextOverflow.ellipsis,
-                      // ),
-                      addVerticalSpace(5),
-                      ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minWidth: 120,
-                          maxWidth: double.infinity,
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.all(5.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        AutoSizeText(
+                          title ?? '',
+                          style: Theme.of(context).textTheme.titleMedium,
+                          overflow: TextOverflow.ellipsis,
                         ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        Row(
                           children: [
-                            Flexible(
-                              child: IconText(
-                                label: location ?? 'Remote',
-                                iconData: Icons.location_on_outlined,
-                                color: kColorPink,
-                                size: 13,
+                            CircleAvatar(
+                              backgroundImage: NetworkImage(
+                                  createdByProfileImg ?? kHomaaleImg),
+                              radius: 15,
+                            ),
+                            addHorizontalSpace(5),
+                            Expanded(
+                              child: AutoSizeText(
+                                createdBy ?? '',
+                                style: Theme.of(context).textTheme.bodySmall,
+                                overflow: TextOverflow.ellipsis,
                               ),
+                            ),
+                            addHorizontalSpace(5),
+                            IconText(
+                              label: rating ?? '0.0',
+                              iconData: Icons.star_rate_rounded,
+                              size: 13,
+                              color: kColorAmber,
                             ),
                           ],
                         ),
-                      ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minWidth: 120,
-                          maxWidth: double.infinity,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            if (bookedCount != null)
+                        // * No description field on response
+                        // AutoSizeText(
+                        //   description ?? '',
+                        //   overflow: TextOverflow.ellipsis,
+                        // ),
+                        addVerticalSpace(5),
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: 120,
+                            maxWidth: double.infinity,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
                               Flexible(
                                 child: IconText(
-                                  label: '$bookedCount Booked',
-                                  iconData: Icons.people,
+                                  label: location ?? 'Remote',
+                                  iconData: Icons.location_on_outlined,
+                                  color: kColorPink,
                                   size: 13,
                                 ),
                               ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      Flexible(
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Flexible(
-                              child: Row(
-                                children: [
-                                  Flexible(
-                                      child: isOwner
-                                          ? IconButton(
-                                              padding: EdgeInsets.zero,
-                                              onPressed: editCallback,
-                                              icon: Icon(
-                                                Icons.edit,
-                                                color: kColorAmber,
-                                              ),
-                                            )
-                                          : CustomFavoriteIcon(
-                                              typeID: '$id',
-                                              type: ServiceType.entityservice,
-                                              isBookmarked:
-                                                  CacheHelper.isLoggedIn
-                                                      ? isBookmarked ?? false
-                                                      : false,
-                                            )
+                        ConstrainedBox(
+                          constraints: BoxConstraints(
+                            minWidth: 120,
+                            maxWidth: double.infinity,
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              if (bookedCount != null)
+                                Flexible(
+                                  child: IconText(
+                                    label: '$bookedCount Booked',
+                                    iconData: Icons.people,
+                                    size: 13,
+                                  ),
+                                ),
+                            ],
+                          ),
+                        ),
+                        Flexible(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Flexible(
+                                child: Row(
+                                  children: [
+                                    Flexible(
+                                        child: isOwner
+                                            ? IconButton(
+                                                padding: EdgeInsets.zero,
+                                                onPressed: editCallback,
+                                                icon: Icon(
+                                                  Icons.edit,
+                                                  color: kColorAmber,
+                                                ),
+                                              )
+                                            : CustomFavoriteIcon(
+                                                typeID: '$id',
+                                                type: ServiceType.entityservice,
+                                                isBookmarked:
+                                                    isBookmarked ?? false,
+                                              )
 
-                                      // IconButton(
-                                      //     padding: EdgeInsets.zero,
-                                      //     onPressed: bookmarkCallback,
-                                      //     icon: Icon(
-                                      //       isBookmarked ?? false ? Icons.bookmark : Icons.bookmark_border_rounded,
-                                      //       color: kColorPink,
-                                      //     ),
-                                      //   ),
-                                      ),
-                                  addHorizontalSpace(8),
-                                  Flexible(
-                                    child: IconButton(
-                                      padding: EdgeInsets.zero,
-                                      onPressed: shareCallback,
-                                      icon: Icon(
-                                        Icons.redo_sharp,
-                                        color: kColorBlue,
+                                        // IconButton(
+                                        //     padding: EdgeInsets.zero,
+                                        //     onPressed: bookmarkCallback,
+                                        //     icon: Icon(
+                                        //       isBookmarked ?? false ? Icons.bookmark : Icons.bookmark_border_rounded,
+                                        //       color: kColorPink,
+                                        //     ),
+                                        //   ),
+                                        ),
+                                    addHorizontalSpace(8),
+                                    Flexible(
+                                      child: IconButton(
+                                        padding: EdgeInsets.zero,
+                                        onPressed: shareCallback,
+                                        icon: Icon(
+                                          Icons.redo_sharp,
+                                          color: kColorBlue,
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            addHorizontalSpace(
-                              16,
-                            ),
-                            Flexible(
-                              flex: 3,
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.end,
-                                children: [
-                                  Visibility(
-                                    visible: isRange ?? false,
-                                    child: Flexible(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Flexible(
-                                            child: Text(
-                                              "Rs $rateFrom",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodyLarge,
-                                              overflow: TextOverflow.ellipsis,
+                              addHorizontalSpace(
+                                16,
+                              ),
+                              Flexible(
+                                flex: 2,
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    Visibility(
+                                      visible: isRange ?? false,
+                                      child: Flexible(
+                                        child: Row(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.spaceAround,
+                                          children: [
+                                            Flexible(
+                                              child: Text(
+                                                "Rs $rateFrom",
+                                                style: Theme.of(context)
+                                                    .textTheme
+                                                    .bodyLarge,
+                                                overflow: TextOverflow.ellipsis,
+                                              ),
                                             ),
-                                          ),
-                                          Text(" - "),
-                                        ],
+                                            Text(" - "),
+                                          ],
+                                        ),
                                       ),
                                     ),
-                                  ),
-                                  Flexible(
-                                    child: Text(
-                                      "Rs $rateTo",
-                                      style:
-                                          Theme.of(context).textTheme.bodyLarge,
-                                      overflow: TextOverflow.ellipsis,
+                                    Flexible(
+                                      child: Text(
+                                        "Rs $rateTo",
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .bodyLarge,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-              addVerticalSpace(8),
-            ],
+                // addVerticalSpace(8),
+              ],
+            ),
           ),
         ),
       ),

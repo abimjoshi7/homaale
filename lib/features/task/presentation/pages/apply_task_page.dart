@@ -157,7 +157,12 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                   label: 'Your Price',
                                   isRequired: true,
                                   child: CustomTextFormField(
-                                    hintText: 'Rs 1,000',
+                                    hintText:
+                                        'Rs ${Decimal.parse(state.taskModel?.budgetFrom ?? "")}',
+                                    readOnly:
+                                        state.taskModel?.isNegotiable == false
+                                            ? true
+                                            : false,
                                     controller: offerController,
                                     textInputType: TextInputType.number,
                                     inputFormatters: [
