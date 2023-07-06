@@ -59,55 +59,49 @@ class TaskerCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Stack(
-                  alignment: Alignment.topCenter,
-                  clipBehavior: Clip.none,
-                  children:[
-                    Center(
-                      child: Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
-                      width: MediaQuery.of(context).size.width * 0.3,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        image: DecorationImage(
-                          fit: BoxFit.cover,
-                          image: NetworkImage(
-                            networkImageUrl ?? kHomaaleImg,
+                    alignment: Alignment.topCenter,
+                    clipBehavior: Clip.none,
+                    children: [
+                      Center(
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.07,
+                          width: MediaQuery.of(context).size.width * 0.3,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            image: DecorationImage(
+                              fit: BoxFit.cover,
+                              image: NetworkImage(
+                                networkImageUrl ?? kHomaaleImg,
+                              ),
+                            ),
                           ),
                         ),
                       ),
-                  ),
-                    ),
-                    if(badgeImage !=null)
-                    Positioned(
-                      bottom: -15,
-                      left: 40,
-                      child: CircleAvatar(
-                        radius: 20,
-                        backgroundColor: Colors.transparent,
-                        child: Center(
-                          child: Image.network(
-                             badgeImage ??
-                                  ""),
+                      if (badgeImage != null)
+                        Positioned(
+                          bottom: -15,
+                          left: 40,
+                          child: CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.transparent,
+                            child: Center(
+                              child: Image.network(badgeImage ?? ""),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-               ] ),
+                    ]),
                 // addHorizontalSpace(10),
-                if(shareLinked !=null)
-                InkWell(
-                    onTap: () {
-                      final box =
-                      context.findRenderObject()
-                      as RenderBox?;
-                      Share.share(
-                        shareLinked!,
-                        sharePositionOrigin: box!
-                            .localToGlobal(
-                            Offset.zero) &
-                        box.size,
-                      );
-                    },
-                    child: Icon(Icons.redo_sharp, color: kColorBlue)),
+                if (shareLinked != null)
+                  InkWell(
+                      onTap: () {
+                        final box = context.findRenderObject() as RenderBox?;
+                        Share.share(
+                          shareLinked!,
+                          sharePositionOrigin:
+                              box!.localToGlobal(Offset.zero) & box.size,
+                        );
+                      },
+                      child: Icon(Icons.redo_sharp, color: kColorBlue)),
               ],
             ),
             addVerticalSpace(10),
@@ -193,8 +187,12 @@ class TaskerCard extends StatelessWidget {
       width: buttonWidth ?? 80,
       child: CustomElevatedButton(
         borderColor: kColorPrimary,
-        mainColor: isFollowed ?? false ? Colors.white : kColorPrimary,
-        textColor: isFollowed ?? false ? kColorPrimary : Colors.white,
+        mainColor: isFollowed == true && CacheHelper.isLoggedIn
+            ? Colors.white
+            : kColorPrimary,
+        textColor: isFollowed == true && CacheHelper.isLoggedIn
+            ? kColorPrimary
+            : Colors.white,
         callback: () {
           if (!CacheHelper.isLoggedIn) {
             notLoggedInPopUp(context);

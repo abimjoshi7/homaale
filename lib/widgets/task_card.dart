@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -61,50 +62,61 @@ class TaskCard extends StatelessWidget {
         height: 250,
         padding: EdgeInsets.symmetric(horizontal: 12, vertical: 5),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           mainAxisSize: MainAxisSize.min,
           children: [
             addVerticalSpace(10),
-            Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 200,
-                  child: Text(
-                    StringUtils.capitalize(
-                      taskName ?? '',
-                    ),
-                    style: Theme.of(context).textTheme.titleMedium,
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                ),
-                isOwner ?? false
-                    ? IconButton(
-                        padding: EdgeInsets.zero,
-                        onPressed: editCallback,
-                        icon: Icon(
-                          Icons.edit,
-                          color: kColorAmber,
-                        ),
-                      )
-                    : CustomFavoriteIcon(
-                        typeID: '$id',
-                        type: ServiceType.entityservice,
-                        isBookmarked: isBookmarked ?? false,
+            SizedBox(
+              width: MediaQuery.of(context).size.width,
+              child: Row(
+                mainAxisSize: MainAxisSize.max,
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  SizedBox(
+                    width: 200,
+                    child: Text(
+                      StringUtils.capitalize(
+                        taskName ?? '',
                       ),
-                InkWell(
-                    onTap: () {
-                      final box = context.findRenderObject() as RenderBox?;
-                      Share.share(
-                        shareLinked!,
-                        sharePositionOrigin:
-                            box!.localToGlobal(Offset.zero) & box.size,
-                      );
-                    },
-                    child: Icon(Icons.redo_sharp, color: kColorBlue)),
-              ],
+                      style: Theme.of(context).textTheme.titleMedium,
+                      overflow: TextOverflow.ellipsis,
+                      maxLines: 1,
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      isOwner ?? false
+                          ? IconButton(
+                              padding: EdgeInsets.zero,
+                              onPressed: editCallback,
+                              icon: Icon(
+                                Icons.edit,
+                                color: kColorAmber,
+                              ),
+                            )
+                          : CustomFavoriteIcon(
+                              typeID: '$id',
+                              type: ServiceType.entityservice,
+                              isBookmarked: CacheHelper.isLoggedIn
+                                  ? isBookmarked ?? false
+                                  : false,
+                            ),
+                      InkWell(
+                        onTap: () {
+                          final box = context.findRenderObject() as RenderBox?;
+                          Share.share(
+                            shareLinked!,
+                            sharePositionOrigin:
+                                box!.localToGlobal(Offset.zero) & box.size,
+                          );
+                        },
+                        child: Icon(Icons.redo_sharp, color: kColorBlue),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
             ),
             addHorizontalSpace(10),
             Row(

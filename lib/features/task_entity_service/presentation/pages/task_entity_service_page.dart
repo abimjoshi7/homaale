@@ -195,8 +195,8 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                               ?.toLowerCase() ==
                                           'mp4'
                                       ? VideoPlayerWidget(
-                                          videoURL: (mediaList[index].media) ??
-                                              '',
+                                          videoURL:
+                                              (mediaList[index].media) ?? '',
                                         )
                                       : Column(
                                           mainAxisSize: MainAxisSize.min,

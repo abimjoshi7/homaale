@@ -1105,7 +1105,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
 
   CustomFormField _buildRequirements() {
     return CustomFormField(
-      label: 'Highlights',
+      label: 'Requirements',
       isRequired: true,
       child: Column(
         children: [

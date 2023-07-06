@@ -32,15 +32,15 @@ class _TaskerTaskState extends State<TaskerTask> {
     required int index,
     required bool isApply,
   }) {
-    if (CacheHelper.isLoggedIn == false) {
-      notLoggedInPopUp(context);
-    }
-    if (!CacheHelper.isLoggedIn) return;
+    // if (CacheHelper.isLoggedIn == false) {
+    //   notLoggedInPopUp(context);
+    // }
+    // if (!CacheHelper.isLoggedIn) return;
     context.read<TaskBloc>().add(SingleEntityTaskLoadInitiated(
           id: id,
           userId: context.read<UserBloc>().state.taskerProfile?.user?.id ?? '',
         ));
-    isApply
+    isApply && CacheHelper.isLoggedIn
         ? Navigator.pushNamed(context, ApplyTaskPage.routeName)
         : Navigator.pushNamed(context, SingleTaskPage.routeName);
   }

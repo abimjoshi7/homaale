@@ -467,11 +467,17 @@ class _SingleTaskPageState extends State<SingleTaskPage> with SingleTickerProvid
                                   text: documentDescription,
                                 ),
                                 addVerticalSpace(24),
-                                Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Text(
-                                    'Requirements',
-                                    style: Theme.of(context).textTheme.headlineSmall,
+                                Visibility(
+                                  visible:
+                                      state.taskModel?.highlights?.length != 0,
+                                  child: Align(
+                                    alignment: Alignment.bottomLeft,
+                                    child: Text(
+                                      'Requirements',
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall,
+                                    ),
                                   ),
                                 ),
                                 kHeight10,
