@@ -59,7 +59,7 @@ class ServiceCard extends StatelessWidget {
           20,
         ),
         child: SizedBox(
-          height: theHeight,
+          height: theHeight ,
           child: Card(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -251,7 +251,7 @@ class ServiceCard extends StatelessWidget {
                     ),
                   ),
                 ),
-                // addVerticalSpace(8),
+                // addVerticalSpace(4),
               ],
             ),
           ),

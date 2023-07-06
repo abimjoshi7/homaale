@@ -95,7 +95,7 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
               padding: EdgeInsets.symmetric(horizontal: 16),
               crossAxisCount: 2,
               mainAxisSpacing: 4,
-              childAspectRatio: 0.9,
+              childAspectRatio: 0.8,
               children: data?.map((e) {
                     return InkWell(
                       onTap: () {
