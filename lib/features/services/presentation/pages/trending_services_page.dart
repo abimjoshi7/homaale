@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:cipher/core/helpers/search_helper.dart';
 import 'package:cipher/core/mixins/mixins.dart';
+import 'package:cipher/features/marketing/presentation/bloc/marketing_ads_bloc.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
@@ -115,14 +118,46 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                   _buildFilters(context),
                   addVerticalSpace(8),
                   Expanded(
-                    child: GridView.builder(
+                    child: MasonryGridView.builder(
                       controller: _controller,
                       padding: EdgeInsets.zero,
                       itemBuilder: (context, index) {
                         if (index >= state.taskEntityServices!.length) {
                           return Center(child: const BottomLoader());
                         }
+                        if (index % 5 == 4)
+                          return SizedBox(
+                            height: 250,
+                            child: Card(
+                              child: BlocBuilder<MarketingAdsBloc,
+                                  MarketingAdsState>(
+                                builder: (context, state) {
+                                  var list = [];
+                                  if (state.marketingAdsDto.result != null &&
+                                      state.marketingAdsDto.result!.isNotEmpty)
+                                    list.addAll(
+                                      state.marketingAdsDto.result!
+                                          .map((e) => e.image)
+                                          .toList(),
+                                    );
+                                  return Image.network(
+                                    list.last.toString(),
+                                    fit: BoxFit.fill,
+                                  );
+                                },
+                              ),
+                            ),
+                          );
                         return ServiceCard(
+                          theHeight: (index % 5) == 0
+                              ? 230
+                              : (index % 5) == 1
+                                  ? 330
+                                  : (index % 5) == 2
+                                      ? 440
+                                      : (index % 5) == 3
+                                          ? 290
+                                          : 390,
                           shareCallback: () {
                             Share.share(
                               "$kShareLinks/tasks/${state.taskEntityServices?[index].id}",
@@ -229,9 +264,9 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                           ? state.taskEntityServices?.length
                           : state.taskEntityServices!.length + 1,
                       gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                          const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        childAspectRatio: 0.86,
+                        // childAspectRatio: 0.86,
                       ),
                     ),
                   ),
