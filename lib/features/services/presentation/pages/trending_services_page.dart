@@ -31,6 +31,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
     with TheModalBottomSheet {
   late final TaskEntityServiceBloc entityServiceBloc;
   late final ScrollController _controller;
+  final searchController = TextEditingController();
   final payableFrom = TextEditingController();
   final payableTo = TextEditingController();
   final _categoryKey = GlobalKey<FormFieldState>();
@@ -88,6 +89,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
     entityServiceBloc.close();
     payableFrom.dispose();
     payableTo.dispose();
+    searchController.dispose();
     super.dispose();
   }
 
@@ -261,6 +263,45 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
               Icon(
                 Icons.filter_alt,
                 color: kColorGrey,
+              ),
+              InkWell(
+                onTap: () {},
+                child: SizedBox(
+                  width: 200,
+                  height: 40,
+                  child: CustomTextFormField(
+                    hintText: "Search",
+                    controller: searchController,
+                    inputAction: TextInputAction.done,
+                    onFieldSubmitted: (p0) {
+                      if (p0!.length >= 3) {
+                        entityServiceBloc.add(
+                          TaskEntityServiceInitiated(
+                            query: p0,
+                            newFetch: true,
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Text(
+                //         toText ?? "To",
+                //         overflow: TextOverflow.ellipsis,
+                //       ),
+                //       addHorizontalSpace(8),
+                //       Icon(
+                //         Icons.calendar_today_outlined,
+                //         color: kColorSilver,
+                //       ),
+                //     ],
+                //   ),
+                // ),
               ),
               addHorizontalSpace(5),
               _buildCategory(),

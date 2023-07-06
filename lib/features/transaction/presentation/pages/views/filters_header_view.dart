@@ -25,6 +25,11 @@ class _FiltersHeaderViewState extends State<FiltersHeaderView> {
   final searchController = TextEditingController();
 
   @override
+  void dispose() {
+    searchController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50,
