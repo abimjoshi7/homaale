@@ -18,6 +18,7 @@ class TransactionRepository {
     String? status,
     String? transactionType,
     int? paymentMethod,
+    String? searchQuery,
   }) async {
     try {
       final res = await _dio.getDatawithCredential(
@@ -30,6 +31,7 @@ class TransactionRepository {
           "status": status,
           "transaction_type": transactionType,
           "payment_method": paymentMethod,
+          "search": searchQuery,
         },
       );
       return res as Map<String, dynamic>;
@@ -46,15 +48,17 @@ class TransactionRepository {
     String? status,
     String? transactionType,
     int? paymentMethod,
+    String? searchQuery,
   }) async =>
       await fetchTransactions(
-        pageNumber: pageNumber,
-        status: status,
-        dateBefore: dateBefore,
-        dateAfter: dateAfter,
-        transactionType: transactionType,
-        paymentMethod: paymentMethod,
-      ).then(
+              pageNumber: pageNumber,
+              status: status,
+              dateBefore: dateBefore,
+              dateAfter: dateAfter,
+              transactionType: transactionType,
+              paymentMethod: paymentMethod,
+              searchQuery: searchQuery)
+          .then(
         (value) => TransactionsRes.fromJson(
           value,
         ),

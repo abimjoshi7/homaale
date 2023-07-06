@@ -22,6 +22,8 @@ class _FiltersHeaderViewState extends State<FiltersHeaderView> {
   DateTime? fromDate;
   DateTime? toDate;
   String? status;
+  final searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -37,6 +39,46 @@ class _FiltersHeaderViewState extends State<FiltersHeaderView> {
                 color: kColorSilver,
               ),
             ),
+            InkWell(
+              onTap: () {},
+              child: SizedBox(
+                width: 200,
+                height: 40,
+                child: CustomTextFormField(
+                  hintText: "Search",
+                  controller: searchController,
+                  inputAction: TextInputAction.done,
+                  onFieldSubmitted: (p0) {
+                    if (p0!.length >= 3) {
+                      widget.bloc.add(
+                        TransactionLoaded(
+                          searchQuery: p0,
+                          isCleared: true,
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Text(
+              //         toText ?? "To",
+              //         overflow: TextOverflow.ellipsis,
+              //       ),
+              //       addHorizontalSpace(8),
+              //       Icon(
+              //         Icons.calendar_today_outlined,
+              //         color: kColorSilver,
+              //       ),
+              //     ],
+              //   ),
+              // ),
+            ),
+            addHorizontalSpace(8),
             _buildStatus(context),
             addHorizontalSpace(
               8,
