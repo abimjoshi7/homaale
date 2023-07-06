@@ -112,7 +112,7 @@ class _TasksRecommendationSectionState
                           isApply: false,
                         ),
                         child: SizedBox(
-                          width: MediaQuery.of(context).size.width * 0.7,
+                          width: MediaQuery.of(context).size.width * 0.75,
                           child: TaskCard(
                             shareLinked:
                                 '$kShareLinks/tasks/${state.taskEntityServiceModel.result?[index].id}',
