@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
@@ -82,7 +81,8 @@ class _EditProfileSectionState extends State<EditProfileSection> {
               // ),
             ),
           );
-        } else if (state.theStates == TheStates.failure && state.isEdited == false) {
+        } else if (state.theStates == TheStates.failure &&
+            state.isEdited == false) {
           await showDialog(
             context: context,
             builder: (context) => CustomToast(
@@ -100,12 +100,12 @@ class _EditProfileSectionState extends State<EditProfileSection> {
         }
       },
       builder: (context, state) {
-        firstName = state.taskerProfile?.user?.firstName;
-        middleName = state.taskerProfile?.user?.middleName;
-        lastName = state.taskerProfile?.user?.lastName;
-        designation = state.taskerProfile?.designation;
-        profilePicture = state.taskerProfile?.profileImage;
-        bio = state.taskerProfile?.bio;
+        // firstName = state.taskerProfile?.user?.firstName;
+        // middleName = state.taskerProfile?.user?.middleName;
+        // lastName = state.taskerProfile?.user?.lastName;
+        // designation = state.taskerProfile?.designation;
+        // profilePicture = state.taskerProfile?.profileImage;
+        // bio = state.taskerProfile?.bio;
         if (state.theStates == TheStates.success) {
           return Padding(
             padding: const EdgeInsets.only(left: 8.0),
@@ -160,7 +160,6 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                                   context: context,
                                   builder: (context) => ImagePickerDialog(
                                     bloc: uploadBloc,
-                                    isProfile: true,
                                   ),
                                 );
                               },

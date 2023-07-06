@@ -22,41 +22,8 @@ class ProfileStatsSection extends StatelessWidget {
                 Column(
                   children: [
                     NumberCountText(
-                      numberText: state.taskerProfile?.stats?.taskAssigned
-                              ?.toInt()
-                              .toString() ??
-                          '',
-                      textColor: kColorBlue,
-                    ),
-                    Text(
-                      'Task Created',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                  ],
-                ),
-                Column(
-                  children: [
-                    NumberCountText(
-                      numberText:
-                          state.taskerProfile?.stats?.taskInProgress == null
-                              ? '0'
-                              : state.taskerProfile?.stats?.taskInProgress
-                                      ?.toInt()
-                                      .toString() ??
-                                  '',
-                      textColor: kColorAmber,
-                    ),
-                    Text(
-                      'Task in Progress',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    )
-                  ],
-                ),
-                Column(
-                  children: [
-                    NumberCountText(
                       numberText: state.taskerProfile?.stats?.successRate
-                              ?.toInt()
+                              ?.toStringAsFixed(2)
                               .toString() ??
                           '',
                       textColor: kColorGreen,
@@ -65,6 +32,39 @@ class ProfileStatsSection extends StatelessWidget {
                       'Success Rate',
                       style: Theme.of(context).textTheme.bodySmall,
                     ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    NumberCountText(
+                      numberText: state.taskerProfile?.stats?.happyClients
+                              ?.toInt()
+                              .toString() ??
+                          '',
+                      textColor: kColorPrimary,
+                    ),
+                    Text(
+                      'Happy Clients',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    ),
+                  ],
+                ),
+                Column(
+                  children: [
+                    NumberCountText(
+                      numberText:
+                          state.taskerProfile?.stats?.taskCompleted == null
+                              ? '0'
+                              : state.taskerProfile?.stats?.taskCompleted
+                                      ?.toInt()
+                                      .toString() ??
+                                  '',
+                      textColor: kColorAmber,
+                    ),
+                    Text(
+                      'Tasks Completed',
+                      style: Theme.of(context).textTheme.bodySmall,
+                    )
                   ],
                 ),
               ],
