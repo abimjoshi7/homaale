@@ -7,8 +7,10 @@ import 'package:cipher/features/transaction/presentation/bloc/transaction_bloc.d
 import 'package:cipher/widgets/widgets.dart';
 
 class FiltersHeaderView extends StatefulWidget {
+  final TransactionBloc bloc;
   const FiltersHeaderView({
     Key? key,
+    required this.bloc,
   }) : super(key: key);
 
   @override
@@ -20,6 +22,8 @@ class _FiltersHeaderViewState extends State<FiltersHeaderView> {
   DateTime? fromDate;
   DateTime? toDate;
   String? status;
+  final searchController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return SizedBox(
@@ -35,6 +39,46 @@ class _FiltersHeaderViewState extends State<FiltersHeaderView> {
                 color: kColorSilver,
               ),
             ),
+            InkWell(
+              onTap: () {},
+              child: SizedBox(
+                width: 200,
+                height: 40,
+                child: CustomTextFormField(
+                  hintText: "Search",
+                  controller: searchController,
+                  inputAction: TextInputAction.done,
+                  onFieldSubmitted: (p0) {
+                    if (p0!.length >= 3) {
+                      widget.bloc.add(
+                        TransactionLoaded(
+                          searchQuery: p0,
+                          isCleared: true,
+                        ),
+                      );
+                    }
+                  },
+                ),
+              ),
+              // Padding(
+              //   padding: const EdgeInsets.all(8.0),
+              //   child: Row(
+              //     mainAxisAlignment: MainAxisAlignment.center,
+              //     children: [
+              //       Text(
+              //         toText ?? "To",
+              //         overflow: TextOverflow.ellipsis,
+              //       ),
+              //       addHorizontalSpace(8),
+              //       Icon(
+              //         Icons.calendar_today_outlined,
+              //         color: kColorSilver,
+              //       ),
+              //     ],
+              //   ),
+              // ),
+            ),
+            addHorizontalSpace(8),
             _buildStatus(context),
             addHorizontalSpace(
               8,
@@ -68,14 +112,14 @@ class _FiltersHeaderViewState extends State<FiltersHeaderView> {
             setState(() {
               toDate = value;
             });
-            context.read<TransactionBloc>().add(
-                  TransactionLoaded(
-                    dateBefore: toDate,
-                    isCleared: true,
-                    dateAfter: fromDate,
-                    status: status,
-                  ),
-                );
+            widget.bloc.add(
+              TransactionLoaded(
+                dateBefore: toDate,
+                isCleared: true,
+                dateAfter: fromDate,
+                status: status,
+              ),
+            );
           },
         );
       },
@@ -141,14 +185,14 @@ class _FiltersHeaderViewState extends State<FiltersHeaderView> {
                 setState(() {
                   fromDate = value;
                 });
-                context.read<TransactionBloc>().add(
-                      TransactionLoaded(
-                        isCleared: true,
-                        dateAfter: fromDate,
-                        dateBefore: toDate,
-                        status: status,
-                      ),
-                    );
+                widget.bloc.add(
+                  TransactionLoaded(
+                    isCleared: true,
+                    dateAfter: fromDate,
+                    dateBefore: toDate,
+                    status: status,
+                  ),
+                );
               },
             );
           },
@@ -211,14 +255,14 @@ class _FiltersHeaderViewState extends State<FiltersHeaderView> {
             setState(() {
               status = value;
             });
-            context.read<TransactionBloc>().add(
-                  TransactionLoaded(
-                    status: value?.toLowerCase(),
-                    dateAfter: fromDate,
-                    dateBefore: toDate,
-                    isCleared: true,
-                  ),
-                );
+            widget.bloc.add(
+              TransactionLoaded(
+                status: value?.toLowerCase(),
+                dateAfter: fromDate,
+                dateBefore: toDate,
+                isCleared: true,
+              ),
+            );
           },
         ),
       ),
@@ -235,11 +279,11 @@ class _FiltersHeaderViewState extends State<FiltersHeaderView> {
           toDate = null;
           fromDate = null;
         });
-        context.read<TransactionBloc>().add(
-              TransactionLoaded(
-                isCleared: true,
-              ),
-            );
+        widget.bloc.add(
+          TransactionLoaded(
+            isCleared: true,
+          ),
+        );
         dKey.currentState?.reset();
       },
       icon: Icon(

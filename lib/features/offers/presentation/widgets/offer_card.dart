@@ -38,12 +38,12 @@ class OfferCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   AutoSizeText(
-                    state.offerModel?.result?[index].title ?? "data",
+                    state.offerModel?.result?[index].title ?? "",
                     style: kPurpleText19,
                     overflow: TextOverflow.ellipsis,
                   ),
                   AutoSizeText(
-                    state.offerModel?.result?[index].description ?? "data",
+                    state.offerModel?.result?[index].description ?? "",
                     style: kLightBlueText14,
                     overflow: TextOverflow.ellipsis,
                   ),

@@ -36,15 +36,15 @@ class _OffersPageMainViewState extends State<OffersPageMainView>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(
-      length: 4,
-      vsync: this,
-    );
+    // _tabController = TabController(
+    //   length: 4,
+    //   vsync: this,
+    // );
   }
 
   @override
   void dispose() {
-    _tabController.dispose();
+    // _tabController.dispose();
     super.dispose();
   }
 
@@ -59,53 +59,68 @@ class _OffersPageMainViewState extends State<OffersPageMainView>
             ),
           );
         return Scaffold(
-          appBar: CustomAppBar(appBarTitle: "Offers",trailingWidget: SizedBox()),
-          body: Column(
-            children: [
-              Expanded(
-                child: Column(
-                  children: [
-                    TabBar(
-                      labelPadding: kPadding10,
-                      controller: _tabController,
-                      indicatorColor: kColorSecondary,
-                      tabs: const [
-                        Text('All'),
-                        Text('Coupons'),
-                        Text('Scratch Cards'),
-                        Text('Offers'),
-                      ],
-                    ),
-                    Expanded(
-                      child: TabBarView(
-                        controller: _tabController,
-                        children: [
-                          GridView.builder(
-                            padding: EdgeInsets.symmetric(
-                              horizontal: 8,
-                            ),
-                            gridDelegate:
-                                SliverGridDelegateWithFixedCrossAxisCount(
-                              crossAxisCount: 2,
-                              childAspectRatio: 0.8,
-                            ),
-                            itemCount: state.offerModel?.result?.length ?? 0,
-                            itemBuilder: (context, index) => OfferCard(
-                              index: index,
-                              state: state,
-                            ),
-                          ),
-                          Center(child: Text('No Offers available.')),
-                          Center(child: Text('No Offers available.')),
-                          Center(child: Text('No Offers available.')),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            ],
+          appBar:
+              CustomAppBar(appBarTitle: "Offers", trailingWidget: SizedBox()),
+          body: GridView.builder(
+            padding: EdgeInsets.symmetric(
+              horizontal: 8,
+            ),
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 0.8,
+            ),
+            itemCount: state.offerModel?.result?.length ?? 0,
+            itemBuilder: (context, index) => OfferCard(
+              index: index,
+              state: state,
+            ),
           ),
+          // Column(
+          //   children: [
+          //     Expanded(
+          //       child: Column(
+          //         children: [
+          //           TabBar(
+          //             labelPadding: kPadding10,
+          //             controller: _tabController,
+          //             indicatorColor: kColorSecondary,
+          //             tabs: const [
+          //               Text('All'),
+          //               Text('Coupons'),
+          //               Text('Scratch Cards'),
+          //               Text('Offers'),
+          //             ],
+          //           ),
+          //           Expanded(
+          //             child: TabBarView(
+          //               controller: _tabController,
+          //               children: [
+          //                 GridView.builder(
+          //                   padding: EdgeInsets.symmetric(
+          //                     horizontal: 8,
+          //                   ),
+          //                   gridDelegate:
+          //                       SliverGridDelegateWithFixedCrossAxisCount(
+          //                     crossAxisCount: 2,
+          //                     childAspectRatio: 0.8,
+          //                   ),
+          //                   itemCount: state.offerModel?.result?.length ?? 0,
+          //                   itemBuilder: (context, index) => OfferCard(
+          //                     index: index,
+          //                     state: state,
+          //                   ),
+          //                 ),
+          //                 Center(child: Text('No Offers available.')),
+          //                 Center(child: Text('No Offers available.')),
+          //                 Center(child: Text('No Offers available.')),
+          //               ],
+          //             ),
+          //           ),
+          //         ],
+          //       ),
+          //     )
+          //   ],
+          // ),
         );
       },
     );

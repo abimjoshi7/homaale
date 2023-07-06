@@ -13,6 +13,7 @@ class TransactionLoaded extends TransactionEvent {
   final String? transactionType;
   final int? paymentMethod;
   final bool isCleared;
+  final String? searchQuery;
   TransactionLoaded({
     this.pageNumber,
     this.dateAfter,
@@ -21,6 +22,7 @@ class TransactionLoaded extends TransactionEvent {
     this.transactionType,
     this.paymentMethod,
     this.isCleared = false,
+    this.searchQuery,
   });
   @override
   List<Object?> get props => [
@@ -31,6 +33,7 @@ class TransactionLoaded extends TransactionEvent {
         transactionType,
         paymentMethod,
         isCleared,
+        searchQuery,
       ];
 }
 

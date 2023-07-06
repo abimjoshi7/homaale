@@ -55,6 +55,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
               : DateFormat("yyyy-MM-dd").format(
                   event.dateAfter!,
                 ),
+          searchQuery: event.searchQuery,
         );
         return emit(
           state.copyWith(
@@ -81,6 +82,7 @@ class TransactionBloc extends Bloc<TransactionEvent, TransactionState> {
               : DateFormat("yyyy-MM-dd").format(
                   event.dateAfter!,
                 ),
+          searchQuery: event.searchQuery,
         );
         transactionsRes.result!.isEmpty
             ? emit(state.copyWith(

@@ -117,7 +117,9 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
       ),
       body: Column(
         children: [
-          FiltersHeaderView(),
+          FiltersHeaderView(
+						bloc: _transactionBloc,
+					),
           Expanded(
             child: BlocConsumer<TransactionBloc, TransactionState>(
               bloc: _transactionBloc,
