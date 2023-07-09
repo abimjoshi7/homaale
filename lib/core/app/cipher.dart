@@ -34,7 +34,6 @@ import 'package:cipher/features/redeem/statement/presentation/bloc/redeem_statem
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/search/presentation/cubit/recent_search_cubit.dart';
-import 'package:cipher/features/search/repositories/search_repository.dart';
 import 'package:cipher/features/security_question/presentation/bloc/security_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';

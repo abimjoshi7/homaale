@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
@@ -54,11 +56,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
                             list =
                                 state.nestedCategory[selectedIndex].child ?? [];
                           }
+                          print("source:trust me bro: $selectedIndex");
                         }
                       } else {
                         if (state.nestedCategory.length > 0) {
                           selectedIndex = 0;
                           list = state.nestedCategory[0].child ?? [];
+                          log('test list: $list');
                         }
                       }
                     }
@@ -254,6 +258,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       ),
                     );
                   } else {
+                    print("shalom" + list.toString());
                     return const SizedBox.shrink();
                   }
                 }

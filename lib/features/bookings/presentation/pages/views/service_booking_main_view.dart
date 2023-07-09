@@ -105,7 +105,7 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
                                 .taskerProfile
                                 ?.user
                                 ?.id,
-                            taskerID: state.taskEntityService?.createdBy?.id,
+                            taskerID: state.taskEntityService.createdBy?.id,
                           ));
 
                           await CacheHelper.clearCachedData(kBookedMap)
@@ -207,7 +207,7 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
         if (uploadState.isImageUploaded && uploadState.isVideoUploaded) {
           final req = BookEntityServiceReq(
             location: bookEventHandlerBloc.state.address,
-            entityService: state.taskEntityService?.id,
+            entityService: state.taskEntityService.id,
             price: bookEventHandlerBloc.state.budget,
             budgetTo: bookEventHandlerBloc.state.budget,
             requirements: context
@@ -250,7 +250,7 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
                     uploadBloc.state.videoFileList.isEmpty) {
                   final req = BookEntityServiceReq(
                     location: bookEventHandlerBloc.state.address,
-                    entityService: state.taskEntityService?.id,
+                    entityService: state.taskEntityService.id,
                     price: bookEventHandlerBloc.state.budget,
                     budgetTo: bookEventHandlerBloc.state.budget,
                     requirements: context

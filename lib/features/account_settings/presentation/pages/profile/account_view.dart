@@ -20,7 +20,6 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import '../../../../../core/app/cipher.dart';
 import '../../../../../core/cache/cache_helper.dart';
 import '../../../../redeem/presentation/bloc/redeem.event.dart';
 import '../../../../redeem/presentation/pages/redeem_page.dart';
