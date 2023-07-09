@@ -82,10 +82,6 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                 addHorizontalSpace(8),
                 InkWell(
                   onTap: () {
-                    if (CacheHelper.isLoggedIn == false) {
-                      notLoggedInPopUp(context);
-                    }
-                    if (CacheHelper.isLoggedIn == false) return;
                     showCustomBottomSheet(
                       context: context,
                       widget: Column(
@@ -216,22 +212,19 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                         .textTheme
                                         .displayMedium,
                                   ),
-                                  onTap: () {
+                                  onTap: () async {
                                     if (!CacheHelper.isLoggedIn) {
                                       notLoggedInPopUp(context);
                                     }
                                     if (!CacheHelper.isLoggedIn) return;
-                                    Future.delayed(
-                                      Duration.zero,
-                                      () => context
-                                          .read<TaskEntityServiceBloc>()
-                                          .add(
-                                            TaskEntityServiceDeleted(
-                                              id: state.taskEntityService.id ??
-                                                  "",
-                                            ),
+                                    context.read<TaskEntityServiceBloc>().add(
+                                          TaskEntityServiceDeleted(
+                                            id: state.taskEntityService.id ??
+                                                "",
                                           ),
-                                    ).whenComplete(
+                                        );
+                                    await Future.delayed(
+                                      Duration.zero,
                                       () => Navigator.pushNamedAndRemoveUntil(
                                         context,
                                         Root.routeName,
@@ -288,7 +281,7 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
         addVerticalSpace(10),
         IconText(
           label:
-              "Posted: ${DateFormat('hh:mm a - MMMM dd, y').format(state.taskEntityService.createdAt ?? DateTime.now())}",
+              "${DateFormat('hh:mm a - MMMM dd, y').format(state.taskEntityService.createdAt ?? DateTime.now())}",
           iconData: Icons.calendar_month,
           size: 18,
           color: Colors.red,

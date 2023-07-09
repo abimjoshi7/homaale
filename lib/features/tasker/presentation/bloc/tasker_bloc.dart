@@ -33,11 +33,21 @@ class TaskerBloc extends Bloc<TaskerEvent, TaskerState> {
 
   final TaskerRepositories taskerRepositories;
 
-  Future<void> _onTaskerFetched(TaskerFetched event, Emitter<TaskerState> emit) async {
-    if (state.hasReachedMax) return;
+  Future<void> _onTaskerFetched(
+      TaskerFetched event, Emitter<TaskerState> emit) async {
+    if (!event.newFetch && state.hasReachedMax) return;
+    if (event.newFetch)
+      emit(
+        state.copyWith(
+          status: TaskerStatus.initial,
+        ),
+      );
     try {
       if (state.status == TaskerStatus.initial) {
-        final taskers = await _fetchTaskers();
+        final taskers = await _fetchTaskers(
+          1,
+          event.searchQuery,
+        );
 
         final taskerList = taskers.result;
         return emit(state.copyWith(
@@ -49,7 +59,8 @@ class TaskerBloc extends Bloc<TaskerEvent, TaskerState> {
       }
 
       if (state.taskerListRes.current != state.taskerListRes.totalPages) {
-        final taskers = await _fetchTaskers(state.taskerListRes.current! + 1);
+        final taskers = await _fetchTaskers(
+            state.taskerListRes.current! + 1, event.searchQuery);
         emit(taskers.result!.isEmpty
             ? state.copyWith(hasReachedMax: true)
             : state.copyWith(
@@ -66,9 +77,15 @@ class TaskerBloc extends Bloc<TaskerEvent, TaskerState> {
     }
   }
 
-  Future<TaskerListRes> _fetchTaskers([int startIndex = 1]) async {
+  Future<TaskerListRes> _fetchTaskers([
+    int startIndex = 1,
+    String? searchQuery,
+  ]) async {
     try {
-      final response = await taskerRepositories.fetchAllTaskers(page: startIndex);
+      final response = await taskerRepositories.fetchAllTaskers(
+        page: startIndex,
+        searchQuery: searchQuery,
+      );
       final taskerListRes = TaskerListRes.fromJson(response);
 
       return taskerListRes;

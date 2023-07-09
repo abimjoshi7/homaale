@@ -66,6 +66,7 @@ class _MyTransactionsMainViewState extends State<MyTransactionsMainView> {
   @override
   void dispose() {
     super.dispose();
+		
     _controller
       ..removeListener(_onScroll)
       ..dispose();

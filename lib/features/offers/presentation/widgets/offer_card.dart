@@ -65,6 +65,7 @@ class OfferCard extends StatelessWidget {
                             ),
                           );
                           final snackBar = SnackBar(
+                            duration: Duration(milliseconds: 2),
                             content: Text('Copied to Clipboard'),
                           );
                           ScaffoldMessenger.of(context).showSnackBar(snackBar);

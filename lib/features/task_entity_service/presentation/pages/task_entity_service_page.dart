@@ -20,6 +20,7 @@ import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/applicants_information_dialog.dart';
 import 'package:dependencies/dependencies.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -34,6 +35,22 @@ class TaskEntityServicePage extends StatefulWidget {
 
 class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
   int _imageIndex = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  static List<tes.Image> getMedia(TaskEntityServiceState state) {
+    final List<tes.Image> mediaList = [
+      ...state.taskEntityService.images ?? [],
+      ...state.taskEntityService.videos ?? [],
+    ];
+    return mediaList;
+  }
+
+  Future<List<tes.Image>> getMedias(TaskEntityServiceState state) async =>
+      await compute(getMedia, state);
 
   @override
   Widget build(BuildContext context) {
@@ -111,10 +128,6 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
       },
       builder: (context, state) {
         if (state.theStates == TheStates.success) {
-          final List<tes.Image> mediaList = [
-            ...state.taskEntityService.images ?? [],
-            ...state.taskEntityService.videos ?? [],
-          ];
           return Scaffold(
             appBar: CustomAppBar(
                 appBarTitle: state.taskEntityService.title ?? '',
@@ -145,6 +158,147 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                 state.taskEntityService.highlights ?? [],
                           ),
                         ],
+                        FutureBuilder(
+                          future: getMedias(state),
+                          builder: (context, snapshot) {
+                            if (snapshot.hasData &&
+                                snapshot.data?.length != 0) {
+                              List<tes.Image> mediaList = [];
+                              if (snapshot.data != null)
+                                mediaList.addAll(snapshot.data!);
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  addVerticalSpace(10),
+                                  Text(
+                                    'Media',
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .headlineSmall,
+                                  ),
+                                  Container(
+                                    width: MediaQuery.of(context).size.width,
+                                    height: MediaQuery.of(context).size.height *
+                                        0.22,
+                                    child: CarouselSlider.builder(
+                                      itemCount: mediaList.length,
+                                      itemBuilder: (context, index, realIndex) {
+                                        return Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.21,
+                                          margin: EdgeInsets.only(right: 32),
+                                          child: mediaList[index]
+                                                      .mediaType
+                                                      ?.toLowerCase() ==
+                                                  'mp4'
+                                              ? VideoPlayerWidget(
+                                                  videoURL: (mediaList[index]
+                                                          .media) ??
+                                                      '',
+                                                )
+                                              : Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    ClipRRect(
+                                                      borderRadius:
+                                                          BorderRadius.circular(
+                                                              16.0),
+                                                      child: Image.network(
+                                                        mediaList[index]
+                                                            .media
+                                                            .toString(),
+                                                        errorBuilder: (context,
+                                                                error,
+                                                                stackTrace) =>
+                                                            Image.network(
+                                                          kHomaaleImg,
+                                                          width: MediaQuery.of(
+                                                                  context)
+                                                              .size
+                                                              .width,
+                                                          height: MediaQuery.of(
+                                                                      context)
+                                                                  .size
+                                                                  .height *
+                                                              0.2,
+                                                          fit: BoxFit.cover,
+                                                        ),
+                                                        width: MediaQuery.of(
+                                                                context)
+                                                            .size
+                                                            .width,
+                                                        height: MediaQuery.of(
+                                                                    context)
+                                                                .size
+                                                                .height *
+                                                            0.2,
+                                                        fit: BoxFit.cover,
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                        );
+                                      },
+                                      options: CarouselOptions(
+                                        padEnds: mediaList.length == 1,
+                                        enlargeCenterPage:
+                                            mediaList.length == 1,
+                                        viewportFraction: 0.8,
+                                        enableInfiniteScroll: false,
+                                        onPageChanged: (index, reason) {
+                                          setState(
+                                            () {
+                                              _imageIndex = index;
+                                            },
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: MediaQuery.of(context).size.width,
+                                    child: Center(
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: List.generate(
+                                          mediaList.length,
+                                          (ind) => Container(
+                                            height: 10,
+                                            margin: const EdgeInsets.all(2),
+                                            width: 10,
+                                            decoration: BoxDecoration(
+                                              color: _imageIndex == ind
+                                                  ? Colors.amber
+                                                  : Colors.grey,
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              );
+                            }
+                            if (!snapshot.hasData ||
+                                snapshot.hasError ||
+                                snapshot.data?.length == 0)
+                              return CustomFormField(
+                                label: "Media",
+                                child: Center(
+                                  child: Text("No media found."),
+                                ),
+                              );
+                            return CardLoading(
+                              height: 100,
+                            );
+                          },
+                        ),
 
                         //! PAUSED AS SUGGESTED
                         // addVerticalSpace(16),
@@ -174,106 +328,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                         //     }
                         //   },
                         // ),
-                        if (mediaList.isNotEmpty) ...[
-                          addVerticalSpace(10),
-                          Text(
-                            'Media',
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                          Container(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.22,
-                            child: CarouselSlider.builder(
-                              itemCount: mediaList.length,
-                              itemBuilder: (context, index, realIndex) {
-                                return Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.21,
-                                  margin: EdgeInsets.only(right: 32),
-                                  child: mediaList[index]
-                                              .mediaType
-                                              ?.toLowerCase() ==
-                                          'mp4'
-                                      ? VideoPlayerWidget(
-                                          videoURL:
-                                              (mediaList[index].media) ?? '',
-                                        )
-                                      : Column(
-                                          mainAxisSize: MainAxisSize.min,
-                                          children: [
-                                            ClipRRect(
-                                              borderRadius:
-                                                  BorderRadius.circular(16.0),
-                                              child: Image.network(
-                                                mediaList[index]
-                                                    .media
-                                                    .toString(),
-                                                errorBuilder: (context, error,
-                                                        stackTrace) =>
-                                                    Image.network(
-                                                  kHomaaleImg,
-                                                  width: MediaQuery.of(context)
-                                                      .size
-                                                      .width,
-                                                  height: MediaQuery.of(context)
-                                                          .size
-                                                          .height *
-                                                      0.2,
-                                                  fit: BoxFit.cover,
-                                                ),
-                                                width: MediaQuery.of(context)
-                                                    .size
-                                                    .width,
-                                                height: MediaQuery.of(context)
-                                                        .size
-                                                        .height *
-                                                    0.2,
-                                                fit: BoxFit.cover,
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                );
-                              },
-                              options: CarouselOptions(
-                                padEnds: mediaList.length == 1,
-                                enlargeCenterPage: mediaList.length == 1,
-                                viewportFraction: 0.8,
-                                enableInfiniteScroll: false,
-                                onPageChanged: (index, reason) {
-                                  setState(
-                                    () {
-                                      _imageIndex = index;
-                                    },
-                                  );
-                                },
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            child: Center(
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: List.generate(
-                                  mediaList.length,
-                                  (ind) => Container(
-                                    height: 10,
-                                    margin: const EdgeInsets.all(2),
-                                    width: 10,
-                                    decoration: BoxDecoration(
-                                      color: _imageIndex == ind
-                                          ? Colors.amber
-                                          : Colors.grey,
-                                      borderRadius: BorderRadius.circular(10),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
-                        // SimilarEntityServiceSection(),
+
                         addVerticalSpace(16),
                         if ((state.taskEntityService.isBooked ?? false) &&
                             context

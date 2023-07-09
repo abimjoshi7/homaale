@@ -100,12 +100,12 @@ class _EditProfileSectionState extends State<EditProfileSection> {
         }
       },
       builder: (context, state) {
-        firstName = state.taskerProfile?.user?.firstName;
-        middleName = state.taskerProfile?.user?.middleName;
-        lastName = state.taskerProfile?.user?.lastName;
-        designation = state.taskerProfile?.designation;
-        profilePicture = state.taskerProfile?.profileImage;
-        bio = state.taskerProfile?.bio;
+        // firstName = state.taskerProfile?.user?.firstName;
+        // middleName = state.taskerProfile?.user?.middleName;
+        // lastName = state.taskerProfile?.user?.lastName;
+        // designation = state.taskerProfile?.designation;
+        // profilePicture = state.taskerProfile?.profileImage;
+        // bio = state.taskerProfile?.bio;
         if (state.theStates == TheStates.success) {
           return Padding(
             padding: const EdgeInsets.only(left: 8.0),
@@ -160,7 +160,6 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                                   context: context,
                                   builder: (context) => ImagePickerDialog(
                                     bloc: uploadBloc,
-                                    isProfile: true,
                                   ),
                                 );
                               },

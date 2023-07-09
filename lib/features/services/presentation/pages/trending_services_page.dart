@@ -31,6 +31,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
     with TheModalBottomSheet {
   late final TaskEntityServiceBloc entityServiceBloc;
   late final ScrollController _controller;
+  final searchController = TextEditingController();
   final payableFrom = TextEditingController();
   final payableTo = TextEditingController();
   final _categoryKey = GlobalKey<FormFieldState>();
@@ -88,6 +89,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
     entityServiceBloc.close();
     payableFrom.dispose();
     payableTo.dispose();
+    searchController.dispose();
     super.dispose();
   }
 
@@ -96,16 +98,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
     return Scaffold(
       appBar: CustomAppBar(
         appBarTitle: "Trending Services",
-        trailingWidget: IconButton(
-          onPressed: () async => showSearch(
-            context: context,
-            delegate: SearchHelper(
-              context: context,
-              searchBloc: locator<SearchBloc>(),
-            ),
-          ),
-          icon: Icon(Icons.search),
-        ),
+        trailingWidget: SizedBox.shrink(),
       ),
       body: BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
         bloc: entityServiceBloc,
@@ -152,12 +145,12 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                           theHeight: (index % 5) == 0
                               ? 230
                               : (index % 5) == 1
-                                  ? 330
+                                  ? 280
                                   : (index % 5) == 2
-                                      ? 440
+                                      ? 300
                                       : (index % 5) == 3
-                                          ? 290
-                                          : 390,
+                                          ? 250
+                                          : 310,
                           shareCallback: () {
                             Share.share(
                               "$kShareLinks/tasks/${state.taskEntityServices?[index].id}",
@@ -199,8 +192,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                                   : state.taskEntityServices?[index].images
                                       ?.first.media,
                           rating: state.taskEntityServices?[index].rating
-                                  ?.toString() ??
-                              '0.0',
+                              ?.toString(),
                           createdBy:
                               "${state.taskEntityServices?[index].createdBy?.firstName} ${state.taskEntityServices?[index].createdBy?.lastName}",
                           description:
@@ -266,7 +258,6 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                       gridDelegate:
                           const SliverSimpleGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 2,
-                        // childAspectRatio: 0.86,
                       ),
                     ),
                   ),
@@ -296,33 +287,71 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                 Icons.filter_alt,
                 color: kColorGrey,
               ),
+              InkWell(
+                onTap: () {},
+                child: SizedBox(
+                  width: 200,
+                  height: 52,
+                  child: CustomTextFormField(
+                    hintText: "Search",
+                    controller: searchController,
+                    inputAction: TextInputAction.done,
+                    onFieldSubmitted: (p0) {
+                      if (p0!.length >= 3) {
+                        entityServiceBloc.add(
+                          TaskEntityServiceInitiated(
+                            query: p0,
+                            newFetch: true,
+                          ),
+                        );
+                      }
+                    },
+                  ),
+                ),
+                // Padding(
+                //   padding: const EdgeInsets.all(8.0),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.center,
+                //     children: [
+                //       Text(
+                //         toText ?? "To",
+                //         overflow: TextOverflow.ellipsis,
+                //       ),
+                //       addHorizontalSpace(8),
+                //       Icon(
+                //         Icons.calendar_today_outlined,
+                //         color: kColorSilver,
+                //       ),
+                //     ],
+                //   ),
+                // ),
+              ),
               addHorizontalSpace(5),
               _buildCategory(),
-              addHorizontalSpace(8),
+              addHorizontalSpace(
+                8,
+              ),
               _buildLocation(),
-              addHorizontalSpace(8),
+              addHorizontalSpace(
+                8,
+              ),
               _buildFromDate(context),
-              addHorizontalSpace(8),
+              addHorizontalSpace(
+                8,
+              ),
               _buildToDate(context),
-              addHorizontalSpace(8),
+              addHorizontalSpace(
+                8,
+              ),
               _buildPayableFrom(context),
-              addHorizontalSpace(8),
+              addHorizontalSpace(
+                8,
+              ),
               _buildPayableTo(context),
-              addHorizontalSpace(8),
-              _buildBudgetSort(),
-              addHorizontalSpace(8),
-              _buildDateSort(),
-              addHorizontalSpace(8),
-              dateFrom != null ||
-                      dateTo != null ||
-                      payableFrom.text.length != 0 ||
-                      payableTo.text.length != 0 ||
-                      category != null ||
-                      location != null ||
-                      sortBudget != null ||
-                      sortDate != null
-                  ? _buildClearFilters(context)
-                  : SizedBox.shrink(),
+              addHorizontalSpace(
+                8,
+              ),
+              _buildClearFilters(context),
             ],
           )
         ],
@@ -339,9 +368,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
           if (state is CityLoadSuccess)
             return CustomDropdownSearch(
               key: _locationKey,
-              selectedItem: location,
-              serviceId: location,
-              hintText: "Location",
+              hintText: location ?? "Location",
               list: List.generate(
                 state.list.length,
                 (index) => state.list[index].name,
@@ -352,8 +379,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                 });
                 entityServiceBloc.add(TaskEntityServiceInitiated(
                   newFetch: true,
-                  payableFrom:
-                      payableFrom.text.isEmpty ? null : payableFrom.text,
+                  payableFrom: payableFrom.text,
                   payableTo: payableTo.length == 0 ? null : payableTo.text,
                   dateFrom: dateFrom == null
                       ? null
@@ -361,31 +387,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                   dateTo: dateTo == null
                       ? null
                       : DateFormat("yyyy-MM-dd").format(dateTo!),
-                  serviceId: serviceId,
                   city: location,
-                  dateSort: sortDate,
-                  budgetSort: sortBudget,
-                ));
-              },
-              onRemovePressed: () {
-                setState(() {
-                  location = null;
-                });
-                entityServiceBloc.add(TaskEntityServiceInitiated(
-                  newFetch: true,
-                  payableFrom:
-                      payableFrom.text.isEmpty ? null : payableFrom.text,
-                  payableTo: payableTo.text.isEmpty ? null : payableTo.text,
-                  dateFrom: dateFrom == null
-                      ? null
-                      : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                  dateTo: dateTo == null
-                      ? null
-                      : DateFormat("yyyy-MM-dd").format(dateTo!),
-                  city: location,
-                  serviceId: serviceId,
-                  dateSort: sortDate,
-                  budgetSort: sortBudget,
+                  category: category,
                 ));
               },
             );
@@ -404,9 +407,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
           if (state.theStates == TheStates.success)
             return CustomDropdownSearch(
               key: _categoryKey,
-              selectedItem: category,
-              hintText: "Category",
-              serviceId: serviceId,
+              hintText: category ?? "Category",
               list: List.generate(
                 state.serviceList!.length,
                 (index) => state.serviceList?[index].title ?? "",
@@ -432,32 +433,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                         : DateFormat("yyyy-MM-dd").format(dateTo!),
                     serviceId: serviceId,
                     city: location,
-                    dateSort: sortDate,
-                    budgetSort: sortBudget,
                   ),
                 );
-              },
-              onRemovePressed: () {
-                setState(() {
-                  category = null;
-                  serviceId = null;
-                });
-                entityServiceBloc.add(TaskEntityServiceInitiated(
-                  newFetch: true,
-                  payableFrom:
-                      payableFrom.text.isEmpty ? null : payableFrom.text,
-                  payableTo: payableTo.text.isEmpty ? null : payableTo.text,
-                  dateFrom: dateFrom == null
-                      ? null
-                      : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                  dateTo: dateTo == null
-                      ? null
-                      : DateFormat("yyyy-MM-dd").format(dateTo!),
-                  city: location,
-                  serviceId: serviceId,
-                  dateSort: sortDate,
-                  budgetSort: sortBudget,
-                ));
               },
             );
           return SizedBox.shrink();
@@ -467,8 +444,10 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
   }
 
   Widget _buildPayableFrom(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return CustomFilterChip(
+      iconData: Icons.attach_money_sharp,
+      label: payableFrom.text.length == 0 ? "From" : payableFrom.text,
+      callback: (value) {
         showDialog(
           context: context,
           builder: (context) =>
@@ -494,10 +473,6 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                     dateTo: dateTo == null
                         ? null
                         : DateFormat("yyyy-MM-dd").format(dateTo!),
-                    serviceId: serviceId,
-                    city: location,
-                    dateSort: sortDate,
-                    budgetSort: sortBudget,
                   ),
                 );
                 Navigator.pop(context);
@@ -506,62 +481,14 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
           ]),
         );
       },
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: Row(
-            children: [
-              Icon(
-                Icons.attach_money_sharp,
-              ),
-              addHorizontalSpace(4.0),
-              Text(
-                  "${payableFrom.text.length == 0 ? "From" : payableFrom.text}"),
-              addHorizontalSpace(8.0),
-              payableFrom.length != 0
-                  ? InkWell(
-                      onTap: () {
-                        setState(() {
-                          payableFrom.clear();
-                        });
-
-                        entityServiceBloc.add(
-                          TaskEntityServiceInitiated(
-                            newFetch: true,
-                            isTask: false,
-                            dateTo: dateTo == null
-                                ? null
-                                : DateFormat("yyyy-MM-dd").format(dateTo!),
-                            dateFrom: dateFrom == null
-                                ? null
-                                : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                            payableTo:
-                                payableTo.length == 0 ? null : payableTo.text,
-                            payableFrom: payableFrom.length == 0
-                                ? null
-                                : payableFrom.text,
-                            serviceId: serviceId,
-                            city: location,
-                            dateSort: sortDate,
-                            budgetSort: sortBudget,
-                          ),
-                        );
-                      },
-                      child: Icon(Icons.clear))
-                  : SizedBox.shrink(),
-            ],
-          ),
-        ),
-      ),
     );
   }
 
   Widget _buildPayableTo(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return CustomFilterChip(
+      iconData: Icons.attach_money_sharp,
+      label: payableTo.text.length == 0 ? "To" : payableTo.text,
+      callback: (value) {
         showDialog(
           context: context,
           builder: (context) =>
@@ -588,10 +515,6 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                     dateTo: dateTo == null
                         ? null
                         : DateFormat("yyyy-MM-dd").format(dateTo!),
-                    serviceId: serviceId,
-                    city: location,
-                    dateSort: sortDate,
-                    budgetSort: sortBudget,
                   ),
                 );
                 Navigator.pop(context);
@@ -600,156 +523,61 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
           ]),
         );
       },
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: Row(
-            children: [
-              Icon(
-                Icons.attach_money_sharp,
-              ),
-              addHorizontalSpace(4.0),
-              Text("${payableTo.text.length == 0 ? "To" : payableTo.text}"),
-              addHorizontalSpace(8.0),
-              payableTo.length != 0
-                  ? InkWell(
-                      onTap: () {
-                        setState(() {
-                          payableTo.clear();
-                        });
-
-                        entityServiceBloc.add(
-                          TaskEntityServiceInitiated(
-                            newFetch: true,
-                            isTask: false,
-                            dateTo: dateTo == null
-                                ? null
-                                : DateFormat("yyyy-MM-dd").format(dateTo!),
-                            dateFrom: dateFrom == null
-                                ? null
-                                : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                            payableTo:
-                                payableTo.length == 0 ? null : payableTo.text,
-                            payableFrom: payableFrom.length == 0
-                                ? null
-                                : payableFrom.text,
-                            serviceId: serviceId,
-                            city: location,
-                            dateSort: sortDate,
-                            budgetSort: sortBudget,
-                          ),
-                        );
-                      },
-                      child: Icon(Icons.clear))
-                  : SizedBox.shrink(),
-            ],
-          ),
-        ),
-      ),
     );
   }
 
   Widget _buildFromDate(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return CustomFilterChip(
+      label: dateFrom != null ? DateFormat.MMMd().format(dateFrom!) : "From",
+      iconData: Icons.calendar_today_outlined,
+      callback: (value) {
         showDatePicker(
           context: context,
           initialDate: DateTime.now(),
-          firstDate: dateFrom ?? DateTime(2000),
-          lastDate: DateTime(2050),
+          firstDate: DateTime(
+            2000,
+          ),
+          lastDate: DateTime(
+            2050,
+          ),
         ).then(
           (value) {
             setState(() {
               dateFrom = value;
             });
-
             entityServiceBloc.add(
               TaskEntityServiceInitiated(
-                newFetch: true,
-                isTask: false,
-                dateFrom: DateFormat("yyyy-MM-dd").format(
-                  dateFrom!,
-                ),
-                dateTo: dateTo == null
-                    ? null
-                    : DateFormat("yyyy-MM-dd").format(
-                        dateTo!,
-                      ),
-                payableTo: payableTo.length == 0 ? null : payableTo.text,
-                payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
-                serviceId: serviceId,
-                city: location,
-                dateSort: sortDate,
-                budgetSort: sortBudget,
-              ),
+                  newFetch: true,
+                  isTask: false,
+                  dateFrom: DateFormat("yyyy-MM-dd").format(
+                    dateFrom!,
+                  ),
+                  dateTo: dateTo == null
+                      ? null
+                      : DateFormat("yyyy-MM-dd").format(
+                          dateTo!,
+                        )),
             );
           },
         );
       },
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: Row(
-            children: [
-              Icon(
-                Icons.calendar_today_outlined,
-              ),
-              addHorizontalSpace(4.0),
-              Text(
-                  "${dateFrom != null ? DateFormat.MMMd().format(dateFrom!) : "From"}"),
-              addHorizontalSpace(8.0),
-              dateFrom != null
-                  ? InkWell(
-                      onTap: () {
-                        setState(() {
-                          dateFrom = null;
-                        });
-
-                        entityServiceBloc.add(
-                          TaskEntityServiceInitiated(
-                            newFetch: true,
-                            isTask: false,
-                            dateTo: dateTo == null
-                                ? null
-                                : DateFormat("yyyy-MM-dd").format(dateTo!),
-                            dateFrom: dateFrom == null
-                                ? null
-                                : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                            payableTo:
-                                payableTo.length == 0 ? null : payableTo.text,
-                            payableFrom: payableFrom.length == 0
-                                ? null
-                                : payableFrom.text,
-                            serviceId: serviceId,
-                            city: location,
-                            dateSort: sortDate,
-                            budgetSort: sortBudget,
-                          ),
-                        );
-                      },
-                      child: Icon(Icons.clear))
-                  : SizedBox.shrink(),
-            ],
-          ),
-        ),
-      ),
     );
   }
 
   Widget _buildToDate(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
+    return CustomFilterChip(
+      label: dateTo != null ? DateFormat.MMMd().format(dateTo!) : "To",
+      iconData: Icons.calendar_today_outlined,
+      callback: (value) {
         showDatePicker(
           context: context,
           initialDate: DateTime.now(),
-          firstDate: dateFrom ?? DateTime(2000),
-          lastDate: DateTime(2050),
+          firstDate: DateTime(
+            2000,
+          ),
+          lastDate: DateTime(
+            2050,
+          ),
         ).then(
           (value) {
             setState(() {
@@ -758,250 +586,26 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
 
             entityServiceBloc.add(
               TaskEntityServiceInitiated(
-                newFetch: true,
-                isTask: false,
-                dateTo: DateFormat("yyyy-MM-dd").format(
-                  dateTo!,
-                ),
-                dateFrom: dateFrom == null
-                    ? null
-                    : DateFormat("yyyy-MM-dd").format(
-                        dateFrom!,
-                      ),
-                payableTo: payableTo.length == 0 ? null : payableTo.text,
-                payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
-                serviceId: serviceId,
-                city: location,
-                dateSort: sortDate,
-                budgetSort: sortBudget,
-              ),
+                  newFetch: true,
+                  isTask: false,
+                  dateTo: DateFormat("yyyy-MM-dd").format(
+                    dateTo!,
+                  ),
+                  dateFrom: dateFrom == null
+                      ? null
+                      : DateFormat("yyyy-MM-dd").format(
+                          dateFrom!,
+                        )),
             );
           },
         );
       },
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: Row(
-            children: [
-              Icon(
-                Icons.calendar_today_outlined,
-              ),
-              addHorizontalSpace(4.0),
-              Text(
-                  "${dateTo != null ? DateFormat.MMMd().format(dateTo!) : "To"}"),
-              addHorizontalSpace(8.0),
-              dateTo != null
-                  ? InkWell(
-                      onTap: () {
-                        setState(() {
-                          dateTo = null;
-                        });
-
-                        entityServiceBloc.add(
-                          TaskEntityServiceInitiated(
-                            newFetch: true,
-                            isTask: false,
-                            dateTo: dateTo == null
-                                ? null
-                                : DateFormat("yyyy-MM-dd").format(dateTo!),
-                            dateFrom: dateFrom == null
-                                ? null
-                                : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                            payableTo:
-                                payableTo.length == 0 ? null : payableTo.text,
-                            payableFrom: payableFrom.length == 0
-                                ? null
-                                : payableFrom.text,
-                            serviceId: serviceId,
-                            city: location,
-                            dateSort: sortDate,
-                            budgetSort: sortBudget,
-                          ),
-                        );
-                      },
-                      child: Icon(Icons.clear))
-                  : SizedBox.shrink(),
-            ],
-          ),
-        ),
-      ),
     );
   }
 
-  Widget _buildBudgetSort() {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          sortBudget = sortBudget == null
-              ? '-budget_to'
-              : sortBudget == '-budget_to'
-                  ? 'budget_to'
-                  : '-budget_to';
-        });
-
-        entityServiceBloc.add(
-          TaskEntityServiceInitiated(
-            newFetch: true,
-            isTask: false,
-            payableTo: payableTo.length == 0 ? null : payableTo.text,
-            payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
-            dateTo: dateTo == null
-                ? null
-                : DateFormat("yyyy-MM-dd").format(
-                    dateTo!,
-                  ),
-            dateFrom: dateFrom == null
-                ? null
-                : DateFormat("yyyy-MM-dd").format(
-                    dateFrom!,
-                  ),
-            serviceId: serviceId,
-            city: location,
-            dateSort: sortDate,
-            budgetSort: sortBudget,
-          ),
-        );
-      },
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: Row(
-            children: [
-              Icon(Icons.attach_money),
-              addHorizontalSpace(4.0),
-              Text(
-                  "${sortBudget != null ? sortBudget == '-budget_to' ? 'Budget Desc' : 'Budget Asec' : 'Sort Budget'}"),
-              addHorizontalSpace(8.0),
-              sortBudget != null
-                  ? InkWell(
-                      onTap: () {
-                        setState(() {
-                          sortBudget = null;
-                        });
-
-                        entityServiceBloc.add(
-                          TaskEntityServiceInitiated(
-                            newFetch: true,
-                            isTask: false,
-                            dateTo: dateTo == null
-                                ? null
-                                : DateFormat("yyyy-MM-dd").format(dateTo!),
-                            dateFrom: dateFrom == null
-                                ? null
-                                : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                            payableTo:
-                                payableTo.length == 0 ? null : payableTo.text,
-                            payableFrom: payableFrom.length == 0
-                                ? null
-                                : payableFrom.text,
-                            serviceId: serviceId,
-                            city: location,
-                            dateSort: sortDate,
-                            budgetSort: sortBudget,
-                          ),
-                        );
-                      },
-                      child: Icon(Icons.clear))
-                  : SizedBox.shrink(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildDateSort() {
-    return GestureDetector(
-      onTap: () {
-        setState(() {
-          sortDate = sortDate == null
-              ? '-created_at'
-              : sortDate == '-created_at'
-                  ? 'created_at'
-                  : '-created_at';
-        });
-        entityServiceBloc.add(
-          TaskEntityServiceInitiated(
-            newFetch: true,
-            isTask: false,
-            payableTo: payableTo.length == 0 ? null : payableTo.text,
-            payableFrom: payableFrom.length == 0 ? null : payableFrom.text,
-            dateTo: dateTo == null
-                ? null
-                : DateFormat("yyyy-MM-dd").format(
-                    dateTo!,
-                  ),
-            dateFrom: dateFrom == null
-                ? null
-                : DateFormat("yyyy-MM-dd").format(
-                    dateFrom!,
-                  ),
-            serviceId: serviceId,
-            city: location,
-            dateSort: sortDate,
-            budgetSort: sortBudget,
-          ),
-        );
-      },
-      child: Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-          child: Row(
-            children: [
-              Icon(Icons.date_range),
-              addHorizontalSpace(4.0),
-              Text(
-                  "${sortDate != null ? sortDate == '-created_at' ? 'Date Desc' : 'Date Asec' : 'Sort Date'}"),
-              addHorizontalSpace(8.0),
-              sortDate != null
-                  ? InkWell(
-                      onTap: () {
-                        setState(() {
-                          sortDate = null;
-                        });
-
-                        entityServiceBloc.add(
-                          TaskEntityServiceInitiated(
-                            newFetch: true,
-                            isTask: false,
-                            dateTo: dateTo == null
-                                ? null
-                                : DateFormat("yyyy-MM-dd").format(dateTo!),
-                            dateFrom: dateFrom == null
-                                ? null
-                                : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                            payableTo:
-                                payableTo.length == 0 ? null : payableTo.text,
-                            payableFrom: payableFrom.length == 0
-                                ? null
-                                : payableFrom.text,
-                            serviceId: serviceId,
-                            city: location,
-                            dateSort: sortDate,
-                            budgetSort: sortBudget,
-                          ),
-                        );
-                      },
-                      child: Icon(Icons.clear))
-                  : SizedBox.shrink(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildClearFilters(BuildContext context) {
+  Widget _buildClearFilters(
+    BuildContext context,
+  ) {
     return IconButton(
       onPressed: () {
         setState(() {
@@ -1011,11 +615,11 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
           payableTo.clear();
           category = null;
           location = null;
-          sortBudget = null;
-          sortDate = null;
         });
         entityServiceBloc.add(
-          TaskEntityServiceInitiated(newFetch: true),
+          TaskEntityServiceInitiated(
+            newFetch: true,
+          ),
         );
       },
       icon: Icon(

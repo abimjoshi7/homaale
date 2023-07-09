@@ -1,15 +1,9 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/change_password_modal_sheet.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../../core/mixins/the_modal_bottom_sheet.dart';
-import '../../../../security_question/presentation/bloc/security_bloc.dart';
-import '../../../../security_question/presentation/bloc/security_event.dart';
-import '../../../../security_question/presentation/pages/security_modal_sheet.dart';
-
-class PasswordAndSecurity extends StatelessWidget  with TheModalBottomSheet {
+class PasswordAndSecurity extends StatelessWidget {
   const PasswordAndSecurity({super.key});
   static const routeName = '/password-and-security';
 
@@ -67,86 +61,41 @@ class PasswordAndSecurity extends StatelessWidget  with TheModalBottomSheet {
                       ),
                     ),
                     kHeight20,
-                    InkWell(
+                    ListTile(
                       onTap: () {
                         showModalBottomSheet(
                           isScrollControlled: true,
                           context: context,
                           builder: (context) => Padding(
                             padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                              bottom: MediaQuery.of(context)
+                                  .viewInsets
+                                  .bottom,
                             ),
-                            child: AddPhoneNumberModalSheet(
-                              updateText: 'Update Phone',
-                            ),
+                            child: const AddPhoneNumberModalSheet(),
                           ),
                         );
                       },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Add new phone number',
-                            style: Theme.of(context).textTheme.headlineSmall,
-                          ),
-                          Icon(Icons.keyboard_arrow_down),
-                        ],
-                      ),
+                      title: Text('Add new phone number'),
+                      trailing: Icon(Icons.keyboard_arrow_down),
                     ),
-                    addVerticalSpace(20),
-                    InkWell(
+                    ListTile(
                       onTap: () {
                         showModalBottomSheet(
                           isScrollControlled: true,
                           context: context,
                           builder: (context) => Padding(
                             padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context).viewInsets.bottom,
+                              bottom: MediaQuery.of(context)
+                                  .viewInsets
+                                  .bottom,
                             ),
-                            child: AddPhoneNumberModalSheet(
-                              updateText: 'Update Email',
-                            ),
+                            child: const AddEmailModalSheet(),
                           ),
                         );
                       },
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Update email',
-                              style: Theme.of(context).textTheme.headlineSmall),
-                          Icon(Icons.keyboard_arrow_down),
-                        ],
-                      ),
-                    ),
-                    addVerticalSpace(20),
-                    InkWell(
-                      onTap: () {
-                        context.read<SecurityBloc>().add(SecurityInitiated());
-                        showCustomBottomSheet(
-                          context: context,
-                          widget: const SecurityModalSheet(),
-                        );
-                      },
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Security Question',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .headlineSmall),
-                              Icon(
-                                Icons.edit,
-                                size: 20,
-                              ),
-                            ],
-                          ),
-                          Text(
-                              'Answer a question you choose to confirm it’s you.'),
-                        ],
-                      ),
+                      title: Text('Update email'),
+                      trailing: Icon(Icons.keyboard_arrow_down),
                     ),
 
                     //         Row(

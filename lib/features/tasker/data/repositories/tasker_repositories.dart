@@ -6,13 +6,17 @@ import 'package:cipher/core/dio/dio_helper.dart';
 class TaskerRepositories {
   final _dio = DioHelper();
 
-  Future<Map<String, dynamic>> fetchAllTaskers({int? page}) async {
+  Future<Map<String, dynamic>> fetchAllTaskers({
+    int? page,
+    String? searchQuery,
+  }) async {
     try {
       if (!CacheHelper.isLoggedIn) {
         final res = await _dio.getData(
           query: {
             "page": page,
             "page_size": 10,
+            "search": searchQuery,
           },
           url: 'tasker/',
         );
@@ -22,6 +26,7 @@ class TaskerRepositories {
           query: {
             "page": page,
             "page_size": 10,
+            "search": searchQuery,
           },
           url: 'tasker/',
           token: CacheHelper.accessToken,
@@ -126,12 +131,14 @@ class TaskerRepositories {
     try {
       if (!CacheHelper.isLoggedIn) {
         final res = await _dio.getData(
-          url: 'task/rating/list/$userId/?page=1&rating=${rating ?? ''}&ordering=${order ?? ''}',
+          url:
+              'task/rating/list/$userId/?page=1&rating=${rating ?? ''}&ordering=${order ?? ''}',
         );
         return res as Map<String, dynamic>;
       } else {
         final res = await _dio.getDatawithCredential(
-          url: 'task/rating/list/$userId/?page=1&rating=${rating ?? ''}&ordering=${order ?? ''}',
+          url:
+              'task/rating/list/$userId/?page=1&rating=${rating ?? ''}&ordering=${order ?? ''}',
           token: CacheHelper.accessToken,
         );
         return res as Map<String, dynamic>;

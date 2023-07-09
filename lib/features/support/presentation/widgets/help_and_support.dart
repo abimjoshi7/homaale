@@ -23,11 +23,14 @@ class HelpAndSupportPage extends StatefulWidget {
   State<HelpAndSupportPage> createState() => _HelpAndSupportPageState();
 }
 
-class _HelpAndSupportPageState extends State<HelpAndSupportPage> with TheModalBottomSheet {
+class _HelpAndSupportPageState extends State<HelpAndSupportPage>
+    with TheModalBottomSheet {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: 'Help & Support', trailingWidget: SizedBox()),
+      appBar: CustomAppBar(
+        appBarTitle: 'Help & Support',trailingWidget: SizedBox()
+      ),
       body: Column(
         children: [
           AccountListTileSection(
@@ -53,8 +56,15 @@ class _HelpAndSupportPageState extends State<HelpAndSupportPage> with TheModalBo
               size: 16,
             ),
             onTap: () {
-              context.read<SupportTicketTypeOptionsBloc>().add(SupportTicketTypeOptionsLoaded(target: ''));
-              context.read<UserSuspendBloc>().state.userAccountSuspension?.isSuspended == true
+              context
+                  .read<SupportTicketTypeOptionsBloc>()
+                  .add(SupportTicketTypeOptionsLoaded(target: ''));
+              context
+                          .read<UserSuspendBloc>()
+                          .state
+                          .userAccountSuspension
+                          ?.isSuspended ==
+                      true
                   ? showDialog(
                       context: context,
                       builder: (context) => AccountSuspendCustomToast(
