@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
@@ -48,7 +50,9 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           .arguments as Map<String, dynamic>?;
                       if (routeArgs?['id'] != -1) {
                         for (var element in state.nestedCategory) {
-                          if (element.name == routeArgs?['category']) {
+                          if (element.name?.toLowerCase() ==
+                              routeArgs?['category'].toString().toLowerCase()) {
+                            print("chiryo!");
                             selectedIndex =
                                 state.nestedCategory.indexOf(element);
                             list =
@@ -254,6 +258,7 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       ),
                     );
                   } else {
+                    print("shalom" + list.toString());
                     return const SizedBox.shrink();
                   }
                 }

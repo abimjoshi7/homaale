@@ -3,13 +3,10 @@ import 'package:cipher/features/account_settings/presentation/pages/password_and
 import 'package:cipher/features/account_settings/presentation/pages/profile/pages/edit_profile_page.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/notification/presentation/pages/notification_home.dart';
-import 'package:cipher/features/security_question/presentation/bloc/security_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../billing_payment_page/presentation/billing_payment_page.dart';
-import '../../../../security_question/presentation/bloc/security_event.dart';
 import '../connected_account/connected_account_page.dart';
 
 class Settings extends StatelessWidget {
@@ -127,7 +124,6 @@ class Settings extends StatelessWidget {
               );
             },
           ),
-
 
           // AccountListTileSection(
           //   icon: const Icon(Icons.person_outline_outlined),

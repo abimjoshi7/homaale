@@ -45,7 +45,7 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
           budgetTo: double.parse(context
               .read<TaskEntityServiceBloc>()
               .state
-              .taskEntityService!
+              .taskEntityService
               .payableTo!),
         ),
       ),
@@ -116,7 +116,7 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
                       context
                           .read<TaskEntityServiceBloc>()
                           .state
-                          .taskEntityService!
+                          .taskEntityService
                           .payableTo!,
                     ).toInt().toString(),
                 style: Theme.of(context).textTheme.displayLarge,

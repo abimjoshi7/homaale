@@ -1,5 +1,3 @@
-
-
 import 'package:dependencies/dependencies.dart';
 
 abstract class ThemeEvent extends Equatable {
@@ -7,6 +5,11 @@ abstract class ThemeEvent extends Equatable {
 }
 
 class ThemeChangeInitiated extends ThemeEvent {
+  @override
+  List<Object?> get props => [];
+}
+
+class ThemeReadInitial extends ThemeEvent {
   @override
   List<Object?> get props => [];
 }
