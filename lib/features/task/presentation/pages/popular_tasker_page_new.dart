@@ -1,3 +1,5 @@
+import 'dart:isolate';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
@@ -108,13 +110,18 @@ class _TaskerListState extends State<TaskerList> {
                           ),
                         ),
                         IconButton(
-                          onPressed: () {
-                            setState(() {
-                              _searchController.clear();
-                            });
-                            context.read<TaskerBloc>().add(TaskerFetched(
-                                  newFetch: true,
-                                ));
+                          onPressed: () async {
+                            final recievePort = ReceivePort().sendPort;
+                            final abc = "qwe";
+                            await Isolate.spawn(some1, abc);
+                            print(recievePort.toString());
+
+                            // setState(() {
+                            //   _searchController.clear();
+                            // });
+                            // context.read<TaskerBloc>().add(TaskerFetched(
+                            //       newFetch: true,
+                            //     ));
                           },
                           icon: Icon(
                             Icons.clear,
@@ -256,5 +263,13 @@ class _TaskerListState extends State<TaskerList> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
     return currentScroll >= (maxScroll * 0.9);
+  }
+}
+
+void some1(String port) {
+  int sum = 0;
+  for (int i = 1; i < 10000; i++) {
+    sum += i;
+    print("$sum$port");
   }
 }

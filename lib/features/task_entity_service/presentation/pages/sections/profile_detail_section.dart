@@ -212,22 +212,19 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                                         .textTheme
                                         .displayMedium,
                                   ),
-                                  onTap: () {
+                                  onTap: () async {
                                     if (!CacheHelper.isLoggedIn) {
                                       notLoggedInPopUp(context);
                                     }
                                     if (!CacheHelper.isLoggedIn) return;
-                                    Future.delayed(
-                                      Duration.zero,
-                                      () => context
-                                          .read<TaskEntityServiceBloc>()
-                                          .add(
-                                            TaskEntityServiceDeleted(
-                                              id: state.taskEntityService.id ??
-                                                  "",
-                                            ),
+                                    context.read<TaskEntityServiceBloc>().add(
+                                          TaskEntityServiceDeleted(
+                                            id: state.taskEntityService.id ??
+                                                "",
                                           ),
-                                    ).whenComplete(
+                                        );
+                                    await Future.delayed(
+                                      Duration.zero,
                                       () => Navigator.pushNamedAndRemoveUntil(
                                         context,
                                         Root.routeName,
