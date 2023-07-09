@@ -26,13 +26,15 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                             .media ??
                         kHomaaleImg,
                 title: state.taskEntityServiceModel.result?[index].title ?? '',
-                description:
+                createdBy:
                     '${state.taskEntityServiceModel.result?[index].createdBy?.firstName ?? ''} ${state.taskEntityServiceModel.result?[index].createdBy?.lastName ?? ''}',
                 location:
                     '${state.taskEntityServiceModel.result?[index].city?.name ?? ''}, ${state.taskEntityServiceModel.result?[index].city?.country?.name ?? ''}',
                 rating: state.taskEntityServiceModel.result?[index].rating
                         .toString() ??
-                    '5',
+                    '0.0',
+
+                // theHeight: 300.0,
               );
             }
             return ServiceCard();
@@ -60,7 +62,7 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                                 gridDelegate:
                                     const SliverGridDelegateWithFixedCrossAxisCount(
                                   crossAxisCount: 2,
-                                  childAspectRatio: 1.5,
+                                  // childAspectRatio: 1.5,
                                   crossAxisSpacing: 8,
                                   mainAxisSpacing: 8,
                                 ),
