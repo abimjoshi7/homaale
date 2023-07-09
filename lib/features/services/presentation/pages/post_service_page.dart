@@ -234,6 +234,9 @@ class _PostServicePageState extends State<PostServicePage> {
         }
       },
       builder: (context, state) {
+        if (state.theStates == TheStates.loading) {
+          return CircularProgressIndicator();
+        }
         final upload = UploadHelper(bloc: uploadBloc, context: context);
 
         return BlocListener<UploadBloc, UploadState>(
