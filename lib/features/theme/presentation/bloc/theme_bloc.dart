@@ -1,3 +1,5 @@
+import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/theme.dart';
 import 'package:cipher/features/theme/presentation/bloc/theme_event.dart';
 import 'package:cipher/features/theme/presentation/bloc/theme_state.dart';
@@ -11,6 +13,21 @@ class ThemeBloc extends Bloc<ThemeEvent, ThemeState> {
             themeData: ThemeData(),
           ),
         ) {
+    on<ThemeReadInitial>((event, emit) async {
+      final theme = await CacheHelper.getCachedString(kAppThemeMode) ?? 'light';
+      if (theme == 'dark')
+        emit(
+          ThemeDark(
+            themeData: kDarkTheme,
+          ),
+        );
+      else
+        emit(
+          ThemeLight(
+            themeData: kLightTheme,
+          ),
+        );
+    });
     on<ThemeChangeInitiated>(
       (event, emit) => emit(
         ThemeLight(

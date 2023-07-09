@@ -50,19 +50,19 @@ class _CategoriesPageState extends State<CategoriesPage> {
                           .arguments as Map<String, dynamic>?;
                       if (routeArgs?['id'] != -1) {
                         for (var element in state.nestedCategory) {
-                          if (element.name == routeArgs?['category']) {
+                          if (element.name?.toLowerCase() ==
+                              routeArgs?['category'].toString().toLowerCase()) {
+                            print("chiryo!");
                             selectedIndex =
                                 state.nestedCategory.indexOf(element);
                             list =
                                 state.nestedCategory[selectedIndex].child ?? [];
                           }
-                          print("source:trust me bro: $selectedIndex");
                         }
                       } else {
                         if (state.nestedCategory.length > 0) {
                           selectedIndex = 0;
                           list = state.nestedCategory[0].child ?? [];
-                          log('test list: $list');
                         }
                       }
                     }

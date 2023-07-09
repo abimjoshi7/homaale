@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
@@ -14,6 +16,7 @@ import 'package:cipher/features/redeem/statement/presentation/bloc/redeem_statem
 import 'package:cipher/features/redeem/statement/presentation/bloc/redeem_statement_event.dart';
 import 'package:cipher/features/saved/presentation/pages/saved_page.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
+import 'package:cipher/features/theme/presentation/bloc/theme_state.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/wallet/presentation/bloc/wallet_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -43,27 +46,23 @@ class AccountView extends StatefulWidget {
 
 class _AccountViewState extends State<AccountView> {
   bool? isDark;
-
   void checkAppMode() async {
     final theme = await CacheHelper.getCachedString(kAppThemeMode) ?? 'light';
-    setState(() {
-      if (theme == 'light') {
-        setState(() {
-          isDark = true;
-          CacheHelper.setCachedString(kAppThemeMode, 'dark');
-        });
-      } else {
-        setState(() {
-          isDark = false;
-          CacheHelper.setCachedString(kAppThemeMode, 'light');
-        });
-      }
-    });
+
+    if (theme == 'light') {
+      await CacheHelper.setCachedString(kAppThemeMode, 'dark').then(
+        (value) => setState(() => isDark = true),
+      );
+    } else {
+      await CacheHelper.setCachedString(kAppThemeMode, 'light').then(
+        (value) => setState(() => isDark = false),
+      );
+    }
   }
 
   @override
   void initState() {
-    context.read<ThemeBloc>().state.themeData;
+    isDark = context.read<ThemeBloc>().state is ThemeLight ? false : true;
     super.initState();
   }
 
@@ -361,15 +360,15 @@ class _AccountViewState extends State<AccountView> {
                 ),
                 AccountListTileSection(
                   onTap: () {
-                    setState(
-                      () {
-                        context.read<ThemeBloc>().add(
-                              ThemeChangeChanged(isDark: isDark ?? false),
-                            );
-                        // isDark = !isDark;
-                        checkAppMode();
-                      },
-                    );
+                    // setState(
+                    //   () {
+                    //     context.read<ThemeBloc>().add(
+                    //           ThemeChangeChanged(isDark: isDark ?? false),
+                    //         );
+                    //     // isDark = !isDark;
+                    //     checkAppMode();
+                    //   },
+                    // );
                   },
                   icon: const Icon(
                     Icons.dark_mode_outlined,
