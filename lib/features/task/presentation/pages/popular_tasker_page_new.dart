@@ -1,5 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/search_helper.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/tasker/data/repositories/tasker_repositories.dart';
@@ -22,16 +23,17 @@ class PopularTaskerNew extends StatelessWidget {
     return Scaffold(
       appBar: CustomAppBar(
         appBarTitle: 'Tasker',
-        trailingWidget: IconButton(
-          onPressed: () async => showSearch(
-            context: context,
-            delegate: SearchHelper(
-              context: context,
-              searchBloc: locator<SearchBloc>(),
-            ),
-          ),
-          icon: Icon(Icons.search),
-        ),
+        trailingWidget: SizedBox.shrink(),
+        // IconButton(
+        //   onPressed: () async => showSearch(
+        //     context: context,
+        //     delegate: SearchHelper(
+        //       context: context,
+        //       searchBloc: locator<SearchBloc>(),
+        //     ),
+        //   ),
+        //   icon: Icon(Icons.search),
+        // ),
       ),
       body: BlocProvider(
         create: (_) => TaskerBloc(taskerRepositories: TaskerRepositories())
@@ -51,6 +53,7 @@ class TaskerList extends StatefulWidget {
 
 class _TaskerListState extends State<TaskerList> {
   final _scrollController = ScrollController();
+  final _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -69,86 +72,161 @@ class _TaskerListState extends State<TaskerList> {
             if (state.tasker.isEmpty) {
               return const Center(child: Text('no taskers'));
             }
-            return GridView.builder(
-              padding: EdgeInsets.zero,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.8,
-              ),
-              itemCount: state.hasReachedMax
-                  ? state.tasker.length
-                  : state.tasker.length + 1,
-              controller: _scrollController,
-              itemBuilder: (context, index) {
-                return index >= state.tasker.length
-                    ? const BottomLoader()
-                    : InkWell(
-                        onTap: () {
-                          context.read<TaskerCubit>().loadSingleTasker(
-                                state.tasker[index].user?.id ?? '',
-                              );
-                          context.read<TaskerCubit>().loadSingleTaskerServices(
-                                state.tasker[index].user?.id ?? '',
-                              );
-                          context.read<TaskerCubit>().loadSingleTaskerTask(
-                                state.tasker[index].user?.id ?? '',
-                              );
-                          context.read<TaskerCubit>().loadSingleTaskerReviews(
-                                state.tasker[index].user?.id ?? '',
-                              );
-                          Navigator.pushNamed(
-                            context,
-                            TaskerProfileView.routeName,
-                          );
-                        },
-                        child: TaskerCard(
-                          rewardPercentage: state
-                                  .tasker[index].stats?.successRate
-                                  ?.toInt()
-                                  .toString() ??
-                              '0',
-                          shareLinked:
-                              '$kShareLinks/tasker/${state.tasker[index].user?.id}',
-                          id: state.tasker[index].user?.id.toString() ?? '',
-                          networkImageUrl: state.tasker[index].profileImage,
-                          label:
-                              "${state.tasker[index].user?.firstName} ${state.tasker[index].user?.lastName}",
-                          designation: state.tasker[index].designation,
-                          happyClients: state.tasker[index].stats?.happyClients
-                              .toString(),
-                          ratings:
-                              // "${state.tasker[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'} "
-                              "${state.tasker[index].rating?.userRatingCount?.toStringAsFixed(1) ?? '0'}",
-                          rate: "Rs. ${state.tasker[index].hourlyRate}",
-                          callbackLabel: state.tasker[index].isFollowed ?? false
-                              ? 'Following'
-                              : 'Follow',
-                          isFollowed: state.tasker[index].isFollowed ?? false,
-                          buttonWidth: MediaQuery.of(context).size.width,
-                          callback: () {
-                            if (CacheHelper.isLoggedIn == false) {
-                              notLoggedInPopUp(context);
-                            } else {
-                              if (state.tasker[index].isFollowed ?? false) {
-                                context
-                                    .read<TaskerCubit>()
-                                    .handleFollowUnFollow(
-                                        id: state.tasker[index].user?.id ?? '',
-                                        follow: false);
-                              } else {
-                                context
-                                    .read<TaskerCubit>()
-                                    .handleFollowUnFollow(
-                                        id: state.tasker[index].user?.id ?? '',
-                                        follow: true);
-                              }
-                              context.read<TaskerBloc>().add(SetInitial());
-                            }
-                          },
-                          onFavouriteTapped: () {},
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 50,
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: null,
+                          icon: Icon(
+                            Icons.filter_alt_outlined,
+                            color: kColorSilver,
+                          ),
                         ),
-                      );
-              },
+                        SizedBox(
+                          width: 200,
+                          height: 40,
+                          child: CustomTextFormField(
+                            hintText: "Search",
+                            controller: _searchController,
+                            inputAction: TextInputAction.done,
+                            onFieldSubmitted: (p0) {
+                              if (p0!.length >= 3) {
+                                context.read<TaskerBloc>().add(
+                                      TaskerFetched(
+                                        newFetch: true,
+                                        searchQuery: _searchController.text,
+                                      ),
+                                    );
+                              }
+                            },
+                          ),
+                        ),
+                        IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _searchController.clear();
+                            });
+                            context.read<TaskerBloc>().add(TaskerFetched(
+                                  newFetch: true,
+                                ));
+                          },
+                          icon: Icon(
+                            Icons.clear,
+                            color: kColorSilver,
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: GridView.builder(
+                    padding: EdgeInsets.zero,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.8,
+                    ),
+                    itemCount: state.hasReachedMax
+                        ? state.tasker.length
+                        : state.tasker.length + 1,
+                    controller: _scrollController,
+                    itemBuilder: (context, index) {
+                      return index >= state.tasker.length
+                          ? const BottomLoader()
+                          : InkWell(
+                              onTap: () {
+                                context.read<TaskerCubit>().loadSingleTasker(
+                                      state.tasker[index].user?.id ?? '',
+                                    );
+                                context
+                                    .read<TaskerCubit>()
+                                    .loadSingleTaskerServices(
+                                      state.tasker[index].user?.id ?? '',
+                                    );
+                                context
+                                    .read<TaskerCubit>()
+                                    .loadSingleTaskerTask(
+                                      state.tasker[index].user?.id ?? '',
+                                    );
+                                context
+                                    .read<TaskerCubit>()
+                                    .loadSingleTaskerReviews(
+                                      state.tasker[index].user?.id ?? '',
+                                    );
+                                Navigator.pushNamed(
+                                  context,
+                                  TaskerProfileView.routeName,
+                                );
+                              },
+                              child: TaskerCard(
+                                rewardPercentage: state
+                                        .tasker[index].stats?.successRate
+                                        ?.toInt()
+                                        .toString() ??
+                                    '0',
+                                shareLinked:
+                                    '$kShareLinks/tasker/${state.tasker[index].user?.id}',
+                                id: state.tasker[index].user?.id.toString() ??
+                                    '',
+                                networkImageUrl:
+                                    state.tasker[index].profileImage,
+                                label:
+                                    "${state.tasker[index].user?.firstName} ${state.tasker[index].user?.lastName}",
+                                designation: state.tasker[index].designation,
+                                happyClients: state
+                                    .tasker[index].stats?.happyClients
+                                    .toString(),
+                                ratings:
+                                    // "${state.tasker[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'} "
+                                    "${state.tasker[index].rating?.userRatingCount?.toStringAsFixed(1) ?? '0'}",
+                                rate: "Rs. ${state.tasker[index].hourlyRate}",
+                                callbackLabel:
+                                    state.tasker[index].isFollowed ?? false
+                                        ? 'Following'
+                                        : 'Follow',
+                                isFollowed:
+                                    state.tasker[index].isFollowed ?? false,
+                                buttonWidth: MediaQuery.of(context).size.width,
+                                callback: () {
+                                  if (CacheHelper.isLoggedIn == false) {
+                                    notLoggedInPopUp(context);
+                                  } else {
+                                    if (state.tasker[index].isFollowed ??
+                                        false) {
+                                      context
+                                          .read<TaskerCubit>()
+                                          .handleFollowUnFollow(
+                                              id: state
+                                                      .tasker[index].user?.id ??
+                                                  '',
+                                              follow: false);
+                                    } else {
+                                      context
+                                          .read<TaskerCubit>()
+                                          .handleFollowUnFollow(
+                                              id: state
+                                                      .tasker[index].user?.id ??
+                                                  '',
+                                              follow: true);
+                                    }
+                                    context
+                                        .read<TaskerBloc>()
+                                        .add(SetInitial());
+                                  }
+                                },
+                                onFavouriteTapped: () {},
+                              ),
+                            );
+                    },
+                  ),
+                ),
+              ],
             );
           case TaskerStatus.initial:
             return const Center(child: CardLoading(height: 400));
@@ -162,11 +240,15 @@ class _TaskerListState extends State<TaskerList> {
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
+    _searchController.dispose();
     super.dispose();
   }
 
   void _onScroll() {
-    if (_isBottom) context.read<TaskerBloc>().add(TaskerFetched());
+    if (_isBottom)
+      context.read<TaskerBloc>().add(TaskerFetched(
+            searchQuery: _searchController.text,
+          ));
   }
 
   bool get _isBottom {
