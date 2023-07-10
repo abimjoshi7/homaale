@@ -35,7 +35,8 @@ class TaskEntityServiceBloc
       (event, emit) async {
         if (!event.newFetch && state.isLastPage) return;
         try {
-          if (event.newFetch) emit(state.copyWith(theStates: TheStates.initial));
+          if (event.newFetch)
+            emit(state.copyWith(theStates: TheStates.initial));
           if (state.theStates == TheStates.initial) {
             var orderList = <String>[];
             if (event.budgetSort != null) {
@@ -264,6 +265,10 @@ class TaskEntityServiceBloc
             );
           },
         );
+        add(TaskEntityServiceInitiated(
+          isTask: true,
+          page: 1,
+        ));
       } catch (e) {
         emit(
           state.copyWith(

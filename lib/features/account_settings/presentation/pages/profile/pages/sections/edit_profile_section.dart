@@ -4,6 +4,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
+import 'package:cipher/features/user/data/models/tasker_profile.dart' as tp;
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
@@ -38,10 +39,22 @@ class _EditProfileSectionState extends State<EditProfileSection> {
   final uploadBloc = locator<UploadBloc>();
   late String? _gender;
 
+  void setInitialValues(tp.TaskerProfile? taskerProfile) => setState(() {
+        firstName = taskerProfile?.user?.firstName ?? '';
+        middleName = taskerProfile?.user?.middleName ?? '';
+        lastName = taskerProfile?.user?.lastName ?? '';
+        designation = taskerProfile?.designation ?? '';
+        email = taskerProfile?.user?.email ?? '';
+        contact = taskerProfile?.user?.phone ?? '';
+        bio = taskerProfile?.bio ?? '';
+      });
+
   @override
   void initState() {
     super.initState();
+
     userBloc = context.read<UserBloc>();
+    setInitialValues(userBloc.state.taskerProfile);
     switch (userBloc.state.taskerProfile?.gender?.toLowerCase()) {
       case "male":
         _gender = "Male";
@@ -204,12 +217,15 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                                 ),
                                 kHeight5,
                                 CustomTextFormField(
+                                  validator: (p0) =>
+                                      p0!.isEmpty ? 'Required Field' : null,
+                                  value: firstName,
                                   hintText:
                                       state.taskerProfile?.user?.firstName ??
                                           '',
                                   onSaved: (p0) => setState(
                                     () {
-                                      firstName = p0;
+                                      firstName = p0!;
                                     },
                                   ),
                                 ),
@@ -228,6 +244,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                                 ),
                                 kHeight5,
                                 CustomTextFormField(
+                                  value: middleName,
                                   hintText:
                                       state.taskerProfile?.user?.middleName ??
                                           '',
@@ -262,6 +279,9 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                                 ),
                                 kHeight5,
                                 CustomTextFormField(
+                                  validator: (p0) =>
+                                      p0!.isEmpty ? 'Required Field' : null,
+                                  value: lastName,
                                   hintText:
                                       state.taskerProfile?.user?.lastName ?? '',
                                   onSaved: (p0) => setState(
@@ -275,17 +295,20 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                           ),
                         ],
                       ),
-                      CustomFormField(
-                        label: 'Email',
-                        child: CustomTextFormField(
-                          hintText: state.taskerProfile?.user?.email ?? '',
-                          onChanged: (p0) => setState(
-                            () {
-                              email = p0;
-                            },
-                          ),
-                        ),
-                      ),
+                      // CustomFormField(
+                      //   label: 'Email',
+                      //   child: CustomTextFormField(
+                      //     value: email,
+                      //     hintText: state.taskerProfile?.user?.email ?? '',
+                      // 		textInputType: TextInputType.emailAddress,
+
+                      //     onChanged: (p0) => setState(
+                      //       () {
+                      //         email = p0;
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
                       // CustomFormField(
                       //   label: 'Contact',
                       //   child: CustomTextFormField(
@@ -323,9 +346,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                               lastDate: DateTime(2080),
                             ).then(
                               (value) => setState(
-                                () {
-                                  dob = value;
-                                },
+                                () => dob = value,
                               ),
                             );
                           },
@@ -467,7 +488,11 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                       ),
                       CustomFormField(
                         label: 'Bio',
+                        isRequired: true,
                         child: CustomTextFormField(
+                          validator: (p0) =>
+                              p0!.isEmpty ? "Required Field" : null,
+                          value: bio,
                           maxLines: 3,
                           hintText: state.taskerProfile?.bio ?? 'Enter Bio',
                           onChanged: (p0) => setState(
@@ -484,48 +509,52 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                   Center(
                     child: CustomElevatedButton(
                         callback: () async {
-                          _key.currentState?.save();
-                          final Map<String, dynamic> user = {
-                            "first_name": firstName!.isEmpty
-                                ? state.taskerProfile?.user!.firstName
-                                : firstName,
-                            "middle_name": middleName!.isEmpty
-                                ? state.taskerProfile?.user!.middleName
-                                : middleName,
-                            "last_name": lastName!.isEmpty
-                                ? state.taskerProfile?.user!.lastName
-                                : lastName,
-                            // "designation": designation!.isEmpty
-                            //     ? state.taskerProfile?.designation
-                            //     : designation,
-                            "date_of_birth": DateFormat("yyyy-MM-dd").format(
-                              dob ??
-                                  state.taskerProfile?.dateOfBirth ??
-                                  DateTime.now(),
-                            ),
-                            "bio": bio ?? state.taskerProfile?.bio,
-                            "gender": _gender ??
-                                state.taskerProfile?.gender ??
-                                "Male",
-                            // "profile_image": state.taskerProfile?.profileImage
-                            // uploadBloc.state.imageFileList.length == 0
-                            //     ? state.taskerProfile?.profileImage
-                            //     : await MultipartFile.fromString(
-                            //         uploadBloc.state.imageFileList.last,
-                            //       )
-                          };
+                          if (_key.currentState!.validate()) {
+                            _key.currentState?.save();
+                            final Map<String, dynamic> user = {
+                              "first_name": firstName!.isEmpty
+                                  ? state.taskerProfile?.user!.firstName
+                                  : firstName,
+                              "middle_name":
+                                  //  middleName!.isEmpty
+                                  //     ? state.taskerProfile?.user!.middleName
+                                  //     :
+                                  middleName,
+                              "last_name": lastName!.isEmpty
+                                  ? state.taskerProfile?.user!.lastName
+                                  : lastName,
+                              // "designation": designation!.isEmpty
+                              //     ? state.taskerProfile?.designation
+                              //     : designation,
+                              "date_of_birth": DateFormat("yyyy-MM-dd").format(
+                                dob ??
+                                    state.taskerProfile?.dateOfBirth ??
+                                    DateTime.now(),
+                              ),
+                              "bio": bio,
+                              "gender": _gender ??
+                                  state.taskerProfile?.gender ??
+                                  "Male",
+                              // "profile_image": state.taskerProfile?.profileImage
+                              // uploadBloc.state.imageFileList.length == 0
+                              //     ? state.taskerProfile?.profileImage
+                              //     : await MultipartFile.fromString(
+                              //         uploadBloc.state.imageFileList.last,
+                              //       )
+                            };
 
-                          if (uploadBloc.state.imageFileList.length != 0) {
-                            final file = await MultipartFile.fromFile(
-                                uploadBloc.state.imageFileList.last);
-                            user.addAll({
-                              "profile_image": file,
-                            });
+                            if (uploadBloc.state.imageFileList.length != 0) {
+                              final file = await MultipartFile.fromFile(
+                                  uploadBloc.state.imageFileList.last);
+                              user.addAll({
+                                "profile_image": file,
+                              });
+                            }
+                            if (!mounted) return;
+                            context.read<UserBloc>().add(
+                                  UserEdited(req: user),
+                                );
                           }
-                          if (!mounted) return;
-                          context.read<UserBloc>().add(
-                                UserEdited(req: user),
-                              );
                         },
                         label: 'Save'),
                   ),

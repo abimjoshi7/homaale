@@ -15,7 +15,8 @@ class EditProfilePage extends StatefulWidget {
   State<EditProfilePage> createState() => _EditProfilePageState();
 }
 
-class _EditProfilePageState extends State<EditProfilePage> with TickerProviderStateMixin {
+class _EditProfilePageState extends State<EditProfilePage>
+    with TickerProviderStateMixin {
   late TabController _tabController;
   @override
   void initState() {
@@ -49,6 +50,8 @@ class _EditProfilePageState extends State<EditProfilePage> with TickerProviderSt
           TabBar(
             indicatorColor: kColorSecondary,
             indicatorSize: TabBarIndicatorSize.label,
+            indicatorPadding: EdgeInsets.zero,
+            padding: EdgeInsets.zero,
             labelPadding: kPadding0,
             controller: _tabController,
             tabs: [

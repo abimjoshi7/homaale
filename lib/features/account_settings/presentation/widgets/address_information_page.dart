@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/user/data/models/tasker_profile.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/data/models/models.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
@@ -22,7 +23,11 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
   List<CountryModel>? countryList = [];
   List<LanguageModel>? languageList = [];
   List<CurrencyModel>? currencyList = [];
-
+  void setInitialValues(TaskerProfile? taskerProfile) => setState(() {
+        countryName = taskerProfile?.country?.name ?? '';
+        addressLine1 = taskerProfile?.addressLine1 ?? '';
+        addressLine2 = taskerProfile?.addressLine2 ?? '';
+      });
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<UserBloc, UserState>(
@@ -58,8 +63,6 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
         }
       },
       builder: (context, state) {
-
-
         if (state.theStates == TheStates.success) {
           // user = state.taskerProfile?.user;
           return Padding(
@@ -85,6 +88,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                           }
                           return CustomFormField(
                             label: 'Country',
+                            isRequired: true,
                             child: CustomDropDownField(
                               hintText: state.taskerProfile?.country?.name ??
                                   'Specify your country',
@@ -105,7 +109,10 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                       addVerticalSpace(10),
                       CustomFormField(
                         label: 'Address Line 1',
+                        isRequired: true,
                         child: CustomTextFormField(
+                          validator: (p0) =>
+                              p0!.isEmpty ? 'Required Field' : null,
                           hintText: state.taskerProfile?.addressLine1 ?? '',
                           onChanged: (p0) => setState(
                             () {
@@ -127,7 +134,6 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                         ),
                       ),
                       addVerticalSpace(10),
-
                       BlocBuilder<LanguageBloc, LanguageState>(
                         builder: (context, languageState) {
                           if (languageState is LanguageLoadSuccess) {
@@ -135,6 +141,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                           }
                           return CustomFormField(
                             label: 'Languages',
+                            isRequired: true,
                             child: CustomDropdownSearch(
                               hintText: state.taskerProfile?.language?.name ??
                                   'Specify your language',
@@ -155,26 +162,27 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                       addVerticalSpace(10),
                       CustomFormField(
                         label: 'Currency',
+                        isRequired: true,
                         child: BlocBuilder<CurrencyBloc, CurrencyState>(
                           builder: (context, currencyState) {
                             if (currencyState is CurrencyLoadSuccess) {
                               currencyList = currencyState.currencyListRes;
                             }
                             return CustomDropdownSearch(
-                              hintText: state.taskerProfile?.chargeCurrency?.name ??
-                                    'Choose suitable currency',
-                                list:  currencyList?.map((e) => e.name).toList() ??
-                                    [
-                                      'NPR',
-                                      'AUD',
-                                    ],
-                                onChanged: (value) => setState(
-                                      () {
-                                    currency == value;
-                                  },
-                                ),
-                              );
-
+                              hintText:
+                                  state.taskerProfile?.chargeCurrency?.name ??
+                                      'Choose suitable currency',
+                              list: currencyList?.map((e) => e.name).toList() ??
+                                  [
+                                    'NPR',
+                                    'AUD',
+                                  ],
+                              onChanged: (value) => setState(
+                                () {
+                                  currency == value;
+                                },
+                              ),
+                            );
 
                             //   CustomDropDownField(
                             //   hintText:
@@ -194,10 +202,6 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                           },
                         ),
                       ),
-
-
-
-
                       addVerticalSpace(10),
                     ],
                   ),
@@ -207,8 +211,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                 ],
               ),
               CustomElevatedButton(
-                callback: ()  {
-
+                callback: () {
                   String? countryCode;
                   String? languageCode;
                   String? currencyCode;
@@ -234,12 +237,12 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                       });
                     }
                   }
-                  final Map<String,dynamic> map = {
+                  final Map<String, dynamic> map = {
                     "country": countryCode ?? state.taskerProfile?.country,
                     "address_line1":
-                    addressLine1 ?? state.taskerProfile?.addressLine1,
+                        addressLine1 ?? state.taskerProfile?.addressLine1,
                     "address_line2":
-                    addressLine2 ?? state.taskerProfile?.addressLine2,
+                        addressLine2 ?? state.taskerProfile?.addressLine2,
                     "language": languageCode ?? state.taskerProfile?.language,
                     "charge_currency": currencyCode ??
                         state.taskerProfile?.chargeCurrency?.code,
@@ -319,7 +322,4 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
       },
     );
   }
-
-
-
 }
