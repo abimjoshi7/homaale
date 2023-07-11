@@ -52,8 +52,8 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
     return Scaffold(
         appBar: CustomAppBar(
             appBarTitle: heading ?? '', trailingWidget: SizedBox()),
-        body: Column(
-          mainAxisSize: MainAxisSize.min,
+        body: ListView(
+          // mainAxisSize: MainAxisSize.min,
           children: [
             addVerticalSpace(15),
             Row(
@@ -82,21 +82,15 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
                                             ?.id ??
                                         '',
                                     query: p0,
-                                    newFetch: false,
+                                    newFetch: true,
                                   ),
                                 )
                               :
-                          // entityServiceBloc.add(
-                          //   TaskEntityServiceInitiated(
-                          //     query: p0,
-                          //     newFetch: true,
-                          //   ),
-                          // );
                           entityServiceBloc.add(
                             TaskEntityServiceSingleLoaded(
                               id: data?.first.data?.id.toString() ?? '',
                               query: p0,
-                              newFetch: false,
+                              newFetch: true,
                             ),
                                 );
                         }
@@ -142,16 +136,16 @@ class SearchTaskSection extends StatelessWidget {
           case TheStates.initial:
             return const Center(child: CardLoading(height: 700));
           case TheStates.success:
-            return Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ListView(
-                    children: data?.map((e) {
-                          return InkWell(
+            return Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                  children: data?.map((e) {
+                        return SizedBox(
+                          height: 250,
+                          child: InkWell(
                             onTap: () {
-                              e = e;
-                              // context.read<TaskBloc>().
-                              taskBloc.add(
+                              context.read<TaskBloc>().
+                              add(
                                 SingleEntityTaskLoadInitiated(
                                   id: e.data?.id.toString() ?? '',
                                   userId: context
@@ -197,6 +191,7 @@ class SearchTaskSection extends StatelessWidget {
                               count: e.data?.count.toString(),
                               imageUrl: e.data?.createdBy?.profileImage ??
                                   kHomaaleImg,
+                              createdByName: e.data?.createdBy?.fullName,
                               location: e.data?.location == ''
                                   ? 'Remote'
                                   : e.data?.location,
@@ -225,10 +220,10 @@ class SearchTaskSection extends StatelessWidget {
                               },
                               onTapCallback: () {},
                             ),
-                          );
-                        }).toList() ??
-                        []),
-              ),
+                          ),
+                        );
+                      }).toList() ??
+                      []),
             );
           case TheStates.failure:
             return Text("Could Not Load Data");
@@ -249,8 +244,7 @@ class SearchServiceSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-      BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
+    return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
         bloc: taskEntityServiceBloc,
         builder: (context, state) {
           switch (state.theStates) {
@@ -259,6 +253,7 @@ class SearchServiceSection extends StatelessWidget {
             case TheStates.success:
               return  GridView.count(
                 shrinkWrap: true,
+                physics: NeverScrollableScrollPhysics(),
                 padding: EdgeInsets.symmetric(horizontal: 16),
                 crossAxisCount: 2,
                 mainAxisSpacing: 4,
@@ -266,13 +261,13 @@ class SearchServiceSection extends StatelessWidget {
                 children: data?.map((e) {
                   return InkWell(
                     onTap: () {
-                      taskEntityServiceBloc.add(
+                      context.read<TaskEntityServiceBloc>().add(
                         TaskEntityServiceSingleLoaded(
                           id: e.data?.id.toString() ?? '',
                         ),
                       );
-                      // context.read<TaskEntityServiceBloc>()
-                          taskEntityServiceBloc.add(
+                      context.read<TaskEntityServiceBloc>()
+                         .add(
                         FetchRecommendedSimilar(
                           id: e.data?.id.toString() ?? '',
                         ),

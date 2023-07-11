@@ -185,12 +185,13 @@ class TaskEntityServiceRepository {
           );
 
   Future<Map<String, dynamic>> fetchSingleTaskEntityService({
-    required String serviceId,
+    required String serviceId, String? query,
   }) async {
     try {
       if (CacheHelper.isLoggedIn == false) {
         final res = await _dio.getData(
           url: '$kTaskEntityService$serviceId',
+          query: {'query':query}
         );
         return res as Map<String, dynamic>;
       } else {
@@ -208,8 +209,8 @@ class TaskEntityServiceRepository {
     }
   }
 
-  Future<TaskEntityService> getSingleTaskEntityService(String id) async =>
-      await fetchSingleTaskEntityService(serviceId: id).then((value) {
+  Future<TaskEntityService> getSingleTaskEntityService(String id,String? query) async =>
+      await fetchSingleTaskEntityService(serviceId: id,query: query).then((value) {
         return TaskEntityService.fromJson(value);
       });
 

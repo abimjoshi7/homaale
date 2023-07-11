@@ -6,9 +6,10 @@ abstract class SavedEvent extends Equatable {}
 
 class SavedListLoaded extends SavedEvent {
   final String? type;
-  SavedListLoaded({this.type});
+  final String? query;
+  SavedListLoaded( {this.type,this.query,});
   @override
-  List<Object?> get props => [type];
+  List<Object?> get props => [type,query];
 }
 
 class SavedAdded extends SavedEvent {

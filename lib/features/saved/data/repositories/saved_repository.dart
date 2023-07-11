@@ -6,13 +6,15 @@ import 'package:cipher/features/saved/data/models/req/saved_add_req.dart';
 class SavedRepository {
   final _dio = DioHelper();
 
-  Future<Map<String, dynamic>> fetchSavedList(String? type) async {
+  Future<Map<String, dynamic>> fetchSavedList(
+      String? type, String? query) async {
     try {
       final res = await _dio.getDatawithCredential(
         url: kBookmarkPath,
         token: CacheHelper.accessToken,
         query: {
           "type": type,
+          'query': query,
         },
       );
       return res as Map<String, dynamic>;

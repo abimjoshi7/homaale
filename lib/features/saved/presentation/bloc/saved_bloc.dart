@@ -31,7 +31,7 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
       (event, emit) async {
         emit(state.copyWith(theStates: TheStates.loading));
         try {
-          await savedRepository.fetchSavedList(event.type).then(
+          await savedRepository.fetchSavedList(event.type,event.query).then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
