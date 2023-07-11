@@ -159,16 +159,21 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                   child: CustomTextFormField(
                                     hintText:
                                         'Rs ${Decimal.parse(state.taskModel?.budgetFrom ?? "")}',
-                                    readOnly:
-                                        state.taskModel?.isNegotiable == false
-                                            ? true
-                                            : false,
+                                    // readOnly:
+                                    //     state.taskModel?.isNegotiable == false
+                                    //         ? true
+                                    //         : false,
                                     controller: offerController,
                                     textInputType: TextInputType.number,
                                     inputFormatters: [
                                       FilteringTextInputFormatter.digitsOnly,
                                     ],
                                     validator: (value) {
+                                      // if (state.taskModel?.isNegotiable ==
+                                      //     false) {
+                                      //   return null;
+                                      // }
+
                                       if (value == null || value.isEmpty) {
                                         return 'Please enter your price';
                                       }

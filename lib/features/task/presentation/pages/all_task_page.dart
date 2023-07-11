@@ -16,8 +16,6 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/helpers/search_helper.dart';
-import '../../../search/presentation/bloc/search_bloc.dart';
 
 enum SortType { budget, date }
 

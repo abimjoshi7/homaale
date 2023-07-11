@@ -173,6 +173,7 @@ class _EditProfileSectionState extends State<EditProfileSection> {
                                   context: context,
                                   builder: (context) => ImagePickerDialog(
                                     bloc: uploadBloc,
+                                    isProfile: true,
                                   ),
                                 );
                               },

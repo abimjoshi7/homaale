@@ -295,7 +295,6 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 images: uploadBloc.state.uploadedImageList,
                 videos: uploadBloc.state.uploadedVideoList,
               );
-
               context.read<TaskEntityServiceBloc>().add(
                     TaskEntityServiceCreated(
                       req: req,
