@@ -4,6 +4,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
+import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
 import 'package:cipher/features/chat/models/chat_person_details.dart';
 import 'package:cipher/features/chat/view/chat_page.dart';
@@ -455,14 +456,30 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                     Navigator.pop(context);
                                   },
                                   onNegotiatePressed: () {
-
-                                    context.read<tb.TaskBloc>().add(
-                                          tb.ChangeTaskNegotiationStatus(
-                                            id: state.applicantModel
-                                                    ?.result?[index].id ??
+                                    context.read<BookingsBloc>().add(
+                                          BookingSingleLoaded(
+                                            state.applicantModel?.result?[index]
+                                                    .id ??
                                                 0,
                                           ),
                                         );
+                                    final _singleBookingResult = context
+                                        .read<BookingsBloc>()
+                                        .state
+                                        .result;
+
+                                    if (_singleBookingResult.isAccepted ==
+                                        false)
+                                      context.read<tb.TaskBloc>().add(
+                                            tb.ChangeTaskNegotiationStatus(
+                                              id: state.applicantModel
+                                                      ?.result?[index].id ??
+                                                  0,
+                                            ),
+                                          );
+                                    //TODO: chat navigations
+                                    else
+                                      print("chat navigated");
                                     //TODO: chat navigations
                                   },
                                 ),

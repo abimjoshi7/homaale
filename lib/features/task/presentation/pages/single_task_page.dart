@@ -4,6 +4,7 @@ import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/bloc/scroll_bloc.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
+import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/support/presentation/widgets/report_page.dart';
@@ -580,7 +581,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                         .headlineSmall,
                                   ),
                                 ),
-														),
+                              ),
                               kHeight10,
                               ListView.separated(
                                 shrinkWrap: true,
@@ -796,14 +797,33 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                           Navigator.pop(context);
                                         },
                                         onNegotiatePressed: () {
-                                          context.read<TaskBloc>().add(
-                                                ChangeTaskNegotiationStatus(
-                                                  id: state.applicantModel
+                                          context.read<BookingsBloc>().add(
+                                                BookingSingleLoaded(
+                                                  state.applicantModel
                                                           ?.result?[index].id ??
                                                       0,
                                                 ),
                                               );
+                                          final _singleBookingResult = context
+                                              .read<BookingsBloc>()
+                                              .state
+                                              .result;
+
+                                          if (_singleBookingResult.isAccepted ==
+                                              false)
+                                            context.read<TaskBloc>().add(
+                                                  ChangeTaskNegotiationStatus(
+                                                    id: state
+                                                            .applicantModel
+                                                            ?.result?[index]
+                                                            .id ??
+                                                        0,
+                                                  ),
+                                                );
                                           //TODO: chat navigation
+                                          else
+                                            print("chat navigated");
+                                          //TODO: chat navigations
                                         },
                                       ),
                                       buttonWidth:
