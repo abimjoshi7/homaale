@@ -1,11 +1,3 @@
-import 'dart:async';
-
-import 'package:dependencies/dependencies.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-
-import '../../features/error_pages/no_internet_page.dart';
-
 List<String> deactiveReasonList = <String>[
   'I am deactivating the account temporarily.',
   'I did not find Homeaale helpful for me',

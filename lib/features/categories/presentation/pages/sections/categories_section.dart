@@ -6,7 +6,6 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-
 class CategoriesSection extends StatelessWidget {
   const CategoriesSection({super.key});
   static final catKey = GlobalKey();
@@ -17,7 +16,7 @@ class CategoriesSection extends StatelessWidget {
       listener: (context, state) {},
       builder: (context, state) {
         if (state.theStates == TheStates.initial) {
-          return  Center(
+          return Center(
             child: CardLoading(
               height: 100,
             ),
@@ -39,6 +38,9 @@ class CategoriesSection extends StatelessWidget {
                       Navigator.pushNamed(
                         context,
                         CategoriesPage.routeName,
+                        arguments: {
+                          'id': -1,
+                        },
                       );
                     },
                     position: TooltipPosition.bottom,

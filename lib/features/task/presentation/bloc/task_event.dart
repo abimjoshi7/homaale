@@ -8,22 +8,30 @@ abstract class TaskEvent extends Equatable {
 class SingleEntityTaskLoadInitiated extends TaskEvent {
   final String id;
   final String userId;
+  final String? query;
+  final bool newFetch;
+
   const SingleEntityTaskLoadInitiated({
     required this.id,
     required this.userId,
+    this.query,
+    this.newFetch = false,
   });
   @override
-  List<Object?> get props => [
-        id,
-      ];
+  List<Object?> get props => [id, query, newFetch];
 
   SingleEntityTaskLoadInitiated copyWith({
     String? id,
     String? userId,
+    String? query,
+    bool? newFetch,
+
   }) {
     return SingleEntityTaskLoadInitiated(
       id: id ?? this.id,
       userId: userId ?? this.userId,
+      query: query ?? this.query,
+      newFetch: newFetch ?? this.newFetch
     );
   }
 

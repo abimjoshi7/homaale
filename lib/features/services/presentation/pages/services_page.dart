@@ -22,7 +22,8 @@ class ServicesPage extends StatelessWidget {
           ),
         );
     return Scaffold(
-      appBar: CustomAppBar(appBarTitle: nestedCategory?.name ?? '',trailingWidget: SizedBox()),
+      appBar: CustomAppBar(
+          appBarTitle: nestedCategory?.name ?? '', trailingWidget: SizedBox()),
       body: Column(
         children: <Widget>[
           Expanded(

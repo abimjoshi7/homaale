@@ -59,7 +59,7 @@ class ServiceCard extends StatelessWidget {
           20,
         ),
         child: SizedBox(
-          height: theHeight ,
+          height: theHeight,
           child: Card(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,6 +85,8 @@ class ServiceCard extends StatelessWidget {
                       children: [
                         AutoSizeText(
                           title ?? '',
+                          minFontSize: 10.0,
+                          maxFontSize: 13.0,
                           style: Theme.of(context).textTheme.titleMedium,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -93,19 +95,22 @@ class ServiceCard extends StatelessWidget {
                             CircleAvatar(
                               backgroundImage: NetworkImage(
                                   createdByProfileImg ?? kHomaaleImg),
-                              radius: 15,
+                              radius: 10,
                             ),
                             addHorizontalSpace(5),
                             Expanded(
                               child: AutoSizeText(
                                 createdBy ?? '',
+                                minFontSize: 10.0,
+                                maxFontSize: 13.0,
                                 style: Theme.of(context).textTheme.bodySmall,
                                 overflow: TextOverflow.ellipsis,
                               ),
                             ),
                             addHorizontalSpace(5),
                             IconText(
-                              label: rating ?? '0.0',
+                              label:
+                                  rating == 'null' ? '0.0' : rating.toString(),
                               iconData: Icons.star_rate_rounded,
                               size: 13,
                               color: kColorAmber,
