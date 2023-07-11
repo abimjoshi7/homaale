@@ -95,7 +95,7 @@ class _PostServicePageState extends State<PostServicePage> {
   //     barrierDismissible: false,
   //     context: context,
   //     builder: (context) => Center(
-  //       child: CircularProgressIndicator(),
+  //       child: CustomLoader(),
   //     ),
   //   );
   //   // if (uploadBloc.state.isFileUploaded) return;
@@ -234,6 +234,9 @@ class _PostServicePageState extends State<PostServicePage> {
         }
       },
       builder: (context, state) {
+        if (state.theStates == TheStates.loading) {
+          return CustomLoader();
+        }
         final upload = UploadHelper(bloc: uploadBloc, context: context);
 
         return BlocListener<UploadBloc, UploadState>(

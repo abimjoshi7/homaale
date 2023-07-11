@@ -383,7 +383,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           addVerticalSpace(32),
                           if (state.theStates != TheStates.initial)
-                            CircularProgressIndicator(),
+                            CustomLoader(),
                           if (state.theStates == TheStates.initial)
                             Flexible(
                               child: CustomElevatedButton(

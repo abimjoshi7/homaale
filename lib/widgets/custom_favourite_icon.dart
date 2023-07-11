@@ -4,6 +4,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/saved/data/models/req/saved_add_req.dart';
 import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/locator.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -63,7 +64,7 @@ class _CustomFavoriteIconState extends State<CustomFavoriteIcon> {
                   ? SizedBox(
                       height: 15,
                       width: 20,
-                      child: CircularProgressIndicator(strokeWidth: 1),
+                      child: CustomLoader(),
                     )
                   : Icon(
                       widget.isBookmarked

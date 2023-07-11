@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const kPadding0 = EdgeInsets.all(1);
+const kPadding5 = EdgeInsets.all(5);
 const kPadding10 = EdgeInsets.all(10);
 const kPadding15 = EdgeInsets.all(15);
 const kPadding20 = EdgeInsets.all(20);

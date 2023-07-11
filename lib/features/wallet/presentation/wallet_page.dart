@@ -95,7 +95,7 @@ class _WalletMainViewState extends State<WalletMainView> {
         builder: (context, state) {
           switch (state.theStates) {
             case TheStates.initial:
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: CustomLoader());
             case TheStates.success:
               return Padding(
                 padding: const EdgeInsets.all(16.0),
@@ -304,7 +304,7 @@ class _WalletMainViewState extends State<WalletMainView> {
             case TheStates.failure:
               return Text('failure');
             default:
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: CustomLoader());
           }
         },
       ),

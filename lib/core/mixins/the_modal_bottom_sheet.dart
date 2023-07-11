@@ -1,4 +1,3 @@
-import 'package:cipher/widgets/custom_modal_sheet_drawer_icon.dart';
 import 'package:flutter/material.dart';
 
 mixin TheModalBottomSheet {
@@ -7,6 +6,7 @@ mixin TheModalBottomSheet {
     required Widget widget,
   }) async {
     await showModalBottomSheet(
+      showDragHandle: true,
       constraints: BoxConstraints.loose(
         Size(
           double.infinity,
@@ -25,18 +25,9 @@ mixin TheModalBottomSheet {
         padding: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CustomModalSheetDrawerIcon(),
-            SizedBox(
-              width: double.infinity,
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: widget,
-              ),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: widget,
         ),
       ),
     );

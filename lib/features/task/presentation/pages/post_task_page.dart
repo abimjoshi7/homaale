@@ -237,7 +237,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
       },
       builder: (context, state) {
         if (state.theStates == TheStates.loading) {
-          return CircularProgressIndicator();
+          return CustomLoader();
         }
         final upload = UploadHelper(bloc: uploadBloc, context: context);
         return BlocListener<UploadBloc, UploadState>(

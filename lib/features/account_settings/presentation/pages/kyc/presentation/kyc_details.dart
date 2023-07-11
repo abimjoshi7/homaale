@@ -178,7 +178,7 @@ class _KycDetailMainViewState extends State<KycDetailMainView> {
             },
             child: Scaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: CustomLoader(),
               ),
             ),
           );

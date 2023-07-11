@@ -15,6 +15,7 @@ export './custom_header.dart';
 export './custom_horizontal_divider.dart';
 export './custom_image_text_box.dart';
 export './custom_label_text.dart';
+export './custom_loader.dart';
 export './custom_modal_sheet_drawer_icon.dart';
 export './custom_radio.dart';
 export './custom_tag_text_field.dart';

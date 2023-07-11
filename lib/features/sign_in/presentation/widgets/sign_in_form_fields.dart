@@ -200,7 +200,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               ),
             );
           }
-          return CircularProgressIndicator();
+          return CustomLoader();
         }
 
         Widget loginButton() {
@@ -277,7 +277,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               label: 'Login',
             );
           }
-          return CircularProgressIndicator();
+          return CustomLoader();
         }
 
         return Form(

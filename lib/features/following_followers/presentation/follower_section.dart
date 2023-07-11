@@ -1,6 +1,7 @@
 import 'package:cipher/features/following_followers/data/repositories/follow_follower_repository.dart';
 import 'package:cipher/widgets/bottom_loader.dart';
 import 'package:cipher/widgets/follow_following_widget.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +14,9 @@ class FollowerSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (_) =>
-            FollowFollowerBloc(followFollowersRepositroy: FollowFollowersRepositroy())..add(FetchFollowerEvent()),
+        create: (_) => FollowFollowerBloc(
+            followFollowersRepositroy: FollowFollowersRepositroy())
+          ..add(FetchFollowerEvent()),
         child: const FollowerList(),
       ),
     );
@@ -50,7 +52,9 @@ class _FollowerListState extends State<FollowerList> {
             }
             return ListView.builder(
               padding: EdgeInsets.zero,
-              itemCount: state.followersHasReachedMax ? state.followerList.length : state.followerList.length + 1,
+              itemCount: state.followersHasReachedMax
+                  ? state.followerList.length
+                  : state.followerList.length + 1,
               controller: _scrollController,
               physics: AlwaysScrollableScrollPhysics(),
               itemBuilder: (context, index) {
@@ -71,7 +75,7 @@ class _FollowerListState extends State<FollowerList> {
               },
             );
           case FollowFollowerStatus.initial:
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CustomLoader());
         }
       },
     );

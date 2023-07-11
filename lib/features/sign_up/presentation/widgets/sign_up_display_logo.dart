@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/enums.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/sign_up_bloc.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class SignUpDisplayLogo extends StatelessWidget {
@@ -15,6 +16,6 @@ class SignUpDisplayLogo extends StatelessWidget {
             : 'assets/logos/mail_logo.png',
       );
     }
-    return const CircularProgressIndicator();
+    return const CustomLoader();
   }
 }

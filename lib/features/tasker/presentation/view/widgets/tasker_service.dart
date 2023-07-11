@@ -5,6 +5,7 @@ import 'package:cipher/features/task_entity_service/presentation/pages/task_enti
 import 'package:cipher/features/tasker/presentation/bloc/tasker_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/widgets/service_card.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -97,7 +98,7 @@ class _TaskerServiceState extends State<TaskerService> {
                 ),
               );
             default:
-              return CircularProgressIndicator();
+              return CustomLoader();
           }
         },
       ),
