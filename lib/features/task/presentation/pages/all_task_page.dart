@@ -397,7 +397,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
             case TheStates.failure:
               return Text("Could Not Load Tasks");
             default:
-              return const Center(child: CircularProgressIndicator());
+              return const Center(child: CustomLoader());
           }
         },
       ),

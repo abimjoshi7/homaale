@@ -85,7 +85,7 @@ class _ChatListingPageState extends State<ChatListingPage> {
                             bloc: chatBloc,
                             builder: (context, state) {
                               if (state.states == TheStates.loading) {
-                                return CircularProgressIndicator();
+                                return CustomLoader();
                               } else if (state.states == TheStates.success) {
                                 return Expanded(
                                   child: ListView.separated(
@@ -218,12 +218,12 @@ class _ChatListingPageState extends State<ChatListingPage> {
                               } else if (state.states == TheStates.failure) {
                                 return Center(
                                     child: CommonErrorContainer(
-                                      assetsPath: 'assets/no_data_found.png',
-                                      errorDes: 'No chats. Start a service or task to initiate chat',
-                                    ));
+                                  assetsPath: 'assets/no_data_found.png',
+                                  errorDes:
+                                      'No chats. Start a service or task to initiate chat',
+                                ));
                               } else {
-                                return Center(
-                                    child: CircularProgressIndicator());
+                                return Center(child: CustomLoader());
                               }
                             },
                           );
@@ -233,17 +233,19 @@ class _ChatListingPageState extends State<ChatListingPage> {
                             height: MediaQuery.of(context).size.height * 0.9,
                             child: Center(
                                 child: CommonErrorContainer(
-                                  assetsPath: 'assets/no_data_found.png',
-                                  errorDes: 'No chats. Start a service or task to initiate chat',
-                                )),
+                              assetsPath: 'assets/no_data_found.png',
+                              errorDes:
+                                  'No chats. Start a service or task to initiate chat',
+                            )),
                           );
                         }
                       } else {
-                        return  Center(
+                        return Center(
                             child: CommonErrorContainer(
-                              assetsPath: 'assets/no_data_found.png',
-                              errorDes: 'No chats. Start a service or task to initiate chat',
-                            ));
+                          assetsPath: 'assets/no_data_found.png',
+                          errorDes:
+                              'No chats. Start a service or task to initiate chat',
+                        ));
                       }
                     }
                     return Center(child: CardLoading(height: 200));

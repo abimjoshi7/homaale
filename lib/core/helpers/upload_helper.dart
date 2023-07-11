@@ -1,4 +1,5 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
@@ -23,7 +24,7 @@ class UploadHelper {
         barrierDismissible: false,
         context: context,
         builder: (context) => Center(
-          child: CircularProgressIndicator(),
+          child: CustomLoader(),
         ),
       );
 
@@ -47,7 +48,7 @@ class UploadHelper {
         barrierDismissible: false,
         context: context,
         builder: (context) => Center(
-          child: CircularProgressIndicator(),
+          child: CustomLoader(),
         ),
       );
 

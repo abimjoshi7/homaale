@@ -370,7 +370,7 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
   //     barrierDismissible: false,
   //     context: context,
   //     builder: (context) => Center(
-  //       child: CircularProgressIndicator(),
+  //       child: CustomLoader(),
   //     ),
   //   );
 

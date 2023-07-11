@@ -18,8 +18,20 @@ class TaskerReviewSection extends StatefulWidget {
 }
 
 class _TaskerReviewSectionState extends State<TaskerReviewSection> {
-  List<String> ratingList = ['All Stars', '5 Stars', '4 Stars', '3 Stars', '2 Stars', '1 Star'];
-  List<String> sortList = ['Oldest - Newest', 'Newest - Oldest', 'Highest - Lowest', 'Lowest - Highest'];
+  List<String> ratingList = [
+    'All Stars',
+    '5 Stars',
+    '4 Stars',
+    '3 Stars',
+    '2 Stars',
+    '1 Star'
+  ];
+  List<String> sortList = [
+    'Oldest - Newest',
+    'Newest - Oldest',
+    'Highest - Lowest',
+    'Lowest - Highest'
+  ];
 
   String? currentRatingSelected;
   String? currentSortSelected;
@@ -27,7 +39,8 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
   @override
   void initState() {
     super.initState();
-    context.read<TaskerCubit>().loadSingleTaskerReviews(context.read<TaskerCubit>().state.singleTasker.user?.id ?? '');
+    context.read<TaskerCubit>().loadSingleTaskerReviews(
+        context.read<TaskerCubit>().state.singleTasker.user?.id ?? '');
   }
 
   showFilterSortModal(FilterSort filterSort) {
@@ -75,7 +88,13 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
                       });
                     }
                     context.read<TaskerCubit>().loadSingleTaskerReviews(
-                          context.read<TaskerCubit>().state.singleTasker.user?.id ?? '',
+                          context
+                                  .read<TaskerCubit>()
+                                  .state
+                                  .singleTasker
+                                  .user
+                                  ?.id ??
+                              '',
                           order: getOrder(displayList[index]),
                           rating: getRating(displayList[index]),
                         );
@@ -148,12 +167,14 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
                       Row(
                         children: [
                           IconButton(
-                            onPressed: () => showFilterSortModal(FilterSort.filter),
+                            onPressed: () =>
+                                showFilterSortModal(FilterSort.filter),
                             icon: Icon(Icons.filter_alt_outlined),
                             iconSize: 18,
                           ),
                           IconButton(
-                            onPressed: () => showFilterSortModal(FilterSort.sort),
+                            onPressed: () =>
+                                showFilterSortModal(FilterSort.sort),
                             icon: Icon(Icons.sort),
                             iconSize: 18,
                           ),
@@ -163,10 +184,13 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
                   ),
                 ),
                 state.taskerReviewsResponse.result?.isEmpty ?? true
-                    ? Container(margin: EdgeInsets.only(top: 30), child: Text('Tasker has no reviews yet!'))
+                    ? Container(
+                        margin: EdgeInsets.only(top: 30),
+                        child: Text('Tasker has no reviews yet!'))
                     : Expanded(
                         child: ListView.separated(
-                          itemCount: state.taskerReviewsResponse.result?.length ?? 0,
+                          itemCount:
+                              state.taskerReviewsResponse.result?.length ?? 0,
                           padding: EdgeInsets.zero,
                           itemBuilder: (context, index) => Column(
                             children: [
@@ -180,19 +204,24 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
                                       children: [
                                         Row(
                                           children: [
                                             SizedBox(
-                                              width: MediaQuery.of(context).size.width * 0.3,
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  0.3,
                                               child: Text(
                                                 '${state.taskerReviewsResponse.result?[index].ratedBy?.fullName}',
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
                                             WidgetText(
-                                              label: '${state.taskerReviewsResponse.result?[index].rating}',
+                                              label:
+                                                  '${state.taskerReviewsResponse.result?[index].rating}',
                                               widget: Icon(
                                                 Icons.star_rounded,
                                                 size: 14,
@@ -202,15 +231,19 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
                                           ],
                                         ),
                                         Text(
-                                          Jiffy('${state.taskerReviewsResponse.result?[index].createdAt}').yMMMMd,
-                                          style: Theme.of(context).textTheme.bodySmall,
+                                          Jiffy('${state.taskerReviewsResponse.result?[index].createdAt}')
+                                              .yMMMMd,
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .bodySmall,
                                         ),
                                       ],
                                     ),
                                     kHeight5,
                                     Text(
                                       '${state.taskerReviewsResponse.result?[index].review}',
-                                      style: Theme.of(context).textTheme.bodySmall,
+                                      style:
+                                          Theme.of(context).textTheme.bodySmall,
                                     ),
                                   ],
                                 ),
@@ -224,13 +257,14 @@ class _TaskerReviewSectionState extends State<TaskerReviewSection> {
             );
 
           default:
-            return CircularProgressIndicator();
+            return CustomLoader();
         }
       },
     );
   }
 
-  ListTile typeWidget({required String title, required bool isSelected, VoidCallback? onTap}) {
+  ListTile typeWidget(
+      {required String title, required bool isSelected, VoidCallback? onTap}) {
     return ListTile(
       onTap: onTap,
       title: Text(

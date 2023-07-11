@@ -2,6 +2,7 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/widgets/custom_app_bar.dart';
 import 'package:cipher/widgets/list_tile_component.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -33,7 +34,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
         builder: (context, state) {
           switch (state.notificationStatus) {
             case NotificationStatus.loading:
-              return Center(child: CircularProgressIndicator());
+              return Center(child: CustomLoader());
             case NotificationStatus.success:
               final todayList = state.notificationList
                   .where((element) =>
@@ -251,7 +252,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                 ),
               );
             default:
-              return Center(child: CircularProgressIndicator());
+              return Center(child: CustomLoader());
           }
         },
       ),

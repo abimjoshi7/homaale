@@ -12,32 +12,13 @@ class BillingAndPaymentPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: CustomAppBar(
+        appBarTitle: 'Billing & Payments',
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          kHeight50,
-          CustomHeader(
-            leadingWidget: IconButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              icon: const Icon(
-                Icons.arrow_back,
-              ),
-            ),
-            trailingWidget: SizedBox(),
-            child: const Text(
-              'Billing & Payments',
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w500,
-                color: Color(
-                  0xff212529,
-                ),
-              ),
-            ),
-          ),
-          const Divider(),
           Padding(
             padding: const EdgeInsets.all(10),
             child: BillsPaymentList(),
@@ -238,7 +219,7 @@ class _BillsPaymentListState extends State<BillsPaymentList> {
               );
             }
           default:
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CustomLoader());
         }
       },
     );

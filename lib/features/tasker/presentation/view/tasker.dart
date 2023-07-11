@@ -426,7 +426,7 @@ class TaskerProfileViewState extends State<TaskerProfileView>
                       Text("Couldn't fetch tasker profile. Try again later!"),
                 );
               default:
-                return Center(child: CircularProgressIndicator());
+                return Center(child: CustomLoader());
             }
           },
         ),
