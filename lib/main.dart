@@ -28,8 +28,4 @@ void main() async {
 }
 
 //TODO: no bookings after 3 times
-//TODO: Rewards
-//TODO: Offers
-
-
-//! commission: double,  isBookmarked: bool,
+//TODO: Service booking event validation(dates other than event cna be selected)

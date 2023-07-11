@@ -22,7 +22,8 @@ class _GoogleLoginState extends State<GoogleLogin> {
   final storage = const FlutterSecureStorage();
   final googleSignIn = GoogleSignIn(
     scopes: ['openid', 'email', 'profile'],
-    serverClientId: '245846975950-vucoc2e1cmeielq5f5neoca7880n0u2i.apps.googleusercontent.com',
+    serverClientId:
+        '245846975950-vucoc2e1cmeielq5f5neoca7880n0u2i.apps.googleusercontent.com',
   );
 
   Future<void> signIn() async {
@@ -34,7 +35,8 @@ class _GoogleLoginState extends State<GoogleLogin> {
       final authentication = await result?.authentication;
       if (authentication?.idToken != null) {
         final idToken = authentication!.idToken;
-        final x = await SignInRepository().sendGoogleLoginReq({'credential': idToken});
+        final x = await SignInRepository()
+            .sendGoogleLoginReq({'credential': idToken});
         if (x.access != null) {
           CacheHelper.hasProfile = x.hasProfile;
           CacheHelper.accessToken = x.access;

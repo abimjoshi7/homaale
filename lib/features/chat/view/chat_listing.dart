@@ -41,7 +41,7 @@ class _ChatListingPageState extends State<ChatListingPage> {
         appBarTitle: 'Messages',
         trailingWidget: SizedBox(),
       ),
-      body: ListView(
+      body: Column(
         children: [
           BlocBuilder<UserBloc, UserState>(
             builder: (context, userState) {
@@ -85,7 +85,12 @@ class _ChatListingPageState extends State<ChatListingPage> {
                             bloc: chatBloc,
                             builder: (context, state) {
                               if (state.states == TheStates.loading) {
-                                return CustomLoader();
+                                return Center(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: CustomLoader(),
+                                  ),
+                                );
                               } else if (state.states == TheStates.success) {
                                 return Expanded(
                                   child: ListView.separated(
