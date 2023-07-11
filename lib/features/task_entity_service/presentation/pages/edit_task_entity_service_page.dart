@@ -1,5 +1,8 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
+import 'package:cipher/features/home/presentation/pages/home.dart';
+import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/cupertino.dart';
@@ -330,8 +333,13 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm>
               content: 'Information updated successfully!',
               onTap: () {
                 context.read<TaskEntityServiceBloc>().add(ResetTESEditStatus());
-                Navigator.pop(context);
-                Navigator.pop(context);
+                context
+                    .read<TaskBloc>()
+                    .add(AllTaskLoadInitiated(page: 1, newFetch: true));
+                Navigator.pushNamed(
+                  context,
+                  Root.routeName,
+                );
               },
               isSuccess: true,
             ),

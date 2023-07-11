@@ -194,6 +194,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
         label: "Address Information",
         isRequired: true,
         child: CustomTextFormField(
+          validator: (p0) => p0!.isEmpty ? "Required Field" : null,
           hintText: "Enter address details",
           controller: addressController,
         ),

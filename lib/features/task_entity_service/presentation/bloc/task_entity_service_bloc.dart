@@ -265,10 +265,6 @@ class TaskEntityServiceBloc
             );
           },
         );
-        add(TaskEntityServiceInitiated(
-          isTask: true,
-          page: 1,
-        ));
       } catch (e) {
         emit(
           state.copyWith(
