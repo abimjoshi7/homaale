@@ -25,9 +25,14 @@ mixin TheModalBottomSheet {
         padding: EdgeInsets.only(
           bottom: MediaQuery.of(context).viewInsets.bottom,
         ),
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: widget,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: widget,
+            ),
+          ],
         ),
       ),
     );

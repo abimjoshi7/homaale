@@ -5,7 +5,12 @@ class CommonErrorContainer extends StatelessWidget {
   final String assetsPath;
   final String? errorTile;
   final String? errorDes;
-  const CommonErrorContainer({Key? key, required this.assetsPath, this.errorTile, this.errorDes}) : super(key: key);
+  const CommonErrorContainer(
+      {Key? key,
+      this.assetsPath = "assets/no_data_found.png",
+      this.errorTile,
+      this.errorDes})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {

@@ -7,3 +7,4 @@ export './profession_information_modal_sheet.dart';
 export './profile_config_modal_sheet.dart';
 export '../pages/profile/pages/complete_profile_page.dart';
 export 'additional_account_info_page.dart';
+export './connected_account_card.dart';
