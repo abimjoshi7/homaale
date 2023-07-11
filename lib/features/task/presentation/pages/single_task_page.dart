@@ -580,7 +580,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                         .headlineSmall,
                                   ),
                                 ),
-                              ),
+														),
                               kHeight10,
                               ListView.separated(
                                 shrinkWrap: true,

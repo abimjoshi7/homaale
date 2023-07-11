@@ -455,6 +455,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                     Navigator.pop(context);
                                   },
                                   onNegotiatePressed: () {
+
                                     context.read<tb.TaskBloc>().add(
                                           tb.ChangeTaskNegotiationStatus(
                                             id: state.applicantModel
