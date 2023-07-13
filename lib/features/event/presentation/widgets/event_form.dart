@@ -506,8 +506,22 @@ class _EventFormState extends State<EventForm> {
               onTap: () async {
                 await showDatePicker(
                   context: context,
-                  initialDate: startDate ?? _currentDate,
-                  firstDate: startDate ?? _currentDate,
+                  initialDate: startDate?.add(
+                        Duration(
+                          days: 1,
+                        ),
+                      ) ??
+                      _currentDate.add(
+                        Duration(
+                          days: 1,
+                        ),
+                      ),
+                  firstDate: startDate?.add(
+                        Duration(
+                          days: 1,
+                        ),
+                      ) ??
+                      _currentDate,
                   lastDate: DateTime(
                     _currentDate.year + 2,
                   ),

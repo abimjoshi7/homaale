@@ -169,7 +169,15 @@ class _ConnectedAccountPageViewState extends State<ConnectedAccountPageView> {
                           .uid!
                       : "Sign in with Facebook",
                   imagePath: "assets/logos/fb_logo.png",
-                  onTap: () async {},
+                  onTap: () async {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text(
+                          "Feature coming soon...",
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ],
             );

@@ -12,6 +12,7 @@ class PasswordAndSecurity extends StatelessWidget {
     return Scaffold(
         appBar: CustomAppBar(
           appBarTitle: 'Password & Security',
+          trailingWidget: SizedBox.shrink(),
         ),
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,9 +69,7 @@ class PasswordAndSecurity extends StatelessWidget {
                           context: context,
                           builder: (context) => Padding(
                             padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context)
-                                  .viewInsets
-                                  .bottom,
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
                             ),
                             child: const AddPhoneNumberModalSheet(),
                           ),
@@ -86,9 +85,7 @@ class PasswordAndSecurity extends StatelessWidget {
                           context: context,
                           builder: (context) => Padding(
                             padding: EdgeInsets.only(
-                              bottom: MediaQuery.of(context)
-                                  .viewInsets
-                                  .bottom,
+                              bottom: MediaQuery.of(context).viewInsets.bottom,
                             ),
                             child: const AddEmailModalSheet(),
                           ),
