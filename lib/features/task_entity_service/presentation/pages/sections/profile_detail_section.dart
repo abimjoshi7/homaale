@@ -88,7 +88,7 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                         children: [
                           ListTile(
                             leading: const Icon(
-                              Icons.share,
+                              Icons.redo_sharp,
                               color: Colors.blue,
                             ),
                             horizontalTitleGap: 4,
@@ -279,6 +279,11 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
           ],
         ),
         addVerticalSpace(10),
+        Text(
+          'Created Date',
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
+        addVerticalSpace(10),
         IconText(
           label:
               "${DateFormat('hh:mm a - MMMM dd, y').format(state.taskEntityService.createdAt ?? DateTime.now())}",
@@ -287,6 +292,10 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
           color: Colors.red,
         ),
         addVerticalSpace(10),
+        Text(
+          'Problem Description',
+          style: Theme.of(context).textTheme.headlineSmall,
+        ),
         HtmlRemover(text: state.taskEntityService.description ?? ''),
         addHorizontalSpace(10),
       ],
