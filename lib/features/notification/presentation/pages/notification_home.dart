@@ -1,5 +1,7 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/kyc_constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/features/notification/data/models/all_notification_list.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
@@ -290,6 +292,14 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
 
   void _onTilePressed(Result notification) {
     if (notification.contentObject?.entityService == null) {
+      if (notification.title == "kyc_document_submitted" ||
+          notification.title == "kyc_document_verified" ||
+          notification.title == "kyc_document_rejected") {
+        conditionalCheckNavigation(
+          context,
+          context.read<KycBloc>().state,
+        );
+      }
       if (notification.title == "booking") {
         Navigator.pushNamed(
           context,
