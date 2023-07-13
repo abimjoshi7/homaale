@@ -212,7 +212,7 @@ class ServiceCard extends StatelessWidget {
                                 16,
                               ),
                               Flexible(
-                                flex: 2,
+                                flex: isRange ?? false ? 3 : 2,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [

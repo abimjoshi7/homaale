@@ -58,6 +58,8 @@ class _RootState extends State<Root> {
 
   @override
   Widget build(BuildContext context) {
+    final routeArgs =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return ShowCaseWidget(
       onFinish: () {
         CacheHelper.setCachedString(kShowcase, 'done');
@@ -67,6 +69,7 @@ class _RootState extends State<Root> {
       builder: Builder(
         builder: (context) => CalledRootClass(
           showcase: enableShowcase,
+          passedIndex: routeArgs?["index"] as int?,
         ),
       ),
     );
@@ -74,8 +77,10 @@ class _RootState extends State<Root> {
 }
 
 class CalledRootClass extends StatefulWidget {
-  const CalledRootClass({Key? key, required this.showcase}) : super(key: key);
+  const CalledRootClass({Key? key, required this.showcase, this.passedIndex})
+      : super(key: key);
   final bool showcase;
+  final int? passedIndex;
 
   @override
   State<CalledRootClass> createState() => _CalledRootClassState();
@@ -129,6 +134,45 @@ class _CalledRootClassState extends State<CalledRootClass>
   void initBlocs() {
     if (CacheHelper.isLoggedIn) {
       context.read<NotificationBloc>().add(MyNotificationListInitiated());
+    }
+    if (widget.passedIndex == null) return;
+    switch (widget.passedIndex) {
+      case 0:
+        homeActive = true;
+        boxActive = false;
+        addActive = false;
+        bookingsActive = false;
+        profileActive = false;
+        break;
+      case 1:
+        homeActive = false;
+        boxActive = true;
+        addActive = false;
+        bookingsActive = false;
+        profileActive = false;
+        break;
+      case 2:
+        homeActive = false;
+        boxActive = false;
+        addActive = true;
+        bookingsActive = false;
+        profileActive = false;
+        break;
+      case 3:
+        homeActive = false;
+        boxActive = false;
+        addActive = false;
+        bookingsActive = true;
+        profileActive = false;
+        break;
+      case 4:
+        homeActive = false;
+        boxActive = false;
+        addActive = false;
+        bookingsActive = false;
+        profileActive = true;
+        break;
+      default:
     }
   }
 
@@ -190,6 +234,7 @@ class _CalledRootClassState extends State<CalledRootClass>
   @override
   void initState() {
     initBlocs();
+    pageIndex = widget.passedIndex ?? 0;
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) async {
         getConnectivity();

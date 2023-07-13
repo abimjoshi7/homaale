@@ -5,7 +5,6 @@ import 'package:cipher/features/task_entity_service/presentation/bloc/task_entit
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/service_card.dart';
-import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart' as tsk;
 
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';

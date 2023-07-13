@@ -87,11 +87,6 @@ class _EditProfileSectionState extends State<EditProfileSection> {
               heading: 'Success',
               content: 'Profile was updated successfully',
               onTap: () => Navigator.pop(context),
-              //     Navigator.pushNamedAndRemoveUntil(
-              //   context,
-              //   Root.routeName,
-              //   (route) => false,
-              // ),
             ),
           );
         } else if (state.theStates == TheStates.failure &&
@@ -103,11 +98,6 @@ class _EditProfileSectionState extends State<EditProfileSection> {
               heading: 'Failure',
               content: 'Profile cannot be updated',
               onTap: () => Navigator.pop(context),
-              // onTap: () => Navigator.pushNamedAndRemoveUntil(
-              //   context,
-              //   Root.routeName,
-              //   (route) => false,
-              // ),
             ),
           );
         }
