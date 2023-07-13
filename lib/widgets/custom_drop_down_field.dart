@@ -39,10 +39,10 @@ class _CustomDropDownTextformState<T> extends State<CustomDropDownField<T>> {
   @override
   Widget build(BuildContext context) {
     return DropdownButtonFormField<T>(
+      validator: (value) => value == null ? 'Required Field' : null,
       autovalidateMode: widget.autovalidateMode,
       key: widget.dropDownKey,
       iconEnabledColor: kColorSilver,
-      validator: widget.validator,
       icon: const Icon(
         Icons.keyboard_arrow_down_rounded,
       ),

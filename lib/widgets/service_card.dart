@@ -109,8 +109,8 @@ class ServiceCard extends StatelessWidget {
                             ),
                             addHorizontalSpace(5),
                             IconText(
-                              label:
-                                  rating == 'null' ? '0.0' : rating.toString(),
+                              label: rating ?? "0.0",
+                              // rating == 'null' ? '0.0' : rating.toString(),
                               iconData: Icons.star_rate_rounded,
                               size: 13,
                               color: kColorAmber,
