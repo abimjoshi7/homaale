@@ -28,4 +28,13 @@ class ConnectedAccountRepo {
             )
             .toList(),
       );
+
+  Future<void> unlinkAccount(
+      {required int id, required String password}) async {
+    await _dio.postDataWithCredential(
+      data: {"password": password},
+      url: "user/unlink/social/$id/",
+      token: CacheHelper.accessToken,
+    );
+  }
 }

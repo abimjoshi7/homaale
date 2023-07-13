@@ -30,4 +30,29 @@ class ConnectedAccountCubit extends Cubit<ConnectedAccountState> {
       ),
     );
   }
+
+  Future<void> unlinkAccount(
+      {required int id, required String password}) async {
+    emit(
+      state.copyWith(
+        states: TheStates.loading,
+      ),
+    );
+    try {
+      await repo.unlinkAccount(id: id, password: password).then((value) {
+        emit(
+          state.copyWith(
+            states: TheStates.success,
+          ),
+        );
+      });
+    } catch (e) {
+      emit(
+        state.copyWith(
+          states: TheStates.failure,
+        ),
+      );
+      await getList();
+    }
+  }
 }

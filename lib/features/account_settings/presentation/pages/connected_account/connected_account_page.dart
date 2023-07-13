@@ -4,6 +4,7 @@ import 'package:cipher/features/account_settings/data/repositories/connected_acc
 import 'package:cipher/features/account_settings/presentation/cubit/connected_account_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/widgets/widgets.dart';
 import 'package:cipher/features/error_pages/no_internet_page.dart';
+import 'package:cipher/features/sign_in/presentation/cubit/google_sign_in_cubit.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -15,12 +16,7 @@ class ConnectedAccountPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => ConnectedAccountCubit(
-        ConnectedAccountRepo(),
-      )..getList(),
-      child: ConnectedAccountPageView(),
-    );
+    return ConnectedAccountPageView();
   }
 }
 
@@ -33,6 +29,14 @@ class ConnectedAccountPageView extends StatefulWidget {
 }
 
 class _ConnectedAccountPageViewState extends State<ConnectedAccountPageView> {
+  final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    super.dispose();
+    passwordController.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -66,7 +70,94 @@ class _ConnectedAccountPageViewState extends State<ConnectedAccountPageView> {
                           .uid!
                       : "Sign in with Google",
                   imagePath: "assets/logos/google_logo.png",
-                  onTap: () {},
+                  onTap: () async {
+                    isGoogle
+                        ? await showDialog(
+                            context: context,
+                            builder: (context) => AlertDialog(
+                              title: Text(
+                                "Confirm",
+                                style:
+                                    Theme.of(context).textTheme.headlineLarge,
+                              ),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Text(
+                                    "Please enter your password",
+                                    style:
+                                        Theme.of(context).textTheme.bodyLarge,
+                                  ),
+                                  addVerticalSpace(
+                                    8,
+                                  ),
+                                  CustomTextFormField(
+                                    controller: passwordController,
+                                  ),
+                                  addVerticalSpace(
+                                    8,
+                                  ),
+                                  BlocListener<ConnectedAccountCubit,
+                                      ConnectedAccountState>(
+                                    listenWhen: (previous, current) {
+                                      if (previous.states !=
+                                              TheStates.success &&
+                                          current.states == TheStates.success) {
+                                        return true;
+                                      }
+                                      if (previous.states !=
+                                              TheStates.failure &&
+                                          current.states == TheStates.failure) {
+                                        return true;
+                                      }
+                                      return false;
+                                    },
+                                    listener: (context, state) async {
+                                      if (state.states == TheStates.success) {
+                                        await context
+                                            .read<ConnectedAccountCubit>()
+                                            .getList();
+                                        Navigator.pop(context);
+                                      }
+
+                                      // if (state.states == TheStates.failure) {
+                                      //   ScaffoldMessenger.of(context)
+                                      //       .showSnackBar(
+                                      //     SnackBar(
+                                      //       content: Text(
+                                      //         "Error",
+                                      //       ),
+                                      //     ),
+                                      //   );
+                                      // }
+                                    },
+                                    child: CustomElevatedButton(
+                                      callback: () async {
+                                        await context
+                                            .read<ConnectedAccountCubit>()
+                                            .unlinkAccount(
+                                              id: list
+                                                  .firstWhere((element) =>
+                                                      element.provider!
+                                                          .contains("google"))
+                                                  .id!,
+                                              password: passwordController.text,
+                                            );
+                                      },
+                                      label: "Continue",
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                          )
+                        : await context
+                            .read<GoogleSignInCubit>()
+                            .signIn(context)
+                            .then((value) async => await context
+                                .read<ConnectedAccountCubit>()
+                                .getList());
+                  },
                 ),
                 ConnectedAccountCard(
                   label: "Facebook",
