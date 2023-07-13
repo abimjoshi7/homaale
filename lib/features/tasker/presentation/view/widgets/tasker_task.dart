@@ -106,7 +106,7 @@ class _TaskerTaskState extends State<TaskerTask> {
               );
 
             default:
-              return CircularProgressIndicator();
+              return CustomLoader();
           }
         },
       ),

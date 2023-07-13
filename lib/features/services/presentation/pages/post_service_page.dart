@@ -95,7 +95,7 @@ class _PostServicePageState extends State<PostServicePage> {
   //     barrierDismissible: false,
   //     context: context,
   //     builder: (context) => Center(
-  //       child: CircularProgressIndicator(),
+  //       child: CustomLoader(),
   //     ),
   //   );
   //   // if (uploadBloc.state.isFileUploaded) return;
@@ -152,7 +152,6 @@ class _PostServicePageState extends State<PostServicePage> {
                           _buildHighlights(),
                           addVerticalSpace(10.0),
                           _buildServiceType(),
-                          addVerticalSpace(10.0),
                           _buildAddress(),
                           addVerticalSpace(10.0),
                           _buildCity(),
@@ -160,9 +159,8 @@ class _PostServicePageState extends State<PostServicePage> {
                           _buildDescription(),
                           addVerticalSpace(10.0),
                           _buildCurrency(),
-                          // addVerticalSpace(10.0),
+                          _buildBudget(),
                           _buildIsNegotiable(),
-                          // addVerticalSpace(10.0),
                           _buildDialog(),
                           addVerticalSpace(10.0),
                           CustomMultimedia(
@@ -235,6 +233,9 @@ class _PostServicePageState extends State<PostServicePage> {
         }
       },
       builder: (context, state) {
+        if (state.theStates == TheStates.loading) {
+          return CustomLoader();
+        }
         final upload = UploadHelper(bloc: uploadBloc, context: context);
 
         return BlocListener<UploadBloc, UploadState>(
@@ -291,11 +292,13 @@ class _PostServicePageState extends State<PostServicePage> {
                 videos: uploadBloc.state.uploadedVideoList,
               );
 
-              context.read<TaskEntityServiceBloc>().add(
-                    TaskEntityServiceCreated(
-                      req: req,
-                    ),
-                  );
+              print(req);
+
+              // context.read<TaskEntityServiceBloc>().add(
+              //       TaskEntityServiceCreated(
+              //         req: req,
+              //       ),
+              //     );
             }
           },
           child: CustomElevatedButton(
@@ -317,7 +320,7 @@ class _PostServicePageState extends State<PostServicePage> {
                         description: descriptionController.text,
                         highlights: requirementList,
                         budgetType: budgetType,
-                        budgetFrom: startPriceController.text.isEmpty
+                        budgetFrom: startPriceController.text.length == 0
                             ? null
                             : double.parse(
                                 startPriceController.text,
@@ -476,40 +479,20 @@ class _PostServicePageState extends State<PostServicePage> {
           ),
         ),
         addVerticalSpace(10.0),
+      ],
+    );
+  }
+
+  Column _buildBudget() {
+    return Column(
+      children: [
         CustomFormField(
           label: 'Price',
           isRequired: true,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Row(
-                children: [
-                  Radio<String>(
-                    value: 'Fixed',
-                    groupValue: priceType,
-                    onChanged: (value) => setState(
-                      () {
-                        priceType = value;
-                        isBudgetVariable = false;
-                        startPriceController.clear();
-                      },
-                    ),
-                  ),
-                  const Text('Fixed'),
-                  addHorizontalSpace(10),
-                  Radio<String>(
-                    value: 'Variable',
-                    groupValue: priceType,
-                    onChanged: (value) => setState(
-                      () {
-                        priceType = value;
-                        isBudgetVariable = true;
-                      },
-                    ),
-                  ),
-                  const Text('Variable'),
-                ],
-              )
+              _buildPriceRadio(),
             ],
           ),
         ),
@@ -557,6 +540,7 @@ class _PostServicePageState extends State<PostServicePage> {
                               context.read<CategoriesBloc>().state.commission ??
                                   "0.0"),
                         );
+                      print(budgetFrom);
                     },
                   ),
                   suffixWidget: budgetIncrementIcon(startPriceController),
@@ -714,9 +698,42 @@ class _PostServicePageState extends State<PostServicePage> {
     );
   }
 
+  Row _buildPriceRadio() {
+    return Row(
+      children: [
+        Radio<String>(
+          value: 'Fixed',
+          groupValue: priceType,
+          onChanged: (value) => setState(
+            () {
+              priceType = value;
+              isBudgetVariable = false;
+              // startPriceController.clear();
+            },
+          ),
+        ),
+        const Text('Fixed'),
+        addHorizontalSpace(10),
+        Radio<String>(
+          value: 'Variable',
+          groupValue: priceType,
+          onChanged: (value) => setState(
+            () {
+              priceType = value;
+              isBudgetVariable = true;
+            },
+          ),
+        ),
+        const Text('Variable'),
+      ],
+    );
+  }
+
   Padding budgetIncrementIcon(TextEditingController controller) {
     return Padding(
-      padding: const EdgeInsets.only(right: 5.0),
+      padding: const EdgeInsets.only(
+        right: 5.0,
+      ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.end,

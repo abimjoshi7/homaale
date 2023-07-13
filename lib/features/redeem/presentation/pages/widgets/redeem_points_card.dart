@@ -71,7 +71,7 @@ class _RedeemPointsCardState extends State<RedeemPointsCard> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               Container(
-                                height: 80,
+                                height: 60,
                                 width: 160,
                                 margin: EdgeInsets.all(10),
                                 padding: EdgeInsets.all(10),

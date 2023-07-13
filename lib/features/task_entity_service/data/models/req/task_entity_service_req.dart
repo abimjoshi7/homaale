@@ -101,10 +101,10 @@ class TaskEntityServiceReq {
       'videos': videos,
     };
 
-    map.removeWhere((key, value) => value == null || value == '' || (value is List && value.isEmpty));
-    if (map.containsKey('budget_from')) {
-      map.update('budget_from', (value) => null);
-    }
+    // map.removeWhere((key, value) => value == null || value == '' || (value is List && value.isEmpty));
+    // if (map.containsKey('budget_from')) {
+    //   map.update('budget_from', (value) => null);
+    // }
 
     return map;
   }

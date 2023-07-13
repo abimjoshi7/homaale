@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/colors.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:flutter/material.dart';
 
 class LoadingWidget extends StatelessWidget {
@@ -18,7 +19,7 @@ class LoadingWidget extends StatelessWidget {
                 width: MediaQuery.of(context).size.width,
                 color: kColorDarkGrey.withOpacity(0.5),
                 child: Center(
-                  child: CircularProgressIndicator(),
+                  child: CustomLoader(),
                 ),
               )
             : SizedBox.shrink(),

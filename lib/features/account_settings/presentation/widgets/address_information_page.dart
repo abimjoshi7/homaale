@@ -152,7 +152,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                                   ],
                               onChanged: (value) => setState(
                                 () {
-                                  languages == value;
+                                  languages = value.toString();
                                 },
                               ),
                             ),
@@ -179,26 +179,10 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                                   ],
                               onChanged: (value) => setState(
                                 () {
-                                  currency == value;
+                                  currency = value.toString();
                                 },
                               ),
                             );
-
-                            //   CustomDropDownField(
-                            //   hintText:
-                            //       state.taskerProfile?.chargeCurrency?.name ??
-                            //           'Choose suitable currency',
-                            //   list: currencyList?.map((e) => e.name).toList() ??
-                            //       [
-                            //         'NPR',
-                            //         'AUD',
-                            //       ],
-                            //   onChanged: (value) => setState(
-                            //     () {
-                            //       currency = value;
-                            //     },
-                            //   ),
-                            // );
                           },
                         ),
                       ),
@@ -238,16 +222,17 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
                     }
                   }
                   final Map<String, dynamic> map = {
-                    "country": countryCode ?? state.taskerProfile?.country,
+                    "country":
+                        countryCode ?? state.taskerProfile?.country?.code,
                     "address_line1":
                         addressLine1 ?? state.taskerProfile?.addressLine1,
                     "address_line2":
                         addressLine2 ?? state.taskerProfile?.addressLine2,
-                    "language": languageCode ?? state.taskerProfile?.language,
+                    "language":
+                        languageCode ?? state.taskerProfile?.language?.code,
                     "charge_currency": currencyCode ??
                         state.taskerProfile?.chargeCurrency?.code,
                   };
-
                   context.read<UserBloc>().add(
                         UserEdited(
                           req: map,
@@ -269,56 +254,7 @@ class _AddressInformationPageState extends State<AddressInformationPage> {
             ]),
           );
         }
-        return Column(
-          children: [
-            const CustomModalSheetDrawerIcon(),
-            kHeight20,
-            Text(
-              'Address Information',
-              style: kPurpleText19,
-            ),
-            Padding(
-              padding: kPadding20,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  CustomFormField(
-                    label: 'Country',
-                    child: CustomFormContainer(),
-                  ),
-                  CustomFormField(
-                    label: 'Address Line 1',
-                    child: CustomTextFormField(
-                      hintText: 'Baneshwor',
-                    ),
-                  ),
-                  CustomFormField(
-                    label: 'Address Line 2',
-                    child: CustomTextFormField(
-                      hintText: 'Buddhanagar',
-                    ),
-                  ),
-                  CustomFormField(
-                    label: 'Languages',
-                    child: CustomTextFormField(
-                      hintText: 'English',
-                    ),
-                  ),
-                  CustomFormField(
-                    label: 'Currency',
-                    child: CustomTextFormField(
-                      hintText: 'Choose suitable currency',
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            // CustomElevatedButton(
-            //   callback: () {},
-            //   label: 'Save',
-            // ),
-          ],
-        );
+        return Center(child: CustomLoader());
       },
     );
   }

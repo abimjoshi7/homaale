@@ -27,7 +27,7 @@ class SavedCard extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
           child: Container(
             decoration: BoxDecoration(color: Colors.grey.shade100),
-            height: 190,
+            height: 175,
             child: GridView.builder(
               physics: NeverScrollableScrollPhysics(),
               padding: EdgeInsets.zero,
@@ -54,7 +54,7 @@ class SavedCard extends StatelessWidget {
           ),
           child: Text(
             label ?? 'All',
-            style: kPurpleText13,
+            style: Theme.of(context).textTheme.headlineSmall,
           ),
         ),
       ],

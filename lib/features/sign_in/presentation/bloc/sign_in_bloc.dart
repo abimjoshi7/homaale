@@ -97,6 +97,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         }
       },
     );
+
     on<SignInValErrorStatusChanged>(
       ((event, emit) {
         emit(
@@ -107,6 +108,7 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
         );
       }),
     );
+
     on<SignInWithoutCredentials>((event, emit) {
       CacheHelper.isLoggedIn = false;
       emit(

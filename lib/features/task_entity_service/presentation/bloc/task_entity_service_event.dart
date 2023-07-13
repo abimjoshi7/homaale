@@ -81,10 +81,17 @@ class MyTESLoadInitiated extends TaskEntityServiceEvent {
 class TaskEntityServiceSingleLoaded extends TaskEntityServiceEvent {
   final String id;
   final bool? isEdit;
-  const TaskEntityServiceSingleLoaded({required this.id, this.isEdit});
+  final String? query;
+  final bool? newFetch;
+  const TaskEntityServiceSingleLoaded({
+    required this.id,
+    this.isEdit,
+    this.query,
+     this.newFetch=false,
+  });
 
   @override
-  List<Object?> get props => [id, isEdit];
+  List<Object?> get props => [id, isEdit, query, newFetch];
 }
 
 class TaskEntityServiceCreated extends TaskEntityServiceEvent {

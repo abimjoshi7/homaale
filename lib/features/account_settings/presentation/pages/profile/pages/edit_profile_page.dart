@@ -55,17 +55,29 @@ class _EditProfilePageState extends State<EditProfilePage>
             labelPadding: kPadding0,
             controller: _tabController,
             tabs: [
-              Text(
-                'General',
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  '  General',
+                ),
               ),
-              Text(
-                'Address',
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Address',
+                ),
               ),
-              Text(
-                'Professional',
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  'Professional',
+                ),
               ),
-              Text(
-                'Configuration',
+              Align(
+                alignment: Alignment.centerRight,
+                child: Text(
+                  'Configuration',
+                ),
               ),
             ],
           ),

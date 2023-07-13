@@ -1,6 +1,7 @@
 import 'package:cipher/features/following_followers/data/repositories/follow_follower_repository.dart';
 import 'package:cipher/widgets/bottom_loader.dart';
 import 'package:cipher/widgets/follow_following_widget.dart';
+import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -13,8 +14,9 @@ class FollowingSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: BlocProvider(
-        create: (_) =>
-            FollowFollowerBloc(followFollowersRepositroy: FollowFollowersRepositroy())..add(FetchFollowingEvent()),
+        create: (_) => FollowFollowerBloc(
+            followFollowersRepositroy: FollowFollowersRepositroy())
+          ..add(FetchFollowingEvent()),
         child: const FollowingList(),
       ),
     );
@@ -51,7 +53,9 @@ class _FollowingListState extends State<FollowingList> {
             return ListView.builder(
               padding: EdgeInsets.symmetric(horizontal: 8),
               physics: AlwaysScrollableScrollPhysics(),
-              itemCount: state.followingHasReachedMax ? state.followingList.length : state.followingList.length + 1,
+              itemCount: state.followingHasReachedMax
+                  ? state.followingList.length
+                  : state.followingList.length + 1,
               controller: _scrollController,
               itemBuilder: (context, index) {
                 if (index >= state.followingList.length) {
@@ -67,7 +71,9 @@ class _FollowingListState extends State<FollowingList> {
                       showCallbackButton: true,
                       callBackLabel: 'Unfollow',
                       callback: () {
-                        context.read<FollowFollowerBloc>().add(HandleUnfollowEvent(state.followingList[index].id!));
+                        context.read<FollowFollowerBloc>().add(
+                            HandleUnfollowEvent(
+                                state.followingList[index].id!));
                       },
                     ),
                   );
@@ -75,7 +81,7 @@ class _FollowingListState extends State<FollowingList> {
               },
             );
           case FollowFollowerStatus.initial:
-            return const Center(child: CircularProgressIndicator());
+            return const Center(child: CustomLoader());
         }
       },
     );
@@ -90,7 +96,8 @@ class _FollowingListState extends State<FollowingList> {
   }
 
   void _onScroll() {
-    if (_isBottom) context.read<FollowFollowerBloc>().add(FetchFollowingEvent());
+    if (_isBottom)
+      context.read<FollowFollowerBloc>().add(FetchFollowingEvent());
   }
 
   bool get _isBottom {

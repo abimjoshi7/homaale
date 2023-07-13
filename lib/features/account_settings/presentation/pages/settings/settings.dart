@@ -82,20 +82,20 @@ class Settings extends StatelessWidget {
           //     );
           //   },
           // ),
-          AccountListTileSection(
-            icon: const Icon(Icons.notifications_none),
-            label: 'Notifications',
-            trailingWidget: const Icon(
-              Icons.arrow_forward_ios,
-              size: 16,
-            ),
-            onTap: () {
-              Navigator.pushNamed(
-                context,
-                NotificationFromHome.routeName,
-              );
-            },
-          ),
+          // AccountListTileSection(
+          //   icon: const Icon(Icons.notifications_none),
+          //   label: 'Notifications',
+          //   trailingWidget: const Icon(
+          //     Icons.arrow_forward_ios,
+          //     size: 16,
+          //   ),
+          //   onTap: () {
+          //     Navigator.pushNamed(
+          //       context,
+          //       NotificationFromHome.routeName,
+          //     );
+          //   },
+          // ),
           // AccountListTileSection(
           //   icon: const Icon(Icons.language),
           //   label: 'Languages',

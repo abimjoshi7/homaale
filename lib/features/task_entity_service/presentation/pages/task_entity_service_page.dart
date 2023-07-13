@@ -36,11 +36,7 @@ class TaskEntityServicePage extends StatefulWidget {
 
 class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
   int _imageIndex = 0;
-
-  @override
-  void initState() {
-    super.initState();
-  }
+  final _firebaseBloc = locator<FirebaseFirestore>();
 
   static List<tes.Image> getMedia(TaskEntityServiceState state) {
     final List<tes.Image> mediaList = [
@@ -343,7 +339,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                             padding: EdgeInsets.symmetric(horizontal: 4),
                             child: CustomElevatedButton(
                               callback: () {
-                                locator<FirebaseFirestore>()
+                                _firebaseBloc
                                     .collection("userChats")
                                     .doc(
                                         "${context.read<UserBloc>().state.taskerProfile?.user?.id}")
@@ -477,7 +473,51 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                                   0,
                                             ),
                                           );
-                                    //TODO: chat navigations
+
+                                    _firebaseBloc
+                                        .collection("userChats")
+                                        .doc(
+                                            "${context.read<UserBloc>().state.taskerProfile?.user?.id}")
+                                        .get()
+                                        .then((value) {
+                                      value.data()?.forEach((key, value) {
+                                        if (value['userInfo']['uid'] ==
+                                            state.applicantModel?.result?[index]
+                                                .createdBy!.user!.id) {
+                                          Navigator.pushNamed(
+                                            context,
+                                            ChatPage.routeName,
+                                            arguments: ChatPersonDetails(
+                                              groupName: key,
+                                              fullName: state
+                                                  .applicantModel
+                                                  ?.result?[index]
+                                                  .createdBy!
+                                                  .user!
+                                                  .fullName,
+                                              // "${state.taskEntityService.createdBy?.firstName ?? ''} ${state.taskEntityService.createdBy?.middleName ?? ''} ${state.taskEntityService.createdBy?.lastName ?? ''}",
+                                              date: (value['date'] as Timestamp)
+                                                  .toDate()
+                                                  .toString(),
+                                              id: state
+                                                  .applicantModel
+                                                  ?.result?[index]
+                                                  .createdBy!
+                                                  .user!
+                                                  .id,
+                                              isRead: value['read'] as bool,
+                                              lastMessage: '',
+                                              profileImage: state
+                                                      .applicantModel
+                                                      ?.result?[index]
+                                                      .createdBy!
+                                                      .profileImage ??
+                                                  kHomaaleImg,
+                                            ),
+                                          );
+                                        }
+                                      });
+                                    });
                                     else
                                       print("chat navigated");
                                     //TODO: chat navigations

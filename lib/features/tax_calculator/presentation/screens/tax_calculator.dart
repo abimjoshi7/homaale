@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/coma_seperated_on_digit.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/tax_calculator/data/repositories/tax_repositories.dart';
 import 'package:cipher/features/tax_calculator/presentation/manager/cubit/tax_calculator_cubit.dart';
@@ -5,12 +6,12 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../core/constants/const_info_list.dart';
 import 'sections/tax_section.dart';
 
 class TaxCalculator extends StatelessWidget {
   static const routeName = '/tax-calculator';
   const TaxCalculator({super.key});
-
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
@@ -45,6 +46,7 @@ class TaxCalculator extends StatelessWidget {
                         ),
                         children: [
                           Container(
+                            margin: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: colorList[1],
@@ -61,16 +63,16 @@ class TaxCalculator extends StatelessWidget {
                                   style:
                                       Theme.of(context).textTheme.headlineSmall,
                                 ),
-                                Text(
-                                  state.taxRes.details?.annualGrossSalary
-                                          .toString() ??
-                                      '',
-                                  style: Theme.of(context).textTheme.bodySmall,
-                                ),
+                                ComaSeparatedOnDigit(
+                                    digitText: state
+                                            .taxRes.details?.annualGrossSalary
+                                            .toString() ??
+                                        "")
                               ],
                             ),
                           ),
                           Container(
+                            margin: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: colorList[6],
@@ -87,16 +89,17 @@ class TaxCalculator extends StatelessWidget {
                                   style:
                                       Theme.of(context).textTheme.headlineSmall,
                                 ),
-                                Text(
-                                  state.taxRes.details?.netTaxableIncome
+                                ComaSeparatedOnDigit(
+                                  digitText: state
+                                          .taxRes.details?.netTaxableIncome
                                           .toString() ??
-                                      '',
-                                  style: Theme.of(context).textTheme.bodySmall,
+                                      "",
                                 ),
                               ],
                             ),
                           ),
                           Container(
+                            margin: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: colorList[1],
@@ -109,7 +112,7 @@ class TaxCalculator extends StatelessWidget {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Text(
-                                  'Net Payable Tax Yearly',
+                                  '  Net Payable Tax Yearly',
                                   style:
                                       Theme.of(context).textTheme.headlineSmall,
                                 ),
@@ -123,6 +126,7 @@ class TaxCalculator extends StatelessWidget {
                             ),
                           ),
                           Container(
+                            margin: EdgeInsets.all(10),
                             decoration: BoxDecoration(
                               border: Border.all(
                                 color: colorList[1],
@@ -258,7 +262,33 @@ class TaxCalculator extends StatelessWidget {
                         context.read<TaxCalculatorCubit>().init();
                       },
                       label: 'Calculate Again',
-                    )
+                    ),
+                    addVerticalSpace(10),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 10, bottom: 10),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Icon(
+                            Icons.info_outline,
+                            color: Colors.orangeAccent,
+                            size: 18,
+                          ),
+                          addHorizontalSpace(10),
+                          Expanded(
+                            child: Text(
+                              'Note: This tool is made for general tax calculation only. Information from this tool should not be used for any other purpose.',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .displaySmall
+                                  ?.copyWith(fontSize: 12),
+                              textAlign: TextAlign.justify,
+                            ),
+                          ),
+                          addHorizontalSpace(10),
+                        ],
+                      ),
+                    ),
                   ],
                 );
               } else {

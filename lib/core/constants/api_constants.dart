@@ -47,6 +47,9 @@ const kShareLinks = "https://sandbox.homaale.com";
 //portfolio
 const kPortfolio = "tasker/portfolio/";
 
+//connected accounts
+const kConnectedAccountPath = "user/linked-accounts/list/";
+
 Map<String, Object> kUrls = {
   "user": {
     'login': "/user/login/",

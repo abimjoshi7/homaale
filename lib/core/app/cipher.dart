@@ -1,6 +1,8 @@
 import 'package:cipher/core/constants/navigation_constants.dart';
 import 'package:cipher/core/constants/theme.dart';
 import 'package:cipher/core/route/app_router.dart';
+import 'package:cipher/features/account_settings/data/repositories/connected_account_repo.dart';
+import 'package:cipher/features/account_settings/presentation/cubit/connected_account_cubit.dart';
 import 'package:cipher/features/account_settings/presentation/pages/deactivate/bloc/user_deactive_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/bloc/support_help_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/help_legal_page/repositories/support_help_repositories.dart';
@@ -38,6 +40,7 @@ import 'package:cipher/features/security_question/presentation/bloc/security_blo
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/forgot_password_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
+import 'package:cipher/features/sign_in/presentation/cubit/google_sign_in_cubit.dart';
 import 'package:cipher/features/sign_in/repositories/sign_in_repository.dart';
 import 'package:cipher/features/sign_up/data/repositories/sign_up_repositories.dart';
 import 'package:cipher/features/sign_up/presentation/bloc/otp_reset_verify_bloc.dart';
@@ -110,6 +113,7 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => locator<KycBloc>()),
           BlocProvider(create: (context) => locator<ImageUploadCubit>()),
           BlocProvider(create: (context) => locator<UploadBloc>()),
+          BlocProvider(create: (context) => locator<GoogleSignInCubit>()),
           BlocProvider(
               create: (context) => SupportHelpBloc(SupportHelpRepositories())),
           BlocProvider(
@@ -157,6 +161,9 @@ class Cipher extends StatelessWidget {
           BlocProvider(create: (context) => locator<BookEventHandlerBloc>()),
           BlocProvider(create: (context) => WalletBloc()),
           BlocProvider(create: (context) => SecurityBloc()),
+          BlocProvider(
+              create: (context) =>
+                  ConnectedAccountCubit(ConnectedAccountRepo())..getList()),
           BlocProvider(create: (context) => locator<MarketingAdsBloc>()),
         ],
         child: BlocBuilder<ThemeBloc, ThemeState>(

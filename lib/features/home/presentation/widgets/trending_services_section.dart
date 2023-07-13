@@ -177,7 +177,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
         return Padding(
           padding: const EdgeInsets.all(8.0),
           child: CustomFormField(
-            label: "Trending services",
+            label: "Trending Services",
             child: CardLoading(
               height: 230,
             ),

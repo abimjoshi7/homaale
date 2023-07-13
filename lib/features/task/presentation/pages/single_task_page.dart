@@ -4,6 +4,8 @@ import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/bloc/scroll_bloc.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
+import 'package:cipher/features/chat/models/chat_person_details.dart';
+import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
@@ -16,6 +18,7 @@ import 'package:cipher/features/task_entity_service/presentation/bloc/task_entit
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/custom_favourite_icon.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -42,6 +45,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
     with SingleTickerProviderStateMixin {
   int selectedIndex = 0;
   late TabController tabController;
+  final _firebaseBloc = locator<FirebaseFirestore>();
 
   @override
   void initState() {
@@ -821,9 +825,56 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                                   ),
                                                 );
                                           //TODO: chat navigation
-                                          else
-                                            print("chat navigated");
-                                          //TODO: chat navigations
+                                          _firebaseBloc
+                                              .collection("userChats")
+                                              .doc(
+                                                  "${context.read<UserBloc>().state.taskerProfile?.user?.id}")
+                                              .get()
+                                              .then((value) {
+                                            value.data()?.forEach((key, value) {
+                                              if (value['userInfo']['uid'] ==
+                                                  state
+                                                      .applicantModel
+                                                      ?.result?[index]
+                                                      .createdBy!
+                                                      .user!
+                                                      .id) {
+                                                Navigator.pushNamed(
+                                                  context,
+                                                  ChatPage.routeName,
+                                                  arguments: ChatPersonDetails(
+                                                    groupName: key,
+                                                    fullName: state
+                                                        .applicantModel
+                                                        ?.result?[index]
+                                                        .createdBy!
+                                                        .user!
+                                                        .fullName,
+                                                    // "${state.taskEntityService.createdBy?.firstName ?? ''} ${state.taskEntityService.createdBy?.middleName ?? ''} ${state.taskEntityService.createdBy?.lastName ?? ''}",
+                                                    date: (value['date']
+                                                            as Timestamp)
+                                                        .toDate()
+                                                        .toString(),
+                                                    id: state
+                                                        .applicantModel
+                                                        ?.result?[index]
+                                                        .createdBy!
+                                                        .user!
+                                                        .id,
+                                                    isRead:
+                                                        value['read'] as bool,
+                                                    lastMessage: '',
+                                                    profileImage: state
+                                                            .applicantModel
+                                                            ?.result?[index]
+                                                            .createdBy!
+                                                            .profileImage ??
+                                                        kHomaaleImg,
+                                                  ),
+                                                );
+                                              }
+                                            });
+                                          });
                                         },
                                       ),
                                       buttonWidth:

@@ -175,21 +175,17 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
               BlocBuilder<PaymentTypeBloc, PaymentTypeListState>(
                 builder: (context, paymentTypeState) {
                   return BlocListener<PaymentBloc, PaymentIntentState>(
-                    listener: (context, state) async {
-                      context.read<PaymentVerifyBloc>().add(
-                            PaymentVerifyInitiated(
-                              provider: paymentTypeState
-                                      .paymentType
-                                      ?.result![paymentTypeState.currentIndex!]
-                                      .slug ??
-                                  "",
-                              pidx: state.paymentIntent?.data?.pidx ?? "",
-                            ),
-                          );
-                      if (state.theState == TheStates.success) {
+                    listener: (context, stateType) async {
+                      if (stateType.theState == TheStates.success) {
                         setState(() => isLoading = false);
                         await Navigator.pushNamed(
                             context, PaymentOnGoingPage.routeName);
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                          content: Text("Payment Failure.Please try again after sometime."),
+                          duration: const Duration(seconds: 1),
+                        ));
+                        Navigator.pop(context);
                       }
                     },
                     child: BlocBuilder<PaymentBloc, PaymentIntentState>(
@@ -208,7 +204,7 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                                     uuid: orderID,
                                   ),
                                 );
-                            print(orderID);
+                            print("second orderId: ${orderID}");
                           },
                           label: 'Confirm Payment',
                         );

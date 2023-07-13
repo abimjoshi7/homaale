@@ -52,92 +52,11 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(
-        appBarTitle: "Profile",
-        leadingWidget: IconButton(
-          icon: Icon(
-            Icons.arrow_back_rounded,
-            size: 25.0,
-            color: Theme.of(context).appBarTheme.iconTheme?.color,
-          ),
-          onPressed: () =>   Navigator.popUntil(
-                  context,
-                  (route) => route.settings.name == AccountView.routeName,
-                )
-        ),
-        trailingWidget: SizedBox.shrink(),
-      ),
+      appBar: _buildAppBar(context),
       body: Column(
         children: [
-          // const CustomHorizontalDivider(),
-          kHeight10,
-          const ProfileHeaderSection(),
-          kHeight10,
-          kHeight10,
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                CustomElevatedButton(
-                  theWidth: MediaQuery.of(context).size.width * 0.45,
-                  theHeight: 40,
-                  borderRadius: 10,
-                  label: 'Edit Profile',
-                  callback: () {
-                    context
-                                .read<UserSuspendBloc>()
-                                .state
-                                .userAccountSuspension
-                                ?.isSuspended ==
-                            true
-                        ? showDialog(
-                            context: context,
-                            builder: (context) => AccountSuspendCustomToast(
-                              heading: 'ACCOUNT SUSPENDED',
-                              content: 'User is suspended',
-                            ),
-                          )
-                        : Navigator.pushNamed(
-                            context,
-                            EditProfilePage.routeName,
-                          );
-                  },
-                ),
-                BlocBuilder<UserBloc, UserState>(
-                  builder: (context, state) {
-                    if (state.theStates == TheStates.success) {
-                      return InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(
-                              context, FollowingFollowersPage.routeName);
-                        },
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            BuildLabelCount(
-                                count: state.taskerProfile?.followersCount
-                                        ?.toString() ??
-                                    '0',
-                                label: 'Followers'),
-                            addHorizontalSpace(16),
-                            BuildLabelCount(
-                                count: state.taskerProfile?.followingCount
-                                        ?.toString() ??
-                                    '0',
-                                label: 'Followings'),
-                          ],
-                        ),
-                      );
-                    }
-                    return SizedBox();
-                  },
-                )
-              ],
-            ),
-          ),
-          // kHeight10,
-          // ProfileRewardBalanceSection(user: user),
+          _buildProfileHeader(),
+          _buildProfileDetail(context),
           kHeight10,
           Divider(height: 0.3),
           const ProfileStatsSection(),
@@ -171,6 +90,95 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
           ),
         ],
       ),
+    );
+  }
+
+  Padding _buildProfileDetail(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          CustomElevatedButton(
+            theWidth: MediaQuery.of(context).size.width * 0.45,
+            theHeight: 40,
+            borderRadius: 10,
+            label: 'Edit Profile',
+            callback: () {
+              context
+                          .read<UserSuspendBloc>()
+                          .state
+                          .userAccountSuspension
+                          ?.isSuspended ==
+                      true
+                  ? showDialog(
+                      context: context,
+                      builder: (context) => AccountSuspendCustomToast(
+                        heading: 'ACCOUNT SUSPENDED',
+                        content: 'User is suspended',
+                      ),
+                    )
+                  : Navigator.pushNamed(
+                      context,
+                      EditProfilePage.routeName,
+                    );
+            },
+          ),
+          BlocBuilder<UserBloc, UserState>(
+            builder: (context, state) {
+              if (state.theStates == TheStates.success) {
+                return InkWell(
+                  onTap: () {
+                    Navigator.pushNamed(
+                        context, FollowingFollowersPage.routeName);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      BuildLabelCount(
+                          count:
+                              state.taskerProfile?.followersCount?.toString() ??
+                                  '0',
+                          label: 'Followers'),
+                      addHorizontalSpace(16),
+                      BuildLabelCount(
+                          count:
+                              state.taskerProfile?.followingCount?.toString() ??
+                                  '0',
+                          label: 'Followings'),
+                    ],
+                  ),
+                );
+              }
+              return SizedBox();
+            },
+          )
+        ],
+      ),
+    );
+  }
+
+  Padding _buildProfileHeader() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: const ProfileHeaderSection(),
+    );
+  }
+
+  CustomAppBar _buildAppBar(BuildContext context) {
+    return CustomAppBar(
+      appBarTitle: "Profile",
+      leadingWidget: IconButton(
+          icon: Icon(
+            Icons.arrow_back_rounded,
+            size: 25.0,
+            color: Theme.of(context).appBarTheme.iconTheme?.color,
+          ),
+          onPressed: () => Navigator.popUntil(
+                context,
+                (route) => route.settings.name == AccountView.routeName,
+              )),
+      trailingWidget: SizedBox.shrink(),
     );
   }
 

@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -26,6 +25,7 @@ class TheCalender extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TableCalendar(
+      availableGestures: AvailableGestures.horizontalSwipe,
       headerStyle: HeaderStyle(
         formatButtonVisible: false,
         titleCentered: true,

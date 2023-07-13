@@ -6,16 +6,18 @@ class SavedState extends Equatable {
   final SavedAddRes? savedAddRes;
   final bool? isAdded;
   final String idToBeSaved;
+  final bool isLastPage;
 
-  const SavedState({
+  const SavedState( {
     this.theStates = TheStates.initial,
     this.savedModelRes,
     this.savedAddRes,
     this.isAdded = false,
     this.idToBeSaved = '',
+    this.isLastPage=false,
   });
   @override
-  List<Object?> get props => [theStates, savedModelRes, savedAddRes, isAdded, idToBeSaved];
+  List<Object?> get props => [theStates, savedModelRes, savedAddRes, isAdded, idToBeSaved,isLastPage];
 
   SavedState copyWith({
     TheStates? theStates,
@@ -23,6 +25,7 @@ class SavedState extends Equatable {
     SavedAddRes? savedAddRes,
     bool? isAdded,
     String? idToBeSaved,
+    bool? isLastPage,
   }) {
     return SavedState(
       theStates: theStates ?? this.theStates,
@@ -30,6 +33,7 @@ class SavedState extends Equatable {
       savedAddRes: savedAddRes ?? this.savedAddRes,
       isAdded: isAdded ?? this.isAdded,
       idToBeSaved: idToBeSaved ?? this.idToBeSaved,
+      isLastPage: isLastPage ?? this.isLastPage
     );
   }
 }

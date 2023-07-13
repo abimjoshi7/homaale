@@ -4,6 +4,7 @@ import 'package:cipher/features/tax_calculator/presentation/manager/cubit/tax_ca
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class TaxFormSection extends StatefulWidget {
   const TaxFormSection({
@@ -109,6 +110,7 @@ class _TaxFormSectionState extends State<TaxFormSection> {
                 ),
                 CustomFormField(
                   label: 'Income',
+                  isRequired: true,
                   child: Wrap(
                     runSpacing: 10,
                     children: [
@@ -126,22 +128,51 @@ class _TaxFormSectionState extends State<TaxFormSection> {
                           );
                         },
                       ),
-                      CustomTextFormField(
-                        hintText: 'Salary in Rs',
-                        controller: salaryController,
-                        validator: validateNotEmpty,
+                      CustomFormField(
+                        label: "Salary",
+                        isRequired: true,
+                        child: CustomTextFormField(
+                            hintText: 'Salary in Rs',
+                            controller: salaryController,
+                            validator: validateNotEmpty,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                          textInputType: TextInputType.number,
+                        ),
                       ),
-                      CustomTextFormField(
-                        hintText: 'Festival Bonus',
-                        controller: festivalBonusController,
+                      CustomFormField(
+                        label: 'Festival Bonus',
+                        child: CustomTextFormField(
+                            hintText: 'Festival Bonus',
+                            controller: festivalBonusController,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                          textInputType: TextInputType.number,
+                        ),
                       ),
-                      CustomTextFormField(
-                        hintText: 'Allowance',
-                        controller: allowanceController,
+                      CustomFormField(
+                        label: 'Allowance',
+                        child: CustomTextFormField(
+                            hintText: 'Allowance',
+                            controller: allowanceController,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                          textInputType: TextInputType.number,
+                        ),
                       ),
-                      CustomTextFormField(
-                        hintText: 'Others',
-                        controller: othersController,
+                      CustomFormField(
+                        label: 'Others',
+                        child: CustomTextFormField(
+                            hintText: 'Others',
+                            controller: othersController,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                          textInputType: TextInputType.number,
+                        ),
                       ),
                     ],
                   ),
@@ -151,21 +182,54 @@ class _TaxFormSectionState extends State<TaxFormSection> {
                   child: Wrap(
                     runSpacing: 10,
                     children: [
-                      CustomTextFormField(
-                        hintText: 'Provident fund',
-                        controller: pfController,
+                      CustomFormField(
+                        label: 'Provident fund',
+                        child: CustomTextFormField(
+                            hintText: 'Provident fund',
+                            controller: pfController,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                          textInputType: TextInputType.number,
+
+
+                        ),
                       ),
-                      CustomTextFormField(
-                        hintText: 'Citizen Investment Trust',
-                        controller: citController,
+                      CustomFormField(
+                        label: 'Citizen Investment Trust',
+                        child: CustomTextFormField(
+                            hintText: 'Citizen Investment Trust',
+                            controller: citController,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                          textInputType: TextInputType.number,
+
+                        ),
                       ),
-                      CustomTextFormField(
-                        hintText: 'Life Insurance',
-                        controller: lInsuranceController,
+                      CustomFormField(
+                        label: 'Life Insurance Amount',
+                        child: CustomTextFormField(
+                            hintText: 'Life Insurance',
+                            controller: lInsuranceController,
+                            inputFormatters: [
+                              FilteringTextInputFormatter.digitsOnly,
+                            ],
+                          textInputType: TextInputType.number,
+
+                        ),
                       ),
-                      CustomTextFormField(
-                        hintText: 'Medical Insurance',
-                        controller: mInsuranceController,
+                      CustomFormField(
+                        label: 'Medical Insurance Amount',
+                        child: CustomTextFormField(
+                          hintText: 'Medical Insurance',
+                          controller: mInsuranceController,
+                          inputFormatters: [
+                            FilteringTextInputFormatter.digitsOnly,
+                          ],
+                          textInputType: TextInputType.number,
+                          inputAction: TextInputAction.done,
+                        ),
                       ),
                     ],
                   ),
@@ -179,7 +243,7 @@ class _TaxFormSectionState extends State<TaxFormSection> {
                           context: context,
                           builder: (context) => CustomToast(
                             heading: 'Error',
-                            content: 'Please specify the dropdown fields',
+                            content: 'Please specify the fields',
                             onTap: () {},
                             isSuccess: false,
                           ),
@@ -239,10 +303,22 @@ class _TaxFormSectionState extends State<TaxFormSection> {
                 ),
                 addVerticalSpace(10),
                 CustomElevatedButton(
-                  callback: () async {},
+                  callback: () async {
+                    salaryController.clear();
+                    incomeTypeController.clear();
+                    allowanceController.clear();
+                    festivalBonusController.clear();
+                    othersController.clear();
+                    pfController.clear();
+                    citController.clear();
+                    lInsuranceController.clear();
+                    mInsuranceController.clear();
+                    genderController.clear();
+                  },
                   label: 'Reset',
                   mainColor: Colors.white,
                   textColor: kColorPrimary,
+                  borderColor: kColorPrimary,
                 ),
               ],
             ),

@@ -30,8 +30,15 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
     on<SavedListLoaded>(
       (event, emit) async {
         emit(state.copyWith(theStates: TheStates.loading));
+        if (!event.newFetch && state.isLastPage) return;
         try {
-          await savedRepository.fetchSavedList(event.type).then(
+          if (event.newFetch)
+            emit(
+              state.copyWith(
+                theStates: TheStates.initial,
+              ),
+            );
+          await savedRepository.fetchSavedList(event.type, event.query, 1).then(
                 (value) => emit(
                   state.copyWith(
                     theStates: TheStates.success,
@@ -53,7 +60,9 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
 
     on<SavedAdded>(
       (event, emit) async {
-        emit(state.copyWith(theStates: TheStates.loading, idToBeSaved: event.savedAddReq.objectId));
+        emit(state.copyWith(
+            theStates: TheStates.loading,
+            idToBeSaved: event.savedAddReq.objectId));
         try {
           await savedRepository
               .addSaved(event.savedAddReq)
@@ -66,7 +75,8 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
                   ),
                 ),
               )
-              .whenComplete(() => add(SavedListLoaded(type: event.savedAddReq.model.toString())));
+              .whenComplete(() => add(
+                  SavedListLoaded(type: event.savedAddReq.model.toString())));
         } catch (e) {
           log("Saved Add Error: $e");
           emit(

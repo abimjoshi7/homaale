@@ -27,6 +27,8 @@ import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/search/repositories/search_repository.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
+import 'package:cipher/features/sign_in/presentation/cubit/google_sign_in_cubit.dart';
+import 'package:cipher/features/sign_in/repositories/sign_in_repository.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task_entity_service/data/repositories/task_entity_services_repository.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
@@ -64,6 +66,7 @@ void init() {
   locator
       .registerLazySingleton<MarketingRepository>(() => MarketingRepository());
   locator.registerLazySingleton<SearchRepository>(() => SearchRepository());
+  locator.registerLazySingleton<SignInRepository>(() => SignInRepository());
 
   //bloc
   locator.registerFactory<TaskEntityServiceBloc>(
@@ -85,6 +88,10 @@ void init() {
       .registerFactory<SavedBloc>(() => SavedBloc(savedRepository: locator()));
   locator.registerFactory<OrderItemRetriveBloc>(() => OrderItemRetriveBloc());
   locator.registerFactory<ImageUploadCubit>(() => ImageUploadCubit());
+  locator.registerFactory<GoogleSignInCubit>(() => GoogleSignInCubit(
+        locator(),
+        locator(),
+      ));
   locator.registerFactory<NotificationBloc>(
       () => NotificationBloc(repo: locator()));
   locator.registerFactory<UploadBloc>(() => UploadBloc(locator()));
@@ -100,7 +107,16 @@ void init() {
   locator.registerFactory<MarketingAdsBloc>(() => MarketingAdsBloc(locator()));
   locator.registerFactory<SearchBloc>(() => SearchBloc(locator()));
 
-  //other
+  // chat
   var firebaseInstance = FirebaseFirestore.instance;
   locator.registerSingleton<FirebaseFirestore>(firebaseInstance);
+
+  // google sign in
+  final googleSignIn = GoogleSignIn(
+    scopes: ['openid', 'email', 'profile'],
+    serverClientId:
+        '245846975950-vucoc2e1cmeielq5f5neoca7880n0u2i.apps.googleusercontent.com',
+  );
+
+  locator.registerLazySingleton<GoogleSignIn>(() => googleSignIn);
 }

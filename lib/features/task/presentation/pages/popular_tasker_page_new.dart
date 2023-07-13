@@ -111,17 +111,14 @@ class _TaskerListState extends State<TaskerList> {
                         ),
                         IconButton(
                           onPressed: () async {
-                            final recievePort = ReceivePort().sendPort;
-                            final abc = "qwe";
-                            await Isolate.spawn(some1, abc);
-                            print(recievePort.toString());
-
-                            // setState(() {
-                            //   _searchController.clear();
-                            // });
-                            // context.read<TaskerBloc>().add(TaskerFetched(
-                            //       newFetch: true,
-                            //     ));
+                            setState(() {
+                              _searchController.clear();
+                            });
+                            context.read<TaskerBloc>().add(
+                                  TaskerFetched(
+                                    newFetch: true,
+                                  ),
+                                );
                           },
                           icon: Icon(
                             Icons.clear,

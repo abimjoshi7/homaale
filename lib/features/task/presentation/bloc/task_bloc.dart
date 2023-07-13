@@ -136,12 +136,18 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
       (event, emit) async {
         emit(state.copyWith(theState: TheStates.initial));
         try {
-          await tesRepo.getSingleTaskEntityService(event.id).then(
+          if (event.newFetch)
+            emit(
+              state.copyWith(
+                theState: TheStates.initial,
+              ),
+            );
+          await tesRepo.getSingleTaskEntityService(event.id,event.query).then(
             (singleTask) async {
               await repo.singleTaskAppliedCount(id: event.id).then((count) async {
                 if (CacheHelper.isLoggedIn) {
                   // if (state.taskModel?.createdBy?.id == event.userId) {
-                  await tesRepo.getApplicants(event.id).then((applicants) {
+                  await tesRepo.getApplicants(event.id??"").then((applicants) {
                     emit(
                       state.copyWith(
                         theState: TheStates.success,

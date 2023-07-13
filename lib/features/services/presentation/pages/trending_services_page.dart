@@ -1,9 +1,6 @@
-import 'dart:math';
 
-import 'package:cipher/core/helpers/search_helper.dart';
 import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/marketing/presentation/bloc/marketing_ads_bloc.dart';
-import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
@@ -100,7 +97,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
         appBarTitle: "Trending Services",
         trailingWidget: SizedBox.shrink(),
       ),
-      body: BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
+      body:
+      BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
         bloc: entityServiceBloc,
         builder: (context, state) {
           switch (state.theStates) {
