@@ -86,7 +86,7 @@ class ServiceCard extends StatelessWidget {
                         AutoSizeText(
                           title ?? '',
                           minFontSize: 10.0,
-                          maxFontSize: 13.0,
+                          maxFontSize: 16.0,
                           style: Theme.of(context).textTheme.titleMedium,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -102,7 +102,7 @@ class ServiceCard extends StatelessWidget {
                               child: AutoSizeText(
                                 createdBy ?? '',
                                 minFontSize: 10.0,
-                                maxFontSize: 13.0,
+                                maxFontSize: 14.0,
                                 style: Theme.of(context).textTheme.bodySmall,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -212,7 +212,7 @@ class ServiceCard extends StatelessWidget {
                                 16,
                               ),
                               Flexible(
-                                flex: 2,
+                                flex: isRange ?? false ? 3 : 2,
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.end,
                                   children: [

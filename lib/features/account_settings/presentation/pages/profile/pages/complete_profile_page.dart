@@ -95,6 +95,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm>
                       context: context,
                       builder: (context) => ImagePickerDialog(
                         bloc: uploadBloc,
+                        isProfile: true,
                       ),
                     );
                   },
@@ -635,7 +636,7 @@ class _ProfileCompletionFormState extends State<ProfileCompletionForm>
                             (index) => state.list[index].name,
                           ),
                           onChanged: (p0) => setState(
-                            ()  {
+                            () {
                               final x = state.list.firstWhere(
                                 (element) => p0 == element.name,
                               );

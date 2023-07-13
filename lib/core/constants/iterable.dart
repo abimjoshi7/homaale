@@ -405,6 +405,27 @@ Map<String, dynamic> getNotificationStatus(
             "Your ${isRequested ? 'task' : 'service'} $serviceName has been completed.",
         'assets': 'assets/notification/payment.svg'
       };
+    case "kyc_document_submitted":
+      return {
+        "color": kColorAmber,
+        "status": "Waiting",
+        "message": "Your Kyc document has been submitted.",
+        'assets': 'assets/notification/payment.svg'
+      };
+    case "kyc_document_rejected":
+      return {
+        "color": Colors.red.shade800,
+        "status": "Rejected",
+        "message": "Your Kyc document has been rejected.",
+        'assets': 'assets/notification/payment.svg'
+      };
+    case "kyc_document_verified":
+      return {
+        "color": Color(0xff1EB2A6),
+        "status": "Approved",
+        "message": "Your Kyc document has been verified.",
+        'assets': 'assets/notification/payment.svg'
+      };
 
     default:
       return {

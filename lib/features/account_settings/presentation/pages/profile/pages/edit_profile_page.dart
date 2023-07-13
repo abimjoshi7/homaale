@@ -49,8 +49,10 @@ class _EditProfilePageState extends State<EditProfilePage>
           addVerticalSpace(20),
           TabBar(
             indicatorColor: kColorSecondary,
-            indicatorSize: TabBarIndicatorSize.tab,
-            labelPadding: kPadding5,
+            indicatorSize: TabBarIndicatorSize.label,
+            indicatorPadding: EdgeInsets.zero,
+            padding: EdgeInsets.zero,
+            labelPadding: EdgeInsets.zero,
             controller: _tabController,
             tabs: [
               Align(

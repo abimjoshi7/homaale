@@ -190,6 +190,7 @@ class _PostServicePageState extends State<PostServicePage> {
         label: "Address Information",
         isRequired: true,
         child: CustomTextFormField(
+          validator: validateNotEmpty,
           controller: addressController,
           hintText: "Enter your address details",
         ),

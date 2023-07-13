@@ -286,7 +286,7 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
         addVerticalSpace(10),
         IconText(
           label:
-              "${DateFormat('hh:mm a - MMMM dd, y').format(state.taskEntityService.createdAt ?? DateTime.now())}",
+              "Posted: ${DateFormat('hh:mm a - MMMM dd, y').format(state.taskEntityServiceRes?.createdAt ?? DateTime.now())}",
           iconData: Icons.calendar_month,
           size: 18,
           color: Colors.red,

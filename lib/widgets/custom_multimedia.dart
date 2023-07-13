@@ -5,7 +5,6 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/image_picker/image_picker_dialog.dart';
 import 'package:cipher/core/image_picker/video_picker_dialog.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
