@@ -52,7 +52,7 @@ class _EditProfilePageState extends State<EditProfilePage>
             indicatorSize: TabBarIndicatorSize.label,
             indicatorPadding: EdgeInsets.zero,
             padding: EdgeInsets.zero,
-            labelPadding: kPadding0,
+            labelPadding: EdgeInsets.zero,
             controller: _tabController,
             tabs: [
               Align(
