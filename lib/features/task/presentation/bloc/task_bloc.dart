@@ -148,7 +148,7 @@ class TaskBloc extends Bloc<TaskEvent, TaskState> {
               await repo.singleTaskAppliedCount(id: event.id).then((count) async {
                 if (CacheHelper.isLoggedIn) {
                   // if (state.taskModel?.createdBy?.id == event.userId) {
-                  await tesRepo.getApplicants(event.id).then((applicants) {
+                  await tesRepo.getApplicants(event.id??"").then((applicants) {
                     emit(
                       state.copyWith(
                         theState: TheStates.success,

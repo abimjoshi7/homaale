@@ -7,14 +7,15 @@ class SavedRepository {
   final _dio = DioHelper();
 
   Future<Map<String, dynamic>> fetchSavedList(
-      String? type, String? query) async {
+      String? type, String? query,int? page) async {
     try {
       final res = await _dio.getDatawithCredential(
         url: kBookmarkPath,
         token: CacheHelper.accessToken,
         query: {
           "type": type,
-          'query': query,
+          "query": query,
+          "page":page,
         },
       );
       return res as Map<String, dynamic>;

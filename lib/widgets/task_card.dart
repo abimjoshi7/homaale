@@ -74,7 +74,7 @@ class TaskCard extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SizedBox(
-                    width: 200,
+                    width: 150,
                     child: Text(
                       StringUtils.capitalize(
                         taskName ?? '',

@@ -1,7 +1,5 @@
-import 'dart:math';
 
 import 'package:cipher/core/helpers/upload_helper.dart';
-import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/sandbox/presentation/pages/sandbox_page.dart';
 import 'package:cipher/locator.dart';
@@ -761,7 +759,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
     final _currentDate = DateTime.now();
 
     return CustomFormField(
-      label: 'When do you want the task to be completed?',
+      label: 'When do you want the task to be \ncompleted?',
       child: Column(
         children: <Widget>[
           Row(
