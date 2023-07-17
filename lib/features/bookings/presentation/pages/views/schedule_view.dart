@@ -37,6 +37,7 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
   void initState() {
     super.initState();
     startTime = DateTime.now();
+    endTime = startTime?.add(Duration(minutes: 15));
     widget.bookEventHandlerBloc.add(
       BookEventPicked(
         req: BookEntityServiceReq(
@@ -198,11 +199,13 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
                                       size: Size.fromHeight(250),
                                       child: CupertinoDatePicker(
                                         mode: CupertinoDatePickerMode.time,
-                                        onDateTimeChanged: (value) => setState(
-                                          () {
-                                            endTime = value;
-                                          },
-                                        ),
+                                        onDateTimeChanged: (value) {
+                                          if (!value.isAtSameMomentAs(
+                                              startTime ?? DateTime.now()))
+                                            setState(() {
+                                              endTime = value;
+                                            });
+                                        },
                                       ),
                                     ),
                                   ).whenComplete(
