@@ -1,9 +1,16 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/change_password_modal_sheet.dart';
+import 'package:cipher/features/google_maps/presentation/widgets/custom_bottom_sheet.dart';
 import 'package:cipher/widgets/widgets.dart';
+import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class PasswordAndSecurity extends StatelessWidget {
+import '../../../../security_question/presentation/bloc/security_bloc.dart';
+import '../../../../security_question/presentation/bloc/security_event.dart';
+import '../../../../security_question/presentation/pages/security_modal_sheet.dart';
+
+class PasswordAndSecurity extends StatelessWidget with TheModalBottomSheet{
   const PasswordAndSecurity({super.key});
   static const routeName = '/password-and-security';
 
@@ -62,7 +69,7 @@ class PasswordAndSecurity extends StatelessWidget {
                       ),
                     ),
                     kHeight20,
-                    ListTile(
+                    InkWell(
                       onTap: () {
                         showModalBottomSheet(
                           isScrollControlled: true,
@@ -71,14 +78,25 @@ class PasswordAndSecurity extends StatelessWidget {
                             padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom,
                             ),
-                            child: const AddPhoneNumberModalSheet(),
+                            child: AddPhoneNumberModalSheet(
+                              updateText: 'Update Phone',
+                            ),
                           ),
                         );
                       },
-                      title: Text('Add new phone number'),
-                      trailing: Icon(Icons.keyboard_arrow_down),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            'Add new phone number',
+                            style: Theme.of(context).textTheme.headlineSmall,
+                          ),
+                          Icon(Icons.keyboard_arrow_down),
+                        ],
+                      ),
                     ),
-                    ListTile(
+                    addVerticalSpace(20),
+                    InkWell(
                       onTap: () {
                         showModalBottomSheet(
                           isScrollControlled: true,
@@ -87,12 +105,50 @@ class PasswordAndSecurity extends StatelessWidget {
                             padding: EdgeInsets.only(
                               bottom: MediaQuery.of(context).viewInsets.bottom,
                             ),
-                            child: const AddEmailModalSheet(),
+                            child: AddPhoneNumberModalSheet(
+                              updateText: 'Update Email',
+                            ),
                           ),
                         );
                       },
-                      title: Text('Update email'),
-                      trailing: Icon(Icons.keyboard_arrow_down),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Update email',
+                              style: Theme.of(context).textTheme.headlineSmall),
+                          Icon(Icons.keyboard_arrow_down),
+                        ],
+                      ),
+                    ),
+                    addVerticalSpace(20),
+                    InkWell(
+                      onTap: () {
+                        context.read<SecurityBloc>().add(SecurityInitiated());
+                        showCustomBottomSheet(
+                          context: context,
+                          widget: const SecurityModalSheet(),
+                        );
+                      },
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text('Security Question',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .headlineSmall),
+                              Icon(
+                                Icons.edit,
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                          Text(
+                              'Answer a question you choose to confirm it’s you.'),
+                        ],
+                      ),
                     ),
 
                     //         Row(
