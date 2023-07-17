@@ -285,7 +285,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                       false,
                                   title: state.taskEntityService.title ?? '',
                                   budget:
-                                      '${state.applicantModel?.result?[index].currency}. ${state.applicantModel?.result?[index].price}',
+                                      '${state.applicantModel?.result?[index].currency}. ${state.applicantModel?.result?[index].earning}',
                                   status: state
                                       .applicantModel?.result?[index].status,
                                   onRejectPressed: () {

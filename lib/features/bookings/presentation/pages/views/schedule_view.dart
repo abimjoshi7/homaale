@@ -184,9 +184,12 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
                                   startTime != null
                                       ? DateFormat.jm().format(startTime!)
                                       : '--',
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ),
-                              Text('-'),
+                              Text(
+                                '-',
+                              ),
                               TextButton(
                                 onPressed: () async {
                                   await showCustomBottomSheet(
@@ -223,6 +226,7 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
                                   endTime != null
                                       ? DateFormat.jm().format(endTime!)
                                       : '--',
+                                  style: Theme.of(context).textTheme.bodyLarge,
                                 ),
                               ),
                             ],
@@ -273,29 +277,6 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
                                           selectedIndex = index;
                                         },
                                       );
-
-                                      // map.update(
-                                      //   "end_date",
-                                      //   (value) => focusedDate.toString(),
-                                      //   ifAbsent: () => focusedDate.toString(),
-                                      // );
-                                      // map.update(
-                                      //   "start_time",
-                                      //   (value) => element.slots?[index].start,
-                                      //   ifAbsent: () =>
-                                      //       element.slots?[index].start,
-                                      // );
-                                      // map.update(
-                                      //   "end_time",
-                                      //   (value) => element.slots?[index].end,
-                                      //   ifAbsent: () =>
-                                      //       element.slots?[index].end,
-                                      // );
-
-                                      // await CacheHelper.setCachedString(
-                                      //   kBookedMap,
-                                      //   jsonEncode(map),
-                                      // );
                                     },
                                     child: TheTimeSlot(
                                       index: index,

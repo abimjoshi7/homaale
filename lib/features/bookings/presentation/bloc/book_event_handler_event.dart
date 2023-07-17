@@ -26,3 +26,8 @@ class BookEventAcceptTerms extends BookEventHandlerEvent {
         isTermAccepted,
       ];
 }
+
+class BookEventRequirementCleared extends BookEventHandlerEvent {
+  @override
+  List<Object?> get props => [];
+}

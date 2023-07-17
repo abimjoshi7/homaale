@@ -291,13 +291,11 @@ class _PostServicePageState extends State<PostServicePage> {
                 videos: uploadBloc.state.uploadedVideoList,
               );
 
-              print(req);
-
-              // context.read<TaskEntityServiceBloc>().add(
-              //       TaskEntityServiceCreated(
-              //         req: req,
-              //       ),
-              //     );
+              context.read<TaskEntityServiceBloc>().add(
+                    TaskEntityServiceCreated(
+                      req: req,
+                    ),
+                  );
             }
           },
           child: CustomElevatedButton(

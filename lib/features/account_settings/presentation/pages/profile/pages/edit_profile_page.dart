@@ -48,7 +48,7 @@ class _EditProfilePageState extends State<EditProfilePage>
         children: [
           addVerticalSpace(20),
           TabBar(
-            indicatorColor: kColorSecondary,
+            indicatorColor: Colors.transparent,
             indicatorSize: TabBarIndicatorSize.tab,
             labelPadding: kPadding5,
             controller: _tabController,

@@ -11,7 +11,7 @@ class BookEventHandlerState extends Equatable {
   final TimeSlot? timeSlot;
   final TheStates states;
   final double? budget;
-  final List<String>? requirements;
+  final List<String> requirements;
   final String city;
   final bool isTermAccepted;
   const BookEventHandlerState({
@@ -24,7 +24,7 @@ class BookEventHandlerState extends Equatable {
     this.timeSlot,
     this.states = TheStates.initial,
     this.budget,
-    this.requirements,
+    this.requirements = const [],
     this.city = kCityCode,
     this.isTermAccepted = false,
   });
