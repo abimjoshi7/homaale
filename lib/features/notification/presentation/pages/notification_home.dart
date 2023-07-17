@@ -9,7 +9,6 @@ import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
-import 'package:cipher/widgets/custom_app_bar.dart';
 import 'package:cipher/widgets/list_tile_component.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';

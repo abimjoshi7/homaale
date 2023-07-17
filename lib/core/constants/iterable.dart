@@ -174,7 +174,7 @@ Map<String, dynamic> getStatus(String status, {bool? isService}) {
         "color": Colors.red.shade800,
         "status": "Booking Rejected",
       };
-    case "On Progess":
+    case "On Progress":
       return {
         "color": kColorGreen,
         "status": "In Progress",
@@ -250,7 +250,7 @@ Map<String, dynamic> statusToUpdate(String status, bool isAssignee) {
         "buttonLabel":
             isAssignee ? "Waiting for the client to approve" : "Close task",
         "color": isAssignee ? kColorGrey : kColorAmber,
-        "status": "Closed",
+        "status": "closed",
       };
     case "closed":
       return {

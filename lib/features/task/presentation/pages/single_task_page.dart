@@ -1,7 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
-import 'package:cipher/features/bloc/scroll_bloc.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/chat/models/chat_person_details.dart';
@@ -993,8 +992,15 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                     buttonLabel: getStatus('')["status"] as String,
                     buttonColor: getStatus('')["color"] as Color,
                     // buttonColor: getStatus('')["color"] as Color,
-                    price:
-                        "Rs. ${Decimal.parse(state.taskModel?.budgetTo ?? '0.0')}",
+                    price: state.taskModel?.createdBy?.id ==
+                            context
+                                .read<UserBloc>()
+                                .state
+                                .taskerProfile
+                                ?.user
+                                ?.id
+                        ? "Rs. ${Decimal.parse(state.taskModel?.payableTo ?? '0.0')}"
+                        : "Rs. ${Decimal.parse(state.taskModel?.budgetTo ?? '0.0')}",
                     onPressed: () {
                       if (!CacheHelper.isLoggedIn) {
                         notLoggedInPopUp(context);
