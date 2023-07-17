@@ -109,12 +109,38 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                               '0.0',
                           isRange: state
                               .taskEntityServiceModel.result?[index].isRange,
-                          rateTo: double.parse(state.taskEntityServiceModel
+                          rateTo:
+                          state.taskEntityServiceModel.result?[index]
+                              .owner?.id ==
+                              context
+                                  .read<UserBloc>()
+                                  .state
+                                  .taskerProfile
+                                  ?.user
+                                  ?.id ?
+                          double.parse(state.taskEntityServiceModel
+                                      .result?[index].budgetTo ??
+                                  "")
+                              .toInt()
+                              .toString():double.parse(state.taskEntityServiceModel
                                       .result?[index].payableTo ??
                                   "")
                               .toInt()
                               .toString(),
-                          rateFrom: double.parse(state.taskEntityServiceModel
+                          rateFrom:
+                          state.taskEntityServiceModel.result?[index]
+                              .owner?.id ==
+                              context
+                                  .read<UserBloc>()
+                                  .state
+                                  .taskerProfile
+                                  ?.user
+                                  ?.id ?
+                          double.parse(state.taskEntityServiceModel
+                                      .result?[index].budgetFrom ??
+                                  "")
+                              .toInt()
+                              .toString(): double.parse(state.taskEntityServiceModel
                                       .result?[index].payableFrom ??
                                   "")
                               .toInt()

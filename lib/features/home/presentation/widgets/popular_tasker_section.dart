@@ -62,7 +62,7 @@ class PopularTaskerSection extends StatelessWidget {
                       child: TaskerCard(
                         badgeImage: data?[index].badge?.image,
                         shareLinked:
-                            '$kShareLinks/tasker/${state.singleTasker.user?.id}',
+                            '$kShareLinks/tasker/${data?[index].user?.id}',
                         rewardPercentage: data?[index]
                                 .stats
                                 ?.successRate

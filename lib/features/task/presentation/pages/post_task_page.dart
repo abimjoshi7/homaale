@@ -191,6 +191,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
         label: "Address Information",
         isRequired: true,
         child: CustomTextFormField(
+          validator: (p0) => p0!.isEmpty ? "Required Field" : null,
           hintText: "Enter address details",
           controller: addressController,
         ),
@@ -291,7 +292,6 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 images: uploadBloc.state.uploadedImageList,
                 videos: uploadBloc.state.uploadedVideoList,
               );
-
               context.read<TaskEntityServiceBloc>().add(
                     TaskEntityServiceCreated(
                       req: req,

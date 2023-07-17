@@ -1,6 +1,14 @@
+import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/kyc_constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
+import 'package:cipher/features/notification/data/models/all_notification_list.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
-import 'package:cipher/widgets/custom_app_bar.dart';
+import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
+import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/list_tile_component.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -105,6 +113,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                                 : todayList[index].contentObject?.status ??
                                     todayList[index].title;
                         return ListTileComponent(
+                          onTapCallback: () => _onTilePressed(todayList[index]),
                           hasStatusBox:
                               !(todayList[index].title == "negotiated" ||
                                   todayList[index].title == "accepted"),
@@ -189,6 +198,8 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                                     earlierList[index].title;
 
                         return ListTileComponent(
+                          onTapCallback: () =>
+                              _onTilePressed(earlierList[index]),
                           readDate: earlierList[index].readDate,
                           bgColor: getNotificationStatus(
                               status: statusTitle?.toLowerCase() ?? '',
@@ -277,5 +288,49 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
     return currentScroll >= (maxScroll * 0.9);
+  }
+
+  void _onTilePressed(Result notification) {
+    if (notification.contentObject?.entityService == null) {
+      if (notification.title == "kyc_document_submitted" ||
+          notification.title == "kyc_document_verified" ||
+          notification.title == "kyc_document_rejected") {
+        conditionalCheckNavigation(
+          context,
+          context.read<KycBloc>().state,
+        );
+      }
+      if (notification.title == "booking") {
+        Navigator.pushNamed(
+          context,
+          Root.routeName,
+          arguments: {
+            "index": 1,
+          },
+        );
+      }
+    }
+
+    if (notification.contentObject?.entityService == null) return;
+    if (notification.contentObject?.entityService?.isRequested == true) {
+      context.read<TaskBloc>().add(
+            SingleEntityTaskLoadInitiated(
+              id: notification.contentObject?.entityService?.id ?? '',
+              userId:
+                  context.read<UserBloc>().state.taskerProfile?.user?.id ?? '',
+            ),
+          );
+      Navigator.pushNamed(context, SingleTaskPage.routeName);
+    } else {
+      context.read<TaskEntityServiceBloc>().add(
+            TaskEntityServiceSingleLoaded(
+              id: notification.contentObject?.entityService?.id ?? '',
+            ),
+          );
+      Navigator.pushNamed(
+        context,
+        TaskEntityServicePage.routeName,
+      );
+    }
   }
 }

@@ -16,9 +16,9 @@ class KycView extends StatelessWidget {
   Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        Navigator.popUntil(
+        Navigator.pushNamed(
           context,
-          (route) => route.settings.name == AccountView.routeName,
+          AccountView.routeName,
         );
         return false;
       },

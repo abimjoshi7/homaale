@@ -12,6 +12,7 @@ class ListTileComponent extends StatelessWidget {
   final Color bgColor;
   final DateTime? readDate;
   final bool hasStatusBox;
+  final VoidCallback? onTapCallback;
 
   const ListTileComponent({
     Key? key,
@@ -23,71 +24,76 @@ class ListTileComponent extends StatelessWidget {
     this.time,
     this.readDate,
     this.hasStatusBox = true,
+    this.onTapCallback,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return ColoredBox(
-      color: readDate == null
-          ? kColorBlue.withOpacity(0.2)
-          : Theme.of(context).cardColor,
-      child: ListTile(
-        leading: Container(
-          padding: const EdgeInsets.all(8),
-          height: 50,
-          width: 50,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: bgColor,
-            image: DecorationImage(
-              image: NetworkImage(userImage),
-              fit: BoxFit.cover,
+    return InkWell(
+      onTap: onTapCallback ?? () => print("Nowhere to navigate."),
+      child: ColoredBox(
+        color: readDate == null
+            ? kColorBlue.withOpacity(0.2)
+            : Theme.of(context).cardColor,
+        child: ListTile(
+          leading: Container(
+            padding: const EdgeInsets.all(8),
+            height: 50,
+            width: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: bgColor,
+              image: DecorationImage(
+                image: NetworkImage(userImage),
+                fit: BoxFit.cover,
+              ),
             ),
           ),
-        ),
-        title: Padding(
-          padding: const EdgeInsets.only(top: 16.0, left: 8),
-          child: Text(
-            "$statusDetails",
-            style: Theme.of(context).textTheme.bodySmall,
+          title: Padding(
+            padding: const EdgeInsets.only(top: 16.0, left: 8),
+            child: Text(
+              "$statusDetails",
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
           ),
+          subtitle: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              if (statusTitle == "status completed" ||
+                  statusTitle == "rejected")
+                TextButton(
+                  onPressed: () {},
+                  child: const Text(
+                    "Browse New Task",
+                    style: TextStyle(color: Colors.blue),
+                  ),
+                ),
+              if (time != null)
+                Padding(
+                  padding: const EdgeInsets.only(left: 8.0),
+                  child: Text(
+                    getVerboseDateTimeRepresentation(time!),
+                  ),
+                )
+              else
+                const SizedBox(),
+            ],
+          ),
+          trailing: hasStatusBox
+              ? Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    color: bgColor,
+                  ),
+                  child: Text(
+                    statusTitle,
+                    style: const TextStyle(color: Colors.white),
+                  ),
+                )
+              : null,
         ),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            if (statusTitle == "status completed" || statusTitle == "rejected")
-              TextButton(
-                onPressed: () {},
-                child: const Text(
-                  "Browse New Task",
-                  style: TextStyle(color: Colors.blue),
-                ),
-              ),
-            if (time != null)
-              Padding(
-                padding: const EdgeInsets.only(left: 8.0),
-                child: Text(
-                  getVerboseDateTimeRepresentation(time!),
-                ),
-              )
-            else
-              const SizedBox(),
-          ],
-        ),
-        trailing: hasStatusBox
-            ? Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  color: bgColor,
-                ),
-                child: Text(
-                  statusTitle,
-                  style: const TextStyle(color: Colors.white),
-                ),
-              )
-            : null,
       ),
     );
   }

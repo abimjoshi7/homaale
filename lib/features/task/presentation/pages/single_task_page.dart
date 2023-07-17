@@ -1,12 +1,12 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
-import 'package:cipher/features/bloc/scroll_bloc.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/chat/bloc/chat_bloc.dart';
 import 'package:cipher/features/chat/models/chat_person_details.dart';
 import 'package:cipher/features/chat/view/chat_page.dart';
+import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/support/presentation/widgets/report_page.dart';
@@ -801,6 +801,31 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                           Navigator.pop(context);
                                         },
                                         onNegotiatePressed: () async {
+                                          print("i am pressed!");
+                                          context.read<BookingsBloc>().add(
+                                                BookingSingleLoaded(
+                                                  state.applicantModel
+                                                          ?.result?[index].id ??
+                                                      0,
+                                                ),
+                                              );
+                                          final _singleBookingResult = context
+                                              .read<BookingsBloc>()
+                                              .state
+                                              .result;
+
+                                          if (_singleBookingResult.isAccepted ==
+                                              false) {
+                                            context.read<TaskBloc>().add(
+                                                  ChangeTaskNegotiationStatus(
+                                                    id: state
+                                                            .applicantModel
+                                                            ?.result?[index]
+                                                            .id ??
+                                                        0,
+                                                  ),
+                                                );
+                                          }
                                           context.read<TaskBloc>().add(
                                                 ChangeTaskNegotiationStatus(
                                                   id: state.applicantModel
@@ -931,8 +956,15 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                     buttonLabel: getStatus('')["status"] as String,
                     buttonColor: getStatus('')["color"] as Color,
                     // buttonColor: getStatus('')["color"] as Color,
-                    price:
-                        "Rs. ${Decimal.parse(state.taskModel?.budgetTo ?? '0.0')}",
+                    price: state.taskModel?.createdBy?.id ==
+                            context
+                                .read<UserBloc>()
+                                .state
+                                .taskerProfile
+                                ?.user
+                                ?.id
+                        ? "Rs. ${Decimal.parse(state.taskModel?.payableTo ?? '0.0')}"
+                        : "Rs. ${Decimal.parse(state.taskModel?.budgetTo ?? '0.0')}",
                     onPressed: () {
                       if (!CacheHelper.isLoggedIn) {
                         notLoggedInPopUp(context);

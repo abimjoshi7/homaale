@@ -194,8 +194,8 @@ class _HistorySectionState extends State<HistorySection> {
         Text(
           result.assignee?.id ==
                   context.read<UserBloc>().state.taskerProfile?.user?.id
-              ? "Rs. ${Decimal.parse(result.earning ?? '0.0')}"
-              : "Rs. ${Decimal.parse(result.price ?? '0.0')}",
+              ? "Rs. ${Decimal.parse(result.earning ?? '0.0').toStringAsFixed(2)}"
+              : "Rs. ${Decimal.parse(result.price ?? '0.0').toStringAsFixed(2)}",
           // "Rs. ${Decimal.parse(result.entityService?.budgetFrom ?? '0.0')} - Rs. ${Decimal.parse(result.entityService?.budgetTo ?? '0.0')}",
           // style: kText17,
         ),

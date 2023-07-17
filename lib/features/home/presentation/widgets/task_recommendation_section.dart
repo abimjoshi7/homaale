@@ -141,9 +141,25 @@ class _TasksRecommendationSectionState
                                 ? 'View Details'
                                 : 'Apply Now',
                             startRate:
-                                '${state.taskEntityServiceModel.result?[index].budgetFrom ?? 0}',
+                            state.taskEntityServiceModel
+                                .result?[index].createdBy?.id ==
+                                context
+                                    .read<UserBloc>()
+                                    .state
+                                    .taskerProfile
+                                    ?.user
+                                    ?.id ?  '${state.taskEntityServiceModel.result?[index].payableFrom ?? 0}':'${state.taskEntityServiceModel.result?[index].budgetFrom ?? 0}',
                             endRate:
-                                '${state.taskEntityServiceModel.result?[index].budgetTo ?? 0}',
+                            state.taskEntityServiceModel
+                                .result?[index].createdBy?.id ==
+                                context
+                                    .read<UserBloc>()
+                                    .state
+                                    .taskerProfile
+                                    ?.user
+                                    ?.id ?
+
+                                '${state.taskEntityServiceModel.result?[index].payableTo ?? 0}':'${state.taskEntityServiceModel.result?[index].budgetTo ?? 0}',
                             budgetType:
                                 '${state.taskEntityServiceModel.result?[index].budgetType}',
                             count: state

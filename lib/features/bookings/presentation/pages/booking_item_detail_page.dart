@@ -16,7 +16,7 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../widgets/dashed_line_vertical_painter.dart';
+import '../../../../core/app/root.dart';
 import '../../../booking_cancel/presentation/pages/booking_cancel_page.dart';
 
 class BookingItemDetailPage extends StatefulWidget {
@@ -140,7 +140,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                 if (state.states == TheStates.initial) {
                   return const Center(
                     child: CardLoading(
-                      height: 200,
+                      height: 700,
                     ),
                   );
                 } else if (state.states == TheStates.success) {
@@ -151,8 +151,6 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                   ];
                   final isAssignee = booking.assignee?.id ==
                       context.read<UserBloc>().state.taskerProfile?.user?.id;
-                  print('object');
-                  print(booking.cancellationReason);
                   return Column(
                     children: [
                       addVerticalSpace(
@@ -185,9 +183,8 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                               image: DecorationImage(
                                                 image: NetworkImage(
                                                   booking
-                                                          .entityService
-                                                          ?.createdBy
-                                                          ?.profileImage ??
+                                                          .assigner
+                                                      ?.profileImage ??
                                                       kDefaultAvatarNImg,
                                                 ),
                                               ),
@@ -213,8 +210,8 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                                 ),
                                               ),
                                               Text(
-                                                "${booking.entityService?.createdBy?.firstName ?? ''} "
-                                                "${booking.entityService?.createdBy?.lastName ?? ''}",
+                                                "${booking.assigner?.fullName ?? ''} ",
+                                                // "${booking.entityService?.createdBy?.lastName ?? ''}",
                                                 style: kLightBlueText14,
                                               ),
                                             ],
@@ -441,9 +438,10 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                               color: kColorSecondary,
                                             ),
                                             addHorizontalSpace(10),
-                                            Text(double.parse(
-                                                    booking.earning.toString())
-                                                .toStringAsFixed(2)),
+                                            Text("Rs. " +
+                                                double.parse(booking.price
+                                                        .toString())
+                                                    .toStringAsFixed(2)),
                                           ],
                                         ),
                                       ],
@@ -573,58 +571,53 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                   color: Colors.red.shade50,
                                 ),
                                 child: Padding(
-                                    padding: const EdgeInsets.all(12.0),
-                                    child: Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          'Reason for cancellation',
-                                          style: Theme.of(context)
-                                              .textTheme
-                                              .displayMedium,
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'Reason : ',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                            ),
-                                            Text(
-                                              booking.cancellationReason ?? "",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                            ),
-                                          ],
-                                        ),
-                                        Row(
-                                          children: [
-                                            Text(
-                                              'Description : ',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                            ),
-                                            Text(
-                                              booking.cancellationDescription ??
-                                                  "",
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall,
-                                            ),
-                                          ],
-                                        ),
-                                      ],
-                                    )
-
-                                    // BlocBuilder<BookingCancelBloc, BookingCancelState>(builder: (context, state) {
-                                    //   print(state.bookingCancelModel?.cancellationReason);
-                                    //   return
-                                    // }),
-                                    ),
+                                  padding: const EdgeInsets.all(12.0),
+                                  child: Column(
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        'Reason for cancellation',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displayMedium,
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Reason : ',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                          ),
+                                          Text(
+                                            booking.cancellationReason ?? "",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                          ),
+                                        ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            'Description : ',
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                          ),
+                                          Text(
+                                            booking.cancellationDescription ??
+                                                "",
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .bodySmall,
+                                          ),
+                                        ],
+                                      ),
+                                    ],
+                                  ),
+                                ),
                               ),
                             addVerticalSpace(10),
                             Padding(
@@ -657,10 +650,6 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                           color: BookingTimelineStatus(
                                                   '${booking.status}')["color"]
                                               as Color,
-                                          // color: (booking.status == 'Closed' ||
-                                          //         booking.status == 'Cancelled')
-                                          //     ? Colors.red.shade50
-                                          //     : Colors.green.shade50,
                                           borderRadius:
                                               BorderRadius.circular(5),
                                           shape: BoxShape.rectangle,
@@ -699,7 +688,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                           ],
                         ),
                       ),
-                      booking.status == 'Closed'
+                      booking.status == 'closed'
                           ? booking.isRated ?? false
                               ? Container(
                                   width: MediaQuery.of(context).size.width,
@@ -773,19 +762,38 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                               buttonColor: statusToUpdate(
                                       '${booking.status}', isAssignee)["color"]
                                   as Color,
-                              price: booking.entityService?.budgetFrom != null
-                                  ? 'Rs. ${Decimal.parse(booking.entityService?.budgetFrom.toString() ?? '0.0')} - Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}'
-                                  : 'Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}',
+                              price: booking.assignee?.id !=
+                                      context
+                                          .read<UserBloc>()
+                                          .state
+                                          .taskerProfile
+                                          ?.user
+                                          ?.id
+                                  ? 'Rs. ${Decimal.parse(booking.price.toString()).toStringAsFixed(2)}'
+                                  : 'Rs. ${Decimal.parse(booking.earning.toString()).toStringAsFixed(2)}',
+                              // booking.entityService?.budgetFrom != null
+                              //     ? 'Rs. ${Decimal.parse(booking.entityService?.budgetFrom.toString() ?? '0.0')} - Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}'
+                              //     : 'Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}',
                               onPressed: () {
                                 var taskToUpdate = statusToUpdate(
                                     '${booking.status}',
                                     isAssignee)["status"] as String;
 
-                                if (booking.status == 'Initiated') {
-                                  return;
+                                if (booking.status == 'initiated') {
+                                  if (isAssignee) {
+                                    return;
+                                  } else {
+                                    Navigator.pushNamed(
+                                      context,
+                                      Root.routeName,
+                                      arguments: {
+                                        "index": 1,
+                                      },
+                                    );
+                                  }
                                 }
 
-                                if (booking.status == 'Completed') {
+                                if (booking.status == 'completed') {
                                   if (isAssignee) {
                                     return;
                                   } else {

@@ -43,7 +43,6 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
   DateTime? reactivationDate;
   String? explaination;
 
-
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -61,10 +60,7 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
                   label: 'I am leaving because',
                   isRequired: true,
                   child: CustomDropDownField<String?>(
-                    validator: (p0) =>
-                    reason ==null
-                        ? "Required Field"
-                        : null,
+                    validator: (p0) => reason == null ? "Required Field" : null,
                     onChanged: (p0) => setState(
                       () {
                         final options = deactiveReasonList.firstWhere(
@@ -83,6 +79,7 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
                 addVerticalSpace(10),
                 CustomFormField(
                   label: 'Description',
+                  isRequired: true,
                   child: CustomTextFormField(
                     validator: validateNotEmpty,
                     onSaved: (p0) => setState(

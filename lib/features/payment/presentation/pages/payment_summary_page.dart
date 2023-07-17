@@ -191,6 +191,7 @@ class _PaymentSummaryPageState extends State<PaymentSummaryPage> {
                       OrderInvoicePage.routeName,
                       arguments: orderID,
                     );
+                    print("second orderId: ${orderID}");
                   },
                   label: 'Confirm',
                 ),
