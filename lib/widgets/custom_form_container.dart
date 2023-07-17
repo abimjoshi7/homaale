@@ -25,7 +25,7 @@ class CustomFormContainer extends StatelessWidget {
     return GestureDetector(
       onTap: callback,
       child: Container(
-        height: 48,
+        height: 55,
         width: double.infinity,
         decoration: BoxDecoration(
           border: Border.all(

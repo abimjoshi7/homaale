@@ -293,13 +293,11 @@ class _PostServicePageState extends State<PostServicePage> {
                 isRange: isBudgetVariable,
               );
 
-              print(req);
-
-              // context.read<TaskEntityServiceBloc>().add(
-              //       TaskEntityServiceCreated(
-              //         req: req,
-              //       ),
-              //     );
+              context.read<TaskEntityServiceBloc>().add(
+                    TaskEntityServiceCreated(
+                      req: req,
+                    ),
+                  );
             }
           },
           child: CustomElevatedButton(

@@ -73,7 +73,7 @@ class _CheckoutPageState extends State<CheckoutPage> {
                             return Text(stateM.paymentZero?.message ??
                                 "Payment Successful.");
                           }),
-                          duration: const Duration(seconds: 1),
+                          duration: const Duration(seconds: 3),
                         ));
                         Navigator.pushNamed(context, Root.routeName);
                       } else {

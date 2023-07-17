@@ -144,10 +144,10 @@ class _ServicesProfileState extends State<ServicesProfile> {
                           location: data[index].location == ''
                               ? "Remote"
                               : data[index].location,
-                          rateTo: double.parse(data[index].payableTo ?? "")
+                          rateTo: double.parse(data[index].budgetTo ?? "")
                               .toInt()
                               .toString(),
-                          rateFrom: double.parse(data[index].payableFrom ?? "")
+                          rateFrom: double.parse(data[index].budgetFrom ?? "")
                               .toInt()
                               .toString(),
                           isRange: data[index].isRange,

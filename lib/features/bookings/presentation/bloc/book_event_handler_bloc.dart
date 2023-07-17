@@ -42,5 +42,13 @@ class BookEventHandlerBloc
         ),
       ),
     );
+
+    on<BookEventRequirementCleared>(
+      (event, emit) => emit(
+        state.copyWith(
+          requirements: [],
+        ),
+      ),
+    );
   }
 }

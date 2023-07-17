@@ -196,13 +196,13 @@ class TaskCard extends StatelessWidget {
                       Row(
                         children: <Widget>[
                           Text(
-                            "Rs. ${Decimal.parse(startRate ?? '0')}",
+                            "Rs. ${Decimal.parse(startRate ?? '0').toStringAsFixed(2)}",
                             style: Theme.of(context).textTheme.titleMedium,
                           ),
                           Visibility(
                             visible: isRange,
                             child: Text(
-                              ' - ${Decimal.parse(endRate ?? '0')}',
+                              ' - ${Decimal.parse(endRate ?? '0').toStringAsFixed(2)}',
                               style: Theme.of(context).textTheme.titleMedium,
                             ),
                           ),

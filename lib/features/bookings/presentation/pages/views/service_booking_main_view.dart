@@ -30,6 +30,11 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
   late PageController _pageController;
   final List<Widget> widgetList = [];
   final _formKey = GlobalKey<FormState>();
+  final TextEditingController requirementController = TextEditingController();
+  final TextEditingController problemDescController = TextEditingController();
+  final TextEditingController budgetController = TextEditingController();
+  final TextEditingController addressController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
@@ -43,6 +48,9 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
           child: DetailsView(
             uploadBloc: uploadBloc,
             bookEventHandlerBloc: bookEventHandlerBloc,
+            addressController: addressController,
+            problemDescController: problemDescController,
+            requirementController: requirementController,
           ),
         ),
       ],
@@ -55,6 +63,10 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
   @override
   void dispose() {
     _pageController.dispose();
+    requirementController.dispose();
+    problemDescController.dispose();
+    budgetController.dispose();
+    addressController.dispose();
     super.dispose();
   }
 
@@ -178,8 +190,12 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
           borderColor: kColorPrimary,
           callback: () {
             if (_pageController.page == 1) {
+              bookEventHandlerBloc.add(BookEventRequirementCleared());
               setState(() {
                 selectedIndex = 0;
+                requirementController.clear();
+                problemDescController.clear();
+                addressController.clear();
               });
               _pageController.jumpToPage(0);
             } else {
@@ -214,7 +230,7 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
                         .read<BookEventHandlerBloc>()
                         .state
                         .requirements
-                        ?.length ==
+                        .length ==
                     0
                 ? []
                 : bookEventHandlerBloc.state.requirements,
@@ -253,14 +269,10 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
                     entityService: state.taskEntityService.id,
                     price: bookEventHandlerBloc.state.budget,
                     budgetTo: bookEventHandlerBloc.state.budget,
-                    requirements: context
-                                .read<BookEventHandlerBloc>()
-                                .state
-                                .requirements
-                                ?.length ==
-                            0
-                        ? []
-                        : bookEventHandlerBloc.state.requirements,
+                    requirements:
+                        bookEventHandlerBloc.state.requirements.length == 0
+                            ? []
+                            : bookEventHandlerBloc.state.requirements,
                     startDate:
                         DateTime.parse(bookEventHandlerBloc.state.startDate!),
                     endDate:
@@ -292,104 +304,10 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
                 );
               }
             }
-
-            // if (state.taskEntityService?.event == null) {
-            //   // await upload
-            //   //   ..uploadImage()
-            //   //   ..uploadVideo();
-            //   // // if (uploadBloc.state.imageFileList.length != 0 ||
-            //   //     uploadBloc.state.videoFileList.length != 0)
-            //   //   await _uploadFile();
-            //   final req = BookEntityServiceReq(
-            //     location: bookEventHandlerBloc.state.address,
-            //     entityService: state.taskEntityService?.id,
-            //     price: bookEventHandlerBloc.state.budget,
-            //     budgetTo: bookEventHandlerBloc.state.budget,
-            //     requirements: context
-            //                 .read<BookEventHandlerBloc>()
-            //                 .state
-            //                 .requirements
-            //                 ?.length ==
-            //             0
-            //         ? []
-            //         : bookEventHandlerBloc.state.requirements,
-            //     startDate: DateTime.parse(
-            //         bookEventHandlerBloc.state.startDate!),
-            //     endDate: DateTime.parse(
-            //         bookEventHandlerBloc.state.endDate!),
-            //     startTime:
-            //         bookEventHandlerBloc.state.startTime,
-            //     endTime: bookEventHandlerBloc.state.endTime,
-            //     description:
-            //         bookEventHandlerBloc.state.description,
-            //     city: int.parse(
-            //       bookEventHandlerBloc.state.city,
-            //     ),
-            //     images: uploadBloc.state.uploadedImageList.isEmpty
-            //         ? []
-            //         : uploadBloc.state.uploadedImageList,
-            //     videos: uploadBloc.state.uploadedVideoList.isEmpty
-            //         ? []
-            //         : uploadBloc.state.uploadedVideoList,
-            //   );
-            //   context.read<BookingsBloc>().add(
-            //         BookingCreated(req),
-            //       );
-            // } else {
-            //   final availableReq = EventAvailability(
-            //     date: bookEventHandlerBloc.state.endDate,
-            //     start: bookEventHandlerBloc.state.startTime,
-            //     end: bookEventHandlerBloc.state.endTime,
-            //   );
-
-            //   context.read<EventBloc>().add(
-            //         EventAvailabilityChecked(
-            //           eventAvailability: availableReq,
-            //           id: state.taskEntityService?.event?.id ?? "",
-            //         ),
-            //       );
-            // }
-            // } else {
-            //   ScaffoldMessenger.of(context).showSnackBar(
-            //     SnackBar(
-            //       content: Text(
-            //         "Please accept terms and conditions.",
-            //       ),
-            //     ),
-            //   );
-            // }
           }
         },
         label: selectedIndex == 0 ? "Next" : "Book",
       ),
     );
   }
-
-  // Future<void> _uploadFile() async {
-  //   showDialog(
-  //     barrierDismissible: false,
-  //     context: context,
-  //     builder: (context) => Center(
-  //       child: CustomLoader(),
-  //     ),
-  //   );
-
-  //   uploadBloc
-  //     ..add(
-  //       VideoToFilestoreUploaded(
-  //         list: uploadBloc.state.videoFileList,
-  //       ),
-  //     )
-  //     ..add(
-  //       ImageToFilestoreUploaded(
-  //         list: uploadBloc.state.imageFileList,
-  //       ),
-  //     );
-
-  //   await Future.delayed(
-  //     Duration(
-  //       seconds: 15,
-  //     ),
-  //   );
-  // }
 }
