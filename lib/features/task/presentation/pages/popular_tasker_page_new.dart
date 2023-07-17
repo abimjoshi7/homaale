@@ -1,19 +1,14 @@
-import 'dart:isolate';
+import 'package:dependencies/dependencies.dart';
+import 'package:flutter/material.dart';
 
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/helpers/search_helper.dart';
-import 'package:cipher/features/search/presentation/bloc/search_bloc.dart';
 import 'package:cipher/features/tasker/data/repositories/tasker_repositories.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
-import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
-import 'package:dependencies/dependencies.dart';
-import 'package:flutter/material.dart';
 
-import '../../../../core/constants/api_constants.dart';
 import '../../../tasker/presentation/bloc/tasker_bloc.dart';
 
 class PopularTaskerNew extends StatelessWidget {

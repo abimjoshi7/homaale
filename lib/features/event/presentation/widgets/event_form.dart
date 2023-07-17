@@ -2,6 +2,7 @@
 
 import 'package:cipher/features/event/presentation/pages/event_details_page.dart';
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -110,9 +111,7 @@ class _EventFormState extends State<EventForm> {
         }
         if (state.theStates == TheStates.success) {
           var service = state.taskEntityService;
-          // titleController.text = service.title ?? '';
           return Form(
-            autovalidateMode: AutovalidateMode.onUserInteraction,
             key: _key,
             child: Column(
               children: [
@@ -161,7 +160,7 @@ class _EventFormState extends State<EventForm> {
                 onTap: () {
                   Navigator.pushNamedAndRemoveUntil(
                     context,
-                    Root.routeName,
+                    TaskEntityServicePage.routeName,
                     (route) => false,
                   );
                 },
@@ -182,102 +181,109 @@ class _EventFormState extends State<EventForm> {
           }
         },
         child: widget.type == AttachType.Create
-            ? CustomElevatedButton(
-                callback: () {
-                  if (_key.currentState!.validate()) {
-                    if (startDate != null && endDate != null) {
-                      final req = CreateEventReq(
-                        title: titleController.text,
-                        start: startDate,
-                        end: endDate,
-                        guestLimit: isUnlimitedGuests
-                            ? 0
-                            : int.parse(guestController.text),
-                        duration:
-                            "${durationController.text}:${durationTypeController.text.trim()}:00",
-                        isFlexible: isFlexible,
-                        entityService: service.id,
-                        isActive: true,
-                      );
-                      context.read<EventBloc>().add(
-                            EventCreated(
-                              req,
-                            ),
-                          );
-                    } else {
-                      showDialog(
-                        context: context,
-                        builder: (context) => CustomToast(
-                          heading: 'Error',
-                          content: "Please verify dates",
-                          onTap: () {
-                            Navigator.pop(context);
-                          },
-                          isSuccess: false,
-                        ),
-                      );
-                    }
-                  }
-                },
-                label: "Save",
-              )
-            : BlocListener<EventBloc, EventState>(
-                listenWhen: (previous, current) {
-                  if (previous.isEdited != true && current.isEdited == true)
+            ? _buildCreateButton(service, context)
+            : _buildEditButton(),
+      ),
+    );
+  }
+
+  BlocListener<EventBloc, EventState> _buildEditButton() {
+    return BlocListener<EventBloc, EventState>(
+      listenWhen: (previous, current) {
+        if (previous.isEdited != true && current.isEdited == true) return true;
+        return false;
+      },
+      listener: (context, state) async {
+        if (state.isEdited == true) {
+          await showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: 'Success',
+              content: "Event edited successfully",
+              onTap: () {
+                Navigator.popUntil(context, (route) {
+                  if (route.settings.name == EventDetailsPage.routeName)
                     return true;
                   return false;
-                },
-                listener: (context, state) async {
-                  if (state.isEdited == true) {
-                    await showDialog(
-                      context: context,
-                      builder: (context) => CustomToast(
-                        heading: 'Success',
-                        content: "Event edited successfully",
-                        onTap: () {
-                          Navigator.popUntil(context, (route) {
-                            if (route.settings.name ==
-                                EventDetailsPage.routeName) return true;
-                            return false;
-                          });
-                        },
-                        isSuccess: true,
-                      ),
-                    );
-                  } else {
-                    await showDialog(
-                      context: context,
-                      builder: (context) => CustomToast(
-                        heading: 'Error',
-                        content: "Something went wrong. Please try again.",
-                        onTap: () {},
-                        isSuccess: false,
-                      ),
-                    );
-                  }
-                },
-                child: CustomElevatedButton(
-                  callback: () {
-                    editedValues.addAll({
-                      "start": startDate!.toString(),
-                      "end": endDate!.toString(),
-                      "guest_limit": int.parse(guestController.text),
-                      "duration":
-                          "${durationController.text}:${durationTypeController.text}:00",
-                      "is_flexible": isFlexible,
-                    });
+                });
+              },
+              isSuccess: true,
+            ),
+          );
+        } else {
+          await showDialog(
+            context: context,
+            builder: (context) => CustomToast(
+              heading: 'Error',
+              content: "Something went wrong. Please try again.",
+              onTap: () {},
+              isSuccess: false,
+            ),
+          );
+        }
+      },
+      child: CustomElevatedButton(
+        callback: () {
+          editedValues.addAll({
+            "start": startDate!.toString(),
+            "end": endDate!.toString(),
+            "guest_limit": int.parse(guestController.text),
+            "duration":
+                "${durationController.text}:${durationTypeController.text}:00",
+            "is_flexible": isFlexible,
+          });
 
-                    eventBloc.add(
-                      EventEdited(
-                        id: eventBloc.state.event!.id!,
-                        data: editedValues,
-                      ),
-                    );
-                  },
-                  label: "Save",
-                ),
-              ),
+          eventBloc.add(
+            EventEdited(
+              id: eventBloc.state.event!.id!,
+              data: editedValues,
+            ),
+          );
+        },
+        label: "Save",
       ),
+    );
+  }
+
+  CustomElevatedButton _buildCreateButton(
+      TaskEntityService service, BuildContext context) {
+    return CustomElevatedButton(
+      callback: () {
+        if (_key.currentState!.validate()) {
+          if (startDate != null && endDate != null) {
+            final req = CreateEventReq(
+              title: titleController.text,
+              start: startDate,
+              end: endDate,
+              guestLimit:
+                  isUnlimitedGuests ? 0 : int.parse(guestController.text),
+              duration:
+                  "${durationController.text}:${durationTypeController.text.trim()}:00",
+              isFlexible: isFlexible,
+              entityService: service.id,
+              isActive: true,
+            );
+            context.read<EventBloc>().add(
+                  EventCreated(
+                    req,
+                  ),
+                );
+          } else {
+            showDialog(
+              context: context,
+              builder: (context) => CustomToast(
+                heading: 'Error',
+                content: "Please verify dates",
+                onTap: () {
+                  Navigator.pop(context);
+                },
+                isSuccess: false,
+              ),
+            );
+          }
+        }
+      },
+      label: "Save",
     );
   }
 

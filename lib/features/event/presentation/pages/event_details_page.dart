@@ -362,14 +362,6 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                   title: Text("Edit"),
                 ),
                 Divider(),
-                // ListTile(
-                //   onTap: () {},
-                //   leading: Icon(
-                //     Icons.filter_none_rounded,
-                //   ),
-                //   title: Text("Duplicate"),
-                // ),
-                // Divider(),
                 ListTile(
                   onTap: () async {
                     context.read<EventBloc>().add(
@@ -382,11 +374,6 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                             id: state.entityServiceId ?? '',
                           ),
                         );
-                    await Navigator.pushNamedAndRemoveUntil(
-                      context,
-                      Root.routeName,
-                      (route) => false,
-                    );
                   },
                   leading: Icon(
                     Icons.delete_outline_rounded,
@@ -402,9 +389,7 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
           style: kLightBlueText14,
         ),
       ),
-      child: EventDetailCard(
-          // taskEntityService: TaskEntityService(),
-          ),
+      child: EventDetailCard(),
     );
   }
 }

@@ -1,5 +1,4 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -10,15 +9,22 @@ import 'package:cipher/features/content_client/presentation/pages/pages.dart';
 import 'package:cipher/features/services/presentation/pages/sections/detail_header_section.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
+import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 
 class DetailsView extends StatefulWidget {
   final UploadBloc uploadBloc;
   final BookEventHandlerBloc bookEventHandlerBloc;
+  final TextEditingController requirementController;
+  final TextEditingController problemDescController;
+  final TextEditingController addressController;
   const DetailsView({
     Key? key,
     required this.uploadBloc,
     required this.bookEventHandlerBloc,
+    required this.requirementController,
+    required this.problemDescController,
+    required this.addressController,
   }) : super(key: key);
 
   @override
@@ -26,18 +32,16 @@ class DetailsView extends StatefulWidget {
 }
 
 class _DetailsViewState extends State<DetailsView> {
-  final requirementController = TextEditingController();
-  final problemDescController = TextEditingController();
-  final budgetController = TextEditingController();
-  final addressController = TextEditingController();
-
-  List<String> requirementList = [];
   List<int>? imageList;
   List<int>? fileList;
   int? cityCode;
   String? addressType = 'On premise';
   bool isAddressVisible = true;
   bool isTermsAccepted = false;
+
+  final List<String> requirementList = [];
+
+  final TextEditingController budgetController = TextEditingController();
 
   @override
   void initState() {
@@ -55,10 +59,7 @@ class _DetailsViewState extends State<DetailsView> {
 
   @override
   void dispose() {
-    requirementController.dispose();
-    problemDescController.dispose();
     budgetController.dispose();
-    addressController.dispose();
     super.dispose();
   }
 
@@ -176,52 +177,57 @@ class _DetailsViewState extends State<DetailsView> {
         isRequired: true,
         child: Column(
           children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: List.generate(
-                requirementList.length,
-                (index) => Padding(
-                  padding: const EdgeInsets.all(2),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
+            BlocBuilder<BookEventHandlerBloc, BookEventHandlerState>(
+              bloc: widget.bookEventHandlerBloc,
+              builder: (context, state) {
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: List.generate(
+                    state.requirements.length,
+                    (index) => Padding(
+                      padding: const EdgeInsets.all(2),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          const Icon(
-                            Icons.circle,
-                            size: 12,
-                            color: kColorSecondary,
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.circle,
+                                size: 12,
+                                color: kColorSecondary,
+                              ),
+                              addHorizontalSpace(20),
+                              Text(
+                                state.requirements[index],
+                              ),
+                            ],
                           ),
-                          addHorizontalSpace(20),
-                          Text(
-                            requirementList[index],
+                          InkWell(
+                            onTap: () {
+                              setState(
+                                () {
+                                  requirementList.remove(
+                                    requirementList[index],
+                                  );
+                                },
+                              );
+                            },
+                            child: const Icon(
+                              Icons.clear,
+                              size: 15,
+                              color: kColorGrey,
+                            ),
                           ),
                         ],
                       ),
-                      InkWell(
-                        onTap: () {
-                          setState(
-                            () {
-                              requirementList.remove(
-                                requirementList[index],
-                              );
-                            },
-                          );
-                        },
-                        child: const Icon(
-                          Icons.clear,
-                          size: 15,
-                          color: kColorGrey,
-                        ),
-                      ),
-                    ],
+                    ),
                   ),
-                ),
-              ),
+                );
+              },
             ),
             addVerticalSpace(5),
             CustomTextFormField(
-              controller: requirementController,
+              controller: widget.requirementController,
               hintText: 'Add Highlight',
               validator: (value) => requirementList.length == 0
                   ? "Atleast 1 Highlight Required"
@@ -232,10 +238,10 @@ class _DetailsViewState extends State<DetailsView> {
                   color: kColorSecondary,
                 ),
                 onPressed: () {
-                  if (requirementController.text.isNotEmpty)
+                  if (widget.requirementController.text.isNotEmpty)
                     setState(
                       () {
-                        requirementList.add(requirementController.text);
+                        requirementList.add(widget.requirementController.text);
                         widget.bookEventHandlerBloc.add(
                           BookEventPicked(
                             req: BookEntityServiceReq(
@@ -243,7 +249,7 @@ class _DetailsViewState extends State<DetailsView> {
                             ),
                           ),
                         );
-                        requirementController.clear();
+                        widget.requirementController.clear();
                       },
                     );
                 },
@@ -263,12 +269,12 @@ class _DetailsViewState extends State<DetailsView> {
         child: CustomTextFormField(
           maxLines: 3,
           hintText: "Service Desciption Here",
-          controller: problemDescController,
+          controller: widget.problemDescController,
           validator: validateNotEmpty,
           onChanged: (p0) => widget.bookEventHandlerBloc.add(
             BookEventPicked(
               req: BookEntityServiceReq(
-                description: problemDescController.text,
+                description: widget.problemDescController.text,
                 endDate: DateTime.parse(
                   widget.bookEventHandlerBloc.state.endDate!,
                 ),
@@ -377,7 +383,7 @@ class _DetailsViewState extends State<DetailsView> {
               visible: isAddressVisible,
               child: CustomTextFormField(
                 hintText: "Enter address details",
-                controller: addressController,
+                controller: widget.addressController,
                 validator: validateNotEmpty,
                 onChanged: (p0) {
                   widget.bookEventHandlerBloc.add(
