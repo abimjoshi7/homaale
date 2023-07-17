@@ -290,6 +290,7 @@ class _PostServicePageState extends State<PostServicePage> {
                 currency: currencyCode ?? kCurrencyCode,
                 images: uploadBloc.state.uploadedImageList,
                 videos: uploadBloc.state.uploadedVideoList,
+                isRange: isBudgetVariable,
               );
 
               print(req);
@@ -352,6 +353,7 @@ class _PostServicePageState extends State<PostServicePage> {
                         event: "",
                         city: cityCode ?? int.parse(kCityCode),
                         currency: currencyCode ?? kCurrencyCode,
+                        isRange: isBudgetVariable,
                         images: [],
                         videos: [],
                       );

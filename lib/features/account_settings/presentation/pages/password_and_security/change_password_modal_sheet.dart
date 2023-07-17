@@ -195,7 +195,6 @@ class _ChangePasswordModalSheetState extends State<ChangePasswordModalSheet> {
           label: 'Cancel',
         ),
         kHeight20,
-
       ],
     );
   }
@@ -232,7 +231,7 @@ class _AddPhoneNumberModalSheetState extends State<AddPhoneNumberModalSheet> {
         const CustomModalSheetDrawerIcon(),
         kHeight10,
         const Text(
-          'Update Password',
+          'Update Phone Number',
           // style: kText17,
         ),
         Form(
@@ -360,7 +359,6 @@ class _AddPhoneNumberModalSheetState extends State<AddPhoneNumberModalSheet> {
           label: 'Cancel',
         ),
         kHeight20,
-
       ],
     );
   }
@@ -372,8 +370,7 @@ class AddEmailModalSheet extends StatefulWidget {
   });
 
   @override
-  State<AddEmailModalSheet> createState() =>
-      _AddEmailModalSheetState();
+  State<AddEmailModalSheet> createState() => _AddEmailModalSheetState();
 }
 
 class _AddEmailModalSheetState extends State<AddEmailModalSheet> {
@@ -525,7 +522,6 @@ class _AddEmailModalSheetState extends State<AddEmailModalSheet> {
           label: 'Cancel',
         ),
         kHeight20,
-
       ],
     );
   }
