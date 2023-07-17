@@ -4,6 +4,7 @@ import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/bloc/scroll_bloc.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
+import 'package:cipher/features/chat/bloc/chat_bloc.dart';
 import 'package:cipher/features/chat/models/chat_person_details.dart';
 import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/profile/presentation/pages/profile.dart';
@@ -799,7 +800,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                               );
                                           Navigator.pop(context);
                                         },
-                                        onNegotiatePressed: () {
+                                        onNegotiatePressed: () async {
                                           context.read<TaskBloc>().add(
                                                 ChangeTaskNegotiationStatus(
                                                   id: state.applicantModel
@@ -808,56 +809,69 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                                 ),
                                               );
                                           //TODO: chat navigation
-                                          _firebaseBloc
-                                              .collection("userChats")
-                                              .doc(
-                                                  "${context.read<UserBloc>().state.taskerProfile?.user?.id}")
-                                              .get()
-                                              .then((value) {
-                                            value.data()?.forEach((key, value) {
-                                              if (value['userInfo']['uid'] ==
-                                                  state
-                                                      .applicantModel
-                                                      ?.result?[index]
-                                                      .createdBy!
-                                                      .user!
-                                                      .id) {
-                                                Navigator.pushNamed(
-                                                  context,
-                                                  ChatPage.routeName,
-                                                  arguments: ChatPersonDetails(
-                                                    groupName: key,
-                                                    fullName: state
-                                                        .applicantModel
-                                                        ?.result?[index]
-                                                        .createdBy!
-                                                        .user!
-                                                        .fullName,
-                                                    // "${state.taskEntityService.createdBy?.firstName ?? ''} ${state.taskEntityService.createdBy?.middleName ?? ''} ${state.taskEntityService.createdBy?.lastName ?? ''}",
-                                                    date: (value['date']
-                                                            as Timestamp)
-                                                        .toDate()
-                                                        .toString(),
-                                                    id: state
-                                                        .applicantModel
-                                                        ?.result?[index]
-                                                        .createdBy!
-                                                        .user!
-                                                        .id,
-                                                    isRead:
-                                                        value['read'] as bool,
-                                                    lastMessage: '',
-                                                    profileImage: state
-                                                            .applicantModel
-                                                            ?.result?[index]
-                                                            .createdBy!
-                                                            .profileImage ??
-                                                        kHomaaleImg,
-                                                  ),
-                                                );
-                                              }
-                                            });
-                                          });
+                                          final chatBloc = locator<ChatBloc>();
+                                          chatBloc.add(HandleUserCreationChat(
+                                            userID: context
+                                                .read<UserBloc>()
+                                                .state
+                                                .taskerProfile
+                                                ?.user
+                                                ?.id,
+                                            taskerID: state
+                                                .applicantModel
+                                                ?.result?[index]
+                                                .createdBy!
+                                                .user!
+                                                .id,
+                                          ));
+                                          await Future.delayed(
+                                            Duration(seconds: 2),
+                                            () => _firebaseBloc
+                                                .collection("userChats")
+                                                .doc(
+                                                    "${context.read<UserBloc>().state.taskerProfile?.user?.id}")
+                                                .get()
+                                                .then((value) {
+                                              value.data()?.forEach((key, v) {
+                                                if (v.toString().contains(
+                                                    "${state.applicantModel?.result?[index].createdBy!.user!.id}")) {
+                                                  Navigator.pushNamed(
+                                                    context,
+                                                    ChatPage.routeName,
+                                                    arguments:
+                                                        ChatPersonDetails(
+                                                      groupName: key,
+                                                      fullName: state
+                                                          .applicantModel
+                                                          ?.result?[index]
+                                                          .createdBy!
+                                                          .user!
+                                                          .fullName,
+                                                      // // "${state.taskEntityService.createdBy?.firstName ?? ''} ${state.taskEntityService.createdBy?.middleName ?? ''} ${state.taskEntityService.createdBy?.lastName ?? ''}",
+                                                      date: (v['date']
+                                                              as Timestamp)
+                                                          .toDate()
+                                                          .toString(),
+                                                      id: state
+                                                          .applicantModel
+                                                          ?.result?[index]
+                                                          .createdBy!
+                                                          .user!
+                                                          .id,
+                                                      isRead: v['read'] as bool,
+                                                      lastMessage: '',
+                                                      profileImage: state
+                                                              .applicantModel
+                                                              ?.result?[index]
+                                                              .createdBy!
+                                                              .profileImage ??
+                                                          kHomaaleImg,
+                                                    ),
+                                                  );
+                                                }
+                                              });
+                                            }),
+                                          );
                                         },
                                       ),
                                       buttonWidth:
