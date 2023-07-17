@@ -39,13 +39,16 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
               ),
             );
           await savedRepository.fetchSavedList(event.type, event.query, 1).then(
-                (value) => emit(
-                  state.copyWith(
-                    theStates: TheStates.success,
-                    savedModelRes: SavedModelRes.fromJson(value),
-                  ),
+            (value) {
+              emit(
+                state.copyWith(
+                  theStates: TheStates.success,
+                  savedModelRes: SavedModelRes.fromJson(value),
                 ),
               );
+              // print("list val: ${state.savedModelRes}");
+            },
+          );
         } catch (e) {
           log("Saved List Load Error: $e");
           emit(
@@ -72,11 +75,18 @@ class SavedBloc extends Bloc<SavedEvent, SavedState> {
                     theStates: TheStates.success,
                     savedAddRes: SavedAddRes.fromJson(value),
                     idToBeSaved: '',
-                  ),
+                  ), 
                 ),
               )
-              .whenComplete(() => add(
-                  SavedListLoaded(type: event.savedAddReq.model.toString())));
+              .whenComplete(
+            () {
+              add(
+                SavedListLoaded(
+                  type: event.savedAddReq.model.toString(),
+                ),
+              );
+            },
+          );
         } catch (e) {
           log("Saved Add Error: $e");
           emit(

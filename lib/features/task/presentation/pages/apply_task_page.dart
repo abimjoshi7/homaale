@@ -143,10 +143,9 @@ class _ApplyTaskPageState extends State<ApplyTaskPage> {
                                       ],
                                     ),
                                     addVerticalSpace(8),
-                                    Text(
-                                      state.taskModel?.description ??
-                                          'Hiring a reputable professional landscape gardener entail paying for their knowledge, experience, time, equipment, and materials. They will be able to discuss your vision and tailor your garden design to your exact needs, taking into account your taste, lifestyle, budget.',
-                                      style: kHelper13,
+                                    HtmlRemover(
+                                      // style: kHelper13, 
+                                      text: state.taskModel?.description ?? '',
                                     ),
                                   ],
                                 ),

@@ -9,7 +9,6 @@ import 'package:cipher/features/bookings/presentation/pages/service_booking_page
 import 'package:cipher/features/chat/models/chat_person_details.dart';
 import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
-import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart' as tb;
 import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart'
     as tes;
