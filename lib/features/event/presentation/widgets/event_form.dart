@@ -5,8 +5,6 @@ import 'package:cipher/features/task_entity_service/data/models/task_entity_serv
 import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-
-import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/event/data/models/req/create_event_req.dart';
 import 'package:cipher/features/event/presentation/bloc/event/event_bloc.dart';
@@ -102,7 +100,8 @@ class _EventFormState extends State<EventForm> {
   Widget build(BuildContext context) {
     return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
       builder: (context, state) {
-        if (state.theStates == TheStates.initial) {
+        if (state.theStates == TheStates.initial ||
+            state.theStates == TheStates.loading) {
           return const Center(
             child: CardLoading(
               height: 200,
@@ -152,16 +151,26 @@ class _EventFormState extends State<EventForm> {
         listener: (context, eventState) async {
           if (eventState.isCreated == true &&
               eventState.createdEventRes?.id != null) {
+            context.read<TaskEntityServiceBloc>().add(
+                  TaskEntityServiceSingleLoaded(
+                    id: context
+                            .read<TaskEntityServiceBloc>()
+                            .state
+                            .taskEntityService
+                            .id ??
+                        '',
+                  ),
+                );
             await showDialog(
               context: context,
               builder: (context) => CustomToast(
                 heading: 'Success',
                 content: "Event created successfully",
                 onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(
+                  Navigator.popUntil(
                     context,
-                    TaskEntityServicePage.routeName,
-                    (route) => false,
+                    (route) =>
+                        route.settings.name == TaskEntityServicePage.routeName,
                   );
                 },
                 isSuccess: true,

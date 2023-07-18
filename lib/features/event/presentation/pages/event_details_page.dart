@@ -1,5 +1,6 @@
 import 'package:cipher/features/event/presentation/bloc/schedule/schedule_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/task_entity_service_page.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -38,22 +39,34 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
         listenWhen: (previous, current) {
           if (previous.isScheduleDeleted != true &&
               current.isScheduleDeleted == true) return true;
+          if (previous.isScheduleDeleted != true &&
+              current.isScheduleDeleted == true) return true;
           if (previous.isDeleted != true && current.isDeleted == true)
             return true;
           return false;
         },
         listener: (context, state) {
           if (state.isDeleted == true) {
+            context.read<TaskEntityServiceBloc>().add(
+                  TaskEntityServiceSingleLoaded(
+                    id: context
+                            .read<TaskEntityServiceBloc>()
+                            .state
+                            .taskEntityService
+                            .id ??
+                        '',
+                  ),
+                );
             showDialog(
               context: context,
               builder: (context) => CustomToast(
                 heading: "Success",
                 content: "Event deleted successfully",
                 onTap: () {
-                  Navigator.pushNamedAndRemoveUntil(
+                  Navigator.popUntil(
                     context,
-                    Root.routeName,
-                    (route) => false,
+                    (route) =>
+                        route.settings.name == TaskEntityServicePage.routeName,
                   );
                 },
                 isSuccess: true,
@@ -100,11 +113,12 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
             );
           }
 
-          if (state.isScheduleDeleted == false) {
+          if (state.theStates == TheStates.failure &&
+              state.isScheduleDeleted == false) {
             showDialog(
               context: context,
               builder: (context) => CustomToast(
-                heading: "Success",
+                heading: "Failure",
                 content: "Schedule cannot be deleted.",
                 onTap: () {},
                 isSuccess: false,
@@ -367,11 +381,6 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                     context.read<EventBloc>().add(
                           EventDeleted(
                             id: state.event?.id ?? "",
-                          ),
-                        );
-                    context.read<TaskEntityServiceBloc>().add(
-                          TaskEntityServiceSingleLoaded(
-                            id: state.entityServiceId ?? '',
                           ),
                         );
                   },
