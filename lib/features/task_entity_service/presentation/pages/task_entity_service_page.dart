@@ -6,6 +6,7 @@ import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
 import 'package:cipher/features/chat/bloc/chat_bloc.dart';
 import 'package:cipher/features/chat/models/chat_person_details.dart';
@@ -485,8 +486,9 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
         isNegotiable: state.taskEntityService.isNegotiable ?? false,
         buttonLabel: getStatus('', isService: true)["status"] as String,
         buttonColor: getStatus('')["color"] as Color,
-        price:
-            "Rs. ${Decimal.parse(state.taskEntityService.payableTo ?? '0.0')}",
+        price: state.taskEntityService.isRange!
+            ? "Rs. ${Decimal.parse(state.taskEntityService.payableFrom ?? '0.0')} - ${Decimal.parse(state.taskEntityService.payableTo ?? '0.0')}"
+            : "Rs. ${Decimal.parse(state.taskEntityService.payableTo ?? '0.0')}",
         onPressed: () {
           if (!CacheHelper.isLoggedIn) {
             notLoggedInPopUp(context);

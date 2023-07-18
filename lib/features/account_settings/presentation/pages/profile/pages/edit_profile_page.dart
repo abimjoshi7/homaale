@@ -48,7 +48,7 @@ class _EditProfilePageState extends State<EditProfilePage>
         children: [
           addVerticalSpace(20),
           TabBar(
-            indicatorColor: kColorSecondary,
+            indicatorColor: Colors.transparent,
             indicatorSize: TabBarIndicatorSize.label,
             indicatorPadding: EdgeInsets.zero,
             padding: EdgeInsets.zero,
@@ -76,7 +76,7 @@ class _EditProfilePageState extends State<EditProfilePage>
               Align(
                 alignment: Alignment.centerRight,
                 child: Text(
-                  'Configuration',
+                  'Configuration  ',
                 ),
               ),
             ],

@@ -296,31 +296,31 @@ class EventDetailsPage extends StatelessWidget with TheModalBottomSheet {
                                   Icons.more_vert_outlined,
                                 ),
                               ),
-                              SizedBox(
-                                height: 30,
-                                width: 30,
-                                child: BlocBuilder<EventBloc, EventState>(
-                                  builder: (context, state) {
-                                    return Switch(
-                                      value: state.event?.isActive ?? false,
-                                      onChanged: (value) {
-                                        context.read<EventBloc>().add(
-                                              EventEdited(
-                                                id: state.event?.id ?? "",
-                                                data: {
-                                                  "is_active":
-                                                      !state.event!.isActive!,
-                                                },
-                                              ),
-                                            );
+                              // SizedBox(
+                              //   height: 30,
+                              //   width: 30,
+                              //   child: BlocBuilder<EventBloc, EventState>(
+                              //     builder: (context, state) {
+                              //       return Switch(
+                              //         value: state.event?.isActive ?? false,
+                              //         onChanged: (value) {
+                              //           context.read<EventBloc>().add(
+                              //                 EventEdited(
+                              //                   id: state.event?.id ?? "",
+                              //                   data: {
+                              //                     "is_active":
+                              //                         !state.event!.isActive!,
+                              //                   },
+                              //                 ),
+                              //               );
 
-                                        print(state.event);
-                                        print(state.event?.allShifts?.length);
-                                      },
-                                    );
-                                  },
-                                ),
-                              )
+                              //           print(state.event);
+                              //           print(state.event?.allShifts?.length);
+                              //         },
+                              //       );
+                              //     },
+                              //   ),
+                              // )
                             ],
                           ),
                         )
