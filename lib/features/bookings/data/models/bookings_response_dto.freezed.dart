@@ -300,7 +300,7 @@ Result _$ResultFromJson(Map<String, dynamic> json) {
 /// @nodoc
 mixin _$Result {
   String? get id => throw _privateConstructorUsedError;
-  Assignee? get assigner => throw _privateConstructorUsedError;
+  Assigner? get assigner => throw _privateConstructorUsedError;
   Assignee? get assignee => throw _privateConstructorUsedError;
   @JsonKey(name: 'entity_service')
   EntityService? get entityService => throw _privateConstructorUsedError;
@@ -356,7 +356,7 @@ abstract class $ResultCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      Assignee? assigner,
+      Assigner? assigner,
       Assignee? assignee,
       @JsonKey(name: 'entity_service')
           EntityService? entityService,
@@ -400,7 +400,7 @@ abstract class $ResultCopyWith<$Res> {
           String? approvedBy,
       int? booking});
 
-  $AssigneeCopyWith<$Res>? get assigner;
+  $AssignerCopyWith<$Res>? get assigner;
   $AssigneeCopyWith<$Res>? get assignee;
   $EntityServiceCopyWith<$Res>? get entityService;
   $CurrencyCopyWith<$Res>? get currency;
@@ -456,7 +456,7 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
       assigner: freezed == assigner
           ? _value.assigner
           : assigner // ignore: cast_nullable_to_non_nullable
-              as Assignee?,
+              as Assigner?,
       assignee: freezed == assignee
           ? _value.assignee
           : assignee // ignore: cast_nullable_to_non_nullable
@@ -562,12 +562,12 @@ class _$ResultCopyWithImpl<$Res, $Val extends Result>
 
   @override
   @pragma('vm:prefer-inline')
-  $AssigneeCopyWith<$Res>? get assigner {
+  $AssignerCopyWith<$Res>? get assigner {
     if (_value.assigner == null) {
       return null;
     }
 
-    return $AssigneeCopyWith<$Res>(_value.assigner!, (value) {
+    return $AssignerCopyWith<$Res>(_value.assigner!, (value) {
       return _then(_value.copyWith(assigner: value) as $Val);
     });
   }
@@ -629,7 +629,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
   @useResult
   $Res call(
       {String? id,
-      Assignee? assigner,
+      Assigner? assigner,
       Assignee? assignee,
       @JsonKey(name: 'entity_service')
           EntityService? entityService,
@@ -674,7 +674,7 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       int? booking});
 
   @override
-  $AssigneeCopyWith<$Res>? get assigner;
+  $AssignerCopyWith<$Res>? get assigner;
   @override
   $AssigneeCopyWith<$Res>? get assignee;
   @override
@@ -731,7 +731,7 @@ class __$$_ResultCopyWithImpl<$Res>
       assigner: freezed == assigner
           ? _value.assigner
           : assigner // ignore: cast_nullable_to_non_nullable
-              as Assignee?,
+              as Assigner?,
       assignee: freezed == assignee
           ? _value.assignee
           : assignee // ignore: cast_nullable_to_non_nullable
@@ -874,7 +874,7 @@ class _$_Result implements _Result {
   @override
   final String? id;
   @override
-  final Assignee? assigner;
+  final Assigner? assigner;
   @override
   final Assignee? assignee;
   @override
@@ -1049,7 +1049,7 @@ class _$_Result implements _Result {
 abstract class _Result implements Result {
   const factory _Result(
       {final String? id,
-      final Assignee? assigner,
+      final Assigner? assigner,
       final Assignee? assignee,
       @JsonKey(name: 'entity_service')
           final EntityService? entityService,
@@ -1098,7 +1098,7 @@ abstract class _Result implements Result {
   @override
   String? get id;
   @override
-  Assignee? get assigner;
+  Assigner? get assigner;
   @override
   Assignee? get assignee;
   @override
@@ -1678,6 +1678,515 @@ abstract class _Assignee implements Assignee {
   @override
   @JsonKey(ignore: true)
   _$$_AssigneeCopyWith<_$_Assignee> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+Assigner _$AssignerFromJson(Map<String, dynamic> json) {
+  return _Assigner.fromJson(json);
+}
+
+/// @nodoc
+mixin _$Assigner {
+  String? get id => throw _privateConstructorUsedError;
+  String? get username => throw _privateConstructorUsedError;
+  String? get email => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
+  @JsonKey(name: 'full_name')
+  String? get fullName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'first_name')
+  String? get firstName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'middle_name')
+  String? get middleName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'last_name')
+  String? get lastName => throw _privateConstructorUsedError;
+  @JsonKey(name: 'profile_image')
+  String? get profileImage => throw _privateConstructorUsedError;
+  String? get bio => throw _privateConstructorUsedError;
+  @JsonKey(name: 'created_at')
+  DateTime? get createdAt => throw _privateConstructorUsedError;
+  String? get designation => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_profile_verified')
+  bool? get isProfileVerified => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_followed')
+  bool? get isFollowed => throw _privateConstructorUsedError;
+  @JsonKey(name: 'is_following')
+  bool? get isFollowing => throw _privateConstructorUsedError;
+  Badge? get badge => throw _privateConstructorUsedError;
+
+  Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
+  @JsonKey(ignore: true)
+  $AssignerCopyWith<Assigner> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $AssignerCopyWith<$Res> {
+  factory $AssignerCopyWith(Assigner value, $Res Function(Assigner) then) =
+      _$AssignerCopyWithImpl<$Res, Assigner>;
+  @useResult
+  $Res call(
+      {String? id,
+      String? username,
+      String? email,
+      String? phone,
+      @JsonKey(name: 'full_name') String? fullName,
+      @JsonKey(name: 'first_name') String? firstName,
+      @JsonKey(name: 'middle_name') String? middleName,
+      @JsonKey(name: 'last_name') String? lastName,
+      @JsonKey(name: 'profile_image') String? profileImage,
+      String? bio,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
+      String? designation,
+      @JsonKey(name: 'is_profile_verified') bool? isProfileVerified,
+      @JsonKey(name: 'is_followed') bool? isFollowed,
+      @JsonKey(name: 'is_following') bool? isFollowing,
+      Badge? badge});
+
+  $BadgeCopyWith<$Res>? get badge;
+}
+
+/// @nodoc
+class _$AssignerCopyWithImpl<$Res, $Val extends Assigner>
+    implements $AssignerCopyWith<$Res> {
+  _$AssignerCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? username = freezed,
+    Object? email = freezed,
+    Object? phone = freezed,
+    Object? fullName = freezed,
+    Object? firstName = freezed,
+    Object? middleName = freezed,
+    Object? lastName = freezed,
+    Object? profileImage = freezed,
+    Object? bio = freezed,
+    Object? createdAt = freezed,
+    Object? designation = freezed,
+    Object? isProfileVerified = freezed,
+    Object? isFollowed = freezed,
+    Object? isFollowing = freezed,
+    Object? badge = freezed,
+  }) {
+    return _then(_value.copyWith(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fullName: freezed == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      middleName: freezed == middleName
+          ? _value.middleName
+          : middleName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profileImage: freezed == profileImage
+          ? _value.profileImage
+          : profileImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      designation: freezed == designation
+          ? _value.designation
+          : designation // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isProfileVerified: freezed == isProfileVerified
+          ? _value.isProfileVerified
+          : isProfileVerified // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowed: freezed == isFollowed
+          ? _value.isFollowed
+          : isFollowed // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowing: freezed == isFollowing
+          ? _value.isFollowing
+          : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      badge: freezed == badge
+          ? _value.badge
+          : badge // ignore: cast_nullable_to_non_nullable
+              as Badge?,
+    ) as $Val);
+  }
+
+  @override
+  @pragma('vm:prefer-inline')
+  $BadgeCopyWith<$Res>? get badge {
+    if (_value.badge == null) {
+      return null;
+    }
+
+    return $BadgeCopyWith<$Res>(_value.badge!, (value) {
+      return _then(_value.copyWith(badge: value) as $Val);
+    });
+  }
+}
+
+/// @nodoc
+abstract class _$$_AssignerCopyWith<$Res> implements $AssignerCopyWith<$Res> {
+  factory _$$_AssignerCopyWith(
+          _$_Assigner value, $Res Function(_$_Assigner) then) =
+      __$$_AssignerCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call(
+      {String? id,
+      String? username,
+      String? email,
+      String? phone,
+      @JsonKey(name: 'full_name') String? fullName,
+      @JsonKey(name: 'first_name') String? firstName,
+      @JsonKey(name: 'middle_name') String? middleName,
+      @JsonKey(name: 'last_name') String? lastName,
+      @JsonKey(name: 'profile_image') String? profileImage,
+      String? bio,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
+      String? designation,
+      @JsonKey(name: 'is_profile_verified') bool? isProfileVerified,
+      @JsonKey(name: 'is_followed') bool? isFollowed,
+      @JsonKey(name: 'is_following') bool? isFollowing,
+      Badge? badge});
+
+  @override
+  $BadgeCopyWith<$Res>? get badge;
+}
+
+/// @nodoc
+class __$$_AssignerCopyWithImpl<$Res>
+    extends _$AssignerCopyWithImpl<$Res, _$_Assigner>
+    implements _$$_AssignerCopyWith<$Res> {
+  __$$_AssignerCopyWithImpl(
+      _$_Assigner _value, $Res Function(_$_Assigner) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? id = freezed,
+    Object? username = freezed,
+    Object? email = freezed,
+    Object? phone = freezed,
+    Object? fullName = freezed,
+    Object? firstName = freezed,
+    Object? middleName = freezed,
+    Object? lastName = freezed,
+    Object? profileImage = freezed,
+    Object? bio = freezed,
+    Object? createdAt = freezed,
+    Object? designation = freezed,
+    Object? isProfileVerified = freezed,
+    Object? isFollowed = freezed,
+    Object? isFollowing = freezed,
+    Object? badge = freezed,
+  }) {
+    return _then(_$_Assigner(
+      id: freezed == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String?,
+      username: freezed == username
+          ? _value.username
+          : username // ignore: cast_nullable_to_non_nullable
+              as String?,
+      email: freezed == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
+              as String?,
+      phone: freezed == phone
+          ? _value.phone
+          : phone // ignore: cast_nullable_to_non_nullable
+              as String?,
+      fullName: freezed == fullName
+          ? _value.fullName
+          : fullName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      firstName: freezed == firstName
+          ? _value.firstName
+          : firstName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      middleName: freezed == middleName
+          ? _value.middleName
+          : middleName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      lastName: freezed == lastName
+          ? _value.lastName
+          : lastName // ignore: cast_nullable_to_non_nullable
+              as String?,
+      profileImage: freezed == profileImage
+          ? _value.profileImage
+          : profileImage // ignore: cast_nullable_to_non_nullable
+              as String?,
+      bio: freezed == bio
+          ? _value.bio
+          : bio // ignore: cast_nullable_to_non_nullable
+              as String?,
+      createdAt: freezed == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
+      designation: freezed == designation
+          ? _value.designation
+          : designation // ignore: cast_nullable_to_non_nullable
+              as String?,
+      isProfileVerified: freezed == isProfileVerified
+          ? _value.isProfileVerified
+          : isProfileVerified // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowed: freezed == isFollowed
+          ? _value.isFollowed
+          : isFollowed // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      isFollowing: freezed == isFollowing
+          ? _value.isFollowing
+          : isFollowing // ignore: cast_nullable_to_non_nullable
+              as bool?,
+      badge: freezed == badge
+          ? _value.badge
+          : badge // ignore: cast_nullable_to_non_nullable
+              as Badge?,
+    ));
+  }
+}
+
+/// @nodoc
+@JsonSerializable()
+class _$_Assigner implements _Assigner {
+  const _$_Assigner(
+      {this.id,
+      this.username,
+      this.email,
+      this.phone,
+      @JsonKey(name: 'full_name') this.fullName,
+      @JsonKey(name: 'first_name') this.firstName,
+      @JsonKey(name: 'middle_name') this.middleName,
+      @JsonKey(name: 'last_name') this.lastName,
+      @JsonKey(name: 'profile_image') this.profileImage,
+      this.bio,
+      @JsonKey(name: 'created_at') this.createdAt,
+      this.designation,
+      @JsonKey(name: 'is_profile_verified') this.isProfileVerified,
+      @JsonKey(name: 'is_followed') this.isFollowed,
+      @JsonKey(name: 'is_following') this.isFollowing,
+      this.badge});
+
+  factory _$_Assigner.fromJson(Map<String, dynamic> json) =>
+      _$$_AssignerFromJson(json);
+
+  @override
+  final String? id;
+  @override
+  final String? username;
+  @override
+  final String? email;
+  @override
+  final String? phone;
+  @override
+  @JsonKey(name: 'full_name')
+  final String? fullName;
+  @override
+  @JsonKey(name: 'first_name')
+  final String? firstName;
+  @override
+  @JsonKey(name: 'middle_name')
+  final String? middleName;
+  @override
+  @JsonKey(name: 'last_name')
+  final String? lastName;
+  @override
+  @JsonKey(name: 'profile_image')
+  final String? profileImage;
+  @override
+  final String? bio;
+  @override
+  @JsonKey(name: 'created_at')
+  final DateTime? createdAt;
+  @override
+  final String? designation;
+  @override
+  @JsonKey(name: 'is_profile_verified')
+  final bool? isProfileVerified;
+  @override
+  @JsonKey(name: 'is_followed')
+  final bool? isFollowed;
+  @override
+  @JsonKey(name: 'is_following')
+  final bool? isFollowing;
+  @override
+  final Badge? badge;
+
+  @override
+  String toString() {
+    return 'Assigner(id: $id, username: $username, email: $email, phone: $phone, fullName: $fullName, firstName: $firstName, middleName: $middleName, lastName: $lastName, profileImage: $profileImage, bio: $bio, createdAt: $createdAt, designation: $designation, isProfileVerified: $isProfileVerified, isFollowed: $isFollowed, isFollowing: $isFollowing, badge: $badge)';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$_Assigner &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.username, username) ||
+                other.username == username) &&
+            (identical(other.email, email) || other.email == email) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.fullName, fullName) ||
+                other.fullName == fullName) &&
+            (identical(other.firstName, firstName) ||
+                other.firstName == firstName) &&
+            (identical(other.middleName, middleName) ||
+                other.middleName == middleName) &&
+            (identical(other.lastName, lastName) ||
+                other.lastName == lastName) &&
+            (identical(other.profileImage, profileImage) ||
+                other.profileImage == profileImage) &&
+            (identical(other.bio, bio) || other.bio == bio) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.designation, designation) ||
+                other.designation == designation) &&
+            (identical(other.isProfileVerified, isProfileVerified) ||
+                other.isProfileVerified == isProfileVerified) &&
+            (identical(other.isFollowed, isFollowed) ||
+                other.isFollowed == isFollowed) &&
+            (identical(other.isFollowing, isFollowing) ||
+                other.isFollowing == isFollowing) &&
+            (identical(other.badge, badge) || other.badge == badge));
+  }
+
+  @JsonKey(ignore: true)
+  @override
+  int get hashCode => Object.hash(
+      runtimeType,
+      id,
+      username,
+      email,
+      phone,
+      fullName,
+      firstName,
+      middleName,
+      lastName,
+      profileImage,
+      bio,
+      createdAt,
+      designation,
+      isProfileVerified,
+      isFollowed,
+      isFollowing,
+      badge);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$_AssignerCopyWith<_$_Assigner> get copyWith =>
+      __$$_AssignerCopyWithImpl<_$_Assigner>(this, _$identity);
+
+  @override
+  Map<String, dynamic> toJson() {
+    return _$$_AssignerToJson(
+      this,
+    );
+  }
+}
+
+abstract class _Assigner implements Assigner {
+  const factory _Assigner(
+      {final String? id,
+      final String? username,
+      final String? email,
+      final String? phone,
+      @JsonKey(name: 'full_name') final String? fullName,
+      @JsonKey(name: 'first_name') final String? firstName,
+      @JsonKey(name: 'middle_name') final String? middleName,
+      @JsonKey(name: 'last_name') final String? lastName,
+      @JsonKey(name: 'profile_image') final String? profileImage,
+      final String? bio,
+      @JsonKey(name: 'created_at') final DateTime? createdAt,
+      final String? designation,
+      @JsonKey(name: 'is_profile_verified') final bool? isProfileVerified,
+      @JsonKey(name: 'is_followed') final bool? isFollowed,
+      @JsonKey(name: 'is_following') final bool? isFollowing,
+      final Badge? badge}) = _$_Assigner;
+
+  factory _Assigner.fromJson(Map<String, dynamic> json) = _$_Assigner.fromJson;
+
+  @override
+  String? get id;
+  @override
+  String? get username;
+  @override
+  String? get email;
+  @override
+  String? get phone;
+  @override
+  @JsonKey(name: 'full_name')
+  String? get fullName;
+  @override
+  @JsonKey(name: 'first_name')
+  String? get firstName;
+  @override
+  @JsonKey(name: 'middle_name')
+  String? get middleName;
+  @override
+  @JsonKey(name: 'last_name')
+  String? get lastName;
+  @override
+  @JsonKey(name: 'profile_image')
+  String? get profileImage;
+  @override
+  String? get bio;
+  @override
+  @JsonKey(name: 'created_at')
+  DateTime? get createdAt;
+  @override
+  String? get designation;
+  @override
+  @JsonKey(name: 'is_profile_verified')
+  bool? get isProfileVerified;
+  @override
+  @JsonKey(name: 'is_followed')
+  bool? get isFollowed;
+  @override
+  @JsonKey(name: 'is_following')
+  bool? get isFollowing;
+  @override
+  Badge? get badge;
+  @override
+  @JsonKey(ignore: true)
+  _$$_AssignerCopyWith<_$_Assigner> get copyWith =>
       throw _privateConstructorUsedError;
 }
 

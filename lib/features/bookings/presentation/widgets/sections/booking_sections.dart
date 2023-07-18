@@ -104,10 +104,10 @@ class _BookingSectionState extends State<BookingSection> {
                                   return BottomLoader();
                                 } else {
                                   if (widget.bookingSectionType ==
-                                      BookingSectionType.todo) {
+                                      BookingSectionType.myBooking) {
                                     var todoList = bookingList
                                         .where((e) =>
-                                            e.assignee?.id ==
+                                            e.assignee?.id !=
                                             context
                                                 .read<UserBloc>()
                                                 .state
@@ -125,7 +125,8 @@ class _BookingSectionState extends State<BookingSection> {
                                                 'We’re sorry, the data you search could not found. '
                                                 'Please go back.',
                                           )
-                                        : bookingList[index].assignee?.id ==
+                                        :
+                                    bookingList[index].assignee?.id !=
                                                 context
                                                     .read<UserBloc>()
                                                     .state
@@ -155,7 +156,6 @@ class _BookingSectionState extends State<BookingSection> {
                                                   },
                                                   serviceName:
                                                       bookingList[index].title,
-                                                  cardColor: kColorBlue,
                                                   providerName:
                                                       "${bookingList[index].assigner?.firstName} ${bookingList[index].assigner?.lastName}",
                                                   mainContentWidget:
@@ -200,7 +200,8 @@ class _BookingSectionState extends State<BookingSection> {
                                                 'We’re sorry, the data you search could not found. '
                                                 'Please go back.',
                                           )
-                                        : Container(
+                                        :
+                                    Container(
                                             margin: EdgeInsets.only(bottom: 16),
                                             child: BookingsServiceCard(
                                               callback: () {
@@ -222,6 +223,7 @@ class _BookingSectionState extends State<BookingSection> {
                                                   bookingList[index].title,
                                               providerName:
                                                   "${bookingList[index].assignee?.firstName} ${bookingList[index].assignee?.lastName}",
+                                              cardColor: kColorBlue,
                                               mainContentWidget:
                                                   showBookingDetails(
                                                       bookingList[index]),

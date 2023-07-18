@@ -28,6 +28,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
           await repositories
               .fetchBookingsList(
             page: event.page,
+            isSelf: event.isSelf
           )
               .then(
             (value) {

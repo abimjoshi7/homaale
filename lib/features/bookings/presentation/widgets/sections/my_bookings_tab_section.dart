@@ -6,7 +6,7 @@ import '../../../../../core/constants/paddings.dart';
 import 'history/history_section.dart';
 
 class MyBookingsTabSection extends StatefulWidget {
-  const MyBookingsTabSection({super.key});
+  const MyBookingsTabSection({super.key,});
 
   @override
   State<MyBookingsTabSection> createState() => _MyBookingsTabSectionState();
