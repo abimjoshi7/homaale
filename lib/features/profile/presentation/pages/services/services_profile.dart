@@ -1,5 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/scroll_helper.dart';
+import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/bloc/scroll_bloc.dart';
 import 'package:cipher/features/error_pages/no_internet_page.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
@@ -20,7 +21,8 @@ class ServicesProfile extends StatefulWidget {
   State<ServicesProfile> createState() => _ServicesProfileState();
 }
 
-class _ServicesProfileState extends State<ServicesProfile> {
+class _ServicesProfileState extends State<ServicesProfile>
+    with TheModalBottomSheet {
   final _controller = ScrollController();
   final _scrollBloc = locator<ScrollBloc>();
 
@@ -139,7 +141,8 @@ class _ServicesProfileState extends State<ServicesProfile> {
                               : data[index].images?.first.media.toString(),
                           createdBy:
                               "${data[index].createdBy?.firstName} ${data[index].createdBy?.lastName}",
-                          createdByProfileImg: "${data[index].createdBy?.profileImage}",
+                          createdByProfileImg:
+                              "${data[index].createdBy?.profileImage}",
                           description: data[index].description,
                           location: data[index].location == ''
                               ? "Remote"
@@ -154,10 +157,9 @@ class _ServicesProfileState extends State<ServicesProfile> {
                           isBookmarked: false,
                           isOwner: true,
                           editCallback: () {
-                            showModalBottomSheet(
+                            showCustomBottomSheet(
                               context: context,
-                              isScrollControlled: true,
-                              builder: (context) => Container(
+                              widget: Container(
                                 height:
                                     MediaQuery.of(context).size.height * 0.75,
                                 padding: EdgeInsets.only(
@@ -173,6 +175,7 @@ class _ServicesProfileState extends State<ServicesProfile> {
                                     children: [
                                       EditTaskEntityServiceForm(
                                         id: data[index].id ?? "",
+                                        isRequested: false,
                                       ),
                                     ],
                                   ),

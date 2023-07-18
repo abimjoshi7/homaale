@@ -282,6 +282,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 discountType: "Percentage",
                 discountValue: '0.0',
                 noOfReservation: 0,
+                isRange: isBudgetVariable,
                 isActive: true,
                 needsApproval: true,
                 isEndorsed: true,
@@ -362,6 +363,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           discountType: "Percentage",
                           discountValue: '0.0',
                           noOfReservation: 0,
+                          isRange: isBudgetVariable,
                           isActive: true,
                           needsApproval: true,
                           isEndorsed: true,
@@ -649,6 +651,7 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                     horizontal: 10,
                   ),
                   child: CustomDropDownField(
+                    initialValue: 'Project',
                     list: const [
                       'Project',
                       'Hourly',

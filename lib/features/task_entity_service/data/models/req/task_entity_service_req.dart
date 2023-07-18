@@ -21,6 +21,7 @@ class TaskEntityServiceReq {
   String? discountType;
   String? discountValue;
   int? noOfReservation;
+  bool? isRange;
   bool? isActive;
   bool? needsApproval;
   bool? isEndorsed;
@@ -54,6 +55,7 @@ class TaskEntityServiceReq {
     this.discountType,
     this.discountValue,
     this.noOfReservation,
+    this.isRange,
     this.isActive,
     this.needsApproval,
     this.isEndorsed,
@@ -89,6 +91,7 @@ class TaskEntityServiceReq {
       'discount_type': discountType,
       'discount_value': discountValue,
       'no_of_reservation': noOfReservation,
+      'is_range': isRange,
       'is_active': isActive,
       'needs_approval': needsApproval,
       'is_endorsed': isEndorsed,
