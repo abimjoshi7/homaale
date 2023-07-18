@@ -9,8 +9,6 @@ import 'package:cipher/features/bookings/presentation/widgets/sections/custom_ar
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/rating_reviews/presentation/rating_reviews_form.dart';
 import 'package:cipher/features/services/presentation/pages/sections/packages_offers_section.dart';
-import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart'
-    as bms;
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/show_more_text_widget.dart';
@@ -37,10 +35,11 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
     final routeData =
         ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     final client = routeData?['client'] as String?;
+    final title = routeData?['title'] as String?;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: CustomAppBar(
-        appBarTitle: context.read<BookingsBloc>().state.bookingRes.title!,
+        appBarTitle: title ?? "",
         trailingWidget: SizedBox.shrink(),
       ),
       body: BlocListener<ArchiveTaskEntityServiceBloc,
