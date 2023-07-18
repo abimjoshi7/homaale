@@ -38,6 +38,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
         url: kMyBookingList,
         data: {
           "status": "pending",
+          "is_accepted": false,
         },
         newFetch: false,
       ),
@@ -55,7 +56,9 @@ class _WaitingListTabState extends State<WaitingListTab> {
     return BlocBuilder<ScrollBloc, ScrollState>(
       bloc: _scrollBloc,
       builder: (context, state) {
-        var data = state.result.map((e) => Result.fromJson(e as Map<String, dynamic>)).toList();
+        var data = state.result
+            .map((e) => Result.fromJson(e as Map<String, dynamic>))
+            .toList();
         if (state.theState == TheStates.success) {
           return Column(
             children: [
@@ -66,7 +69,7 @@ class _WaitingListTabState extends State<WaitingListTab> {
                       FetchItemsEvent(
                         url: kMyBookingList,
                         data: {
-                          // "is_accepted": false,
+                          "is_accepted": false,
                           "status": "pending",
                         },
                         newFetch: true,
@@ -77,7 +80,8 @@ class _WaitingListTabState extends State<WaitingListTab> {
                     controller: _controller,
                     physics: AlwaysScrollableScrollPhysics(),
                     padding: EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: state.hasReachedMax ? data.length : data.length + 1,
+                    itemCount:
+                        state.hasReachedMax ? data.length : data.length + 1,
                     itemBuilder: (context, index) {
                       if (index >= data.length) {
                         _scrollBloc.add(
@@ -97,7 +101,8 @@ class _WaitingListTabState extends State<WaitingListTab> {
                         child: BookingsServiceCard(
                           theHeight: 200,
                           // "isTask" is only passed in waiting list box feature
-                          isTask: data[index].entityService?.isRequested == true,
+                          isTask:
+                              data[index].entityService?.isRequested == true,
                           hideImage: false,
                           callback: () {
                             context.read<BookingsBloc>().add(
@@ -108,11 +113,16 @@ class _WaitingListTabState extends State<WaitingListTab> {
                             Navigator.pushNamed(
                               context,
                               BookedServicePage.routeName,
-                              arguments: {"is_task": data[index].entityService?.isRequested == true},
+                              arguments: {
+                                "is_task":
+                                    data[index].entityService?.isRequested ==
+                                        true
+                              },
                             );
                           },
                           editTap: () async {
-                            if (data[index].status?.toLowerCase() == 'pending') {
+                            if (data[index].status?.toLowerCase() ==
+                                'pending') {
                               Navigator.pop(context);
                               showEditForm(context, data[index]);
                             } else {
@@ -131,9 +141,13 @@ class _WaitingListTabState extends State<WaitingListTab> {
                             }
                           },
                           deleteTap: () {
-                            if (data[index].status?.toLowerCase() == 'pending') {
+                            if (data[index].status?.toLowerCase() ==
+                                'pending') {
                               bookingsBloc.add(
-                                BookingRejected(rejectReq: RejectReq(booking: data[index].id ?? 0), isTask: true),
+                                BookingRejected(
+                                    rejectReq:
+                                        RejectReq(booking: data[index].id ?? 0),
+                                    isTask: true),
                               );
                               Navigator.pop(context);
                             } else {
@@ -153,15 +167,23 @@ class _WaitingListTabState extends State<WaitingListTab> {
                           },
                           cancelTap: () {
                             Navigator.pop(context);
-                            if (data[index].status?.toLowerCase() == 'pending') {
+                            if (data[index].status?.toLowerCase() ==
+                                'pending') {
                               // bookingsBloc.add(
                               //   BookingCancelled(
                               //       id: data[index].id ?? 0, isTask: true),
                               // );
                               // Navigator.pop(context);
-                              Navigator.pushNamed(context, BookingCancelPage.routeName, arguments: {
-                                'client': data[index].entityService?.isRequested == false ? 'client' : 'merchant',
-                              });
+                              Navigator.pushNamed(
+                                  context, BookingCancelPage.routeName,
+                                  arguments: {
+                                    'client': data[index]
+                                                .entityService
+                                                ?.isRequested ==
+                                            false
+                                        ? 'client'
+                                        : 'merchant',
+                                  });
                             } else {
                               Navigator.pop(context);
                               showDialog(
@@ -180,7 +202,9 @@ class _WaitingListTabState extends State<WaitingListTab> {
                           serviceName: data[index].entityService?.title,
                           providerName:
                               "${data[index].entityService?.createdBy?.firstName} ${data[index].entityService?.createdBy?.lastName}",
-                          location: data[index].location?.length ==0 ?"Remote" : data[index].location,
+                          location: data[index].location?.length == 0
+                              ? "Remote"
+                              : data[index].location,
                           startTime: data[index].startTime,
                           endTime: data[index].endTime,
                           createdAt: data[index].createdAt,
@@ -247,7 +271,8 @@ class _WaitingListTabState extends State<WaitingListTab> {
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
                   label: "${DateFormat.jm().format(
-                    DateFormat('hh:mm:ss').parse(result.startTime ?? '00:00:00'),
+                    DateFormat('hh:mm:ss')
+                        .parse(result.startTime ?? '00:00:00'),
                   )} - ${DateFormat.jm().format(
                     DateFormat('hh:mm:ss').parse(result.endTime ?? '00:00:00'),
                   )}",

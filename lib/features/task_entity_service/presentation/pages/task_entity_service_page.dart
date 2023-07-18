@@ -335,13 +335,6 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                             ),
                                           );
                                     }
-                                    context.read<tb.TaskBloc>().add(
-                                          tb.ChangeTaskNegotiationStatus(
-                                            id: state.applicantModel
-                                                    ?.result?[index].id ??
-                                                0,
-                                          ),
-                                        );
                                     final chatBloc = locator<ChatBloc>();
                                     chatBloc.add(HandleUserCreationChat(
                                       userID: context
