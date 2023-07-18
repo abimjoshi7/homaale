@@ -52,7 +52,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         for (var element in state.nestedCategory) {
                           if (element.name?.toLowerCase() ==
                               routeArgs?['category'].toString().toLowerCase()) {
-                            print("chiryo!");
                             selectedIndex =
                                 state.nestedCategory.indexOf(element);
                             list =
@@ -258,7 +257,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
                       ),
                     );
                   } else {
-                    print("shalom" + list.toString());
                     return const SizedBox.shrink();
                   }
                 }

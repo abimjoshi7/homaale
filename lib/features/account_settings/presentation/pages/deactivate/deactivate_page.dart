@@ -1,38 +1,62 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/deactivate/bloc/user_deactive_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/deactivate/bloc/user_deactive_state.dart';
+import 'package:cipher/features/bloc/scroll_bloc.dart';
 import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
+import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/const_info_list.dart';
+import '../../../../bookings/data/models/my_booking_list_model.dart';
 import 'bloc/user_deactive_event.dart';
 
-class DeactivatePage extends StatelessWidget {
+class DeactivatePage extends StatefulWidget {
   const DeactivatePage({super.key});
   static const routeName = '/deactivate-page';
 
   @override
+  State<DeactivatePage> createState() => _DeactivatePageState();
+}
+
+class _DeactivatePageState extends State<DeactivatePage> {
+  final _scrollBloc = locator<ScrollBloc>();
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(
-        appBarTitle: 'Deactivate',
-        trailingWidget: SizedBox(),
-      ),
-      body: Column(
-        children: [
-          DeactivationHeaderInfo(),
-          const Expanded(child: DeactivateFormSection()),
-        ],
-      ),
+    return BlocBuilder<ScrollBloc, ScrollState>(
+      builder: (context, state) {
+        var data = state.result
+            .map((e) => Result.fromJson(e as Map<String, dynamic>))
+            .toList();
+        return Scaffold(
+          appBar: CustomAppBar(
+            appBarTitle: 'Deactivate',
+            trailingWidget: SizedBox(),
+          ),
+          body: Column(
+            children: [
+              DeactivationHeaderInfo(),
+              Expanded(
+                  child: DeactivateFormSection(
+                statusList: data.isEmpty
+                    ? []
+                    : data
+                        .map((e) => e.status!)
+                        .where((element) => element == "on_progress")
+                        .toList(),
+              )),
+            ],
+          ),
+        );
+      },
     );
   }
 }
 
 class DeactivateFormSection extends StatefulWidget {
-  const DeactivateFormSection({super.key});
-
+  const DeactivateFormSection({super.key, required this.statusList});
+  final List<String> statusList;
   @override
   State<DeactivateFormSection> createState() => _DeactivateFormSectionState();
 }
@@ -98,6 +122,16 @@ class _DeactivateFormSectionState extends State<DeactivateFormSection> {
                 builder: (context, stateUD) {
               return CustomElevatedButton(
                 callback: () async {
+                  if (widget.statusList.isNotEmpty) {
+                    await CustomToast(
+                      heading: "Warning",
+                      content:
+                          "You cannot deactivate your account as you have active bookings.",
+                      onTap: () {},
+                      isSuccess: true,
+                    );
+                  }
+                  if (widget.statusList.isNotEmpty) return;
                   if (_key.currentState!.validate() && reason != null) {
                     _key.currentState!.save();
                     context.read<UserDeactiveBloc>().add(DeactiveActionPost(

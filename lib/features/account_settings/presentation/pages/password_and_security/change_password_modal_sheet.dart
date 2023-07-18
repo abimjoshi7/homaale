@@ -200,7 +200,6 @@ class _ChangePasswordModalSheetState extends State<ChangePasswordModalSheet> {
           label: 'Cancel',
         ),
         kHeight20,
-
       ],
     );
   }

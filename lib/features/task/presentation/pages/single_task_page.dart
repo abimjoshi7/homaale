@@ -801,7 +801,6 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                           Navigator.pop(context);
                                         },
                                         onNegotiatePressed: () async {
-                                          print("i am pressed!");
                                           context.read<BookingsBloc>().add(
                                                 BookingSingleLoaded(
                                                   state.applicantModel
@@ -826,14 +825,7 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                                                   ),
                                                 );
                                           }
-                                          context.read<TaskBloc>().add(
-                                                ChangeTaskNegotiationStatus(
-                                                  id: state.applicantModel
-                                                          ?.result?[index].id ??
-                                                      0,
-                                                ),
-                                              );
-                                          //TODO: chat navigation
+
                                           final chatBloc = locator<ChatBloc>();
                                           chatBloc.add(HandleUserCreationChat(
                                             userID: context

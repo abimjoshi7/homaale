@@ -254,7 +254,7 @@ Map<String, dynamic> statusToUpdate(String status, bool isAssignee) {
       };
     case "closed":
       return {
-        "buttonLabel": isAssignee ? "Close task" : "Close task",
+        "buttonLabel": isAssignee ? "Close task happy" : "Close task sad ",
         "color": kColorPink50,
         "status": "closed",
       };
@@ -329,20 +329,21 @@ Map<String, dynamic> getNotificationStatus(
         "color": Color(0xff1EB2A6),
         "status": "Approved",
         "message":
-            "The ${isRequested ? 'task' : 'service'} $serviceName has been approved.",
+            "Congratulations! The ${isRequested ? 'task' : 'service'} $serviceName has been approved.",
       };
     case "approval":
       return {
         "color": Color(0xff1EB2A6),
         "status": "Approved",
         "message":
-            "The ${isRequested ? 'task' : 'service'} $serviceName has been approved.",
+            "$userName is interested for the ${isRequested ? 'task' : 'service'} $serviceName.",
       };
     case "booking":
       return {
         "color": kColorBlue,
         "status": "Booking",
-        "message": "$userName has booked your $serviceName.",
+        "message":
+            "Outstanding! You have booked the ${isRequested ? 'task' : 'service'} $serviceName.",
       };
     case "created":
       return {
@@ -372,14 +373,14 @@ Map<String, dynamic> getNotificationStatus(
         "color": Colors.red.shade800,
         "status": "Cancelled",
         "message":
-            " has cancelled the ${isRequested ? 'task' : 'service'} completion.",
+            "${userName} has cancelled the ${isRequested ? 'task' : 'service'} $serviceName.",
       };
     case "payment completed":
       return {
         "color": kColorGreen,
         "status": "Completed",
         "message":
-            "Your ${isRequested ? 'task' : 'service'} $serviceName has been completed successfully.",
+            "$userName has paid for the ${isRequested ? 'task' : 'service'} $serviceName.",
         'assets': 'assets/notification/payment.svg'
       };
     case "followed":
@@ -394,7 +395,7 @@ Map<String, dynamic> getNotificationStatus(
         "color": kColorPrimary,
         "status": "Closed",
         "message":
-            "Your ${isRequested ? 'task' : 'service'} $serviceName has been closed.",
+            "$userName has closed the ${isRequested ? 'task' : 'service'} $serviceName.",
         'assets': 'assets/notification/payment.svg'
       };
     case "status completed":
@@ -402,7 +403,7 @@ Map<String, dynamic> getNotificationStatus(
         "color": kColorGreen,
         "status": "Completed",
         "message":
-            "Your ${isRequested ? 'task' : 'service'} $serviceName has been completed.",
+            "$userName  has completed the ${isRequested ? 'task' : 'service'} $serviceName.",
         'assets': 'assets/notification/payment.svg'
       };
     case "kyc_document_submitted":
@@ -431,7 +432,7 @@ Map<String, dynamic> getNotificationStatus(
       return {
         "color": kColorPrimary,
         "status": "$status",
-        "message": "",
+        "message": "$status",
         "assets": "",
       };
   }

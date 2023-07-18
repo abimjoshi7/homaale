@@ -113,17 +113,18 @@ class ServicesPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.all(
-                            8.0,
-                          ),
-                          child: Image.asset(
-                            'assets/banner 1makeup_ad.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                      //TODO:Implement Advertisement here
+                      // SliverToBoxAdapter(
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(
+                      //       8.0,
+                      //     ),
+                      //     child: Image.asset(
+                      //       'assets/banner 1makeup_ad.png',
+                      //       fit: BoxFit.cover,
+                      //     ),
+                      //   ),
+                      // ),
                       SliverToBoxAdapter(
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
@@ -193,17 +194,18 @@ class ServicesPage extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.all(
-                            8.0,
-                          ),
-                          child: Image.asset(
-                            'assets/banners/Sliding Banner.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                      //TODO:Implement advertisement here
+                      // SliverToBoxAdapter(
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(
+                      //       8.0,
+                      //     ),
+                      //     child: Image.asset(
+                      //       'assets/banners/Sliding Banner.png',
+                      //       fit: BoxFit.cover,
+                      //     ),
+                      //   ),
+                      // ),
                       // SliverToBoxAdapter(
                       //   child: CustomFormField(
                       //     label: 'Popular Tasks',

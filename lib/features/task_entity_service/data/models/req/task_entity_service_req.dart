@@ -102,6 +102,7 @@ class TaskEntityServiceReq {
       'avatar': avatar,
       'images': images,
       'videos': videos,
+      'is_range': isRange
     };
 
     // map.removeWhere((key, value) => value == null || value == '' || (value is List && value.isEmpty));

@@ -156,6 +156,7 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
                                     widget: SizedBox.fromSize(
                                       size: Size.fromHeight(250),
                                       child: CupertinoDatePicker(
+																				
                                         mode: CupertinoDatePickerMode.time,
                                         onDateTimeChanged: (value) {
                                           if (value.isAfter(endTime!)) {

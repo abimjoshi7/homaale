@@ -88,7 +88,11 @@ class _CustomFavoriteIconState extends State<CustomFavoriteIcon> {
                       );
                 },
                 child: Icon(
-                  state.savedAddRes?.status == 'add'
+                  (state.savedModelRes?.result?.map(
+                            (e) => e.data?.id.toString(),
+                          ))?.toList().contains(widget.typeID) ??
+                          false
+                      // state.savedAddRes?.status == 'add'
                       ? Icons.bookmark
                       : Icons.bookmark_border_outlined,
                   color: Colors.red,

@@ -3,6 +3,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
+import 'package:cipher/features/saved/presentation/bloc/saved_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/all_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
@@ -29,6 +30,12 @@ class TasksRecommendationSection extends StatefulWidget {
 
 class _TasksRecommendationSectionState
     extends State<TasksRecommendationSection> {
+  // bool getBookmarkValue(TaskState state) {
+  //   final bool isBookmarked =
+  //       state.taskEntityServiceModel.result?[index].isBookmarked ?? false;
+  //   return isBookmarked;
+  // }
+
   /// On task pressed
   void onTaskPressed({
     required TaskState state,
