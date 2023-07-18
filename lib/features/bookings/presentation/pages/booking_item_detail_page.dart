@@ -1,23 +1,24 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/error/error_page.dart';
 import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/archive/presentation/bloc/archive_task_entity_service_bloc.dart';
+import 'package:cipher/features/booking_cancel/presentation/pages/booking_cancel_page.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
 import 'package:cipher/features/bookings/presentation/widgets/sections/custom_archive_popup.dart';
 import 'package:cipher/features/rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
 import 'package:cipher/features/rating_reviews/presentation/rating_reviews_form.dart';
 import 'package:cipher/features/services/presentation/pages/sections/packages_offers_section.dart';
+import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart'
+    as bms;
 import 'package:cipher/features/task_entity_service/presentation/pages/sections/sections.dart';
-import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart'
-    as bm;
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/show_more_text_widget.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-import '../../../../core/app/root.dart';
-import '../../../booking_cancel/presentation/pages/booking_cancel_page.dart';
+import 'views/views.dart';
 
 class BookingItemDetailPage extends StatefulWidget {
   static const routeName = '/booking-item-detail-page';
@@ -38,6 +39,10 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
     final client = routeData?['client'] as String?;
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      appBar: CustomAppBar(
+        appBarTitle: context.read<BookingsBloc>().state.bookingRes.title!,
+        trailingWidget: SizedBox.shrink(),
+      ),
       body: BlocListener<ArchiveTaskEntityServiceBloc,
           ArchiveTaskEntityServiceState>(
         listener: (context, state) {
@@ -83,7 +88,7 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
               ));
             }
           },
-          child: BlocListener<BookingsBloc, BookingsState>(
+          child: BlocConsumer<BookingsBloc, BookingsState>(
             listener: (context, state) {
               if (state.bookingRes.isRated == false &&
                   state.bookingRes.status == 'Completed' &&
@@ -116,16 +121,6 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                               context: context,
                               widget: RatingReviewsForm(),
                             );
-                            // showModalBottomSheet(
-                            //   constraints: BoxConstraints(
-                            //     maxHeight:
-                            //         MediaQuery.of(context).size.height * 0.8,
-                            //   ),
-                            //   isScrollControlled: true,
-                            //   isDismissible: false,
-                            //   context: context,
-                            //   builder: (context) => RatingReviewsForm(),
-                            // );
                           },
                           label: 'Sure',
                         ),
@@ -135,31 +130,31 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                 );
               }
             },
-            child: BlocBuilder<BookingsBloc, BookingsState>(
-              builder: (context, state) {
-                if (state.states == TheStates.initial) {
-                  return const Center(
-                    child: CardLoading(
-                      height: 700,
-                    ),
-                  );
-                } else if (state.states == TheStates.success) {
-                  final booking = state.bookingRes;
-                  final mediaList = <bm.Image>[
-                    ...?booking.entityService?.images,
-                    ...?booking.entityService?.videos
-                  ];
-                  final isAssignee = booking.assignee?.id ==
-                      context.read<UserBloc>().state.taskerProfile?.user?.id;
-                  return Column(
+            builder: (context, state) {
+              if (state.states == TheStates.initial) {
+                return const Center(
+                  child: CardLoading(
+                    height: 700,
+                  ),
+                );
+              } else if (state.states == TheStates.success) {
+                final booking = state.bookingRes;
+                final mediaList = [
+                  ...?booking.entityService?.images,
+                  ...?booking.entityService?.videos
+                ];
+                // final isAssignee = booking.assignee?.id ==
+                //     context.read<UserBloc>().state.taskerProfile?.user?.id;
+                return RefreshIndicator(
+                  onRefresh: () async {
+                    context.read<BookingsBloc>().add(
+                          BookingSingleLoaded(
+                            state.bookingRes.id,
+                          ),
+                        );
+                  },
+                  child: Column(
                     children: [
-                      addVerticalSpace(
-                        50,
-                      ),
-                      CustomHeader(
-                        label: StringUtils.capitalize(booking.title!),
-                      ),
-                      Divider(),
                       Expanded(
                         child: ListView(
                           padding: EdgeInsets.zero,
@@ -687,163 +682,15 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                           ],
                         ),
                       ),
-                      booking.status == 'closed'
-                          ? booking.isRated ?? false
-                              ? Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  color: kColorLightSkyBlue,
-                                  height: 100,
-                                  child: Center(
-                                      child: Text('Your task is completed')),
-                                )
-                              : Container(
-                                  width: MediaQuery.of(context).size.width,
-                                  color: kColorLightSkyBlue,
-                                  height: 100,
-                                  padding: EdgeInsets.symmetric(horizontal: 16),
-                                  child: Center(
-                                    child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text('Your task is completed'),
-                                        GestureDetector(
-                                          onTap: () {
-                                            showCustomBottomSheet(
-                                              context: context,
-                                              widget: RatingReviewsForm(),
-                                            );
-                                            // showModalBottomSheet(
-                                            //   constraints: BoxConstraints(
-                                            //     maxHeight:
-                                            //         MediaQuery.of(context)
-                                            //                 .size
-                                            //                 .height *
-                                            //             0.5,
-                                            //   ),
-                                            //   isScrollControlled: false,
-                                            //   isDismissible: false,
-                                            //   context: context,
-                                            //   builder: (context) =>
-                                            //       RatingReviewsForm(),
-                                            // );
-                                          },
-                                          child: Container(
-                                            padding: EdgeInsets.all(8),
-                                            decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(8),
-                                              color: kColorPrimary,
-                                            ),
-                                            constraints: BoxConstraints(
-                                              minHeight: 30,
-                                              minWidth: 100,
-                                            ),
-                                            child: AutoSizeText(
-                                              textAlign: TextAlign.center,
-                                              'Review Task',
-                                              style: Theme.of(context)
-                                                  .textTheme
-                                                  .bodySmall
-                                                  ?.copyWith(
-                                                      color: Colors.white),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                )
-                          : PriceBookFooterSection(
-                              bgColor: Colors.blue.shade50,
-                              buttonLabel: statusToUpdate('${booking.status}',
-                                  isAssignee)["buttonLabel"] as String,
-                              buttonColor: statusToUpdate(
-                                      '${booking.status}', isAssignee)["color"]
-                                  as Color,
-                              price: booking.assignee?.id !=
-                                      context
-                                          .read<UserBloc>()
-                                          .state
-                                          .taskerProfile
-                                          ?.user
-                                          ?.id
-                                  ? 'Rs. ${Decimal.parse(booking.price.toString()).toStringAsFixed(2)}'
-                                  : 'Rs. ${Decimal.parse(booking.earning.toString()).toStringAsFixed(2)}',
-                              // booking.entityService?.budgetFrom != null
-                              //     ? 'Rs. ${Decimal.parse(booking.entityService?.budgetFrom.toString() ?? '0.0')} - Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}'
-                              //     : 'Rs. ${Decimal.parse(booking.entityService?.budgetTo.toString() ?? '0.0')}',
-                              onPressed: () {
-                                var taskToUpdate = statusToUpdate(
-                                    '${booking.status}',
-                                    isAssignee)["status"] as String;
-
-                                if (booking.status == 'initiated') {
-                                  if (isAssignee) {
-                                    return;
-                                  } else {
-                                    Navigator.pushNamed(
-                                      context,
-                                      Root.routeName,
-                                      arguments: {
-                                        "index": 1,
-                                      },
-                                    );
-                                  }
-                                }
-                                if (booking.status == 'open') {
-                                  if (isAssignee) {
-                                    context.read<BookingsBloc>().add(
-                                          BookingStatusUpdate(
-                                            id: booking.id!,
-                                            status: taskToUpdate,
-                                          ),
-                                        );
-                                  } else {
-                                    return;
-                                  }
-                                }
-
-                                if (booking.status == 'completed') {
-                                  if (isAssignee) {
-                                    return;
-                                  } else {
-                                    context.read<BookingsBloc>().add(
-                                          BookingStatusUpdate(
-                                            id: booking.id!,
-                                            status: taskToUpdate,
-                                          ),
-                                        );
-                                  }
-                                }
-                                if (booking.status == 'on_progress') {
-                                  if (isAssignee) {
-                                    context.read<BookingsBloc>().add(
-                                      BookingStatusUpdate(
-                                        id: booking.id!,
-                                        status: taskToUpdate,
-                                      ),
-                                    );
-                                  } else {
-                                    return ;
-                                  }
-                                }
-                                else {
-                                  context.read<BookingsBloc>().add(
-                                        BookingStatusUpdate(
-                                          id: booking.id!,
-                                          status: taskToUpdate,
-                                        ),
-                                      );
-                                }
-                              },
-                            ),
+                      PriceFooterView(
+                        bookingsState: state,
+                      ),
                     ],
-                  );
-                }
-                return ErrorPage();
-              },
-            ),
+                  ),
+                );
+              }
+              return ErrorPage();
+            },
           ),
         ),
       ),

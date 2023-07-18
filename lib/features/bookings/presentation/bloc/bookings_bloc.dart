@@ -357,6 +357,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
         }
       },
     );
+
     on<BookingNegotiationBudgetUpdate>((event, emit) async {
       try {
         await repositories
