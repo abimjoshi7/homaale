@@ -185,7 +185,7 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                           content: Text("Payment Failure.Please try again after sometime."),
                           duration: const Duration(seconds: 1),
                         ));
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                       }
                     },
                     child: BlocBuilder<PaymentBloc, PaymentIntentState>(
@@ -204,7 +204,6 @@ class _OrderInvoicePageState extends State<OrderInvoicePage> {
                                     uuid: orderID,
                                   ),
                                 );
-                            print("second orderId: ${orderID}");
                           },
                           label: 'Confirm Payment',
                         );
@@ -287,16 +286,19 @@ class OrderCard extends StatelessWidget {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   const Text(
-                                    'Service Provider:',
+                                    'Service Provider: ',
                                     style: TextStyle(
                                       fontSize: 15,
                                     ),
                                   ),
-                                  Text(
-                                    serviceName ?? "",
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .headlineSmall,
+                                  Expanded(
+                                    child: Text(
+                                      serviceName ?? "",
+                                      style: Theme.of(context)
+                                          .textTheme
+                                          .headlineSmall,
+                                      overflow: TextOverflow.ellipsis,
+                                    ),
                                   )
                                 ],
                               ),

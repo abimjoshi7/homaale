@@ -182,9 +182,8 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                               shape: BoxShape.circle,
                                               image: DecorationImage(
                                                 image: NetworkImage(
-                                                  booking
-                                                          .assigner
-                                                      ?.profileImage ??
+                                                  booking.assigner
+                                                          ?.profileImage ??
                                                       kDefaultAvatarNImg,
                                                 ),
                                               ),
@@ -792,6 +791,18 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                     );
                                   }
                                 }
+                                if (booking.status == 'open') {
+                                  if (isAssignee) {
+                                    context.read<BookingsBloc>().add(
+                                          BookingStatusUpdate(
+                                            id: booking.id!,
+                                            status: taskToUpdate,
+                                          ),
+                                        );
+                                  } else {
+                                    return;
+                                  }
+                                }
 
                                 if (booking.status == 'completed') {
                                   if (isAssignee) {
@@ -804,7 +815,20 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                           ),
                                         );
                                   }
-                                } else {
+                                }
+                                if (booking.status == 'on_progress') {
+                                  if (isAssignee) {
+                                    context.read<BookingsBloc>().add(
+                                      BookingStatusUpdate(
+                                        id: booking.id!,
+                                        status: taskToUpdate,
+                                      ),
+                                    );
+                                  } else {
+                                    return ;
+                                  }
+                                }
+                                else {
                                   context.read<BookingsBloc>().add(
                                         BookingStatusUpdate(
                                           id: booking.id!,
