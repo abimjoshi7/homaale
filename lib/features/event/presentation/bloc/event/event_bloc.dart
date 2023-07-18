@@ -5,6 +5,7 @@ import 'package:cipher/features/event/data/models/event_availability.dart';
 import 'package:cipher/features/event/data/models/req/create_event_req.dart';
 import 'package:cipher/features/event/data/models/res/create_event_res.dart';
 import 'package:cipher/features/event/data/repositories/event_repository.dart';
+import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 
 part 'event_event.dart';

@@ -75,7 +75,8 @@ class TaskEntityServiceRepository {
       }
     } catch (e) {
       log("Task Entity Services Fetch Error: $e");
-      throw Exception("Task Entity Services Fetch Error");
+      rethrow;
+      // throw Exception("Task Entity Services Fetch Error");
     }
   }
 
@@ -140,7 +141,8 @@ class TaskEntityServiceRepository {
       return res as Map<String, dynamic>;
     } catch (e) {
       log("My Task Entity Service Fetch Error: $e");
-      throw Exception("My Task Entity Service Fetch Error");
+      rethrow;
+      // throw Exception("My Task Entity Service Fetch Error");
     }
   }
 
@@ -163,7 +165,8 @@ class TaskEntityServiceRepository {
       return res as Map<String, dynamic>;
     } catch (e) {
       log("Post TES error: $e");
-      throw Exception("POST TES ERROR");
+      // throw Exception("POST TES ERROR");
+      rethrow;
     }
   }
 
@@ -185,14 +188,13 @@ class TaskEntityServiceRepository {
           );
 
   Future<Map<String, dynamic>> fetchSingleTaskEntityService({
-    required String serviceId, String? query,
+    required String serviceId,
+    String? query,
   }) async {
     try {
       if (CacheHelper.isLoggedIn == false) {
         final res = await _dio.getData(
-          url: '$kTaskEntityService$serviceId',
-          query: {'query':query}
-        );
+            url: '$kTaskEntityService$serviceId', query: {'query': query});
         return res as Map<String, dynamic>;
       } else {
         final res = await _dio.getDatawithCredential(
@@ -205,12 +207,15 @@ class TaskEntityServiceRepository {
       log(
         "Single Task Entity Service Fetch Error:" + e.toString(),
       );
-      throw Exception("Single Task Entity Service Fetch Error");
+      rethrow;
+      // throw Exception("Single Task Entity Service Fetch Error");
     }
   }
 
-  Future<TaskEntityService> getSingleTaskEntityService(String id,String? query) async =>
-      await fetchSingleTaskEntityService(serviceId: id,query: query).then((value) {
+  Future<TaskEntityService> getSingleTaskEntityService(
+          String id, String? query) async =>
+      await fetchSingleTaskEntityService(serviceId: id, query: query)
+          .then((value) {
         return TaskEntityService.fromJson(value);
       });
 
@@ -295,7 +300,8 @@ class TaskEntityServiceRepository {
     }
   }
 
-  Future<ApplicantModel> getApplicants(String id) async => await fetchApplicants(id: id).then(
+  Future<ApplicantModel> getApplicants(String id) async =>
+      await fetchApplicants(id: id).then(
         (value) => ApplicantModel.fromJson(
           value,
         ),
