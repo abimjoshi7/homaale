@@ -292,7 +292,6 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                 currency: currencyCode ?? kCurrencyCode,
                 images: uploadBloc.state.uploadedImageList,
                 videos: uploadBloc.state.uploadedVideoList,
-                isRange: isBudgetVariable,
               );
               context.read<TaskEntityServiceBloc>().add(
                     TaskEntityServiceCreated(
@@ -375,7 +374,6 @@ class _PostTaskPageState extends State<PostTaskPage> with TheModalBottomSheet {
                           currency: currencyCode ?? kCurrencyCode,
                           images: [],
                           videos: [],
-                          isRange: isBudgetVariable,
                         );
 
                         context.read<TaskEntityServiceBloc>().add(

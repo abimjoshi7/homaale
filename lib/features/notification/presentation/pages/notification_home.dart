@@ -105,13 +105,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         String? statusTitle =
-                            todayList[index].contentObject?.status ==
-                                        "pending" &&
-                                    (todayList[index].title == "negotiated" ||
-                                        todayList[index].title == "accepted")
-                                ? todayList[index].title
-                                : todayList[index].contentObject?.status ??
-                                    todayList[index].title;
+                            _initializeStatusTitle(todayList[index]);
                         return ListTileComponent(
                           onTapCallback: () => _onTilePressed(todayList[index]),
                           hasStatusBox:
@@ -189,13 +183,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         String? statusTitle =
-                            earlierList[index].contentObject?.status ==
-                                        "pending" &&
-                                    (earlierList[index].title == "negotiated" ||
-                                        earlierList[index].title == "accepted")
-                                ? earlierList[index].title
-                                : earlierList[index].contentObject?.status ??
-                                    earlierList[index].title;
+                            _initializeStatusTitle(todayList[index]);
 
                         return ListTileComponent(
                           onTapCallback: () =>
@@ -288,6 +276,22 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.offset;
     return currentScroll >= (maxScroll * 0.9);
+  }
+
+  String? _initializeStatusTitle(Result notification) {
+    if ((notification.title == "Approved") ||
+        (notification.title == "approval")) {
+      return notification.title;
+    }
+    if (notification.title == "booking") {
+      return notification.title;
+    }
+    if ((notification.contentObject?.status == "pending" &&
+        (notification.title == "negotiated" ||
+            notification.title == "accepted"))) {
+      return notification.title;
+    }
+    return notification.contentObject?.status ?? notification.title;
   }
 
   void _onTilePressed(Result notification) {

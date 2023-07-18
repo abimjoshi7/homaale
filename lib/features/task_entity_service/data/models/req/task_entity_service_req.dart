@@ -32,7 +32,6 @@ class TaskEntityServiceReq {
   int? avatar;
   List<int>? images;
   List<int>? videos;
-  bool? isRange;
 
   TaskEntityServiceReq({
     this.title,
@@ -67,7 +66,6 @@ class TaskEntityServiceReq {
     this.avatar,
     this.images,
     this.videos,
-    this.isRange,
   });
 
   Map<String, dynamic> toMap() {

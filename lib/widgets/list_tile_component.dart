@@ -79,20 +79,20 @@ class ListTileComponent extends StatelessWidget {
                 const SizedBox(),
             ],
           ),
-          trailing: hasStatusBox
-              ? Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                    color: bgColor,
-                  ),
-                  child: Text(
-                    statusTitle,
-                    style: const TextStyle(color: Colors.white),
-                  ),
-                )
-              : null,
+          // trailing: hasStatusBox
+          //     ? Container(
+          //         padding:
+          //             const EdgeInsets.symmetric(horizontal: 18, vertical: 5),
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(10),
+          //           color: bgColor,
+          //         ),
+          //         child: Text(
+          //           statusTitle,
+          //           style: const TextStyle(color: Colors.white),
+          //         ),
+          //       )
+          //     : null,
         ),
       ),
     );

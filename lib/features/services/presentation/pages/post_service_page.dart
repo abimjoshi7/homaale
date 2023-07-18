@@ -352,7 +352,6 @@ class _PostServicePageState extends State<PostServicePage> {
                         event: "",
                         city: cityCode ?? int.parse(kCityCode),
                         currency: currencyCode ?? kCurrencyCode,
-                        isRange: isBudgetVariable,
                         images: [],
                         videos: [],
                       );
