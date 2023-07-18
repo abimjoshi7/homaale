@@ -51,39 +51,39 @@ class SavedCollectionPageState extends State<SavedCollectionPage> {
         body: ListView(
           // mainAxisSize: MainAxisSize.min,
           children: [
-            addVerticalSpace(15),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Icon(
-                  Icons.filter_alt,
-                  color: kColorGrey,
-                ),
-                InkWell(
-                  onTap: () {},
-                  child: SizedBox(
-                    width: 200,
-                    height: 52,
-                    child: CustomTextFormField(
-                      hintText: "Search",
-                      controller: searchController,
-                      inputAction: TextInputAction.done,
-                      onFieldSubmitted: (p0) {
-                        if (p0!.length >= 3) {
-                          // savedBloc.add(SavedListLoaded(
-                          //     query: p0, type: 'entityservice', newFetch: true));
-                          heading == 'Tasks'
-                              ? savedBloc.add(SavedListLoaded(
-                                  query: p0, type: 'task', newFetch: true))
-                              : savedBloc.add(SavedListLoaded(
-                                  query: p0, type: 'entityservice', newFetch: true));
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            // addVerticalSpace(15),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.center,
+            //   children: [
+            //     Icon(
+            //       Icons.filter_alt,
+            //       color: kColorGrey,
+            //     ),
+            //     InkWell(
+            //       onTap: () {},
+            //       child: SizedBox(
+            //         width: 200,
+            //         height: 52,
+            //         child: CustomTextFormField(
+            //           hintText: "Search",
+            //           controller: searchController,
+            //           inputAction: TextInputAction.done,
+            //           onFieldSubmitted: (p0) {
+            //             if (p0!.length >= 3) {
+            //               // savedBloc.add(SavedListLoaded(
+            //               //     query: p0, type: 'entityservice', newFetch: true));
+            //               heading == 'Tasks'
+            //                   ? savedBloc.add(SavedListLoaded(
+            //                       query: p0, type: 'task', newFetch: true))
+            //                   : savedBloc.add(SavedListLoaded(
+            //                       query: p0, type: 'entityservice', newFetch: true));
+            //             }
+            //           },
+            //         ),
+            //       ),
+            //     ),
+            //   ],
+            // ),
             heading == 'Tasks'
                 ? SearchTaskSection(
                     savedBloc: savedBloc,

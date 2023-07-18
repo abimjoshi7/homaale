@@ -1,7 +1,6 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
-import 'package:cipher/features/home/presentation/pages/home.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
@@ -34,7 +33,7 @@ class EditTaskEntityServiceForm extends StatefulWidget {
 
 class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm>
     with TheModalBottomSheet {
-  final _key = GlobalKey<FormState>();
+  final _key123 = GlobalKey<FormState>();
   final uploadBloc = locator<UploadBloc>();
 
   TextEditingController titleController = TextEditingController();
@@ -254,6 +253,18 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm>
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    titleController.dispose();
+    requirementController.dispose();
+    descriptionController.dispose();
+    discountController.dispose();
+    addressController.dispose();
+    startPriceController.dispose();
+    endPriceController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
       builder: (context, state) {
@@ -265,7 +276,7 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm>
           case TheStates.success:
             return informationLoaded || isLoading
                 ? Form(
-                    key: _key,
+                    key: _key123,
                     child: Column(
                       children: [
                         _buildTitle(),
@@ -277,6 +288,7 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm>
                         widget.isRequested ? _buildDate(context) : SizedBox(),
                         _buildDescription(),
                         _buildCurrency(),
+                        _buildBudget(),
                         _buildDialog(),
                         _buildIsNegotiable(),
                         CustomMultimedia(
@@ -290,28 +302,25 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm>
                 : CardLoading(height: 200);
           case TheStates.failure:
             return informationLoaded || isLoading
-                ? Form(
-                    key: _key,
-                    child: Column(
-                      children: [
-                        _buildTitle(),
-                        _buildCategory(),
-                        _buildSubCategory(),
-                        _buildHighlights(),
-                        _buildServiceType(),
-                        _buildCity(),
-                        widget.isRequested ? _buildDate(context) : SizedBox(),
-                        _buildDescription(),
-                        _buildCurrency(),
-                        _buildDialog(),
-                        _buildIsNegotiable(),
-                        CustomMultimedia(
-                          bloc: uploadBloc,
-                        ),
-                        _buildTerms(context),
-                        _buildButton(),
-                      ],
-                    ),
+                ? Column(
+                    children: [
+                      _buildTitle(),
+                      _buildCategory(),
+                      _buildSubCategory(),
+                      _buildHighlights(),
+                      _buildServiceType(),
+                      _buildCity(),
+                      widget.isRequested ? _buildDate(context) : SizedBox(),
+                      _buildDescription(),
+                      _buildCurrency(),
+                      _buildDialog(),
+                      _buildIsNegotiable(),
+                      CustomMultimedia(
+                        bloc: uploadBloc,
+                      ),
+                      _buildTerms(context),
+                      _buildButton(),
+                    ],
                   )
                 : CardLoading(height: 200);
         }
@@ -336,9 +345,16 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm>
                 context
                     .read<TaskBloc>()
                     .add(AllTaskLoadInitiated(page: 1, newFetch: true));
-                Navigator.pushNamed(
+                context.read<TaskEntityServiceBloc>().add(
+                      TaskEntityServiceInitiated(
+                        isTask: false,
+                        newFetch: true,
+                      ),
+                    );
+                Navigator.pushNamedAndRemoveUntil(
                   context,
                   Root.routeName,
+                  (route) => false,
                 );
               },
               isSuccess: true,
@@ -404,6 +420,7 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm>
                     ? discountController.text
                     : '0.0',
                 noOfReservation: 0,
+                isRange: isBudgetVariable,
                 isActive: true,
                 needsApproval: true,
                 isEndorsed: true,
@@ -417,10 +434,10 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm>
                 currency: currencyCode ?? kCurrencyCode,
                 images: uploadBloc.state.uploadedImageList.isNotEmpty
                     ? [...images, ...uploadBloc.state.uploadedImageList]
-                    : null,
+                    : [],
                 videos: uploadBloc.state.uploadedVideoList.isNotEmpty
                     ? [...videos, ...uploadBloc.state.uploadedVideoList]
-                    : null,
+                    : [],
               );
 
               context.read<TaskEntityServiceBloc>().add(
@@ -435,7 +452,7 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm>
             return CustomElevatedButton(
               callback: () async {
                 if (isTermsAccepted) {
-                  if (_key.currentState!.validate() &&
+                  if (_key123.currentState!.validate() &&
                       endPriceController.text.isNotEmpty) {
                     setState(() {
                       isLoading = true;
@@ -551,39 +568,42 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm>
     );
   }
 
-  Column _buildCurrency() {
+  Widget _buildCurrency() {
+    return CustomFormField(
+      label: 'Currency',
+      isRequired: true,
+      child: BlocBuilder<CurrencyBloc, CurrencyState>(
+        builder: (context, state) {
+          if (state is CurrencyLoadSuccess) {
+            return CustomDropdownSearch(
+              selectedItem: state.currencyListRes
+                  .firstWhere(
+                    (element) => element.name!.startsWith("Nepalese"),
+                  )
+                  .name,
+              list: List.generate(
+                state.currencyListRes.length,
+                (index) => state.currencyListRes[index].name,
+              ),
+              onChanged: (p0) => setState(
+                () {
+                  final x = state.currencyListRes.firstWhere(
+                    (element) => p0 == element.name,
+                  );
+                  currencyCode = x.code;
+                },
+              ),
+            );
+          }
+          return const SizedBox.shrink();
+        },
+      ),
+    );
+  }
+
+  Widget _buildBudget() {
     return Column(
-      children: <Widget>[
-        CustomFormField(
-          label: 'Currency',
-          isRequired: true,
-          child: BlocBuilder<CurrencyBloc, CurrencyState>(
-            builder: (context, state) {
-              if (state is CurrencyLoadSuccess) {
-                return CustomDropdownSearch(
-                  selectedItem: state.currencyListRes
-                      .firstWhere(
-                        (element) => element.name!.startsWith("Nepalese"),
-                      )
-                      .name,
-                  list: List.generate(
-                    state.currencyListRes.length,
-                    (index) => state.currencyListRes[index].name,
-                  ),
-                  onChanged: (p0) => setState(
-                    () {
-                      final x = state.currencyListRes.firstWhere(
-                        (element) => p0 == element.name,
-                      );
-                      currencyCode = x.code;
-                    },
-                  ),
-                );
-              }
-              return const SizedBox.shrink();
-            },
-          ),
-        ),
+      children: [
         CustomFormField(
           label: 'Price',
           isRequired: true,
@@ -621,234 +641,142 @@ class _EditTaskEntityServiceFormState extends State<EditTaskEntityServiceForm>
             ],
           ),
         ),
-        buildBudget(),
-      ],
-    );
-  }
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Visibility(
+              visible: isBudgetVariable,
+              child: Expanded(
+                flex: isBudgetVariable ? 1 : 2,
+                child: CustomTextFormField(
+                  textInputType: TextInputType.numberWithOptions(decimal: true),
+                  controller: startPriceController,
+                  validator: (p0) {
+                    if (isBudgetVariable) {
+                      if (startPriceController.text.length == 0) {
+                        return "Required Field";
+                      }
 
-  Row buildBudget() {
-    // return Row(
-    //     children: [
-    //       Visibility(
-    //         visible: isBudgetVariable,
-    //         child: Flexible(
-    //           child: NumberIncDecField(
-    //             controller: startPriceController,
-    //             onChanged: (value) => setState(
-    //               () {
-    //                 if (startPriceController.text.isNotEmpty)
-    //                   budgetFrom = widget.isRequested
-    //                       ? getRecievableAmount(
-    //                           double.parse(startPriceController.text),
-    //                           double.parse(context
-    //                                   .read<CategoriesBloc>()
-    //                                   .state
-    //                                   .commission ??
-    //                               "0.0"),
-    //                         )
-    //                       : getPayableAmount(
-    //                           double.parse(startPriceController.text),
-    //                           double.parse(context
-    //                                   .read<CategoriesBloc>()
-    //                                   .state
-    //                                   .commission ??
-    //                               "0.0"),
-    //                         );
-    //               },
-    //             ),
-    //           ),
-    //         ),
-    //       ),
-    //       Visibility(
-    //         visible: isBudgetVariable,
-    //         child: const Text(' To '),
-    //       ),
-    //       Flexible(
-    //         child: NumberIncDecField(
-    //           controller: endPriceController,
-    //           onChanged: (value) => setState(
-    //             () {
-    //               if (endPriceController.text.isNotEmpty)
-    //                 budgetTo = widget.isRequested
-    //                     ? getRecievableAmount(
-    //                         double.parse(endPriceController.text),
-    //                         double.parse(context
-    //                                 .read<CategoriesBloc>()
-    //                                 .state
-    //                                 .commission ??
-    //                             "0.0"),
-    //                       )
-    //                     : getPayableAmount(
-    //                         double.parse(endPriceController.text),
-    //                         double.parse(context
-    //                                 .read<CategoriesBloc>()
-    //                                 .state
-    //                                 .commission ??
-    //                             "0.0"),
-    //                       );
-    //             },
-    //           ),
-    //         ),
-    //       ),
-    //       Flexible(
-    //         flex: 2,
-    //         child: Padding(
-    //           padding: const EdgeInsets.symmetric(
-    //             horizontal: 10,
-    //           ),
-    //           child: CustomDropDownField(
-    //             initialValue: budgetType,
-    //             list: const [
-    //               'Project',
-    //               'Hourly',
-    //               'Daily',
-    //               'Monthly',
-    //             ],
-    //             hintText: 'Select budget type',
-    //             onChanged: (value) {
-    //               setState(
-    //                 () {
-    //                   budgetType = value;
-    //                 },
-    //               );
-    //             },
-    //           ),
-    //         ),
-    //       ),
-    //     ],
-    //   );
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Visibility(
-          visible: isBudgetVariable,
-          child: Expanded(
-            flex: isBudgetVariable ? 1 : 2,
-            child: CustomTextFormField(
-              textInputType: TextInputType.numberWithOptions(decimal: true),
-              controller: startPriceController,
-              validator: (p0) {
-                if (isBudgetVariable) {
-                  if (startPriceController.text.length == 0) {
+                      if (int.parse(p0 ?? '0') < 10) {
+                        return "Budget Cannot Be Less Than 10";
+                      }
+
+                      if (p0 == endPriceController.text) {
+                        return "Invalid Range";
+                      }
+                      if (endPriceController.text.isNotEmpty) {
+                        if (int.parse(p0 ?? '0') >
+                            int.parse(endPriceController.text)) {
+                          return "Cannot be more than End budget";
+                        }
+                      }
+                    }
+
+                    return null;
+                  },
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                  ],
+                  style: Theme.of(context).textTheme.displayLarge,
+                  onChanged: (value) => setState(
+                    () {
+                      if (startPriceController.text.isNotEmpty)
+                        budgetFrom = getRecievableAmount(
+                          double.parse(startPriceController.text),
+                          double.parse(
+                              context.read<CategoriesBloc>().state.commission ??
+                                  "0.0"),
+                        );
+                    },
+                  ),
+                  suffixWidget: budgetIncrementIcon(startPriceController),
+                ),
+              ),
+            ),
+            Visibility(
+              visible: isBudgetVariable,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 10.0,
+                ),
+                child: const Text(
+                  "To",
+                ),
+              ),
+            ),
+            Expanded(
+              flex: isBudgetVariable ? 1 : 2,
+              child: CustomTextFormField(
+                errorMaxLines: 3,
+                errorStyle: TextStyle(),
+                textInputType: TextInputType.numberWithOptions(decimal: true),
+                controller: endPriceController,
+                validator: (p0) {
+                  if (endPriceController.text.length == 0) {
                     return "Required Field";
                   }
-
                   if (int.parse(p0 ?? '0') < 10) {
                     return "Budget Cannot Be Less Than 10";
                   }
-
-                  if (p0 == endPriceController.text) {
-                    return "Invalid Range";
-                  }
-                  if (endPriceController.text.isNotEmpty) {
-                    if (int.parse(p0 ?? '0') >
-                        int.parse(endPriceController.text)) {
-                      return "Cannot be more than End budget";
+                  if (isBudgetVariable &&
+                      startPriceController.text.isNotEmpty) {
+                    if (p0 == startPriceController.text) {
+                      return "Invalid Range";
+                    }
+                    if (int.parse(p0 ?? '0') <
+                        int.parse(startPriceController.text)) {
+                      return "Cannot be less than Start budget";
                     }
                   }
-                }
-
-                return null;
-              },
-              inputFormatters: [
-                FilteringTextInputFormatter.digitsOnly,
-              ],
-              style: Theme.of(context).textTheme.displayLarge,
-              onChanged: (value) => setState(
-                () {
-                  if (startPriceController.text.isNotEmpty)
-                    budgetFrom = getRecievableAmount(
-                      double.parse(startPriceController.text),
-                      double.parse(
-                          context.read<CategoriesBloc>().state.commission ??
-                              "0.0"),
-                    );
+                  return null;
                 },
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                ],
+                style: Theme.of(context).textTheme.displayLarge,
+                onChanged: (p0) {
+                  setState(
+                    () {
+                      if (endPriceController.text.isNotEmpty)
+                        budgetTo = getRecievableAmount(
+                          double.parse(endPriceController.text),
+                          double.parse(
+                              context.read<CategoriesBloc>().state.commission ??
+                                  "0.0"),
+                        );
+                    },
+                  );
+                },
+                suffixWidget: budgetIncrementIcon(endPriceController),
               ),
-              suffixWidget: budgetIncrementIcon(startPriceController),
             ),
-          ),
-        ),
-        Visibility(
-          visible: isBudgetVariable,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 10.0,
-            ),
-            child: const Text(
-              "To",
-            ),
-          ),
-        ),
-        Expanded(
-          flex: isBudgetVariable ? 1 : 2,
-          child: CustomTextFormField(
-            errorMaxLines: 3,
-            errorStyle: TextStyle(),
-            textInputType: TextInputType.numberWithOptions(decimal: true),
-            controller: endPriceController,
-            validator: (p0) {
-              if (endPriceController.text.length == 0) {
-                return "Required Field";
-              }
-              if (int.parse(p0 ?? '0') < 10) {
-                return "Budget Cannot Be Less Than 10";
-              }
-              if (isBudgetVariable && startPriceController.text.isNotEmpty) {
-                if (p0 == startPriceController.text) {
-                  return "Invalid Range";
-                }
-                if (int.parse(p0 ?? '0') <
-                    int.parse(startPriceController.text)) {
-                  return "Cannot be less than Start budget";
-                }
-              }
-              return null;
-            },
-            inputFormatters: [
-              FilteringTextInputFormatter.digitsOnly,
-            ],
-            style: Theme.of(context).textTheme.displayLarge,
-            onChanged: (p0) {
-              setState(
-                () {
-                  if (endPriceController.text.isNotEmpty)
-                    budgetTo = getRecievableAmount(
-                      double.parse(endPriceController.text),
-                      double.parse(
-                          context.read<CategoriesBloc>().state.commission ??
-                              "0.0"),
+            Flexible(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                ),
+                child: CustomDropDownField(
+                  initialValue: budgetType,
+                  list: const [
+                    'Project',
+                    'Hourly',
+                    'Daily',
+                    'Monthly',
+                  ],
+                  hintText: 'Per project',
+                  onChanged: (value) {
+                    setState(
+                      () {
+                        budgetType = value;
+                      },
                     );
-                },
-              );
-            },
-            suffixWidget: budgetIncrementIcon(endPriceController),
-          ),
-        ),
-        Flexible(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-            ),
-            child: CustomDropDownField(
-              list: const [
-                'Project',
-                'Hourly',
-                'Daily',
-                'Monthly',
-              ],
-              hintText: 'Per project',
-              onChanged: (value) {
-                setState(
-                  () {
-                    budgetType = value;
                   },
-                );
-              },
+                ),
+              ),
             ),
-          ),
+          ],
         ),
       ],
     );

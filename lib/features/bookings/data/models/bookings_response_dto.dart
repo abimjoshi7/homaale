@@ -24,7 +24,7 @@ class BookingsResponseDto with _$BookingsResponseDto {
 class Result with _$Result {
   const factory Result({
     String? id,
-    Assignee? assigner,
+    Assigner? assigner,
     Assignee? assignee,
     @JsonKey(name: 'entity_service') EntityService? entityService,
     Currency? currency,
@@ -77,6 +77,29 @@ class Assignee with _$Assignee {
   }) = _Assignee;
 
   factory Assignee.fromJson(Map<String, dynamic> json) => _$AssigneeFromJson(json);
+}
+@freezed
+class Assigner with _$Assigner {
+  const factory Assigner({
+    String? id,
+    String? username,
+    String? email,
+    String? phone,
+    @JsonKey(name: 'full_name') String? fullName,
+    @JsonKey(name: 'first_name') String? firstName,
+    @JsonKey(name: 'middle_name') String? middleName,
+    @JsonKey(name: 'last_name') String? lastName,
+    @JsonKey(name: 'profile_image') String? profileImage,
+    String? bio,
+    @JsonKey(name: 'created_at') DateTime? createdAt,
+    String? designation,
+    @JsonKey(name: 'is_profile_verified') bool? isProfileVerified,
+    @JsonKey(name: 'is_followed') bool? isFollowed,
+    @JsonKey(name: 'is_following') bool? isFollowing,
+    Badge? badge,
+  }) = _Assigner;
+
+  factory Assigner.fromJson(Map<String, dynamic> json) => _$AssignerFromJson(json);
 }
 
 @freezed

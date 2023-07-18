@@ -28,6 +28,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
           await repositories
               .fetchBookingsList(
             page: event.page,
+            isSelf: event.isSelf
           )
               .then(
             (value) {
@@ -357,6 +358,7 @@ class BookingsBloc extends Bloc<BookingsEvent, BookingsState> {
         }
       },
     );
+
     on<BookingNegotiationBudgetUpdate>((event, emit) async {
       try {
         await repositories

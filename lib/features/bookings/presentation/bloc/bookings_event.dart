@@ -8,13 +8,15 @@ abstract class BookingsEvent extends Equatable {
 class BookingLoaded extends BookingsEvent {
   final String? status;
   final int? page;
-  const BookingLoaded({
+  final bool isSelf;
+  const BookingLoaded( {
     this.status,
     this.page,
+    this.isSelf=false,
   });
 
   @override
-  List<Object?> get props => [status, page];
+  List<Object?> get props => [status, page,isSelf];
 }
 
 class MyBookingLoaded extends BookingsEvent {

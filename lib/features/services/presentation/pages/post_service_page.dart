@@ -344,6 +344,7 @@ class _PostServicePageState extends State<PostServicePage> {
                             ? discountController.text
                             : '0.0',
                         noOfReservation: 0,
+                        isRange: isBudgetVariable,
                         isActive: true,
                         needsApproval: true,
                         isEndorsed: true,
@@ -611,6 +612,7 @@ class _PostServicePageState extends State<PostServicePage> {
                   horizontal: 10,
                 ),
                 child: CustomDropDownField(
+                  initialValue: 'Project',
                   list: const [
                     'Project',
                     'Hourly',

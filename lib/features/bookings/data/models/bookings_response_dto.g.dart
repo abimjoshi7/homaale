@@ -36,7 +36,7 @@ _$_Result _$$_ResultFromJson(Map<String, dynamic> json) => _$_Result(
       id: json['id'] as String?,
       assigner: json['assigner'] == null
           ? null
-          : Assignee.fromJson(json['assigner'] as Map<String, dynamic>),
+          : Assigner.fromJson(json['assigner'] as Map<String, dynamic>),
       assignee: json['assignee'] == null
           ? null
           : Assignee.fromJson(json['assignee'] as Map<String, dynamic>),
@@ -137,6 +137,49 @@ _$_Assignee _$$_AssigneeFromJson(Map<String, dynamic> json) => _$_Assignee(
     );
 
 Map<String, dynamic> _$$_AssigneeToJson(_$_Assignee instance) =>
+    <String, dynamic>{
+      'id': instance.id,
+      'username': instance.username,
+      'email': instance.email,
+      'phone': instance.phone,
+      'full_name': instance.fullName,
+      'first_name': instance.firstName,
+      'middle_name': instance.middleName,
+      'last_name': instance.lastName,
+      'profile_image': instance.profileImage,
+      'bio': instance.bio,
+      'created_at': instance.createdAt?.toIso8601String(),
+      'designation': instance.designation,
+      'is_profile_verified': instance.isProfileVerified,
+      'is_followed': instance.isFollowed,
+      'is_following': instance.isFollowing,
+      'badge': instance.badge,
+    };
+
+_$_Assigner _$$_AssignerFromJson(Map<String, dynamic> json) => _$_Assigner(
+      id: json['id'] as String?,
+      username: json['username'] as String?,
+      email: json['email'] as String?,
+      phone: json['phone'] as String?,
+      fullName: json['full_name'] as String?,
+      firstName: json['first_name'] as String?,
+      middleName: json['middle_name'] as String?,
+      lastName: json['last_name'] as String?,
+      profileImage: json['profile_image'] as String?,
+      bio: json['bio'] as String?,
+      createdAt: json['created_at'] == null
+          ? null
+          : DateTime.parse(json['created_at'] as String),
+      designation: json['designation'] as String?,
+      isProfileVerified: json['is_profile_verified'] as bool?,
+      isFollowed: json['is_followed'] as bool?,
+      isFollowing: json['is_following'] as bool?,
+      badge: json['badge'] == null
+          ? null
+          : Badge.fromJson(json['badge'] as Map<String, dynamic>),
+    );
+
+Map<String, dynamic> _$$_AssignerToJson(_$_Assigner instance) =>
     <String, dynamic>{
       'id': instance.id,
       'username': instance.username,
