@@ -157,9 +157,37 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                                       ?.title ??
                                   "")["status"] as String,
                           time: todayList[index].createdDate,
-                          userImage:
+                          userImage: getNotificationStatus(
+                                  status: statusTitle?.toLowerCase() ?? '',
+                                  isRequested: todayList[index]
+                                          .contentObject
+                                          ?.entityService
+                                          ?.isRequested ??
+                                      false,
+                                  userName:
+                                      todayList[index].createdFor?.fullName ??
+                                          "",
+                                  serviceName: todayList[index]
+                                          .contentObject
+                                          ?.entityService
+                                          ?.title ??
+                                      "")["assets"] as String? ??
                               todayList[index].createdFor?.profileImage ??
-                                  kHomaaleImg,
+                              kHomaaleImg,
+                          hasAssets: getNotificationStatus(
+                              status: statusTitle?.toLowerCase() ?? '',
+                              isRequested: todayList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.isRequested ??
+                                  false,
+                              userName:
+                                  todayList[index].createdFor?.fullName ?? "",
+                              serviceName: todayList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.title ??
+                                  "")["has_assets"] as bool,
                         );
                       },
                     ),
@@ -234,9 +262,37 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                                       ?.title ??
                                   "")["status"] as String,
                           time: earlierList[index].createdDate,
-                          userImage:
+                          userImage: getNotificationStatus(
+                                  status: statusTitle?.toLowerCase() ?? '',
+                                  isRequested: earlierList[index]
+                                          .contentObject
+                                          ?.entityService
+                                          ?.isRequested ??
+                                      false,
+                                  userName:
+                                      earlierList[index].createdFor?.fullName ??
+                                          "",
+                                  serviceName: earlierList[index]
+                                          .contentObject
+                                          ?.entityService
+                                          ?.title ??
+                                      "")["assets"] as String? ??
                               earlierList[index].createdFor?.profileImage ??
-                                  kHomaaleImg,
+                              kHomaaleImg,
+                          hasAssets: getNotificationStatus(
+                              status: statusTitle?.toLowerCase() ?? '',
+                              isRequested: earlierList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.isRequested ??
+                                  false,
+                              userName:
+                                  earlierList[index].createdFor?.fullName ?? "",
+                              serviceName: earlierList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.title ??
+                                  "")["has_assets"] as bool,
                         );
                       },
                     ),
@@ -281,13 +337,15 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
 
   String? _initializeStatusTitle(Result notification) {
     if ((notification.title == "Approved") ||
-        (notification.title == "approval")) {
+        (notification.title == "approval") ||
+        notification.title == "accepted") {
       return notification.title;
     }
-    if (notification.title == "booking") {
+    if (notification.title == "booking" ||
+        notification.title == "reward_earned" ||
+        notification.title == "status closed") {
       return notification.title;
     }
-
     if ((notification.contentObject?.status == "pending" &&
         (notification.title == "negotiated" ||
             notification.title == "accepted"))) {
@@ -321,7 +379,8 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
         notification.title == "status closed" ||
         notification.title == "status completed") {
       BlocProvider.of<BookingsBloc>(context).add(
-        BookingSingleLoaded(notification.contentObject?.task),
+        BookingSingleLoaded(
+            notification.contentObject?.task ?? notification.contentObject?.id),
       );
 
       await Future.delayed(
