@@ -95,13 +95,13 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Row(
-                        mainAxisAlignment: hideImage != null ? MainAxisAlignment.spaceBetween : MainAxisAlignment.start,
+                        mainAxisAlignment: hideImage != null ? MainAxisAlignment.start : MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           hideImage != null
                               ? Column(
                                   children: [
-                                    // addVerticalSpace(4.0),
+                                    addVerticalSpace(4.0),
                                     Container(
                                       height: 76,
                                       width: 70,
@@ -116,6 +116,7 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                                   ],
                                 )
                               : const SizedBox.shrink(),
+                          addHorizontalSpace(10),
                           Padding(
                             padding: const EdgeInsets.all(3.0),
                             child: Column(
@@ -132,10 +133,6 @@ class BookingsServiceCard extends StatelessWidget with TheModalBottomSheet {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                 ),
-                                // AutoSizeText(
-                                //   providerName ?? '',
-                                //   style: kLightBlueText14,
-                                // ),
                                 IconText(
                                   iconData: Icons.location_on_outlined,
                                   label: location?.length != null ? location ?? "Remote" : 'Remote',

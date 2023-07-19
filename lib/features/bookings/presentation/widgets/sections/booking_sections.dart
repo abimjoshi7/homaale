@@ -104,10 +104,10 @@ class _BookingSectionState extends State<BookingSection> {
                                   return BottomLoader();
                                 } else {
                                   if (widget.bookingSectionType ==
-                                      BookingSectionType.myBooking) {
+                                      BookingSectionType.todo) {
                                     var todoList = bookingList
                                         .where((e) =>
-                                            e.assignee?.id !=
+                                            e.assignee?.id ==
                                             context
                                                 .read<UserBloc>()
                                                 .state
@@ -125,7 +125,7 @@ class _BookingSectionState extends State<BookingSection> {
                                                 'We’re sorry, the data you search could not found. '
                                                 'Please go back.',
                                           )
-                                        : bookingList[index].assignee?.id !=
+                                        : bookingList[index].assignee?.id ==
                                                 context
                                                     .read<UserBloc>()
                                                     .state

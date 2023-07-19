@@ -77,7 +77,7 @@ class PopularTaskerSection extends StatelessWidget {
                         happyClients:
                             data?[index].stats?.happyClients.toString(),
                         ratings:
-                            '${data?[index].rating?.userRatingCount?.toStringAsFixed(1) ?? '0'}',
+                            '${data?[index].rating?.userRatingCount ?? '0'}',
                         // ${data?[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'}
                         callbackLabel: CacheHelper.isLoggedIn &&
                                 data?[index].isFollowed == true

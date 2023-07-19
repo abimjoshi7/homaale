@@ -231,7 +231,7 @@ class _PaymentTabState extends State<PaymentTab> {
                                                 children: [
                                                   Container(
                                                     height: 82,
-                                                    width: 59,
+                                                    width: 70,
                                                     decoration: BoxDecoration(
                                                       borderRadius: BorderRadius.circular(16.0),
                                                       image: DecorationImage(
