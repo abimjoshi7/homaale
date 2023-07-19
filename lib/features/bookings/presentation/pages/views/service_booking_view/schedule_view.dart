@@ -158,11 +158,17 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
                                       child: CupertinoDatePicker(
 																				
                                         mode: CupertinoDatePickerMode.time,
-                                        onDateTimeChanged: (value) => setState(
-                                          () {
-                                            startTime = value;
-                                          },
-                                        ),
+                                        onDateTimeChanged: (value) {
+                                          if (value.isAfter(endTime!)) {
+                                            return;
+                                          } else {
+                                            setState(
+                                              () {
+                                                startTime = value;
+                                              },
+                                            );
+                                          }
+                                        },
                                       ),
                                     ),
                                   ).whenComplete(
@@ -201,11 +207,16 @@ class _ScheduleViewState extends State<ScheduleView> with TheModalBottomSheet {
                                       child: CupertinoDatePicker(
                                         mode: CupertinoDatePickerMode.time,
                                         onDateTimeChanged: (value) {
-                                          if (!value.isAtSameMomentAs(
-                                              startTime ?? DateTime.now()))
+                                          if (value.isBefore(startTime!) ||
+                                              value.isAtSameMomentAs(
+                                                startTime!,
+                                              )) {
+                                            return;
+                                          } else {
                                             setState(() {
                                               endTime = value;
                                             });
+                                          }
                                         },
                                       ),
                                     ),

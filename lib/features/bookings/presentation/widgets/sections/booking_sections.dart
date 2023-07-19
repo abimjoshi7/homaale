@@ -125,8 +125,7 @@ class _BookingSectionState extends State<BookingSection> {
                                                 'We’re sorry, the data you search could not found. '
                                                 'Please go back.',
                                           )
-                                        :
-                                    bookingList[index].assignee?.id !=
+                                        : bookingList[index].assignee?.id !=
                                                 context
                                                     .read<UserBloc>()
                                                     .state
@@ -151,7 +150,10 @@ class _BookingSectionState extends State<BookingSection> {
                                                         BookingItemDetailPage
                                                             .routeName,
                                                         arguments: {
-                                                          'client': 'merchant'
+                                                          'client': 'merchant',
+                                                          'title':
+                                                              bookingList[index]
+                                                                  .title,
                                                         });
                                                   },
                                                   serviceName:
@@ -200,8 +202,7 @@ class _BookingSectionState extends State<BookingSection> {
                                                 'We’re sorry, the data you search could not found. '
                                                 'Please go back.',
                                           )
-                                        :
-                                    Container(
+                                        : Container(
                                             margin: EdgeInsets.only(bottom: 16),
                                             child: BookingsServiceCard(
                                               callback: () {
@@ -216,7 +217,10 @@ class _BookingSectionState extends State<BookingSection> {
                                                     BookingItemDetailPage
                                                         .routeName,
                                                     arguments: {
-                                                      'client': 'client'
+                                                      'client': 'client',
+                                                      'title':
+                                                          bookingList[index]
+                                                              .title,
                                                     });
                                               },
                                               serviceName:

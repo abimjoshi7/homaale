@@ -126,11 +126,11 @@ class TaskEntityServiceBloc
           state.copyWith(theStates: TheStates.loading),
         );
         try {
-          await repo.getSingleTaskEntityService(event.id ??"",event.query).then(
+          await repo.getSingleTaskEntityService(event.id, event.query).then(
             (value) async {
               if (CacheHelper.isLoggedIn) {
                 if (event.isEdit == null) {
-                  await repo.getApplicants(event.id ??"").then(
+                  await repo.getApplicants(event.id).then(
                         (applicants) => emit(
                           state.copyWith(
                             theStates: TheStates.success,

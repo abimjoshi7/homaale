@@ -209,6 +209,12 @@ class _PostServicePageState extends State<PostServicePage> {
               heading: 'Success',
               content: 'You have successfully created a service',
               onTap: () {
+                context.read<TaskEntityServiceBloc>().add(
+                      TaskEntityServiceInitiated(
+                        isTask: false,
+                        newFetch: true,
+                      ),
+                    );
                 Navigator.pushNamedAndRemoveUntil(
                   context,
                   Root.routeName,
