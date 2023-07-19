@@ -316,13 +316,16 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
         },
       );
     }
-    if (notification.title == "Approved") {
+    if (notification.title == "Approved" ||
+        notification.title == "cancelled" ||
+        notification.title == "status closed" ||
+        notification.title == "status completed") {
       BlocProvider.of<BookingsBloc>(context).add(
         BookingSingleLoaded(notification.contentObject?.task),
       );
 
       await Future.delayed(
-        Duration(milliseconds: 500),
+        Duration(milliseconds: 50),
         () => Navigator.pushNamed(
           context,
           BookingItemDetailPage.routeName,
@@ -346,9 +349,12 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
       );
     }
     if (notification.contentObject?.entityService == null) return;
-    if (notification.title == "booking") return;
-    if (notification.title == "Approved") return;
-    if (notification.title == "payment completed") return;
+    if (notification.title == "booking" ||
+        notification.title == "Approved" ||
+        notification.title == "payment completed" ||
+        notification.title == "cancelled" ||
+        notification.title == "status closed" ||
+        notification.title == "status completed") return;
     if (notification.contentObject?.entityService?.isRequested == true) {
       context.read<TaskBloc>().add(
             SingleEntityTaskLoadInitiated(
