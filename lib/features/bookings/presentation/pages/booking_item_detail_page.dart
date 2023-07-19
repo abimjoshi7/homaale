@@ -681,9 +681,9 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                           ],
                         ),
                       ),
-                      // PriceFooterView(
-                      //   bookingsState: state,
-                      // ),
+                      PriceFooterView(
+                        bookingsState: state,
+                      ),
                     ],
                   ),
                 );
