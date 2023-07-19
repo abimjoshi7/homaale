@@ -19,7 +19,12 @@ class _MyBookingsPageState extends State<MyBookingsPage> {
   @override
   void initState() {
     super.initState();
-    bookingsBloc.add(BookingLoaded(page: 1,isSelf: true));
+    bookingsBloc.add(
+      BookingLoaded(
+        page: 1,
+        isSelf: true,
+      ),
+    );
   }
 
   @override

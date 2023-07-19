@@ -2,6 +2,8 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
+import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/features/bookings/presentation/pages/booking_item_detail_page.dart';
 import 'package:cipher/features/notification/data/models/all_notification_list.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
@@ -54,7 +56,6 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                           .inDays ==
                       0)
                   .toList();
-
               final earlierList = state.notificationList
                   .where((element) =>
                       DateTime.now()
@@ -183,7 +184,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         String? statusTitle =
-                            _initializeStatusTitle(todayList[index]);
+                            _initializeStatusTitle(earlierList[index]);
 
                         return ListTileComponent(
                           onTapCallback: () =>
@@ -286,6 +287,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
     if (notification.title == "booking") {
       return notification.title;
     }
+
     if ((notification.contentObject?.status == "pending" &&
         (notification.title == "negotiated" ||
             notification.title == "accepted"))) {
@@ -304,18 +306,39 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
           context.read<KycBloc>().state,
         );
       }
-      if (notification.title == "booking") {
-        Navigator.pushNamed(
-          context,
-          Root.routeName,
-          arguments: {
-            "index": 1,
-          },
-        );
-      }
     }
-
+    if (notification.title == "booking") {
+      Navigator.pushNamed(
+        context,
+        Root.routeName,
+        arguments: {
+          "index": 1,
+        },
+      );
+    }
+    if (notification.title == "Approved") {
+      BlocProvider.of<BookingsBloc>(context).add(
+        BookingSingleLoaded(notification.contentObject?.id),
+      );
+      Navigator.pushNamed(
+        context,
+        BookingItemDetailPage.routeName,
+        // arguments: {'client': 'merchant'},
+      );
+    }
+    if (notification.title == "payment completed") {
+      Navigator.pushNamed(
+        context,
+        Root.routeName,
+        arguments: {
+          "index": 3,
+        },
+      );
+    }
     if (notification.contentObject?.entityService == null) return;
+    if (notification.title == "booking") return;
+    if (notification.title == "Approved") return;
+    if (notification.title == "payment completed") return;
     if (notification.contentObject?.entityService?.isRequested == true) {
       context.read<TaskBloc>().add(
             SingleEntityTaskLoadInitiated(

@@ -231,10 +231,16 @@ class _CalledRootClassState extends State<CalledRootClass>
     return false;
   }
 
+  int _assignPageIndexValue(int? passedIndex) {
+    if (passedIndex == null) return 0;
+    if (passedIndex >= 3) return passedIndex - 1;
+    return passedIndex;
+  }
+
   @override
   void initState() {
     initBlocs();
-    pageIndex = widget.passedIndex ?? 0;
+    pageIndex = _assignPageIndexValue(widget.passedIndex);
     WidgetsBinding.instance.addPostFrameCallback(
       (timeStamp) async {
         getConnectivity();
