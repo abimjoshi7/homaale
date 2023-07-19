@@ -296,7 +296,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
     return notification.contentObject?.status ?? notification.title;
   }
 
-  void _onTilePressed(Result notification) {
+  void _onTilePressed(Result notification) async {
     if (notification.contentObject?.entityService == null) {
       if (notification.title == "kyc_document_submitted" ||
           notification.title == "kyc_document_verified" ||
@@ -318,12 +318,22 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
     }
     if (notification.title == "Approved") {
       BlocProvider.of<BookingsBloc>(context).add(
-        BookingSingleLoaded(notification.contentObject?.id),
+        BookingSingleLoaded(notification.contentObject?.task),
       );
-      Navigator.pushNamed(
-        context,
-        BookingItemDetailPage.routeName,
-        // arguments: {'client': 'merchant'},
+
+      await Future.delayed(
+        Duration(milliseconds: 500),
+        () => Navigator.pushNamed(
+          context,
+          BookingItemDetailPage.routeName,
+          arguments: {
+            'client':
+                notification.contentObject?.entityService?.isRequested == true
+                    ? 'merchant'
+                    : 'client',
+            'title': notification.contentObject?.entityService?.title,
+          },
+        ),
       );
     }
     if (notification.title == "payment completed") {

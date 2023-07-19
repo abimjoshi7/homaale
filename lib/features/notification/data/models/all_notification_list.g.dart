@@ -73,6 +73,7 @@ _$_ContentObject _$$_ContentObjectFromJson(Map<String, dynamic> json) =>
           : EntityService.fromJson(
               json['entity_service'] as Map<String, dynamic>),
       status: json['status'] as String?,
+      task: json['task'] as String?,
     );
 
 Map<String, dynamic> _$$_ContentObjectToJson(_$_ContentObject instance) =>
@@ -80,6 +81,7 @@ Map<String, dynamic> _$$_ContentObjectToJson(_$_ContentObject instance) =>
       'id': instance.id,
       'entity_service': instance.entityService,
       'status': instance.status,
+      'task': instance.task,
     };
 
 _$_EntityService _$$_EntityServiceFromJson(Map<String, dynamic> json) =>

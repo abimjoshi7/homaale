@@ -44,6 +44,7 @@ class ContentObject with _$ContentObject {
     dynamic id,
     @JsonKey(name: "entity_service") EntityService? entityService,
     String? status,
+    String? task,
   }) = _ContentObject;
 
   factory ContentObject.fromJson(Map<String, dynamic> json) =>

@@ -432,8 +432,8 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                                             ),
                                             addHorizontalSpace(10),
                                             Text("Rs. " +
-                                                double.parse(booking.price
-                                                        .toString())
+                                                double.parse(
+                                                        booking.price ?? '0')
                                                     .toStringAsFixed(2)),
                                           ],
                                         ),
@@ -681,9 +681,9 @@ class _BookingItemDetailPageState extends State<BookingItemDetailPage>
                           ],
                         ),
                       ),
-                      PriceFooterView(
-                        bookingsState: state,
-                      ),
+                      // PriceFooterView(
+                      //   bookingsState: state,
+                      // ),
                     ],
                   ),
                 );
