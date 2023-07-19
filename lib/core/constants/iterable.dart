@@ -328,7 +328,7 @@ Map<String, dynamic> getNotificationStatus(
         "status": "Completed",
         "message": "You have earned a reward.",
         "has_assets": true,
-        'assets': 'assets/notification/completed_task.svg'
+        'assets': 'assets/notification/reward.svg'
       };
     case "completed_task":
       return {
@@ -410,8 +410,7 @@ Map<String, dynamic> getNotificationStatus(
         "color": kColorPrimary,
         "status": "Followed",
         "message": "Your have followed $userName.",
-        "has_assets": true,
-        'assets': 'assets/notification/payment.svg'
+        "has_assets": false,
       };
     case "status closed":
       return {
@@ -419,8 +418,7 @@ Map<String, dynamic> getNotificationStatus(
         "status": "Closed",
         "message":
             "$userName has closed the ${isRequested ? 'task' : 'service'} $serviceName.",
-        "has_assets": true,
-        'assets': 'assets/notification/payment.svg'
+        "has_assets": false,
       };
     case "status completed":
       return {
