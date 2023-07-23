@@ -79,7 +79,7 @@ class BookingRepositories {
     bool? isTask,
     String? status,
     int? page,
-    bool isSelf = true,
+    bool? isSelf,
   }) async {
     try {
       final x = await _dio.getDatawithCredential(
