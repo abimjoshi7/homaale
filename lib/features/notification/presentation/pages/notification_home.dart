@@ -2,6 +2,8 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
+import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
+import 'package:cipher/features/bookings/presentation/pages/booking_item_detail_page.dart';
 import 'package:cipher/features/notification/data/models/all_notification_list.dart';
 import 'package:cipher/features/notification/presentation/bloc/notification_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
@@ -54,7 +56,6 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                           .inDays ==
                       0)
                   .toList();
-
               final earlierList = state.notificationList
                   .where((element) =>
                       DateTime.now()
@@ -156,9 +157,37 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                                       ?.title ??
                                   "")["status"] as String,
                           time: todayList[index].createdDate,
-                          userImage:
+                          userImage: getNotificationStatus(
+                                  status: statusTitle?.toLowerCase() ?? '',
+                                  isRequested: todayList[index]
+                                          .contentObject
+                                          ?.entityService
+                                          ?.isRequested ??
+                                      false,
+                                  userName:
+                                      todayList[index].createdFor?.fullName ??
+                                          "",
+                                  serviceName: todayList[index]
+                                          .contentObject
+                                          ?.entityService
+                                          ?.title ??
+                                      "")["assets"] as String? ??
                               todayList[index].createdFor?.profileImage ??
-                                  kHomaaleImg,
+                              kHomaaleImg,
+                          hasAssets: getNotificationStatus(
+                              status: statusTitle?.toLowerCase() ?? '',
+                              isRequested: todayList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.isRequested ??
+                                  false,
+                              userName:
+                                  todayList[index].createdFor?.fullName ?? "",
+                              serviceName: todayList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.title ??
+                                  "")["has_assets"] as bool,
                         );
                       },
                     ),
@@ -183,7 +212,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         String? statusTitle =
-                            _initializeStatusTitle(todayList[index]);
+                            _initializeStatusTitle(earlierList[index]);
 
                         return ListTileComponent(
                           onTapCallback: () =>
@@ -233,9 +262,37 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
                                       ?.title ??
                                   "")["status"] as String,
                           time: earlierList[index].createdDate,
-                          userImage:
+                          userImage: getNotificationStatus(
+                                  status: statusTitle?.toLowerCase() ?? '',
+                                  isRequested: earlierList[index]
+                                          .contentObject
+                                          ?.entityService
+                                          ?.isRequested ??
+                                      false,
+                                  userName:
+                                      earlierList[index].createdFor?.fullName ??
+                                          "",
+                                  serviceName: earlierList[index]
+                                          .contentObject
+                                          ?.entityService
+                                          ?.title ??
+                                      "")["assets"] as String? ??
                               earlierList[index].createdFor?.profileImage ??
-                                  kHomaaleImg,
+                              kHomaaleImg,
+                          hasAssets: getNotificationStatus(
+                              status: statusTitle?.toLowerCase() ?? '',
+                              isRequested: earlierList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.isRequested ??
+                                  false,
+                              userName:
+                                  earlierList[index].createdFor?.fullName ?? "",
+                              serviceName: earlierList[index]
+                                      .contentObject
+                                      ?.entityService
+                                      ?.title ??
+                                  "")["has_assets"] as bool,
                         );
                       },
                     ),
@@ -280,10 +337,13 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
 
   String? _initializeStatusTitle(Result notification) {
     if ((notification.title == "Approved") ||
-        (notification.title == "approval")) {
+        (notification.title == "approval") ||
+        notification.title == "accepted") {
       return notification.title;
     }
-    if (notification.title == "booking") {
+    if (notification.title == "booking" ||
+        notification.title == "reward_earned" ||
+        notification.title == "status closed") {
       return notification.title;
     }
     if ((notification.contentObject?.status == "pending" &&
@@ -294,7 +354,7 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
     return notification.contentObject?.status ?? notification.title;
   }
 
-  void _onTilePressed(Result notification) {
+  void _onTilePressed(Result notification) async {
     if (notification.contentObject?.entityService == null) {
       if (notification.title == "kyc_document_submitted" ||
           notification.title == "kyc_document_verified" ||
@@ -304,18 +364,56 @@ class _NotificationFromHomeState extends State<NotificationFromHome> {
           context.read<KycBloc>().state,
         );
       }
-      if (notification.title == "booking") {
-        Navigator.pushNamed(
-          context,
-          Root.routeName,
-          arguments: {
-            "index": 1,
-          },
-        );
-      }
     }
+    if (notification.title == "booking") {
+      Navigator.pushNamed(
+        context,
+        Root.routeName,
+        arguments: {
+          "index": 1,
+        },
+      );
+    }
+    if (notification.title == "Approved" ||
+        notification.title == "cancelled" ||
+        notification.title == "status closed" ||
+        notification.title == "status completed") {
+      BlocProvider.of<BookingsBloc>(context).add(
+        BookingSingleLoaded(
+            notification.contentObject?.task ?? notification.contentObject?.id),
+      );
 
+      await Future.delayed(
+        Duration(milliseconds: 50),
+        () => Navigator.pushNamed(
+          context,
+          BookingItemDetailPage.routeName,
+          arguments: {
+            'client':
+                notification.contentObject?.entityService?.isRequested == true
+                    ? 'merchant'
+                    : 'client',
+            'title': notification.contentObject?.entityService?.title,
+          },
+        ),
+      );
+    }
+    if (notification.title == "payment completed") {
+      Navigator.pushNamed(
+        context,
+        Root.routeName,
+        arguments: {
+          "index": 3,
+        },
+      );
+    }
     if (notification.contentObject?.entityService == null) return;
+    if (notification.title == "booking" ||
+        notification.title == "Approved" ||
+        notification.title == "payment completed" ||
+        notification.title == "cancelled" ||
+        notification.title == "status closed" ||
+        notification.title == "status completed") return;
     if (notification.contentObject?.entityService?.isRequested == true) {
       context.read<TaskBloc>().add(
             SingleEntityTaskLoadInitiated(

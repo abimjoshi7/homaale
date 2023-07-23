@@ -663,6 +663,7 @@ mixin _$ContentObject {
   @JsonKey(name: "entity_service")
   EntityService? get entityService => throw _privateConstructorUsedError;
   String? get status => throw _privateConstructorUsedError;
+  String? get task => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -679,7 +680,8 @@ abstract class $ContentObjectCopyWith<$Res> {
   $Res call(
       {dynamic id,
       @JsonKey(name: "entity_service") EntityService? entityService,
-      String? status});
+      String? status,
+      String? task});
 
   $EntityServiceCopyWith<$Res>? get entityService;
 }
@@ -700,6 +702,7 @@ class _$ContentObjectCopyWithImpl<$Res, $Val extends ContentObject>
     Object? id = freezed,
     Object? entityService = freezed,
     Object? status = freezed,
+    Object? task = freezed,
   }) {
     return _then(_value.copyWith(
       id: freezed == id
@@ -713,6 +716,10 @@ class _$ContentObjectCopyWithImpl<$Res, $Val extends ContentObject>
       status: freezed == status
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
+              as String?,
+      task: freezed == task
+          ? _value.task
+          : task // ignore: cast_nullable_to_non_nullable
               as String?,
     ) as $Val);
   }
@@ -741,7 +748,8 @@ abstract class _$$_ContentObjectCopyWith<$Res>
   $Res call(
       {dynamic id,
       @JsonKey(name: "entity_service") EntityService? entityService,
-      String? status});
+      String? status,
+      String? task});
 
   @override
   $EntityServiceCopyWith<$Res>? get entityService;
@@ -761,6 +769,7 @@ class __$$_ContentObjectCopyWithImpl<$Res>
     Object? id = freezed,
     Object? entityService = freezed,
     Object? status = freezed,
+    Object? task = freezed,
   }) {
     return _then(_$_ContentObject(
       id: freezed == id
@@ -775,6 +784,10 @@ class __$$_ContentObjectCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as String?,
+      task: freezed == task
+          ? _value.task
+          : task // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -785,7 +798,8 @@ class _$_ContentObject implements _ContentObject {
   const _$_ContentObject(
       {this.id,
       @JsonKey(name: "entity_service") this.entityService,
-      this.status});
+      this.status,
+      this.task});
 
   factory _$_ContentObject.fromJson(Map<String, dynamic> json) =>
       _$$_ContentObjectFromJson(json);
@@ -797,10 +811,12 @@ class _$_ContentObject implements _ContentObject {
   final EntityService? entityService;
   @override
   final String? status;
+  @override
+  final String? task;
 
   @override
   String toString() {
-    return 'ContentObject(id: $id, entityService: $entityService, status: $status)';
+    return 'ContentObject(id: $id, entityService: $entityService, status: $status, task: $task)';
   }
 
   @override
@@ -811,13 +827,14 @@ class _$_ContentObject implements _ContentObject {
             const DeepCollectionEquality().equals(other.id, id) &&
             (identical(other.entityService, entityService) ||
                 other.entityService == entityService) &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.task, task) || other.task == task));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType,
-      const DeepCollectionEquality().hash(id), entityService, status);
+      const DeepCollectionEquality().hash(id), entityService, status, task);
 
   @JsonKey(ignore: true)
   @override
@@ -837,7 +854,8 @@ abstract class _ContentObject implements ContentObject {
   const factory _ContentObject(
       {final dynamic id,
       @JsonKey(name: "entity_service") final EntityService? entityService,
-      final String? status}) = _$_ContentObject;
+      final String? status,
+      final String? task}) = _$_ContentObject;
 
   factory _ContentObject.fromJson(Map<String, dynamic> json) =
       _$_ContentObject.fromJson;
@@ -849,6 +867,8 @@ abstract class _ContentObject implements ContentObject {
   EntityService? get entityService;
   @override
   String? get status;
+  @override
+  String? get task;
   @override
   @JsonKey(ignore: true)
   _$$_ContentObjectCopyWith<_$_ContentObject> get copyWith =>

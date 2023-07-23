@@ -286,6 +286,7 @@ Map<String, dynamic> getNotificationStatus(
         "status": "Declined",
         "message":
             "Your ${isRequested ? 'task' : 'service'} $serviceName has been declined.",
+        "has_assets": true,
         'assets': 'assets/notification/declined.svg'
       };
     case "completed":
@@ -294,6 +295,7 @@ Map<String, dynamic> getNotificationStatus(
         "status": "Completed",
         "message":
             "Your ${isRequested ? 'task' : 'service'} $serviceName has been completed successfully.",
+        "has_assets": true,
         'assets': 'assets/notification/completed_task.svg'
       };
     case "pending":
@@ -302,6 +304,7 @@ Map<String, dynamic> getNotificationStatus(
         "status": "Waiting",
         "message":
             "The ${isRequested ? 'task' : 'service'} $serviceName has been booked. Waiting for approval.",
+        "has_assets": true,
         'assets': 'assets/notification/completed_task.svg'
       };
     case "accepted":
@@ -309,25 +312,37 @@ Map<String, dynamic> getNotificationStatus(
         "color": kColorAmber,
         "status": "Waiting",
         "message":
-            "$userName would like to negotiate the price for the $serviceName."
+            "$userName would like to negotiate the price for the $serviceName.",
+        "has_assets": false
       };
     case "negotiated":
       return {
         "color": kColorAmber,
         "status": "Waiting",
-        "message": "$userName updated the price for your $serviceName."
+        "message": "$userName updated the price for your $serviceName.",
+        "has_assets": false
+      };
+    case "reward_earned":
+      return {
+        "color": kColorGreen,
+        "status": "Completed",
+        "message": "You have earned a reward.",
+        "has_assets": true,
+        'assets': 'assets/notification/reward.svg'
       };
     case "completed_task":
       return {
         "color": kColorGreen,
         "status": "Completed",
         "message": "You $serviceName has been completed successfully.",
+        "has_assets": true,
         'assets': 'assets/notification/completed_task.svg'
       };
     case "approved":
       return {
         "color": Color(0xff1EB2A6),
         "status": "Approved",
+        "has_assets": false,
         "message":
             "Congratulations! The ${isRequested ? 'task' : 'service'} $serviceName has been approved.",
       };
@@ -335,6 +350,7 @@ Map<String, dynamic> getNotificationStatus(
       return {
         "color": Color(0xff1EB2A6),
         "status": "Approved",
+        "has_assets": false,
         "message":
             "$userName is interested for the ${isRequested ? 'task' : 'service'} $serviceName.",
       };
@@ -342,6 +358,7 @@ Map<String, dynamic> getNotificationStatus(
       return {
         "color": kColorBlue,
         "status": "Booking",
+        "has_assets": false,
         "message":
             "Outstanding! You have booked the ${isRequested ? 'task' : 'service'} $serviceName.",
       };
@@ -351,6 +368,7 @@ Map<String, dynamic> getNotificationStatus(
         "status": "Create",
         "message":
             "You have successfully created a ${isRequested ? 'task' : 'service'} $serviceName.",
+        "has_assets": true,
         'assets': 'assets/notification/service_created.svg'
       };
     case "waiting":
@@ -359,12 +377,14 @@ Map<String, dynamic> getNotificationStatus(
         "status": "Waiting",
         "message":
             "You have successfully applied for ${isRequested ? 'task' : 'service'} $serviceName.",
+        "has_assets": true,
         'assets': 'assets/notification/waiting.svg'
       };
     case "rejected":
       return {
         "color": Colors.red.shade800,
         "status": "Rejected",
+        "has_assets": false,
         "message":
             "The ${isRequested ? 'task' : 'service'} $serviceName has been rejected.",
       };
@@ -372,6 +392,7 @@ Map<String, dynamic> getNotificationStatus(
       return {
         "color": Colors.red.shade800,
         "status": "Cancelled",
+        "has_assets": false,
         "message":
             "${userName} has cancelled the ${isRequested ? 'task' : 'service'} $serviceName.",
       };
@@ -381,6 +402,7 @@ Map<String, dynamic> getNotificationStatus(
         "status": "Completed",
         "message":
             "$userName has paid for the ${isRequested ? 'task' : 'service'} $serviceName.",
+        "has_assets": true,
         'assets': 'assets/notification/payment.svg'
       };
     case "followed":
@@ -388,7 +410,7 @@ Map<String, dynamic> getNotificationStatus(
         "color": kColorPrimary,
         "status": "Followed",
         "message": "Your have followed $userName.",
-        'assets': 'assets/notification/payment.svg'
+        "has_assets": false,
       };
     case "status closed":
       return {
@@ -396,7 +418,7 @@ Map<String, dynamic> getNotificationStatus(
         "status": "Closed",
         "message":
             "$userName has closed the ${isRequested ? 'task' : 'service'} $serviceName.",
-        'assets': 'assets/notification/payment.svg'
+        "has_assets": false,
       };
     case "status completed":
       return {
@@ -404,6 +426,7 @@ Map<String, dynamic> getNotificationStatus(
         "status": "Completed",
         "message":
             "$userName  has completed the ${isRequested ? 'task' : 'service'} $serviceName.",
+        "has_assets": true,
         'assets': 'assets/notification/payment.svg'
       };
     case "kyc_document_submitted":
@@ -411,6 +434,7 @@ Map<String, dynamic> getNotificationStatus(
         "color": kColorAmber,
         "status": "Waiting",
         "message": "Your Kyc document has been submitted.",
+        "has_assets": true,
         'assets': 'assets/notification/payment.svg'
       };
     case "kyc_document_rejected":
@@ -418,6 +442,7 @@ Map<String, dynamic> getNotificationStatus(
         "color": Colors.red.shade800,
         "status": "Rejected",
         "message": "Your Kyc document has been rejected.",
+        "has_assets": true,
         'assets': 'assets/notification/payment.svg'
       };
     case "kyc_document_verified":
@@ -425,6 +450,7 @@ Map<String, dynamic> getNotificationStatus(
         "color": Color(0xff1EB2A6),
         "status": "Approved",
         "message": "Your Kyc document has been verified.",
+        "has_assets": true,
         'assets': 'assets/notification/payment.svg'
       };
 
@@ -433,6 +459,7 @@ Map<String, dynamic> getNotificationStatus(
         "color": kColorPrimary,
         "status": "$status",
         "message": "$status",
+        "has_assets": false,
         "assets": "",
       };
   }
