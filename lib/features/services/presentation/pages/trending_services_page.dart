@@ -141,14 +141,14 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                           );
                         return ServiceCard(
                           theHeight: (index % 5) == 0
-                              ? 230
+                              ? 272
                               : (index % 5) == 1
-                                  ? 280
+                                  ? 290
                                   : (index % 5) == 2
                                       ? 300
                                       : (index % 5) == 3
-                                          ? 250
-                                          : 310,
+                                          ? 280
+                                          : 320,
                           shareCallback: () {
                             Share.share(
                               "$kShareLinks/tasks/${state.taskEntityServices?[index].id}",

@@ -5,6 +5,9 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
+import '../../../rating_reviews/presentation/bloc/rating_reviews_bloc.dart';
+import '../../../user/presentation/bloc/user/user_bloc.dart';
+
 class CategoryProfessionalServiceSection extends StatelessWidget {
   static const routeName = '/category-professional-service-section';
 
@@ -31,13 +34,34 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                 location:
                     '${state.taskEntityServiceModel.result?[index].city?.name ?? ''}, ${state.taskEntityServiceModel.result?[index].city?.country?.name ?? ''}',
                 rating: state.taskEntityServiceModel.result?[index].rating
-                        .toString() ??
-                    '0.0',
-
-                // theHeight: 300.0,
+                            .toString() ==
+                        "null"
+                    ? "0.0"
+                    : state.taskEntityServiceModel.result?[index].rating
+                            .toString() ??
+                        '0.0',
+                shareCallback: () {
+                  Share.share(
+                    "$kShareLinks/tasks/${state.taskEntityServiceModel.result?[index].id}",
+                    subject: state.taskEntityServices?[index].title,
+                  );
+                },
+                isBookmarked: state.taskEntityServices?[index].isBookmarked,
+                isOwner: state.taskEntityServices?[index].owner?.id ==
+                    context.read<UserBloc>().state.taskerProfile?.user?.id,
+                rateTo: double.parse(
+                        state.taskEntityServices?[index].payableTo ?? "")
+                    .toInt()
+                    .toString(),
+                rateFrom: double.parse(
+                        state.taskEntityServices?[index].payableFrom ?? "")
+                    .toInt()
+                    .toString(),
+                isRange: state.taskEntityServices?[index].isRange,
+                // theHeight: 350.0,
               );
             }
-            return ServiceCard();
+            return CardLoading(height: 700);
           }
 
           return Scaffold(
@@ -52,62 +76,58 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
                   child: CustomScrollView(
                     slivers: [
                       SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: CustomFormField(
-                            label: 'Professional Services',
-                            child: SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.5,
-                              child: GridView.builder(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 2,
-                                  // childAspectRatio: 1.5,
-                                  crossAxisSpacing: 8,
-                                  mainAxisSpacing: 8,
-                                ),
-                                itemBuilder: (context, index) => InkWell(
-                                  onTap: () async {
-                                    context.read<TaskEntityServiceBloc>().add(
-                                          TaskEntityServiceSingleLoaded(
-                                            id: state.taskEntityServiceModel
-                                                    .result?[index].id ??
-                                                '',
-                                          ),
-                                        );
-                                    Navigator.pushNamed(
-                                      context,
-                                      TaskEntityServicePage.routeName,
-                                    );
-                                  },
-                                  child: showServiceCard(index),
-                                ),
-                                itemCount:
-                                    state.taskEntityServiceModel.result?.length,
-                                padding: EdgeInsets.zero,
-                              ),
+                        child: CustomFormField(
+                          label: '  Professional Services',
+                          child: GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 0.7,
+                              crossAxisSpacing: 8,
+                              mainAxisSpacing: 8,
                             ),
+                            itemBuilder: (context, index) => InkWell(
+                              onTap: () async {
+                                context.read<TaskEntityServiceBloc>().add(
+                                      TaskEntityServiceSingleLoaded(
+                                        id: state.taskEntityServiceModel
+                                                .result?[index].id ??
+                                            '',
+                                      ),
+                                    );
+                                Navigator.pushNamed(
+                                  context,
+                                  TaskEntityServicePage.routeName,
+                                );
+                              },
+                              child: showServiceCard(index),
+                            ),
+                            itemCount:
+                                state.taskEntityServiceModel.result?.length,
+                            padding: EdgeInsets.zero,
+                            shrinkWrap: true,
+                            physics: NeverScrollableScrollPhysics(),
                           ),
                         ),
                       ),
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            'assets/beautyBanner 1.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
-                      SliverToBoxAdapter(
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Image.asset(
-                            'assets/banners/Sliding Banner.png',
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      ),
+                      // SliverToBoxAdapter(
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(8.0),
+                      //     child: Image.asset(
+                      //       'assets/beautyBanner 1.png',
+                      //       fit: BoxFit.cover,
+                      //     ),
+                      //   ),
+                      // ),
+                      // SliverToBoxAdapter(
+                      //   child: Padding(
+                      //     padding: const EdgeInsets.all(8.0),
+                      //     child: Image.asset(
+                      //       'assets/banners/Sliding Banner.png',
+                      //       fit: BoxFit.cover,
+                      //     ),
+                      //   ),
+                      // ),
                     ],
                   ),
                 ),
@@ -116,7 +136,7 @@ class CategoryProfessionalServiceSection extends StatelessWidget {
           );
         }
         return CardLoading(
-          height: 200,
+          height: 700,
         );
       },
     );

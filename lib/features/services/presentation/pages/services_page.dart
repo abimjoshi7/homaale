@@ -31,7 +31,7 @@ class ServicesPage extends StatelessWidget {
               builder: (context, state) {
                 if (state.theStates == TheStates.initial) {
                   return const Center(
-                    child: CardLoading(height: 200),
+                    child: CardLoading(height: 700),
                   );
                 }
                 if (state.theStates == TheStates.success) {
@@ -48,68 +48,70 @@ class ServicesPage extends StatelessWidget {
                                     style:
                                         Theme.of(context).textTheme.bodySmall,
                                   )
-                                : SizedBox(
-                                    height: MediaQuery.of(context).size.height *
-                                        0.3,
-                                    child: GridView.builder(
-                                      gridDelegate:
-                                          const SliverGridDelegateWithFixedCrossAxisCount(
-                                        crossAxisCount: 3,
-                                        crossAxisSpacing: 8,
-                                        childAspectRatio: 1.2,
-                                      ),
-                                      itemBuilder: (context, index) => InkWell(
-                                        onTap: () async {
-                                          context
-                                              .read<TaskEntityServiceBloc>()
-                                              .add(
-                                                TaskEntityServiceInitiated(
-                                                  serviceId: state
-                                                          .serviceList?[index]
-                                                          .id ??
-                                                      '',
-                                                ),
-                                              );
-
-                                          await Navigator.pushNamed(
-                                            context,
-                                            CategoryProfessionalServiceSection
-                                                .routeName,
-                                          );
-                                        },
-                                        child: Column(
-                                          children: [
-                                            Container(
-                                              height: 70,
-                                              decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(
-                                                  10,
-                                                ),
-                                                image: DecorationImage(
-                                                  fit: BoxFit.cover,
-                                                  image: AssetImage(
-                                                    "assets/services/1.png",
-                                                  ),
-                                                ),
-                                              ),
+                                : GridView.builder(
+                                  gridDelegate:
+                                      const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 3,
+                                    crossAxisSpacing: 8,
+                                    childAspectRatio: 1.2,
+                                  ),
+                                  itemBuilder: (context, index) => InkWell(
+                                    onTap: () async {
+                                      context
+                                          .read<TaskEntityServiceBloc>()
+                                          .add(
+                                            TaskEntityServiceInitiated(
+                                              serviceId: state
+                                                      .serviceList?[index]
+                                                      .id ??
+                                                  '',
                                             ),
-                                            Flexible(
-                                              child: AutoSizeText(
-                                                state.serviceList?[index]
-                                                        .title ??
-                                                    "",
-                                                overflow: TextOverflow.ellipsis,
-                                                minFontSize: 14,
+                                          );
+
+                                      await Navigator.pushNamed(
+                                        context,
+                                        CategoryProfessionalServiceSection
+                                            .routeName,
+                                      );
+                                    },
+                                    child: Column(
+                                      children: [
+                                        Container(
+                                          height: 70,
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(
+                                              10,
+                                            ),
+                                            image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image:  NetworkImage(
+                                                state.serviceList?[index].images?.length == 0 ? kHomaaleImg :
+                                                state.serviceList?[index].images?.first.media.toString() ?? kHomaaleImg,
                                               ),
-                                            )
-                                          ],
+                                              // AssetImage(
+                                              //   "assets/services/1.png",
+                                              // ),
+                                            ),
+                                          ),
                                         ),
-                                      ),
-                                      itemCount: state.serviceList?.length,
-                                      padding: EdgeInsets.zero,
+                                        Flexible(
+                                          child: AutoSizeText(
+                                            state.serviceList?[index]
+                                                    .title ??
+                                                "",
+                                            overflow: TextOverflow.ellipsis,
+                                            minFontSize: 14,
+                                          ),
+                                        )
+                                      ],
                                     ),
                                   ),
+                                  itemCount: state.serviceList?.length,
+                                  padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
+                                ),
                           ),
                         ),
                       ),
@@ -130,66 +132,69 @@ class ServicesPage extends StatelessWidget {
                           padding: const EdgeInsets.all(8.0),
                           child: CustomFormField(
                             label: 'Related Services',
-                            child: SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.3,
-                              child: GridView.builder(
-                                gridDelegate:
-                                    const SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount: 3,
-                                  crossAxisSpacing: 8,
-                                  childAspectRatio: 1.2,
-                                ),
-                                itemBuilder: (context, index2) => InkWell(
-                                  onTap: () async {
-                                    context.read<TaskEntityServiceBloc>().add(
-                                          TaskEntityServiceInitiated(
-                                            serviceId: state
-                                                    .professionalServiceModel
-                                                    ?.result?[index2]
-                                                    .id ??
-                                                '',
-                                          ),
-                                        );
-
-                                    await Navigator.pushNamed(
-                                      context,
-                                      CategoryProfessionalServiceSection
-                                          .routeName,
-                                    );
-                                  },
-                                  child: Column(
-                                    children: [
-                                      Container(
-                                        height: 60,
-                                        decoration: BoxDecoration(
-                                          borderRadius: BorderRadius.circular(
-                                            10,
-                                          ),
-                                          image: DecorationImage(
-                                            fit: BoxFit.cover,
-                                            image: AssetImage(
-                                              "assets/services/1111111.png",
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                      Flexible(
-                                        child: AutoSizeText(
-                                          state.professionalServiceModel
-                                                  ?.result?[index2].title ??
-                                              "",
-                                          overflow: TextOverflow.ellipsis,
-                                          minFontSize: 14,
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                itemCount: state.professionalServiceModel
-                                        ?.result?.length ??
-                                    0,
-                                padding: EdgeInsets.zero,
+                            child: GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 3,
+                                crossAxisSpacing: 8,
+                                childAspectRatio: 1.2,
                               ),
+
+                              itemBuilder: (context, index2) => InkWell(
+                                onTap: () async {
+                                  context.read<TaskEntityServiceBloc>().add(
+                                        TaskEntityServiceInitiated(
+                                          serviceId: state
+                                                  .professionalServiceModel
+                                                  ?.result?[index2]
+                                                  .id ??
+                                              '',
+                                        ),
+                                      );
+
+                                  await Navigator.pushNamed(
+                                    context,
+                                    CategoryProfessionalServiceSection
+                                        .routeName,
+                                  );
+                                },
+                                child: Column(
+                                  children: [
+                                    Container(
+                                      height: 60,
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(
+                                          10,
+                                        ),
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                          image: NetworkImage(
+                                            state.professionalServiceModel
+                                              ?.result?[index2].images?.length == 0 ? kHomaaleImg :
+                                            state.professionalServiceModel
+                                                ?.result![index2].images?.first.media ?? kHomaaleImg,
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                    Flexible(
+                                      child: AutoSizeText(
+                                        state.professionalServiceModel
+                                                ?.result?[index2].title ??
+                                            "",
+                                        overflow: TextOverflow.ellipsis,
+                                        minFontSize: 14,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              itemCount: state.professionalServiceModel
+                                      ?.result?.length ??
+                                  0,
+                              padding: EdgeInsets.zero,
+                              shrinkWrap: true,
+                              physics: NeverScrollableScrollPhysics(),
                             ),
                           ),
                         ),

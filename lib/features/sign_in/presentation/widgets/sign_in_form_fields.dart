@@ -106,7 +106,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                     },
                   ),
                   textInputType: TextInputType.emailAddress,
-                  hintText: 'sample@gmail.com',
+                  hintText: 'Enter email address',
                   validator: validateNotEmpty,
                 ),
               );

@@ -91,7 +91,7 @@ class _SignUpPageState extends State<SignUpPage> {
         );
       }
     }
-    return const LinearProgressIndicator();
+    return const CardLoading(height: 700);
   }
 
   Future signUpSuccessDialogBox(BuildContext context, SignUpState state) {
