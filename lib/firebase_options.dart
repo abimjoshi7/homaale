@@ -59,11 +59,11 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyDBmuazqeTsM8rbZ2pC5QgUmRO55s-IXls',
-    appId: '1:17609084275:ios:c1a45a99c6d11116bc8906',
+    appId: '1:17609084275:ios:fc28fcb85b046f3cbc8906',
     messagingSenderId: '17609084275',
     projectId: 'homaale-c945b',
     storageBucket: 'homaale-c945b.appspot.com',
-    iosClientId: '17609084275-90tc6mevtdvtq9d2hblnpfhr2s7jgv5a.apps.googleusercontent.com',
-    iosBundleId: 'com.cagtu.cipher',
+    iosClientId: '17609084275-vlph7khhe2idnpef70rjbsourdoomtbq.apps.googleusercontent.com',
+    iosBundleId: 'com.cagtu.homaale',
   );
 }

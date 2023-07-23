@@ -79,6 +79,20 @@ class Cipher extends StatelessWidget {
   const Cipher({super.key});
 
   @override
+<<<<<<< Updated upstream
+=======
+  State<Cipher> createState() => _CipherState();
+}
+
+class _CipherState extends State<Cipher> {
+  @override
+  void initState() {
+    super.initState();
+    // FirebaseAppMessaging.initNotification(context);
+  }
+
+  @override
+>>>>>>> Stashed changes
   Widget build(BuildContext context) {
     return RepositoryProvider(
       create: (context) => SupportHelpRepositories()..getHelpTopicList(),

@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:cipher/core/app/initial_data_fetch.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -21,6 +23,8 @@ class GoogleSignInCubit extends Cubit<GoogleSignInState> {
 
   Future<void> signIn(BuildContext context) async {
     try {
+      print(123);
+      log("123456");
       emit(
         state.copyWith(
           states: TheStates.loading,
@@ -48,7 +52,7 @@ class GoogleSignInCubit extends Cubit<GoogleSignInState> {
         }
         emit(
           state.copyWith(
-            states: TheStates.loading,
+            states: TheStates.success,
             isLoggedIn: true,
           ),
         );
@@ -64,7 +68,12 @@ class GoogleSignInCubit extends Cubit<GoogleSignInState> {
         //   );
         // }
       }
+      print("Resultttttttt: $result");
+      print("authhltttttttt: ${authentication?.idToken} ${authentication?.accessToken}");
+
+      print("access token: ${CacheHelper.accessToken}");
     } catch (e) {
+      print(e.toString());
       emit(
         state.copyWith(
           states: TheStates.failure,
@@ -74,7 +83,7 @@ class GoogleSignInCubit extends Cubit<GoogleSignInState> {
       if (kDebugMode) {
         print('Google Sign-In Error');
       }
-      rethrow;
+      throw Exception("Google Sign In Error: $e");
     }
   }
 
