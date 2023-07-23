@@ -57,7 +57,7 @@ class ListTileComponent extends StatelessWidget {
           children: [
             if (statusTitle == "status completed" || statusTitle == "rejected")
               TextButton(
-                onPressed: () {},
+                onPressed: () {}, 
                 child: const Text(
                   "Browse New Task",
                   style: TextStyle(color: Colors.blue),
