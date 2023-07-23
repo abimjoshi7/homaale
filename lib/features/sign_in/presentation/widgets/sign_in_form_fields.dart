@@ -26,19 +26,13 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
   bool keepLogged = false;
   bool isObscure = true;
 
-<<<<<<< Updated upstream
-=======
   String? fcmToken;
 
->>>>>>> Stashed changes
   @override
   void initState() {
     super.initState();
     initLoginDetails();
-<<<<<<< Updated upstream
-=======
     // initFcmToken();
->>>>>>> Stashed changes
     context.read<SignInBloc>().add(SignInWithPhoneSelected());
   }
 
@@ -373,10 +367,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                                 userLoginReq: UserLoginReq(
                                   username: usernameController.text,
                                   password: emailPasswordController.text,
-<<<<<<< Updated upstream
-=======
                                   fcmToken: fcmToken,
->>>>>>> Stashed changes
                                 ),
                               ),
                             );

@@ -75,12 +75,10 @@ import '../../features/support/presentation/bloc/support_ticket_type_options_blo
 import '../../features/theme/presentation/bloc/theme_state.dart';
 import '../../features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
 
-class Cipher extends StatelessWidget {
+class Cipher extends StatefulWidget {
   const Cipher({super.key});
 
   @override
-<<<<<<< Updated upstream
-=======
   State<Cipher> createState() => _CipherState();
 }
 
@@ -92,7 +90,6 @@ class _CipherState extends State<Cipher> {
   }
 
   @override
->>>>>>> Stashed changes
   Widget build(BuildContext context) {
     return RepositoryProvider(
       create: (context) => SupportHelpRepositories()..getHelpTopicList(),

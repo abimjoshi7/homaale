@@ -109,17 +109,6 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
                         heading: 'Success',
                         content: 'Booking is successful',
                         onTap: () async {
-                          final chatBloc = locator<ChatBloc>();
-                          chatBloc.add(HandleUserCreationChat(
-                            userID: context
-                                .read<UserBloc>()
-                                .state
-                                .taskerProfile
-                                ?.user
-                                ?.id,
-                            taskerID: state.taskEntityService.createdBy?.id,
-                          ));
-
                           await CacheHelper.clearCachedData(kBookedMap)
                               .whenComplete(
                             () {

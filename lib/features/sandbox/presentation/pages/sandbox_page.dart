@@ -1,12 +1,9 @@
 // ignore_for_file: avoid_print
 
 import 'dart:developer';
-import 'dart:io';
 
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/helpers/compress_helper.dart';
-import 'package:cipher/core/image_picker/image_pick_helper.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/repositories/booking_repositories.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
@@ -16,6 +13,7 @@ import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
 import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
 import 'package:cipher/features/task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/data/repositories/utilities_repositories.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
 import 'package:cipher/locator.dart';
@@ -48,8 +46,6 @@ class _SandboxPageState extends State<SandboxPage> {
 
   @override
   Widget build(BuildContext context) {
-    final kWidth = MediaQuery.of(context).size.width;
-    final kHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       appBar: CustomAppBar(
         appBarTitle: "Sandbox",
@@ -58,15 +54,6 @@ class _SandboxPageState extends State<SandboxPage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Center(
-              child: CustomElevatedButton(
-                callback: () {
-                  log("Access: ${CacheHelper.accessToken}");
-                  log("Refresh: ${CacheHelper.refreshToken}");
-                },
-                label: 'Get Token',
-              ),
-            ),
             kHeight20,
             Center(
               child: BlocBuilder<SignInBloc, SignInState>(
@@ -75,42 +62,24 @@ class _SandboxPageState extends State<SandboxPage> {
                     callback: () async {
                       if (state.theStates == TheStates.success) {
                         print(state.userLoginRes?.toJson());
-                        // log(
-                        //   state.user.user!.toJson().toString(),
-                        // );
                       }
                     },
-                    label: 'Get User Data',
+                    label: 'Get Token',
                   );
                 },
               ),
             ),
             kHeight20,
-            CustomMultimedia(
-              bloc: bloc,
-            ),
-            // Center(
-            //   child: CustomElevatedButton(
-            //     callback: () async {
-            //       final image = await CompressHelper().compressFileAsync(
-            //         bloc.state.imageFileList.last,
-            //       );
-            //       print(image.lengthSync());
-            //     },
-            //     label: 'Compress Image',
-            //   ),
-            // ),
-            kHeight20,
             Center(
-              child: CustomElevatedButton(
-                callback: () async {
-                  final x = context
-                      .read<TaskEntityServiceBloc>()
-                      .state
-                      .taskEntityServiceModel;
-                  log(x.result!.first.id!);
+              child: BlocBuilder<UserBloc, UserState>(
+                builder: (context, state) {
+                  return CustomElevatedButton(
+                    callback: () {
+                      print(state.taskerProfile?.toJson());
+                    },
+                    label: 'Get User Info',
+                  );
                 },
-                label: 'View Task Entity Services',
               ),
             ),
             kHeight20,

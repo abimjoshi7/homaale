@@ -9,13 +9,7 @@ import 'package:flutter/material.dart';
 void main() async {
   final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
 
-<<<<<<< Updated upstream
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-=======
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
->>>>>>> Stashed changes
 
   FlutterNativeSplash.preserve(
     widgetsBinding: widgetsBinding,
