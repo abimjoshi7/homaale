@@ -2,7 +2,6 @@ import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/offers/data/repositories/offer_repository.dart';
 import 'package:cipher/features/offers/presentation/bloc/offers_bloc.dart';
 import 'package:cipher/features/offers/presentation/widgets/offer_card.dart';
-import 'package:cipher/widgets/custom_app_bar.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -32,7 +31,7 @@ class OffersPageMainView extends StatefulWidget {
 
 class _OffersPageMainViewState extends State<OffersPageMainView>
     with SingleTickerProviderStateMixin {
-  late TabController _tabController;
+  // late TabController _tabController;
 
   @override
   void initState() {
