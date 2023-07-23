@@ -94,190 +94,113 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
       },
       builder: (context, state) {
         Widget buildForm() {
-          if (state.theStates == TheStates.initial) {
-            if (!state.isPhoneNumber) {
-              return CustomFormField(
-                label: 'Email',
-                child: CustomTextFormField(
-                  controller: usernameController,
-                  onSaved: (p0) => setState(
-                    () {
-                      usernameController.text = p0!;
-                    },
-                  ),
-                  textInputType: TextInputType.emailAddress,
-                  hintText: 'sample@gmail.com',
-                  validator: validateNotEmpty,
+          // if (state.theStates == TheStates.initial) {
+          if (!state.isPhoneNumber) {
+            return CustomFormField(
+              label: 'Email',
+              child: CustomTextFormField(
+                controller: usernameController,
+                onSaved: (p0) => setState(
+                  () {
+                    usernameController.text = p0!;
+                  },
                 ),
-              );
-            }
-            if (state.isPhoneNumber) {
-              return CustomFormField(
-                label: 'Phone',
-                child: Container(
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      CustomTextFormField(
-                        theWidth: MediaQuery.of(context).size.width * 0.88,
-                        controller: phoneNumberController,
-                        validator: validateNotEmpty,
-                        onSaved: (p0) => setState(
-                          () => phoneNumberController.text = p0!,
-                        ),
-                        textInputType: TextInputType.number,
-                        inputFormatters: <TextInputFormatter>[
-                          FilteringTextInputFormatter.digitsOnly
-                        ],
-                        hintText: 'Mobile Number',
-                        prefixWidget: InkWell(
-                          onTap: () {},
-                          child: Padding(
-                            padding: const EdgeInsets.all(8),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Image.asset('assets/nepalflag.png'),
-                                const Text(
-                                  '+977',
-                                  style: kBodyText1,
-                                ),
-                                Icon(Icons.arrow_drop_down)
-                              ],
-                            ),
+                textInputType: TextInputType.emailAddress,
+                hintText: 'sample@gmail.com',
+                validator: validateNotEmpty,
+              ),
+            );
+          }
+          if (state.isPhoneNumber) {
+            return CustomFormField(
+              label: 'Phone',
+              child: Container(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    CustomTextFormField(
+                      theWidth: MediaQuery.of(context).size.width * 0.88,
+                      controller: phoneNumberController,
+                      validator: validateNotEmpty,
+                      onSaved: (p0) => setState(
+                        () => phoneNumberController.text = p0!,
+                      ),
+                      textInputType: TextInputType.number,
+                      inputFormatters: <TextInputFormatter>[
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
+                      hintText: 'Mobile Number',
+                      prefixWidget: InkWell(
+                        onTap: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.all(8),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset('assets/nepalflag.png'),
+                              const Text(
+                                '+977',
+                                style: kBodyText1,
+                              ),
+                              Icon(Icons.arrow_drop_down)
+                            ],
                           ),
                         ),
                       ),
-                      // addHorizontalSpace(MediaQuery.of(context).size.width * 0.01),
-                      // GetDevicePhoneNumberButton(
-                      //   onTap: () => null,
-                      // ),
-                    ],
-                  ),
+                    ),
+                    // addHorizontalSpace(MediaQuery.of(context).size.width * 0.01),
+                    // GetDevicePhoneNumberButton(
+                    //   onTap: () => null,
+                    // ),
+                  ],
                 ),
-              );
-            }
+              ),
+            );
+            // }
           }
 
           return const SizedBox();
         }
 
         Widget buildPasswordField() {
-          if (state.theStates == TheStates.initial) {
-            return CustomFormField(
-              label: 'Password',
-              child: CustomTextFormField(
-                theWidth: MediaQuery.of(context).size.width * 0.88,
-                controller: state.isPhoneNumber
-                    ? phonePasswordController
-                    : emailPasswordController,
-                obscureText: isObscure,
-                suffixWidget: InkWell(
-                  onTap: () {
-                    setState(
-                      () {
-                        isObscure = !isObscure;
-                      },
-                    );
-                  },
-                  child: Icon(
-                    color: kColorPrimary,
-                    isObscure
-                        ? Icons.visibility_rounded
-                        : Icons.visibility_off_rounded,
-                  ),
+          // if (state.theStates == TheStates.initial) {
+          return CustomFormField(
+            label: 'Password',
+            child: CustomTextFormField(
+              theWidth: MediaQuery.of(context).size.width * 0.88,
+              controller: state.isPhoneNumber
+                  ? phonePasswordController
+                  : emailPasswordController,
+              obscureText: isObscure,
+              suffixWidget: InkWell(
+                onTap: () {
+                  setState(
+                    () {
+                      isObscure = !isObscure;
+                    },
+                  );
+                },
+                child: Icon(
+                  color: kColorPrimary,
+                  isObscure
+                      ? Icons.visibility_rounded
+                      : Icons.visibility_off_rounded,
                 ),
-                onSaved: (p0) => setState(
-                  () {
-                    state.isPhoneNumber
-                        ? phonePasswordController.text = p0!
-                        : emailPasswordController.text = p0!;
-                  },
-                ),
-                hintText: 'Enter your password here',
-                hintStyle: Theme.of(context).textTheme.bodySmall,
-                validator: validateNotEmpty,
               ),
-            );
-          }
-          return CustomLoader();
-        }
-
-        Widget loginButton() {
-          if (state.theStates == TheStates.initial) {
-            return CustomElevatedButton(
-              callback: () async {
-                if (_formKey.currentState!.validate()) {
-                  _formKey.currentState!.save();
-
-                  //setting validation error status
-                  // state.copyWith(hasValidationErrors: false);
-
-                  if (keepLogged) {
-                    CacheHelper.setCachedString(
-                      kUserPhone,
-                      phoneNumberController.text,
-                    );
-                    CacheHelper.setCachedString(
-                      kUserPhonePass,
-                      phonePasswordController.text,
-                    );
-                    CacheHelper.setCachedString(
-                      kUserEmailPass,
-                      emailPasswordController.text,
-                    );
-                    CacheHelper.setCachedString(
-                      kUsermail,
-                      usernameController.text,
-                    );
-                    CacheHelper.setCachedString(
-                      kRememberCreds,
-                      'true',
-                    );
-                  } else {
-                    CacheHelper.clearCachedData(kUsermail);
-                    CacheHelper.clearCachedData(kUserPhone);
-                    CacheHelper.clearCachedData(kUserPhonePass);
-                    CacheHelper.clearCachedData(kUserEmailPass);
-                    CacheHelper.clearCachedData(kRememberCreds);
-                  }
-
-                  if (state.theStates == TheStates.initial) {
-                    if (state.isPhoneNumber) {
-                      context.read<SignInBloc>().add(
-                            SignInWithPhoneInitiated(
-                              userLoginReq: UserLoginReq(
-                                username: '+977${phoneNumberController.text}',
-                                password: phonePasswordController.text,
-                              ),
-                            ),
-                          );
-                    }
-                    if (!state.isPhoneNumber) {
-                      context.read<SignInBloc>().add(
-                            SignInWithEmailInitiated(
-                              userLoginReq: UserLoginReq(
-                                username: usernameController.text,
-                                password: emailPasswordController.text,
-                              ),
-                            ),
-                          );
-                    }
-                  }
-                }
-                //setting validation error status to true
-                else {
-                  if (state.theStates == TheStates.initial) {
-                    context
-                        .read<SignInBloc>()
-                        .add(SignInValErrorStatusChanged());
-                  }
-                }
-              },
-              label: 'Login',
-            );
-          }
-          return CustomLoader();
+              onSaved: (p0) => setState(
+                () {
+                  state.isPhoneNumber
+                      ? phonePasswordController.text = p0!
+                      : emailPasswordController.text = p0!;
+                },
+              ),
+              hintText: 'Enter your password here',
+              hintStyle: Theme.of(context).textTheme.bodySmall,
+              validator: validateNotEmpty,
+            ),
+          );
+          // }
+          // return CustomLoader();
         }
 
         return Form(
@@ -322,78 +245,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                 ],
               ),
               addVerticalSpace(MediaQuery.of(context).size.height * 0.020),
-              CustomElevatedButton(
-                callback: () async {
-                  if (_formKey.currentState!.validate()) {
-                    _formKey.currentState!.save();
-
-                    //setting validation error status
-                    // state.copyWith(hasValidationErrors: false);
-
-                    if (keepLogged) {
-                      CacheHelper.setCachedString(
-                        kUserPhone,
-                        phoneNumberController.text,
-                      );
-
-                      CacheHelper.setCachedString(
-                        kUserPhonePass,
-                        phonePasswordController.text,
-                      );
-                      CacheHelper.setCachedString(
-                        kUserEmailPass,
-                        emailPasswordController.text,
-                      );
-                      CacheHelper.setCachedString(
-                        kUsermail,
-                        usernameController.text,
-                      );
-                      CacheHelper.setCachedString(
-                        kRememberCreds,
-                        'true',
-                      );
-                    } else {
-                      CacheHelper.clearCachedData(kUsermail);
-                      CacheHelper.clearCachedData(kUserPhone);
-                      CacheHelper.clearCachedData(kUserPhonePass);
-                      CacheHelper.clearCachedData(kUserEmailPass);
-                      CacheHelper.clearCachedData(kRememberCreds);
-                    }
-
-                    if (state.theStates == TheStates.initial) {
-                      if (state.isPhoneNumber) {
-                        context.read<SignInBloc>().add(
-                              SignInWithPhoneInitiated(
-                                userLoginReq: UserLoginReq(
-                                  username: '+977${phoneNumberController.text}',
-                                  password: phonePasswordController.text,
-                                ),
-                              ),
-                            );
-                      }
-                      if (!state.isPhoneNumber) {
-                        context.read<SignInBloc>().add(
-                              SignInWithEmailInitiated(
-                                userLoginReq: UserLoginReq(
-                                  username: usernameController.text,
-                                  password: emailPasswordController.text,
-                                ),
-                              ),
-                            );
-                      }
-                    }
-                  }
-                  //setting validation error status to true
-                  else {
-                    if (state.theStates == TheStates.initial) {
-                      context
-                          .read<SignInBloc>()
-                          .add(SignInValErrorStatusChanged());
-                    }
-                  }
-                },
-                label: 'Login',
-              ),
+              loginButton(state, context),
               addVerticalSpace(8.0),
               if (state.theStates == TheStates.initial)
                 CustomTextButton(
@@ -417,6 +269,82 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
         );
       },
     );
+  }
+
+  Widget loginButton(SignInState state, BuildContext context) {
+    if (state.theStates == TheStates.initial) {
+      return CustomElevatedButton(
+        callback: () async {
+          if (_formKey.currentState!.validate()) {
+            _formKey.currentState!.save();
+
+            //setting validation error status
+            // state.copyWith(hasValidationErrors: false);
+
+            if (keepLogged) {
+              CacheHelper.setCachedString(
+                kUserPhone,
+                phoneNumberController.text,
+              );
+
+              CacheHelper.setCachedString(
+                kUserPhonePass,
+                phonePasswordController.text,
+              );
+              CacheHelper.setCachedString(
+                kUserEmailPass,
+                emailPasswordController.text,
+              );
+              CacheHelper.setCachedString(
+                kUsermail,
+                usernameController.text,
+              );
+              CacheHelper.setCachedString(
+                kRememberCreds,
+                'true',
+              );
+            } else {
+              CacheHelper.clearCachedData(kUsermail);
+              CacheHelper.clearCachedData(kUserPhone);
+              CacheHelper.clearCachedData(kUserPhonePass);
+              CacheHelper.clearCachedData(kUserEmailPass);
+              CacheHelper.clearCachedData(kRememberCreds);
+            }
+
+            if (state.theStates == TheStates.initial) {
+              if (state.isPhoneNumber) {
+                context.read<SignInBloc>().add(
+                      SignInWithPhoneInitiated(
+                        userLoginReq: UserLoginReq(
+                          username: '+977${phoneNumberController.text}',
+                          password: phonePasswordController.text,
+                        ),
+                      ),
+                    );
+              }
+              if (!state.isPhoneNumber) {
+                context.read<SignInBloc>().add(
+                      SignInWithEmailInitiated(
+                        userLoginReq: UserLoginReq(
+                          username: usernameController.text,
+                          password: emailPasswordController.text,
+                        ),
+                      ),
+                    );
+              }
+            }
+          }
+          //setting validation error status to true
+          else {
+            if (state.theStates == TheStates.initial) {
+              context.read<SignInBloc>().add(SignInValErrorStatusChanged());
+            }
+          }
+        },
+        label: 'Login',
+      );
+    }
+    return CustomLoader();
   }
 
   @override
