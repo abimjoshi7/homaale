@@ -126,7 +126,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
         builder: (context, state) {
           switch (state.theState) {
             case TheStates.initial:
-              return const Center(child: LinearProgressIndicator());
+              return const Center(child: CardLoading(height: 700));
             case TheStates.success:
               return Column(
                 children: <Widget>[

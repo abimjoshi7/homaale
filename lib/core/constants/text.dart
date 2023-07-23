@@ -136,7 +136,7 @@ const kText14 = TextStyle(
   // fontWeight: FontWeight.w500,
 );
 const kText14dark = TextStyle(
-  fontSize: 14,
+  fontSize: 16,
   color: Colors.white,
   // fontWeight: FontWeight.w500,
 );

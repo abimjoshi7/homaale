@@ -27,7 +27,7 @@ class ServiceCard extends StatelessWidget {
     this.isRange = false,
     this.isBookmarked = false,
     this.isOwner = false,
-    this.theHeight = 250,
+    this.theHeight ,
   }) : super(key: key);
 
   final String? title;
@@ -48,7 +48,7 @@ class ServiceCard extends StatelessWidget {
   final bool? isRange;
   final bool? isBookmarked;
   final bool isOwner;
-  final double theHeight;
+  final double? theHeight;
 
   @override
   Widget build(BuildContext context) {
@@ -63,6 +63,7 @@ class ServiceCard extends StatelessWidget {
           child: Card(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Expanded(
                   child: Container(
@@ -71,14 +72,14 @@ class ServiceCard extends StatelessWidget {
                         image: NetworkImage(
                           imagePath ?? kHomaaleImg,
                         ),
-                        fit: BoxFit.fitHeight,
+                        fit: BoxFit.fill,
                       ),
                     ),
                   ),
                 ),
                 Expanded(
                   child: Padding(
-                    padding: const EdgeInsets.all(5.0),
+                    padding: const EdgeInsets.all(10.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,6 +91,8 @@ class ServiceCard extends StatelessWidget {
                           style: Theme.of(context).textTheme.titleMedium,
                           overflow: TextOverflow.ellipsis,
                         ),
+                        addVerticalSpace(10),
+
                         Row(
                           children: [
                             CircleAvatar(
@@ -122,7 +125,7 @@ class ServiceCard extends StatelessWidget {
                         //   description ?? '',
                         //   overflow: TextOverflow.ellipsis,
                         // ),
-                        addVerticalSpace(5),
+                        addVerticalSpace(10),
                         ConstrainedBox(
                           constraints: BoxConstraints(
                             minWidth: 120,
@@ -134,6 +137,7 @@ class ServiceCard extends StatelessWidget {
                               Flexible(
                                 child: IconText(
                                   label: location ?? 'Remote',
+                                  style: Theme.of(context).textTheme.bodySmall,
                                   iconData: Icons.location_on_outlined,
                                   color: kColorPink,
                                   size: 13,
@@ -142,6 +146,7 @@ class ServiceCard extends StatelessWidget {
                             ],
                           ),
                         ),
+                        addVerticalSpace(5),
                         ConstrainedBox(
                           constraints: BoxConstraints(
                             minWidth: 120,
@@ -154,6 +159,8 @@ class ServiceCard extends StatelessWidget {
                                 Flexible(
                                   child: IconText(
                                     label: '$bookedCount Booked',
+                                    style: Theme.of(context).textTheme.bodySmall,
+
                                     iconData: Icons.people,
                                     size: 13,
                                   ),
@@ -161,12 +168,16 @@ class ServiceCard extends StatelessWidget {
                             ],
                           ),
                         ),
+                        addVerticalSpace(5),
                         Flexible(
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Flexible(
                                 child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Flexible(
                                         child: isOwner
@@ -194,7 +205,7 @@ class ServiceCard extends StatelessWidget {
                                         //     ),
                                         //   ),
                                         ),
-                                    addHorizontalSpace(8),
+                                    addHorizontalSpace(12),
                                     Flexible(
                                       child: IconButton(
                                         padding: EdgeInsets.zero,
