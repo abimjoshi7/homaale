@@ -50,22 +50,29 @@ void init() {
     () => TaskEntityServiceRepository(),
   );
   locator.registerLazySingleton<KycRepositories>(() => KycRepositories());
-  locator.registerLazySingleton<CategoriesRepositories>(() => CategoriesRepositories());
+  locator.registerLazySingleton<CategoriesRepositories>(
+      () => CategoriesRepositories());
   locator.registerLazySingleton<ChatRepository>(() => ChatRepository());
   locator.registerLazySingleton<SavedRepository>(() => SavedRepository());
-  locator.registerLazySingleton<NotificationRepositories>(() => NotificationRepositories());
+  locator.registerLazySingleton<NotificationRepositories>(
+      () => NotificationRepositories());
   locator.registerLazySingleton<UploadRepository>(() => UploadRepository());
-  locator.registerLazySingleton<RatingReviewsRepositroy>(() => RatingReviewsRepositroy());
-  locator.registerLazySingleton<TransactionRepository>(() => TransactionRepository());
+  locator.registerLazySingleton<RatingReviewsRepositroy>(
+      () => RatingReviewsRepositroy());
+  locator.registerLazySingleton<TransactionRepository>(
+      () => TransactionRepository());
   locator.registerLazySingleton<BankRepository>(() => BankRepository());
   locator.registerLazySingleton<RedeemRepositories>(() => RedeemRepositories());
-  locator.registerLazySingleton<MarketingRepository>(() => MarketingRepository());
+  locator
+      .registerLazySingleton<MarketingRepository>(() => MarketingRepository());
   locator.registerLazySingleton<SearchRepository>(() => SearchRepository());
   locator.registerLazySingleton<SignInRepository>(() => SignInRepository());
 
   //bloc
-  locator.registerFactory<TaskEntityServiceBloc>(() => TaskEntityServiceBloc(locator()));
-  locator.registerFactory<TaskBloc>(() => TaskBloc(TaskEntityServiceRepository()));
+  locator.registerFactory<TaskEntityServiceBloc>(
+      () => TaskEntityServiceBloc(locator()));
+  locator
+      .registerFactory<TaskBloc>(() => TaskBloc(TaskEntityServiceRepository()));
   locator.registerFactory<ServicesBloc>(() => ServicesBloc());
   locator.registerFactory<TaskerCubit>(() => TaskerCubit());
   locator.registerFactory<UserBloc>(() => UserBloc());
@@ -77,18 +84,22 @@ void init() {
   locator.registerFactory<ChatBloc>(() => ChatBloc(chatRepository: locator()));
   locator.registerFactory<KycBloc>(() => KycBloc(locator()));
   locator.registerFactory<CategoriesBloc>(() => CategoriesBloc(locator()));
-  locator.registerFactory<SavedBloc>(() => SavedBloc(savedRepository: locator()));
+  locator
+      .registerFactory<SavedBloc>(() => SavedBloc(savedRepository: locator()));
   locator.registerFactory<OrderItemRetriveBloc>(() => OrderItemRetriveBloc());
   locator.registerFactory<ImageUploadCubit>(() => ImageUploadCubit());
   locator.registerFactory<GoogleSignInCubit>(() => GoogleSignInCubit(
         locator(),
         locator(),
       ));
-  locator.registerFactory<NotificationBloc>(() => NotificationBloc(repo: locator()));
+  locator.registerFactory<NotificationBloc>(
+      () => NotificationBloc(repo: locator()));
   locator.registerFactory<UploadBloc>(() => UploadBloc(locator()));
-  locator.registerFactory<RatingReviewsBloc>(() => RatingReviewsBloc(locator()));
+  locator
+      .registerFactory<RatingReviewsBloc>(() => RatingReviewsBloc(locator()));
   locator.registerFactory<TransactionBloc>(() => TransactionBloc(locator()));
-  locator.registerFactory<BillsPaymentBloc>(() => BillsPaymentBloc(bankRepository: locator()));
+  locator.registerFactory<BillsPaymentBloc>(
+      () => BillsPaymentBloc(bankRepository: locator()));
   locator.registerFactory<RedeemBloc>(() => RedeemBloc(locator()));
   locator.registerFactory<ScrollBloc>(() => ScrollBloc());
   locator.registerFactory<BookEventHandlerBloc>(() => BookEventHandlerBloc());
@@ -102,12 +113,21 @@ void init() {
 
   // google sign in
   final googleSignIn = GoogleSignIn(
-    scopes: ['openid', 'email', 'profile'],
-    // clientId: "245846975950-ukpkm9snp47odn4pjunlv0775n9hbfj1.apps.googleusercontent.com",
-    // clientId: "245846975950-cf39er49lib7g9ja6cg53ihpcvjdjm5u.apps.googleusercontent.com",
-    // serverClientId: "245846975950-o8vg401tkmt8nfm26751qqjjrb5sgpp4.apps.googleusercontent.com",
+    scopes: [
+      'openid',
+      'email',
+      'profile',
+      'https://www.googleapis.com/auth/contacts.readonly',
+      "https://www.googleapis.com/auth/userinfo.profile",
+    ],
+
+    // abim's device sha1
+    serverClientId:
+        "245846975950-n01ubiqa03i5k65fthjhqt7m48pph0v3.apps.googleusercontent.com",
+
+    // * web client id
     // serverClientId:
-    //     "245846975950-b369pvp6e4ra8bi7g0s1ofs39vfleqsg.apps.googleusercontent.com",
+    //     "245846975950-vucoc2e1cmeielq5f5neoca7880n0u2i.apps.googleusercontent.com",
   );
 
   locator.registerLazySingleton<GoogleSignIn>(() => googleSignIn);

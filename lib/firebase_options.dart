@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '17609084275',
     projectId: 'homaale-c945b',
     storageBucket: 'homaale-c945b.appspot.com',
-    iosClientId: '17609084275-vlph7khhe2idnpef70rjbsourdoomtbq.apps.googleusercontent.com',
-    iosBundleId: 'com.cagtu.homaale',
+    iosClientId:
+        '17609084275-vlph7khhe2idnpef70rjbsourdoomtbq.apps.googleusercontent.com',
+    iosBundleId: 'com.cagtu.cipher',
   );
 }

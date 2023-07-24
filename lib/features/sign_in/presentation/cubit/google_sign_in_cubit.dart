@@ -24,54 +24,71 @@ class GoogleSignInCubit extends Cubit<GoogleSignInState> {
   Future<void> signIn(BuildContext context) async {
     try {
       print(123);
-      log("123456");
       emit(
         state.copyWith(
           states: TheStates.loading,
         ),
       );
+      await _googleSignIn.signIn().then((result) {
+        result?.authentication.then((googleKey) {
+          print(googleKey.accessToken);
+          print(googleKey.idToken);
+          print(_googleSignIn.currentUser?.displayName);
+        }).catchError((err) {
+          print('inner error:$err');
+        });
+      }).catchError((err) {
+        print('error occured:$err');
+      });
 
-      final result = await _googleSignIn.signIn();
-      final authentication = await result?.authentication;
-      if (authentication?.idToken != null) {
-        final idToken = authentication!.idToken;
-        final x = await repository.sendGoogleLoginReq({'credential': idToken});
-        if (x.access != null) {
-          CacheHelper.hasProfile = x.hasProfile;
-          CacheHelper.accessToken = x.access;
-          CacheHelper.refreshToken = x.refresh;
-          CacheHelper.isLoggedIn = true;
+      // await _googleSignIn.signIn().then((value) async {
+      //   print(value);
+      //   print(await value?.authHeaders);
+      //   if (value != null)
+      //     await value.authentication.then((value) async {
+      //       if (value.idToken != null) {
+      //         print(value.idToken);
+      //       } else {
+      //         _googleSignIn.signIn();
+      //       }
+      //     });
+      //   // await value?.authentication.then(
+      //   //   (value) {
+      //   //     print(
+      //   //       value.accessToken,
+      //   //     );
+      //   //     print(
+      //   //       value.idToken,
+      //   //     );
+      //   //   },
+      //   // );
+      //   // print("access token: ${CacheHelper.accessToken}");
+      // });
+      // final authentication = await result?.authentication;
+      // if (authentication?.idToken != null) {
+      //   final idToken = authentication!.idToken;
+      //   final x = await repository.sendGoogleLoginReq({'credential': idToken});
+      //   if (x.access != null) {
+      //     CacheHelper.hasProfile = x.hasProfile;
+      //     CacheHelper.accessToken = x.access;
+      //     CacheHelper.refreshToken = x.refresh;
+      //     CacheHelper.isLoggedIn = true;
 
-          // fetch user details
-          if (CacheHelper.hasProfile ?? false) {
-            userDetailsFetch(context);
-          }
+      //     // fetch user details
+      //     if (CacheHelper.hasProfile ?? false) {
+      //       userDetailsFetch(context);
+      //     }
 
-          // fetch data for app
-          fetchDataForForms(context);
-        }
-        emit(
-          state.copyWith(
-            states: TheStates.success,
-            isLoggedIn: true,
-          ),
-        );
-        // else {
-        //   setState(() {
-        //     isLoading = false;
-        //   });
-        //   if (!mounted) return;
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //     const SnackBar(
-        //       content: Text('Cannot Sign in. Please try again'),
-        //     ),
-        //   );
-        // }
-      }
-      print("Resultttttttt: $result");
-      print("authhltttttttt: ${authentication?.idToken} ${authentication?.accessToken}");
-
-      print("access token: ${CacheHelper.accessToken}");
+      //     // fetch data for app
+      //     fetchDataForForms(context);
+      //   }
+      //   emit(
+      //     state.copyWith(
+      //       states: TheStates.success,
+      //       isLoggedIn: true,
+      //     ),
+      //   );
+      // }
     } catch (e) {
       print(e.toString());
       emit(
