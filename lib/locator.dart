@@ -116,8 +116,7 @@ void init() {
     // "17609084275-e487e29j6r0ncqo0qv18lfcdqti1l565.apps.googleusercontent.com"
 
     // * web client id
-    // serverClientId:
-    //     "245846975950-vucoc2e1cmeielq5f5neoca7880n0u2i.apps.googleusercontent.com",
+    serverClientId: "245846975950-vucoc2e1cmeielq5f5neoca7880n0u2i.apps.googleusercontent.com",
   );
 
   locator.registerLazySingleton<GoogleSignIn>(() => googleSignIn);
