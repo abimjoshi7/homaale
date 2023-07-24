@@ -78,8 +78,8 @@ class SignInScaffold extends StatelessWidget {
                       ),
                     ),
                     SizedBox(
-                      height: MediaQuery.of(context).size.width * 0.3,
-                      width: MediaQuery.of(context).size.width * 0.6,
+                      height: MediaQuery.of(context).size.width * 0.23,
+                      width: MediaQuery.of(context).size.width * 0.53,
                       child: Image.asset(
                         'assets/homaale_logo_title.png',
                         fit: BoxFit.contain,
@@ -101,7 +101,7 @@ class SignInScaffold extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Theme.of(context).appBarTheme.backgroundColor,
                         borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(100),
+                          topLeft: Radius.circular(73),
                         ),
                       ),
                       child: Padding(

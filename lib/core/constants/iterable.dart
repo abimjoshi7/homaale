@@ -409,7 +409,7 @@ Map<String, dynamic> getNotificationStatus(
       return {
         "color": kColorPrimary,
         "status": "Followed",
-        "message": "Your have followed $userName.",
+        "message": "You have followed $userName.",
         "has_assets": false,
       };
     case "status closed":

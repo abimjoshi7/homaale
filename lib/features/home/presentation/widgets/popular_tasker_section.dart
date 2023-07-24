@@ -2,10 +2,12 @@
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/bookings/data/models/my_booking_list_model.dart';
 import 'package:cipher/features/tasker/presentation/bloc/tasker_bloc.dart';
 import 'package:cipher/features/tasker/presentation/cubit/tasker_cubit.dart';
 import 'package:cipher/features/tasker/presentation/view/tasker.dart';
 import 'package:cipher/features/task/presentation/pages/popular_tasker_page_new.dart';
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -60,6 +62,13 @@ class PopularTaskerSection extends StatelessWidget {
                         );
                       },
                       child: TaskerCard(
+                        isOwner: data?[index].user?.id ==
+                            context
+                                .read<UserBloc>()
+                                .state
+                                .taskerProfile
+                                ?.user
+                                ?.id,
                         badgeImage: data?[index].badge?.image,
                         shareLinked:
                             '$kShareLinks/tasker/${data?[index].user?.id}',
