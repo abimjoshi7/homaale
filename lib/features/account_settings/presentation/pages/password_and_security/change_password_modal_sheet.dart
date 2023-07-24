@@ -2,6 +2,8 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/bloc/password_security_bloc.dart';
 import 'package:cipher/features/account_settings/presentation/pages/password_and_security/models/password_security.dart';
+import 'package:cipher/features/sign_in/presentation/bloc/sign_in_bloc.dart';
+import 'package:cipher/features/sign_in/presentation/pages/pages.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -423,12 +425,25 @@ class _AddPhoneNumberModalSheetState extends State<AddPhoneNumberModalSheet> {
               await showDialog(
                 context: context,
                 builder: (context) => CustomToast(
-                  heading: 'Go To Login',
+                  heading: 'Go To OTP Screen',
                   content:
                       'Kindly, Go to login page and Process through "Did not get OTP ?"',
-                  onTap: () {
-                    Navigator.pop(context);
-                    Navigator.pushNamed(context, SignInPage.routeName);
+                  onTap: () async {
+                    final googleSignIn = GoogleSignIn(
+                      scopes: ['openid', 'email', 'profile'],
+                      serverClientId:
+                          '245846975950-vucoc2e1cmeielq5f5neoca7880n0u2i.apps.googleusercontent.com',
+                    );
+                    await googleSignIn.signOut();
+                    context.read<SignInBloc>().add(
+                          SignOutInitiated(),
+                        );
+                    context.read<UserBloc>().add(UserCleared());
+                    await Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      ResendVerificationPage.routeName,
+                      (route) => false,
+                    );
                   },
                   isSuccess: true,
                 ),

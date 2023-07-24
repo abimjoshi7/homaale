@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/kyc_constants.dart';
@@ -285,7 +283,8 @@ class _AccountViewState extends State<AccountView> {
                     );
                   },
                   icon: const Icon(
-                    Icons.bookmark_border,color: kColorPink,
+                    Icons.bookmark_border,
+                    color: kColorPink,
                   ),
                   label: 'Saved',
                   trailingWidget: const Icon(
