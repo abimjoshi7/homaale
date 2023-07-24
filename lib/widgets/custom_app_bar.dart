@@ -37,7 +37,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
               color: Theme.of(context).appBarTheme.iconTheme?.color,
             ),
             onPressed: () => Navigator.pop(context),
-          ),
+          ), 
       actions: [
         trailingWidget ??
             IconButton(

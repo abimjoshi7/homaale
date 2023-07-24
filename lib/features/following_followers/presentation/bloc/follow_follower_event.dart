@@ -1,17 +1,17 @@
 part of 'follow_follower_bloc.dart';
 
-abstract class FollowFollwerEvent extends Equatable {
-  const FollowFollwerEvent();
+abstract class FollowFollowerEvent extends Equatable {
+  const FollowFollowerEvent();
 
   @override
   List<Object> get props => [];
 }
 
-class FetchFollowerEvent extends FollowFollwerEvent {}
+class FetchFollowerEvent extends FollowFollowerEvent {}
 
-class FetchFollowingEvent extends FollowFollwerEvent {}
+class FetchFollowingEvent extends FollowFollowerEvent {}
 
-class HandleUnfollowEvent extends FollowFollwerEvent {
+class HandleUnfollowEvent extends FollowFollowerEvent {
   final String id;
 
   HandleUnfollowEvent(this.id);

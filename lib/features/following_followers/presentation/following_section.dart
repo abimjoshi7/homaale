@@ -70,11 +70,9 @@ class _FollowingListState extends State<FollowingList> {
                       profileImg: state.followingList[index].profileImage,
                       showCallbackButton: true,
                       callBackLabel: 'Unfollow',
-                      callback: () {
-                        context.read<FollowFollowerBloc>().add(
+                      callback: () => context.read<FollowFollowerBloc>().add(
                             HandleUnfollowEvent(
-                                state.followingList[index].id!));
-                      },
+                                state.followingList[index].id!)),
                     ),
                   );
                 }
