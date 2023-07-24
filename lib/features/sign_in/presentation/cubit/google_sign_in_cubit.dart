@@ -29,41 +29,30 @@ class GoogleSignInCubit extends Cubit<GoogleSignInState> {
           states: TheStates.loading,
         ),
       );
-      await _googleSignIn.signIn().then((result) {
-        result?.authentication.then((googleKey) {
-          print(googleKey.accessToken);
-          print(googleKey.idToken);
-          print(_googleSignIn.currentUser?.displayName);
-        }).catchError((err) {
-          print('inner error:$err');
-        });
-      }).catchError((err) {
-        print('error occured:$err');
-      });
 
-      // await _googleSignIn.signIn().then((value) async {
-      //   print(value);
-      //   print(await value?.authHeaders);
-      //   if (value != null)
-      //     await value.authentication.then((value) async {
-      //       if (value.idToken != null) {
-      //         print(value.idToken);
-      //       } else {
-      //         _googleSignIn.signIn();
-      //       }
-      //     });
-      //   // await value?.authentication.then(
-      //   //   (value) {
-      //   //     print(
-      //   //       value.accessToken,
-      //   //     );
-      //   //     print(
-      //   //       value.idToken,
-      //   //     );
-      //   //   },
-      //   // );
-      //   // print("access token: ${CacheHelper.accessToken}");
-      // });
+      await _googleSignIn.signIn().then((value) async {
+        print(value);
+        print(await value?.authHeaders);
+        if (value != null)
+          await value.authentication.then((value) async {
+            if (value.idToken != null) {
+              print(value.idToken);
+            } else {
+              _googleSignIn.signIn();
+            }
+          });
+        // await value?.authentication.then(
+        //   (value) {
+        //     print(
+        //       value.accessToken,
+        //     );
+        //     print(
+        //       value.idToken,
+        //     );
+        //   },
+        // );
+        // print("access token: ${CacheHelper.accessToken}");
+      });
       // final authentication = await result?.authentication;
       // if (authentication?.idToken != null) {
       //   final idToken = authentication!.idToken;
