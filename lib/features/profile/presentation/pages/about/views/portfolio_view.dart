@@ -142,17 +142,15 @@ class _PortfolioViewState extends State<PortfolioView> {
                           ),
                         );
                       },
-                      onTap: () {
-                        showBottomSheet(
-                          constraints: const BoxConstraints(
-                            maxHeight: 800,
-                          ),
-                          context: context,
-                          builder: (context) => EditPortfolio(
-                            id: state.taskerPortfolioRes[index].id ?? 0,
-                          ),
-                        );
-                      },
+                      onTap: () => showBottomSheet(
+                        constraints: const BoxConstraints(
+                          maxHeight: 800,
+                        ),
+                        context: context,
+                        builder: (context) => EditPortfolio(
+                          id: state.taskerPortfolioRes[index].id ?? 0,
+                        ),
+                      ),
                       child: PortfolioCard(
                         islocalImage: false,
                         imagePath:

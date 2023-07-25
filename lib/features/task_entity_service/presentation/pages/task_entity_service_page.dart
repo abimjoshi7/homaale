@@ -458,15 +458,12 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
     );
   }
 
-  InkWell _buildEvent(TaskEntityServiceState state) {
-    return InkWell(
-      onTap: () {
-        print(state.taskEntityService.event);
-      },
-      child: EventSection(
-        taskEntityService: state.taskEntityService,
-      ),
-    );
+  Widget _buildEvent(TaskEntityServiceState state) {
+    return CacheHelper.isLoggedIn
+        ? EventSection(
+            taskEntityService: state.taskEntityService,
+          )
+        : SizedBox();
   }
 
   Visibility _buildPriceFooter(
