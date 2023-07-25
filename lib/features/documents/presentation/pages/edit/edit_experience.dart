@@ -1,7 +1,9 @@
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/features/account_settings/presentation/pages/profile/account_view.dart';
 import 'package:cipher/features/documents/data/models/tasker_experience_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/user/data/models/tasker_profile.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -54,7 +56,10 @@ class _EditExperienceState extends State<EditExperience> {
               onTap: () async {
                 context.read<TaskerExperienceCubit>().getTaskerExperience();
                 if (!mounted) return;
-                Navigator.pop(context);
+                Navigator.pushNamed(
+                  context,
+                  Profile.routeName,
+                );
               },
               isSuccess: true,
             ),
@@ -189,17 +194,17 @@ class _EditExperienceState extends State<EditExperience> {
                           },
                         ),
                       ),
-                      Row(
-                        children: [
-                          CustomCheckBox(
-                            onTap: () {},
-                            boxColor: const Color(0xff0693E3),
-                            isChecked: true,
-                          ),
-                          kWidth10,
-                          const Text('Save as location'),
-                        ],
-                      ),
+                      // Row(
+                      //   children: [
+                      //     CustomCheckBox(
+                      //       onTap: () {},
+                      //       boxColor: const Color(0xff0693E3),
+                      //       isChecked: true,
+                      //     ),
+                      //     kWidth10,
+                      //     const Text('Save as location'),
+                      //   ],
+                      // ),
                       kHeight20,
                       Row(
                         children: [
@@ -345,7 +350,7 @@ class _EditExperienceState extends State<EditExperience> {
                         );
                   }
                 },
-                label: 'Add',
+                label: 'Edit',
               ),
               kHeight50
             ],
