@@ -479,7 +479,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
         isNegotiable: state.taskEntityService.isNegotiable ?? false,
         buttonLabel: getStatus('', isService: true)["status"] as String,
         buttonColor: getStatus('')["color"] as Color,
-        price: state.taskEntityService.isRange!
+        price: state.taskEntityService.isRange ?? false
             ? "Rs. ${Decimal.parse(state.taskEntityService.payableFrom ?? '0.0')} - ${Decimal.parse(state.taskEntityService.payableTo ?? '0.0')}"
             : "Rs. ${Decimal.parse(state.taskEntityService.payableTo ?? '0.0')}",
         onPressed: () {
