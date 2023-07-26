@@ -28,6 +28,8 @@ import 'package:flutter/material.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
 
+import '../../../tasker/presentation/bloc/tasker_bloc.dart';
+
 class TaskEntityServicePage extends StatefulWidget {
   static const String routeName = '/task_entity_service_page';
   const TaskEntityServicePage({super.key});
