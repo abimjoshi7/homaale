@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/date_time_representation.dart';
 import 'package:cipher/core/helpers/cryptojs_aes_encryption_helper.dart';
-import 'package:cipher/core/helpers/date_helper.dart';
 import 'package:cipher/features/chat/models/chat_messages.dart';
 import 'package:cipher/features/chat/models/chat_person_details.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
@@ -93,8 +93,9 @@ class _ChatPageState extends State<ChatPage> {
                 itemBuilder: (context, index) {
                   String message = decryptAESCryptoJS(
                       mList[index].text.toString(), kAESEncryptionKey);
-                  String date = DateTimeHelper.timeAgoSinceDate(
-                      mList[index].date.toString());
+                  String date = getVerboseDateTimeRepresentation(
+                      DateTime.parse(mList[index].date!));
+
                   return Container(
                     width: MediaQuery.of(context).size.width * 0.2,
                     child: Row(

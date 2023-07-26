@@ -1,4 +1,4 @@
-import 'package:cipher/core/helpers/date_helper.dart';
+import 'package:cipher/core/constants/date_time_representation.dart';
 import 'package:cipher/features/chat/bloc/chat_bloc.dart';
 import 'package:cipher/features/chat/models/chat.dart';
 import 'package:cipher/features/chat/view/chat_page.dart';
@@ -90,8 +90,10 @@ class _ChatListingPageState extends State<ChatListingPage> {
                               child: Column(
                                 children: List.generate(state.rCl?.length ?? 0,
                                     (index) {
-                                  String date = DateTimeHelper.timeAgoSinceDate(
-                                      state.rCl?[index].date?.toString() ?? '');
+                                  String date =
+                                      getVerboseDateTimeRepresentation(
+                                          DateTime.parse(
+                                              state.rCl![index].date!));
                                   return GestureDetector(
                                     onTap: () {
                                       Navigator.pushNamed(
@@ -100,97 +102,72 @@ class _ChatListingPageState extends State<ChatListingPage> {
                                         arguments: state.rCl?[index],
                                       );
                                     },
-                                    child: Container(
-                                      height: 108,
-                                      width: MediaQuery.of(context).size.width,
-                                      padding: EdgeInsets.all(16.0),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
+                                    child: ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                          state.rCl?[index].profileImage ??
+                                              kHomaaleImg,
+                                        ),
+                                      ),
+                                      title: Column(
                                         crossAxisAlignment:
                                             CrossAxisAlignment.start,
                                         children: [
-                                          Container(
-                                            height: 30,
-                                            width: 30,
-                                            decoration: BoxDecoration(
-                                              shape: BoxShape.circle,
-                                              image: DecorationImage(
-                                                image: NetworkImage(
-                                                  state.rCl?[index]
-                                                          .profileImage ??
-                                                      kHomaaleImg,
-                                                ),
-                                                fit: BoxFit.cover,
-                                              ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.79,
+                                            child: Text(
+                                              state.rCl?[index].fullName
+                                                      ?.toString() ??
+                                                  '',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineSmall,
+                                              overflow: TextOverflow.ellipsis,
                                             ),
                                           ),
-                                          addHorizontalSpace(8),
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.79,
-                                                child: Text(
-                                                  state.rCl?[index].fullName
-                                                          ?.toString() ??
-                                                      '',
-                                                  style: Theme.of(context)
-                                                      .textTheme
-                                                      .headlineSmall,
-                                                  overflow:
-                                                      TextOverflow.ellipsis,
-                                                ),
-                                              ),
-                                              addVerticalSpace(4),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.79,
-                                                child: Row(
-                                                  mainAxisAlignment:
-                                                      MainAxisAlignment
-                                                          .spaceBetween,
-                                                  children: [
-                                                    Text(
-                                                      date,
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall,
-                                                    ),
-                                                    Icon(
-                                                      state.rCl?[index]
-                                                                  .isRead ??
-                                                              false
-                                                          ? Icons
-                                                              .check_circle_rounded
-                                                          : Icons
-                                                              .check_circle_outline_rounded,
-                                                      size: 16,
-                                                      color: kColorBlue,
-                                                    )
-                                                  ],
-                                                ),
-                                              ),
-                                              addVerticalSpace(4),
-                                              SizedBox(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    0.79,
-                                                child: Text(
-                                                  '${state.rCl?[index].lastMessage ?? 'Start Conversation'}',
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.79,
+                                            child: Text(
+                                              '${state.rCl?[index].lastMessage ?? 'Start Conversation'}',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.79,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  date,
                                                   style: Theme.of(context)
                                                       .textTheme
                                                       .bodySmall,
                                                 ),
-                                              ),
-                                            ],
+                                                Icon(
+                                                  state.rCl?[index].isRead ??
+                                                          false
+                                                      ? Icons
+                                                          .check_circle_rounded
+                                                      : Icons
+                                                          .check_circle_outline_rounded,
+                                                  size: 16,
+                                                  color: kColorBlue,
+                                                )
+                                              ],
+                                            ),
                                           ),
                                         ],
                                       ),

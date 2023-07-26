@@ -192,7 +192,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
             });
           });
         } catch (e) {
-          log('handleChatRoomCreation faield: $e');
+          log('handleChatRoomCreation failed: $e');
         }
 
         emit(state.copyWith(states: TheStates.success));

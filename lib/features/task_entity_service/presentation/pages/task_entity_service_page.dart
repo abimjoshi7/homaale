@@ -358,7 +358,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                                         value.data()?.forEach((key, v) {
                                           if (v.toString().contains(
                                               "${state.applicantModel?.result?[index].createdBy!.user!.id}")) {
-                                            Navigator.pushNamed(
+                                            Navigator.pushReplacementNamed(
                                               context,
                                               ChatPage.routeName,
                                               arguments: ChatPersonDetails(
