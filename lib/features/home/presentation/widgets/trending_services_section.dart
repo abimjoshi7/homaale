@@ -109,42 +109,42 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                               '0.0',
                           isRange: state
                               .taskEntityServiceModel.result?[index].isRange,
-                          rateTo:
-                          state.taskEntityServiceModel.result?[index]
-                              .owner?.id ==
-                              context
-                                  .read<UserBloc>()
-                                  .state
-                                  .taskerProfile
-                                  ?.user
-                                  ?.id ?
-                          double.parse(state.taskEntityServiceModel
-                                      .result?[index].budgetTo ??
-                                  "")
-                              .toInt()
-                              .toString():double.parse(state.taskEntityServiceModel
-                                      .result?[index].payableTo ??
-                                  "")
-                              .toInt()
-                              .toString(),
-                          rateFrom:
-                          state.taskEntityServiceModel.result?[index]
-                              .owner?.id ==
-                              context
-                                  .read<UserBloc>()
-                                  .state
-                                  .taskerProfile
-                                  ?.user
-                                  ?.id ?
-                          double.parse(state.taskEntityServiceModel
-                                      .result?[index].budgetFrom ??
-                                  "")
-                              .toInt()
-                              .toString(): double.parse(state.taskEntityServiceModel
-                                      .result?[index].payableFrom ??
-                                  "")
-                              .toInt()
-                              .toString(),
+                          rateTo: state.taskEntityServiceModel.result?[index]
+                                      .owner?.id ==
+                                  context
+                                      .read<UserBloc>()
+                                      .state
+                                      .taskerProfile
+                                      ?.user
+                                      ?.id
+                              ? double.parse(state.taskEntityServiceModel
+                                          .result?[index].budgetTo ??
+                                      "")
+                                  .toInt()
+                                  .toString()
+                              : double.parse(state.taskEntityServiceModel
+                                          .result?[index].payableTo ??
+                                      "")
+                                  .toInt()
+                                  .toString(),
+                          rateFrom: state.taskEntityServiceModel.result?[index]
+                                      .owner?.id ==
+                                  context
+                                      .read<UserBloc>()
+                                      .state
+                                      .taskerProfile
+                                      ?.user
+                                      ?.id
+                              ? double.parse(state.taskEntityServiceModel
+                                          .result?[index].budgetFrom ??
+                                      "")
+                                  .toInt()
+                                  .toString()
+                              : double.parse(state.taskEntityServiceModel
+                                          .result?[index].payableFrom ??
+                                      "")
+                                  .toInt()
+                                  .toString(),
                           isBookmarked: state.taskEntityServiceModel
                               .result?[index].isBookmarked,
                           isOwner: state.taskEntityServiceModel.result?[index]

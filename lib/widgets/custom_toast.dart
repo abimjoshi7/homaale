@@ -36,10 +36,10 @@ class CustomToast extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               kHeight10,
-              Text(
+                Text(
                 content,
                 textDirection: TextDirection.ltr,
-                textAlign: TextAlign.justify,
+                textAlign: TextAlign.start,
                 style: TextStyle(
                   wordSpacing: 1,
                   letterSpacing: 0.6,

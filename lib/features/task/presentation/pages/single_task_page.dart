@@ -161,7 +161,8 @@ class _SingleTaskPageState extends State<SingleTaskPage>
                     child: ListView(
                       padding: EdgeInsets.zero,
                       children: <Widget>[
-                        if (state.applicantModel?.result?.length != 0)
+                        if (CacheHelper.isLoggedIn &&
+                            state.applicantModel?.result?.length != 0)
                           Container(
                             margin: EdgeInsets.all(10),
                             padding: EdgeInsets.all(5),

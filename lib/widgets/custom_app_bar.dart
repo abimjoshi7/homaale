@@ -39,21 +39,21 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
             onPressed: () => Navigator.pop(context),
           ),
       actions: [
-        trailingWidget ??
-            IconButton(
-              onPressed: () async => showSearch(
-                context: context,
-                delegate: SearchHelper(
-                  context: context,
-                  searchBloc: locator<SearchBloc>(),
-                ),
-              ),
-              icon: Icon(
-                Icons.search_rounded,
-                color: Theme.of(context).appBarTheme.iconTheme?.color,
-                size: 25,
-              ),
-            ),
+        trailingWidget ?? SizedBox.shrink()
+        // IconButton(
+        //   onPressed: () async => showSearch(
+        //     context: context,
+        //     delegate: SearchHelper(
+        //       context: context,
+        //       searchBloc: locator<SearchBloc>(),
+        //     ),
+        //   ),
+        //   icon: Icon(
+        //     Icons.search_rounded,
+        //     color: Theme.of(context).appBarTheme.iconTheme?.color,
+        //     size: 25,
+        //   ),
+        // ),
       ],
       bottom: PreferredSize(
         child: Divider(),

@@ -62,10 +62,10 @@ class _ProfessionalInformationModalSheetState
           "skills": skills,
           "active_hour_start": startTime?.format(context) ??
               state.taskerProfile?.activeHourStart,
-          "active_hour_end": endTime?.format(context) ??
-              state.taskerProfile?.activeHourEnd,
+          "active_hour_end":
+              endTime?.format(context) ?? state.taskerProfile?.activeHourEnd,
           "experience_level":
-          experienceLevel ?? state.taskerProfile?.experienceLevel,
+              experienceLevel ?? state.taskerProfile?.experienceLevel,
         };
 
         if (state.theStates == TheStates.success) {
@@ -93,7 +93,9 @@ class _ProfessionalInformationModalSheetState
                       CustomFormField(
                         label: 'Experience Level',
                         child: CustomDropDownField<String>(
-                          hintText: state.taskerProfile?.experienceLevel ??
+                          hintText: state.taskerProfile?.experienceLevel
+                                  .toString()
+                                  .toTitleCase() ??
                               'Enter your skills',
                           list: const [
                             'Beginner', 'Intermediate', 'Expert'
