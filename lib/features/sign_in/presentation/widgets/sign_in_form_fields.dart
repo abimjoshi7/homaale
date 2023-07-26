@@ -314,64 +314,40 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               CacheHelper.clearCachedData(kRememberCreds);
             }
 
-                    if (state.theStates == TheStates.initial) {
-                      if (state.isPhoneNumber) {
-                        context.read<SignInBloc>().add(
-                              SignInWithPhoneInitiated(
-                                userLoginReq: UserLoginReq(
-                                  username: '+977${phoneNumberController.text}',
-                                  password: phonePasswordController.text,
-                                ),
-                              ),
-                            );
-                      }
-                      if (!state.isPhoneNumber) {
-                        context.read<SignInBloc>().add(
-                              SignInWithEmailInitiated(
-                                userLoginReq: UserLoginReq(
-                                  username: usernameController.text,
-                                  password: emailPasswordController.text,
-                                  fcmToken: fcmToken,
-                                ),
-                              ),
-                            );
-                      }
-                    }
-                  }
-                  //setting validation error status to true
-                  else {
-                    if (state.theStates == TheStates.initial) {
-                      context
-                          .read<SignInBloc>()
-                          .add(SignInValErrorStatusChanged());
-                    }
-                  }
-                },
-                label: 'Login',
-              ),
-              addVerticalSpace(8.0),
-              if (state.theStates == TheStates.initial)
-                CustomTextButton(
-                  text: (state.isPhoneNumber)
-                      ? "Didn't get OTP ?"
-                      : "Didn't get verification email?",
-                  voidCallback: () => Navigator.pushNamed(
-                    context,
-                    ResendVerificationPage.routeName,
-                  ),
-                  // style :Theme.of(context).textTheme.bodySmall
-                  style: kText13.copyWith(
-                    color: Theme.of(context).primaryColor,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0.1,
-                    wordSpacing: 0.1,
-                  ),
-                ),
-            ],
-          ),
-        );
-      },
-    );
+            if (state.theStates == TheStates.initial) {
+              if (state.isPhoneNumber) {
+                context.read<SignInBloc>().add(
+                      SignInWithPhoneInitiated(
+                        userLoginReq: UserLoginReq(
+                          username: '+977${phoneNumberController.text}',
+                          password: phonePasswordController.text,
+                        ),
+                      ),
+                    );
+              }
+              if (!state.isPhoneNumber) {
+                context.read<SignInBloc>().add(
+                      SignInWithEmailInitiated(
+                        userLoginReq: UserLoginReq(
+                          username: usernameController.text,
+                          password: emailPasswordController.text,
+                        ),
+                      ),
+                    );
+              }
+            }
+          }
+          //setting validation error status to true
+          else {
+            if (state.theStates == TheStates.initial) {
+              context.read<SignInBloc>().add(SignInValErrorStatusChanged());
+            }
+          }
+        },
+        label: 'Login',
+      );
+    }
+    return CustomLoader();
   }
 
   @override
