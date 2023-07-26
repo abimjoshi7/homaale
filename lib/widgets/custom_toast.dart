@@ -39,7 +39,7 @@ class CustomToast extends StatelessWidget {
               Text(
                 content,
                 textDirection: TextDirection.ltr,
-                textAlign: TextAlign.justify,
+                textAlign: TextAlign.start,
                 style: TextStyle(
                   wordSpacing: 1,
                   letterSpacing: 0.6,
