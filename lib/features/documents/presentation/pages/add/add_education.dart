@@ -16,6 +16,7 @@ class AddEducation extends StatefulWidget {
 }
 
 class _AddEducationState extends State<AddEducation> {
+  bool hasEndDate = true;
   final schoolController = TextEditingController();
   final descriptionController = TextEditingController();
   final degreeController = TextEditingController();
@@ -107,120 +108,55 @@ class _AddEducationState extends State<AddEducation> {
                     },
                   ),
                 ),
-                CustomFormField(
-                  label: 'Location',
-                  isRequired: true,
-                  child: CustomTextFormField(
-                    validator: validateNotEmpty,
-                    prefixWidget: const Icon(
-                      Icons.location_on_outlined,
-                      color: kColorPrimary,
-                    ),
-                    hintText: 'Eg: New Baneshwor, Kathmandu',
-                    onSaved: (p0) {
-                      setState(() {
-                        locationController.text = p0!;
-                      });
-                    },
+                // CustomFormField(
+                //   label: 'Location',
+                //   isRequired: true,
+                //   child: CustomTextFormField(
+                //     validator: validateNotEmpty,
+                //     prefixWidget: const Icon(
+                //       Icons.location_on_outlined,
+                //       color: kColorPrimary,
+                //     ),
+                //     hintText: 'Eg: New Baneshwor, Kathmandu',
+                //     onSaved: (p0) {
+                //       setState(() {
+                //         locationController.text = p0!;
+                //       });
+                //     },
+                //   ),
+                // ),
+
+                kHeight20,
+
+                _buildDate(context),
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 10.0),
+                  child: Row(
+                    children: <Widget>[
+                      CustomCheckBox(
+                        isChecked: !hasEndDate,
+                        onTap: () {
+                          setState(
+                            () {
+                              hasEndDate = !hasEndDate;
+                            },
+                          );
+                        },
+                      ),
+                      addHorizontalSpace(10),
+                      Flexible(
+                        child: Text('I am currently studying here.',
+                            style: Theme.of(context).textTheme.displaySmall),
+                      ),
+                    ],
                   ),
                 ),
-                // Row(
-                //   children: [
-                //     CustomCheckBox(
-                //       onTap: () {},
-                //       boxColor: const Color(0xff0693E3),
-                //       isChecked: true,
-                //     ),
-                //     kWidth10,
-                //     const Text('Save as location'),
-                //   ],
-                // ),
-                kHeight20,
-                // Row(
-                //   children: [
-                //     Flexible(
-                //       child: Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           CustomFormField(
-                //             label: 'Start Date',
-                //             isRequired: true,
-                //             child: InkWell(
-                //               onTap: () async {
-                //                 await showDatePicker(
-                //                   context: context,
-                //                   initialDate: DateTime.now(),
-                //                   firstDate: DateTime(2010),
-                //                   lastDate: DateTime(2050),
-                //                 ).then(
-                //                   (value) => setState(
-                //                     () {
-                //                       startDate = value;
-                //                     },
-                //                   ),
-                //                 );
-                //               },
-                //               child: CustomFormContainer(
-                //                 hintText:
-                //                     startDate?.toString().substring(0, 10) ??
-                //                         '1999-03-06',
-                //                 leadingWidget: const Icon(
-                //                   Icons.calendar_month_rounded,
-                //                   color: kColorPrimary,
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //     kWidth20,
-                //     Flexible(
-                //       child: Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           CustomFormField(
-                //             label: 'End Date',
-                //             isRequired: true,
-                //             child: InkWell(
-                //               onTap: () async {
-                //                 await showDatePicker(
-                //                   context: context,
-                //                   initialDate: DateTime.now(),
-                //                   firstDate: DateTime(2010),
-                //                   lastDate: DateTime(2050),
-                //                 ).then(
-                //                   (value) => setState(
-                //                     () {
-                //                       endDate = value;
-                //                     },
-                //                   ),
-                //                 );
-                //               },
-                //               child: CustomFormContainer(
-                //                 hintText:
-                //                     endDate?.toString().substring(0, 10) ??
-                //                         '1999-06-03',
-                //                 leadingWidget: const Icon(
-                //                   Icons.calendar_month_rounded,
-                //                   color: kColorPrimary,
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //         ],
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                _buildDate(context),
                 addVerticalSpace(10.0),
                 BlocConsumer<TaskerEducationCubit, TaskerEducationState>(
                   listener: (context, state) async {
                     final error = await CacheHelper.getCachedString(kErrorLog);
                     if (state is TaskerAddEducationSuccess) {
                       if (!mounted) return;
-
                       showDialog(
                         context: context,
                         builder: (context) => CustomToast(
@@ -269,14 +205,15 @@ class _AddEducationState extends State<AddEducation> {
                           context
                               .read<TaskerEducationCubit>()
                               .addTaskerEducation(taskerEducationReq);
-                        } else if (endDate!.isBefore(startDate!)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content:
-                                  Text('Please check your start and end dates'),
-                            ),
-                          );
                         }
+                        // else if (endDate!.isBefore(startDate!)) {
+                        //   ScaffoldMessenger.of(context).showSnackBar(
+                        //     const SnackBar(
+                        //       content:
+                        //           Text('Please check your start and end dates'),
+                        //     ),
+                        //   );
+                        // }
                       },
                       label: 'Add',
                     );
@@ -297,25 +234,28 @@ class _AddEducationState extends State<AddEducation> {
       children: [
         Flexible(
           child: CustomFormField(
+            isRequired: true,
             label: 'Start Date',
             child: CustomTextFormField(
               readOnly: true,
               controller: _startDateController,
               validator: (p0) {
+                if (startDate == null) {
+                  return "Required Field";
+                }
                 if (startDate != null && endDate != null) {
-                  if (startDate!.isAfter(
-                    endDate!,
-                  )) {
-                    return "Cannot be greater than end date";
+                  if (startDate!.isAfter(endDate!)) {
+                    return "Cannot be greater than expiry date";
                   }
                   return null;
                 }
+                return null;
               },
               onTap: () async {
                 await showDatePicker(
                   context: context,
                   initialDate: _currentDate,
-                  firstDate: _currentDate,
+                  firstDate: DateTime(_currentDate.year - 100),
                   lastDate: DateTime(
                     _currentDate.year + 2,
                   ),
@@ -349,55 +289,58 @@ class _AddEducationState extends State<AddEducation> {
         Flexible(
           child: CustomFormField(
             label: 'End Date',
-            isRequired: true,
+            isRequired: hasEndDate,
             child: CustomTextFormField(
               readOnly: true,
               controller: _endDateController,
-              validator: (value) {
-                if (endDate == null) {
-                  return "Required Field";
-                }
-                if (startDate != null && endDate != null) {
-                  if (endDate!.isBefore(startDate!)) {
-                    return "Cannot be lesser than present date";
+              validator: (p0) {
+                if (hasEndDate) {
+                  if (endDate == null) {
+                    return "Required Field";
                   }
-                  return null;
+                  if (startDate != null && endDate != null) {
+                    if (endDate!.isBefore(startDate!)) {
+                      return "Cannot be less than issued date";
+                    }
+                    return null;
+                  }
                 }
                 return null;
               },
-              onTap: () async {
-                await showDatePicker(
-                  context: context,
-                  initialDate: startDate ?? _currentDate,
-                  firstDate: startDate ?? _currentDate,
-                  lastDate: DateTime(
-                    _currentDate.year + 2,
-                  ),
-                ).then(
-                  (value) => setState(
-                    () {
-                      endDate = value;
-                      _endDateController.text =
-                          value?.toIso8601String().substring(
-                                    0,
-                                    10,
-                                  ) ??
-                              '';
+              onTap: !hasEndDate
+                  ? null
+                  : () async {
+                      await showDatePicker(
+                        context: context,
+                        initialDate: startDate ?? _currentDate,
+                        firstDate: startDate ?? _currentDate,
+                        lastDate: DateTime(
+                          _currentDate.year + 2,
+                        ),
+                      ).then(
+                        (value) => setState(
+                          () {
+                            endDate = value;
+                            _endDateController.text =
+                                value?.toIso8601String().substring(
+                                          0,
+                                          10,
+                                        ) ??
+                                    '';
+                          },
+                        ),
+                      );
                     },
-                  ),
-                );
-              },
               hintText: 'yy/mm/dd',
               theHeight: 48.0,
               theWidth: double.infinity,
               prefixWidget: Icon(
                 Icons.calendar_today_rounded,
-                color: Colors.grey.shade800,
+                color: hasEndDate ? Colors.grey.shade800 : Colors.grey.shade300,
               ),
-              hintStyle: Theme.of(context)
-                  .textTheme
-                  .bodyMedium
-                  ?.copyWith(color: Colors.grey.shade900),
+              hintStyle: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  color:
+                      hasEndDate ? Colors.grey.shade900 : Colors.grey.shade400),
             ),
           ),
         ),
