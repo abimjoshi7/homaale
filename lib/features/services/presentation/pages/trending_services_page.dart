@@ -39,7 +39,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
   String? selectedLocation;
   DateTime? dateFrom;
   DateTime? dateTo;
-  String? category;
+  String? category="Pilot";
   String? serviceId;
   String? location;
 

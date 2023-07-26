@@ -1,4 +1,5 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/categories/presentation/bloc/categories_bloc.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
 import 'package:cipher/features/categories/presentation/pages/categories_page.dart';
@@ -6,7 +7,9 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-class CategoriesSection extends StatelessWidget {
+import '../widget/TaskOrServiceSectionModalBottomSheet.dart';
+
+class CategoriesSection extends StatelessWidget with TheModalBottomSheet{
   const CategoriesSection({super.key});
   static final catKey = GlobalKey();
 
@@ -41,6 +44,10 @@ class CategoriesSection extends StatelessWidget {
                         arguments: {
                           'id': -1,
                         },
+                      );
+                      showCustomBottomSheet(
+                        context: context,
+                        widget: TaskOrServiceSectionModalBottomSheet(),
                       );
                     },
                     position: TooltipPosition.bottom,
