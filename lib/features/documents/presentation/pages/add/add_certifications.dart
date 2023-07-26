@@ -91,7 +91,6 @@ class _AddCertificationsState extends State<AddCertifications> {
                     },
                   ),
                 ),
-
                 kHeight20,
                 CustomFormField(
                   label: 'Cerfication Id',
@@ -262,72 +261,6 @@ class _AddCertificationsState extends State<AddCertifications> {
                     ],
                   ),
                 ),
-                // Row(
-                //   children: [
-                //     Flexible(
-                //       child: CustomFormField(
-                //         label: 'Issued Date',
-                //         isRequired: true,
-                //         child: InkWell(
-                //           onTap: () async {
-                //             await showDatePicker(
-                //               context: context,
-                //               firstDate: DateTime(1980),
-                //               initialDate: DateTime.now(),
-                //               lastDate: DateTime(2050),
-                //             ).then(
-                //               (value) => setState(
-                //                 () {
-                //                   issuedDate = value;
-                //                 },
-                //               ),
-                //             );
-                //           },
-                //           child: CustomFormContainer(
-                //             hintText: issuedDate?.toString().substring(0, 10) ??
-                //                 '1999-06-13',
-                //             leadingWidget: const Icon(
-                //               Icons.calendar_month_rounded,
-                //               color: kColorPrimary,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //     kWidth20,
-                //     Flexible(
-                //       child: CustomFormField(
-                //         label: 'End Date',
-                //         isRequired: true,
-                //         child: InkWell(
-                //           onTap: () async {
-                //             await showDatePicker(
-                //               context: context,
-                //               firstDate: DateTime(1980),
-                //               initialDate: DateTime.now(),
-                //               lastDate: DateTime(2050),
-                //             ).then(
-                //               (value) => setState(
-                //                 () {
-                //                   endDate = value;
-                //                 },
-                //               ),
-                //             );
-                //           },
-                //           child: CustomFormContainer(
-                //             hintText: endDate?.toString().substring(0, 10) ??
-                //                 '1999-06-30',
-                //             leadingWidget: const Icon(
-                //               Icons.calendar_month_rounded,
-                //               color: kColorPrimary,
-                //             ),
-                //           ),
-                //         ),
-                //       ),
-                //     ),
-                //   ],
-                // ),
-                // addVerticalSpace(10.0),
                 BlocConsumer<TaskerCertificationCubit,
                     TaskerCertificationState>(
                   listener: (context, state) async {
@@ -375,8 +308,7 @@ class _AddCertificationsState extends State<AddCertifications> {
                   builder: (context, state) {
                     return CustomElevatedButton(
                       callback: () async {
-                        if (_key.currentState!.validate() &&
-                            issuedDate!.isBefore(endDate!)) {
+                        if (_key.currentState!.validate()) {
                           _key.currentState!.save();
                           final cerificationReq = TaskerCertificateReq(
                             name: nameController.text,
@@ -394,14 +326,15 @@ class _AddCertificationsState extends State<AddCertifications> {
                           await context
                               .read<TaskerCertificationCubit>()
                               .addTaskerCertification(cerificationReq);
-                        } else if (endDate!.isBefore(issuedDate!)) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                              content:
-                                  Text('Please check your start and end dates'),
-                            ),
-                          );
                         }
+                        // else if (endDate!.isBefore(issuedDate!)) {
+                        //   ScaffoldMessenger.of(context).showSnackBar(
+                        //     const SnackBar(
+                        //       content:
+                        //           Text('Please check your start and end dates'),
+                        //     ),
+                        //   );
+                        // }
                       },
                       label: 'Add',
                     );
