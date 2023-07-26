@@ -18,6 +18,7 @@ class DetailsView extends StatefulWidget {
   final TextEditingController requirementController;
   final TextEditingController problemDescController;
   final TextEditingController addressController;
+  final List<String> requirementList;
   const DetailsView({
     Key? key,
     required this.uploadBloc,
@@ -25,6 +26,7 @@ class DetailsView extends StatefulWidget {
     required this.requirementController,
     required this.problemDescController,
     required this.addressController,
+    required this.requirementList,
   }) : super(key: key);
 
   @override
@@ -38,8 +40,6 @@ class _DetailsViewState extends State<DetailsView> {
   String? addressType = 'On premise';
   bool isAddressVisible = true;
   bool isTermsAccepted = false;
-
-  final List<String> requirementList = [];
 
   final TextEditingController budgetController = TextEditingController();
 
@@ -206,8 +206,8 @@ class _DetailsViewState extends State<DetailsView> {
                             onTap: () {
                               setState(
                                 () {
-                                  requirementList.remove(
-                                    requirementList[index],
+                                  widget.requirementList.remove(
+                                    widget.requirementList[index],
                                   );
                                 },
                               );
@@ -229,7 +229,7 @@ class _DetailsViewState extends State<DetailsView> {
             CustomTextFormField(
               controller: widget.requirementController,
               hintText: 'Add Highlight',
-              validator: (value) => requirementList.length == 0
+              validator: (value) => widget.requirementList.length == 0
                   ? "Atleast 1 Highlight Required"
                   : null,
               suffixWidget: IconButton(
@@ -241,11 +241,12 @@ class _DetailsViewState extends State<DetailsView> {
                   if (widget.requirementController.text.isNotEmpty)
                     setState(
                       () {
-                        requirementList.add(widget.requirementController.text);
+                        widget.requirementList
+                            .add(widget.requirementController.text);
                         widget.bookEventHandlerBloc.add(
                           BookEventPicked(
                             req: BookEntityServiceReq(
-                              requirements: requirementList,
+                              requirements: widget.requirementList,
                             ),
                           ),
                         );
