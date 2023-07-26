@@ -140,7 +140,7 @@ class CustomMultimedia extends StatelessWidget {
                           padding: const EdgeInsets.symmetric(
                             vertical: 8.0,
                           ),
-                          child: LinearProgressIndicator(),
+                          child: CardLoading(height: 400),
                         ),
                       ],
                     )

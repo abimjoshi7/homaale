@@ -24,6 +24,7 @@ class TaskerCard extends StatelessWidget {
     this.isFollowed,
     this.shareLinked,
     this.badgeImage,
+    this.isOwner = false,
   });
 
   final String? label;
@@ -42,6 +43,7 @@ class TaskerCard extends StatelessWidget {
   final VoidCallback callback;
   final VoidCallback onFavouriteTapped;
   final bool? isFollowed;
+  final bool isOwner;
 
   @override
   Widget build(BuildContext context) {
@@ -170,9 +172,12 @@ class TaskerCard extends StatelessWidget {
               ),
             ),
             kHeight5,
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 8.0),
-              child: _buildButton(context),
+            Visibility(
+              visible: !isOwner,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                child: _buildButton(context),
+              ),
             ),
             addVerticalSpace(5),
           ],

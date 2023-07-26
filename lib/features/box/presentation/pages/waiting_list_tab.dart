@@ -14,6 +14,7 @@ import 'package:cipher/features/bookings/presentation/widgets/edit_my_order.dart
 import 'package:cipher/widgets/widgets.dart';
 
 import '../../../bookings/data/models/my_booking_list_model.dart';
+import '../../../error_pages/no_internet_page.dart';
 
 class WaitingListTab extends StatefulWidget {
   final BookingsBloc bloc;
@@ -76,152 +77,161 @@ class _WaitingListTabState extends State<WaitingListTab> {
                       ),
                     );
                   },
-                  child: ListView.builder(
-                    controller: _controller,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    padding: EdgeInsets.symmetric(horizontal: 16),
-                    itemCount:
-                        state.hasReachedMax ? data.length : data.length + 1,
-                    itemBuilder: (context, index) {
-                      if (index >= data.length) {
-                        _scrollBloc.add(
-                          FetchItemsEvent(
-                            url: kMyBookingList,
-                            data: {
-                              // "is_accepted": false,
-                              "status": "pending",
-                            },
-                            newFetch: false,
-                          ),
-                        );
-                        return BottomLoader();
-                      }
-                      return Container(
-                        margin: EdgeInsets.symmetric(vertical: 8),
-                        child: BookingsServiceCard(
-                          theHeight: 200,
-                          // "isTask" is only passed in waiting list box feature
-                          isTask:
-                              data[index].entityService?.isRequested == true,
-                          hideImage: false,
-                          callback: () {
-                            context.read<BookingsBloc>().add(
-                                  BookingSingleLoaded(
-                                    data[index].id ?? 0,
-                                  ),
-                                );
-                            Navigator.pushNamed(
-                              context,
-                              BookedServicePage.routeName,
-                              arguments: {
-                                "is_task":
+                  child: data.length == 0
+                      ? Center(
+                          child: CommonErrorContainer(
+                          assetsPath: 'assets/no_data_found.png',
+                          errorTile: 'Waiting for Payment Item not available right Now.',
+                        ))
+                      : ListView.builder(
+                          controller: _controller,
+                          physics: AlwaysScrollableScrollPhysics(),
+                          padding: EdgeInsets.symmetric(horizontal: 16),
+                          itemCount: state.hasReachedMax
+                              ? data.length
+                              : data.length + 1,
+                          itemBuilder: (context, index) {
+                            if (index >= data.length) {
+                              _scrollBloc.add(
+                                FetchItemsEvent(
+                                  url: kMyBookingList,
+                                  data: {
+                                    // "is_accepted": false,
+                                    "status": "pending",
+                                  },
+                                  newFetch: false,
+                                ),
+                              );
+                              return BottomLoader();
+                            }
+                            return Container(
+                              margin: EdgeInsets.symmetric(vertical: 8),
+                              child: BookingsServiceCard(
+                                theHeight: 200,
+                                // "isTask" is only passed in waiting list box feature
+                                isTask:
                                     data[index].entityService?.isRequested ==
-                                        true
-                              },
+                                        true,
+                                hideImage: false,
+                                callback: () {
+                                  context.read<BookingsBloc>().add(
+                                        BookingSingleLoaded(
+                                          data[index].id ?? 0,
+                                        ),
+                                      );
+                                  Navigator.pushNamed(
+                                    context,
+                                    BookedServicePage.routeName,
+                                    arguments: {
+                                      "is_task": data[index]
+                                              .entityService
+                                              ?.isRequested ==
+                                          true
+                                    },
+                                  );
+                                },
+                                editTap: () async {
+                                  if (data[index].status?.toLowerCase() ==
+                                      'pending') {
+                                    Navigator.pop(context);
+                                    showEditForm(context, data[index]);
+                                  } else {
+                                    Navigator.pop(context);
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => CustomToast(
+                                          heading: 'Warning',
+                                          content:
+                                              'The task is already ${data[index].status?.toLowerCase()}. Cannot be edited!',
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          isSuccess: true),
+                                    );
+                                  }
+                                },
+                                deleteTap: () {
+                                  if (data[index].status?.toLowerCase() ==
+                                      'pending') {
+                                    bookingsBloc.add(
+                                      BookingRejected(
+                                          rejectReq: RejectReq(
+                                              booking: data[index].id ?? 0),
+                                          isTask: true),
+                                    );
+                                    Navigator.pop(context);
+                                  } else {
+                                    Navigator.pop(context);
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => CustomToast(
+                                          heading: 'Warning',
+                                          content:
+                                              'The task is already ${data[index].status?.toLowerCase()}. Cannot be removed!',
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          isSuccess: true),
+                                    );
+                                  }
+                                },
+                                cancelTap: () {
+                                  Navigator.pop(context);
+                                  if (data[index].status?.toLowerCase() ==
+                                      'pending') {
+                                    // bookingsBloc.add(
+                                    //   BookingCancelled(
+                                    //       id: data[index].id ?? 0, isTask: true),
+                                    // );
+                                    // Navigator.pop(context);
+                                    Navigator.pushNamed(
+                                        context, BookingCancelPage.routeName,
+                                        arguments: {
+                                          'client': data[index]
+                                                      .entityService
+                                                      ?.isRequested ==
+                                                  false
+                                              ? 'client'
+                                              : 'merchant',
+                                        });
+                                  } else {
+                                    Navigator.pop(context);
+                                    showDialog(
+                                      context: context,
+                                      builder: (context) => CustomToast(
+                                          heading: 'Warning',
+                                          content:
+                                              'The task is already ${data[index].status?.toLowerCase()}. Cannot be cancelled!',
+                                          onTap: () {
+                                            Navigator.pop(context);
+                                          },
+                                          isSuccess: true),
+                                    );
+                                  }
+                                },
+                                serviceName: data[index].entityService?.title,
+                                providerName:
+                                    "${data[index].entityService?.createdBy?.firstName} ${data[index].entityService?.createdBy?.lastName}",
+                                location: data[index].location?.length == 0
+                                    ? "Remote"
+                                    : data[index].location,
+                                startTime: data[index].startTime,
+                                endTime: data[index].endTime,
+                                createdAt: data[index].createdAt,
+                                // mainContentWidget: showBookingDetail(data[index]),
+                                status: data[index].status,
+                                thirdWidget: displayPrice(data[index]),
+                                bottomRightWidget: const Text(
+                                  'Booking Details',
+                                  style: TextStyle(
+                                    color: kColorSecondary,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
                             );
                           },
-                          editTap: () async {
-                            if (data[index].status?.toLowerCase() ==
-                                'pending') {
-                              Navigator.pop(context);
-                              showEditForm(context, data[index]);
-                            } else {
-                              Navigator.pop(context);
-                              showDialog(
-                                context: context,
-                                builder: (context) => CustomToast(
-                                    heading: 'Warning',
-                                    content:
-                                        'The task is already ${data[index].status?.toLowerCase()}. Cannot be edited!',
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    isSuccess: true),
-                              );
-                            }
-                          },
-                          deleteTap: () {
-                            if (data[index].status?.toLowerCase() ==
-                                'pending') {
-                              bookingsBloc.add(
-                                BookingRejected(
-                                    rejectReq:
-                                        RejectReq(booking: data[index].id ?? 0),
-                                    isTask: true),
-                              );
-                              Navigator.pop(context);
-                            } else {
-                              Navigator.pop(context);
-                              showDialog(
-                                context: context,
-                                builder: (context) => CustomToast(
-                                    heading: 'Warning',
-                                    content:
-                                        'The task is already ${data[index].status?.toLowerCase()}. Cannot be removed!',
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    isSuccess: true),
-                              );
-                            }
-                          },
-                          cancelTap: () {
-                            Navigator.pop(context);
-                            if (data[index].status?.toLowerCase() ==
-                                'pending') {
-                              // bookingsBloc.add(
-                              //   BookingCancelled(
-                              //       id: data[index].id ?? 0, isTask: true),
-                              // );
-                              // Navigator.pop(context);
-                              Navigator.pushNamed(
-                                  context, BookingCancelPage.routeName,
-                                  arguments: {
-                                    'client': data[index]
-                                                .entityService
-                                                ?.isRequested ==
-                                            false
-                                        ? 'client'
-                                        : 'merchant',
-                                  });
-                            } else {
-                              Navigator.pop(context);
-                              showDialog(
-                                context: context,
-                                builder: (context) => CustomToast(
-                                    heading: 'Warning',
-                                    content:
-                                        'The task is already ${data[index].status?.toLowerCase()}. Cannot be cancelled!',
-                                    onTap: () {
-                                      Navigator.pop(context);
-                                    },
-                                    isSuccess: true),
-                              );
-                            }
-                          },
-                          serviceName: data[index].entityService?.title,
-                          providerName:
-                              "${data[index].entityService?.createdBy?.firstName} ${data[index].entityService?.createdBy?.lastName}",
-                          location: data[index].location?.length == 0
-                              ? "Remote"
-                              : data[index].location,
-                          startTime: data[index].startTime,
-                          endTime: data[index].endTime,
-                          createdAt: data[index].createdAt,
-                          // mainContentWidget: showBookingDetail(data[index]),
-                          status: data[index].status,
-                          thirdWidget: displayPrice(data[index]),
-                          bottomRightWidget: const Text(
-                            'Booking Details',
-                            style: TextStyle(
-                              color: kColorSecondary,
-                              decoration: TextDecoration.underline,
-                            ),
-                          ),
                         ),
-                      );
-                    },
-                  ),
                 ),
               ),
               SizedBox(height: 100)

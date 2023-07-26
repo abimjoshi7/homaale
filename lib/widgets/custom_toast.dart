@@ -36,7 +36,15 @@ class CustomToast extends StatelessWidget {
                 style: Theme.of(context).textTheme.headlineSmall,
               ),
               kHeight10,
-              Text(content),
+              Text(
+                content,
+                textDirection: TextDirection.ltr,
+                textAlign: TextAlign.justify,
+                style: TextStyle(
+                  wordSpacing: 1,
+                  letterSpacing: 0.6,
+                ),
+              ),
               kHeight50,
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,

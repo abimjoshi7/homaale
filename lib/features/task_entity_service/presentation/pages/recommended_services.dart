@@ -35,7 +35,7 @@ class _RecommendedSimilarServicesState
             style: Theme.of(context).textTheme.headlineSmall,
           ),
           SizedBox(
-            height: 250,
+            height: 300,
             child: ListView.separated(
               shrinkWrap: true,
               primary: false,

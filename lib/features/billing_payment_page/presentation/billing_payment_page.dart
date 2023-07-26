@@ -150,6 +150,19 @@ class _BillsPaymentListState extends State<BillsPaymentList> {
                                                               .linkedBankList[
                                                                   index]
                                                               .id!));
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
+                                                    SnackBar(
+                                                      backgroundColor:
+                                                          Colors.redAccent,
+                                                      content: Text(
+                                                        "Payment Method Removed.",
+                                                        style: TextStyle(
+                                                          color: Colors.white,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  );
                                                 },
                                               ),
                                               kHeight10,

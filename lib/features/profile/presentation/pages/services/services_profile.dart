@@ -91,7 +91,7 @@ class _ServicesProfileState extends State<ServicesProfile>
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 2,
-                      childAspectRatio: 0.8,
+                      childAspectRatio: 0.7,
                       crossAxisSpacing: 8,
                       mainAxisSpacing: 10,
                     ),

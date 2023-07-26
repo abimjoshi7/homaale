@@ -1,3 +1,4 @@
+import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
@@ -164,6 +165,13 @@ class _TaskerListState extends State<TaskerList> {
                                 );
                               },
                               child: TaskerCard(
+                                isOwner: state.tasker[index].user?.id ==
+                                    context
+                                        .read<UserBloc>()
+                                        .state
+                                        .taskerProfile
+                                        ?.user
+                                        ?.id,
                                 rewardPercentage: state
                                         .tasker[index].stats?.successRate
                                         ?.toInt()
