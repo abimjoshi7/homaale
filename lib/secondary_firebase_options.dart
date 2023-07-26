@@ -14,11 +14,11 @@ import 'package:flutter/foundation.dart'
 ///   options: DefaultFirebaseOptions.currentPlatform,
 /// );
 /// ```
-class DefaultFirebaseOptions {
+class SecondaryFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
+        'SecondaryFirebaseOptions have not been configured for web - '
         'you can reconfigure this by running the FlutterFire CLI again.',
       );
     }
@@ -29,42 +29,42 @@ class DefaultFirebaseOptions {
         return ios;
       case TargetPlatform.macOS:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
+          'SecondaryFirebaseOptions have not been configured for macos - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.windows:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
+          'SecondaryFirebaseOptions have not been configured for windows - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       case TargetPlatform.linux:
         throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for linux - '
+          'SecondaryFirebaseOptions have not been configured for linux - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
       default:
         throw UnsupportedError(
-          'DefaultFirebaseOptions are not supported for this platform.',
+          'SecondaryFirebaseOptions are not supported for this platform.',
         );
     }
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyB-RruUbsZ9JmEV0GxPwYKRT28E_jLbCrw',
-    appId: '1:245846975950:android:13ac1dc1e7f708989db79f',
-    messagingSenderId: '245846975950',
-    projectId: 'grand-eye-356710',
-    storageBucket: 'grand-eye-356710.appspot.com',
+    apiKey: 'AIzaSyCnPp0xblhAwjlB_ZOdxHQbOZaNLWLJAbk',
+    appId: '1:17609084275:android:584b4f8f5b663004bc8906',
+    messagingSenderId: '17609084275',
+    projectId: 'homaale-c945b',
+    storageBucket: 'homaale-c945b.appspot.com',
   );
 
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyBa18sGbuG_CN9DAq0soA-ucVrg2IBL3dc',
-    appId: '1:245846975950:ios:2d5a22cf62bb92309db79f',
-    messagingSenderId: '245846975950',
-    projectId: 'grand-eye-356710',
-    storageBucket: 'grand-eye-356710.appspot.com',
-    androidClientId: '245846975950-3quu62am64tm9a58lkml4n3f639fahj6.apps.googleusercontent.com',
-    iosClientId: '245846975950-4m4o50p5l22fjgo7mio82h65sdu2j45b.apps.googleusercontent.com',
+    apiKey: 'AIzaSyDBmuazqeTsM8rbZ2pC5QgUmRO55s-IXls',
+    appId: '1:17609084275:ios:c1a45a99c6d11116bc8906',
+    messagingSenderId: '17609084275',
+    projectId: 'homaale-c945b',
+    storageBucket: 'homaale-c945b.appspot.com',
+    iosClientId:
+        '17609084275-90tc6mevtdvtq9d2hblnpfhr2s7jgv5a.apps.googleusercontent.com',
     iosBundleId: 'com.cagtu.cipher',
   );
 }

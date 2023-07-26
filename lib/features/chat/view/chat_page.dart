@@ -1,6 +1,6 @@
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/constants/date_time_representation.dart';
 import 'package:cipher/core/helpers/cryptojs_aes_encryption_helper.dart';
-import 'package:cipher/core/helpers/date_helper.dart';
 import 'package:cipher/features/chat/models/chat_messages.dart';
 import 'package:cipher/features/chat/models/chat_person_details.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
@@ -93,10 +93,11 @@ class _ChatPageState extends State<ChatPage> {
                 itemBuilder: (context, index) {
                   String message = decryptAESCryptoJS(
                       mList[index].text.toString(), kAESEncryptionKey);
-                  String date = DateTimeHelper.timeAgoSinceDate(
-                      mList[index].date.toString());
+                  String date = getVerboseDateTimeRepresentation(
+                      DateTime.parse(mList[index].date!));
+
                   return Container(
-                    width: MediaQuery.of(context).size.width * 0.8,
+                    width: MediaQuery.of(context).size.width * 0.2,
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisAlignment:
@@ -105,67 +106,61 @@ class _ChatPageState extends State<ChatPage> {
                               : MainAxisAlignment.end,
                       children: [
                         chatPersonDetails?.id == mList[index].senderId
-                            ? Container(
-                                height: 50,
-                                width: 50,
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  image: DecorationImage(
-                                    image: NetworkImage(
-                                      chatPersonDetails?.profileImage ??
-                                          kHomaaleImg,
-                                    ),
-                                    fit: BoxFit.cover,
-                                  ),
+                            ? CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  chatPersonDetails?.profileImage ??
+                                      kHomaaleImg,
                                 ),
                               )
                             : SizedBox(),
                         addHorizontalSpace(8),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              width: MediaQuery.of(context).size.width * 0.7,
-                              padding: EdgeInsets.all(16.0),
-                              decoration: BoxDecoration(
-                                color: chatPersonDetails?.id ==
-                                        mList[index].senderId
-                                    ? kColorGrey
-                                    : kColorBlue,
-                                borderRadius: BorderRadius.only(
-                                  topLeft: chatPersonDetails?.id ==
-                                          mList[index].senderId
-                                      ? Radius.zero
-                                      : Radius.circular(16),
-                                  topRight: Radius.circular(16),
-                                  bottomLeft: Radius.circular(16),
-                                  bottomRight: chatPersonDetails?.id ==
-                                          mList[index].senderId
-                                      ? Radius.circular(16)
-                                      : Radius.zero,
-                                ),
-                              ),
-                              child: Text(
-                                message,
-                                maxLines: message.length,
-                                textAlign: TextAlign.justify,
-                                style: TextStyle(
+                        Flexible(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.7,
+                                padding: EdgeInsets.all(16.0),
+                                decoration: BoxDecoration(
                                   color: chatPersonDetails?.id ==
                                           mList[index].senderId
-                                      ? Colors.black
-                                      : Colors.white,
+                                      ? kColorGrey
+                                      : kColorBlue,
+                                  borderRadius: BorderRadius.only(
+                                    topLeft: chatPersonDetails?.id ==
+                                            mList[index].senderId
+                                        ? Radius.zero
+                                        : Radius.circular(16),
+                                    topRight: Radius.circular(16),
+                                    bottomLeft: Radius.circular(16),
+                                    bottomRight: chatPersonDetails?.id ==
+                                            mList[index].senderId
+                                        ? Radius.circular(16)
+                                        : Radius.zero,
+                                  ),
+                                ),
+                                child: Text(
+                                  message,
+                                  maxLines: message.length,
+                                  textAlign: TextAlign.justify,
+                                  style: TextStyle(
+                                    color: chatPersonDetails?.id ==
+                                            mList[index].senderId
+                                        ? Colors.black
+                                        : Colors.white,
+                                  ),
                                 ),
                               ),
-                            ),
-                            addVerticalSpace(4),
-                            Text(
-                              date,
-                              style: TextStyle(
-                                fontSize: 11,
-                                // color: kColorDarkGrey2,
-                              ),
-                            )
-                          ],
+                              addVerticalSpace(4),
+                              Text(
+                                date,
+                                style: TextStyle(
+                                  fontSize: 11,
+                                  // color: kColorDarkGrey2,
+                                ),
+                              )
+                            ],
+                          ),
                         ),
                         Icon(Icons.more_vert),
                       ],

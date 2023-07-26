@@ -1,4 +1,4 @@
-import 'package:cipher/core/helpers/date_helper.dart';
+import 'package:cipher/core/constants/date_time_representation.dart';
 import 'package:cipher/features/chat/bloc/chat_bloc.dart';
 import 'package:cipher/features/chat/models/chat.dart';
 import 'package:cipher/features/chat/view/chat_page.dart';
@@ -41,226 +41,180 @@ class _ChatListingPageState extends State<ChatListingPage> {
         appBarTitle: 'Messages',
         trailingWidget: SizedBox(),
       ),
-      body: Column(
-        children: [
-          BlocBuilder<UserBloc, UserState>(
-            builder: (context, userState) {
-              if (userState.theStates == TheStates.success) {
-                return StreamBuilder(
-                  stream: locator<FirebaseFirestore>()
-                      .collection("userChats")
-                      .doc("${userState.taskerProfile?.user?.id}")
-                      .snapshots(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.active) {
-                      if (snapshot.hasData) {
-                        List<Chat> cList = [];
+      body: BlocBuilder<UserBloc, UserState>(
+        builder: (context, userState) {
+          if (userState.theStates == TheStates.success) {
+            return StreamBuilder(
+              stream: locator<FirebaseFirestore>()
+                  .collection("userChats")
+                  .doc("${userState.taskerProfile?.user?.id}")
+                  .snapshots(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.active) {
+                  if (snapshot.hasData) {
+                    List<Chat> cList = [];
 
-                        snapshot.data?.data()?.forEach(
-                          (key, value) {
-                            if (value.toString().contains('userInfo')) {
-                              cList.add(Chat(
-                                groupName: key,
-                                date: (value['date'] == null
-                                        ? Timestamp.now()
-                                        : value['date'] as Timestamp)
-                                    .toDate()
-                                    .toString(),
-                                lastMessage: value
-                                        .toString()
-                                        .contains('lastMessage')
+                    snapshot.data?.data()?.forEach(
+                      (key, value) {
+                        if (value.toString().contains('userInfo')) {
+                          cList.add(Chat(
+                            groupName: key,
+                            date: (value['date'] == null
+                                    ? Timestamp.now()
+                                    : value['date'] as Timestamp)
+                                .toDate()
+                                .toString(),
+                            lastMessage:
+                                value.toString().contains('lastMessage')
                                     ? value['lastMessage']['text'].toString()
                                     : '',
-                                isRead: value['read'] as bool,
-                                personID: value['userInfo']['uid'].toString(),
-                              ));
-                            }
-                          },
-                        );
+                            isRead: value['read'] as bool,
+                            personID: value['userInfo']['uid'].toString(),
+                          ));
+                        }
+                      },
+                    );
 
-                        if (cList.length > 0) {
-                          chatBloc.add(FetchChatLists(chatList: cList));
+                    if (cList.length > 0) {
+                      chatBloc.add(FetchChatLists(chatList: cList));
 
-                          return BlocBuilder<ChatBloc, ChatState>(
-                            bloc: chatBloc,
-                            builder: (context, state) {
-                              if (state.states == TheStates.loading) {
-                                return Center(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: CustomLoader(),
-                                  ),
-                                );
-                              } else if (state.states == TheStates.success) {
-                                return Expanded(
-                                  child: ListView.separated(
-                                    shrinkWrap: true,
-                                    padding: EdgeInsets.zero,
-                                    itemCount: state.rCl?.length ?? 0,
-                                    separatorBuilder: (context, index) =>
-                                        Container(
-                                      margin: EdgeInsets.symmetric(vertical: 8),
-                                      child: Divider(),
-                                    ),
-                                    itemBuilder: (context, index) {
-                                      String date =
-                                          DateTimeHelper.timeAgoSinceDate(state
-                                                  .rCl?[index].date
-                                                  ?.toString() ??
-                                              '');
-                                      return GestureDetector(
-                                        onTap: () {
-                                          Navigator.pushNamed(
-                                            context,
-                                            ChatPage.routeName,
-                                            arguments: state.rCl?[index],
-                                          );
-                                        },
-                                        child: Container(
-                                          height: 108,
-                                          width:
-                                              MediaQuery.of(context).size.width,
-                                          padding: EdgeInsets.all(16.0),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Container(
-                                                height: 30,
-                                                width: 30,
-                                                decoration: BoxDecoration(
-                                                  shape: BoxShape.circle,
-                                                  image: DecorationImage(
-                                                    image: NetworkImage(
-                                                      state.rCl?[index]
-                                                              .profileImage ??
-                                                          kHomaaleImg,
-                                                    ),
-                                                    fit: BoxFit.cover,
-                                                  ),
-                                                ),
-                                              ),
-                                              addHorizontalSpace(8),
-                                              Column(
-                                                crossAxisAlignment:
-                                                    CrossAxisAlignment.start,
-                                                children: [
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.79,
-                                                    child: Text(
-                                                      state.rCl?[index].fullName
-                                                              ?.toString() ??
-                                                          '',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .headlineSmall,
-                                                      overflow:
-                                                          TextOverflow.ellipsis,
-                                                    ),
-                                                  ),
-                                                  addVerticalSpace(4),
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.79,
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .spaceBetween,
-                                                      children: [
-                                                        Text(
-                                                          date,
-                                                          style:
-                                                              Theme.of(context)
-                                                                  .textTheme
-                                                                  .bodySmall,
-                                                        ),
-                                                        Icon(
-                                                          state.rCl?[index]
-                                                                      .isRead ??
-                                                                  false
-                                                              ? Icons
-                                                                  .check_circle_rounded
-                                                              : Icons
-                                                                  .check_circle_outline_rounded,
-                                                          size: 16,
-                                                          color: kColorBlue,
-                                                        )
-                                                      ],
-                                                    ),
-                                                  ),
-                                                  addVerticalSpace(4),
-                                                  SizedBox(
-                                                    width:
-                                                        MediaQuery.of(context)
-                                                                .size
-                                                                .width *
-                                                            0.79,
-                                                    child: Text(
-                                                      '${state.rCl?[index].lastMessage ?? 'Start Conversation'}',
-                                                      style: Theme.of(context)
-                                                          .textTheme
-                                                          .bodySmall,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
-                                          ),
-                                        ),
+                      return BlocBuilder<ChatBloc, ChatState>(
+                        bloc: chatBloc,
+                        builder: (context, state) {
+                          if (state.states == TheStates.loading) {
+                            return Center(
+                              child: CustomLoader(),
+                            );
+                          } else if (state.states == TheStates.success) {
+                            return SingleChildScrollView(
+                              child: Column(
+                                children: List.generate(state.rCl?.length ?? 0,
+                                    (index) {
+                                  String date =
+                                      getVerboseDateTimeRepresentation(
+                                          DateTime.parse(
+                                              state.rCl![index].date!));
+                                  return GestureDetector(
+                                    onTap: () {
+                                      Navigator.pushNamed(
+                                        context,
+                                        ChatPage.routeName,
+                                        arguments: state.rCl?[index],
                                       );
                                     },
-                                  ),
-                                );
-                              } else if (state.states == TheStates.failure) {
-                                return Center(
-                                    child: CommonErrorContainer(
-                                  assetsPath: 'assets/no_data_found.png',
-                                  errorDes:
-                                      'No chats. Start a service or task to initiate chat',
-                                ));
-                              } else {
-                                return Center(child: CustomLoader());
-                              }
-                            },
-                          );
-                        } else {
-                          return SizedBox(
-                            width: MediaQuery.of(context).size.width,
-                            height: MediaQuery.of(context).size.height * 0.9,
-                            child: Center(
+                                    child: ListTile(
+                                      leading: CircleAvatar(
+                                        backgroundImage: NetworkImage(
+                                          state.rCl?[index].profileImage ??
+                                              kHomaaleImg,
+                                        ),
+                                      ),
+                                      title: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.79,
+                                            child: Text(
+                                              state.rCl?[index].fullName
+                                                      ?.toString() ??
+                                                  '',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .headlineSmall,
+                                              overflow: TextOverflow.ellipsis,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.79,
+                                            child: Text(
+                                              '${state.rCl?[index].lastMessage ?? 'Start Conversation'}',
+                                              style: Theme.of(context)
+                                                  .textTheme
+                                                  .bodySmall,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: MediaQuery.of(context)
+                                                    .size
+                                                    .width *
+                                                0.79,
+                                            child: Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment
+                                                      .spaceBetween,
+                                              children: [
+                                                Text(
+                                                  date,
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .bodySmall,
+                                                ),
+                                                Icon(
+                                                  state.rCl?[index].isRead ??
+                                                          false
+                                                      ? Icons
+                                                          .check_circle_rounded
+                                                      : Icons
+                                                          .check_circle_outline_rounded,
+                                                  size: 16,
+                                                  color: kColorBlue,
+                                                )
+                                              ],
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  );
+                                }),
+                              ),
+                            );
+                          } else if (state.states == TheStates.failure) {
+                            return Center(
                                 child: CommonErrorContainer(
                               assetsPath: 'assets/no_data_found.png',
                               errorDes:
                                   'No chats. Start a service or task to initiate chat',
-                            )),
-                          );
-                        }
-                      } else {
-                        return Center(
+                            ));
+                          } else {
+                            return Center(child: CustomLoader());
+                          }
+                        },
+                      );
+                    } else {
+                      return SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: MediaQuery.of(context).size.height * 0.9,
+                        child: Center(
                             child: CommonErrorContainer(
                           assetsPath: 'assets/no_data_found.png',
                           errorDes:
                               'No chats. Start a service or task to initiate chat',
-                        ));
-                      }
+                        )),
+                      );
                     }
-                    return Center(child: CardLoading(height: 200));
-                  },
-                );
-              }
-              return Center(child: CardLoading(height: 200));
-            },
-          ),
-        ],
+                  } else {
+                    return Center(
+                        child: CommonErrorContainer(
+                      assetsPath: 'assets/no_data_found.png',
+                      errorDes:
+                          'No chats. Start a service or task to initiate chat',
+                    ));
+                  }
+                }
+                return Center(child: CardLoading(height: 200));
+              },
+            );
+          }
+          return Center(child: CardLoading(height: 200));
+        },
       ),
     );
   }

@@ -157,6 +157,7 @@ class _BookingSectionState extends State<BookingSection> {
                                                   },
                                                   serviceName:
                                                       bookingList[index].title,
+                                                  cardColor: kColorBlue,
                                                   providerName:
                                                       "${bookingList[index].assigner?.firstName} ${bookingList[index].assigner?.lastName}",
                                                   mainContentWidget:
@@ -226,7 +227,6 @@ class _BookingSectionState extends State<BookingSection> {
                                                   bookingList[index].title,
                                               providerName:
                                                   "${bookingList[index].assignee?.firstName} ${bookingList[index].assignee?.lastName}",
-                                              cardColor: kColorBlue,
                                               mainContentWidget:
                                                   showBookingDetails(
                                                       bookingList[index]),

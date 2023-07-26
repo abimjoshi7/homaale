@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class CustomLoader extends StatefulWidget {
@@ -39,13 +40,22 @@ class _CustomLoaderState extends State<CustomLoader>
   @override
   Widget build(BuildContext context) {
     super.build(context);
-    return Transform.rotate(
-      angle: _controller.value * 100,
-      child: Container(
-        height: 60,
-        width: 60,
-        child: Image.asset("assets/homaale.png"),
-      ),
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        CircularProgressIndicator(
+          value: 50,
+          color: kColorSecondary,
+        ),
+        Transform.rotate(
+          angle: _controller.value * 100,
+          child: Container(
+            height: 30,
+            width: 30,
+            child: Image.asset("assets/homaale.png"),
+          ),
+        ),
+      ],
     );
   }
 

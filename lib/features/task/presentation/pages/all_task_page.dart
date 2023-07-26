@@ -16,7 +16,6 @@ import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 
-
 enum SortType { budget, date }
 
 class AllTaskPage extends StatefulWidget {
@@ -126,7 +125,9 @@ class _AllTaskPageState extends State<AllTaskPage> {
         builder: (context, state) {
           switch (state.theState) {
             case TheStates.initial:
-              return const Center(child: CardLoading(height: 700));
+              return const Center(
+                child: CustomLoader(),
+              );
             case TheStates.success:
               return Column(
                 children: <Widget>[

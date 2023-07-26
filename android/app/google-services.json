@@ -1,37 +1,37 @@
 {
   "project_info": {
-    "project_number": "17609084275",
-    "project_id": "homaale-c945b",
-    "storage_bucket": "homaale-c945b.appspot.com"
+    "project_number": "245846975950",
+    "project_id": "grand-eye-356710",
+    "storage_bucket": "grand-eye-356710.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:17609084275:android:584b4f8f5b663004bc8906",
+        "mobilesdk_app_id": "1:245846975950:android:13ac1dc1e7f708989db79f",
         "android_client_info": {
           "package_name": "com.cagtu.cipher"
         }
       },
       "oauth_client": [
         {
-          "client_id": "17609084275-d91m3a34je8srhcqi0o7vukpatq56a65.apps.googleusercontent.com",
+          "client_id": "245846975950-tjgerb9o382u0j9oc1fqmmapn99gvv3o.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCnPp0xblhAwjlB_ZOdxHQbOZaNLWLJAbk"
+          "current_key": "AIzaSyB-RruUbsZ9JmEV0GxPwYKRT28E_jLbCrw"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "17609084275-d91m3a34je8srhcqi0o7vukpatq56a65.apps.googleusercontent.com",
+              "client_id": "245846975950-a4anha0p4iach75bsm26idrjj5i95j6s.apps.googleusercontent.com",
               "client_type": 3
             },
             {
-              "client_id": "17609084275-90tc6mevtdvtq9d2hblnpfhr2s7jgv5a.apps.googleusercontent.com",
+              "client_id": "245846975950-4m4o50p5l22fjgo7mio82h65sdu2j45b.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
                 "bundle_id": "com.cagtu.cipher"

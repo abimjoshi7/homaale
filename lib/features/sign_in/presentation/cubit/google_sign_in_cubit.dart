@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'dart:developer';
+
 import 'package:cipher/core/app/initial_data_fetch.dart';
 import 'package:dependencies/dependencies.dart';
 
@@ -27,44 +29,50 @@ class GoogleSignInCubit extends Cubit<GoogleSignInState> {
         ),
       );
 
-      final result = await _googleSignIn.signIn();
-      final authentication = await result?.authentication;
-      if (authentication?.idToken != null) {
-        final idToken = authentication!.idToken;
-        final x = await repository.sendGoogleLoginReq({'credential': idToken});
-        if (x.access != null) {
-          CacheHelper.hasProfile = x.hasProfile;
-          CacheHelper.accessToken = x.access;
-          CacheHelper.refreshToken = x.refresh;
-          CacheHelper.isLoggedIn = true;
-
-          // fetch user details
-          if (CacheHelper.hasProfile ?? false) {
-            userDetailsFetch(context);
+      await _googleSignIn.signIn().then(
+        (googleSignInAccount) async {
+          if (kDebugMode) {
+            print(await googleSignInAccount?.authHeaders);
           }
+          if (googleSignInAccount != null)
+            await googleSignInAccount.authentication.then(
+              (value) async {
+                if (value.idToken != null) {
+                  print(value.idToken);
+                  final idToken = value.idToken;
+                  final x = await repository.sendGoogleLoginReq(
+                    {
+                      'credential': idToken,
+                    },
+                  );
+                  if (x.access != null) {
+                    CacheHelper.hasProfile = x.hasProfile;
+                    CacheHelper.accessToken = x.access;
+                    CacheHelper.refreshToken = x.refresh;
+                    CacheHelper.isLoggedIn = true;
 
-          // fetch data for app
-          fetchDataForForms(context);
-        }
-        emit(
-          state.copyWith(
-            states: TheStates.loading,
-            isLoggedIn: true,
-          ),
-        );
-        // else {
-        //   setState(() {
-        //     isLoading = false;
-        //   });
-        //   if (!mounted) return;
-        //   ScaffoldMessenger.of(context).showSnackBar(
-        //     const SnackBar(
-        //       content: Text('Cannot Sign in. Please try again'),
-        //     ),
-        //   );
-        // }
-      }
+                    // fetch user details
+                    if (CacheHelper.hasProfile ?? false) {
+                      userDetailsFetch(context);
+                    }
+
+                    // fetch data for app
+                    fetchDataForForms(context);
+                  }
+                  emit(
+                    state.copyWith(
+                      states: TheStates.success,
+                      isLoggedIn: true,
+                    ),
+                  );
+                }
+              },
+            );
+          print("access token: ${CacheHelper.accessToken}");
+        },
+      );
     } catch (e) {
+      print(e.toString());
       emit(
         state.copyWith(
           states: TheStates.failure,
@@ -74,20 +82,26 @@ class GoogleSignInCubit extends Cubit<GoogleSignInState> {
       if (kDebugMode) {
         print('Google Sign-In Error');
       }
-      rethrow;
+      throw Exception("Google Sign In Error: $e");
     }
   }
 
   Future<void> signOut() async {
     try {
-      CacheHelper.isLoggedIn = true;
-      await _googleSignIn.signOut().then((value) => emit(state.copyWith(
-            states: TheStates.success,
-            isLoggedIn: false,
-          )));
+      if (CacheHelper.isLoggedIn == true) {
+        await _googleSignIn.signOut().then(
+              (value) => emit(
+                state.copyWith(
+                  states: TheStates.success,
+                  isLoggedIn: false,
+                ),
+              ),
+            );
+      } else
+        return;
     } catch (e) {
       if (kDebugMode) {
-        print('Google Sign-Out Error');
+        print('Google Sign-Out Error: $e');
       }
       emit(
         state.copyWith(
@@ -95,7 +109,7 @@ class GoogleSignInCubit extends Cubit<GoogleSignInState> {
           isLoggedIn: true,
         ),
       );
-      throw Exception("Google Sign-Out Error");
+      throw Exception("Google Sign-Out Error: $e");
     }
   }
 }

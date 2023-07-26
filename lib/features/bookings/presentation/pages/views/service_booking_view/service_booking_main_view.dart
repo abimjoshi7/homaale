@@ -34,6 +34,7 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
   final TextEditingController problemDescController = TextEditingController();
   final TextEditingController budgetController = TextEditingController();
   final TextEditingController addressController = TextEditingController();
+  final List<String> requirementList = [];
 
   @override
   void initState() {
@@ -46,12 +47,12 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
         Form(
           key: _formKey,
           child: DetailsView(
-            uploadBloc: uploadBloc,
-            bookEventHandlerBloc: bookEventHandlerBloc,
-            addressController: addressController,
-            problemDescController: problemDescController,
-            requirementController: requirementController,
-          ),
+              uploadBloc: uploadBloc,
+              bookEventHandlerBloc: bookEventHandlerBloc,
+              addressController: addressController,
+              problemDescController: problemDescController,
+              requirementController: requirementController,
+              requirementList: requirementList),
         ),
       ],
     );
@@ -109,17 +110,6 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
                         heading: 'Success',
                         content: 'Booking is successful',
                         onTap: () async {
-                          final chatBloc = locator<ChatBloc>();
-                          chatBloc.add(HandleUserCreationChat(
-                            userID: context
-                                .read<UserBloc>()
-                                .state
-                                .taskerProfile
-                                ?.user
-                                ?.id,
-                            taskerID: state.taskEntityService.createdBy?.id,
-                          ));
-
                           await CacheHelper.clearCachedData(kBookedMap)
                               .whenComplete(
                             () {
@@ -196,6 +186,7 @@ class _ServiceBookingMainViewState extends State<ServiceBookingMainView> {
                 requirementController.clear();
                 problemDescController.clear();
                 addressController.clear();
+                requirementList.clear();
               });
               _pageController.jumpToPage(0);
             } else {
