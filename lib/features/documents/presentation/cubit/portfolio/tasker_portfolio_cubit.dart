@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/documents/data/models/tasker_portfolio_req.dart';
 import 'package:cipher/features/documents/data/repositories/document_repositories.dart';
 import 'package:cipher/features/user/data/models/tasker_profile.dart';
@@ -7,45 +8,69 @@ part 'tasker_portfolio_state.dart';
 
 class TaskerPortfolioCubit extends Cubit<TaskerPortfolioState> {
   final repositories = DocumentRepositories();
-  TaskerPortfolioCubit() : super(TaskerPortfolioInitial());
+  TaskerPortfolioCubit()
+      : super(
+          TaskerPortfolioState(),
+        );
 
   Future<void> addPortfolio(TaskerPortfolioReq taskerPortfolioReq) async {
     try {
       emit(
-        TaskerPortfolioInitial(),
+        state.copyWith(
+          states: TheStates.loading,
+        ),
       );
       final x = await repositories.addPortfolio(taskerPortfolioReq);
 
-      if (x['status'] == 'success') emit(TaskerAddPortfolioSuccess());
+      if (x['status'] == 'success')
+        emit(
+          state.copyWith(
+            states: TheStates.success,
+            isAdded: true,
+          ),
+        );
+      await getPortfolio();
     } catch (e) {
-      emit(TaskerAddPortfolioFailure());
+      emit(
+        state.copyWith(
+          isAdded: false,
+          states: TheStates.failure,
+        ),
+      );
     }
   }
 
   Future<void> getSingleTaskerPortfolio(int id) async {
     try {
-      emit(
-        TaskerPortfolioInitial(),
-      );
+      emit(state.copyWith(
+        states: TheStates.loading,
+      ));
 
       final result = await repositories.retreivePortfolio(id);
 
       if (result.isNotEmpty) {
         emit(
-          TaskerRetrievePortfolioSuccess(
-            taskerPortfolioRes: Portfolio.fromJson(result),
+          state.copyWith(
+            states: TheStates.success,
+            taskerPortfolio: Portfolio.fromJson(result),
           ),
         );
       }
     } catch (e) {
-      emit(TaskerRetrievePortfolioFailure());
+      emit(
+        state.copyWith(
+          states: TheStates.failure,
+        ),
+      );
     }
   }
 
   Future<void> getPortfolio() async {
     try {
       emit(
-        TaskerPortfolioInitial(),
+        state.copyWith(
+          states: TheStates.loading,
+        ),
       );
 
       final result = await repositories.fetchPortfolio();
@@ -55,13 +80,19 @@ class TaskerPortfolioCubit extends Cubit<TaskerPortfolioState> {
 
       if (result.isNotEmpty) {
         emit(
-          TaskerGetPortfolioSuccess(
-            taskerPortfolioRes: List<Portfolio>.from(portfolioList as Iterable),
+          state.copyWith(
+            states: TheStates.success,
+            taskerPortfolioList:
+                List<Portfolio>.from(portfolioList as Iterable),
           ),
         );
       }
     } catch (e) {
-      emit(TaskerGetPortfolioFailure());
+      emit(
+        state.copyWith(
+          states: TheStates.failure,
+        ),
+      );
     }
   }
 
@@ -71,34 +102,55 @@ class TaskerPortfolioCubit extends Cubit<TaskerPortfolioState> {
   ) async {
     try {
       emit(
-        TaskerPortfolioInitial(),
+        state.copyWith(
+          states: TheStates.loading,
+        ),
       );
 
       final x = await repositories.editPortfolio(taskerPortfolioReq, id);
-      if (x['status'] == 'success') emit(TaskerEditPortfolioSuccess());
-      // getTaskerPortfolio();
+      if (x['status'] == 'success')
+        emit(
+          state.copyWith(
+            isEdited: true,
+            states: TheStates.success,
+          ),
+        );
     } catch (e) {
-      emit(TaskerEditPortfolioFailure());
-      // getTaskerPortfolio();
+      emit(
+        state.copyWith(
+          states: TheStates.failure,
+          isEdited: false,
+        ),
+      );
     }
+
+    await getPortfolio();
   }
 
   Future<void> deleteTaskerPortfolio(int id) async {
     try {
       emit(
-        TaskerPortfolioInitial(),
+        state.copyWith(
+          states: TheStates.loading,
+        ),
       );
 
-      await repositories
-          .deletePortfolio(id)
-          .whenComplete(
+      await repositories.deletePortfolio(id).whenComplete(
             () => emit(
-              TaskerDeletePortfolioSuccess(),
+              state.copyWith(
+                isDeleted: true,
+                states: TheStates.success,
+              ),
             ),
-          )
-          .then((value) async => getPortfolio());
+          );
     } catch (e) {
-      emit(TaskerDeletePortfolioFailure());
+      emit(
+        state.copyWith(
+          isDeleted: false,
+          states: TheStates.failure,
+        ),
+      );
     }
+    await getPortfolio();
   }
 }

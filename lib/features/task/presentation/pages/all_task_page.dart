@@ -47,23 +47,24 @@ class _AllTaskPageState extends State<AllTaskPage> {
   String? sortBudget;
   String? sortDate;
   String? serviceId1;
-   Map<String, dynamic>? argss;
+  Map<String, dynamic>? argss;
   @override
   void initState() {
     super.initState();
     if (argss == null)
       SchedulerBinding.instance.addPostFrameCallback((_) {
         taskBloc.add(AllTaskLoadInitiated(
-            isTask: true,
-            newFetch: true,
-            page: 1,
-            serviceId: context
-                .read<
-                ServicesBloc>()
-                .state
-                .serviceList?.first
-                .id
-            // "72b2a511-d2b0-403d-834b-1fa4ac626f7c",
+          isTask: true,
+          newFetch: true,
+          page: 1,
+          serviceId:
+              // context
+              //     .read<
+              //     ServicesBloc>()
+              //     .state
+              //     .serviceList?.first
+              //     .id
+              "72b2a511-d2b0-403d-834b-1fa4ac626f7c",
         ));
       });
     else
@@ -125,10 +126,6 @@ class _AllTaskPageState extends State<AllTaskPage> {
 
   @override
   Widget build(BuildContext context) {
-    final args =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
-    argss =args;
-
     return Scaffold(
       appBar: CustomAppBar(
         appBarTitle: " All Task Page",
@@ -146,15 +143,6 @@ class _AllTaskPageState extends State<AllTaskPage> {
             case TheStates.initial:
               return const Center(child: CardLoading(height: 700));
             case TheStates.success:
-              if (argss == null)
-                for (var x in taskBloc.state.taskEntityServices!) {
-                  if (x.service!.category!.name == args?["category"]) {
-                    setState(() {
-                      taskEntityService = x;
-                      serviceId1 = x.id;
-                    });
-                  };
-                }
               return Column(
                 children: <Widget>[
                   kHeight8,
@@ -213,12 +201,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                               // ),
                             ),
                             addHorizontalSpace(5),
-                            if (args != null)
-                              _buildCategory(
-                                taskEntityService: taskEntityService,
-                                id: args["category"] as String?,
-                              ),
-                            if (args == null) _buildCategory(),
+                            _buildCategory(),
                             addHorizontalSpace(
                               8,
                             ),
@@ -483,26 +466,24 @@ class _AllTaskPageState extends State<AllTaskPage> {
     );
   }
 
-  SizedBox _buildCategory({TaskEntityService? taskEntityService, String? id}) {
+  SizedBox _buildCategory() {
     return SizedBox(
       width: 170,
       height: 48,
       child: BlocBuilder<ServicesBloc, ServicesState>(
         builder: (context, state) {
-          if (taskEntityService != null && id != null)
-            taskBloc.add(
-              AllTaskLoadInitiated(
-                newFetch: true,
-                serviceId: taskEntityService.id,
-                isTask: true,
-                page: 1,
-              ),
-            );
+          // if (taskEntityService != null && id != null)
+          //   taskBloc.add(
+          //     AllTaskLoadInitiated(
+          //       newFetch: true,
+          //       serviceId: taskEntityService.id,
+          //       isTask: true,
+          //       page: 1,
+          //     ),
+          //   );
 
           if (state.theStates == TheStates.success)
             return CustomDropdownSearch(
-              selectedItem:
-                  taskEntityService == null ? id : taskEntityService.title,
               key: _categoryKey,
               hintText: category ?? taskEntityService.toString(),
               list: List.generate(
@@ -510,14 +491,13 @@ class _AllTaskPageState extends State<AllTaskPage> {
                 (index) => state.serviceList?[index].title ?? "",
               ),
               onChanged: (value) {
-                for (var element in state.serviceList!) {
-                  if (element.title == value)
-                    setState(() {
-                      category = value as String;
-                      serviceId = element.id.toString();
-                    });
-                }
-                print(serviceId);
+                // for (var element in state.serviceList!) {
+                //   if (element.title == value)
+                //     setState(() {
+                //       category = value as String;
+                //       serviceId = element.id.toString();
+                //     });
+                // print(serviceId);
                 taskBloc.add(
                   AllTaskLoadInitiated(
                     isTask: true,

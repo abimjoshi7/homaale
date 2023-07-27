@@ -25,6 +25,7 @@ import 'package:cipher/features/chat/view/chat_listing.dart';
 import 'package:cipher/features/chat/view/chat_page.dart';
 import 'package:cipher/features/checkout/presentation/pages/checkout_page.dart';
 import 'package:cipher/features/contact_us/presentation/contact_us_page.dart';
+import 'package:cipher/features/documents/presentation/pages/edit/edit_portfolio.dart';
 import 'package:cipher/features/documents/presentation/pages/pages.dart';
 import 'package:cipher/features/event/presentation/pages/event_details_page.dart';
 import 'package:cipher/features/following_followers/presentation/following_followers_page.dart';
@@ -311,6 +312,11 @@ class AppRouter {
       case CategoryProfessionalServiceSection.routeName:
         return MaterialPageRoute(
           builder: (context) => const CategoryProfessionalServiceSection(),
+          settings: settings,
+        );
+      case EditPortfolio.routeName:
+        return MaterialPageRoute(
+          builder: (context) => const EditPortfolio(),
           settings: settings,
         );
       case PostServicePage.routeName:

@@ -30,7 +30,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
   final searchController = TextEditingController();
   final payableFrom = TextEditingController();
   final payableTo = TextEditingController();
-  final _categoryKey = GlobalKey<FormFieldState>();
+  final _serviceTypeKey = GlobalKey<FormFieldState>();
   final _locationKey = GlobalKey<FormFieldState>();
 
   String? sortBudget;
@@ -39,7 +39,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
   String? selectedLocation;
   DateTime? dateFrom;
   DateTime? dateTo;
-  String? category="Pilot";
+  String? serviceType = "Pilot";
   String? serviceId;
   String? location;
 
@@ -67,9 +67,9 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                 payableFrom:
                     payableFrom.text.length == 0 ? null : payableFrom.text,
                 payableTo: payableTo.text.length == 0 ? null : payableTo.text,
-                serviceId: category,
+                serviceId: serviceType,
                 city: location,
-                category: category,
+                category: serviceType,
                 dateSort: sortDate,
                 budgetSort: sortBudget,
               ),
@@ -309,7 +309,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                   ),
                 ),
               ),
-              _buildCategory(),
+              _buildServiceType(),
               _buildLocation(),
               _buildFromDate(context),
               _buildToDate(context),
@@ -398,7 +398,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
     );
   }
 
-  Widget _buildCategory() {
+  Widget _buildServiceType() {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: 5,
@@ -413,8 +413,8 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                 children: [
                   Expanded(
                     child: CustomDropdownSearch(
-                      key: _categoryKey,
-                      hintText: category ?? "Category",
+                      key: _serviceTypeKey,
+                      hintText: serviceType ?? "Service Type",
                       list: List.generate(
                         state.serviceList!.length,
                         (index) => state.serviceList?[index].title ?? "",
@@ -423,11 +423,11 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                         for (var element in state.serviceList!) {
                           if (element.title == value)
                             setState(() {
-                              category = value as String;
+                              serviceType = value as String;
                               serviceId = element.id.toString();
                             });
                         }
-                        print(serviceId);
+                        print(serviceType);
                         entityServiceBloc.add(
                           TaskEntityServiceInitiated(
                             newFetch: true,
@@ -450,7 +450,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                   InkWell(
                     onTap: () {
                       setState(() {
-                        category = null;
+                        serviceType = null;
                         serviceId = null;
                         entityServiceBloc.add(
                           TaskEntityServiceInitiated(
@@ -671,7 +671,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
             dateTo = null;
             payableFrom.clear();
             payableTo.clear();
-            category = null;
+            serviceType = null;
             location = null;
             serviceId = null;
           });

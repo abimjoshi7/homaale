@@ -128,6 +128,7 @@ class ImageUploadCubit extends Cubit<ImageUploadState> {
         url: 'task/filestore/',
         token: CacheHelper.accessToken,
       );
+      print(response);
       if (response['status'] == 'success') {
         emit(
           FileUploadSuccess(list: response['data'] as List<dynamic>),

@@ -1,5 +1,4 @@
 import 'package:cipher/core/constants/constants.dart';
-import 'package:cipher/core/constants/dimensions.dart';
 import 'package:cipher/core/helpers/scroll_helper.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/bloc/scroll_bloc.dart';
@@ -13,7 +12,7 @@ import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:cipher/features/user/data/models/tasker_profile.dart' as pro;
 
-class PortfolioView extends StatefulWidget with TheModalBottomSheet {
+class PortfolioView extends StatefulWidget {
   const PortfolioView({
     super.key,
   });
@@ -22,7 +21,8 @@ class PortfolioView extends StatefulWidget with TheModalBottomSheet {
   State<PortfolioView> createState() => _PortfolioViewState();
 }
 
-class _PortfolioViewState extends State<PortfolioView> {
+class _PortfolioViewState extends State<PortfolioView>
+    with TheModalBottomSheet {
   final _controller = ScrollController();
   final _scrollBloc = locator<ScrollBloc>();
 
@@ -78,13 +78,23 @@ class _PortfolioViewState extends State<PortfolioView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<TaskerPortfolioCubit, TaskerPortfolioState>(
+      listenWhen: (previous, current) {
+        if (previous.states != TheStates.success &&
+            current.states == TheStates.success) return true;
+        return false;
+      },
       listener: (context, state) {
-        // TODO: implement listener
+        // if (state.taskerPortfolio.id != null) {
+        //   Navigator.pushNamed(
+        //     context,
+        //     EditPortfolio.routeName,
+        //   );
+        // }
       },
       builder: (context, state) {
-        if (state is TaskerGetPortfolioSuccess) {
+        if (state.taskerPortfolioList.isNotEmpty) {
           return SizedBox(
-            height: state.taskerPortfolioRes.length == 0
+            height: state.taskerPortfolioList.length == 0
                 ? 50
                 : MediaQuery.of(context).size.height * 0.2,
             width: double.infinity,
@@ -92,34 +102,13 @@ class _PortfolioViewState extends State<PortfolioView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisSize: MainAxisSize.min,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Portfolio',
-                    ),
-                    TextButton(
-                      onPressed: () {
-                        Navigator.pushNamed(
-                          context,
-                          AddPortfolio.routeName,
-                        );
-                      },
-                      child: const Text(
-                        'Add New',
-                        style: TextStyle(
-                          color: Color(0xffF98900),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                _buildPortfolioSection(context),
                 Expanded(
                   child: ListView.separated(
                     padding: EdgeInsets.zero,
                     scrollDirection: Axis.horizontal,
-                    itemCount: state.taskerPortfolioRes.length,
-                    // itemCount: state.taskerPortfolioRes.result!.length,
+                    itemCount: state.taskerPortfolioList.length,
+                    // itemCount: state.taskerPortfolioList.result!.length,
                     itemBuilder: (context, index) => InkWell(
                       onLongPress: () {
                         showDialog(
@@ -132,7 +121,7 @@ class _PortfolioViewState extends State<PortfolioView> {
                               await context
                                   .read<TaskerPortfolioCubit>()
                                   .deleteTaskerPortfolio(
-                                    state.taskerPortfolioRes[index].id ?? 0,
+                                    state.taskerPortfolioList[index].id ?? 0,
                                   )
                                   .then(
                                     (value) => Navigator.pop(context),
@@ -142,20 +131,19 @@ class _PortfolioViewState extends State<PortfolioView> {
                           ),
                         );
                       },
-                      onTap: () => showBottomSheet(
-                        constraints: const BoxConstraints(
-                          maxHeight: 800,
-                        ),
-                        context: context,
-                        builder: (context) => EditPortfolio(
-                          id: state.taskerPortfolioRes[index].id ?? 0,
-                        ),
-                      ),
+                      onTap: () => context
+                          .read<TaskerPortfolioCubit>()
+                          .getSingleTaskerPortfolio(
+                              state.taskerPortfolioList[index].id ?? 0),
                       child: PortfolioCard(
                         islocalImage: false,
                         imagePath:
-                            'https://cdn.pixabay.com/photo/2022/07/11/10/42/boho-style-7314646_960_720.png',
-                        label: state.taskerPortfolioRes[index].title ?? '',
+                            state.taskerPortfolioList[index].images!.isNotEmpty
+                                ? (state.taskerPortfolioList[index].images
+                                        ?.first.media ??
+                                    kNoImageNImg)
+                                : kNoImageNImg,
+                        label: state.taskerPortfolioList[index].title ?? '',
                       ),
                     ),
                     separatorBuilder: (context, index) => kWidth10,
@@ -165,9 +153,34 @@ class _PortfolioViewState extends State<PortfolioView> {
             ),
           );
         } else {
-          return const SizedBox.shrink();
+          return _buildPortfolioSection(context);
         }
       },
+    );
+  }
+
+  Widget _buildPortfolioSection(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        const Text(
+          'Portfolio',
+        ),
+        TextButton(
+          onPressed: () {
+            Navigator.pushNamed(
+              context,
+              AddPortfolio.routeName,
+            );
+          },
+          child: const Text(
+            'Add New',
+            style: TextStyle(
+              color: Color(0xffF98900),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
