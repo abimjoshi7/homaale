@@ -2,6 +2,7 @@ import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/features/documents/data/models/tasker_education_req.dart';
 import 'package:cipher/features/documents/presentation/cubit/cubits.dart';
+import 'package:cipher/features/profile/presentation/pages/profile.dart';
 import 'package:cipher/features/user/data/models/tasker_profile.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
@@ -50,7 +51,11 @@ class _EditEducationState extends State<EditEducation> {
               onTap: () async {
                 context.read<TaskerEducationCubit>().getTaskerEducation();
                 if (!mounted) return;
-                Navigator.pop(context);
+                // Navigator.pop(context);
+                Navigator.pushNamed(
+                  context,
+                  Profile.routeName,
+                );
               },
               isSuccess: true,
             ),
@@ -105,13 +110,9 @@ class _EditEducationState extends State<EditEducation> {
                                 ? schoolController.text
                                 : education?.school ??
                                     'Eg: Tribhuvan University',
-                            onChanged: (p0) {
-                              setState(
-                                () {
-                                  schoolController.text = p0!;
-                                },
-                              );
-                            },
+                            onChanged: (p0) => setState(
+                              () => schoolController.text = p0!,
+                            ),
                           ),
                         ),
                         CustomFormField(
@@ -177,17 +178,6 @@ class _EditEducationState extends State<EditEducation> {
                             },
                           ),
                         ),
-                        Row(
-                          children: [
-                            CustomCheckBox(
-                              onTap: () {},
-                              boxColor: const Color(0xff0693E3),
-                              isChecked: true,
-                            ),
-                            kWidth10,
-                            const Text('Save as location'),
-                          ],
-                        ),
                         kHeight20,
                         Row(
                           children: [
@@ -207,9 +197,7 @@ class _EditEducationState extends State<EditEducation> {
                                           lastDate: DateTime(2050),
                                         ).then(
                                           (value) => setState(
-                                            () {
-                                              startDate = value;
-                                            },
+                                            () => startDate = value,
                                           ),
                                         );
                                       },
@@ -248,9 +236,7 @@ class _EditEducationState extends State<EditEducation> {
                                           lastDate: DateTime(2050),
                                         ).then(
                                           (value) => setState(
-                                            () {
-                                              endDate = value;
-                                            },
+                                            () => endDate = value,
                                           ),
                                         );
                                       },

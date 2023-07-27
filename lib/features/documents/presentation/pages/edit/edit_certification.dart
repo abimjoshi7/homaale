@@ -23,7 +23,7 @@ class _EditCertificationsState extends State<EditCertification> {
   final certificationUrlController = TextEditingController();
   DateTime? issuedDate;
   DateTime? endDate;
-  bool? isExpirable = false;
+  bool isExpirable = false;
   Certificate? certificate;
 
   @override
@@ -143,21 +143,6 @@ class _EditCertificationsState extends State<EditCertification> {
                           },
                         ),
                       ),
-                      Row(
-                        children: [
-                          CustomCheckBox(
-                            onTap: () {
-                              setState(() {
-                                isExpirable = !isExpirable!;
-                              });
-                            },
-                            boxColor: const Color(0xff0693E3),
-                            isChecked: isExpirable!,
-                          ),
-                          kWidth10,
-                          const Text('This certificate does not expire'),
-                        ],
-                      ),
                       kHeight20,
                       CustomFormField(
                         label: 'Cerfication Id',
@@ -233,22 +218,24 @@ class _EditCertificationsState extends State<EditCertification> {
                           Flexible(
                             child: CustomFormField(
                               label: 'End Date',
-                              isRequired: true,
+                              isRequired: isExpirable,
                               child: InkWell(
-                                onTap: () async {
-                                  await showDatePicker(
-                                    context: context,
-                                    firstDate: DateTime(1980),
-                                    initialDate: DateTime.now(),
-                                    lastDate: DateTime(2050),
-                                  ).then(
-                                    (value) => setState(
-                                      () {
-                                        endDate = value;
+                                onTap: !isExpirable
+                                    ? null
+                                    : () async {
+                                        await showDatePicker(
+                                          context: context,
+                                          firstDate: DateTime(1980),
+                                          initialDate: DateTime.now(),
+                                          lastDate: DateTime(2050),
+                                        ).then(
+                                          (value) => setState(
+                                            () {
+                                              endDate = value;
+                                            },
+                                          ),
+                                        );
                                       },
-                                    ),
-                                  );
-                                },
                                 child: CustomFormContainer(
                                   hintText:
                                       endDate?.toString().substring(0, 10) ??
@@ -265,6 +252,27 @@ class _EditCertificationsState extends State<EditCertification> {
                             ),
                           ),
                         ],
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 10.0),
+                        child: Row(
+                          children: <Widget>[
+                            CustomCheckBox(
+                              isChecked: !isExpirable,
+                              onTap: () {
+                                setState(
+                                  () => isExpirable = !isExpirable,
+                                );
+                              },
+                            ),
+                            addHorizontalSpace(10),
+                            Flexible(
+                              child: Text('This document does not expire.',
+                                  style:
+                                      Theme.of(context).textTheme.displaySmall),
+                            ),
+                          ],
+                        ),
                       ),
                     ],
                   ),
@@ -312,7 +320,7 @@ class _EditCertificationsState extends State<EditCertification> {
                                     : certificate!.certificateUrl!,
                             doesExpire: isExpirable ?? certificate!.doesExpire!,
                             issuedDate: issuedDate,
-                            expireDate: endDate,
+                            expireDate: isExpirable ? endDate : null,
                           ),
                           widget.id,
                         );

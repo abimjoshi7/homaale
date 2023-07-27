@@ -61,11 +61,9 @@ class _AddEducationState extends State<AddEducation> {
                   child: CustomTextFormField(
                     validator: validateNotEmpty,
                     hintText: 'Eg: Tribhuvan University',
-                    onSaved: (p0) {
-                      setState(
-                        () => schoolController.text = p0!,
-                      );
-                    },
+                    onSaved: (p0) => setState(
+                      () => schoolController.text = p0!,
+                    ),
                   ),
                 ),
                 CustomFormField(
@@ -75,11 +73,8 @@ class _AddEducationState extends State<AddEducation> {
                     validator: validateNotEmpty,
                     maxLines: 3,
                     hintText: 'Write something...',
-                    onSaved: (p0) {
-                      setState(() {
-                        descriptionController.text = p0!;
-                      });
-                    },
+                    onSaved: (p0) =>
+                        setState(() => descriptionController.text = p0!),
                   ),
                 ),
                 CustomFormField(
@@ -88,11 +83,8 @@ class _AddEducationState extends State<AddEducation> {
                   child: CustomTextFormField(
                     validator: validateNotEmpty,
                     hintText: "Eg: Bachelor's",
-                    onSaved: (p0) {
-                      setState(() {
-                        degreeController.text = p0!;
-                      });
-                    },
+                    onSaved: (p0) =>
+                        setState(() => degreeController.text = p0!),
                   ),
                 ),
                 CustomFormField(
@@ -101,33 +93,11 @@ class _AddEducationState extends State<AddEducation> {
                   child: CustomTextFormField(
                     validator: validateNotEmpty,
                     hintText: 'Eg: Business',
-                    onSaved: (p0) {
-                      setState(() {
-                        fieldOfStudyController.text = p0!;
-                      });
-                    },
+                    onSaved: (p0) =>
+                        setState(() => fieldOfStudyController.text = p0!),
                   ),
                 ),
-                // CustomFormField(
-                //   label: 'Location',
-                //   isRequired: true,
-                //   child: CustomTextFormField(
-                //     validator: validateNotEmpty,
-                //     prefixWidget: const Icon(
-                //       Icons.location_on_outlined,
-                //       color: kColorPrimary,
-                //     ),
-                //     hintText: 'Eg: New Baneshwor, Kathmandu',
-                //     onSaved: (p0) {
-                //       setState(() {
-                //         locationController.text = p0!;
-                //       });
-                //     },
-                //   ),
-                // ),
-
                 kHeight20,
-
                 _buildDate(context),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 10.0),
@@ -135,13 +105,9 @@ class _AddEducationState extends State<AddEducation> {
                     children: <Widget>[
                       CustomCheckBox(
                         isChecked: !hasEndDate,
-                        onTap: () {
-                          setState(
-                            () {
-                              hasEndDate = !hasEndDate;
-                            },
-                          );
-                        },
+                        onTap: () => setState(
+                          () => hasEndDate = !hasEndDate,
+                        ),
                       ),
                       addHorizontalSpace(10),
                       Flexible(
