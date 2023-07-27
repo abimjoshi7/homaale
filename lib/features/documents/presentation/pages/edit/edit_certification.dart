@@ -320,7 +320,7 @@ class _EditCertificationsState extends State<EditCertification> {
                                     : certificate!.certificateUrl!,
                             doesExpire: isExpirable ?? certificate!.doesExpire!,
                             issuedDate: issuedDate,
-                            expireDate: isExpirable ? endDate : null,
+                            expireDate: endDate,
                           ),
                           widget.id,
                         );

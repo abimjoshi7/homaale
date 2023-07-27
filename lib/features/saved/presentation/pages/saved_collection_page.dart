@@ -213,8 +213,7 @@ class SearchTaskSection extends StatelessWidget {
 class SearchServiceSection extends StatelessWidget {
   final List<Result>? data;
   final SavedBloc savedBloc;
-  const SearchServiceSection(
-      {Key? key, this.data, required this.savedBloc})
+  const SearchServiceSection({Key? key, this.data, required this.savedBloc})
       : super(key: key);
 
   @override
@@ -232,7 +231,7 @@ class SearchServiceSection extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 16),
               crossAxisCount: 2,
               mainAxisSpacing: 4,
-              childAspectRatio: 0.8,
+              childAspectRatio: 0.7,
               children: data?.map((e) {
                     return InkWell(
                       onTap: () {
