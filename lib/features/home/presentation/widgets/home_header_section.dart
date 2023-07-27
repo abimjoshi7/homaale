@@ -1,6 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 
 import 'package:cipher/core/helpers/search_helper.dart';
+import 'package:cipher/features/account_settings/presentation/pages/kyc/bloc/kyc_bloc.dart';
 import 'package:cipher/locator.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
@@ -185,6 +186,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
     return InkWell(
       onTap: () {
         if (CacheHelper.isLoggedIn) {
+          context.read<KycBloc>().add(KycDocumentLoaded());
+          context.read<KycBloc>().add(KycProfileInitiated());
           context.read<WalletBloc>().add(WalletLoaded());
           Navigator.pushNamed(
             context,

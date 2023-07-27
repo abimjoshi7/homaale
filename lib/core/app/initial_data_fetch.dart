@@ -30,8 +30,8 @@ void userDetailsFetch(BuildContext context) {
   context.read<UserBloc>().add(UserLoaded());
   context.read<UserLocationCubit>().getUserLocation();
   context.read<KycBloc>().add(KycModelLoaded());
-  context.read<KycBloc>().add(KycDocumentLoaded());
-  context.read<KycBloc>().add(KycProfileInitiated());
+  // context.read<KycBloc>().add(KycDocumentLoaded());
+  // context.read<KycBloc>().add(KycProfileInitiated());
   context.read<TaskerPortfolioCubit>().getPortfolio();
   context.read<TaskerExperienceCubit>().getTaskerExperience();
   context.read<TaskerEducationCubit>().getTaskerEducation();
