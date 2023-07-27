@@ -25,6 +25,7 @@ class TaskerCard extends StatelessWidget {
     this.shareLinked,
     this.badgeImage,
     this.isOwner = false,
+     this.isProfileVerified,
   });
 
   final String? label;
@@ -44,6 +45,7 @@ class TaskerCard extends StatelessWidget {
   final VoidCallback onFavouriteTapped;
   final bool? isFollowed;
   final bool isOwner;
+  final bool? isProfileVerified;
 
   @override
   Widget build(BuildContext context) {
@@ -118,6 +120,7 @@ class TaskerCard extends StatelessWidget {
                   ),
                 ),
                 kWidth5,
+                if(isProfileVerified == true)
                 const Icon(
                   Icons.verified,
                   color: Color(0xff3EAEFF),

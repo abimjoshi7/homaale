@@ -2,12 +2,14 @@ import 'package:cipher/core/app/root.dart';
 import 'package:cipher/core/cache/cache_helper.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/helpers/scroll_helper.dart';
+import 'package:cipher/features/error_pages/no_internet_page.dart';
 import 'package:cipher/features/marketing/data/models/marketing_ads_dto.dart';
 import 'package:cipher/features/marketing/presentation/bloc/marketing_ads_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/task/presentation/bloc/task_bloc.dart';
 import 'package:cipher/features/task/presentation/pages/apply_task_page.dart';
 import 'package:cipher/features/task/presentation/pages/single_task_page.dart';
+import 'package:cipher/features/task_entity_service/data/models/task_entity_service_model.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/features/utilities/presentation/bloc/bloc.dart';
@@ -15,7 +17,7 @@ import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter/scheduler.dart';
 
 enum SortType { budget, date }
 
@@ -35,6 +37,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
   final budgetTo = TextEditingController();
   final _categoryKey = GlobalKey<FormFieldState>();
   final _locationKey = GlobalKey<FormFieldState>();
+  TaskEntityService? taskEntityService;
 
   DateTime? dateFrom;
   DateTime? dateTo;
@@ -43,12 +46,28 @@ class _AllTaskPageState extends State<AllTaskPage> {
   String? location;
   String? sortBudget;
   String? sortDate;
-
+  String? serviceId1;
+   Map<String, dynamic>? argss;
   @override
   void initState() {
     super.initState();
-    taskBloc.add(AllTaskLoadInitiated(isTask: true));
-
+    if (argss == null)
+      SchedulerBinding.instance.addPostFrameCallback((_) {
+        taskBloc.add(AllTaskLoadInitiated(
+            isTask: true,
+            newFetch: true,
+            page: 1,
+            serviceId: context
+                .read<
+                ServicesBloc>()
+                .state
+                .serviceList?.first
+                .id
+            // "72b2a511-d2b0-403d-834b-1fa4ac626f7c",
+        ));
+      });
+    else
+      taskBloc.add(AllTaskLoadInitiated(isTask: true));
     _controller = ScrollController()
       ..addListener(() {
         ScrollHelper.nextPageTrigger(
@@ -106,28 +125,36 @@ class _AllTaskPageState extends State<AllTaskPage> {
 
   @override
   Widget build(BuildContext context) {
+    final args =
+        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    argss =args;
+
     return Scaffold(
       appBar: CustomAppBar(
         appBarTitle: " All Task Page",
         trailingWidget: SizedBox.shrink(),
-        // IconButton(
-        //   onPressed: () async => showSearch(
-        //     context: context,
-        //     delegate: SearchHelper(
-        //       context: context,
-        //       searchBloc: locator<SearchBloc>(),
-        //     ),
-        //   ),
-        //   icon: Icon(Icons.search),
-        // ),
       ),
       body: BlocBuilder<TaskBloc, TaskState>(
         bloc: taskBloc,
+        buildWhen: (previous, current) {
+          if (previous.theState != TheStates.success &&
+              current.theState == TheStates.success) return true;
+          return false;
+        },
         builder: (context, state) {
           switch (state.theState) {
             case TheStates.initial:
               return const Center(child: CardLoading(height: 700));
             case TheStates.success:
+              if (argss == null)
+                for (var x in taskBloc.state.taskEntityServices!) {
+                  if (x.service!.category!.name == args?["category"]) {
+                    setState(() {
+                      taskEntityService = x;
+                      serviceId1 = x.id;
+                    });
+                  };
+                }
               return Column(
                 children: <Widget>[
                   kHeight8,
@@ -186,7 +213,12 @@ class _AllTaskPageState extends State<AllTaskPage> {
                               // ),
                             ),
                             addHorizontalSpace(5),
-                            _buildCategory(),
+                            if (args != null)
+                              _buildCategory(
+                                taskEntityService: taskEntityService,
+                                id: args["category"] as String?,
+                              ),
+                            if (args == null) _buildCategory(),
                             addHorizontalSpace(
                               8,
                             ),
@@ -239,7 +271,10 @@ class _AllTaskPageState extends State<AllTaskPage> {
                         controller: _controller,
                         padding: EdgeInsets.symmetric(horizontal: 8),
                         itemCount: state.isLastPage
-                            ? state.taskEntityServices!.length
+                            ? state.taskEntityServices!.length == 0 ||
+                                    taskEntityService == null
+                                ? 1
+                                : state.taskEntityServices!.length
                             : state.taskEntityServices!.length + 1,
                         separatorBuilder: (context, index) {
                           if (index % 5 == 0) {
@@ -265,6 +300,12 @@ class _AllTaskPageState extends State<AllTaskPage> {
                           }
                         },
                         itemBuilder: (BuildContext context, int index) {
+                          if (state.taskEntityServices!.length == 0)
+                            return Center(
+                              child: CommonErrorContainer(
+                                errorTile: "Search data not found. ",
+                              ),
+                            );
                           if (index >= state.taskEntityServices!.length) {
                             return Center(child: const BottomLoader());
                           }
@@ -442,16 +483,28 @@ class _AllTaskPageState extends State<AllTaskPage> {
     );
   }
 
-  SizedBox _buildCategory() {
+  SizedBox _buildCategory({TaskEntityService? taskEntityService, String? id}) {
     return SizedBox(
       width: 170,
       height: 48,
       child: BlocBuilder<ServicesBloc, ServicesState>(
         builder: (context, state) {
+          if (taskEntityService != null && id != null)
+            taskBloc.add(
+              AllTaskLoadInitiated(
+                newFetch: true,
+                serviceId: taskEntityService.id,
+                isTask: true,
+                page: 1,
+              ),
+            );
+
           if (state.theStates == TheStates.success)
             return CustomDropdownSearch(
+              selectedItem:
+                  taskEntityService == null ? id : taskEntityService.title,
               key: _categoryKey,
-              hintText: category ?? "Category",
+              hintText: category ?? taskEntityService.toString(),
               list: List.generate(
                 state.serviceList!.length,
                 (index) => state.serviceList?[index].title ?? "",
@@ -464,6 +517,7 @@ class _AllTaskPageState extends State<AllTaskPage> {
                       serviceId = element.id.toString();
                     });
                 }
+                print(serviceId);
                 taskBloc.add(
                   AllTaskLoadInitiated(
                     isTask: true,

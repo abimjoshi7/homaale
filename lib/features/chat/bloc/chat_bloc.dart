@@ -133,57 +133,66 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
         /// handle Chat Room Creation if not exist START
         try {
-          var combinedID = event.userID!.compareTo(event.taskerID!) == true
-              ? '${event.userID}_${event.taskerID}'
+          if (event.taskerID == null && event.userID == null) return;
+
+          String? combinedID = event.userID!.compareTo(event.taskerID!) == true
+              ? null
               : '${event.taskerID}_${event.userID}';
 
-          firebaseFirestore
-              .collection('chats')
-              .doc('$combinedID')
-              .get()
-              .then((value) {
-            if (!value.exists) {
-              firebaseFirestore.collection('chats').doc('$combinedID').set(
-                {'messages': []},
-              );
+          if (combinedID == null) return;
 
-              firebaseFirestore
-                  .collection('userChats')
-                  .doc('${event.userID}')
-                  .get()
-                  .then((value) {
-                if (value.exists) {
-                  firebaseFirestore
-                      .collection('userChats')
-                      .doc('${event.userID}')
-                      .update({
-                    "$combinedID.userInfo": {'uid': "${event.taskerID}"},
-                    "$combinedID.date": Timestamp.now(),
-                    "$combinedID.read": true,
-                  });
-                }
-              });
+          String fakeId = "${event.userID}_${event.taskerID}";
 
-              firebaseFirestore
-                  .collection('userChats')
-                  .doc('${event.taskerID}')
-                  .get()
-                  .then((value) {
-                if (value.exists) {
-                  firebaseFirestore
-                      .collection('userChats')
-                      .doc('${event.taskerID}')
-                      .update({
-                    "$combinedID.userInfo": {'uid': "${event.userID}"},
-                    "$combinedID.date": Timestamp.now(),
-                    "$combinedID.read": true,
-                  });
-                }
-              });
-            }
+          firebaseFirestore.collection('chats').doc(fakeId).get().then((value) {
+            if (value.exists) return;
+            firebaseFirestore
+                .collection('chats')
+                .doc('$combinedID')
+                .get()
+                .then((value) {
+              if (!value.exists) {
+                firebaseFirestore.collection('chats').doc('$combinedID').set(
+                  {'messages': []},
+                );
+
+                firebaseFirestore
+                    .collection('userChats')
+                    .doc('${event.userID}')
+                    .get()
+                    .then((value) {
+                  if (value.exists) {
+                    firebaseFirestore
+                        .collection('userChats')
+                        .doc('${event.userID}')
+                        .update({
+                      "$combinedID.userInfo": {'uid': "${event.taskerID}"},
+                      "$combinedID.date": Timestamp.now(),
+                      "$combinedID.read": true,
+                    });
+                  }
+                });
+
+                firebaseFirestore
+                    .collection('userChats')
+                    .doc('${event.taskerID}')
+                    .get()
+                    .then((value) {
+                  if (value.exists) {
+                    firebaseFirestore
+                        .collection('userChats')
+                        .doc('${event.taskerID}')
+                        .update({
+                      "$combinedID.userInfo": {'uid': "${event.userID}"},
+                      "$combinedID.date": Timestamp.now(),
+                      "$combinedID.read": true,
+                    });
+                  }
+                });
+              }
+            });
           });
         } catch (e) {
-          log('handleChatRoomCreation faield: $e');
+          log('handleChatRoomCreation failed: $e');
         }
 
         emit(state.copyWith(states: TheStates.success));

@@ -75,8 +75,19 @@ import '../../features/support/presentation/bloc/support_ticket_type_options_blo
 import '../../features/theme/presentation/bloc/theme_state.dart';
 import '../../features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
 
-class Cipher extends StatelessWidget {
+class Cipher extends StatefulWidget {
   const Cipher({super.key});
+
+  @override
+  State<Cipher> createState() => _CipherState();
+}
+
+class _CipherState extends State<Cipher> {
+  @override
+  void initState() {
+    super.initState();
+    // FirebaseAppMessaging.initNotification(context);
+  }
 
   @override
   Widget build(BuildContext context) {

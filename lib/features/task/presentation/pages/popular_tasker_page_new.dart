@@ -165,6 +165,8 @@ class _TaskerListState extends State<TaskerList> {
                                 );
                               },
                               child: TaskerCard(
+                                isProfileVerified:
+                                    state.tasker[index].isProfileVerified,
                                 isOwner: state.tasker[index].user?.id ==
                                     context
                                         .read<UserBloc>()

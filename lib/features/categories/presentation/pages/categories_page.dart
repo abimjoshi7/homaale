@@ -1,13 +1,21 @@
 import 'dart:developer';
 
 import 'package:cipher/core/constants/constants.dart';
+import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/categories/data/models/nested_category.dart';
 import 'package:cipher/features/categories/presentation/cubit/nested_categories_cubit.dart';
+import 'package:cipher/features/categories/presentation/pages/sections/categories_section.dart';
+import 'package:cipher/features/categories/presentation/pages/widget/TaskOrServiceSectionModalBottomSheet.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
 import 'package:cipher/features/services/presentation/pages/services_page.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
+
+import '../../../services/presentation/pages/trending_services_page.dart';
+import '../../../task/presentation/pages/all_task_page.dart';
+import '../../../task_entity_service/presentation/bloc/task_entity_service_bloc.dart';
+import 'category_professional_service_section.dart';
 
 class CategoriesPage extends StatefulWidget {
   static const routeName = '/categories-page';
@@ -17,7 +25,8 @@ class CategoriesPage extends StatefulWidget {
   State<CategoriesPage> createState() => _CategoriesPageState();
 }
 
-class _CategoriesPageState extends State<CategoriesPage> {
+class _CategoriesPageState extends State<CategoriesPage>
+    with TheModalBottomSheet {
   List<NestedCategory> list = [];
   late int selectedIndex;
   bool checkFromRoute = true;
@@ -65,13 +74,13 @@ class _CategoriesPageState extends State<CategoriesPage> {
                         }
                       }
                     }
-
                     return ListView.separated(
                       padding: EdgeInsets.zero,
                       itemCount: state.nestedCategory.length,
                       itemBuilder: (context, index) => ColoredBox(
                         color: selectedIndex == index
-                            ? Theme.of(context).cardColor
+                            ? kColorBlue
+                            // Theme.of(context).cardColor
                             : Colors.transparent,
                         child: SizedBox(
                           height: 80,
@@ -86,18 +95,39 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 },
                               );
                               if (state.nestedCategory[index].child!.isEmpty) {
-                                context.read<ServicesBloc>().add(
-                                      ServicesLoadInitiated(
-                                        categoryId:
-                                            state.nestedCategory[index].id ?? 0,
-                                      ),
-                                    );
+                                if (TaskOrServiceSectionModalBottomSheet
+                                        .selectedService.index ==
+                                    0) {
+                                  context.read<ServicesBloc>().add(
+                                        ServicesLoadInitiated(
+                                          categoryId:
+                                              state.nestedCategory[index].id ??
+                                                  0,
+                                        ),
+                                      );
+                                  Navigator.pushNamed(
+                                      context, AllTaskPage.routeName,
+                                      arguments: {
+                                        'category':
+                                            state.nestedCategory[index].name,
+                                      });
+                                } else {
+                                  Navigator.pushNamed(
+                                    context,
+                                    TrendingServicesPage.routeName,
+                                  );
+                                }
 
-                                await Navigator.pushNamed(
-                                  context,
-                                  ServicesPage.routeName,
-                                  arguments: state.nestedCategory[index],
-                                );
+                                // await Navigator.pushNamed(
+                                //   context,
+                                //   ServicesPage.routeName,
+                                //   arguments: state.nestedCategory[index],
+                                // );
+                                // await Navigator.pushNamed(
+                                //   context,
+                                //   CategoryProfessionalServiceSection
+                                //       .routeName,
+                                // );
                               }
                             },
                             data: state.nestedCategory[index].name ?? '',
@@ -142,7 +172,6 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                 ),
                               );
                             }
-
                             if (serviceState.theStates == TheStates.success) {
                               if (list[index].child!.isEmpty) {
                                 return ListTile(
@@ -152,12 +181,25 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                             categoryId: list[index].id ?? 0,
                                           ),
                                         );
-
-                                    await Navigator.pushNamed(
-                                      context,
-                                      ServicesPage.routeName,
-                                      arguments: list[index],
-                                    );
+                                    if (TaskOrServiceSectionModalBottomSheet
+                                            .selectedService.index ==
+                                        0) {
+                                      Navigator.pushNamed(
+                                          context, AllTaskPage.routeName,
+                                          arguments: {
+                                            'category': list[index].name,
+                                          });
+                                    } else {
+                                      Navigator.pushNamed(
+                                        context,
+                                        TrendingServicesPage.routeName,
+                                      );
+                                    }
+                                    // await Navigator.pushNamed(
+                                    //   context,
+                                    //   ServicesPage.routeName,
+                                    //   arguments: list[index],
+                                    // );
                                   },
                                   title: Text(list[index].name ?? ''),
                                 );
@@ -195,39 +237,90 @@ class _CategoriesPageState extends State<CategoriesPage> {
                                                     (context, index3) =>
                                                         InkWell(
                                                   onTap: () async {
-                                                    context
-                                                        .read<ServicesBloc>()
-                                                        .add(
-                                                          ServicesLoadInitiated(
-                                                            categoryId:
-                                                                list[index]
-                                                                        .id ??
-                                                                    0,
-                                                          ),
-                                                        );
-
-                                                    await Navigator.pushNamed(
-                                                      context,
-                                                      ServicesPage.routeName,
-                                                      arguments: list[index]
-                                                          .child![index3],
-                                                    );
+                                                    if (TaskOrServiceSectionModalBottomSheet
+                                                            .selectedService
+                                                            .index ==
+                                                        0) {
+                                                      context
+                                                          .read<
+                                                              TaskEntityServiceBloc>()
+                                                          .add(
+                                                              TaskEntityServiceInitiated(
+                                                            serviceId: context
+                                                                    .read<
+                                                                        ServicesBloc>()
+                                                                    .state
+                                                                    .serviceList?[
+                                                                        index]
+                                                                    .id ??
+                                                                '',
+                                                          ));
+                                                      Navigator.pushNamed(
+                                                          context,
+                                                          AllTaskPage.routeName,
+                                                          arguments: {
+                                                            'category': list[
+                                                                    index]
+                                                                .child![index3]
+                                                                .name,
+                                                          });
+                                                    } else {
+                                                      context
+                                                          .read<
+                                                              TaskEntityServiceBloc>()
+                                                          .add(
+                                                              TaskEntityServiceInitiated(
+                                                            serviceId: context
+                                                                    .read<
+                                                                        ServicesBloc>()
+                                                                    .state
+                                                                    .serviceList?[
+                                                                        index]
+                                                                    .id ??
+                                                                '',
+                                                          ));
+                                                      Navigator.pushNamed(
+                                                        context,
+                                                        TrendingServicesPage
+                                                            .routeName,
+                                                      );
+                                                    }
+                                                    // context
+                                                    //     .read<ServicesBloc>()
+                                                    //     .add(
+                                                    //       ServicesLoadInitiated(
+                                                    //         categoryId:
+                                                    //             list[index]
+                                                    //                     .id ??
+                                                    //                 0,
+                                                    //       ),
+                                                    //     );
+                                                    //
+                                                    // await Navigator.pushNamed(
+                                                    //   context,
+                                                    //   ServicesPage.routeName,
+                                                    //   arguments: list[index]
+                                                    //       .child![index3],
+                                                    // );
                                                   },
                                                   child: Column(
                                                     children: <Widget>[
-                                                      Container(
-                                                        decoration:
-                                                            BoxDecoration(
-                                                          color:
-                                                              Colors.blueGrey,
-                                                          borderRadius:
-                                                              BorderRadius
-                                                                  .circular(
-                                                            10,
-                                                          ),
-                                                        ),
-                                                        height: 40,
-                                                      ),
+                                                      // Container(
+                                                      //   decoration:
+                                                      //       BoxDecoration(
+                                                      //     color:
+                                                      //         Colors.blueGrey,
+                                                      //     borderRadius:
+                                                      //         BorderRadius
+                                                      //             .circular(
+                                                      //       10,
+                                                      //     ),
+                                                      //   ),
+                                                      //   height: 40,
+                                                      //   child: Image.network(list[index]
+                                                      //       .child![
+                                                      //   index3]. ??""),
+                                                      // ),
                                                       Flexible(
                                                         child: Text(
                                                           list[index]

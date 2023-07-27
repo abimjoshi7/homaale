@@ -48,12 +48,13 @@ class _GoogleLoginState extends State<GoogleLogin> {
                       current.states == TheStates.success) return true;
                   return false;
                 },
-                listener: (context, state) {
-                  Navigator.pushNamedAndRemoveUntil(
-                    context,
-                    Root.routeName,
-                    (route) => false,
-                  );
+                listener: (context, state) async {
+                  if (state.states == TheStates.success)
+                    await Navigator.pushNamedAndRemoveUntil(
+                      context,
+                      Root.routeName,
+                      (route) => false,
+                    );
                 },
                 child: CustomElevatedButton(
                   callback: () async {

@@ -26,10 +26,13 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
   bool keepLogged = false;
   bool isObscure = true;
 
+  String? fcmToken;
+
   @override
   void initState() {
     super.initState();
     initLoginDetails();
+    // initFcmToken();
     context.read<SignInBloc>().add(SignInWithPhoneSelected());
   }
 

@@ -62,6 +62,7 @@ class PopularTaskerSection extends StatelessWidget {
                         );
                       },
                       child: TaskerCard(
+                        isProfileVerified: data?[index].isProfileVerified,
                         isOwner: data?[index].user?.id ==
                             context
                                 .read<UserBloc>()

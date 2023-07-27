@@ -38,13 +38,14 @@ import 'package:cipher/features/transaction/presentation/bloc/transaction_bloc.d
 import 'package:cipher/features/upload/data/repositories/upload_respositoy.dart';
 import 'package:cipher/features/upload/presentation/bloc/upload_bloc.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
+import 'package:cipher/secondary_firebase_options.dart';
 import 'package:dependencies/dependencies.dart';
 
 import 'features/redeem/data/repo/redeem_repository.dart';
 
 final locator = GetIt.instance;
 
-void init() {
+Future<void> init() async {
   //repositories
   locator.registerLazySingleton<TaskEntityServiceRepository>(
     () => TaskEntityServiceRepository(),
@@ -108,14 +109,24 @@ void init() {
   locator.registerFactory<SearchBloc>(() => SearchBloc(locator()));
 
   // chat
-  var firebaseInstance = FirebaseFirestore.instance;
+  var firebaseInstance = FirebaseFirestore.instanceFor(
+    app: await Firebase.initializeApp(
+      name: 'homaale-c945b',
+      options: SecondaryFirebaseOptions.currentPlatform,
+    ),
+  );
   locator.registerSingleton<FirebaseFirestore>(firebaseInstance);
 
   // google sign in
   final googleSignIn = GoogleSignIn(
-    scopes: ['openid', 'email', 'profile'],
+    scopes: [
+      'openid',
+      'email',
+      'profile',
+    ],
+    // * web client id
     serverClientId:
-        '245846975950-vucoc2e1cmeielq5f5neoca7880n0u2i.apps.googleusercontent.com',
+        "245846975950-vucoc2e1cmeielq5f5neoca7880n0u2i.apps.googleusercontent.com",
   );
 
   locator.registerLazySingleton<GoogleSignIn>(() => googleSignIn);

@@ -1,4 +1,3 @@
-
 import 'package:cipher/core/mixins/mixins.dart';
 import 'package:cipher/features/marketing/presentation/bloc/marketing_ads_bloc.dart';
 import 'package:cipher/features/services/presentation/manager/services_bloc.dart';
@@ -40,7 +39,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
   String? selectedLocation;
   DateTime? dateFrom;
   DateTime? dateTo;
-  String? category;
+  String? category="Pilot";
   String? serviceId;
   String? location;
 
@@ -97,8 +96,7 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
         appBarTitle: "Trending Services",
         trailingWidget: SizedBox.shrink(),
       ),
-      body:
-      BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
+      body: BlocBuilder<TaskEntityServiceBloc, TaskEntityServiceState>(
         bloc: entityServiceBloc,
         builder: (context, state) {
           switch (state.theStates) {
@@ -277,18 +275,22 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
       width: double.infinity,
       child: ListView(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 10),
         children: [
           Row(
             children: [
-              Icon(
-                Icons.filter_alt,
-                color: kColorGrey,
+              Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 5,
+                ),
+                child: Icon(
+                  Icons.filter_alt,
+                  color: kColorGrey,
+                ),
               ),
               InkWell(
                 onTap: () {},
                 child: SizedBox(
-                  width: 200,
+                  width: MediaQuery.sizeOf(context).width * 0.35,
                   height: 52,
                   child: CustomTextFormField(
                     hintText: "Search",
@@ -306,49 +308,13 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
                     },
                   ),
                 ),
-                // Padding(
-                //   padding: const EdgeInsets.all(8.0),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.center,
-                //     children: [
-                //       Text(
-                //         toText ?? "To",
-                //         overflow: TextOverflow.ellipsis,
-                //       ),
-                //       addHorizontalSpace(8),
-                //       Icon(
-                //         Icons.calendar_today_outlined,
-                //         color: kColorSilver,
-                //       ),
-                //     ],
-                //   ),
-                // ),
               ),
-              addHorizontalSpace(5),
               _buildCategory(),
-              addHorizontalSpace(
-                8,
-              ),
               _buildLocation(),
-              addHorizontalSpace(
-                8,
-              ),
               _buildFromDate(context),
-              addHorizontalSpace(
-                8,
-              ),
               _buildToDate(context),
-              addHorizontalSpace(
-                8,
-              ),
               _buildPayableFrom(context),
-              addHorizontalSpace(
-                8,
-              ),
               _buildPayableTo(context),
-              addHorizontalSpace(
-                8,
-              ),
               _buildClearFilters(context),
             ],
           )
@@ -357,272 +323,368 @@ class _TrendingServicesPageState extends State<TrendingServicesPage>
     );
   }
 
-  SizedBox _buildLocation() {
-    return SizedBox(
-      width: 170,
-      height: 48,
-      child: BlocBuilder<CityBloc, CityState>(
-        builder: (context, state) {
-          if (state is CityLoadSuccess)
-            return CustomDropdownSearch(
-              key: _locationKey,
-              hintText: location ?? "Location",
-              list: List.generate(
-                state.list.length,
-                (index) => state.list[index].name,
+  Widget _buildLocation() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 5,
+      ),
+      child: SizedBox(
+        width: MediaQuery.sizeOf(context).width * 0.5,
+        height: 48,
+        child: Row(
+          children: [
+            Expanded(
+              child: BlocBuilder<CityBloc, CityState>(
+                builder: (context, state) {
+                  if (state is CityLoadSuccess)
+                    return CustomDropdownSearch(
+                      key: _locationKey,
+                      hintText: location ?? "Location",
+                      list: List.generate(
+                        state.list.length,
+                        (index) => state.list[index].name,
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          location = value as String;
+                        });
+                        entityServiceBloc.add(TaskEntityServiceInitiated(
+                          newFetch: true,
+                          payableFrom: payableFrom.text,
+                          payableTo:
+                              payableTo.length == 0 ? null : payableTo.text,
+                          dateFrom: dateFrom == null
+                              ? null
+                              : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                          dateTo: dateTo == null
+                              ? null
+                              : DateFormat("yyyy-MM-dd").format(dateTo!),
+                          city: location,
+                          serviceId: serviceId,
+                        ));
+                      },
+                    );
+                  return SizedBox.shrink();
+                },
               ),
-              onChanged: (value) {
+            ),
+            InkWell(
+              onTap: () {
                 setState(() {
-                  location = value as String;
+                  location = null;
+                  entityServiceBloc.add(
+                    TaskEntityServiceInitiated(
+                      newFetch: true,
+                      serviceId: serviceId,
+                      city: location,
+                      dateFrom: dateFrom == null
+                          ? null
+                          : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                      dateTo: dateTo == null
+                          ? null
+                          : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    ),
+                  );
                 });
-                entityServiceBloc.add(TaskEntityServiceInitiated(
-                  newFetch: true,
-                  payableFrom: payableFrom.text,
-                  payableTo: payableTo.length == 0 ? null : payableTo.text,
-                  dateFrom: dateFrom == null
-                      ? null
-                      : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                  dateTo: dateTo == null
-                      ? null
-                      : DateFormat("yyyy-MM-dd").format(dateTo!),
-                  city: location,
-                  category: category,
-                ));
               },
-            );
-          return SizedBox.shrink();
-        },
+              child: Icon(
+                Icons.clear,
+                color: kColorGrey,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
 
-  SizedBox _buildCategory() {
-    return SizedBox(
-      width: 170,
-      height: 48,
-      child: BlocBuilder<ServicesBloc, ServicesState>(
-        builder: (context, state) {
-          if (state.theStates == TheStates.success)
-            return CustomDropdownSearch(
-              key: _categoryKey,
-              hintText: category ?? "Category",
-              list: List.generate(
-                state.serviceList!.length,
-                (index) => state.serviceList?[index].title ?? "",
-              ),
-              onChanged: (value) {
-                for (var element in state.serviceList!) {
-                  if (element.title == value)
-                    setState(() {
-                      category = value as String;
-                      serviceId = element.id.toString();
-                    });
-                }
-                entityServiceBloc.add(
-                  TaskEntityServiceInitiated(
-                    newFetch: true,
-                    payableFrom: payableFrom.text,
-                    payableTo: payableTo.length == 0 ? null : payableTo.text,
-                    dateFrom: dateFrom == null
-                        ? null
-                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                    dateTo: dateTo == null
-                        ? null
-                        : DateFormat("yyyy-MM-dd").format(dateTo!),
-                    serviceId: serviceId,
-                    city: location,
+  Widget _buildCategory() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 5,
+      ),
+      child: SizedBox(
+        width: MediaQuery.sizeOf(context).width * 0.5,
+        height: 48,
+        child: BlocBuilder<ServicesBloc, ServicesState>(
+          builder: (context, state) {
+            if (state.theStates == TheStates.success)
+              return Row(
+                children: [
+                  Expanded(
+                    child: CustomDropdownSearch(
+                      key: _categoryKey,
+                      hintText: category ?? "Category",
+                      list: List.generate(
+                        state.serviceList!.length,
+                        (index) => state.serviceList?[index].title ?? "",
+                      ),
+                      onChanged: (value) {
+                        for (var element in state.serviceList!) {
+                          if (element.title == value)
+                            setState(() {
+                              category = value as String;
+                              serviceId = element.id.toString();
+                            });
+                        }
+                        print(serviceId);
+                        entityServiceBloc.add(
+                          TaskEntityServiceInitiated(
+                            newFetch: true,
+                            payableFrom: payableFrom.text,
+                            payableTo:
+                                payableTo.length == 0 ? null : payableTo.text,
+                            dateFrom: dateFrom == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            dateTo: dateTo == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            serviceId: serviceId,
+                            city: location,
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                );
-              },
-            );
-          return SizedBox.shrink();
-        },
+                  InkWell(
+                    onTap: () {
+                      setState(() {
+                        category = null;
+                        serviceId = null;
+                        entityServiceBloc.add(
+                          TaskEntityServiceInitiated(
+                            newFetch: true,
+                            city: location,
+                            dateFrom: dateFrom == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                            dateTo: dateTo == null
+                                ? null
+                                : DateFormat("yyyy-MM-dd").format(dateTo!),
+                            serviceId: serviceId,
+                          ),
+                        );
+                      });
+                    },
+                    child: Icon(
+                      Icons.clear,
+                      color: kColorGrey,
+                    ),
+                  ),
+                ],
+              );
+            return SizedBox.shrink();
+          },
+        ),
       ),
     );
   }
 
   Widget _buildPayableFrom(BuildContext context) {
-    return CustomFilterChip(
-      iconData: Icons.attach_money_sharp,
-      label: payableFrom.text.length == 0 ? "From" : payableFrom.text,
-      callback: (value) {
-        showDialog(
-          context: context,
-          builder: (context) =>
-              AlertDialog(content: Text("Enter Amount:"), actions: [
-            CustomTextFormField(
-              autofocus: true,
-              controller: payableFrom,
-              hintText: "2000",
-              textInputType: TextInputType.number,
-              inputAction: TextInputAction.done,
-              onFieldSubmitted: (p0) {
-                setState(() {
-                  payableFrom.text = p0!;
-                });
-                entityServiceBloc.add(
-                  TaskEntityServiceInitiated(
-                    newFetch: true,
-                    payableFrom: payableFrom.text,
-                    payableTo: payableTo.length == 0 ? null : payableTo.text,
-                    dateFrom: dateFrom == null
-                        ? null
-                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                    dateTo: dateTo == null
-                        ? null
-                        : DateFormat("yyyy-MM-dd").format(dateTo!),
-                  ),
-                );
-                Navigator.pop(context);
-              },
-            ),
-          ]),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 5,
+      ),
+      child: CustomFilterChip(
+        iconData: Icons.attach_money_sharp,
+        label: payableFrom.text.length == 0 ? "From" : payableFrom.text,
+        callback: (value) {
+          showDialog(
+            context: context,
+            builder: (context) =>
+                AlertDialog(content: Text("Enter Amount:"), actions: [
+              CustomTextFormField(
+                autofocus: true,
+                controller: payableFrom,
+                hintText: "2000",
+                textInputType: TextInputType.number,
+                inputAction: TextInputAction.done,
+                onFieldSubmitted: (p0) {
+                  setState(() {
+                    payableFrom.text = p0!;
+                  });
+                  entityServiceBloc.add(
+                    TaskEntityServiceInitiated(
+                      newFetch: true,
+                      payableFrom: payableFrom.text,
+                      payableTo: payableTo.length == 0 ? null : payableTo.text,
+                      dateFrom: dateFrom == null
+                          ? null
+                          : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                      dateTo: dateTo == null
+                          ? null
+                          : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    ),
+                  );
+                  Navigator.pop(context);
+                },
+              ),
+            ]),
+          );
+        },
+      ),
     );
   }
 
   Widget _buildPayableTo(BuildContext context) {
-    return CustomFilterChip(
-      iconData: Icons.attach_money_sharp,
-      label: payableTo.text.length == 0 ? "To" : payableTo.text,
-      callback: (value) {
-        showDialog(
-          context: context,
-          builder: (context) =>
-              AlertDialog(content: Text("Enter Amount:"), actions: [
-            CustomTextFormField(
-              autofocus: true,
-              controller: payableTo,
-              hintText: "2000",
-              textInputType: TextInputType.number,
-              inputAction: TextInputAction.done,
-              onFieldSubmitted: (p0) {
-                setState(() {
-                  payableTo.text = p0!;
-                });
-                entityServiceBloc.add(
-                  TaskEntityServiceInitiated(
-                    newFetch: true,
-                    payableTo: payableTo.text,
-                    payableFrom:
-                        payableFrom.length == 0 ? null : payableFrom.text,
-                    dateFrom: dateFrom == null
-                        ? null
-                        : DateFormat("yyyy-MM-dd").format(dateFrom!),
-                    dateTo: dateTo == null
-                        ? null
-                        : DateFormat("yyyy-MM-dd").format(dateTo!),
-                  ),
-                );
-                Navigator.pop(context);
-              },
-            ),
-          ]),
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 5,
+      ),
+      child: CustomFilterChip(
+        iconData: Icons.attach_money_sharp,
+        label: payableTo.text.length == 0 ? "To" : payableTo.text,
+        callback: (value) {
+          showDialog(
+            context: context,
+            builder: (context) =>
+                AlertDialog(content: Text("Enter Amount:"), actions: [
+              CustomTextFormField(
+                autofocus: true,
+                controller: payableTo,
+                hintText: "2000",
+                textInputType: TextInputType.number,
+                inputAction: TextInputAction.done,
+                onFieldSubmitted: (p0) {
+                  setState(() {
+                    payableTo.text = p0!;
+                  });
+                  entityServiceBloc.add(
+                    TaskEntityServiceInitiated(
+                      newFetch: true,
+                      payableTo: payableTo.text,
+                      payableFrom:
+                          payableFrom.length == 0 ? null : payableFrom.text,
+                      dateFrom: dateFrom == null
+                          ? null
+                          : DateFormat("yyyy-MM-dd").format(dateFrom!),
+                      dateTo: dateTo == null
+                          ? null
+                          : DateFormat("yyyy-MM-dd").format(dateTo!),
+                    ),
+                  );
+                  Navigator.pop(context);
+                },
+              ),
+            ]),
+          );
+        },
+      ),
     );
   }
 
   Widget _buildFromDate(BuildContext context) {
-    return CustomFilterChip(
-      label: dateFrom != null ? DateFormat.MMMd().format(dateFrom!) : "From",
-      iconData: Icons.calendar_today_outlined,
-      callback: (value) {
-        showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(
-            2000,
-          ),
-          lastDate: DateTime(
-            2050,
-          ),
-        ).then(
-          (value) {
-            setState(() {
-              dateFrom = value;
-            });
-            entityServiceBloc.add(
-              TaskEntityServiceInitiated(
-                  newFetch: true,
-                  isTask: false,
-                  dateFrom: DateFormat("yyyy-MM-dd").format(
-                    dateFrom!,
-                  ),
-                  dateTo: dateTo == null
-                      ? null
-                      : DateFormat("yyyy-MM-dd").format(
-                          dateTo!,
-                        )),
-            );
-          },
-        );
-      },
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        horizontal: 5,
+      ),
+      child: CustomFilterChip(
+        label: dateFrom != null ? DateFormat.MMMd().format(dateFrom!) : "From",
+        iconData: Icons.calendar_today_outlined,
+        callback: (value) {
+          showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(
+              2000,
+            ),
+            lastDate: DateTime(
+              2050,
+            ),
+          ).then(
+            (value) {
+              setState(() {
+                dateFrom = value;
+              });
+              entityServiceBloc.add(
+                TaskEntityServiceInitiated(
+                    newFetch: true,
+                    isTask: false,
+                    dateFrom: DateFormat("yyyy-MM-dd").format(
+                      dateFrom!,
+                    ),
+                    dateTo: dateTo == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(
+                            dateTo!,
+                          )),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
   Widget _buildToDate(BuildContext context) {
-    return CustomFilterChip(
-      label: dateTo != null ? DateFormat.MMMd().format(dateTo!) : "To",
-      iconData: Icons.calendar_today_outlined,
-      callback: (value) {
-        showDatePicker(
-          context: context,
-          initialDate: DateTime.now(),
-          firstDate: DateTime(
-            2000,
-          ),
-          lastDate: DateTime(
-            2050,
-          ),
-        ).then(
-          (value) {
-            setState(() {
-              dateTo = value;
-            });
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+      child: CustomFilterChip(
+        label: dateTo != null ? DateFormat.MMMd().format(dateTo!) : "To",
+        iconData: Icons.calendar_today_outlined,
+        callback: (value) {
+          showDatePicker(
+            context: context,
+            initialDate: DateTime.now(),
+            firstDate: DateTime(
+              2000,
+            ),
+            lastDate: DateTime(
+              2050,
+            ),
+          ).then(
+            (value) {
+              setState(() {
+                dateTo = value;
+              });
 
-            entityServiceBloc.add(
-              TaskEntityServiceInitiated(
-                  newFetch: true,
-                  isTask: false,
-                  dateTo: DateFormat("yyyy-MM-dd").format(
-                    dateTo!,
-                  ),
-                  dateFrom: dateFrom == null
-                      ? null
-                      : DateFormat("yyyy-MM-dd").format(
-                          dateFrom!,
-                        )),
-            );
-          },
-        );
-      },
+              entityServiceBloc.add(
+                TaskEntityServiceInitiated(
+                    newFetch: true,
+                    isTask: false,
+                    dateTo: DateFormat("yyyy-MM-dd").format(
+                      dateTo!,
+                    ),
+                    dateFrom: dateFrom == null
+                        ? null
+                        : DateFormat("yyyy-MM-dd").format(
+                            dateFrom!,
+                          )),
+              );
+            },
+          );
+        },
+      ),
     );
   }
 
   Widget _buildClearFilters(
     BuildContext context,
   ) {
-    return IconButton(
-      onPressed: () {
-        setState(() {
-          dateFrom = null;
-          dateTo = null;
-          payableFrom.clear();
-          payableTo.clear();
-          category = null;
-          location = null;
-        });
-        entityServiceBloc.add(
-          TaskEntityServiceInitiated(
-            newFetch: true,
-          ),
-        );
-      },
-      icon: Icon(
-        Icons.clear,
-        color: kColorSilver,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 5),
+      child: InkWell(
+        onTap: () {
+          setState(() {
+            dateFrom = null;
+            dateTo = null;
+            payableFrom.clear();
+            payableTo.clear();
+            category = null;
+            location = null;
+            serviceId = null;
+          });
+          entityServiceBloc.add(
+            TaskEntityServiceInitiated(
+              newFetch: true,
+            ),
+          );
+        },
+        child: Icon(
+          Icons.clear,
+          color: kColorSilver,
+        ),
       ),
     );
   }
