@@ -58,7 +58,49 @@ class SearchDelegateWidget extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Text("joe papa");
+    return BlocBuilder<GoogleMapsBloc, GoogleMapsState>(
+      builder: (context, state) {
+        return ListView.builder(
+          itemCount: state.autoCompleteQueries.length,
+          itemBuilder: (context, index) {
+            if (state.autoCompleteQueries.length < 1) {
+              return Center(
+                child: Text("No Results Found."),
+              );
+            }
+            final _suggestion =
+                state.autoCompleteQueries[index].description as String;
+            return ListTile(
+              leading: Icon(Icons.location_on),
+              trailing: Icon(Icons.arrow_outward_rounded),
+              title: Text(
+                _suggestion,
+                style: Theme.of(context).textTheme.bodySmall,
+              ),
+              onTap: () async {
+                query = _suggestion;
+                await context
+                    .read<UserLocationCubit>()
+                    .setTempLocation(address: _suggestion)
+                    .whenComplete(
+                      () => Future.delayed(
+                        Duration(
+                          milliseconds: 80,
+                        ),
+                        () => Navigator.pushNamed(
+                          context,
+                          ChooseLocationPage.routeName,
+                        ),
+                      ),
+                    );
+
+                // buildResults(context);
+              },
+            );
+          },
+        );
+      },
+    );
   }
 
   @override
