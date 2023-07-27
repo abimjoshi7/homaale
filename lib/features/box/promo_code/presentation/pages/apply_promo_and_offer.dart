@@ -24,7 +24,7 @@ class PromoCodeAddSection extends StatefulWidget {
 }
 
 class _PromoCodeAddSectionState extends State<PromoCodeAddSection> {
-  bool _isShowVoucher = false;
+  bool _isShowVoucher = true;
 
   final TextEditingController textEditingVoucherController =
       TextEditingController();

@@ -79,8 +79,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           ),
                         );
                       }
-                      if (value == LocationPermission.always ||
-                          value == LocationPermission.whileInUse) {
+                      if (value == LocationPermission.always || value == LocationPermission.whileInUse) {
                         if (!mounted) return;
                         context.read<UserLocationCubit>().removeTempLocation();
                         Navigator.push(
@@ -110,14 +109,11 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                             maxWidth: MediaQuery.of(context).size.width * 0.55,
                           ),
                           child: AutoSizeText(
-                            userLocationState.address ??
-                                'Click to access location',
+                            userLocationState.address ?? 'Click to access location',
                             overflow: TextOverflow.ellipsis,
                             minFontSize: 12.0,
-                            style: const TextStyle(
-                                overflow: TextOverflow.ellipsis,
-                                color: Colors.white,
-                                fontSize: 13.0),
+                            style:
+                                const TextStyle(overflow: TextOverflow.ellipsis, color: Colors.white, fontSize: 13.0),
                           ),
                         );
                       },
@@ -151,8 +147,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                           fit: BoxFit.cover,
                           image: (CacheHelper.isLoggedIn)
                               ? NetworkImage(
-                                  userState.taskerProfile?.profileImage ??
-                                      kDefaultAvatarNImg,
+                                  userState.taskerProfile?.profileImage ?? kDefaultAvatarNImg,
                                 )
                               : NetworkImage(
                                   kDefaultAvatarNImg,
@@ -224,9 +219,7 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                       showCaseTitle: 'Notifications',
                       showCaseDec: 'See all notifications from here.',
                       child: Icon(
-                        (CacheHelper.isLoggedIn)
-                            ? Icons.notifications_none
-                            : Icons.notifications_off_outlined,
+                        (CacheHelper.isLoggedIn) ? Icons.notifications_none : Icons.notifications_off_outlined,
                         color: Colors.white,
                         size: 30,
                       ),
@@ -234,19 +227,16 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
                   ),
                 ),
                 if (CacheHelper.isLoggedIn)
-                  state.allNotificationList.unreadCount != null &&
-                          state.allNotificationList.unreadCount != 0
+                  state.allNotificationList.unreadCount != null && state.allNotificationList.unreadCount != 0
                       ? Positioned(
                           right: 13,
                           child: Container(
                             height: 20,
                             width: 20,
-                            decoration: BoxDecoration(
-                                shape: BoxShape.circle, color: Colors.red),
+                            decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
                             child: Center(
                               child: Text(
-                                state.allNotificationList.unreadCount
-                                    .toString(),
+                                state.allNotificationList.unreadCount.toString(),
                                 style: const TextStyle(
                                   color: Colors.white,
                                   fontSize: 14,
@@ -261,8 +251,8 @@ class _HomeHeaderSectionState extends State<HomeHeaderSection> {
           );
         }
         return SizedBox(
-          width: 50,
-          height: 40,
+          width: 60,
+          height: 60,
           child: Icon(
             Icons.notifications_none,
             color: Colors.white,

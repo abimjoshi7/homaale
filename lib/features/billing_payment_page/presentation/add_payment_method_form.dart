@@ -17,10 +17,8 @@ class AddPaymentMethodForm extends StatefulWidget {
 }
 
 class _AddPaymentMethodFormState extends State<AddPaymentMethodForm> {
-  final accountNameController =
-      TextEditingController(); // in case of wallet, this is username
-  final accountNumberController =
-      TextEditingController(); // in case of wallet, this is phone number
+  final accountNameController = TextEditingController(); // in case of wallet, this is username
+  final accountNumberController = TextEditingController(); // in case of wallet, this is phone number
   final _formKey = GlobalKey<FormState>();
 
   BankNamesResponseDto bankName = BankNamesResponseDto();
@@ -42,18 +40,12 @@ class _AddPaymentMethodFormState extends State<AddPaymentMethodForm> {
   void onBankNameSelected(String? bank) {
     if (bank != null) {
       setState(() {
-        bankName = context
-            .read<BillsPaymentBloc>()
-            .state
-            .bankNameList
-            .firstWhere((element) => element.name == bank);
+        bankName = context.read<BillsPaymentBloc>().state.bankNameList.firstWhere((element) => element.name == bank);
         branch = BankBranchResponseDto();
         walletTypeError = false;
       });
       if (methodType == 'Bank') {
-        context
-            .read<BillsPaymentBloc>()
-            .add(FetchBankBranch(bankId: bankName.id!));
+        context.read<BillsPaymentBloc>().add(FetchBankBranch(bankId: bankName.id!));
       }
     } else {
       return;
@@ -63,11 +55,7 @@ class _AddPaymentMethodFormState extends State<AddPaymentMethodForm> {
   void onBankBranchSelected(String? bnch) {
     if (bnch != null) {
       setState(() {
-        branch = context
-            .read<BillsPaymentBloc>()
-            .state
-            .bankBranchList
-            .firstWhere((element) => element.name == bnch);
+        branch = context.read<BillsPaymentBloc>().state.bankBranchList.firstWhere((element) => element.name == bnch);
         branchTypeError = false;
       });
     } else {
@@ -79,10 +67,8 @@ class _AddPaymentMethodFormState extends State<AddPaymentMethodForm> {
   Widget build(BuildContext context) {
     return BlocListener<BillsPaymentBloc, BillsPaymentState>(
       listenWhen: (previous, current) {
-        if (previous.savePaymentMethodStatus !=
-                SavePaymentMethodStatus.success &&
-            current.savePaymentMethodStatus ==
-                SavePaymentMethodStatus.success) {
+        if (previous.savePaymentMethodStatus != SavePaymentMethodStatus.success &&
+            current.savePaymentMethodStatus == SavePaymentMethodStatus.success) {
           return true;
         } else {
           return false;
@@ -103,7 +89,7 @@ class _AddPaymentMethodFormState extends State<AddPaymentMethodForm> {
                   "Payment Method Added.",
                   style: TextStyle(
                     color: Colors.white,
-                  ),
+                ),
                 ),
               ),
             );
@@ -122,11 +108,8 @@ class _AddPaymentMethodFormState extends State<AddPaymentMethodForm> {
         },
         builder: (context, state) {
           return LoadingWidget(
-            isLoading: context
-                    .read<BillsPaymentBloc>()
-                    .state
-                    .savePaymentMethodStatus ==
-                SavePaymentMethodStatus.loading,
+            isLoading:
+                context.read<BillsPaymentBloc>().state.savePaymentMethodStatus == SavePaymentMethodStatus.loading,
             child: Scaffold(
               appBar: CustomAppBar(
                 appBarTitle: 'Add Payment Method',
@@ -152,54 +135,32 @@ class _AddPaymentMethodFormState extends State<AddPaymentMethodForm> {
                             accountNameController.clear();
                             accountNumberController.clear();
                           });
-                          context.read<BillsPaymentBloc>().add(
-                              FetchBankNames(isWallet: methodType == 'Wallet'));
+                          context.read<BillsPaymentBloc>().add(FetchBankNames(isWallet: methodType == 'Wallet'));
                         },
                       ),
                     ),
                     addVerticalSpace(8),
                     AnimatedContainer(
                       duration: Duration(milliseconds: 800),
-                      height: typeSelected
-                          ? MediaQuery.of(context).size.height * 0.7
-                          : 0,
+                      height: typeSelected ? MediaQuery.of(context).size.height * 0.7 : 0,
                       child: ListView(
                         physics: NeverScrollableScrollPhysics(),
                         children: [
                           CustomFormField(
                             isRequired: true,
-                            label:
-                                '${methodType == 'Wallet' ? 'Wallet Type' : 'Bank Name'}',
+                            label: '${methodType == 'Wallet' ? 'Wallet Type' : 'Bank Name'}',
                             child: DropdownSearch<String?>(
+                              validator: (p0) => bankName.name == null ? "Required Field" : null,
                               selectedItem: bankName.name,
-                              enabled: context
-                                      .watch<BillsPaymentBloc>()
-                                      .state
-                                      .bankNameStatus ==
-                                  BankNameStatus.success,
-                              items: List<String?>.generate(
-                                  context
-                                      .read<BillsPaymentBloc>()
-                                      .state
-                                      .bankNameList
-                                      .length,
-                                  (index) => context
-                                      .read<BillsPaymentBloc>()
-                                      .state
-                                      .bankNameList[index]
-                                      .name),
+                              enabled: context.watch<BillsPaymentBloc>().state.bankNameStatus == BankNameStatus.success,
+                              items: List<String?>.generate(context.read<BillsPaymentBloc>().state.bankNameList.length,
+                                  (index) => context.read<BillsPaymentBloc>().state.bankNameList[index].name),
                               onChanged: (String? bank) {
                                 onBankNameSelected(bank);
                               },
                               popupProps: PopupProps.menu(
-                                showSearchBox: context
-                                        .read<BillsPaymentBloc>()
-                                        .state
-                                        .bankNameList
-                                        .length >
-                                    5,
-                                constraints: BoxConstraints.loose(
-                                    Size(double.infinity, 300)),
+                                showSearchBox: context.read<BillsPaymentBloc>().state.bankNameList.length > 5,
+                                constraints: BoxConstraints.loose(Size(double.infinity, 300)),
                               ),
                             ),
                           ),
@@ -212,35 +173,19 @@ class _AddPaymentMethodFormState extends State<AddPaymentMethodForm> {
                               isRequired: true,
                               label: 'Branch',
                               child: DropdownSearch<String?>(
+                                validator: (p0) => branch.name == null ? "Required Field" : null,
                                 selectedItem: branch.name,
-                                enabled: context
-                                        .watch<BillsPaymentBloc>()
-                                        .state
-                                        .bankBranchNameStatus ==
+                                enabled: context.watch<BillsPaymentBloc>().state.bankBranchNameStatus ==
                                     BankBranchNameStatus.success,
                                 items: List<String?>.generate(
-                                    context
-                                        .read<BillsPaymentBloc>()
-                                        .state
-                                        .bankBranchList
-                                        .length,
-                                    (index) => context
-                                        .read<BillsPaymentBloc>()
-                                        .state
-                                        .bankBranchList[index]
-                                        .name),
+                                    context.read<BillsPaymentBloc>().state.bankBranchList.length,
+                                    (index) => context.read<BillsPaymentBloc>().state.bankBranchList[index].name),
                                 onChanged: (String? branch) {
                                   onBankBranchSelected(branch);
                                 },
                                 popupProps: PopupProps.menu(
-                                  showSearchBox: context
-                                          .read<BillsPaymentBloc>()
-                                          .state
-                                          .bankBranchList
-                                          .length >
-                                      5,
-                                  constraints: BoxConstraints.loose(
-                                      Size(double.infinity, 300)),
+                                  showSearchBox: context.read<BillsPaymentBloc>().state.bankBranchList.length > 5,
+                                  constraints: BoxConstraints.loose(Size(double.infinity, 300)),
                                 ),
                               ),
                             ),
@@ -248,18 +193,14 @@ class _AddPaymentMethodFormState extends State<AddPaymentMethodForm> {
                             branchTypeError
                                 ? Text(
                                     'Required Field',
-                                    style: Theme.of(context)
-                                        .textTheme
-                                        .bodyMedium
-                                        ?.copyWith(color: Colors.red[900]),
+                                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.red[900]),
                                   )
                                 : SizedBox.shrink(),
                             addVerticalSpace(8),
                           ],
                           CustomFormField(
                             isRequired: true,
-                            label:
-                                '${methodType == 'Wallet' ? 'Wallet name' : 'Bank Account Name'}',
+                            label: '${methodType == 'Wallet' ? 'Wallet name' : 'Bank Account Name'}',
                             child: CustomTextFormField(
                               controller: accountNameController,
                               validator: validateNotEmpty,
@@ -268,8 +209,7 @@ class _AddPaymentMethodFormState extends State<AddPaymentMethodForm> {
                           addVerticalSpace(8),
                           CustomFormField(
                             isRequired: true,
-                            label:
-                                '${methodType == 'Wallet' ? 'Account number' : 'Bank Account Number'}',
+                            label: '${methodType == 'Wallet' ? 'Account number' : 'Bank Account Number'}',
                             child: CustomTextFormField(
                               controller: accountNumberController,
                               validator: validateNotEmpty,
@@ -279,10 +219,7 @@ class _AddPaymentMethodFormState extends State<AddPaymentMethodForm> {
                           walletTypeError
                               ? Text(
                                   'Required Field',
-                                  style: Theme.of(context)
-                                      .textTheme
-                                      .bodyMedium
-                                      ?.copyWith(color: Colors.red[900]),
+                                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: Colors.red[900]),
                                 )
                               : SizedBox.shrink(),
                           addVerticalSpace(8),
@@ -307,37 +244,28 @@ class _AddPaymentMethodFormState extends State<AddPaymentMethodForm> {
                               if (_formKey.currentState!.validate()) {
                                 if (bankName.id != null) {
                                   if (methodType == 'Wallet') {
-                                    SavePaymentMethodDto savePaymentMethodDto =
-                                        SavePaymentMethodDto(
-                                      bankAccountName:
-                                          accountNameController.text.trim(),
-                                      bankAccountNumber:
-                                          accountNumberController.text.trim(),
+                                    SavePaymentMethodDto savePaymentMethodDto = SavePaymentMethodDto(
+                                      bankAccountName: accountNameController.text.trim(),
+                                      bankAccountNumber: accountNumberController.text.trim(),
                                       bankName: bankName.id,
                                       branchName: branch.id,
                                       isPrimary: isPrimary,
                                     );
-                                    context.read<BillsPaymentBloc>().add(
-                                        SavePaymentMethodEvent(
-                                            savePaymentMethodDto:
-                                                savePaymentMethodDto));
+                                    context
+                                        .read<BillsPaymentBloc>()
+                                        .add(SavePaymentMethodEvent(savePaymentMethodDto: savePaymentMethodDto));
                                   } else {
                                     if (branch.id != null) {
-                                      SavePaymentMethodDto
-                                          savePaymentMethodDto =
-                                          SavePaymentMethodDto(
-                                        bankAccountName:
-                                            accountNameController.text.trim(),
-                                        bankAccountNumber:
-                                            accountNumberController.text.trim(),
+                                      SavePaymentMethodDto savePaymentMethodDto = SavePaymentMethodDto(
+                                        bankAccountName: accountNameController.text.trim(),
+                                        bankAccountNumber: accountNumberController.text.trim(),
                                         bankName: bankName.id,
                                         branchName: branch.id,
                                         isPrimary: isPrimary,
                                       );
-                                      context.read<BillsPaymentBloc>().add(
-                                          SavePaymentMethodEvent(
-                                              savePaymentMethodDto:
-                                                  savePaymentMethodDto));
+                                      context
+                                          .read<BillsPaymentBloc>()
+                                          .add(SavePaymentMethodEvent(savePaymentMethodDto: savePaymentMethodDto));
                                     } else {
                                       setState(() {
                                         branchTypeError = true;
