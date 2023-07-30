@@ -22,17 +22,19 @@ class AddPopupButton extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           CircleAvatar(
+            radius: 20,
             backgroundColor: kColorPrimaryAccent,
             child: Icon(
               icon,
+              size: 22,
               color: Colors.white,
             ),
           ),
           Text(
             label,
-          style:  const TextStyle(color: kColorSilver),
+            style: const TextStyle(color: kColorSilver),
           ),
-          addVerticalSpace(16),
+          addVerticalSpace(20),
         ],
       ),
     );

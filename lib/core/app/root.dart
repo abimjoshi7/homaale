@@ -43,8 +43,7 @@ class _RootState extends State<Root> {
   }
 
   void checkShowcase() async {
-    final showcase =
-        await CacheHelper.getCachedString(kShowcase) ?? 'not-shown';
+    final showcase = await CacheHelper.getCachedString(kShowcase) ?? 'not-shown';
     if (showcase == 'not-shown') {
       setState(() {
         enableShowcase = true;
@@ -58,8 +57,7 @@ class _RootState extends State<Root> {
 
   @override
   Widget build(BuildContext context) {
-    final routeArgs =
-        ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
+    final routeArgs = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
     return ShowCaseWidget(
       onFinish: () {
         CacheHelper.setCachedString(kShowcase, 'done');
@@ -77,8 +75,7 @@ class _RootState extends State<Root> {
 }
 
 class CalledRootClass extends StatefulWidget {
-  const CalledRootClass({Key? key, required this.showcase, this.passedIndex})
-      : super(key: key);
+  const CalledRootClass({Key? key, required this.showcase, this.passedIndex}) : super(key: key);
   final bool showcase;
   final int? passedIndex;
 
@@ -103,8 +100,7 @@ Future notLoggedInPopUp(BuildContext context) {
   );
 }
 
-class _CalledRootClassState extends State<CalledRootClass>
-    with SingleTickerProviderStateMixin {
+class _CalledRootClassState extends State<CalledRootClass> with SingleTickerProviderStateMixin {
   int pageIndex = 0;
 
   bool homeActive = true;
@@ -179,8 +175,7 @@ class _CalledRootClassState extends State<CalledRootClass>
   late StreamSubscription subscription;
   bool isDeviceConnected = false;
   bool isAlertSet = false;
-  getConnectivity() =>
-      subscription = Connectivity().onConnectivityChanged.listen(
+  getConnectivity() => subscription = Connectivity().onConnectivityChanged.listen(
         (ConnectivityResult result) async {
           isDeviceConnected = await InternetConnectionChecker().hasConnection;
           if (!isDeviceConnected && isAlertSet == false) {
@@ -276,8 +271,7 @@ class _CalledRootClassState extends State<CalledRootClass>
 
   startShowCase() {
     WidgetsBinding.instance.addPostFrameCallback((_) async {
-      ShowCaseWidget.of(context).startShowCase(
-          [_one, _two, _three, _four, _five, _six, _seven, _eight, _nine]);
+      ShowCaseWidget.of(context).startShowCase([_one, _two, _three, _four, _five, _six, _seven, _eight, _nine]);
     });
   }
 
@@ -300,16 +294,14 @@ class _CalledRootClassState extends State<CalledRootClass>
             content: const CommonErrorContainer(
               assetsPath: 'assets/no_internet_connection.png',
               errorTile: 'Oops, No Internet Connection.',
-              errorDes:
-                  "Make sure Wi-Fi or cellular data is turned on and then try again.",
+              errorDes: "Make sure Wi-Fi or cellular data is turned on and then try again.",
             ),
             actions: <Widget>[
               TextButton(
                 onPressed: () async {
                   Navigator.pop(context, 'Cancel');
                   setState(() => isAlertSet = false);
-                  isDeviceConnected =
-                      await InternetConnectionChecker().hasConnection;
+                  isDeviceConnected = await InternetConnectionChecker().hasConnection;
                   if (!isDeviceConnected && isAlertSet == false) {
                     showDialogBox();
                     setState(() => isAlertSet = true);
@@ -346,7 +338,7 @@ class _CalledRootClassState extends State<CalledRootClass>
                         Visibility(
                           visible: !addActive,
                           child: Container(
-                            margin: const EdgeInsets.symmetric(horizontal: 50),
+                            // margin: const EdgeInsets.symmetric(horizontal: 50),
                             alignment: Alignment.center,
                             height: MediaQuery.of(context).size.height * 0.1,
                             width: MediaQuery.of(context).size.width,
@@ -354,25 +346,21 @@ class _CalledRootClassState extends State<CalledRootClass>
                           ),
                         ),
                         SizedBox(
-                          height: 102,
+                          height: 78,
                           width: MediaQuery.of(context).size.width,
                           child: CustomPaint(
-                            painter: BottomNavCustomPainter(
-                                color: Theme.of(context).primaryColor),
+                            painter: BottomNavCustomPainter(color: Theme.of(context).primaryColor),
                             child: Padding(
                               padding: const EdgeInsets.only(
-                                left: 8.0,
-                                right: 8.0,
-                                top: 20,
+                                top: 8,
                               ),
                               child: Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: <Widget>[
                                   CustomBottomNavItems(
                                     showCaseTitle: 'Home',
-                                    showCaseDec:
-                                        'Tap “Home” to see all details.',
+                                    showCaseDec: 'Tap “Home” to see all details.',
                                     showKey: _one,
                                     onPressed: () {
                                       setState(
@@ -395,8 +383,7 @@ class _CalledRootClassState extends State<CalledRootClass>
                                   ),
                                   CustomBottomNavItems(
                                     showCaseTitle: 'Box',
-                                    showCaseDec:
-                                        'Tap “Box” to view your Bookings Payments list. ',
+                                    showCaseDec: 'Tap “Box” to view your Bookings Payments list. ',
                                     showKey: _two,
                                     onPressed: () {
                                       if (CacheHelper.isLoggedIn == false) {
@@ -421,8 +408,7 @@ class _CalledRootClassState extends State<CalledRootClass>
                                   ),
                                   CustomBottomNavItems(
                                     showCaseTitle: 'Add',
-                                    showCaseDec:
-                                        'Tap “Add” to add your tasks & services.',
+                                    showCaseDec: 'Tap “Add” to add your tasks & services.',
                                     showKey: _three,
                                     onPressed: () {
                                       // if (CacheHelper.isLoggedIn == false) {
@@ -450,14 +436,13 @@ class _CalledRootClassState extends State<CalledRootClass>
                                     pageIndex: pageIndex,
                                     //random index so that it is not active
                                     index: 5,
-                                    label: 'Add',
+                                    label: 'Post',
                                     iconData: Icons.add_circle_outline,
                                     isActive: addActive,
                                   ),
                                   CustomBottomNavItems(
                                     showCaseTitle: 'Bookings',
-                                    showCaseDec:
-                                        'Tap “Bookings” to book services.',
+                                    showCaseDec: 'Tap “Bookings” to book services.',
                                     showKey: _four,
                                     onPressed: () {
                                       if (CacheHelper.isLoggedIn == false) {
@@ -482,8 +467,7 @@ class _CalledRootClassState extends State<CalledRootClass>
                                   ),
                                   CustomBottomNavItems(
                                     showCaseTitle: 'Profile',
-                                    showCaseDec:
-                                        'Tap “Profile” to setup your account.',
+                                    showCaseDec: 'Tap “Profile” to setup your account.',
                                     showKey: _five,
                                     onPressed: () {
                                       if (CacheHelper.isLoggedIn == false) {
@@ -515,18 +499,16 @@ class _CalledRootClassState extends State<CalledRootClass>
                     );
                   }),
                 ),
-                BlocBuilder<UserSuspendBloc, UserSuspendState>(
-                    builder: (context, stateUS) {
+                BlocBuilder<UserSuspendBloc, UserSuspendState>(builder: (context, stateUS) {
                   return Visibility(
                     visible: addActive,
                     child: Positioned(
-                      bottom: 85,
+                      bottom: 70,
                       child: SizedBox(
-                        height: 100,
+                        height: 90,
                         width: MediaQuery.of(context).size.width,
                         child: CustomPaint(
-                          painter: FloatingOptionsCustomPainter(
-                              color: Theme.of(context).primaryColor),
+                          painter: FloatingOptionsCustomPainter(color: Theme.of(context).primaryColor),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
@@ -538,10 +520,8 @@ class _CalledRootClassState extends State<CalledRootClass>
                                     notLoggedInPopUp(context);
                                   }
                                   if (CacheHelper.isLoggedIn == false) return;
-                                  if (CacheHelper.isKycVerified == false)
-                                    notVerifiedPopup(context);
-                                  if (CacheHelper.isKycVerified == false)
-                                    return;
+                                  if (CacheHelper.isKycVerified == false) notVerifiedPopup(context);
+                                  if (CacheHelper.isKycVerified == false) return;
                                   setState(() {
                                     homeActive = pageIndex == 0;
                                     boxActive = pageIndex == 1;
@@ -549,12 +529,10 @@ class _CalledRootClassState extends State<CalledRootClass>
                                     bookingsActive = pageIndex == 2;
                                     profileActive = pageIndex == 3;
                                   });
-                                  (stateUS.userAccountSuspension?.isSuspended ==
-                                          true)
+                                  (stateUS.userAccountSuspension?.isSuspended == true)
                                       ? showDialog(
                                           context: context,
-                                          builder: (context) =>
-                                              AccountSuspendCustomToast(
+                                          builder: (context) => AccountSuspendCustomToast(
                                             heading: 'ACCOUNT SUSPENDED',
                                             content: 'User is suspended',
                                           ),
@@ -565,7 +543,7 @@ class _CalledRootClassState extends State<CalledRootClass>
                                         );
                                 },
                               ),
-                              addHorizontalSpace(50),
+                              addHorizontalSpace(55),
                               AddPopupButton(
                                 label: 'Post a Service ',
                                 icon: Icons.home_repair_service_rounded,
@@ -577,8 +555,7 @@ class _CalledRootClassState extends State<CalledRootClass>
                                   if (CacheHelper.isKycVerified == false) {
                                     notVerifiedPopup(context);
                                   }
-                                  if (CacheHelper.isKycVerified == false)
-                                    return;
+                                  if (CacheHelper.isKycVerified == false) return;
                                   setState(() {
                                     homeActive = pageIndex == 0;
                                     boxActive = pageIndex == 1;
@@ -586,12 +563,10 @@ class _CalledRootClassState extends State<CalledRootClass>
                                     bookingsActive = pageIndex == 2;
                                     profileActive = pageIndex == 3;
                                   });
-                                  (stateUS.userAccountSuspension?.isSuspended ==
-                                          true)
+                                  (stateUS.userAccountSuspension?.isSuspended == true)
                                       ? showDialog(
                                           context: context,
-                                          builder: (context) =>
-                                              AccountSuspendCustomToast(
+                                          builder: (context) => AccountSuspendCustomToast(
                                             heading: 'ACCOUNT SUSPENDED',
                                             content: 'User is suspended',
                                           ),

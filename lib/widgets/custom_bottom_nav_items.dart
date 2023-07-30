@@ -28,6 +28,7 @@ class CustomBottomNavItems extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      mainAxisSize: MainAxisSize.min,
       children: [
         CommonShowCase(
           showKey: showKey,
@@ -39,12 +40,12 @@ class CustomBottomNavItems extends StatelessWidget {
                 ? Icon(
                     iconData,
                     color: kColorSecondary,
-                    size: 30,
+                    size: 26,
                   )
                 : Icon(
                     iconData,
                     color: kColorSilver,
-                    size: 30,
+                    size: 26,
                   ),
           ),
         ),
@@ -52,7 +53,7 @@ class CustomBottomNavItems extends StatelessWidget {
           label,
           style: TextStyle(
             color: isActive ? kColorSecondary : kColorSilver,
-          ),
+          ).copyWith(fontSize: 13),
         ),
       ],
     );
@@ -84,7 +85,9 @@ class CommonShowCase extends StatelessWidget {
       targetShapeBorder: const CircleBorder(),
       child: Column(
         children: [
-          SizedBox(height: 2,),
+          // SizedBox(
+          //   height: 2,
+          // ),
           child,
         ],
       ),
