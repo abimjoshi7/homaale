@@ -34,8 +34,7 @@ class PopularTaskerNew extends StatelessWidget {
         // ),
       ),
       body: BlocProvider(
-        create: (_) => TaskerBloc(taskerRepositories: TaskerRepositories())
-          ..add(TaskerFetched()),
+        create: (_) => TaskerBloc(taskerRepositories: TaskerRepositories())..add(TaskerFetched()),
         child: const TaskerList(),
       ),
     );
@@ -132,9 +131,7 @@ class _TaskerListState extends State<TaskerList> {
                       crossAxisCount: 2,
                       childAspectRatio: 0.8,
                     ),
-                    itemCount: state.hasReachedMax
-                        ? state.tasker.length
-                        : state.tasker.length + 1,
+                    itemCount: state.hasReachedMax ? state.tasker.length : state.tasker.length + 1,
                     controller: _scrollController,
                     itemBuilder: (context, index) {
                       return index >= state.tasker.length
@@ -144,19 +141,13 @@ class _TaskerListState extends State<TaskerList> {
                                 context.read<TaskerCubit>().loadSingleTasker(
                                       state.tasker[index].user?.id ?? '',
                                     );
-                                context
-                                    .read<TaskerCubit>()
-                                    .loadSingleTaskerServices(
+                                context.read<TaskerCubit>().loadSingleTaskerServices(
                                       state.tasker[index].user?.id ?? '',
                                     );
-                                context
-                                    .read<TaskerCubit>()
-                                    .loadSingleTaskerTask(
+                                context.read<TaskerCubit>().loadSingleTaskerTask(
                                       state.tasker[index].user?.id ?? '',
                                     );
-                                context
-                                    .read<TaskerCubit>()
-                                    .loadSingleTaskerReviews(
+                                context.read<TaskerCubit>().loadSingleTaskerReviews(
                                       state.tasker[index].user?.id ?? '',
                                     );
                                 Navigator.pushNamed(
@@ -165,68 +156,37 @@ class _TaskerListState extends State<TaskerList> {
                                 );
                               },
                               child: TaskerCard(
-                                isProfileVerified:
-                                    state.tasker[index].isProfileVerified,
+                                isProfileVerified: state.tasker[index].isProfileVerified,
                                 isOwner: state.tasker[index].user?.id ==
-                                    context
-                                        .read<UserBloc>()
-                                        .state
-                                        .taskerProfile
-                                        ?.user
-                                        ?.id,
-                                rewardPercentage: state
-                                        .tasker[index].stats?.successRate
-                                        ?.toInt()
-                                        .toString() ??
-                                    '0',
-                                shareLinked:
-                                    '$kShareLinks/tasker/${state.tasker[index].user?.id}',
-                                id: state.tasker[index].user?.id.toString() ??
-                                    '',
-                                networkImageUrl:
-                                    state.tasker[index].profileImage,
-                                label:
-                                    "${state.tasker[index].user?.firstName} ${state.tasker[index].user?.lastName}",
+                                    context.read<UserBloc>().state.taskerProfile?.user?.id,
+                                rewardPercentage: state.tasker[index].stats?.successRate?.toInt().toString() ?? '0',
+                                shareLinked: '$kShareLinks/tasker/${state.tasker[index].user?.id}',
+                                id: state.tasker[index].user?.id.toString() ?? '',
+                                networkImageUrl: state.tasker[index].profileImage,
+                                label: "${state.tasker[index].user?.firstName} ${state.tasker[index].user?.lastName}",
                                 designation: state.tasker[index].designation,
-                                happyClients: state
-                                    .tasker[index].stats?.happyClients
-                                    .toString(),
+                                happyClients: state.tasker[index].stats?.happyClients.toString(),
                                 ratings:
                                     // "${state.tasker[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'} "
                                     "${state.tasker[index].rating?.userRatingCount?.toStringAsFixed(1) ?? '0'}",
                                 rate: "Rs. ${state.tasker[index].hourlyRate}",
-                                callbackLabel:
-                                    state.tasker[index].isFollowed ?? false
-                                        ? 'Following'
-                                        : 'Follow',
-                                isFollowed:
-                                    state.tasker[index].isFollowed ?? false,
+                                callbackLabel: state.tasker[index].isFollowed ?? false ? 'Following' : 'Follow',
+                                isFollowed: state.tasker[index].isFollowed ?? false,
                                 buttonWidth: MediaQuery.of(context).size.width,
                                 callback: () {
                                   if (CacheHelper.isLoggedIn == false) {
                                     notLoggedInPopUp(context);
                                   } else {
-                                    if (state.tasker[index].isFollowed ??
-                                        false) {
+                                    if (state.tasker[index].isFollowed ?? false) {
                                       context
                                           .read<TaskerCubit>()
-                                          .handleFollowUnFollow(
-                                              id: state
-                                                      .tasker[index].user?.id ??
-                                                  '',
-                                              follow: false);
+                                          .handleFollowUnFollow(id: state.tasker[index].user?.id ?? '', follow: false);
                                     } else {
                                       context
                                           .read<TaskerCubit>()
-                                          .handleFollowUnFollow(
-                                              id: state
-                                                      .tasker[index].user?.id ??
-                                                  '',
-                                              follow: true);
+                                          .handleFollowUnFollow(id: state.tasker[index].user?.id ?? '', follow: true);
                                     }
-                                    context
-                                        .read<TaskerBloc>()
-                                        .add(SetInitial());
+                                    context.read<TaskerBloc>().add(SetInitial());
                                   }
                                 },
                                 onFavouriteTapped: () {},
@@ -238,7 +198,7 @@ class _TaskerListState extends State<TaskerList> {
               ],
             );
           case TaskerStatus.initial:
-            return const Center(child: CardLoading(height: 400));
+            return const Center(child: CardLoading(height: 700));
         }
       },
     );

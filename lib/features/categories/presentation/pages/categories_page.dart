@@ -20,8 +20,7 @@ class CategoriesPage extends StatefulWidget {
   State<CategoriesPage> createState() => _CategoriesPageState();
 }
 
-class _CategoriesPageState extends State<CategoriesPage>
-    with TheModalBottomSheet {
+class _CategoriesPageState extends State<CategoriesPage> with TheModalBottomSheet {
   List<NestedCategory> list = [];
   late int selectedIndex;
   bool checkFromRoute = true;
@@ -49,17 +48,12 @@ class _CategoriesPageState extends State<CategoriesPage>
                 Widget displaySideCategory() {
                   if (state is NestedCategoriesLoadSuccess) {
                     if (checkFromRoute) {
-                      final routeArgs = ModalRoute.of(context)
-                          ?.settings
-                          .arguments as Map<String, dynamic>?;
+                      final routeArgs = ModalRoute.of(context)?.settings.arguments as Map<String, dynamic>?;
                       if (routeArgs?['id'] != -1) {
                         for (var element in state.nestedCategory) {
-                          if (element.name?.toLowerCase() ==
-                              routeArgs?['category'].toString().toLowerCase()) {
-                            selectedIndex =
-                                state.nestedCategory.indexOf(element);
-                            list =
-                                state.nestedCategory[selectedIndex].child ?? [];
+                          if (element.name?.toLowerCase() == routeArgs?['category'].toString().toLowerCase()) {
+                            selectedIndex = state.nestedCategory.indexOf(element);
+                            list = state.nestedCategory[selectedIndex].child ?? [];
                           }
                         }
                       } else {
@@ -85,34 +79,26 @@ class _CategoriesPageState extends State<CategoriesPage>
                                 () {
                                   checkFromRoute = false;
                                   selectedIndex = index;
-                                  list =
-                                      state.nestedCategory[index].child ?? [];
+                                  list = state.nestedCategory[index].child ?? [];
                                 },
                               );
                               if (state.nestedCategory[index].child!.isEmpty) {
-                                if (TaskOrServiceSectionModalBottomSheet
-                                        .selectedService.index ==
-                                    0) {
+                                if (TaskOrServiceSectionModalBottomSheet.selectedService.index == 0) {
                                   context.read<ServicesBloc>().add(
                                         ServicesLoadInitiated(
-                                          categoryId:
-                                              state.nestedCategory[index].id ??
-                                                  0,
+                                          categoryId: state.nestedCategory[index].id ?? 0,
                                         ),
                                       );
-                                  print(state.nestedCategory[index].id);
-                                  print(context
-                                      .read<ServicesBloc>()
-                                      .state
-                                      .serviceList
-                                      ?.first
-                                      .title);
-                                  // Navigator.pushNamed(
-                                  //     context, AllTaskPage.routeName,
-                                  //     arguments: {
-                                  //       'category':
-                                  //           state.nestedCategory[index].name,
-                                  //     });
+                                  // print(state.nestedCategory[index].id);
+                                  // print(context
+                                  //     .read<ServicesBloc>()
+                                  //     .state
+                                  //     .serviceList
+                                  //     ?.first
+                                  //     .title);
+                                  Navigator.pushNamed(context, AllTaskPage.routeName, arguments: {
+                                    'category': state.nestedCategory[index].name,
+                                  });
                                 } else {
                                   Navigator.pushNamed(
                                     context,
@@ -127,8 +113,7 @@ class _CategoriesPageState extends State<CategoriesPage>
                               height: 18,
                               width: 18,
                               child: SvgPicture.string(
-                                state.nestedCategory[index].icon?.toString() ??
-                                    kErrorSvg,
+                                state.nestedCategory[index].icon?.toString() ?? kErrorSvg,
                                 colorFilter: ColorFilter.mode(
                                   Colors.white,
                                   BlendMode.srcIn,
@@ -172,9 +157,7 @@ class _CategoriesPageState extends State<CategoriesPage>
                                             categoryId: list[index].id ?? 0,
                                           ),
                                         );
-                                    if (TaskOrServiceSectionModalBottomSheet
-                                            .selectedService.index ==
-                                        0) {
+                                    if (TaskOrServiceSectionModalBottomSheet.selectedService.index == 0) {
                                       Navigator.pushNamed(
                                         context,
                                         AllTaskPage.routeName,
@@ -217,65 +200,44 @@ class _CategoriesPageState extends State<CategoriesPage>
                                               ),
                                               child: GridView.builder(
                                                 padding: EdgeInsets.zero,
-                                                itemCount:
-                                                    list[index].child!.length,
-                                                gridDelegate:
-                                                    const SliverGridDelegateWithFixedCrossAxisCount(
+                                                itemCount: list[index].child!.length,
+                                                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                                                   crossAxisCount: 3,
                                                   mainAxisSpacing: 10,
                                                   crossAxisSpacing: 10,
                                                   childAspectRatio: 0.8,
                                                 ),
-                                                itemBuilder:
-                                                    (context, index3) =>
-                                                        InkWell(
+                                                itemBuilder: (context, index3) => InkWell(
                                                   onTap: () async {
-                                                    if (TaskOrServiceSectionModalBottomSheet
-                                                            .selectedService
-                                                            .index ==
+                                                    if (TaskOrServiceSectionModalBottomSheet.selectedService.index ==
                                                         0) {
                                                       context
-                                                          .read<
-                                                              TaskEntityServiceBloc>()
-                                                          .add(
-                                                              TaskEntityServiceInitiated(
+                                                          .read<TaskEntityServiceBloc>()
+                                                          .add(TaskEntityServiceInitiated(
                                                             serviceId: context
-                                                                    .read<
-                                                                        ServicesBloc>()
+                                                                    .read<ServicesBloc>()
                                                                     .state
-                                                                    .serviceList?[
-                                                                        index]
+                                                                    .serviceList?[index]
                                                                     .id ??
                                                                 '',
                                                           ));
-                                                      Navigator.pushNamed(
-                                                          context,
-                                                          AllTaskPage.routeName,
-                                                          arguments: {
-                                                            'category': list[
-                                                                    index]
-                                                                .child![index3]
-                                                                .name,
-                                                          });
+                                                      Navigator.pushNamed(context, AllTaskPage.routeName, arguments: {
+                                                        'category': list[index].child![index3].name,
+                                                      });
                                                     } else {
                                                       context
-                                                          .read<
-                                                              TaskEntityServiceBloc>()
-                                                          .add(
-                                                              TaskEntityServiceInitiated(
+                                                          .read<TaskEntityServiceBloc>()
+                                                          .add(TaskEntityServiceInitiated(
                                                             serviceId: context
-                                                                    .read<
-                                                                        ServicesBloc>()
+                                                                    .read<ServicesBloc>()
                                                                     .state
-                                                                    .serviceList?[
-                                                                        index]
+                                                                    .serviceList?[index]
                                                                     .id ??
                                                                 '',
                                                           ));
                                                       Navigator.pushNamed(
                                                         context,
-                                                        TrendingServicesPage
-                                                            .routeName,
+                                                        TrendingServicesPage.routeName,
                                                       );
                                                     }
                                                     // context
@@ -316,13 +278,8 @@ class _CategoriesPageState extends State<CategoriesPage>
                                                       // ),
                                                       Flexible(
                                                         child: Text(
-                                                          list[index]
-                                                                  .child![
-                                                                      index3]
-                                                                  .name ??
-                                                              '',
-                                                          textAlign:
-                                                              TextAlign.center,
+                                                          list[index].child![index3].name ?? '',
+                                                          textAlign: TextAlign.center,
                                                         ),
                                                       )
                                                     ],

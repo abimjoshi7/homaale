@@ -27,7 +27,7 @@ class ServiceCard extends StatelessWidget {
     this.isRange = false,
     this.isBookmarked = false,
     this.isOwner = false,
-    this.theHeight ,
+    this.theHeight,
   }) : super(key: key);
 
   final String? title;
@@ -65,15 +65,14 @@ class ServiceCard extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Expanded(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: NetworkImage(
-                          imagePath ?? kHomaaleImg,
-                        ),
-                        fit: BoxFit.fill,
+                Container(
+                  height: 120,
+                  decoration: BoxDecoration(
+                    image: DecorationImage(
+                      image: NetworkImage(
+                        imagePath ?? kHomaaleImg,
                       ),
+                      fit: BoxFit.fill,
                     ),
                   ),
                 ),
@@ -96,8 +95,7 @@ class ServiceCard extends StatelessWidget {
                         Row(
                           children: [
                             CircleAvatar(
-                              backgroundImage: NetworkImage(
-                                  createdByProfileImg ?? kHomaaleImg),
+                              backgroundImage: NetworkImage(createdByProfileImg ?? kHomaaleImg),
                               radius: 10,
                             ),
                             addHorizontalSpace(5),
@@ -160,7 +158,6 @@ class ServiceCard extends StatelessWidget {
                                   child: IconText(
                                     label: '$bookedCount Booked',
                                     style: Theme.of(context).textTheme.bodySmall,
-
                                     iconData: Icons.people,
                                     size: 13,
                                   ),
@@ -192,8 +189,7 @@ class ServiceCard extends StatelessWidget {
                                             : CustomFavoriteIcon(
                                                 typeID: '$id',
                                                 type: ServiceType.entityservice,
-                                                isBookmarked:
-                                                    isBookmarked ?? false,
+                                                isBookmarked: isBookmarked ?? false,
                                               )
 
                                         // IconButton(
@@ -231,15 +227,12 @@ class ServiceCard extends StatelessWidget {
                                       visible: isRange ?? false,
                                       child: Flexible(
                                         child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceAround,
+                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
                                           children: [
                                             Flexible(
                                               child: Text(
                                                 "Rs $rateFrom",
-                                                style: Theme.of(context)
-                                                    .textTheme
-                                                    .bodyLarge,
+                                                style: Theme.of(context).textTheme.bodyLarge,
                                                 overflow: TextOverflow.ellipsis,
                                               ),
                                             ),
@@ -251,9 +244,7 @@ class ServiceCard extends StatelessWidget {
                                     Flexible(
                                       child: Text(
                                         "Rs $rateTo",
-                                        style: Theme.of(context)
-                                            .textTheme
-                                            .bodyLarge,
+                                        style: Theme.of(context).textTheme.bodyLarge,
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     ),

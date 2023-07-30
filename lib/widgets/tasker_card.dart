@@ -25,7 +25,7 @@ class TaskerCard extends StatelessWidget {
     this.shareLinked,
     this.badgeImage,
     this.isOwner = false,
-     this.isProfileVerified,
+    this.isProfileVerified,
   });
 
   final String? label;
@@ -59,56 +59,48 @@ class TaskerCard extends StatelessWidget {
           children: <Widget>[
             addVerticalSpace(10),
             Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Stack(
-                    alignment: Alignment.topCenter,
-                    clipBehavior: Clip.none,
-                    children: [
-                      Center(
-                        child: Container(
-                          height: MediaQuery.of(context).size.height * 0.07,
-                          width: MediaQuery.of(context).size.width * 0.3,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              fit: BoxFit.cover,
-                              image: NetworkImage(
-                                networkImageUrl ?? kHomaaleImg,
-                              ),
-                            ),
-                          ),
+                SizedBox(
+                  width: 60,
+                ),
+                Stack(alignment: Alignment.topCenter, clipBehavior: Clip.none, children: [
+                  Center(
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        networkImageUrl ?? kHomaaleImg,
+                      ),
+                    ),
+                  ),
+                  if (badgeImage != null)
+                    Positioned(
+                      bottom: -15,
+                      // left: 2,
+                      child: CircleAvatar(
+                        radius: 20,
+                        backgroundColor: Colors.transparent,
+                        child: Center(
+                          child: Image.network(badgeImage ?? ""),
                         ),
                       ),
-                      if (badgeImage != null)
-                        Positioned(
-                          bottom: -15,
-                          left: 40,
-                          child: CircleAvatar(
-                            radius: 20,
-                            backgroundColor: Colors.transparent,
-                            child: Center(
-                              child: Image.network(badgeImage ?? ""),
-                            ),
-                          ),
-                        ),
-                    ]),
-                // addHorizontalSpace(10),
+                    ),
+                ]),
+                addHorizontalSpace(10),
                 if (shareLinked != null)
                   InkWell(
                       onTap: () {
                         final box = context.findRenderObject() as RenderBox?;
                         Share.share(
                           shareLinked!,
-                          sharePositionOrigin:
-                              box!.localToGlobal(Offset.zero) & box.size,
+                          sharePositionOrigin: box!.localToGlobal(Offset.zero) & box.size,
                         );
                       },
                       child: Icon(Icons.redo_sharp, color: kColorBlue)),
+                addHorizontalSpace(10),
               ],
             ),
-            addVerticalSpace(10),
+            addVerticalSpace(5),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
@@ -120,17 +112,19 @@ class TaskerCard extends StatelessWidget {
                   ),
                 ),
                 kWidth5,
-                if(isProfileVerified == true)
-                const Icon(
-                  Icons.verified,
-                  color: Color(0xff3EAEFF),
-                ),
+                if (isProfileVerified == true)
+                  const Icon(
+                    Icons.verified,
+                    color: Color(0xff3EAEFF),
+                  ),
               ],
             ),
             Text(
               designation ?? 'Homaale User',
               textAlign: TextAlign.center,
               style: kLightBlueText14,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
             Expanded(
               child: Row(
@@ -147,18 +141,17 @@ class TaskerCard extends StatelessWidget {
                           // size: 16,
                         ),
                       ),
-                      addHorizontalSpace(10),
+                      addHorizontalSpace(3),
                       IconText(
                         label: ratings ?? '',
                         iconData: Icons.star_rate_rounded,
                         size: 25,
                         color: kColorAmber,
                       ),
-                      addHorizontalSpace(10),
+                      addHorizontalSpace(3),
                       WidgetText(
                         label: '${rewardPercentage} % ',
-                        widget:
-                            Image.asset("assets/reward.png", color: kColorBlue),
+                        widget: Image.asset("assets/reward.png", color: kColorBlue),
                       ),
                     ],
                   ),
@@ -195,12 +188,8 @@ class TaskerCard extends StatelessWidget {
       width: buttonWidth ?? 80,
       child: CustomElevatedButton(
         borderColor: kColorPrimary,
-        mainColor: isFollowed == true && CacheHelper.isLoggedIn
-            ? Colors.white
-            : kColorPrimary,
-        textColor: isFollowed == true && CacheHelper.isLoggedIn
-            ? kColorPrimary
-            : Colors.white,
+        mainColor: isFollowed == true && CacheHelper.isLoggedIn ? Colors.white : kColorPrimary,
+        textColor: isFollowed == true && CacheHelper.isLoggedIn ? kColorPrimary : Colors.white,
         callback: () {
           if (!CacheHelper.isLoggedIn) {
             notLoggedInPopUp(context);

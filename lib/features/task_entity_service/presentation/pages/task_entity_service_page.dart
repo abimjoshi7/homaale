@@ -218,7 +218,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                         ],
                         if (state.applicantModel?.result?.isNotEmpty ?? false) ...[
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
                               'Applicants',
                               style: Theme.of(context).textTheme.headlineSmall,
@@ -390,8 +390,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
 
   Visibility _buildPriceFooter(TaskEntityServiceState state, BuildContext context) {
     return Visibility(
-      visible: state.taskEntityService.createdBy?.id !=
-          context.read<UserBloc>().state.taskerProfile?.user?.id,
+      visible: state.taskEntityService.createdBy?.id != context.read<UserBloc>().state.taskerProfile?.user?.id,
       child: PriceBookFooterSection(
         bgColor: Colors.blue.shade200,
         isNegotiable: state.taskEntityService.isNegotiable ?? false,
