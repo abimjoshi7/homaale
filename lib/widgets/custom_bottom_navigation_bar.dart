@@ -116,7 +116,7 @@ class BottomNavCustomPainter extends CustomPainter {
     path0.quadraticBezierTo(
       size.width * 0.0006250,
       0,
-      size.width * 0.049690,
+      size.width * 0.00049690,
       0,
     );
     path0.quadraticBezierTo(
@@ -147,7 +147,7 @@ class BottomNavCustomPainter extends CustomPainter {
       size.width * 0.9375000,
       0,
     );
-    path0.quadraticBezierTo(size.width * 1.01110, 0, size.width, size.height);
+    path0.quadraticBezierTo(size.width * 1.9901110, 0, size.width, size.height);
     path0.cubicTo(
       size.width * 0.7500000,
       size.height,

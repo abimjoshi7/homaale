@@ -371,7 +371,6 @@ class _CalledRootClassState extends State<CalledRootClass> with SingleTickerProv
                                           addActive = false;
                                           bookingsActive = false;
                                           profileActive = false;
-                                          // pageIndex = ;
                                         },
                                       );
                                     },
