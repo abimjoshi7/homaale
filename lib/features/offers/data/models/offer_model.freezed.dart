@@ -793,46 +793,32 @@ class _$_Result implements _Result {
       {this.id,
       final List<Service>? services,
       @JsonKey(name: "entity_services")
-          final List<TaskEntityService>? entityServices,
+      final List<TaskEntityService>? entityServices,
       final List<Category>? categories,
-      @JsonKey(name: "created_by")
-          this.createdBy,
+      @JsonKey(name: "created_by") this.createdBy,
       this.merchant,
       this.country,
-      @JsonKey(name: "free")
-          this.free,
-      @JsonKey(name: "offer_rule")
-          this.offerRule,
-      @JsonKey(name: "created_at")
-          this.createdAt,
-      @JsonKey(name: "updated_at")
-          this.updatedAt,
-      @JsonKey(name: "is_active")
-          this.isActive,
+      @JsonKey(name: "free") this.free,
+      @JsonKey(name: "offer_rule") this.offerRule,
+      @JsonKey(name: "created_at") this.createdAt,
+      @JsonKey(name: "updated_at") this.updatedAt,
+      @JsonKey(name: "is_active") this.isActive,
       this.title,
       this.description,
-      @JsonKey(name: "offer_type")
-          this.offerType,
+      @JsonKey(name: "offer_type") this.offerType,
       this.code,
       this.image,
-      @JsonKey(name: "start_date")
-          this.startDate,
-      @JsonKey(name: "end_date")
-          this.endDate,
-      @JsonKey(name: "is_consumable")
-          this.isConsumable,
+      @JsonKey(name: "start_date") this.startDate,
+      @JsonKey(name: "end_date") this.endDate,
+      @JsonKey(name: "is_consumable") this.isConsumable,
       this.discount,
-      @JsonKey(name: "discount_type")
-          this.discountType,
-      @JsonKey(name: "discount_limit")
-          this.discountLimit,
+      @JsonKey(name: "discount_type") this.discountType,
+      @JsonKey(name: "discount_limit") this.discountLimit,
       this.quantity,
-      @JsonKey(name: "is_common")
-          this.isCommon,
+      @JsonKey(name: "is_common") this.isCommon,
       final List<dynamic>? organizations,
       final List<String>? redeems,
-      @JsonKey(name: "redeem_points")
-          this.redeemPoints})
+      @JsonKey(name: "redeem_points") this.redeemPoints})
       : _services = services,
         _entityServices = entityServices,
         _categories = categories,
@@ -1065,46 +1051,32 @@ abstract class _Result implements Result {
       {final int? id,
       final List<Service>? services,
       @JsonKey(name: "entity_services")
-          final List<TaskEntityService>? entityServices,
+      final List<TaskEntityService>? entityServices,
       final List<Category>? categories,
-      @JsonKey(name: "created_by")
-          final CreatedBy? createdBy,
+      @JsonKey(name: "created_by") final CreatedBy? createdBy,
       final String? merchant,
       final Country? country,
-      @JsonKey(name: "free")
-          final ServiceElement? free,
-      @JsonKey(name: "offer_rule")
-          final int? offerRule,
-      @JsonKey(name: "created_at")
-          final DateTime? createdAt,
-      @JsonKey(name: "updated_at")
-          final DateTime? updatedAt,
-      @JsonKey(name: "is_active")
-          final bool? isActive,
+      @JsonKey(name: "free") final ServiceElement? free,
+      @JsonKey(name: "offer_rule") final int? offerRule,
+      @JsonKey(name: "created_at") final DateTime? createdAt,
+      @JsonKey(name: "updated_at") final DateTime? updatedAt,
+      @JsonKey(name: "is_active") final bool? isActive,
       final String? title,
       final String? description,
-      @JsonKey(name: "offer_type")
-          final String? offerType,
+      @JsonKey(name: "offer_type") final String? offerType,
       final String? code,
       final String? image,
-      @JsonKey(name: "start_date")
-          final DateTime? startDate,
-      @JsonKey(name: "end_date")
-          final DateTime? endDate,
-      @JsonKey(name: "is_consumable")
-          final bool? isConsumable,
+      @JsonKey(name: "start_date") final DateTime? startDate,
+      @JsonKey(name: "end_date") final DateTime? endDate,
+      @JsonKey(name: "is_consumable") final bool? isConsumable,
       final String? discount,
-      @JsonKey(name: "discount_type")
-          final String? discountType,
-      @JsonKey(name: "discount_limit")
-          final String? discountLimit,
+      @JsonKey(name: "discount_type") final String? discountType,
+      @JsonKey(name: "discount_limit") final String? discountLimit,
       final dynamic quantity,
-      @JsonKey(name: "is_common")
-          final bool? isCommon,
+      @JsonKey(name: "is_common") final bool? isCommon,
       final List<dynamic>? organizations,
       final List<String>? redeems,
-      @JsonKey(name: "redeem_points")
-          final int? redeemPoints}) = _$_Result;
+      @JsonKey(name: "redeem_points") final int? redeemPoints}) = _$_Result;
 
   factory _Result.fromJson(Map<String, dynamic> json) = _$_Result.fromJson;
 

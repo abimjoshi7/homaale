@@ -1884,12 +1884,9 @@ class __$$_TaskerCopyWithImpl<$Res>
 class _$_Tasker implements _Tasker {
   const _$_Tasker(
       {this.id,
-      @JsonKey(name: "profile_image")
-          this.profileImage,
-      @JsonKey(name: "full_name")
-          this.fullName,
-      @JsonKey(name: "charge_currency")
-          this.chargeCurrency,
+      @JsonKey(name: "profile_image") this.profileImage,
+      @JsonKey(name: "full_name") this.fullName,
+      @JsonKey(name: "charge_currency") this.chargeCurrency,
       this.user,
       final List<Portfolio>? portfolio,
       final List<Experience>? experience,
@@ -1901,45 +1898,31 @@ class _$_Tasker implements _Tasker {
       this.language,
       this.city,
       final List<Interest>? interests,
-      @JsonKey(name: "is_followed")
-          this.isFollowed,
+      @JsonKey(name: "is_followed") this.isFollowed,
       this.badge,
-      @JsonKey(name: "is_bookmarked")
-          this.isBookmarked,
+      @JsonKey(name: "is_bookmarked") this.isBookmarked,
       this.status,
       this.bio,
       this.gender,
-      @JsonKey(name: "date_of_birth")
-          this.dateOfBirth,
+      @JsonKey(name: "date_of_birth") this.dateOfBirth,
       this.skill,
-      @JsonKey(name: "active_hour_start")
-          this.activeHourStart,
-      @JsonKey(name: "active_hour_end")
-          this.activeHourEnd,
-      @JsonKey(name: "experience_level")
-          this.experienceLevel,
-      @JsonKey(name: "profile_visibility")
-          this.profileVisibility,
-      @JsonKey(name: "task_preferences")
-          this.taskPreferences,
-      @JsonKey(name: "address_line1")
-          this.addressLine1,
-      @JsonKey(name: "address_line2")
-          this.addressLine2,
-      @JsonKey(name: "is_profile_verified")
-          this.isProfileVerified,
+      @JsonKey(name: "active_hour_start") this.activeHourStart,
+      @JsonKey(name: "active_hour_end") this.activeHourEnd,
+      @JsonKey(name: "experience_level") this.experienceLevel,
+      @JsonKey(name: "profile_visibility") this.profileVisibility,
+      @JsonKey(name: "task_preferences") this.taskPreferences,
+      @JsonKey(name: "address_line1") this.addressLine1,
+      @JsonKey(name: "address_line2") this.addressLine2,
+      @JsonKey(name: "is_profile_verified") this.isProfileVerified,
       this.designation,
       this.points,
-      @JsonKey(name: "remaining_points")
-          this.remainingPoints,
-      @JsonKey(name: "followers_count")
-          this.followersCount,
-      @JsonKey(name: "following_count")
-          this.followingCount,
+      @JsonKey(name: "remaining_points") this.remainingPoints,
+      @JsonKey(name: "followers_count") this.followersCount,
+      @JsonKey(name: "following_count") this.followingCount,
       this.avatar,
       final List<dynamic>? subscription,
       @JsonKey(name: "security_questions")
-          final List<dynamic>? securityQuestions})
+      final List<dynamic>? securityQuestions})
       : _portfolio = portfolio,
         _experience = experience,
         _education = education,
@@ -2243,12 +2226,9 @@ class _$_Tasker implements _Tasker {
 abstract class _Tasker implements Tasker {
   const factory _Tasker(
       {final int? id,
-      @JsonKey(name: "profile_image")
-          final String? profileImage,
-      @JsonKey(name: "full_name")
-          final String? fullName,
-      @JsonKey(name: "charge_currency")
-          final Currency? chargeCurrency,
+      @JsonKey(name: "profile_image") final String? profileImage,
+      @JsonKey(name: "full_name") final String? fullName,
+      @JsonKey(name: "charge_currency") final Currency? chargeCurrency,
       final User? user,
       final List<Portfolio>? portfolio,
       final List<Experience>? experience,
@@ -2260,45 +2240,31 @@ abstract class _Tasker implements Tasker {
       final Language? language,
       final City? city,
       final List<Interest>? interests,
-      @JsonKey(name: "is_followed")
-          final bool? isFollowed,
+      @JsonKey(name: "is_followed") final bool? isFollowed,
       final Badge? badge,
-      @JsonKey(name: "is_bookmarked")
-          final bool? isBookmarked,
+      @JsonKey(name: "is_bookmarked") final bool? isBookmarked,
       final String? status,
       final String? bio,
       final String? gender,
-      @JsonKey(name: "date_of_birth")
-          final DateTime? dateOfBirth,
+      @JsonKey(name: "date_of_birth") final DateTime? dateOfBirth,
       final String? skill,
-      @JsonKey(name: "active_hour_start")
-          final String? activeHourStart,
-      @JsonKey(name: "active_hour_end")
-          final String? activeHourEnd,
-      @JsonKey(name: "experience_level")
-          final String? experienceLevel,
-      @JsonKey(name: "profile_visibility")
-          final String? profileVisibility,
-      @JsonKey(name: "task_preferences")
-          final String? taskPreferences,
-      @JsonKey(name: "address_line1")
-          final String? addressLine1,
-      @JsonKey(name: "address_line2")
-          final String? addressLine2,
-      @JsonKey(name: "is_profile_verified")
-          final bool? isProfileVerified,
+      @JsonKey(name: "active_hour_start") final String? activeHourStart,
+      @JsonKey(name: "active_hour_end") final String? activeHourEnd,
+      @JsonKey(name: "experience_level") final String? experienceLevel,
+      @JsonKey(name: "profile_visibility") final String? profileVisibility,
+      @JsonKey(name: "task_preferences") final String? taskPreferences,
+      @JsonKey(name: "address_line1") final String? addressLine1,
+      @JsonKey(name: "address_line2") final String? addressLine2,
+      @JsonKey(name: "is_profile_verified") final bool? isProfileVerified,
       final String? designation,
       final int? points,
-      @JsonKey(name: "remaining_points")
-          final int? remainingPoints,
-      @JsonKey(name: "followers_count")
-          final int? followersCount,
-      @JsonKey(name: "following_count")
-          final int? followingCount,
+      @JsonKey(name: "remaining_points") final int? remainingPoints,
+      @JsonKey(name: "followers_count") final int? followersCount,
+      @JsonKey(name: "following_count") final int? followingCount,
       final dynamic avatar,
       final List<dynamic>? subscription,
       @JsonKey(name: "security_questions")
-          final List<dynamic>? securityQuestions}) = _$_Tasker;
+      final List<dynamic>? securityQuestions}) = _$_Tasker;
 
   factory _Tasker.fromJson(Map<String, dynamic> json) = _$_Tasker.fromJson;
 

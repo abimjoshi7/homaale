@@ -257,15 +257,12 @@ class _$_CreateKycReq implements _CreateKycReq {
 
 abstract class _CreateKycReq implements CreateKycReq {
   const factory _CreateKycReq(
-      {@JsonKey(name: "full_name")
-          final String? fullName,
+      {@JsonKey(name: "full_name") final String? fullName,
       @JsonKey(name: "logo")
       @MultipartFileConverter()
-          final MultipartFile? logo,
-      @JsonKey(name: "is_company")
-          final bool? isCompany,
-      @JsonKey(name: "organization_name")
-          final String? organizationName,
+      final MultipartFile? logo,
+      @JsonKey(name: "is_company") final bool? isCompany,
+      @JsonKey(name: "organization_name") final String? organizationName,
       final String? address,
       final int? company,
       final String? country}) = _$_CreateKycReq;

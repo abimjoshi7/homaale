@@ -60,26 +60,18 @@ abstract class $KycModelCopyWith<$Res> {
       {int? id,
       User? user,
       Country? country,
-      @JsonKey(name: "created_at")
-          DateTime? createdAt,
-      @JsonKey(name: "updated_at")
-          DateTime? updatedAt,
-      @JsonKey(name: "full_name")
-          String? fullName,
+      @JsonKey(name: "created_at") DateTime? createdAt,
+      @JsonKey(name: "updated_at") DateTime? updatedAt,
+      @JsonKey(name: "full_name") String? fullName,
       String? logo,
-      @JsonKey(name: "is_company")
-          bool? isCompany,
-      @JsonKey(name: "organization_name")
-          String? organizationName,
+      @JsonKey(name: "is_company") bool? isCompany,
+      @JsonKey(name: "organization_name") String? organizationName,
       String? address,
-      @JsonKey(name: "is_kyc_verified")
-          bool? isKycVerified,
-      @JsonKey(name: "is_address_verified")
-          bool? isAddressVerified,
-      @JsonKey(name: "is_company_kyc_verified")
-          bool? isCompanyKycVerified,
+      @JsonKey(name: "is_kyc_verified") bool? isKycVerified,
+      @JsonKey(name: "is_address_verified") bool? isAddressVerified,
+      @JsonKey(name: "is_company_kyc_verified") bool? isCompanyKycVerified,
       @JsonKey(name: "is_company_address_verified")
-          bool? isCompanyAddressVerified,
+      bool? isCompanyAddressVerified,
       String? comment});
 
   $UserCopyWith<$Res>? get user;
@@ -215,26 +207,18 @@ abstract class _$$_KycModelCopyWith<$Res> implements $KycModelCopyWith<$Res> {
       {int? id,
       User? user,
       Country? country,
-      @JsonKey(name: "created_at")
-          DateTime? createdAt,
-      @JsonKey(name: "updated_at")
-          DateTime? updatedAt,
-      @JsonKey(name: "full_name")
-          String? fullName,
+      @JsonKey(name: "created_at") DateTime? createdAt,
+      @JsonKey(name: "updated_at") DateTime? updatedAt,
+      @JsonKey(name: "full_name") String? fullName,
       String? logo,
-      @JsonKey(name: "is_company")
-          bool? isCompany,
-      @JsonKey(name: "organization_name")
-          String? organizationName,
+      @JsonKey(name: "is_company") bool? isCompany,
+      @JsonKey(name: "organization_name") String? organizationName,
       String? address,
-      @JsonKey(name: "is_kyc_verified")
-          bool? isKycVerified,
-      @JsonKey(name: "is_address_verified")
-          bool? isAddressVerified,
-      @JsonKey(name: "is_company_kyc_verified")
-          bool? isCompanyKycVerified,
+      @JsonKey(name: "is_kyc_verified") bool? isKycVerified,
+      @JsonKey(name: "is_address_verified") bool? isAddressVerified,
+      @JsonKey(name: "is_company_kyc_verified") bool? isCompanyKycVerified,
       @JsonKey(name: "is_company_address_verified")
-          bool? isCompanyAddressVerified,
+      bool? isCompanyAddressVerified,
       String? comment});
 
   @override
@@ -342,26 +326,18 @@ class _$_KycModel implements _KycModel {
       {this.id,
       this.user,
       this.country,
-      @JsonKey(name: "created_at")
-          this.createdAt,
-      @JsonKey(name: "updated_at")
-          this.updatedAt,
-      @JsonKey(name: "full_name")
-          this.fullName,
+      @JsonKey(name: "created_at") this.createdAt,
+      @JsonKey(name: "updated_at") this.updatedAt,
+      @JsonKey(name: "full_name") this.fullName,
       this.logo,
-      @JsonKey(name: "is_company")
-          this.isCompany,
-      @JsonKey(name: "organization_name")
-          this.organizationName,
+      @JsonKey(name: "is_company") this.isCompany,
+      @JsonKey(name: "organization_name") this.organizationName,
       this.address,
-      @JsonKey(name: "is_kyc_verified")
-          this.isKycVerified,
-      @JsonKey(name: "is_address_verified")
-          this.isAddressVerified,
-      @JsonKey(name: "is_company_kyc_verified")
-          this.isCompanyKycVerified,
+      @JsonKey(name: "is_kyc_verified") this.isKycVerified,
+      @JsonKey(name: "is_address_verified") this.isAddressVerified,
+      @JsonKey(name: "is_company_kyc_verified") this.isCompanyKycVerified,
       @JsonKey(name: "is_company_address_verified")
-          this.isCompanyAddressVerified,
+      this.isCompanyAddressVerified,
       this.comment});
 
   factory _$_KycModel.fromJson(Map<String, dynamic> json) =>
@@ -483,26 +459,19 @@ abstract class _KycModel implements KycModel {
       {final int? id,
       final User? user,
       final Country? country,
-      @JsonKey(name: "created_at")
-          final DateTime? createdAt,
-      @JsonKey(name: "updated_at")
-          final DateTime? updatedAt,
-      @JsonKey(name: "full_name")
-          final String? fullName,
+      @JsonKey(name: "created_at") final DateTime? createdAt,
+      @JsonKey(name: "updated_at") final DateTime? updatedAt,
+      @JsonKey(name: "full_name") final String? fullName,
       final String? logo,
-      @JsonKey(name: "is_company")
-          final bool? isCompany,
-      @JsonKey(name: "organization_name")
-          final String? organizationName,
+      @JsonKey(name: "is_company") final bool? isCompany,
+      @JsonKey(name: "organization_name") final String? organizationName,
       final String? address,
-      @JsonKey(name: "is_kyc_verified")
-          final bool? isKycVerified,
-      @JsonKey(name: "is_address_verified")
-          final bool? isAddressVerified,
+      @JsonKey(name: "is_kyc_verified") final bool? isKycVerified,
+      @JsonKey(name: "is_address_verified") final bool? isAddressVerified,
       @JsonKey(name: "is_company_kyc_verified")
-          final bool? isCompanyKycVerified,
+      final bool? isCompanyKycVerified,
       @JsonKey(name: "is_company_address_verified")
-          final bool? isCompanyAddressVerified,
+      final bool? isCompanyAddressVerified,
       final String? comment}) = _$_KycModel;
 
   factory _KycModel.fromJson(Map<String, dynamic> json) = _$_KycModel.fromJson;

@@ -240,19 +240,14 @@ class _$_RedeemItemsDetail implements _RedeemItemsDetail {
       this.title,
       this.image,
       this.description,
-      @JsonKey(name: 'start_date')
-          this.startDate,
-      @JsonKey(name: 'end_date')
-          this.endDate,
-      @JsonKey(name: 'offer_type')
-          this.offerType,
+      @JsonKey(name: 'start_date') this.startDate,
+      @JsonKey(name: 'end_date') this.endDate,
+      @JsonKey(name: 'offer_type') this.offerType,
       this.code,
-      @JsonKey(name: 'offer_rule')
-          this.offerRule,
-      @JsonKey(name: 'redeem_points')
-          this.redeemPoints,
+      @JsonKey(name: 'offer_rule') this.offerRule,
+      @JsonKey(name: 'redeem_points') this.redeemPoints,
       @JsonKey(name: 'entity_services')
-          final List<EntityService>? entityServices})
+      final List<EntityService>? entityServices})
       : _entityServices = entityServices;
 
   factory _$_RedeemItemsDetail.fromJson(Map<String, dynamic> json) =>
@@ -359,19 +354,14 @@ abstract class _RedeemItemsDetail implements RedeemItemsDetail {
       final String? title,
       final String? image,
       final String? description,
-      @JsonKey(name: 'start_date')
-          final DateTime? startDate,
-      @JsonKey(name: 'end_date')
-          final DateTime? endDate,
-      @JsonKey(name: 'offer_type')
-          final String? offerType,
+      @JsonKey(name: 'start_date') final DateTime? startDate,
+      @JsonKey(name: 'end_date') final DateTime? endDate,
+      @JsonKey(name: 'offer_type') final String? offerType,
       final dynamic code,
-      @JsonKey(name: 'offer_rule')
-          final dynamic offerRule,
-      @JsonKey(name: 'redeem_points')
-          final int? redeemPoints,
+      @JsonKey(name: 'offer_rule') final dynamic offerRule,
+      @JsonKey(name: 'redeem_points') final int? redeemPoints,
       @JsonKey(name: 'entity_services')
-          final List<EntityService>? entityServices}) = _$_RedeemItemsDetail;
+      final List<EntityService>? entityServices}) = _$_RedeemItemsDetail;
 
   factory _RedeemItemsDetail.fromJson(Map<String, dynamic> json) =
       _$_RedeemItemsDetail.fromJson;

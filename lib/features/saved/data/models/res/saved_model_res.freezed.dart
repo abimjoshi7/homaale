@@ -2914,20 +2914,15 @@ abstract class _Certificate implements Certificate {
   const factory _Certificate(
       {final int? id,
       final String? name,
-      @JsonKey(name: 'issuing_organization')
-          final String? issuingOrganization,
+      @JsonKey(name: 'issuing_organization') final String? issuingOrganization,
       final String? description,
-      @JsonKey(name: 'created_at')
-          final bool? doesExpire,
-      @JsonKey(name: 'credential_id')
-          final String? credentialId,
-      @JsonKey(name: 'certificate_url')
-          final String? certificateUrl,
+      @JsonKey(name: 'created_at') final bool? doesExpire,
+      @JsonKey(name: 'credential_id') final String? credentialId,
+      @JsonKey(name: 'certificate_url') final String? certificateUrl,
       final dynamic image,
-      @JsonKey(name: 'issued_date')
-          final DateTime? issuedDate,
+      @JsonKey(name: 'issued_date') final DateTime? issuedDate,
       @JsonKey(name: 'expire_date')
-          final DateTime? expireDate}) = _$_Certificate;
+      final DateTime? expireDate}) = _$_Certificate;
 
   factory _Certificate.fromJson(Map<String, dynamic> json) =
       _$_Certificate.fromJson;
@@ -6021,14 +6016,12 @@ class _$_Service implements _Service {
   const _$_Service(
       {this.id,
       this.title,
-      @JsonKey(name: 'is_active')
-          this.isActive,
-      @JsonKey(name: 'is_verified')
-          this.isVerified,
+      @JsonKey(name: 'is_active') this.isActive,
+      @JsonKey(name: 'is_verified') this.isVerified,
       this.category,
       final List<Image>? images,
       @JsonKey(name: 'required_documents')
-          final List<dynamic>? requiredDocuments})
+      final List<dynamic>? requiredDocuments})
       : _images = images,
         _requiredDocuments = requiredDocuments;
 
@@ -6122,14 +6115,12 @@ abstract class _Service implements Service {
   const factory _Service(
       {final String? id,
       final String? title,
-      @JsonKey(name: 'is_active')
-          final bool? isActive,
-      @JsonKey(name: 'is_verified')
-          final bool? isVerified,
+      @JsonKey(name: 'is_active') final bool? isActive,
+      @JsonKey(name: 'is_verified') final bool? isVerified,
       final Category? category,
       final List<Image>? images,
       @JsonKey(name: 'required_documents')
-          final List<dynamic>? requiredDocuments}) = _$_Service;
+      final List<dynamic>? requiredDocuments}) = _$_Service;
 
   factory _Service.fromJson(Map<String, dynamic> json) = _$_Service.fromJson;
 

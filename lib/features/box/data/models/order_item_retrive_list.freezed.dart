@@ -783,30 +783,21 @@ abstract class _OrderItem implements OrderItem {
   const factory _OrderItem(
       {final String? id,
       final Task? task,
-      @JsonKey(name: 'created_at')
-          final String? createdAt,
-      @JsonKey(name: 'updated_at')
-          final DateTime? updatedAt,
+      @JsonKey(name: 'created_at') final String? createdAt,
+      @JsonKey(name: 'updated_at') final DateTime? updatedAt,
       final String? amount,
       final String? tax,
       final String? vat,
-      @JsonKey(name: 'offer_value')
-          final String? offerValue,
+      @JsonKey(name: 'offer_value') final String? offerValue,
       final String? discount,
-      @JsonKey(name: 'platform_charge')
-          final String? platformCharge,
+      @JsonKey(name: 'platform_charge') final String? platformCharge,
       @JsonKey(name: 'platform_charge_discount')
-          final String? platformChargeDiscount,
-      @JsonKey(name: 'equipment_charges')
-          final String? equipmentCharges,
-      @JsonKey(name: 'revision_charges')
-          final String? revisionCharges,
-      @JsonKey(name: 'other_charges')
-          final String? otherCharges,
-      @JsonKey(name: 'other_discounts')
-          final String? otherDiscounts,
-      @JsonKey(name: 'is_active')
-          final bool? isActive,
+      final String? platformChargeDiscount,
+      @JsonKey(name: 'equipment_charges') final String? equipmentCharges,
+      @JsonKey(name: 'revision_charges') final String? revisionCharges,
+      @JsonKey(name: 'other_charges') final String? otherCharges,
+      @JsonKey(name: 'other_discounts') final String? otherDiscounts,
+      @JsonKey(name: 'is_active') final bool? isActive,
       final String? order,
       final dynamic offer}) = _$_OrderItem;
 
@@ -897,10 +888,9 @@ abstract class $TaskCopyWith<$Res> {
       {String? id,
       String? title,
       int? booking,
-      @JsonKey(name: 'entity_service')
-          String? entityService,
+      @JsonKey(name: 'entity_service') String? entityService,
       @JsonKey(name: 'entity_service_images')
-          List<dynamic>? entityServiceImages,
+      List<dynamic>? entityServiceImages,
       Assigne? assigner,
       Assigne? assignee,
       String? currency,
@@ -1008,10 +998,9 @@ abstract class _$$_TaskCopyWith<$Res> implements $TaskCopyWith<$Res> {
       {String? id,
       String? title,
       int? booking,
-      @JsonKey(name: 'entity_service')
-          String? entityService,
+      @JsonKey(name: 'entity_service') String? entityService,
       @JsonKey(name: 'entity_service_images')
-          List<dynamic>? entityServiceImages,
+      List<dynamic>? entityServiceImages,
       Assigne? assigner,
       Assigne? assignee,
       String? currency,
@@ -1090,10 +1079,9 @@ class _$_Task implements _Task {
       {this.id,
       this.title,
       this.booking,
-      @JsonKey(name: 'entity_service')
-          this.entityService,
+      @JsonKey(name: 'entity_service') this.entityService,
       @JsonKey(name: 'entity_service_images')
-          final List<dynamic>? entityServiceImages,
+      final List<dynamic>? entityServiceImages,
       this.assigner,
       this.assignee,
       this.currency,
@@ -1192,10 +1180,9 @@ abstract class _Task implements Task {
       {final String? id,
       final String? title,
       final int? booking,
-      @JsonKey(name: 'entity_service')
-          final String? entityService,
+      @JsonKey(name: 'entity_service') final String? entityService,
       @JsonKey(name: 'entity_service_images')
-          final List<dynamic>? entityServiceImages,
+      final List<dynamic>? entityServiceImages,
       final Assigne? assigner,
       final Assigne? assignee,
       final String? currency,

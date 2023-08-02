@@ -2737,14 +2737,12 @@ class _$_Service implements _Service {
   const _$_Service(
       {this.id,
       this.title,
-      @JsonKey(name: "is_active")
-          this.isActive,
-      @JsonKey(name: "is_verified")
-          this.isVerified,
+      @JsonKey(name: "is_active") this.isActive,
+      @JsonKey(name: "is_verified") this.isVerified,
       this.category,
       final List<dynamic>? images,
       @JsonKey(name: "required_documents")
-          final List<dynamic>? requiredDocuments,
+      final List<dynamic>? requiredDocuments,
       this.commission})
       : _images = images,
         _requiredDocuments = requiredDocuments;
@@ -2845,14 +2843,12 @@ abstract class _Service implements Service {
   const factory _Service(
       {final String? id,
       final String? title,
-      @JsonKey(name: "is_active")
-          final bool? isActive,
-      @JsonKey(name: "is_verified")
-          final bool? isVerified,
+      @JsonKey(name: "is_active") final bool? isActive,
+      @JsonKey(name: "is_verified") final bool? isVerified,
       final Category? category,
       final List<dynamic>? images,
       @JsonKey(name: "required_documents")
-          final List<dynamic>? requiredDocuments,
+      final List<dynamic>? requiredDocuments,
       final String? commission}) = _$_Service;
 
   factory _Service.fromJson(Map<String, dynamic> json) = _$_Service.fromJson;

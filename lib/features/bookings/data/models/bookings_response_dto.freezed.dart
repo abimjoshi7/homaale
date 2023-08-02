@@ -358,46 +358,30 @@ abstract class $ResultCopyWith<$Res> {
       {String? id,
       Assigner? assigner,
       Assignee? assignee,
-      @JsonKey(name: 'entity_service')
-          EntityService? entityService,
+      @JsonKey(name: 'entity_service') EntityService? entityService,
       Currency? currency,
-      @JsonKey(name: 'is_rated')
-          bool? isRated,
-      @JsonKey(name: 'cancellation_reason')
-          String? cancellationReason,
+      @JsonKey(name: 'is_rated') bool? isRated,
+      @JsonKey(name: 'cancellation_reason') String? cancellationReason,
       @JsonKey(name: 'cancellation_description')
-          String? cancellationDescription,
-      @JsonKey(name: 'cancelled_by')
-          Assignee? cancelledBy,
-      @JsonKey(name: 'created_at')
-          DateTime? createdAt,
-      @JsonKey(name: 'updated_at')
-          DateTime? updatedAt,
-      @JsonKey(name: 'is_active')
-          bool? isActive,
+      String? cancellationDescription,
+      @JsonKey(name: 'cancelled_by') Assignee? cancelledBy,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'updated_at') DateTime? updatedAt,
+      @JsonKey(name: 'is_active') bool? isActive,
       String? status,
       String? title,
       String? description,
       String? price,
       String? earning,
-      @JsonKey(name: 'estimated_time')
-          int? estimatedTime,
-      @JsonKey(name: 'start_date')
-          DateTime? startDate,
-      @JsonKey(name: 'end_date')
-          DateTime? endDate,
-      @JsonKey(name: 'completed_on')
-          DateTime? completedOn,
-      @JsonKey(name: 'start_time')
-          String? startTime,
-      @JsonKey(name: 'end_time')
-          String? endTime,
-      @JsonKey(name: 'extra_data')
-          dynamic extraData,
-      @JsonKey(name: 'is_paid')
-          bool? isPaid,
-      @JsonKey(name: 'approved_by')
-          String? approvedBy,
+      @JsonKey(name: 'estimated_time') int? estimatedTime,
+      @JsonKey(name: 'start_date') DateTime? startDate,
+      @JsonKey(name: 'end_date') DateTime? endDate,
+      @JsonKey(name: 'completed_on') DateTime? completedOn,
+      @JsonKey(name: 'start_time') String? startTime,
+      @JsonKey(name: 'end_time') String? endTime,
+      @JsonKey(name: 'extra_data') dynamic extraData,
+      @JsonKey(name: 'is_paid') bool? isPaid,
+      @JsonKey(name: 'approved_by') String? approvedBy,
       int? booking});
 
   $AssignerCopyWith<$Res>? get assigner;
@@ -631,46 +615,30 @@ abstract class _$$_ResultCopyWith<$Res> implements $ResultCopyWith<$Res> {
       {String? id,
       Assigner? assigner,
       Assignee? assignee,
-      @JsonKey(name: 'entity_service')
-          EntityService? entityService,
+      @JsonKey(name: 'entity_service') EntityService? entityService,
       Currency? currency,
-      @JsonKey(name: 'is_rated')
-          bool? isRated,
-      @JsonKey(name: 'cancellation_reason')
-          String? cancellationReason,
+      @JsonKey(name: 'is_rated') bool? isRated,
+      @JsonKey(name: 'cancellation_reason') String? cancellationReason,
       @JsonKey(name: 'cancellation_description')
-          String? cancellationDescription,
-      @JsonKey(name: 'cancelled_by')
-          Assignee? cancelledBy,
-      @JsonKey(name: 'created_at')
-          DateTime? createdAt,
-      @JsonKey(name: 'updated_at')
-          DateTime? updatedAt,
-      @JsonKey(name: 'is_active')
-          bool? isActive,
+      String? cancellationDescription,
+      @JsonKey(name: 'cancelled_by') Assignee? cancelledBy,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'updated_at') DateTime? updatedAt,
+      @JsonKey(name: 'is_active') bool? isActive,
       String? status,
       String? title,
       String? description,
       String? price,
       String? earning,
-      @JsonKey(name: 'estimated_time')
-          int? estimatedTime,
-      @JsonKey(name: 'start_date')
-          DateTime? startDate,
-      @JsonKey(name: 'end_date')
-          DateTime? endDate,
-      @JsonKey(name: 'completed_on')
-          DateTime? completedOn,
-      @JsonKey(name: 'start_time')
-          String? startTime,
-      @JsonKey(name: 'end_time')
-          String? endTime,
-      @JsonKey(name: 'extra_data')
-          dynamic extraData,
-      @JsonKey(name: 'is_paid')
-          bool? isPaid,
-      @JsonKey(name: 'approved_by')
-          String? approvedBy,
+      @JsonKey(name: 'estimated_time') int? estimatedTime,
+      @JsonKey(name: 'start_date') DateTime? startDate,
+      @JsonKey(name: 'end_date') DateTime? endDate,
+      @JsonKey(name: 'completed_on') DateTime? completedOn,
+      @JsonKey(name: 'start_time') String? startTime,
+      @JsonKey(name: 'end_time') String? endTime,
+      @JsonKey(name: 'extra_data') dynamic extraData,
+      @JsonKey(name: 'is_paid') bool? isPaid,
+      @JsonKey(name: 'approved_by') String? approvedBy,
       int? booking});
 
   @override
@@ -1051,46 +1019,30 @@ abstract class _Result implements Result {
       {final String? id,
       final Assigner? assigner,
       final Assignee? assignee,
-      @JsonKey(name: 'entity_service')
-          final EntityService? entityService,
+      @JsonKey(name: 'entity_service') final EntityService? entityService,
       final Currency? currency,
-      @JsonKey(name: 'is_rated')
-          final bool? isRated,
-      @JsonKey(name: 'cancellation_reason')
-          final String? cancellationReason,
+      @JsonKey(name: 'is_rated') final bool? isRated,
+      @JsonKey(name: 'cancellation_reason') final String? cancellationReason,
       @JsonKey(name: 'cancellation_description')
-          final String? cancellationDescription,
-      @JsonKey(name: 'cancelled_by')
-          final Assignee? cancelledBy,
-      @JsonKey(name: 'created_at')
-          final DateTime? createdAt,
-      @JsonKey(name: 'updated_at')
-          final DateTime? updatedAt,
-      @JsonKey(name: 'is_active')
-          final bool? isActive,
+      final String? cancellationDescription,
+      @JsonKey(name: 'cancelled_by') final Assignee? cancelledBy,
+      @JsonKey(name: 'created_at') final DateTime? createdAt,
+      @JsonKey(name: 'updated_at') final DateTime? updatedAt,
+      @JsonKey(name: 'is_active') final bool? isActive,
       final String? status,
       final String? title,
       final String? description,
       final String? price,
       final String? earning,
-      @JsonKey(name: 'estimated_time')
-          final int? estimatedTime,
-      @JsonKey(name: 'start_date')
-          final DateTime? startDate,
-      @JsonKey(name: 'end_date')
-          final DateTime? endDate,
-      @JsonKey(name: 'completed_on')
-          final DateTime? completedOn,
-      @JsonKey(name: 'start_time')
-          final String? startTime,
-      @JsonKey(name: 'end_time')
-          final String? endTime,
-      @JsonKey(name: 'extra_data')
-          final dynamic extraData,
-      @JsonKey(name: 'is_paid')
-          final bool? isPaid,
-      @JsonKey(name: 'approved_by')
-          final String? approvedBy,
+      @JsonKey(name: 'estimated_time') final int? estimatedTime,
+      @JsonKey(name: 'start_date') final DateTime? startDate,
+      @JsonKey(name: 'end_date') final DateTime? endDate,
+      @JsonKey(name: 'completed_on') final DateTime? completedOn,
+      @JsonKey(name: 'start_time') final String? startTime,
+      @JsonKey(name: 'end_time') final String? endTime,
+      @JsonKey(name: 'extra_data') final dynamic extraData,
+      @JsonKey(name: 'is_paid') final bool? isPaid,
+      @JsonKey(name: 'approved_by') final String? approvedBy,
       final int? booking}) = _$_Result;
 
   factory _Result.fromJson(Map<String, dynamic> json) = _$_Result.fromJson;

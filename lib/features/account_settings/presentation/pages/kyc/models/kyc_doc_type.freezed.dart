@@ -201,10 +201,9 @@ abstract class _KycDocType implements KycDocType {
   const factory _KycDocType(
       {final int? id,
       final String? name,
-      @JsonKey(name: "required_for_user")
-          final bool? requiredForUser,
+      @JsonKey(name: "required_for_user") final bool? requiredForUser,
       @JsonKey(name: "required_for_merchant")
-          final bool? requiredForMerchant}) = _$_KycDocType;
+      final bool? requiredForMerchant}) = _$_KycDocType;
 
   factory _KycDocType.fromJson(Map<String, dynamic> json) =
       _$_KycDocType.fromJson;

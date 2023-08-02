@@ -1,7 +1,7 @@
-abstract class Failure {
-  const Failure({
-    required this.message,
-  });
+// abstract class Failure {
+//   const Failure({
+//     required this.message,
+//   });
 
-  final String message;
-}
+//   final String message;
+// }

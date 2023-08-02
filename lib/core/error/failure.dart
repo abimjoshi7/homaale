@@ -1,9 +1,8 @@
 import 'package:dependencies/dependencies.dart';
 
 abstract class Failure extends Equatable {
-  static const List<dynamic> properties = [];
   @override
-  List<Object?> get props => [properties];
+  List<Object?> get props => [];
 }
 
 class ServerFailure extends Failure {}

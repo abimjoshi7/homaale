@@ -19,7 +19,7 @@ scripts:
     pub get"
 
 environment:
-  sdk: ">=2.18.6 <3.0.0"
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   bloc_concurrency: ^0.2.1

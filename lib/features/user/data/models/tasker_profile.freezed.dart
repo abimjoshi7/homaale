@@ -2457,18 +2457,14 @@ abstract class _Certificate implements Certificate {
   const factory _Certificate(
       {final int? id,
       final String? name,
-      @JsonKey(name: "issuing_organization")
-          final String? issuingOrganization,
+      @JsonKey(name: "issuing_organization") final String? issuingOrganization,
       final String? description,
       final bool? doesExpire,
-      @JsonKey(name: "credential_id")
-          final String? credentialId,
-      @JsonKey(name: "certificate_url")
-          final String? certificateUrl,
-      @JsonKey(name: "issued_date")
-          final DateTime? issuedDate,
+      @JsonKey(name: "credential_id") final String? credentialId,
+      @JsonKey(name: "certificate_url") final String? certificateUrl,
+      @JsonKey(name: "issued_date") final DateTime? issuedDate,
       @JsonKey(name: "expire_date")
-          final DateTime? expireDate}) = _$_Certificate;
+      final DateTime? expireDate}) = _$_Certificate;
 
   factory _Certificate.fromJson(Map<String, dynamic> json) =
       _$_Certificate.fromJson;

@@ -1370,12 +1370,9 @@ class _$_Tasker implements _Tasker {
 abstract class _Tasker implements Tasker {
   const factory _Tasker(
       {final int? id,
-      @JsonKey(name: 'profile_image')
-          final String? profileImage,
-      @JsonKey(name: 'full_name')
-          final String? fullName,
-      @JsonKey(name: 'charge_curreny')
-          final ChargeCurrency? chargeCurrency,
+      @JsonKey(name: 'profile_image') final String? profileImage,
+      @JsonKey(name: 'full_name') final String? fullName,
+      @JsonKey(name: 'charge_curreny') final ChargeCurrency? chargeCurrency,
       final User? user,
       final List<Portfolio>? portfolio,
       final List<Experience>? experience,
@@ -1387,47 +1384,32 @@ abstract class _Tasker implements Tasker {
       final Country? language,
       final City? city,
       final List<Interest>? interests,
-      @JsonKey(name: 'is_followed')
-          final bool? isFollowed,
+      @JsonKey(name: 'is_followed') final bool? isFollowed,
       final Badge? badge,
       final String? status,
       final String? bio,
       final String? gender,
-      @JsonKey(name: 'date_of_birth')
-          final DateTime? dateOfBirth,
+      @JsonKey(name: 'date_of_birth') final DateTime? dateOfBirth,
       final String? skill,
-      @JsonKey(name: 'active_hour_start')
-          final String? activeHourStart,
-      @JsonKey(name: 'active_hour_end')
-          final String? activeHourEnd,
-      @JsonKey(name: 'experience_level')
-          final String? experienceLevel,
-      @JsonKey(name: 'user_type')
-          final String? userType,
-      @JsonKey(name: 'hourly_rate')
-          final double? hourlyRate,
-      @JsonKey(name: 'profile_visibility')
-          final String? profileVisibility,
-      @JsonKey(name: 'task_preferences')
-          final String? taskPreferences,
-      @JsonKey(name: 'address_line1')
-          final String? addressLine1,
-      @JsonKey(name: 'address_line2')
-          final String? addressLine2,
-      @JsonKey(name: 'is_profile_verified')
-          final bool? isProfileVerified,
+      @JsonKey(name: 'active_hour_start') final String? activeHourStart,
+      @JsonKey(name: 'active_hour_end') final String? activeHourEnd,
+      @JsonKey(name: 'experience_level') final String? experienceLevel,
+      @JsonKey(name: 'user_type') final String? userType,
+      @JsonKey(name: 'hourly_rate') final double? hourlyRate,
+      @JsonKey(name: 'profile_visibility') final String? profileVisibility,
+      @JsonKey(name: 'task_preferences') final String? taskPreferences,
+      @JsonKey(name: 'address_line1') final String? addressLine1,
+      @JsonKey(name: 'address_line2') final String? addressLine2,
+      @JsonKey(name: 'is_profile_verified') final bool? isProfileVerified,
       final String? designation,
       final int? points,
-      @JsonKey(name: 'remaining_points')
-          final int? remainingPoints,
-      @JsonKey(name: 'followers_count')
-          final int? followersCount,
-      @JsonKey(name: 'following_count')
-          final int? followingCount,
+      @JsonKey(name: 'remaining_points') final int? remainingPoints,
+      @JsonKey(name: 'followers_count') final int? followersCount,
+      @JsonKey(name: 'following_count') final int? followingCount,
       final int? avatar,
       final List<dynamic>? subscription,
       @JsonKey(name: 'security_questions')
-          final List<int>? securityQuestions}) = _$_Tasker;
+      final List<int>? securityQuestions}) = _$_Tasker;
 
   factory _Tasker.fromJson(Map<String, dynamic> json) = _$_Tasker.fromJson;
 
@@ -2090,19 +2072,14 @@ abstract class _Certificate implements Certificate {
   const factory _Certificate(
       {final int? id,
       final String? name,
-      @JsonKey(name: 'issuing_organization')
-          final String? issuingOrganization,
+      @JsonKey(name: 'issuing_organization') final String? issuingOrganization,
       final String? description,
-      @JsonKey(name: 'does_expire')
-          final bool? doesExpire,
-      @JsonKey(name: 'credential_id')
-          final String? credentialId,
-      @JsonKey(name: 'certificate_url')
-          final String? certificateUrl,
-      @JsonKey(name: 'issued_date')
-          final DateTime? issuedDate,
+      @JsonKey(name: 'does_expire') final bool? doesExpire,
+      @JsonKey(name: 'credential_id') final String? credentialId,
+      @JsonKey(name: 'certificate_url') final String? certificateUrl,
+      @JsonKey(name: 'issued_date') final DateTime? issuedDate,
       @JsonKey(name: 'expire_date')
-          final DateTime? expireDate}) = _$_Certificate;
+      final DateTime? expireDate}) = _$_Certificate;
 
   factory _Certificate.fromJson(Map<String, dynamic> json) =
       _$_Certificate.fromJson;

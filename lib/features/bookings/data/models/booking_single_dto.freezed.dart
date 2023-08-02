@@ -86,56 +86,37 @@ abstract class $BookingSingleDtoCopyWith<$Res> {
   @useResult
   $Res call(
       {int? id,
-      @JsonKey(name: 'created_by')
-          CreatedBy? createdBy,
+      @JsonKey(name: 'created_by') CreatedBy? createdBy,
       CreatedBy? owner,
-      @JsonKey(name: 'approved_by')
-          EdBy? approvedBy,
-      @JsonKey(name: 'cancelled_by')
-          EdBy? cancelledBy,
-      @JsonKey(name: 'entity_service')
-          EntityService? entityService,
+      @JsonKey(name: 'approved_by') EdBy? approvedBy,
+      @JsonKey(name: 'cancelled_by') EdBy? cancelledBy,
+      @JsonKey(name: 'entity_service') EntityService? entityService,
       List<Image>? images,
       List<Image>? videos,
-      @JsonKey(name: 'progress_percentage')
-          int? progressPercentage,
+      @JsonKey(name: 'progress_percentage') int? progressPercentage,
       City? city,
-      @JsonKey(name: 'created_at')
-          DateTime? createdAt,
-      @JsonKey(name: 'updated_at')
-          DateTime? updatedAt,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'updated_at') DateTime? updatedAt,
       String? description,
       List<String>? requirements,
       String? price,
       String? earning,
-      @JsonKey(name: 'start_date')
-          DateTime? startDate,
-      @JsonKey(name: 'end_date')
-          DateTime? endDate,
-      @JsonKey(name: 'start_time')
-          String? startTime,
-      @JsonKey(name: 'end_time')
-          String? endTime,
+      @JsonKey(name: 'start_date') DateTime? startDate,
+      @JsonKey(name: 'end_date') DateTime? endDate,
+      @JsonKey(name: 'start_time') String? startTime,
+      @JsonKey(name: 'end_time') String? endTime,
       String? location,
-      @JsonKey(name: 'is_active')
-          bool? isActive,
+      @JsonKey(name: 'is_active') bool? isActive,
       String? status,
-      @JsonKey(name: 'is_accepted')
-          bool? isAccepted,
-      @JsonKey(name: 'cancelling_party')
-          String? cancellingParty,
-      @JsonKey(name: 'cancellation_reason')
-          String? cancellationReason,
+      @JsonKey(name: 'is_accepted') bool? isAccepted,
+      @JsonKey(name: 'cancelling_party') String? cancellingParty,
+      @JsonKey(name: 'cancellation_reason') String? cancellationReason,
       @JsonKey(name: 'cancellation_description')
-          String? cancellationDescription,
-      @JsonKey(name: 'is_refunded')
-          bool? isRefunded,
-      @JsonKey(name: 'is_compensated')
-          bool? isCompensated,
-      @JsonKey(name: 'is_penalized')
-          bool? isPenalized,
-      @JsonKey(name: 'updated_by')
-          String? updatedBy});
+      String? cancellationDescription,
+      @JsonKey(name: 'is_refunded') bool? isRefunded,
+      @JsonKey(name: 'is_compensated') bool? isCompensated,
+      @JsonKey(name: 'is_penalized') bool? isPenalized,
+      @JsonKey(name: 'updated_by') String? updatedBy});
 
   $CreatedByCopyWith<$Res>? get createdBy;
   $CreatedByCopyWith<$Res>? get owner;
@@ -401,56 +382,37 @@ abstract class _$$_BookingSingleDtoCopyWith<$Res>
   @useResult
   $Res call(
       {int? id,
-      @JsonKey(name: 'created_by')
-          CreatedBy? createdBy,
+      @JsonKey(name: 'created_by') CreatedBy? createdBy,
       CreatedBy? owner,
-      @JsonKey(name: 'approved_by')
-          EdBy? approvedBy,
-      @JsonKey(name: 'cancelled_by')
-          EdBy? cancelledBy,
-      @JsonKey(name: 'entity_service')
-          EntityService? entityService,
+      @JsonKey(name: 'approved_by') EdBy? approvedBy,
+      @JsonKey(name: 'cancelled_by') EdBy? cancelledBy,
+      @JsonKey(name: 'entity_service') EntityService? entityService,
       List<Image>? images,
       List<Image>? videos,
-      @JsonKey(name: 'progress_percentage')
-          int? progressPercentage,
+      @JsonKey(name: 'progress_percentage') int? progressPercentage,
       City? city,
-      @JsonKey(name: 'created_at')
-          DateTime? createdAt,
-      @JsonKey(name: 'updated_at')
-          DateTime? updatedAt,
+      @JsonKey(name: 'created_at') DateTime? createdAt,
+      @JsonKey(name: 'updated_at') DateTime? updatedAt,
       String? description,
       List<String>? requirements,
       String? price,
       String? earning,
-      @JsonKey(name: 'start_date')
-          DateTime? startDate,
-      @JsonKey(name: 'end_date')
-          DateTime? endDate,
-      @JsonKey(name: 'start_time')
-          String? startTime,
-      @JsonKey(name: 'end_time')
-          String? endTime,
+      @JsonKey(name: 'start_date') DateTime? startDate,
+      @JsonKey(name: 'end_date') DateTime? endDate,
+      @JsonKey(name: 'start_time') String? startTime,
+      @JsonKey(name: 'end_time') String? endTime,
       String? location,
-      @JsonKey(name: 'is_active')
-          bool? isActive,
+      @JsonKey(name: 'is_active') bool? isActive,
       String? status,
-      @JsonKey(name: 'is_accepted')
-          bool? isAccepted,
-      @JsonKey(name: 'cancelling_party')
-          String? cancellingParty,
-      @JsonKey(name: 'cancellation_reason')
-          String? cancellationReason,
+      @JsonKey(name: 'is_accepted') bool? isAccepted,
+      @JsonKey(name: 'cancelling_party') String? cancellingParty,
+      @JsonKey(name: 'cancellation_reason') String? cancellationReason,
       @JsonKey(name: 'cancellation_description')
-          String? cancellationDescription,
-      @JsonKey(name: 'is_refunded')
-          bool? isRefunded,
-      @JsonKey(name: 'is_compensated')
-          bool? isCompensated,
-      @JsonKey(name: 'is_penalized')
-          bool? isPenalized,
-      @JsonKey(name: 'updated_by')
-          String? updatedBy});
+      String? cancellationDescription,
+      @JsonKey(name: 'is_refunded') bool? isRefunded,
+      @JsonKey(name: 'is_compensated') bool? isCompensated,
+      @JsonKey(name: 'is_penalized') bool? isPenalized,
+      @JsonKey(name: 'updated_by') String? updatedBy});
 
   @override
   $CreatedByCopyWith<$Res>? get createdBy;
@@ -906,56 +868,38 @@ class _$_BookingSingleDto implements _BookingSingleDto {
 abstract class _BookingSingleDto implements BookingSingleDto {
   const factory _BookingSingleDto(
       {final int? id,
-      @JsonKey(name: 'created_by')
-          final CreatedBy? createdBy,
+      @JsonKey(name: 'created_by') final CreatedBy? createdBy,
       final CreatedBy? owner,
-      @JsonKey(name: 'approved_by')
-          final EdBy? approvedBy,
-      @JsonKey(name: 'cancelled_by')
-          final EdBy? cancelledBy,
-      @JsonKey(name: 'entity_service')
-          final EntityService? entityService,
+      @JsonKey(name: 'approved_by') final EdBy? approvedBy,
+      @JsonKey(name: 'cancelled_by') final EdBy? cancelledBy,
+      @JsonKey(name: 'entity_service') final EntityService? entityService,
       final List<Image>? images,
       final List<Image>? videos,
-      @JsonKey(name: 'progress_percentage')
-          final int? progressPercentage,
+      @JsonKey(name: 'progress_percentage') final int? progressPercentage,
       final City? city,
-      @JsonKey(name: 'created_at')
-          final DateTime? createdAt,
-      @JsonKey(name: 'updated_at')
-          final DateTime? updatedAt,
+      @JsonKey(name: 'created_at') final DateTime? createdAt,
+      @JsonKey(name: 'updated_at') final DateTime? updatedAt,
       final String? description,
       final List<String>? requirements,
       final String? price,
       final String? earning,
-      @JsonKey(name: 'start_date')
-          final DateTime? startDate,
-      @JsonKey(name: 'end_date')
-          final DateTime? endDate,
-      @JsonKey(name: 'start_time')
-          final String? startTime,
-      @JsonKey(name: 'end_time')
-          final String? endTime,
+      @JsonKey(name: 'start_date') final DateTime? startDate,
+      @JsonKey(name: 'end_date') final DateTime? endDate,
+      @JsonKey(name: 'start_time') final String? startTime,
+      @JsonKey(name: 'end_time') final String? endTime,
       final String? location,
-      @JsonKey(name: 'is_active')
-          final bool? isActive,
+      @JsonKey(name: 'is_active') final bool? isActive,
       final String? status,
-      @JsonKey(name: 'is_accepted')
-          final bool? isAccepted,
-      @JsonKey(name: 'cancelling_party')
-          final String? cancellingParty,
-      @JsonKey(name: 'cancellation_reason')
-          final String? cancellationReason,
+      @JsonKey(name: 'is_accepted') final bool? isAccepted,
+      @JsonKey(name: 'cancelling_party') final String? cancellingParty,
+      @JsonKey(name: 'cancellation_reason') final String? cancellationReason,
       @JsonKey(name: 'cancellation_description')
-          final String? cancellationDescription,
-      @JsonKey(name: 'is_refunded')
-          final bool? isRefunded,
-      @JsonKey(name: 'is_compensated')
-          final bool? isCompensated,
-      @JsonKey(name: 'is_penalized')
-          final bool? isPenalized,
+      final String? cancellationDescription,
+      @JsonKey(name: 'is_refunded') final bool? isRefunded,
+      @JsonKey(name: 'is_compensated') final bool? isCompensated,
+      @JsonKey(name: 'is_penalized') final bool? isPenalized,
       @JsonKey(name: 'updated_by')
-          final String? updatedBy}) = _$_BookingSingleDto;
+      final String? updatedBy}) = _$_BookingSingleDto;
 
   factory _BookingSingleDto.fromJson(Map<String, dynamic> json) =
       _$_BookingSingleDto.fromJson;
@@ -2088,17 +2032,14 @@ abstract class _CreatedBy implements CreatedBy {
       {final int? id,
       final User? user,
       final String? bio,
-      @JsonKey(name: 'profile_image')
-          final String? profileImage,
+      @JsonKey(name: 'profile_image') final String? profileImage,
       final Stats? stats,
       final List<String>? skills,
-      @JsonKey(name: 'charge_currency')
-          final ChargeCurrency? chargeCurrency,
+      @JsonKey(name: 'charge_currency') final ChargeCurrency? chargeCurrency,
       final CreatedByCity? city,
-      @JsonKey(name: 'address_line1')
-          final String? addressLine1,
+      @JsonKey(name: 'address_line1') final String? addressLine1,
       @JsonKey(name: 'address_line2')
-          final String? addressLine2}) = _$_CreatedBy;
+      final String? addressLine2}) = _$_CreatedBy;
 
   factory _CreatedBy.fromJson(Map<String, dynamic> json) =
       _$_CreatedBy.fromJson;
@@ -5413,14 +5354,12 @@ abstract class $ServiceCopyWith<$Res> {
   $Res call(
       {String? id,
       String? title,
-      @JsonKey(name: 'is_active')
-          bool? isActive,
-      @JsonKey(name: 'is_verified')
-          bool? isVerified,
+      @JsonKey(name: 'is_active') bool? isActive,
+      @JsonKey(name: 'is_verified') bool? isVerified,
       Category? category,
       List<Image>? images,
       @JsonKey(name: 'required_documents')
-          List<RequiredDocument>? requiredDocuments,
+      List<RequiredDocument>? requiredDocuments,
       String? commission});
 
   $CategoryCopyWith<$Res>? get category;
@@ -5507,14 +5446,12 @@ abstract class _$$_ServiceCopyWith<$Res> implements $ServiceCopyWith<$Res> {
   $Res call(
       {String? id,
       String? title,
-      @JsonKey(name: 'is_active')
-          bool? isActive,
-      @JsonKey(name: 'is_verified')
-          bool? isVerified,
+      @JsonKey(name: 'is_active') bool? isActive,
+      @JsonKey(name: 'is_verified') bool? isVerified,
       Category? category,
       List<Image>? images,
       @JsonKey(name: 'required_documents')
-          List<RequiredDocument>? requiredDocuments,
+      List<RequiredDocument>? requiredDocuments,
       String? commission});
 
   @override
@@ -5583,14 +5520,12 @@ class _$_Service implements _Service {
   const _$_Service(
       {this.id,
       this.title,
-      @JsonKey(name: 'is_active')
-          this.isActive,
-      @JsonKey(name: 'is_verified')
-          this.isVerified,
+      @JsonKey(name: 'is_active') this.isActive,
+      @JsonKey(name: 'is_verified') this.isVerified,
       this.category,
       final List<Image>? images,
       @JsonKey(name: 'required_documents')
-          final List<RequiredDocument>? requiredDocuments,
+      final List<RequiredDocument>? requiredDocuments,
       this.commission})
       : _images = images,
         _requiredDocuments = requiredDocuments;
@@ -5691,14 +5626,12 @@ abstract class _Service implements Service {
   const factory _Service(
       {final String? id,
       final String? title,
-      @JsonKey(name: 'is_active')
-          final bool? isActive,
-      @JsonKey(name: 'is_verified')
-          final bool? isVerified,
+      @JsonKey(name: 'is_active') final bool? isActive,
+      @JsonKey(name: 'is_verified') final bool? isVerified,
       final Category? category,
       final List<Image>? images,
       @JsonKey(name: 'required_documents')
-          final List<RequiredDocument>? requiredDocuments,
+      final List<RequiredDocument>? requiredDocuments,
       final String? commission}) = _$_Service;
 
   factory _Service.fromJson(Map<String, dynamic> json) = _$_Service.fromJson;
@@ -6100,10 +6033,9 @@ abstract class _RequiredDocument implements RequiredDocument {
   const factory _RequiredDocument(
       {final int? id,
       final String? name,
-      @JsonKey(name: 'required_for_user')
-          final bool? requiredForUser,
+      @JsonKey(name: 'required_for_user') final bool? requiredForUser,
       @JsonKey(name: 'required_for_merchant')
-          final bool? requiredForMerchant}) = _$_RequiredDocument;
+      final bool? requiredForMerchant}) = _$_RequiredDocument;
 
   factory _RequiredDocument.fromJson(Map<String, dynamic> json) =
       _$_RequiredDocument.fromJson;

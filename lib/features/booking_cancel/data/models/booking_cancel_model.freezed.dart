@@ -38,10 +38,9 @@ abstract class $BookingCancelModelCopyWith<$Res> {
       _$BookingCancelModelCopyWithImpl<$Res, BookingCancelModel>;
   @useResult
   $Res call(
-      {@JsonKey(name: 'cancellation_reason')
-          String? cancellationReason,
+      {@JsonKey(name: 'cancellation_reason') String? cancellationReason,
       @JsonKey(name: 'cancellation_description')
-          String? cancellationDescription});
+      String? cancellationDescription});
 }
 
 /// @nodoc
@@ -82,10 +81,9 @@ abstract class _$$_BookingCancelModelCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {@JsonKey(name: 'cancellation_reason')
-          String? cancellationReason,
+      {@JsonKey(name: 'cancellation_reason') String? cancellationReason,
       @JsonKey(name: 'cancellation_description')
-          String? cancellationDescription});
+      String? cancellationDescription});
 }
 
 /// @nodoc
@@ -171,10 +169,9 @@ class _$_BookingCancelModel implements _BookingCancelModel {
 
 abstract class _BookingCancelModel implements BookingCancelModel {
   const factory _BookingCancelModel(
-      {@JsonKey(name: 'cancellation_reason')
-          final String? cancellationReason,
+      {@JsonKey(name: 'cancellation_reason') final String? cancellationReason,
       @JsonKey(name: 'cancellation_description')
-          final String? cancellationDescription}) = _$_BookingCancelModel;
+      final String? cancellationDescription}) = _$_BookingCancelModel;
 
   factory _BookingCancelModel.fromJson(Map<String, dynamic> json) =
       _$_BookingCancelModel.fromJson;
