@@ -11,6 +11,7 @@ class ProfileStatsCard extends StatelessWidget {
     this.height,
     this.width,
     this.assetsColor,
+    this.isThemeChangeColor,
   });
 
   final String label;
@@ -19,6 +20,7 @@ class ProfileStatsCard extends StatelessWidget {
   final double? height;
   final double? width;
   final Color? assetsColor;
+  final bool? isThemeChangeColor;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,7 @@ class ProfileStatsCard extends StatelessWidget {
               Flexible(
                 child: AutoSizeText(
                   value,
-                  style: assetsColor != null ? TextStyle(color: assetsColor):Theme.of(context).textTheme.displayLarge,
+                  style: assetsColor != null ? TextStyle(color: assetsColor) : Theme.of(context).textTheme.displayLarge,
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
@@ -45,7 +47,7 @@ class ProfileStatsCard extends StatelessWidget {
                   children: [
                     Image.asset(
                       imagePath,
-                      color: assetsColor ?? null,
+                      color: isThemeChangeColor == null ? assetsColor : Colors.blue,
                     ),
                     kWidth5,
                     Flexible(

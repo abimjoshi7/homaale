@@ -5,7 +5,8 @@ import 'package:flutter/material.dart';
 class RequirementSection extends StatelessWidget {
   const RequirementSection({
     super.key,
-    this.requirementList, this.labelText,
+    this.requirementList,
+    this.labelText,
   });
 
   final List<String>? requirementList;
@@ -14,7 +15,8 @@ class RequirementSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CustomFormField(
-      label:labelText ?? "Highlights",
+      label: labelText ?? "Highlights",
+      textStyle: Theme.of(context).textTheme.bodyMedium,
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 8.0),
         child: Column(
@@ -29,7 +31,7 @@ class RequirementSection extends StatelessWidget {
                 ),
                 kWidth10,
                 Text(
-                  requirementList?[index] ?? 'Booking available for RCT in Kathmandu',
+                  requirementList?[index] ?? '',
                 )
               ],
             ),

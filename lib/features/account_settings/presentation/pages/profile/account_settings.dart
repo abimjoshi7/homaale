@@ -9,20 +9,20 @@ import '../../../../support/presentation/widgets/help_and_support.dart';
 import '../legals/legals_page.dart';
 import '../quick_links/quick_link_page.dart';
 
-class ProfileSettings extends StatefulWidget {
-  const ProfileSettings({super.key});
+class AccountSettings extends StatefulWidget {
+  const AccountSettings({super.key});
   static const routeName = '/account-profile';
 
   @override
-  State<ProfileSettings> createState() => _ProfileSettingsState();
+  State<AccountSettings> createState() => _AccountSettingsState();
 }
 
-class _ProfileSettingsState extends State<ProfileSettings> {
+class _AccountSettingsState extends State<AccountSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: CustomAppBar(
-          appBarTitle: "Settings",
+          appBarTitle: "Account Settings",
           leadingWidget: SizedBox.shrink(),
           trailingWidget: SizedBox.shrink(),
         ),

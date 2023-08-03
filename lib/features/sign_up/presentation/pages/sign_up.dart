@@ -47,12 +47,9 @@ class _SignUpPageState extends State<SignUpPage> {
           child: CustomTextFormField(
             value: state.identifierFormFieldValue ?? '',
             textInputType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly
-            ],
+            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
             validator: validateNumber,
-            onSaved: (value) =>
-                setState(() => phoneNumberController.text = '$value'),
+            onSaved: (value) => setState(() => phoneNumberController.text = '$value'),
             hintText: 'Mobile Number',
             hintStyle: Theme.of(context).textTheme.bodySmall,
             prefixWidget: Padding(
@@ -80,9 +77,7 @@ class _SignUpPageState extends State<SignUpPage> {
           child: CustomTextFormField(
             value: state.identifierFormFieldValue ?? '',
             textInputType: TextInputType.emailAddress,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.singleLineFormatter
-            ],
+            inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.singleLineFormatter],
             validator: validateEmail,
             onSaved: (value) => setState(() => emailController.text = '$value'),
             hintText: 'Enter your email here',
@@ -100,9 +95,7 @@ class _SignUpPageState extends State<SignUpPage> {
       barrierDismissible: false,
       builder: (_) => CustomToast(
         heading: 'Success',
-        content: (!state.isPhoneNumber)
-            ? 'Succesfully signed up. Please verify your email'
-            : 'Succesfully signed up.',
+        content: (!state.isPhoneNumber) ? 'Succesfully signed up. Please verify your email' : 'Succesfully signed up.',
         onTap: () {
           (!state.isPhoneNumber)
               ? Navigator.pushNamedAndRemoveUntil(
@@ -172,9 +165,7 @@ class _SignUpPageState extends State<SignUpPage> {
           },
           child: Icon(
             color: Theme.of(context).indicatorColor,
-            isObscure[0]
-                ? Icons.visibility_rounded
-                : Icons.visibility_off_rounded,
+            isObscure[0] ? Icons.visibility_rounded : Icons.visibility_off_rounded,
           ),
         ),
       ),
@@ -197,9 +188,7 @@ class _SignUpPageState extends State<SignUpPage> {
           },
         ),
         validator: (val) =>
-            (passwordController.text != confirmPasswordController.text)
-                ? "Password didn't match"
-                : null,
+            (passwordController.text != confirmPasswordController.text) ? "Password didn't match" : null,
         obscureText: isObscure[1],
         suffixWidget: InkWell(
           onTap: () {
@@ -209,9 +198,7 @@ class _SignUpPageState extends State<SignUpPage> {
           },
           child: Icon(
             color: Theme.of(context).indicatorColor,
-            isObscure[1]
-                ? Icons.visibility_rounded
-                : Icons.visibility_off_rounded,
+            isObscure[1] ? Icons.visibility_rounded : Icons.visibility_off_rounded,
           ),
         ),
       ),
@@ -275,8 +262,7 @@ class _SignUpPageState extends State<SignUpPage> {
       body: BlocListener<SignupBloc, SignUpState>(
         listener: (_, state) {
           if (state.theStates == TheStates.failure) {
-            signUpFailureDialogBox(
-                state.errorMsg ?? 'Failed to log.', _, state);
+            signUpFailureDialogBox(state.errorMsg ?? 'Failed to log.', _, state);
           }
           if (state.theStates == TheStates.success) {
             signUpSuccessDialogBox(_, state);
@@ -320,8 +306,7 @@ class _SignUpPageState extends State<SignUpPage> {
                           ),
                           addVerticalSpace(16),
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               children: <Widget>[
@@ -334,14 +319,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                 addHorizontalSpace(8),
                                 Flexible(
                                   child: RichText(
-                                    strutStyle:
-                                        const StrutStyle(fontFamily: 'Poppins'),
+                                    strutStyle: const StrutStyle(fontFamily: 'Poppins'),
                                     maxLines: 2,
                                     overflow: TextOverflow.ellipsis,
                                     text: TextSpan(
                                       text: 'By signing up, you agree to our ',
-                                      style:
-                                          Theme.of(context).textTheme.bodySmall,
+                                      style: Theme.of(context).textTheme.bodySmall,
                                       // style: kHeading3.copyWith(
                                       //   wordSpacing: 0.5,
                                       //   letterSpacing: 0.1,
@@ -382,8 +365,7 @@ class _SignUpPageState extends State<SignUpPage> {
                             ),
                           ),
                           addVerticalSpace(32),
-                          if (state.theStates != TheStates.initial)
-                            CustomLoader(),
+                          if (state.theStates != TheStates.initial) CustomLoader(),
                           if (state.theStates == TheStates.initial)
                             Flexible(
                               child: CustomElevatedButton(
@@ -391,8 +373,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                   if (_formKey.currentState!.validate()) {
                                     _formKey.currentState!.save();
                                     if (isChecked == false) {
-                                      ScaffoldMessenger.of(context)
-                                          .showSnackBar(
+                                      ScaffoldMessenger.of(context).showSnackBar(
                                         const SnackBar(
                                           content: Text(
                                             'Please agree to the terms and policy.',
@@ -400,15 +381,12 @@ class _SignUpPageState extends State<SignUpPage> {
                                         ),
                                       );
                                     } else {
-                                      if (state.theStates ==
-                                          TheStates.initial) {
+                                      if (state.theStates == TheStates.initial) {
                                         if (state.isPhoneNumber) {
                                           context.read<SignupBloc>().add(
                                                 SignUpWithPhoneInitiated(
-                                                  phone: phoneNumberController
-                                                      .text,
-                                                  password:
-                                                      passwordController.text,
+                                                  phone: phoneNumberController.text,
+                                                  password: passwordController.text,
                                                 ),
                                               );
                                         }
@@ -416,8 +394,7 @@ class _SignUpPageState extends State<SignUpPage> {
                                           context.read<SignupBloc>().add(
                                                 SignUpWithEmailInitiated(
                                                   email: emailController.text,
-                                                  password:
-                                                      passwordController.text,
+                                                  password: passwordController.text,
                                                 ),
                                               );
                                         }

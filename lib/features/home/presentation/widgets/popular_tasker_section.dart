@@ -21,10 +21,11 @@ class PopularTaskerSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(
-        horizontal: 10,
+        horizontal: 8,
       ),
       child: Column(
         children: <Widget>[
+          addVerticalSpace(5),
           SectionHeading(
             labelName: 'Popular Taskers',
             onTap: () {
@@ -34,6 +35,7 @@ class PopularTaskerSection extends StatelessWidget {
               );
             },
           ),
+          addVerticalSpace(5),
           BlocBuilder<TaskerCubit, TaskerState>(
             builder: (context, state) {
               if (state.status == TaskerStatus.initial) {
@@ -52,9 +54,7 @@ class PopularTaskerSection extends StatelessWidget {
                     scrollDirection: Axis.horizontal,
                     itemBuilder: (context, index) => InkWell(
                       onTap: () {
-                        context
-                            .read<TaskerCubit>()
-                            .loadSingleTasker(data?[index].user?.id ?? '');
+                        context.read<TaskerCubit>().loadSingleTasker(data?[index].user?.id ?? '');
 
                         Navigator.pushNamed(
                           context,
@@ -63,36 +63,19 @@ class PopularTaskerSection extends StatelessWidget {
                       },
                       child: TaskerCard(
                         isProfileVerified: data?[index].isProfileVerified,
-                        isOwner: data?[index].user?.id ==
-                            context
-                                .read<UserBloc>()
-                                .state
-                                .taskerProfile
-                                ?.user
-                                ?.id,
+                        isOwner: data?[index].user?.id == context.read<UserBloc>().state.taskerProfile?.user?.id,
                         badgeImage: data?[index].badge?.image,
-                        shareLinked:
-                            '$kShareLinks/tasker/${data?[index].user?.id}',
-                        rewardPercentage: data?[index]
-                                .stats
-                                ?.successRate
-                                ?.toInt()
-                                .toString() ??
-                            '0',
+                        shareLinked: '$kShareLinks/tasker/${data?[index].user?.id}',
+                        rewardPercentage: data?[index].stats?.successRate?.toInt().toString() ?? '0',
                         id: data?[index].user?.id,
                         networkImageUrl: data?[index].profileImage,
-                        label:
-                            "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
+                        label: "${data?[index].user?.firstName} ${data?[index].user?.lastName}",
                         designation: data?[index].designation,
-                        happyClients:
-                            data?[index].stats?.happyClients.toString(),
-                        ratings:
-                            '${data?[index].rating?.userRatingCount ?? '0'}',
+                        happyClients: data?[index].stats?.happyClients.toString(),
+                        ratings: '${data?[index].rating?.userRatingCount ?? '0'}',
                         // ${data?[index].rating?.avgRating?.toStringAsFixed(2) ?? '5'}
-                        callbackLabel: CacheHelper.isLoggedIn &&
-                                data?[index].isFollowed == true
-                            ? 'Following'
-                            : 'Follow',
+                        callbackLabel:
+                            CacheHelper.isLoggedIn && data?[index].isFollowed == true ? 'Following' : 'Follow',
                         isFollowed: data?[index].isFollowed ?? false,
                         buttonWidth: MediaQuery.of(context).size.width,
                         callback: () {
@@ -100,13 +83,13 @@ class PopularTaskerSection extends StatelessWidget {
                             notLoggedInPopUp(context);
                           } else {
                             if (data?[index].isFollowed ?? false) {
-                              context.read<TaskerCubit>().handleFollowUnFollow(
-                                  id: data?[index].user?.id ?? '',
-                                  follow: false);
+                              context
+                                  .read<TaskerCubit>()
+                                  .handleFollowUnFollow(id: data?[index].user?.id ?? '', follow: false);
                             } else {
-                              context.read<TaskerCubit>().handleFollowUnFollow(
-                                  id: data?[index].user?.id ?? '',
-                                  follow: true);
+                              context
+                                  .read<TaskerCubit>()
+                                  .handleFollowUnFollow(id: data?[index].user?.id ?? '', follow: true);
                             }
                           }
                         },

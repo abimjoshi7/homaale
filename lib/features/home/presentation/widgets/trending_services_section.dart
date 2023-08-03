@@ -40,9 +40,10 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                     );
                   },
                   showKey: TrendingServicesSection.pServiceKey,
-                  showCaseTitle: 'Trending Service',
+                  showCaseTitle: 'Trending Services',
                   showCaseDec: 'See All Trending Service from here.',
                 ),
+                addVerticalSpace(5),
                 SizedBox(
                   height: 280,
                   child: ListView.separated(
@@ -78,8 +79,7 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
                               ? "Remote"
                               : state.taskEntityServiceModel.result?[index].location,
                           bookedCount: '${state.taskEntityServiceModel.result?[index].bookedCount}',
-                          createdBy:
-                              "${state.taskEntityServiceModel.result?[index].createdBy?.firstName} ${state.taskEntityServiceModel.result?[index].createdBy?.lastName}",
+                          createdBy: "${state.taskEntityServiceModel.result?[index].createdBy?.fullName} ",
                           createdByProfileImg: "${state.taskEntityServiceModel.result?[index].createdBy?.profileImage}",
                           title: state.taskEntityServiceModel.result?[index].title,
                           imagePath: state.taskEntityServiceModel.result?[index].images?.length == 0
@@ -143,13 +143,11 @@ class _TrendingServicesSectionState extends State<TrendingServicesSection> {
             ),
           );
         }
-        return Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: CustomFormField(
-            label: "Trending Services",
-            child: CardLoading(
-              height: 230,
-            ),
+        return CustomFormField(
+          label: "Trending Services",
+          textStyle: Theme.of(context).textTheme.titleMedium,
+          child: CardLoading(
+            height: 200,
           ),
         );
       },

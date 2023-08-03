@@ -9,7 +9,7 @@ import 'package:flutter/material.dart';
 
 import '../widget/TaskOrServiceSectionModalBottomSheet.dart';
 
-class CategoriesSection extends StatelessWidget with TheModalBottomSheet{
+class CategoriesSection extends StatelessWidget with TheModalBottomSheet {
   const CategoriesSection({super.key});
   static final catKey = GlobalKey();
 
@@ -24,8 +24,7 @@ class CategoriesSection extends StatelessWidget with TheModalBottomSheet{
               height: 100,
             ),
           );
-        } else if (state.theStates == TheStates.success &&
-            state.topCategory != null) {
+        } else if (state.theStates == TheStates.success && state.topCategory != null) {
           return Padding(
             padding: const EdgeInsets.symmetric(horizontal: 8.0),
             child: SizedBox(
@@ -55,23 +54,20 @@ class CategoriesSection extends StatelessWidget with TheModalBottomSheet{
                     showCaseTitle: 'See All ',
                     showCaseDec: 'See All Categories from here.',
                   ),
-                  addVerticalSpace(8),
+                  addVerticalSpace(5),
                   Expanded(
                     child: GridView.builder(
                       shrinkWrap: true,
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: state.topCategory?.sublist(0, 8).length,
                       padding: EdgeInsets.zero,
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
+                      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
                         childAspectRatio: 1.5,
                       ),
                       itemBuilder: (context, index) => InkWell(
                         onTap: () {
-                          context
-                              .read<NestedCategoriesCubit>()
-                              .getNestedCategory();
+                          context.read<NestedCategoriesCubit>().getNestedCategory();
                           Navigator.pushNamed(
                             context,
                             CategoriesPage.routeName,
@@ -88,8 +84,7 @@ class CategoriesSection extends StatelessWidget with TheModalBottomSheet{
                             height: 18,
                             width: 18,
                             child: SvgPicture.string(
-                              state.topCategory?[index].icon?.toString() ??
-                                  kErrorSvg,
+                              state.topCategory?[index].icon?.toString() ?? kErrorSvg,
                               colorFilter: ColorFilter.mode(
                                 Colors.white,
                                 BlendMode.srcIn,

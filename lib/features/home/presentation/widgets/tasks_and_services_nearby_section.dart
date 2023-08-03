@@ -12,7 +12,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: kPadding10,
+      padding: EdgeInsets.only(left: 8),
       child: Column(
         children: <Widget>[
           SectionHeading(
@@ -29,6 +29,7 @@ class TasksAndServicesNearbySection extends StatelessWidget {
               }
             },
           ),
+          addVerticalSpace(10),
           SizedBox(
             height: MediaQuery.of(context).size.height * 0.35,
             width: double.infinity,

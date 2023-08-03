@@ -32,20 +32,30 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
   void initState() {
     super.initState();
     initLoginDetails();
-    // initFcmToken();
+    initFcmToken();
     context.read<SignInBloc>().add(SignInWithPhoneSelected());
+  }
+
+  initFcmToken() async {
+    final token = await FirebaseMessaging.instance.getToken();
+    if (token != null) {
+      setState(() {
+        fcmToken = token;
+      });
+    } else {
+      setState(() {
+        fcmToken = '';
+      });
+    }
   }
 
   Future<void> initLoginDetails() async {
     final String phone = await CacheHelper.getCachedString(kUserPhone) ?? '';
     final String mail = await CacheHelper.getCachedString(kUsermail) ?? '';
-    final String phonePassword =
-        await CacheHelper.getCachedString(kUserPhonePass) ?? '';
-    final String emailPassword =
-        await CacheHelper.getCachedString(kUserEmailPass) ?? '';
+    final String phonePassword = await CacheHelper.getCachedString(kUserPhonePass) ?? '';
+    final String emailPassword = await CacheHelper.getCachedString(kUserEmailPass) ?? '';
 
-    final String keepInfo =
-        await CacheHelper.getCachedString(kRememberCreds) ?? 'false';
+    final String keepInfo = await CacheHelper.getCachedString(kRememberCreds) ?? 'false';
 
     setState(() {
       phoneNumberController.text = phone;
@@ -110,6 +120,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                 ),
                 textInputType: TextInputType.emailAddress,
                 hintText: 'Enter email address',
+                hintStyle: Theme.of(context).textTheme.displaySmall,
                 validator: validateNotEmpty,
               ),
             );
@@ -129,9 +140,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                         () => phoneNumberController.text = p0!,
                       ),
                       textInputType: TextInputType.number,
-                      inputFormatters: <TextInputFormatter>[
-                        FilteringTextInputFormatter.digitsOnly
-                      ],
+                      inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                       hintText: 'Mobile Number',
                       prefixWidget: InkWell(
                         onTap: () {},
@@ -171,9 +180,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
             label: 'Password',
             child: CustomTextFormField(
               theWidth: MediaQuery.of(context).size.width * 0.88,
-              controller: state.isPhoneNumber
-                  ? phonePasswordController
-                  : emailPasswordController,
+              controller: state.isPhoneNumber ? phonePasswordController : emailPasswordController,
               obscureText: isObscure,
               suffixWidget: InkWell(
                 onTap: () {
@@ -184,21 +191,17 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                   );
                 },
                 child: Icon(
-                  color: kColorPrimary,
-                  isObscure
-                      ? Icons.visibility_rounded
-                      : Icons.visibility_off_rounded,
+                  color: kAppThemeMode == "Light" ? kColorPrimary : kColorSecondary,
+                  isObscure ? Icons.visibility_rounded : Icons.visibility_off_rounded,
                 ),
               ),
               onSaved: (p0) => setState(
                 () {
-                  state.isPhoneNumber
-                      ? phonePasswordController.text = p0!
-                      : emailPasswordController.text = p0!;
+                  state.isPhoneNumber ? phonePasswordController.text = p0! : emailPasswordController.text = p0!;
                 },
               ),
               hintText: 'Enter your password here',
-              hintStyle: Theme.of(context).textTheme.bodySmall,
+              hintStyle: Theme.of(context).textTheme.displaySmall,
               validator: validateNotEmpty,
             ),
           );
@@ -252,9 +255,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
               addVerticalSpace(8.0),
               if (state.theStates == TheStates.initial)
                 CustomTextButton(
-                  text: (state.isPhoneNumber)
-                      ? "Didn't get OTP ?"
-                      : "Didn't get verification email?",
+                  text: (state.isPhoneNumber) ? "Didn't get OTP ?" : "Didn't get verification email?",
                   voidCallback: () => Navigator.pushNamed(
                     context,
                     ResendVerificationPage.routeName,
@@ -321,6 +322,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                         userLoginReq: UserLoginReq(
                           username: '+977${phoneNumberController.text}',
                           password: phonePasswordController.text,
+                          fcmToken: fcmToken,
                         ),
                       ),
                     );
@@ -331,6 +333,7 @@ class _SignInFormFieldsState extends State<SignInFormFields> {
                         userLoginReq: UserLoginReq(
                           username: usernameController.text,
                           password: emailPasswordController.text,
+                          fcmToken: fcmToken,
                         ),
                       ),
                     );

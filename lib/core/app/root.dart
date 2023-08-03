@@ -124,7 +124,7 @@ class _CalledRootClassState extends State<CalledRootClass> with SingleTickerProv
     const Home(),
     const BoxPage(),
     const MyBookingsPage(),
-    const ProfileSettings(),
+    const AccountSettings(),
   ];
 
   void initBlocs() {

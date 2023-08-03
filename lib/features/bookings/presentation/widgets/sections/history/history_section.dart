@@ -10,8 +10,7 @@ import 'package:cipher/locator.dart';
 import 'package:cipher/widgets/widgets.dart';
 import 'package:dependencies/dependencies.dart';
 import 'package:flutter/material.dart';
-import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart'
-    as bookings;
+import 'package:cipher/features/bookings/data/models/bookings_response_dto.dart' as bookings;
 
 class HistorySection extends StatefulWidget {
   const HistorySection({super.key});
@@ -62,9 +61,7 @@ class _HistorySectionState extends State<HistorySection> {
     return BlocBuilder<ScrollBloc, ScrollState>(
       bloc: _scrollBloc,
       builder: (context, state) {
-        var bookingList = state.result
-            .map((e) => bookings.Result.fromJson(e as Map<String, dynamic>))
-            .toList();
+        var bookingList = state.result.map((e) => bookings.Result.fromJson(e as Map<String, dynamic>)).toList();
         return state.theState == TheStates.initial
             ? SizedBox(child: Center(child: CardLoading(height: 500)))
             : bookingList.isEmpty
@@ -72,19 +69,15 @@ class _HistorySectionState extends State<HistorySection> {
                     child: CommonErrorContainer(
                     assetsPath: 'assets/no_data_found.png',
                     errorTile: 'Item not available.',
-                    errorDes:
-                        'We’re sorry, the data you search could not found.',
+                    errorDes: 'We’re sorry, the data you search could not found.',
                   ))
                 : Column(
                     children: [
                       Expanded(
                         child: ListView.builder(
                           controller: _controller,
-                          padding:
-                              EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                          itemCount: state.hasReachedMax
-                              ? bookingList.length
-                              : bookingList.length + 1,
+                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                          itemCount: state.hasReachedMax ? bookingList.length : bookingList.length + 1,
                           itemBuilder: (context, index) {
                             switch (state.theState) {
                               case TheStates.success:
@@ -101,35 +94,26 @@ class _HistorySectionState extends State<HistorySection> {
                                   return Container(
                                     margin: EdgeInsets.only(bottom: 16),
                                     child: BookingsServiceCard(
-                                      cardColor: bookingList[index].entityService?.isRequested == true ? kColorBlue: kColorOrange,
+                                      cardColor: bookingList[index].entityService?.isRequested == true
+                                          ? kColorBlue
+                                          : kColorOrange,
                                       callback: () {
-                                        BlocProvider.of<BookingsBloc>(context)
-                                            .add(
-                                          BookingSingleLoaded(
-                                              bookingList[index].id),
+                                        BlocProvider.of<BookingsBloc>(context).add(
+                                          BookingSingleLoaded(bookingList[index].id),
                                         );
-                                        Navigator.pushNamed(context,
-                                            BookingItemDetailPage.routeName,
-                                            arguments: {'client': 'client'});
+                                        Navigator.pushNamed(context, BookingItemDetailPage.routeName,
+                                            arguments: {'client': 'client', 'title': bookingList[index].title});
                                       },
                                       serviceName: bookingList[index].title,
-                                      location: bookingList[index]
-                                                  .entityService
-                                                  ?.location
-                                                  ?.length ==
-                                              0
+                                      location: bookingList[index].entityService?.location?.length == 0
                                           ? "Remote"
-                                          : bookingList[index]
-                                              .entityService
-                                              ?.location,
+                                          : bookingList[index].entityService?.location,
                                       providerName:
                                           "${bookingList[index].assignee?.firstName} ${bookingList[index].assignee?.lastName}",
-                                      mainContentWidget: showBookingDetails(
-                                          bookingList[index]),
+                                      mainContentWidget: showBookingDetails(bookingList[index]),
                                       status: bookingList[index].status,
                                       hidePopupButton: true,
-                                      bottomRightWidget:
-                                          displayPrice(bookingList[index]),
+                                      bottomRightWidget: displayPrice(bookingList[index]),
                                     ),
                                   );
                                 }
@@ -159,8 +143,7 @@ class _HistorySectionState extends State<HistorySection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.calendar_today_rounded,
-                  label: Jiffy(result.createdAt ?? DateTime.now().toString())
-                      .yMMMMd,
+                  label: Jiffy(result.createdAt ?? DateTime.now().toString()).yMMMMd,
                   color: kColorBlue,
                 ),
               ),
@@ -168,8 +151,7 @@ class _HistorySectionState extends State<HistorySection> {
                 padding: const EdgeInsets.all(3),
                 child: IconText(
                   iconData: Icons.watch_later_outlined,
-                  label:
-                      "${result.startTime ?? '00:00'} ${result.endTime ?? ''}",
+                  label: "${result.startTime ?? '00:00'} ${result.endTime ?? ''}",
                   color: kColorGreen,
                 ),
               ),
@@ -192,8 +174,7 @@ class _HistorySectionState extends State<HistorySection> {
     return Column(
       children: [
         Text(
-          result.assignee?.id ==
-                  context.read<UserBloc>().state.taskerProfile?.user?.id
+          result.assignee?.id == context.read<UserBloc>().state.taskerProfile?.user?.id
               ? "Rs. ${Decimal.parse(result.earning ?? '0.0').toStringAsFixed(2)}"
               : "Rs. ${Decimal.parse(result.price ?? '0.0').toStringAsFixed(2)}",
           // "Rs. ${Decimal.parse(result.entityService?.budgetFrom ?? '0.0')} - Rs. ${Decimal.parse(result.entityService?.budgetTo ?? '0.0')}",

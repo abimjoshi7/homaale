@@ -6,7 +6,6 @@ import 'package:cipher/core/constants/kyc_constants.dart';
 import 'package:cipher/features/bookings/data/models/approve_req.dart';
 import 'package:cipher/features/bookings/data/models/reject_req.dart';
 import 'package:cipher/features/bookings/presentation/bloc/bookings_bloc.dart';
-import 'package:cipher/features/bookings/presentation/pages/my_bookings_page.dart';
 import 'package:cipher/features/bookings/presentation/pages/service_booking_page.dart';
 import 'package:cipher/features/chat/bloc/chat_bloc.dart';
 import 'package:cipher/features/chat/models/chat_person_details.dart';
@@ -26,8 +25,6 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/widgets/widgets.dart';
-
-import '../../../tasker/presentation/bloc/tasker_bloc.dart';
 
 class TaskEntityServicePage extends StatefulWidget {
   static const String routeName = '/task_entity_service_page';
@@ -137,7 +134,7 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
                           );
                     },
                     child: ListView(
-                      padding: EdgeInsets.all(8),
+                      padding: EdgeInsets.only(left: 10),
                       children: [
                         ProfileDetailSection(state: state),
                         _buildEvent(state),
@@ -433,9 +430,12 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               addVerticalSpace(10),
-              Text(
-                'Media',
-                style: Theme.of(context).textTheme.headlineSmall,
+              Padding(
+                padding: const EdgeInsets.only(left: 18.0),
+                child: Text(
+                  'Media',
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
               ),
               Container(
                 width: MediaQuery.of(context).size.width,
@@ -511,14 +511,18 @@ class _TaskEntityServicePageState extends State<TaskEntityServicePage> {
           );
         }
         if (!snapshot.hasData || snapshot.hasError || snapshot.data?.length == 0)
-          return CustomFormField(
-            label: "Media",
-            child: Center(
-              child: Text("No media found."),
+          return Padding(
+            padding: const EdgeInsets.only(left: 8.0),
+            child: CustomFormField(
+              label: "Media",
+              textStyle: Theme.of(context).textTheme.bodyMedium,
+              child: Center(
+                child: Text("No media found."),
+              ),
             ),
           );
         return CardLoading(
-          height: 100,
+          height: 500,
         );
       },
     );

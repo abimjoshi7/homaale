@@ -28,7 +28,7 @@ class _HomeState extends State<Home> {
               child: SingleChildScrollView(
                 child: Padding(
                   padding: const EdgeInsets.only(
-                    bottom: 16,
+                    bottom: 8,
                   ),
                   child: Column(
                     children: <Widget>[
@@ -36,7 +36,6 @@ class _HomeState extends State<Home> {
                       // DealsOfTheDaySection(),
                       CategoriesSection(),
                       TrendingServicesSection(),
-                      TasksRecommendationSection(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Image.asset(
@@ -45,15 +44,14 @@ class _HomeState extends State<Home> {
                           width: double.infinity,
                         ),
                       ),
+                      TasksRecommendationSection(),
                       PopularTaskerSection(),
-                      SizedBox(height: 10),
                       NotableBannerSection(),
-                      // RecentlyLaunchedServicesSection(),
                       TasksAndServicesNearbySection(),
-                      // SizedBox(height: 120),
                       // const PopularTaskerNearbySection(),
                       // const TaskRecommendationSection(),
                       // PopularTaskNearbySection()
+                      // RecentlyLaunchedServicesSection(),
                     ],
                   ),
                 ),
