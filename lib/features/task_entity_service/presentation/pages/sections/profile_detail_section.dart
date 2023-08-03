@@ -1,3 +1,4 @@
+import 'package:cipher/core/constants/date_time_representation.dart';
 import 'package:cipher/core/mixins/the_modal_bottom_sheet.dart';
 import 'package:cipher/features/support/presentation/widgets/report_page.dart';
 import 'package:cipher/features/task_entity_service/presentation/pages/edit_task_entity_service_page.dart';
@@ -54,13 +55,13 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                       width: MediaQuery.of(context).size.width * 0.6,
                       child: Text(
                         state.taskEntityService.title ?? '',
-                        style: Theme.of(context).textTheme.headlineSmall,
+                        style: Theme.of(context).textTheme.bodyMedium,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ),
                     Text(
-                      "${state.taskEntityService.createdBy?.firstName ?? ''}"
-                      " ${state.taskEntityService.createdBy?.lastName ?? ''}",
+                      "${state.taskEntityService.createdBy?.fullName ?? ''}",
+                      // " ${state.taskEntityService.createdBy?.lastName ?? ''}",
                       style: kLightBlueText14,
                     ),
                   ],
@@ -238,7 +239,7 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                 IconText(
                   label: state.taskEntityService.bookedCount.toString(),
                   iconData: Icons.people,
-                  color: kColorPrimary,
+                  color: Colors.blue,
                   size: 18,
                 ),
               ],
@@ -278,11 +279,11 @@ class ProfileDetailSection extends StatelessWidget with TheModalBottomSheet {
                 state.taskEntityService.isRange ?? false
                     ? "Rs. ${Decimal.parse(state.taskEntityService.budgetFrom ?? '0.0')} - ${Decimal.parse(state.taskEntityService.budgetTo ?? '0.0')}"
                     : "Rs. ${Decimal.parse(state.taskEntityService.budgetTo ?? '0.0')}",
-                style: Theme.of(context).textTheme.headlineSmall,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
             ],
           ),
-        addVerticalSpace(10),
+        // addVerticalSpace(10),
         Text(
           'Problem Description',
           style: Theme.of(context).textTheme.headlineSmall,

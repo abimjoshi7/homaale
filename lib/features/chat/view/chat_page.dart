@@ -1,7 +1,7 @@
 import 'package:cipher/core/constants/constants.dart';
 import 'package:cipher/core/constants/date_time_representation.dart';
 import 'package:cipher/core/helpers/cryptojs_aes_encryption_helper.dart';
-import 'package:cipher/features/chat/models/chat_messages.dart';
+import 'package:cipher/features/chat/models/chat_messages.dart' as mes;
 import 'package:cipher/features/chat/models/chat_person_details.dart';
 import 'package:cipher/features/user/presentation/bloc/user/user_bloc.dart';
 import 'package:cipher/locator.dart';
@@ -65,13 +65,13 @@ class _ChatPageState extends State<ChatPage> {
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.active) {
             if (snapshot.hasData) {
-              List<Message> ml = [];
+              List<mes.Message> ml = [];
 
               snapshot.data?.data()?.forEach(
                 (key, value) {
                   List<dynamic> vList = value as List<dynamic>;
                   for (var item in vList) {
-                    ml.add(Message(
+                    ml.add(mes.Message(
                       senderId: item['senderId'] as String,
                       date: (item['date'] as Timestamp).toDate().toString(),
                       text: item['text'] as String,

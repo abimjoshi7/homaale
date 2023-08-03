@@ -74,7 +74,7 @@ import '../../features/redeem/statement/presentation/bloc/redeemed_bloc.dart';
 import '../../features/support/presentation/bloc/support_ticket_type_options_bloc.dart';
 import '../../features/theme/presentation/bloc/theme_state.dart';
 import '../../features/user_suspend/presentation/bloc/user_suspend_bloc.dart';
-
+import 'firebase_messaging.dart';
 class Cipher extends StatefulWidget {
   const Cipher({super.key});
 
@@ -86,7 +86,7 @@ class _CipherState extends State<Cipher> {
   @override
   void initState() {
     super.initState();
-    // FirebaseAppMessaging.initNotification(context);
+    FirebaseAppMessaging.initNotification(context);
   }
 
   @override

@@ -3,8 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class ContactCard extends StatelessWidget {
-  const ContactCard(
-      {super.key, required this.iconData, this.label, this.subLabel});
+  const ContactCard({super.key, required this.iconData, this.label, this.subLabel});
 
   final IconData iconData;
   final String? label;
@@ -30,7 +29,7 @@ class ContactCard extends StatelessWidget {
         contentPadding: EdgeInsets.symmetric(horizontal: 8),
         leading: Icon(
           iconData,
-          color: kColorPrimary,
+          color: Theme.of(context).textTheme.headlineSmall?.color,
           size: 50,
         ),
         title: Column(
@@ -38,8 +37,7 @@ class ContactCard extends StatelessWidget {
           children: [
             Text(
               label ?? 'Support Contact',
-              style:
-                  textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
+              style: textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.bold),
             ),
             Text(
               subLabel ?? 'Support Contact',

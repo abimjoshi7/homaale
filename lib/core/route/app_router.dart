@@ -191,9 +191,9 @@ class AppRouter {
           builder: (context) => const Home(),
         );
 
-      case ProfileSettings.routeName:
+      case AccountSettings.routeName:
         return MaterialPageRoute(
-          builder: (context) => const ProfileSettings(),
+          builder: (context) => const AccountSettings(),
         );
       case QuickLinksPage.routeName:
         return MaterialPageRoute(

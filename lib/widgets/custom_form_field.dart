@@ -8,13 +8,14 @@ class CustomFormField extends StatelessWidget {
     this.label,
     this.isRequired = false,
     this.child,
-    this.rightSection,
+    this.rightSection,  this.textStyle,
   }) : super(key: key);
 
   final String? label;
   final bool? isRequired;
   final Widget? child;
   final Widget? rightSection;
+  final TextStyle? textStyle;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +30,7 @@ class CustomFormField extends StatelessWidget {
               children: [
                 AutoSizeText(
                   label ?? '',
-                  style: Theme.of(context).textTheme.headlineSmall,
+                  style: textStyle ??  Theme.of(context).textTheme.headlineSmall,
                   maxLines: 2,
                 ),
                 if (isRequired == true)

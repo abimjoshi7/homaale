@@ -1,4 +1,3 @@
-import 'package:cipher/core/constants/constants.dart';
 import 'package:flutter/material.dart';
 
 class BuildLabelCount extends StatelessWidget {
@@ -14,7 +13,8 @@ class BuildLabelCount extends StatelessWidget {
       children: [
         Text(
           count,
-          style: Theme.of(context).textTheme.bodyMedium?.copyWith(color: textColor ?? kColorPrimary),
+          style: Theme.of(context).textTheme.bodyMedium,
+          // ?.copyWith(color: textColor ?? kColorPrimary),
         ),
         Text(
           label,

@@ -27,7 +27,7 @@ class _ContactUsPageState extends State<ContactUsPage> {
           ),
           addVerticalSpace(16),
           ContactCard(
-						
+					
             iconData: Icons.perm_contact_calendar,
             label: 'Support Contact',
             subLabel: '+977-9805674418',

@@ -13,12 +13,13 @@ class NotableBannerSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
           child: Text(
             'Homaale Notable Quality',
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
+        addVerticalSpace(5),
         MarketingAds(
           defaultList: kNotableBannerList,
         ),

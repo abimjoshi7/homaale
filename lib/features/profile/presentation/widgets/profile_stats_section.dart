@@ -22,10 +22,7 @@ class ProfileStatsSection extends StatelessWidget {
                 Column(
                   children: [
                     NumberCountText(
-                      numberText: state.taskerProfile?.stats?.successRate
-                              ?.toStringAsFixed(2)
-                              .toString() ??
-                          '',
+                      numberText: state.taskerProfile?.stats?.successRate?.toStringAsFixed(2).toString() ?? '',
                       textColor: kColorGreen,
                     ),
                     Text(
@@ -37,11 +34,8 @@ class ProfileStatsSection extends StatelessWidget {
                 Column(
                   children: [
                     NumberCountText(
-                      numberText: state.taskerProfile?.stats?.happyClients
-                              ?.toInt()
-                              .toString() ??
-                          '',
-                      textColor: kColorPrimary,
+                      numberText: state.taskerProfile?.stats?.happyClients?.toInt().toString() ?? '',
+                      textColor: Colors.purple,
                     ),
                     Text(
                       'Happy Clients',
@@ -52,13 +46,9 @@ class ProfileStatsSection extends StatelessWidget {
                 Column(
                   children: [
                     NumberCountText(
-                      numberText:
-                          state.taskerProfile?.stats?.taskCompleted == null
-                              ? '0'
-                              : state.taskerProfile?.stats?.taskCompleted
-                                      ?.toInt()
-                                      .toString() ??
-                                  '',
+                      numberText: state.taskerProfile?.stats?.taskCompleted == null
+                          ? '0'
+                          : state.taskerProfile?.stats?.taskCompleted?.toInt().toString() ?? '',
                       textColor: kColorAmber,
                     ),
                     Text(

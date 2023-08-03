@@ -32,9 +32,7 @@ class PriceBookFooterSection extends StatelessWidget {
       ),
       height: MediaQuery.of(context).size.height * 0.09,
       width: double.infinity,
-      decoration: BoxDecoration(
-          color: bgColor ?? Theme.of(context).cardColor,
-          border: Border.all(color: kColorBlue)
+      decoration: BoxDecoration(color: bgColor ?? Theme.of(context).cardColor, border: Border.all(color: kColorBlue)
           //Color(0xffBCD4FA),
           ),
       child: Row(
@@ -45,8 +43,7 @@ class PriceBookFooterSection extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                      'Total Price ${isNegotiable == true ? '(Negotiable)' : ""}'),
+                  Text('Total Price ${isNegotiable == true ? '(Negotiable)' : ""}'),
                   Text(
                     price ?? '',
                     // style: kText20,

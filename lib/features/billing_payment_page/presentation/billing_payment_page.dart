@@ -62,7 +62,7 @@ class _BillsPaymentListState extends State<BillsPaymentList> {
                     children: [
                       Text(
                         'Linked Payment Methods',
-                        style: kPurpleText16,
+                        style: Theme.of(context).textTheme.headlineSmall,
                       ),
                       context.watch<BillsPaymentBloc>().state.linkedBankList.isNotEmpty
                           ? TextButton(

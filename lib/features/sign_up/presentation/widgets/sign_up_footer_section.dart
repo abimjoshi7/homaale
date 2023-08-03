@@ -19,7 +19,7 @@ class SignUpFooterSection extends StatelessWidget {
               SignInPage.routeName,
             );
           },
-          child: const Text('Login'),
+          child: Text('Login', style: Theme.of(context).textTheme.headlineSmall),
         ),
       ],
     );

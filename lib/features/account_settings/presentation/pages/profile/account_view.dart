@@ -119,8 +119,7 @@ class _AccountViewState extends State<AccountView> {
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: NetworkImage(
-                                    state.taskerProfile?.profileImage ??
-                                        kHomaaleImg,
+                                    state.taskerProfile?.profileImage ?? kHomaaleImg,
                                   ),
                                 ),
                               ),
@@ -134,24 +133,17 @@ class _AccountViewState extends State<AccountView> {
                                 radius: 25,
                                 backgroundColor: Colors.transparent,
                                 child: Center(
-                                  child: Image.network(
-                                      state.taskerProfile?.badge?.image ?? ""),
+                                  child: Image.network(state.taskerProfile?.badge?.image ?? ""),
                                 ),
                               ),
                             ),
                           ]),
                           kWidth20,
                           AccountUserInfoSection(
-                            name:
-                                '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
-                            isVerified:
-                                state.taskerProfile?.isProfileVerified ?? false,
-                            designation:
-                                state.taskerProfile?.designation?.toString() ??
-                                    'Homaale User',
-                            credentialId: state.taskerProfile?.user?.phone ??
-                                state.taskerProfile?.user?.email ??
-                                '',
+                            name: '${state.taskerProfile?.user?.firstName} ${state.taskerProfile?.user?.lastName}',
+                            isVerified: state.taskerProfile?.isProfileVerified ?? false,
+                            designation: state.taskerProfile?.designation?.toString() ?? 'Homaale User',
+                            credentialId: state.taskerProfile?.user?.phone ?? state.taskerProfile?.user?.email ?? '',
                           ),
                         ],
                       ),
@@ -163,23 +155,15 @@ class _AccountViewState extends State<AccountView> {
                   children: [
                     InkWell(
                       onTap: () {
-                        context
-                            .read<RedeemStatementBloc>()
-                            .add(StatementListInitiated());
-                        context
-                            .read<EarnedBloc>()
-                            .add(StatementStatusInitiated(status: 'earned'));
-                        context
-                            .read<RedeemedBloc>()
-                            .add(StatementStatusInitiated(status: 'spent'));
+                        context.read<RedeemStatementBloc>().add(StatementListInitiated());
+                        context.read<EarnedBloc>().add(StatementStatusInitiated(status: 'earned'));
+                        context.read<RedeemedBloc>().add(StatementStatusInitiated(status: 'spent'));
 
                         Navigator.pushNamed(
                           context,
                           RedeemPage.routeName,
                         );
-                        context
-                            .read<RedeemBloc>()
-                            .add(FetchRedeemList(offerType: 'promo_code'));
+                        context.read<RedeemBloc>().add(FetchRedeemList(offerType: 'promo_code'));
                       },
                       child: ProfileStatsCard(
                         imagePath: 'assets/reward.png',
@@ -187,11 +171,11 @@ class _AccountViewState extends State<AccountView> {
                         value: state.taskerProfile?.points.toString() ?? '0',
                       ),
                     ),
-                    BlocBuilder<WalletBloc, WalletState>(
-                        builder: (context, walletState) {
+                    BlocBuilder<WalletBloc, WalletState>(builder: (context, walletState) {
                       switch (state.theStates) {
                         case TheStates.success:
                           return ProfileStatsCard(
+                            isThemeChangeColor: true,
                             imagePath: 'assets/wallet.png',
                             label: 'Account Balance',
                             value:
@@ -227,12 +211,7 @@ class _AccountViewState extends State<AccountView> {
                 ),
                 AccountListTileSection(
                   onTap: () {
-                    context
-                                .read<UserSuspendBloc>()
-                                .state
-                                .userAccountSuspension
-                                ?.isSuspended ==
-                            true
+                    context.read<UserSuspendBloc>().state.userAccountSuspension?.isSuspended == true
                         ? showDialog(
                             context: context,
                             builder: (context) => AccountSuspendCustomToast(
@@ -240,8 +219,7 @@ class _AccountViewState extends State<AccountView> {
                               content: 'User is suspended',
                             ),
                           )
-                        : Navigator.pushNamed(
-                            context, ChatListingPage.routeName);
+                        : Navigator.pushNamed(context, ChatListingPage.routeName);
                   },
                   icon: const Icon(
                     Icons.chat_bubble_outline,
@@ -258,8 +236,7 @@ class _AccountViewState extends State<AccountView> {
                       return Visibility(
                         visible: state.userLoginRes?.hasProfile ?? false,
                         child: AccountListTileSection(
-                          onTap: () => conditionalCheckNavigation(
-                              context, context.read<KycBloc>().state),
+                          onTap: () => conditionalCheckNavigation(context, context.read<KycBloc>().state),
                           icon: const Icon(
                             Icons.card_membership_rounded,
                           ),
